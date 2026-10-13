@@ -81,3 +81,13 @@ header h1{color:#0f2c44}
 .zh,.ent .z{color:#2f5a8a}.lab.ex{background:#3b5f8f}
 .hero{display:flex;align-items:center;gap:14px;background:#fffefa;border-radius:22px;padding:12px 16px;margin-bottom:14px;box-shadow:0 3px 10px rgba(47,90,138,.12);border-left:6px solid #f5c518}
 .hero img{width:72px;height:72px;border-radius:18px;object-fit:cover}.hero b{font-size:20px;color:#0f2c44}.hero span{display:block;color:#5b6f80;font-size:14px;margin-top:2px}
+/* ---- sunflower play buttons ---- */
+.p,.naval .p,.p.sm,.big{position:relative;background:url(icons/sunflower.png) center/cover no-repeat,#f5c518!important;color:transparent!important;border:0;border-radius:50%;box-shadow:0 2px 6px rgba(120,80,0,.35);min-width:46px;min-height:46px;overflow:visible}
+.p::after,.big::after{content:"";position:absolute;left:50%;top:50%;width:0;height:0;transform:translate(-35%,-50%);border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent rgba(255,255,255,.95);filter:drop-shadow(0 0 2px rgba(0,0,0,.6))}
+.big::after{border-width:16px 0 16px 26px}
+.p.playing,.big.playing{animation:sfglow 1.4s ease-in-out infinite;box-shadow:0 0 0 4px rgba(245,197,24,.55),0 0 16px 4px rgba(245,197,24,.75)}
+.p.playing::after,.big.playing::after{width:14px;height:18px;border:0;border-left:5px solid #fff;border-right:5px solid #fff;transform:translate(-50%,-50%)}
+.big.playing::after{width:24px;height:30px;border-left-width:8px;border-right-width:8px}
+@keyframes sfglow{50%{box-shadow:0 0 0 7px rgba(245,197,24,.35),0 0 22px 8px rgba(245,197,24,.9)}}
+.p.playing::after,.big.playing::after{animation:none}
+.player .pb .p{flex:0 0 52px;width:52px;height:52px}

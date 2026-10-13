@@ -23,11 +23,16 @@ async function idbAll(){const db=await idb();return new Promise(r=>{const q=db.t
 async function idbPut(o){const db=await idb();return new Promise(r=>{const t=db.transaction("files","readwrite");t.objectStore("files").put(o);t.oncomplete=r})}
 async function idbDel(id){const db=await idb();return new Promise(r=>{const t=db.transaction("files","readwrite");t.objectStore("files").delete(id);t.oncomplete=r})}
 // ---------- audio ----------
-const A=new Audio();A.preload="auto";let RUN=0;
+const A=new Audio();A.preload="auto";let RUN=0;let LASTBTN=null;
+const setPlaying=(b,on)=>{document.querySelectorAll(".p.playing,.big.playing").forEach(x=>{if(x!=b||!on)x.classList.remove("playing")});if(b&&on)b.classList.add("playing")};
+document.addEventListener("click",e=>{const b=e.target.closest(".p,.big");if(b&&!b.id)LASTBTN=b},true);
+A.addEventListener("playing",()=>setPlaying(LASTBTN,true));for(const ev of["pause","ended","emptied"])A.addEventListener(ev,()=>setPlaying(null,false));
 function stopAll(){RUN++;try{A.pause()}catch(e){}if(window.speechSynthesis)speechSynthesis.cancel()}
 async function playP(p,rate=1,fbText){const url=await audioURL(p);return new Promise(r=>{A.onended=()=>r(true);A.onerror=()=>speak(fbText,rate).then(r);A.src=url;A.playbackRate=rate;A.defaultPlaybackRate=rate;
  const q=A.play();if(q)q.then(()=>{A.playbackRate=rate}).catch(()=>speak(fbText,rate).then(r))})}
 function speak(t,rate){return new Promise(r=>{if(!t||!window.speechSynthesis)return r();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=rate*.9;u.onend=r;u.onerror=r;speechSynthesis.cancel();speechSynthesis.speak(u)})}
+function wirePP(au){const b=document.getElementById("pp");b.onclick=()=>au.paused?au.play().catch(()=>{}):au.pause();
+ au.addEventListener("play",()=>b.classList.add("playing"));for(const e of["pause","ended"])au.addEventListener(e,()=>b.classList.remove("playing"))}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 // ---------- ui helpers ----------
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -98,8 +103,8 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  const ra=document.getElementById("rall");if(ra)ra.onclick=()=>{ORG.hidden={};saveOrg();showSettings()};
  document.getElementById("reset").onclick=async()=>{if(await sure("恢复所有自带材料的原名字和原分类？（回收站和你建的分类不受影响）","恢复原样")){ORG.rename={};ORG.move={};saveOrg();showSettings()}}}
 async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)return showHome();setHeader(f.name,true);
- V.innerHTML=`<div class="player"><audio id="au" controls src="${URL.createObjectURL(f.blob)}"></audio><div class="pb"><button class="btn" id="sp">速度 1x</button><button class="btn" id="del">删除这个音频</button></div></div>`;
- const au=document.getElementById("au");let r=[1,.85,.75],i=0;document.getElementById("sp").onclick=e=>{i=(i+1)%3;au.playbackRate=r[i];e.target.textContent="速度 "+r[i]+"x"};
+ V.innerHTML=`<div class="player"><audio id="au" controls src="${URL.createObjectURL(f.blob)}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="del">删除这个音频</button></div></div>`;
+ const au=document.getElementById("au");wirePP(document.getElementById("au"));let r=[1,.85,.75],i=0;document.getElementById("sp").onclick=e=>{i=(i+1)%3;au.playbackRate=r[i];e.target.textContent="速度 "+r[i]+"x"};
  document.getElementById("del").onclick=async()=>{if(await sure("永久删除这个导入的音频？")){await idbDel(id);history.back()}}}
 async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}if(!it)return showHome();
  setHeader(ttl(it),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
@@ -111,7 +116,7 @@ function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+s.sp.toLowerCase();e.id="s"+i;
   e.innerHTML=`<div class="body"><div class="who">${s.sp=="Naval"?"NAVAL RAVIKANT":"CHRIS WILLIAMSON"}</div><div class="t"></div></div><button class="p">▶</button>`;
   e.querySelector(".t").textContent=s.t;e.querySelector(".t").onclick=e.querySelector(".p").onclick=()=>{stopAll();setAll(false);seq([i])};ss.appendChild(e)});
- const mark=i=>{document.querySelectorAll(".cur").forEach(x=>x.classList.remove("cur"));cur=i;const e=document.getElementById("s"+i);e.classList.add("cur");e.scrollIntoView({block:"center",behavior:"smooth"})};
+ const mark=i=>{document.querySelectorAll(".cur").forEach(x=>x.classList.remove("cur"));cur=i;const e=document.getElementById("s"+i);e.classList.add("cur");LASTBTN=e.querySelector(".p");e.scrollIntoView({block:"center",behavior:"smooth"})};
  const setAll=on=>{const b=document.getElementById("all");b.classList.toggle("on",on);b.textContent=on?"⏸ 暂停连播":"▶ 全部连播"};
  async function seq(list){const me=++RUN;for(const i of list){do{if(me!=RUN)return;mark(i);st(`第 ${i+1} / ${d.sents.length} 句`);await playP(d.sents[i].a,SP[si],d.sents[i].t);if(me!=RUN)return;
   if(F.shad){st(`第 ${i+1} 句 · 请跟读…`);await wait(d.sents[i].d/SP[si]*1000+600)}else await wait(F.loop?700:350)}while(F.loop&&me==RUN)}if(me==RUN){setAll(false);st("播放完毕")}}
@@ -150,7 +155,7 @@ function viewFlash(d,id){const C=d.cards,KEY_="flash_"+id;let S=JSON.parse(local
 // ---------- word pronunciation list ----------
 function viewWords(d){let rate=1;
  V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="spd">速度 1x</button></div><div id="wl">${d.items.map((m,i)=>`<div class="wc" id="w${i}"><div class="top"><span style="color:#999;width:24px">${m.n}</span><div style="flex:1"><div class="w">${esc(m.w)} <span class="ps">${esc(m.pos)}</span></div><div class="z">${esc(m.zh)}</div></div><button class="p" data-i="${i}" data-k="w">▶</button></div><button class="exb" data-i="${i}" data-k="e">▷ 例句　${esc(m.ex)}</button></div>`).join("")}</div>`;
- const mark=i=>{document.querySelectorAll(".cur").forEach(x=>x.classList.remove("cur"));const e=document.getElementById("w"+i);e.classList.add("cur");e.scrollIntoView({block:"center",behavior:"smooth"})};
+ const mark=i=>{document.querySelectorAll(".cur").forEach(x=>x.classList.remove("cur"));const e=document.getElementById("w"+i);e.classList.add("cur");LASTBTN=e.querySelector(".p");e.scrollIntoView({block:"center",behavior:"smooth"})};
  const setAll=on=>{const b=document.getElementById("all");b.classList.toggle("on",on);b.textContent=on?"■ 停止":"▶ 全部连播"};
  V.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{stopAll();setAll(false);const i=+b.dataset.i,m=d.items[i];mark(i);b.dataset.k=="w"?playP(m.aw,rate,m.w):playP(m.ae,rate,m.ex)});
  document.getElementById("all").onclick=async()=>{const on=document.getElementById("all").classList.contains("on");stopAll();setAll(false);if(on)return;setAll(true);const me=++RUN;
@@ -158,9 +163,9 @@ function viewWords(d){let rate=1;
  document.getElementById("spd").onclick=e=>{rate=rate==1?.75:1;A.playbackRate=rate;e.target.textContent="速度 "+rate+"x"}}
 // ---------- long audio with item jump ----------
 async function viewLong(d){const url=await audioURL(d.audio);const R=[1,.85,.75];let ri=0;
- V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div></div>
+ V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div></div>
  ${d.items.map((e,i)=>`<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en">${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${e.t!=null?`<button class="jump" data-t="${e.t}">▶ 从这里听</button>`:""}</div><p>${esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>`:""}</div>`).join("")}`;
- const au=document.getElementById("au");
+ const au=document.getElementById("au");wirePP(document.getElementById("au"));
  V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>{au.currentTime=+b.dataset.t;au.playbackRate=R[ri];au.play().catch(()=>{})});
  document.getElementById("bk").onclick=()=>au.currentTime=Math.max(0,au.currentTime-10);document.getElementById("fw").onclick=()=>au.currentTime+=10;
  document.getElementById("sp").onclick=e=>{ri=(ri+1)%3;au.playbackRate=R[ri];e.target.textContent="速度 "+R[ri]+"x"};
