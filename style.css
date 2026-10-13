@@ -91,3 +91,4 @@ header h1{color:#0f2c44}
 @keyframes sfglow{50%{box-shadow:0 0 0 7px rgba(245,197,24,.35),0 0 22px 8px rgba(245,197,24,.9)}}
 .p.playing::after,.big.playing::after{animation:none}
 .player .pb .p{flex:0 0 52px;width:52px;height:52px}
+.toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2f5a8a;color:#fff;padding:12px 20px;border-radius:24px;font-size:16px;z-index:99;box-shadow:0 4px 14px rgba(0,0,0,.25)}

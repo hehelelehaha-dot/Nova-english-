@@ -98,7 +98,12 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  V.innerHTML=`<h3 class="sec">🗑 回收站（已删除的自带材料）</h3><div class="list">${hid.length?hid.map(x=>`<div class="lw"><div class="li"><span class="tt">${esc(ttl(x.it))}<span class="sb">${esc(x.it.sub||"")}</span></span></div><button class="rs" data-r="${x.it.id}">恢复</button></div>`).join(""):`<div class="done">回收站是空的</div>`}</div>
  ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
+ <h3 class="sec">🔄 更新</h3><div class="li" style="display:block;line-height:1.7">App 版本：<b>${esc(META.v||"?")}</b>　(${esc(META.built||"")})<br>内容目录版本：<b>${esc(META.cv||"?")}</b><br>后台程序版本：<b id="swv">${esc(SWV||"…")}</b><br>离线音频已下载：<b id="fillst">${FILL?FILL.have+" / "+FILL.total:"…"}</b></div>
+ <button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>
  <div class="tip" style="margin-top:14px">这些整理只保存在这台设备上；导入的 MP3 删除后无法恢复。</div>`;
+ document.getElementById("chk").onclick=()=>checkUpdate(true);document.getElementById("force").onclick=async()=>{if(await sure("强制更新？\n会清除离线缓存后重新下载（你的整理和导入的音频不受影响）。","强制更新"))forceUpdate()};
+ navigator.serviceWorker&&navigator.serviceWorker.controller&&(navigator.serviceWorker.controller.postMessage({t:"ver"}),navigator.serviceWorker.controller.postMessage({t:"fill"}));
+ setTimeout(()=>{const e=document.getElementById("swv");if(e&&SWV)e.textContent=SWV},800);
  V.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{delete ORG.hidden[b.dataset.r];saveOrg();showSettings()});
  const ra=document.getElementById("rall");if(ra)ra.onclick=()=>{ORG.hidden={};saveOrg();showSettings()};
  document.getElementById("reset").onclick=async()=>{if(await sure("恢复所有自带材料的原名字和原分类？（回收站和你建的分类不受影响）","恢复原样")){ORG.rename={};ORG.move={};saveOrg();showSettings()}}}
@@ -175,6 +180,22 @@ async function viewLong(d){const url=await audioURL(d.audio);const R=[1,.85,.75]
 // stop long-audio element on navigation
 window.addEventListener("hashchange",()=>{document.querySelectorAll("audio").forEach(a=>a.pause())});
 // ---------- boot ----------
-if("serviceWorker" in navigator){const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.register("sw.js").then(r=>r.update()).catch(e=>console.warn("SW",e));
- let rl=0;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!rl){rl=1;location.reload()}})}
-(async()=>{try{META=await (await fetch("meta.json")).json()}catch(e){}route()})();
+// ---------- updates / service worker ----------
+let REG=null,SWV=null,FILL=null;
+function toast(t,ms=3500){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),ms)}
+async function checkUpdate(manual){try{const m=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json();
+  if(REG)await REG.update();if(m.v&&META.v&&m.v!=META.v){toast("发现新版本，正在更新…");setTimeout(()=>location.reload(),1500)}else if(manual)toast("已经是最新版本 ✓");return m}catch(e){if(manual)toast("没有网络，稍后再试")}}
+async function forceUpdate(){toast("正在强制更新…");try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister()}catch(e){}
+  try{for(const k of await caches.keys())await caches.delete(k)}catch(e){}sessionStorage.setItem("nova_updated","1");location.replace(location.pathname+"?u="+Date.now())}
+if("serviceWorker" in navigator){const sw=navigator.serviceWorker;const had=!!sw.controller;let rl=0;
+  sw.addEventListener("controllerchange",()=>{if(had&&!rl){rl=1;sessionStorage.setItem("nova_updated","1");location.reload()}});
+  sw.addEventListener("message",e=>{const d=e.data||{};if(d.t=="ver")SWV=d.v;if(d.t=="fill"){FILL=d;const el=document.getElementById("fillst");if(el)el.textContent=`${d.have} / ${d.total}`}});
+  document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="visible")checkUpdate(false)});
+  window.addEventListener("pageshow",e=>{if(e.persisted)checkUpdate(false)})}
+async function startSW(){if(!("serviceWorker" in navigator))return;const sw=navigator.serviceWorker;
+  try{REG=await sw.register("sw.js?v="+(META.v||"0"),{updateViaCache:"none"});REG.update().catch(()=>{})}catch(e){console.warn("SW",e);return}
+  const r=await sw.ready;r.active&&r.active.postMessage({t:"ver"});setTimeout(()=>{r.active&&r.active.postMessage({t:"fill"})},4000)}
+(async()=>{try{META=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json()}catch(e){}
+  const last=localStorage.getItem("nova_v");if(sessionStorage.getItem("nova_updated")||(last&&META.v&&last!=META.v)){sessionStorage.removeItem("nova_updated");setTimeout(()=>toast("已更新 ✓ 版本 "+(META.v||"")),600)}
+  if(META.v)localStorage.setItem("nova_v",META.v);route();startSW()})();
+
