@@ -61,3 +61,23 @@ main{padding:14px;max-width:1000px;margin:0 auto 60px}
 .shb{min-height:52px;font-size:17px;border:0;border-radius:12px;background:#f1f1f1;color:#222;font-family:inherit}
 .shb.red{color:#c0392b}.shb.blue{color:#1d5675;font-weight:700}.shb.gray{color:#aaa}.shb.cancel{background:#fff;border:1px solid #ddd;margin-top:4px}
 .shi{min-height:50px;font-size:18px;border:1px solid #ccc;border-radius:12px;padding:10px;font-family:inherit}
+/* ---- duck & sunflower theme ---- */
+html,body{background:linear-gradient(180deg,#bfe0f7 0,#e3f1fb 320px,#f3f9fd 100%) fixed;color:#1d2b38}
+header{background:linear-gradient(180deg,#6fb3e6,#8cc6ee);border-bottom:3px solid #f5c518;color:#0f2c44}
+header h1{color:#0f2c44}
+#back,#hdr-r button{background:rgba(255,255,255,.85);color:#2f5a8a}
+#hlogo{width:40px;height:40px;border-radius:12px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2);object-fit:cover}
+.tile,.li,.card,.wc,.ent,.s,.player,.lw .dots,.sh{background:#fffefa;border-radius:22px;box-shadow:0 3px 10px rgba(47,90,138,.12)}
+.tile{border-top:6px solid #f5c518}.tile .ct{color:#2f5a8a;font-weight:700}
+.tile.add{border:2px dashed #8cb6d6;background:rgba(255,255,255,.5)}
+.bar{background:transparent}
+.bar button,.btn{background:#ffffff;color:#2f5a8a;border:1px solid #c9dcec;border-radius:14px}
+.bar button.on,.p,.big,.ent .jump,.rs{background:#3b5f8f;color:#fff}
+.bar button.red.on{background:#c0392b}
+.p.sm{background:#e4eef8;color:#2f5a8a}
+.flip{background:#f5c518;color:#3a2c00;font-weight:700}
+.s{border-left-color:#7fb3dd}.s.naval{border-left-color:#f5c518}.naval .p{background:#d89b00}.naval .who{color:#8a6200}
+.cur{outline:3px solid #f5c518}
+.zh,.ent .z{color:#2f5a8a}.lab.ex{background:#3b5f8f}
+.hero{display:flex;align-items:center;gap:14px;background:#fffefa;border-radius:22px;padding:12px 16px;margin-bottom:14px;box-shadow:0 3px 10px rgba(47,90,138,.12);border-left:6px solid #f5c518}
+.hero img{width:72px;height:72px;border-radius:18px;object-fit:cover}.hero b{font-size:20px;color:#0f2c44}.hero span{display:block;color:#5b6f80;font-size:14px;margin-top:2px}
