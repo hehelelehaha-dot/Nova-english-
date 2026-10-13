@@ -92,3 +92,10 @@ header h1{color:#0f2c44}
 .p.playing::after,.big.playing::after{animation:none}
 .player .pb .p{flex:0 0 52px;width:52px;height:52px}
 .toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2f5a8a;color:#fff;padding:12px 20px;border-radius:24px;font-size:16px;z-index:99;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+/* ---- follow-along highlight ---- */
+.wd{cursor:pointer;border-radius:4px;transition:background .15s}
+.sn{border-radius:6px;transition:background .25s;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:1px 0}
+.sn.now,.w.wd.now{background:#fff2b3}
+.wd.on{background:#f5c518;color:#2b2100;box-shadow:0 0 0 2px #f5c518}
+.s.cur,.wc.cur{background:#fff6cc;outline:2px solid #f5c518}
+.ent.cur{outline:2px solid #f5c518}
