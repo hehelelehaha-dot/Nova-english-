@@ -33,26 +33,76 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
-async function route(){stopAll();window.scrollTo(0,0);
+async function route(){stopAll();document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT)CAT=await getJSON("catalog.json");
  const h=location.hash.slice(1).split("/");
- try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="s")return showSettings();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
-function showHome(){setHeader("Nova 英语",false);
- V.innerHTML=`<div class="tiles">${CAT.categories.map(c=>`<button class="tile" onclick="location.hash='#/c/${c.id}'"><span class="ic">${c.icon}</span><span class="nm">${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${c.items.length} 项</span></button>`).join("")}</div>`}
-async function showCat(id){const c=CAT.categories.find(x=>x.id==id);setHeader(c.name,true);
- const mine=(await idbAll().catch(()=>[])).filter(f=>f.cat==id);
- V.innerHTML=`<div class="list">${c.items.map(it=>`<button class="li" onclick="location.hash='#/i/${it.id}'"><span class="tt">${esc(it.title)}<span class="sb">${esc(it.sub||"")}</span></span><span class="ar">›</span></button>`).join("")}
- ${mine.map(f=>`<button class="li" onclick="location.hash='#/m/${f.id}'"><span class="tt">🎵 ${esc(f.name)}<span class="sb">我导入的音频</span></span><span class="ar">›</span></button>`).join("")}</div>
+// ---------- on-device organizing (localStorage) ----------
+const ORGK="nova_org";let ORG=Object.assign({hidden:{},rename:{},move:{},cats:[]},JSON.parse(localStorage.getItem(ORGK)||"{}"));
+const saveOrg=()=>localStorage.setItem(ORGK,JSON.stringify(ORG));
+const allCats=()=>CAT.categories.map(c=>({id:c.id,name:c.name,icon:c.icon,desc:c.desc,builtin:true})).concat(ORG.cats.map(c=>({id:c.id,name:c.name,icon:"📁",desc:"我的分类",builtin:false})));
+const catOf=it=>{for(const c of CAT.categories)if(c.items.includes(it))return c.id};
+const builtinItems=()=>CAT.categories.flatMap(c=>c.items.map(it=>({it,home:c.id})));
+const effCat=x=>{const m=ORG.move[x.it.id];return m&&allCats().some(c=>c.id==m)?m:x.home};
+const ttl=it=>ORG.rename[it.id]||it.title;
+async function itemsIn(cid){const mine=(await idbAll().catch(()=>[]));
+ return builtinItems().filter(x=>!ORG.hidden[x.it.id]&&effCat(x)==cid).map(x=>({kind:"b",id:x.it.id,title:ttl(x.it),sub:x.it.sub||"",it:x.it}))
+  .concat(mine.filter(f=>(allCats().some(c=>c.id==f.cat)?f.cat:"reading")==cid).map(f=>({kind:"m",id:f.id,title:f.name,sub:"我导入的音频",f})))}
+// ---------- sheet / dialogs (touch friendly) ----------
+function sheet(title,buttons){return new Promise(res=>{const o=document.createElement("div");o.className="ov";
+ o.innerHTML=`<div class="sh"><div class="sht">${esc(title)}</div>${buttons.map((b,i)=>`<button class="shb ${b.cls||""}" data-i="${i}">${esc(b.t)}</button>`).join("")}<button class="shb cancel" data-i="-1">取消</button></div>`;
+ o.onclick=e=>{const t=e.target.closest("[data-i]");if(e.target==o||t){o.remove();res(t?+t.dataset.i:-1)}};document.body.appendChild(o)})}
+function ask(title,val=""){return new Promise(res=>{const o=document.createElement("div");o.className="ov";
+ o.innerHTML=`<div class="sh"><div class="sht">${esc(title)}</div><input class="shi" id="ask"><button class="shb blue" id="ok">确定</button><button class="shb cancel" id="no">取消</button></div>`;
+ document.body.appendChild(o);const i=o.querySelector("#ask");i.value=val;setTimeout(()=>i.focus(),50);
+ const done=v=>{o.remove();res(v)};o.querySelector("#ok").onclick=()=>done(i.value.trim()||null);o.querySelector("#no").onclick=()=>done(null);i.onkeydown=e=>{if(e.key=="Enter")done(i.value.trim()||null)}})}
+const sure=(t,ok="删除")=>sheet(t,[{t:ok,cls:"red"}]).then(i=>i==0);
+async function pickCat(exclude){const cs=allCats().filter(c=>c.id!=exclude);const i=await sheet("移动到哪个分类？",cs.map(c=>({t:c.icon+" "+c.name})).concat([{t:"＋ 新建分类…",cls:"blue"}]));
+ if(i<0)return null;if(i<cs.length)return cs[i].id;const n=await ask("新分类的名字");if(!n)return null;const id="u"+Date.now();ORG.cats.push({id,name:n});saveOrg();return id}
+async function itemMenu(x,cid){const i=await sheet(x.title,[{t:"✏️ 重命名"},{t:"📂 移动到…"},{t:"🗑 删除",cls:"red"}]);
+ if(i==0){const n=await ask("新名字",x.title);if(!n)return;if(x.kind=="m"){x.f.name=n;await idbPut(x.f)}else{if(n==x.it.title)delete ORG.rename[x.id];else ORG.rename[x.id]=n;saveOrg()}}
+ if(i==1){const t=await pickCat(cid);if(!t)return;if(x.kind=="m"){x.f.cat=t;await idbPut(x.f)}else{if(t==catOf(x.it))delete ORG.move[x.id];else ORG.move[x.id]=t;saveOrg()}}
+ if(i==2){if(x.kind=="m"){if(!(await sure(`永久删除「${x.title}」？\n导入的音频删除后无法恢复。`)))return;await idbDel(x.id)}
+  else{if(!(await sure(`删除「${x.title}」？\n可以在 ⚙︎ 设置 › 回收站 里恢复。`)))return;ORG.hidden[x.id]=1;saveOrg()}}
+ if(i>=0)route()}
+async function catMenu(c){if(c.builtin)return;const n=(await itemsIn(c.id)).length;
+ const i=await sheet(c.name,[{t:"✏️ 重命名分类"},{t:n?`🗑 删除分类（需先清空，现有 ${n} 项）`:"🗑 删除分类",cls:n?"gray":"red"}]);
+ if(i==0){const v=await ask("分类新名字",c.name);if(v){ORG.cats.find(k=>k.id==c.id).name=v;saveOrg()}}
+ if(i==1&&!n&&await sure(`删除空分类「${c.name}」？`)){ORG.cats=ORG.cats.filter(k=>k.id!=c.id);saveOrg();if(location.hash.includes(c.id))return history.back()}
+ route()}
+let LP=null;function longPress(el,fn){let t;el.addEventListener("touchstart",()=>{t=setTimeout(()=>{LP=Date.now();fn()},550)},{passive:true});
+ for(const e of["touchend","touchmove","touchcancel"])el.addEventListener(e,()=>clearTimeout(t),{passive:true});el.addEventListener("contextmenu",e=>{e.preventDefault()})}
+const tapOK=()=>!LP||Date.now()-LP>700;
+function gear(){const h=document.getElementById("hdr-r");h.innerHTML=`<button id="gear" aria-label="设置">⚙︎</button>`;document.getElementById("gear").onclick=()=>location.hash="#/s"}
+async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
+ V.innerHTML=`<div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic">${c.icon}</span><span class="nm">${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
+ <button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
+ V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
+ V.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>catMenu(cs.find(x=>x.id==b.dataset.m)));
+ document.getElementById("newc").onclick=async()=>{const n=await ask("新分类的名字");if(n){ORG.cats.push({id:"u"+Date.now(),name:n});saveOrg();route()}}}
+async function showCat(id){const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(c.name,true);
+ const xs=await itemsIn(id);
+ V.innerHTML=`<div class="tip">提示：点右边的 ⋯（或长按）可以重命名、移动、删除</div><div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button><button class="dots" data-d="${k}" aria-label="更多">⋯</button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
+ V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id};longPress(b,()=>itemMenu(x,id))});
+ V.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>itemMenu(xs[+b.dataset.d],id));
  document.getElementById("imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;await idbPut({id:"m"+Date.now(),cat:id,name:f.name.replace(/\.[^.]+$/,""),blob:f});showCat(id)}}
+function showSettings(){setHeader("设置",true);const hid=builtinItems().filter(x=>ORG.hidden[x.it.id]);
+ V.innerHTML=`<h3 class="sec">🗑 回收站（已删除的自带材料）</h3><div class="list">${hid.length?hid.map(x=>`<div class="lw"><div class="li"><span class="tt">${esc(ttl(x.it))}<span class="sb">${esc(x.it.sub||"")}</span></span></div><button class="rs" data-r="${x.it.id}">恢复</button></div>`).join(""):`<div class="done">回收站是空的</div>`}</div>
+ ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}
+ <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
+ <div class="tip" style="margin-top:14px">这些整理只保存在这台设备上；导入的 MP3 删除后无法恢复。</div>`;
+ V.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{delete ORG.hidden[b.dataset.r];saveOrg();showSettings()});
+ const ra=document.getElementById("rall");if(ra)ra.onclick=()=>{ORG.hidden={};saveOrg();showSettings()};
+ document.getElementById("reset").onclick=async()=>{if(await sure("恢复所有自带材料的原名字和原分类？（回收站和你建的分类不受影响）","恢复原样")){ORG.rename={};ORG.move={};saveOrg();showSettings()}}}
 async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)return showHome();setHeader(f.name,true);
  V.innerHTML=`<div class="player"><audio id="au" controls src="${URL.createObjectURL(f.blob)}"></audio><div class="pb"><button class="btn" id="sp">速度 1x</button><button class="btn" id="del">删除这个音频</button></div></div>`;
  const au=document.getElementById("au");let r=[1,.85,.75],i=0;document.getElementById("sp").onclick=e=>{i=(i+1)%3;au.playbackRate=r[i];e.target.textContent="速度 "+r[i]+"x"};
- document.getElementById("del").onclick=async()=>{if(confirm("删除这个导入的音频？")){await idbDel(id);history.back()}}}
+ document.getElementById("del").onclick=async()=>{if(await sure("永久删除这个导入的音频？")){await idbDel(id);history.back()}}}
 async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}if(!it)return showHome();
- setHeader(it.title,true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
+ setHeader(ttl(it),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  ({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong})[d.type](d,id)}
 // ---------- reading card ----------
 function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:false};
@@ -120,5 +170,6 @@ async function viewLong(d){const url=await audioURL(d.audio);const R=[1,.85,.75]
 // stop long-audio element on navigation
 window.addEventListener("hashchange",()=>{document.querySelectorAll("audio").forEach(a=>a.pause())});
 // ---------- boot ----------
-if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(e=>console.warn("SW",e));
+if("serviceWorker" in navigator){const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.register("sw.js").then(r=>r.update()).catch(e=>console.warn("SW",e));
+ let rl=0;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!rl){rl=1;location.reload()}})}
 (async()=>{try{META=await (await fetch("meta.json")).json()}catch(e){}route()})();

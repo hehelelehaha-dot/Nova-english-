@@ -46,3 +46,18 @@ main{padding:14px;max-width:1000px;margin:0 auto 60px}
 .lock input{width:100%;min-height:50px;font-size:18px;border:1px solid #ccc;border-radius:12px;padding:10px;margin:14px 0}
 .err{color:#c0392b;min-height:20px}.done{text-align:center;font-size:18px;padding:30px 10px}
 .import{margin-top:14px}
+#hdr-r button{border:0;background:#eef3f6;color:#1d5675;font-size:22px;border-radius:10px;min-height:42px;min-width:46px}
+.tw,.lw{position:relative;display:flex;align-items:stretch;gap:8px}.tw .tile{flex:1;width:100%}.lw .li{flex:1;min-width:0}
+.tw .dots{position:absolute;top:8px;right:8px;width:46px;height:46px;border:0;border-radius:50%;background:#f1f1f1;font-size:22px;color:#555}
+.lw .dots,.rs{flex:0 0 56px;border:0;border-radius:16px;background:#fff;font-size:24px;color:#666;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.rs{flex-basis:76px;font-size:16px;color:#fff;background:#2a6f97}
+.tile.add{align-items:center;justify-content:center;border:2px dashed #c9c4bb;background:transparent;box-shadow:none}.tile.add .nm{color:#777}
+.li,.tile{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.tip{font-size:13px;color:#888;margin:0 2px 10px}.sec{font-size:16px;margin:18px 2px 10px;color:#444}.gray{background:#e2e2e2;color:#333}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sh{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px}
+@media(min-width:700px){.ov{align-items:center}.sh{border-radius:20px}}
+.sht{font-size:15px;color:#666;text-align:center;padding:4px 0 6px;white-space:pre-line}
+.shb{min-height:52px;font-size:17px;border:0;border-radius:12px;background:#f1f1f1;color:#222;font-family:inherit}
+.shb.red{color:#c0392b}.shb.blue{color:#1d5675;font-weight:700}.shb.gray{color:#aaa}.shb.cancel{background:#fff;border:1px solid #ddd;margin-top:4px}
+.shi{min-height:50px;font-size:18px;border:1px solid #ccc;border-radius:12px;padding:10px;font-family:inherit}
