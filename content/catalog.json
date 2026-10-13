@@ -1,0 +1,103 @@
+{
+ "title": "Nova 英语",
+ "categories": [
+  {
+   "id": "reading",
+   "name": "阅读卡",
+   "icon": "📖",
+   "desc": "Naval 对话 · 逐句跟读",
+   "items": [
+    {
+     "id": "naval_t02",
+     "title": "Topic 2 · Does Happiness Hinder Success?",
+     "sub": "17 句 · Chris & Naval",
+     "data": "naval_t02.json"
+    },
+    {
+     "id": "naval_t03",
+     "title": "Topic 3 · The Path to Freedom",
+     "sub": "8 句 · Chris & Naval",
+     "data": "naval_t03.json"
+    },
+    {
+     "id": "naval_t04",
+     "title": "Topic 4 · Suffering and Progress",
+     "sub": "13 句 · Chris & Naval",
+     "data": "naval_t04.json"
+    },
+    {
+     "id": "naval_t05",
+     "title": "Topic 5 · Learning from Your Past Self",
+     "sub": "11 句 · Chris & Naval",
+     "data": "naval_t05.json"
+    }
+   ]
+  },
+  {
+   "id": "flash",
+   "name": "单词卡",
+   "icon": "🃏",
+   "desc": "猜意思 · 翻卡 · 认识/不认识",
+   "items": [
+    {
+     "id": "p55_cards",
+     "title": "P55 · Falling in Love Slowly",
+     "sub": "37 张单词卡",
+     "data": "p55_cards.json"
+    }
+   ]
+  },
+  {
+   "id": "words",
+   "name": "生词发音",
+   "icon": "🔊",
+   "desc": "单词和例句发音",
+   "items": [
+    {
+     "id": "p47_words",
+     "title": "P47 · Becoming Unstoppable 40词",
+     "sub": "单词 + 例句发音",
+     "data": "p47_words.json"
+    }
+   ]
+  },
+  {
+   "id": "longaudio",
+   "name": "英英解释音频",
+   "icon": "🎧",
+   "desc": "整段音频 · 按词跳转",
+   "items": [
+    {
+     "id": "p47_ee",
+     "title": "P47 · 40词英英解释",
+     "sub": "Jenny 女声 + Guy 男声例句 · 42分40秒",
+     "data": "p47_ee.json"
+    },
+    {
+     "id": "p47_sel21",
+     "title": "精选21词 · 英英解释",
+     "sub": "Andrew 男声 · 21分31秒",
+     "data": "p47_sel21.json"
+    },
+    {
+     "id": "ielts_full",
+     "title": "雅思P21 · 30词英英解释",
+     "sub": "Joe 男声（完整版） · 25分14秒",
+     "data": "ielts_full.json"
+    },
+    {
+     "id": "ielts_short",
+     "title": "雅思P21 · 30词简洁版",
+     "sub": "Bryce 男声 · 16分37秒",
+     "data": "ielts_short.json"
+    },
+    {
+     "id": "avoid",
+     "title": "avoid · 英英解释",
+     "sub": "单词讲解 · 1分7秒",
+     "data": "avoid.json"
+    }
+   ]
+  }
+ ]
+}
