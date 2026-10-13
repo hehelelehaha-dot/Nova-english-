@@ -99,3 +99,20 @@ header h1{color:#0f2c44}
 .wd.on{background:#f5c518;color:#2b2100;box-shadow:0 0 0 2px #f5c518}
 .s.cur,.wc.cur{background:#fff6cc;outline:2px solid #f5c518}
 .ent.cur{outline:2px solid #f5c518}
+/* ---- display settings ---- */
+html{--z:1.1}
+body{zoom:var(--z)}
+.zs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.zs .btn{min-height:46px;padding:0 2px}.zs .btn.on{background:#3b5f8f;color:#fff;border-color:#3b5f8f}
+.tg{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:17px;min-height:44px}.tg input{width:26px;height:26px}
+.pv{margin-top:10px;padding:10px 12px;border:1px dashed #c9dcec;border-radius:12px;background:#fff}
+html.bold body{color:#000;font-weight:600}
+html.bold :is(.sb,.ds,.tip,.status,.ps,.pos,.n,.mine,.sht,.ent p,.ent ol,.t,.tx,.li,.exb,.wc .z,.who,.tile .nm,.row .tx,header h1,.hero span,.shb){color:#0b0b0b!important;font-weight:600}
+html.bold :is(.zh,.ent .z,.tile .ct,.pv .z){color:#163a5f!important;font-weight:700}
+html.bold :is(.word,.w,.ent .w,.wc .w,b){font-weight:800}
+html.bold .naval .who{color:#5c3f00!important}
+html.bold .bar button,html.bold .btn{font-weight:700;color:#173f6b}
+html.bold .bar button.on,html.bold .btn.on{color:#fff}
+html.bold .wd.on{color:#000}
+.player .pb{flex-wrap:wrap}.player .pb .btn{min-width:84px;white-space:nowrap}
+.zs .btn{font-size:14px;white-space:nowrap}
+@media (max-width:300px){.lw .dots{flex-basis:44px}.li{padding:12px}}
