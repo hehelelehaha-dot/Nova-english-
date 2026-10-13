@@ -44,6 +44,24 @@
      "title": "P55 · Falling in Love Slowly",
      "sub": "37 张单词卡",
      "data": "p55_cards.json"
+    },
+    {
+     "id": "t02v_flash",
+     "title": "Naval Topic 2 生词",
+     "sub": "17 张 · 听音猜意思",
+     "data": "t02v_flash.json"
+    },
+    {
+     "id": "t03v_flash",
+     "title": "Naval Topic 3 生词",
+     "sub": "10 张 · 听音猜意思",
+     "data": "t03v_flash.json"
+    },
+    {
+     "id": "t04v_flash",
+     "title": "Naval Topic 4 生词",
+     "sub": "15 张 · 听音猜意思",
+     "data": "t04v_flash.json"
     }
    ]
   },
@@ -96,6 +114,24 @@
      "title": "avoid · 英英解释",
      "sub": "单词讲解 · 1分7秒",
      "data": "avoid.json"
+    },
+    {
+     "id": "t02v_long",
+     "title": "Naval Topic 2 生词",
+     "sub": "17 个词 · 英英解释 · Michael",
+     "data": "t02v_long.json"
+    },
+    {
+     "id": "t03v_long",
+     "title": "Naval Topic 3 生词",
+     "sub": "10 个词 · 英英解释 · Michael",
+     "data": "t03v_long.json"
+    },
+    {
+     "id": "t04v_long",
+     "title": "Naval Topic 4 生词",
+     "sub": "15 个词 · 英英解释 · Michael",
+     "data": "t04v_long.json"
     }
    ]
   }
