@@ -42,11 +42,78 @@ async function route(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.r
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT)CAT=await getJSON("catalog.json");
  const h=location.hash.slice(1).split("/");
- try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="s")return showSettings();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="s")return showSettings();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
-const ORGK="nova_org";let ORG=Object.assign({hidden:{},rename:{},move:{},cats:[]},JSON.parse(localStorage.getItem(ORGK)||"{}"));
-const saveOrg=()=>localStorage.setItem(ORGK,JSON.stringify(ORG));
+// Storage model (v2, sync-ready): FIELDS = { key: [value, ts] }, value null = tombstone.
+// keys: h:<item> hidden(1) · r:<item> rename · m:<item> move-to-cat · c:<cat> user category name · d:zoom / d:bold display.
+// The ORG object below is a derived view; saveOrg() diffs it against FIELDS and stamps changed keys (last-write-wins per key).
+const ORGK="nova_org",FK="nova_fields";
+function loadFields(){let F=JSON.parse(localStorage.getItem(FK)||"null");
+ if(!F){F={};const o=JSON.parse(localStorage.getItem(ORGK)||"{}");const T=1;  // migrate v1 -> v2 with an "old" timestamp
+  for(const k in o.hidden||{})F["h:"+k]=[1,T];for(const k in o.rename||{})F["r:"+k]=[o.rename[k],T];for(const k in o.move||{})F["m:"+k]=[o.move[k],T];
+  for(const c of o.cats||[])F["c:"+c.id]=[c.name,T];
+  const z=localStorage.getItem("nova_zoom");if(z)F["d:zoom"]=[+z,T];const b=localStorage.getItem("nova_bold");if(b)F["d:bold"]=[b=="1"?1:0,T];
+  localStorage.setItem(FK,JSON.stringify(F))}return F}
+let FIELDS=loadFields();
+function orgFrom(F){const o={hidden:{},rename:{},move:{},cats:[]};for(const k in F){const [v]=F[k];if(v==null)continue;const t=k[0],id=k.slice(2);
+  if(t=="h"&&v)o.hidden[id]=1;else if(t=="r")o.rename[id]=v;else if(t=="m")o.move[id]=v;else if(t=="c")o.cats.push({id,name:v})}
+ o.cats.sort((a,b)=>a.id<b.id?-1:1);return o}
+function flat(o){const f={};for(const k in o.hidden)if(o.hidden[k])f["h:"+k]=1;for(const k in o.rename)f["r:"+k]=o.rename[k];for(const k in o.move)f["m:"+k]=o.move[k];for(const c of o.cats)f["c:"+c.id]=c.name;return f}
+let ORG=orgFrom(FIELDS);
+const NOW=()=>Date.now();
+function stamp(k,v){const cur=FIELDS[k];if(cur&&cur[0]===v)return;if(!cur&&v==null)return;FIELDS[k]=[v,Math.max(NOW(),cur?cur[1]+1:0)]}
+function saveOrg(){const f=flat(ORG);for(const k in FIELDS)if(k[1]==":"&&"hrmc".includes(k[0])&&!(k in f))stamp(k,null);for(const k in f)stamp(k,f[k]);
+ localStorage.setItem(FK,JSON.stringify(FIELDS));localStorage.setItem(ORGK,JSON.stringify(ORG))}
+function saveDisplay(){stamp("d:zoom",curZoom());stamp("d:bold",document.documentElement.classList.contains("bold")?1:0);localStorage.setItem(FK,JSON.stringify(FIELDS))}
+// LWW merge; returns summary of what changed locally
+function mergeFields(R){const sum={h:0,r:0,m:0,c:0,d:0};for(const k in R){const r=R[k];if(!Array.isArray(r)||typeof r[1]!="number")continue;const l=FIELDS[k];
+  if(!l||r[1]>l[1]){if(!l||JSON.stringify(l[0])!==JSON.stringify(r[0]))sum[k[0]]=(sum[k[0]]||0)+1;FIELDS[k]=[r[0],r[1]]}}
+ localStorage.setItem(FK,JSON.stringify(FIELDS));ORG=orgFrom(FIELDS);localStorage.setItem(ORGK,JSON.stringify(ORG));
+ if(sum.d){const z=FIELDS["d:zoom"],b=FIELDS["d:bold"];if(z&&z[0])setZoom(z[0],true);if(b){document.documentElement.classList.toggle("bold",!!b[0]);localStorage.setItem("nova_bold",b[0]?"1":"0")}}
+ return sum}
+// ---------- sync code (compressed, url-safe) ----------
+const b64u=u=>btoa(String.fromCharCode(...u)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const ub64u=s=>Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
+async function zip(str,inv){const cs=inv?new DecompressionStream("deflate-raw"):new CompressionStream("deflate-raw");const b=new Blob([str]).stream().pipeThrough(cs);return new Uint8Array(await new Response(b).arrayBuffer())}
+async function exportCode(withDisplay){const F={};for(const k in FIELDS)if(withDisplay||k[0]!="d")F[k]=FIELDS[k];
+ let body;try{body="Z"+b64u(await zip(JSON.stringify(F)))}catch(e){body="J"+b64u(new TextEncoder().encode(JSON.stringify(F)))}return "N1"+body}
+async function decodeCode(raw){let s=String(raw||"").trim();const m=s.match(/N1[ZJ][A-Za-z0-9_-]+/);if(!m)throw new Error("看不懂这个同步码");s=m[0];
+ const u=ub64u(s.slice(3));const txt=s[2]=="Z"?new TextDecoder().decode(await zip(u,true)):new TextDecoder().decode(u);return JSON.parse(txt)}
+const exportURL=code=>location.origin+location.pathname.replace(/index\.html$/,"")+"#/imp/"+code;
+function sumText(s){const p=[];if(s.r)p.push(`改名 ${s.r}`);if(s.m)p.push(`移动 ${s.m}`);if(s.h)p.push(`删除/恢复 ${s.h}`);if(s.c)p.push(`分类 ${s.c}`);if(s.d)p.push("显示设置");return p.length?p.join("，"):"没有新的变化"}
+function previewMerge(R){const save=JSON.stringify(FIELDS);const sum={h:0,r:0,m:0,c:0,d:0};for(const k in R){const r=R[k],l=FIELDS[k];if(Array.isArray(r)&&(!l||r[1]>l[1])&&(!l||JSON.stringify(l[0])!==JSON.stringify(r[0])))sum[k[0]]++}return sum}
+const isStandalone=()=>navigator.standalone===true||matchMedia("(display-mode: standalone)").matches;
+const isIOS=()=>/iP(ad|hone|od)/.test(navigator.userAgent)||(navigator.platform=="MacIntel"&&navigator.maxTouchPoints>1);
+async function copyText(t){try{await navigator.clipboard.writeText(t);toast("已复制 ✓")}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("已复制 ✓")}catch(_){toast("请长按文字手动复制")}a.remove()}}
+function qrSVG(text){const q=qrcode(0,"M");q.addData(text);q.make();return q.createSvgTag({cellSize:4,margin:2,scalable:true})}
+async function showExport(){setHeader("导出整理",true);const wd=localStorage.getItem("nova_exp_d")!="0";
+ V.innerHTML=`<div class="card" style="max-width:560px"><label class="tg"><input type="checkbox" id="wd" ${wd?"checked":""}> 同时带上显示设置（字体大小、加粗）</label>
+ <div id="qr" class="qr"></div><div class="tip" style="text-align:center">用另一台设备的相机扫这个二维码，或复制下面的同步码</div>
+ <textarea id="code" class="code" readonly></textarea><button class="wide flip" id="cp">📋 复制同步码</button><button class="wide gray" id="cpl">🔗 复制链接</button>
+ <div class="tip" style="margin-top:10px">同步码只包含你的整理（改名、移动、删除、分类），不包含音频。导入时按“最新的修改为准”合并，不会覆盖另一台设备上更新的修改。</div></div>`;
+ const draw=async()=>{const w=document.getElementById("wd").checked;localStorage.setItem("nova_exp_d",w?"1":"0");const c=await exportCode(w);const url=exportURL(c);
+  document.getElementById("code").value=c;document.getElementById("qr").innerHTML=qrSVG(url);document.getElementById("cp").onclick=()=>copyText(c);document.getElementById("cpl").onclick=()=>copyText(url)};
+ document.getElementById("wd").onchange=draw;draw()}
+async function doImport(code,{fromLink}={}){let R;try{R=await decodeCode(code)}catch(e){toast("同步码不正确，请检查是否复制完整");return false}
+ const pv=previewMerge(R);const n=Object.values(pv).reduce((a,b)=>a+b,0);
+ if(!n){toast("已经是最新的，没有需要导入的变化");return true}
+ if(!(await sheet(`导入整理？\n将应用：${sumText(pv)}\n（以较新的修改为准）`,[{t:"导入",cls:"blue"}]).then(i=>i==0)))return false;
+ const s=mergeFields(R);toast("已导入 ✓ "+sumText(s),4500);return true}
+function showImportLink(code){
+ if(isIOS()&&!isStandalone()){setHeader("同步码",false);
+  V.innerHTML=`<div class="card" style="max-width:560px"><h2 style="margin-top:0">📲 还差一步</h2>
+  <p style="line-height:1.6">你现在是在 <b>Safari</b> 里打开的。Safari 和主屏幕上的「Nova英语」App 存的数据是分开的，所以请：</p>
+  <ol style="line-height:1.8;font-size:17px"><li>点下面的 <b>复制同步码</b></li><li>回到主屏幕，打开 <b>Nova英语</b> App</li><li>⚙︎ 设置 › 同步 › <b>导入</b>，粘贴，点「导入」</li></ol>
+  <button class="wide flip" id="cp" style="min-height:64px;font-size:20px">📋 复制同步码</button><textarea class="code" readonly>${esc(code)}</textarea>
+  <button class="wide gray" id="here">直接导入到 Safari 里的这个版本</button></div>`;
+  document.getElementById("cp").onclick=()=>copyText(code);document.getElementById("here").onclick=async()=>{if(await doImport(code))location.replace("#/")};return}
+ setHeader("导入整理",true);V.innerHTML=`<div class="done">正在读取同步码…</div>`;doImport(code,{fromLink:true}).then(()=>{history.replaceState(null,"","#/");route()})}
+function showImport(){setHeader("导入整理",true);
+ V.innerHTML=`<div class="card" style="max-width:560px"><p style="margin-top:0;line-height:1.6">把另一台设备「导出整理」里的同步码（或链接）粘贴到下面：</p>
+ <textarea id="code" class="code" placeholder="N1Z…"></textarea><button class="wide gray" id="paste">📥 从剪贴板粘贴</button><button class="wide flip" id="go">导入</button></div>`;
+ const ta=document.getElementById("code");document.getElementById("paste").onclick=async()=>{try{ta.value=await navigator.clipboard.readText()}catch(e){toast("请长按输入框，选「粘贴」")}};
+ document.getElementById("go").onclick=async()=>{if(await doImport(ta.value))history.back()}}
 const allCats=()=>CAT.categories.map(c=>({id:c.id,name:c.name,icon:c.icon,desc:c.desc,builtin:true})).concat(ORG.cats.map(c=>({id:c.id,name:c.name,icon:"📁",desc:"我的分类",builtin:false})));
 const catOf=it=>{for(const c of CAT.categories)if(c.items.includes(it))return c.id};
 const builtinItems=()=>CAT.categories.flatMap(c=>c.items.map(it=>({it,home:c.id})));
@@ -96,11 +163,12 @@ async function showCat(id){const c=allCats().find(x=>x.id==id);if(!c)return show
  document.getElementById("imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;await idbPut({id:"m"+Date.now(),cat:id,name:f.name.replace(/\.[^.]+$/,""),blob:f});showCat(id)}}
 const ZOOMS=[["小",.9],["标准",1.1],["大",1.25],["特大",1.4],["超大",1.6]];
 const curZoom=()=>parseFloat(localStorage.getItem("nova_zoom"))||1.1;
-function setZoom(z){localStorage.setItem("nova_zoom",z);document.documentElement.style.setProperty("--z",z)}
+function setZoom(z,noStamp){localStorage.setItem("nova_zoom",z);document.documentElement.style.setProperty("--z",z);if(!noStamp)saveDisplay()}
 function showSettings(){setHeader("设置",true);const hid=builtinItems().filter(x=>ORG.hidden[x.it.id]);
  V.innerHTML=`<h3 class="sec">🗑 回收站（已删除的自带材料）</h3><div class="list">${hid.length?hid.map(x=>`<div class="lw"><div class="li"><span class="tt">${esc(ttl(x.it))}<span class="sb">${esc(x.it.sub||"")}</span></span></div><button class="rs" data-r="${x.it.id}">恢复</button></div>`).join(""):`<div class="done">回收站是空的</div>`}</div>
  ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
+ <h3 class="sec">🔁 同步（在 iPad 和手机之间）</h3><div class="yn" style="margin-top:0"><button class="wide flip" style="margin-top:0" onclick="location.hash='#/exp'">📤 导出整理</button><button class="wide gray" style="margin-top:0" onclick="location.hash='#/imp'">📥 导入</button></div>
  <h3 class="sec">🔠 显示</h3><div class="li" style="display:block">
   <div style="margin-bottom:8px">字体大小</div><div class="zs">${ZOOMS.map(([n,z])=>`<button class="btn${Math.abs(z-curZoom())<.01?" on":""}" data-z="${z}">${n}</button>`).join("")}</div>
   <label class="tg"><input type="checkbox" id="bold" ${document.documentElement.classList.contains("bold")?"checked":""}> 字体加深加粗</label>
@@ -109,7 +177,7 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  <button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>
  <div class="tip" style="margin-top:14px">这些整理只保存在这台设备上；导入的 MP3 删除后无法恢复。</div>`;
  V.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{setZoom(+b.dataset.z);V.querySelectorAll("[data-z]").forEach(x=>x.classList.toggle("on",x==b))});
- document.getElementById("bold").onchange=e=>{document.documentElement.classList.toggle("bold",e.target.checked);localStorage.setItem("nova_bold",e.target.checked?"1":"0")};
+ document.getElementById("bold").onchange=e=>{document.documentElement.classList.toggle("bold",e.target.checked);localStorage.setItem("nova_bold",e.target.checked?"1":"0");saveDisplay()};
  document.getElementById("chk").onclick=()=>checkUpdate(true);document.getElementById("force").onclick=async()=>{if(await sure("强制更新？\n会清除离线缓存后重新下载（你的整理和导入的音频不受影响）。","强制更新"))forceUpdate()};
  navigator.serviceWorker&&navigator.serviceWorker.controller&&(navigator.serviceWorker.controller.postMessage({t:"ver"}),navigator.serviceWorker.controller.postMessage({t:"fill"}));
  setTimeout(()=>{const e=document.getElementById("swv");if(e&&SWV)e.textContent=SWV},800);
