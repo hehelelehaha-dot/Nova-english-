@@ -143,3 +143,6 @@ html.bold .wd.on{color:#000}
 .gend{text-align:center}.gend img{width:110px;height:110px;border-radius:26px;margin-top:6px}.conf{font-size:34px;margin:6px 0}.gend h2{margin:4px 0}.big2{font-size:44px;font-weight:800;color:#d89b00;margin:6px 0}
 .pw .slots{margin:4px 0 6px}.pw{margin-bottom:14px}
 .pw .slots{flex-wrap:nowrap}.pw .slots .lt{min-width:0;flex:0 1 30px}@media(max-width:420px){.lt{font-size:22px}.tile2{width:46px;height:50px;font-size:23px}}
+.gcl{background:#2e7d5b;color:#fff}.gb{flex-wrap:wrap}.gb .wide{flex:1 1 30%}
+.czl{text-align:left}.czs{text-align:left;font-size:20px;line-height:2.1;margin:8px 0}.czb{display:inline-flex;gap:3px;vertical-align:middle;margin:0 4px}.czb .lt{min-width:20px;height:34px;font-size:21px;line-height:34px}.czb .gap{width:10px}
+.czh{text-align:left;color:#2f5a8a;font-size:16px;line-height:1.7;min-height:4px}
