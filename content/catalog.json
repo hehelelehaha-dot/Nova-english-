@@ -132,6 +132,38 @@
      "data": "t05v_long.json"
     }
    ]
+  },
+  {
+   "id": "chunks",
+   "name": "Chunks 词组",
+   "icon": "🧩",
+   "desc": "原声词组 · 3遍原声 + 中文 + 3遍原声",
+   "items": [
+    {
+     "id": "ch_t02",
+     "title": "Topic 2 · Chunks",
+     "sub": "14 个词组 · 原声",
+     "data": "ch_t02.json"
+    },
+    {
+     "id": "ch_t03",
+     "title": "Topic 3 · Chunks",
+     "sub": "10 个词组 · 原声",
+     "data": "ch_t03.json"
+    },
+    {
+     "id": "ch_t04",
+     "title": "Topic 4 · Chunks",
+     "sub": "12 个词组 · 原声",
+     "data": "ch_t04.json"
+    },
+    {
+     "id": "ch_t05",
+     "title": "Topic 5 · Chunks",
+     "sub": "13 个词组 · 原声",
+     "data": "ch_t05.json"
+    }
+   ]
   }
  ],
  "gameOnly": [

@@ -157,3 +157,4 @@ html.bold .wd.on{color:#000}
 @media(max-width:480px){.wft{font-size:.88em}.wft th,.wft td{padding:5px 3px}.wft td:nth-child(2){white-space:nowrap}}
 .p.xs{flex:0 0 30px!important;width:30px!important;height:30px!important;background-size:cover}
 .p.xs{min-width:32px!important;min-height:32px!important;width:32px!important;height:32px!important;flex:0 0 32px!important}.p.xs::after{border-width:6px 0 6px 10px}
+.chb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}.chs{color:#8a6200;font-weight:700;font-size:14px}.ent.chk .w{font-size:1.15em;font-weight:700}

@@ -191,7 +191,7 @@ async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)ret
  document.getElementById("del").onclick=async()=>{if(await sure("永久删除这个导入的音频？")){await idbDel(id);history.back()}}}
 async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}if(!it)return showHome();
  setHeader(ttl(it),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
- ({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong})[d.type](d,id)}
+ ({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong,chunks:viewChunks})[d.type](d,id)}
 // ---------- reading card ----------
 function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:false};
  V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="shad">跟读停顿</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button><button id="stp">■ 停止</button></div><div class="status" id="st"></div><div id="ss"></div>`;
@@ -308,3 +308,26 @@ function yearLeft(d){d=d||new Date();const y=d.getFullYear(),x=Math.round((Date.
 function updYec(){const e=document.getElementById("yec");if(e)e.textContent=yearLeft()}
 let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,1);_yecT=setTimeout(()=>{updYec();schedYec()},m-n)}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
+
+// ---------- 🧩 chunks: original-audio phrases, 3x original + 中文 + 3x original ----------
+async function viewChunks(d){const url=await audioURL(d.audio);const hl=e=>e.hl?esc(e.s.slice(0,e.hl[0]))+`<b class="ywb">${esc(e.s.slice(e.hl[0],e.hl[1]))}</b>`+esc(e.s.slice(e.hl[1])):esc(e.s);
+ V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放全部">▶</button><button class="btn" id="bk">⟲ 上一个</button><button class="btn" id="fw">下一个 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0">▶ 播放全部：每个词组 原声×3 → 中文 → 原声×3</div></div>
+ <div class="tip">原声来自 ${esc(d.source)}。点 🌻 听这个词组的完整练习，点「原声」只听一遍。</div>
+ ${d.items.map((e,i)=>`<div class="ent chk" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en">${esc(e.c)}</span><span class="z">${esc(e.zh)}</span></div>
+  <div class="row yrow"><div class="tx en"><span class="lab yw">原文</span>${hl(e)} <span class="ywsp">— ${esc(e.sp)}</span></div></div>
+  <div class="chb"><button class="p sm" data-q="${i}" aria-label="练习序列">▶</button><button class="btn" data-o="${i}">🔊 原声 1 次</button><button class="jump" data-j="${e.t}">▶ 从这里连播</button><span class="chs" id="cs${i}"></span></div></div>`).join("")}`;
+ const au=document.getElementById("au");wirePP(au);const ts=d.items.map(e=>e.t);
+ const play=t=>{stopAll();au.currentTime=Math.max(0,t);au.play().catch(()=>{})};
+ V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>{LASTUSER=0;play(+b.dataset.j)});
+ V.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{au.pause();stopAll();LASTBTN=b;const e=d.items[+b.dataset.q];playP(e.q,1,e.c)});
+ V.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{au.pause();stopAll();const e=d.items[+b.dataset.o];playP(e.o,1,e.c)});
+ const cur=()=>{let k=0;for(let i=0;i<ts.length;i++)if(au.currentTime+0.05>=ts[i])k=i;return k};
+ document.getElementById("bk").onclick=()=>play(ts[Math.max(0,cur()-(au.currentTime-ts[cur()]<1.5?1:0))]);document.getElementById("fw").onclick=()=>play(ts[Math.min(ts.length-1,cur()+1)]);
+ let lastE=-1,lastP="",raf=0;
+ function tick(){const ct=au.currentTime+0.05;let k=-1;for(let i=0;i<ts.length;i++)if(ct>=ts[i])k=i;
+  if(k!=lastE){if(lastE>=0){document.getElementById("e"+lastE).classList.remove("cur");document.getElementById("cs"+lastE).textContent=""}lastE=k;if(k>=0){const el=document.getElementById("e"+k);el.classList.add("cur");if(!au.paused)follow(el)}}
+  if(k>=0){const m=d.items[k].m;let o=0,lab="";for(const [t,tt] of m){if(ct>=tt){if(t=="o"){o++;lab=`原声 ${o<=3?o:o-3}/3`}else lab="中文"}}
+   const txt=`${d.items[k].n}. ${d.items[k].c} · ${lab}`;if(txt!=lastP){lastP=txt;document.getElementById("nw").textContent="正在播放："+txt;document.getElementById("cs"+k).textContent=lab}}
+  if(!au.paused)raf=requestAnimationFrame(tick)}
+ au.addEventListener("play",()=>{try{A.pause()}catch(e){}cancelAnimationFrame(raf);tick()});au.addEventListener("seeked",tick);
+ window._stopLong=()=>au.pause()}
