@@ -149,7 +149,7 @@ let LP=null;function longPress(el,fn){let t;el.addEventListener("touchstart",()=
 const tapOK=()=>!LP||Date.now()-LP>700;
 function gear(){const h=document.getElementById("hdr-r");h.innerHTML=`<button id="gear" aria-label="设置">⚙︎</button>`;document.getElementById("gear").onclick=()=>location.hash="#/s"}
 async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span>今天也听一点、说一点</span></div></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic">${c.icon}</span><span class="nm">${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span id="yec">${yearLeft()}</span></div></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic">${c.icon}</span><span class="nm">${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
  <button class="tile gtile" onclick="location.hash='#/g'"><span class="ic">🎮</span><span class="nm">小游戏</span><span class="ds">拼写 · 拼图</span><span class="ct">每个单元都能玩</span></button>
  <button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
  V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
@@ -303,3 +303,8 @@ async function startSW(){if(!("serviceWorker" in navigator))return;const sw=navi
   const last=localStorage.getItem("nova_v");if(sessionStorage.getItem("nova_updated")||(last&&META.v&&last!=META.v)){sessionStorage.removeItem("nova_updated");setTimeout(()=>toast("已更新 ✓ 版本 "+(META.v||"")),600)}
   if(META.v)localStorage.setItem("nova_v",META.v);route();startSW()})();
 
+
+function yearLeft(d){d=d||new Date();const y=d.getFullYear(),x=Math.round((Date.UTC(y,11,31)-Date.UTC(y,d.getMonth(),d.getDate()))/864e5)+1;return `今年还剩${Math.floor(x/7)}周${x%7}天（${x}天）。`}
+function updYec(){const e=document.getElementById("yec");if(e)e.textContent=yearLeft()}
+let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,1);_yecT=setTimeout(()=>{updYec();schedYec()},m-n)}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
