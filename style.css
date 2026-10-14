@@ -118,3 +118,4 @@ html.bold .wd.on{color:#000}
 @media (max-width:300px){.lw .dots{flex-basis:44px}.li{padding:12px}}
 .qr{width:min(78vw,300px);margin:12px auto}.qr svg{width:100%;height:auto;display:block}
 .code{width:100%;min-height:90px;font:13px/1.4 ui-monospace,Menlo,monospace;border:1px solid #c9dcec;border-radius:12px;padding:10px;word-break:break-all;margin-top:8px}
+.yrow{margin-top:10px;padding-top:8px;border-top:1px dashed #e3d9a8}.lab.yw{background:#d89b00}.ywb{background:#fff2b3;border-radius:3px;padding:0 2px}.ywsp{color:#8a6200;font-size:13px;font-style:italic;white-space:nowrap}
