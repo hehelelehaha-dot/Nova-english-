@@ -72,20 +72,6 @@
    ]
   },
   {
-   "id": "words",
-   "name": "生词发音",
-   "icon": "🔊",
-   "desc": "单词和例句发音",
-   "items": [
-    {
-     "id": "p47_words",
-     "title": "P47 · Becoming Unstoppable 40词",
-     "sub": "单词 + 例句发音",
-     "data": "p47_words.json"
-    }
-   ]
-  },
-  {
    "id": "longaudio",
    "name": "英英解释音频",
    "icon": "🎧",
@@ -146,6 +132,14 @@
      "data": "t05v_long.json"
     }
    ]
+  }
+ ],
+ "gameOnly": [
+  {
+   "id": "p47_words",
+   "title": "P47 · Becoming Unstoppable 40词",
+   "sub": "单词 + 例句发音",
+   "data": "p47_words.json"
   }
  ]
 }
