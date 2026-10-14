@@ -119,3 +119,27 @@ html.bold .wd.on{color:#000}
 .qr{width:min(78vw,300px);margin:12px auto}.qr svg{width:100%;height:auto;display:block}
 .code{width:100%;min-height:90px;font:13px/1.4 ui-monospace,Menlo,monospace;border:1px solid #c9dcec;border-radius:12px;padding:10px;word-break:break-all;margin-top:8px}
 .yrow{margin-top:10px;padding-top:8px;border-top:1px dashed #e3d9a8}.lab.yw{background:#d89b00}.ywb{background:#fff2b3;border-radius:3px;padding:0 2px}.ywsp{color:#8a6200;font-size:13px;font-style:italic;white-space:nowrap}
+/* ---- games ---- */
+.gtile{border-top-color:#3b5f8f!important}
+.gu{background:#fffefa;border-radius:20px;padding:14px;box-shadow:0 3px 10px rgba(47,90,138,.12)}.gt b{font-size:18px}.gt .sb{display:block;color:#666;font-size:13px;margin-top:3px}
+.gb{display:flex;gap:10px}.gb .wide{margin-top:10px}.gblue{background:#3b5f8f;color:#fff}
+.gs{display:flex;justify-content:space-between;font-size:15px;color:#2f5a8a;font-weight:700;margin:0 4px 6px}
+.gp{height:8px;background:#dce9f4;border-radius:6px;overflow:hidden;margin-bottom:12px}.gp i{display:block;height:100%;background:#f5c518;transition:width .3s}
+.gmsg{background:#fff2b3;border-radius:12px;padding:10px 14px;margin-bottom:10px;font-weight:700;color:#5c3f00}
+.gcard{text-align:center}.ghint{color:#555;font-size:15px;margin:6px 0 10px;line-height:1.5}
+.slots{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:14px 0 10px}
+.lt{min-width:30px;height:42px;border-bottom:3px solid #8cb6d6;font:700 26px/42px Georgia,"Noto Serif",serif;color:#1d2b38;text-align:center;border-radius:6px 6px 0 0;cursor:pointer}
+.lt.g{background:#e3f6e1;border-color:#4caf50;color:#1b5e20}.lt.r{background:#fde4e2;border-color:#e57373;color:#b71c1c}
+.gap{width:16px}
+.gin{width:100%;max-width:520px;min-height:58px;font:24px Georgia,"Noto Serif",serif;text-align:center;border:2px solid #8cb6d6;border-radius:14px;padding:8px 12px;margin:4px auto 0;display:block;background:#fff}
+.gin:focus{outline:none;border-color:#f5c518;box-shadow:0 0 0 4px rgba(245,197,24,.3)}
+.gbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px;margin-top:12px}.gbar .btn{min-height:50px;font-size:16px}.flipb{background:#f5c518!important;color:#3a2c00!important;font-weight:700;border:0!important}
+.pw{margin-bottom:10px}.tiles2{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.tile2{width:52px;height:56px;border:0;border-radius:14px;background:#f5c518;color:#3a2c00;font:700 26px Georgia,"Noto Serif",serif;box-shadow:0 3px 0 #c99a00}
+.tile2:disabled{opacity:.25;box-shadow:none}
+.shake{animation:shk .4s}@keyframes shk{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.gok{font-size:22px;font-weight:700;color:#2e7d32;margin-top:14px}.gno{font-size:18px;color:#b71c1c;margin-top:14px}
+.ga{text-align:left;margin-top:8px}.ga .word,.ga .zh{text-align:center}
+.gend{text-align:center}.gend img{width:110px;height:110px;border-radius:26px;margin-top:6px}.conf{font-size:34px;margin:6px 0}.gend h2{margin:4px 0}.big2{font-size:44px;font-weight:800;color:#d89b00;margin:6px 0}
+.pw .slots{margin:4px 0 6px}.pw{margin-bottom:14px}
+.pw .slots{flex-wrap:nowrap}.pw .slots .lt{min-width:0;flex:0 1 30px}@media(max-width:420px){.lt{font-size:22px}.tile2{width:46px;height:50px;font-size:23px}}
