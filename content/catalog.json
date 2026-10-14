@@ -66,7 +66,7 @@
     {
      "id": "t05v_flash",
      "title": "Naval Topic 5 生词",
-     "sub": "2 张 · 听音猜意思",
+     "sub": "15 张 · 听音猜意思",
      "data": "t05v_flash.json"
     }
    ]
@@ -142,7 +142,7 @@
     {
      "id": "t05v_long",
      "title": "Naval Topic 5 生词",
-     "sub": "2 个词 · 英英解释 · Michael",
+     "sub": "15 个词 · 英英解释 · Michael",
      "data": "t05v_long.json"
     }
    ]
