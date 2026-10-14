@@ -1,5 +1,6 @@
 // ---------- 🔤 词形练习 (word forms): one set per unit, data in content/wordforms.json ----------
 let WF=null;const loadWF=async()=>WF||(WF=await getJSON("wordforms.json"));
+function wfSay(w,btn){const a=WF&&WF.wa&&WF.wa[w.toLowerCase()];stopAll();if(btn)LASTBTN=btn;if(a)playP(a,1,w);else speak(w,1)}
 const POSN={"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词"};
 const wfMap=d=>`<div class="card wfmap"><b>🧭 Quick map 快速判断</b><table>${d.map.map(([a,b])=>`<tr><td>${esc(a)}</td><td>→</td><td><b>${esc(b)}</b></td></tr>`).join("")}</table><div class="sb">别死记标签：看空格在句子里的位置，判断这个词要做什么“工作”。</div></div>`;
 async function showWFs(){setHeader("🔤 词形练习",true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await loadWF();
@@ -18,15 +19,15 @@ async function showWF(sid){const d=await loadWF();const S=d.sets.find(x=>x.id==s
   const yw=it.l=="原文";const opts=shuffle(it.o);
   V.innerHTML=`${rs?`<div class="gmsg">🔁 再练一下刚才做错的 ${G.q.length} 题</div>`:""}${hdr()}<div class="card gcard"><div class="czl"><span class="lab ${yw?"yw":"ex"}">${yw?"📖 原文":"🏠 生活"}</span>${yw&&it.sp?` <span class="ywsp">— ${esc(it.sp)}</span>`:""}</div>
    <div class="czs en">${esc(b)}<span class="wfb" id="bl">&nbsp;?&nbsp;</span>${esc(a)}</div><div class="wfo">${opts.map((o,i)=>`<button class="wfx" data-i="${i}">${esc(o)}</button>`).join("")}</div><div id="res"></div></div>`;
-  V.querySelectorAll(".wfx").forEach(x=>x.onclick=()=>{if(done)return;done=true;const pick=opts[+x.dataset.i],ok=pick==it.a;
-   V.querySelectorAll(".wfx").forEach(y=>{const o=opts[+y.dataset.i];if(o==it.a)y.classList.add("g");else if(y==x)y.classList.add("r");y.disabled=true});
+  V.querySelectorAll(".wfx").forEach(x=>x.onclick=()=>{if(done)return wfSay(opts[+x.dataset.i],x);done=true;const pick=opts[+x.dataset.i],ok=pick==it.a;
+   V.querySelectorAll(".wfx").forEach(y=>{const o=opts[+y.dataset.i];if(o==it.a)y.classList.add("g");else if(y==x)y.classList.add("r");y.classList.add("done")});
    const bl=document.getElementById("bl");bl.textContent=it.a;bl.classList.add(ok?"g":"r");
    if(ok){if(first)G.correct++;G.score+=first?10:5}else G.miss.push(G.q[G.pos]);
    const fam=d.fams[it.f]||[];
    document.getElementById("res").innerHTML=`${ok?`<div class="gok">✅ ${first?"+10":"+5"} 太棒了！</div>`:`<div class="gno">答案是：<b>${esc(it.a)}</b></div>`}
     <div class="wfa"><b class="en">${esc(it.a)}</b> <span class="lab pos">${esc(it.p)} ${POSN[it.p]||""}</span></div><div class="wfw">💡 ${esc(it.why)}</div>
     <div class="row yrow"><div class="tx en">${esc(b)}<b class="ywb">${esc(it.a)}</b>${esc(a)}</div>${it.au?'<button class="p sm" id="wfp">▶</button>':""}</div>
-    <table class="wft"><tr><th>词形</th><th>词性</th><th>中文</th></tr>${fam.map(([w,p,z])=>`<tr class="${w.toLowerCase()==it.a.toLowerCase()||it.a.toLowerCase().startsWith(w.toLowerCase())&&it.a.length-w.length<=2?"on":""}"><td class="en">${esc(w)}</td><td>${esc(p)}</td><td>${esc(z)}</td></tr>`).join("")}</table>
+    <table class="wft"><tr><th>词形</th><th>词性</th><th>中文</th></tr>${fam.map(([w,p,z])=>`<tr class="${w.toLowerCase()==it.a.toLowerCase()||it.a.toLowerCase().startsWith(w.toLowerCase())&&it.a.length-w.length<=2?"on":""}"><td class="en wfc"><i><button class="p xs" data-w="${esc(w)}">▶</button><span class="wfn" data-w="${esc(w)}">${esc(w)}</span></i></td><td>${esc(p)}</td><td>${esc(z)}</td></tr>`).join("")}</table>
     <button class="wide flip" id="nx">下一题 ›</button>`;
-   document.getElementById("nx").onclick=next;const p=document.getElementById("wfp");if(p){p.onclick=()=>{stopAll();LASTBTN=p;playP(it.au,1,it.a)};LASTBTN=p;playP(it.au,1,it.a)}})}
+   document.getElementById("nx").onclick=next;V.querySelectorAll(".wft [data-w]").forEach(e=>e.onclick=()=>wfSay(e.dataset.w,e.closest("td").querySelector(".p")));const p=document.getElementById("wfp");if(p){p.onclick=()=>{stopAll();LASTBTN=p;playP(it.au,1,it.a)};LASTBTN=p;playP(it.au,1,it.a)}})}
  render()}
