@@ -166,3 +166,5 @@ html.bold .wd.on{color:#000}
 .sufh{margin-top:12px;font-weight:700}.suf{width:100%;border-collapse:collapse;margin-top:6px;font-size:.92em}.suf th,.suf td{padding:4px 6px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}.suf th{color:#777;font-weight:400}
 .suf tr.core td{background:#fff8d6}.suf tr.ext td{color:#555}.suf .sfc,.suf .sfx{white-space:nowrap}.suf .sfc{font-size:11px;background:#d89b00;color:#fff;border-radius:4px;padding:0 4px;display:inline;width:auto;height:auto}.suf .sfx{font-size:11px;background:#9bb7d4;color:#fff;border-radius:4px;padding:0 4px}
 .ov .sh{max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.osb{margin-top:6px;font:inherit;font-size:13px;padding:3px 10px;border-radius:999px;border:1.5px solid #e0b400;background:#fff8d6;color:#7a5a00;font-weight:700}.osb.playing,.osb:active{background:#f5c518}
+.bar .org{border-color:#d89b00;color:#7a5a00}.bar .org.on{background:#f5c518;color:#3d2c00}
