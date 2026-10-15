@@ -47,7 +47,7 @@ async function route(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.r
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
  const h=location.hash.slice(1).split("/");
- try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
 // Storage model (v2, sync-ready): FIELDS = { key: [value, ts] }, value null = tombstone.
@@ -86,8 +86,8 @@ async function exportCode(withDisplay){const F={};for(const k in FIELDS)if(withD
 async function decodeCode(raw){let s=String(raw||"").trim();const m=s.match(/N1[ZJ][A-Za-z0-9_-]+/);if(!m)throw new Error("看不懂这个同步码");s=m[0];
  const u=ub64u(s.slice(3));const txt=s[2]=="Z"?new TextDecoder().decode(await zip(u,true)):new TextDecoder().decode(u);return JSON.parse(txt)}
 const exportURL=code=>location.origin+location.pathname.replace(/index\.html$/,"")+"#/imp/"+code;
-function sumText(s){const p=[];if(s.r)p.push(`改名 ${s.r}`);if(s.m)p.push(`移动 ${s.m}`);if(s.h)p.push(`删除/恢复 ${s.h}`);if(s.c)p.push(`分类 ${s.c}`);if(s.d)p.push("显示设置");if(s.g)p.push(`游戏成绩 ${s.g}`);return p.length?p.join("，"):"没有新的变化"}
-function previewMerge(R){const save=JSON.stringify(FIELDS);const sum={h:0,r:0,m:0,c:0,d:0,g:0};for(const k in R){const r=R[k],l=FIELDS[k];if(Array.isArray(r)&&(!l||r[1]>l[1])&&(!l||JSON.stringify(l[0])!==JSON.stringify(r[0])))sum[k[0]]++}return sum}
+function sumText(s){const p=[];if(s.r)p.push(`改名 ${s.r}`);if(s.m)p.push(`移动 ${s.m}`);if(s.h)p.push(`删除/恢复 ${s.h}`);if(s.c)p.push(`分类 ${s.c}`);if(s.d)p.push("显示设置");if(s.g)p.push(`游戏成绩 ${s.g}`);if(s.s)p.push(`单词复习进度 ${s.s}`);return p.length?p.join("，"):"没有新的变化"}
+function previewMerge(R){const save=JSON.stringify(FIELDS);const sum={h:0,r:0,m:0,c:0,d:0,g:0,s:0,q:0,o:0};for(const k in R){const r=R[k],l=FIELDS[k];if(Array.isArray(r)&&(!l||r[1]>l[1])&&(!l||JSON.stringify(l[0])!==JSON.stringify(r[0])))sum[k[0]]++}return sum}
 const isStandalone=()=>navigator.standalone===true||matchMedia("(display-mode: standalone)").matches;
 const isIOS=()=>/iP(ad|hone|od)/.test(navigator.userAgent)||(navigator.platform=="MacIntel"&&navigator.maxTouchPoints>1);
 async function copyText(t){try{await navigator.clipboard.writeText(t);toast("已复制 ✓")}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("已复制 ✓")}catch(_){toast("请长按文字手动复制")}a.remove()}}
@@ -96,9 +96,9 @@ async function showExport(){setHeader("导出整理",true);const wd=localStorage
  V.innerHTML=`<div class="card" style="max-width:560px"><label class="tg"><input type="checkbox" id="wd" ${wd?"checked":""}> 同时带上显示设置（字体大小、加粗）</label>
  <div id="qr" class="qr"></div><div class="tip" style="text-align:center">用另一台设备的相机扫这个二维码，或复制下面的同步码</div>
  <textarea id="code" class="code" readonly></textarea><button class="wide flip" id="cp">📋 复制同步码</button><button class="wide gray" id="cpl">🔗 复制链接</button>
- <div class="tip" style="margin-top:10px">同步码只包含你的整理（改名、移动、删除、分类），不包含音频。导入时按“最新的修改为准”合并，不会覆盖另一台设备上更新的修改。</div></div>`;
+ <div class="tip" style="margin-top:10px">同步码包含你的整理（改名、移动、删除、分类）和 🧠 单词复习进度，不包含音频。导入时按“最新的修改为准”合并，不会覆盖另一台设备上更新的修改。</div></div>`;
  const draw=async()=>{const w=document.getElementById("wd").checked;localStorage.setItem("nova_exp_d",w?"1":"0");const c=await exportCode(w);const url=exportURL(c);
-  document.getElementById("code").value=c;document.getElementById("qr").innerHTML=qrSVG(url);document.getElementById("cp").onclick=()=>copyText(c);document.getElementById("cpl").onclick=()=>copyText(url)};
+  document.getElementById("code").value=c;let qs="";try{qs=qrSVG(url)}catch(e){qs=`<div class="tip">内容太多，二维码放不下了——请用下面的“复制同步码/复制链接”。</div>`}document.getElementById("qr").innerHTML=qs;document.getElementById("cp").onclick=()=>copyText(c);document.getElementById("cpl").onclick=()=>copyText(url)};
  document.getElementById("wd").onchange=draw;draw()}
 async function doImport(code,{fromLink}={}){let R;try{R=await decodeCode(code)}catch(e){toast("同步码不正确，请检查是否复制完整");return false}
  const pv=previewMerge(R);const n=Object.values(pv).reduce((a,b)=>a+b,0);
@@ -162,10 +162,11 @@ async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats
  document.getElementById("newc").onclick=async()=>{const n=await ask("新分类的名字");if(n){ORG.cats.push({id:"u"+Date.now(),name:n});saveOrg();route()}}}
 async function showCat(id){const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
- V.innerHTML=`<div class="tip">提示：点右边的 ⋯（或长按）可以重命名、移动、删除</div><div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button><button class="dots" data-d="${k}" aria-label="更多">⋯</button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
+ V.innerHTML=`${id=="flash"?'<div id="srsent" class="srsent"></div>':""}<div class="tip">提示：点右边的 ⋯（或长按）可以重命名、移动、删除</div><div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button><button class="dots" data-d="${k}" aria-label="更多">⋯</button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id};longPress(b,()=>itemMenu(x,id))});
  V.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>itemMenu(xs[+b.dataset.d],id));
+ if(id=="flash")srsEntry(document.getElementById("srsent"));
  document.getElementById("imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;await idbPut({id:"m"+Date.now(),cat:id,name:f.name.replace(/\.[^.]+$/,""),blob:f});showCat(id)}}
 const ZOOMS=[["小",.9],["标准",1.1],["大",1.25],["特大",1.4],["超大",1.6]];
 const curZoom=()=>parseFloat(localStorage.getItem("nova_zoom"))||1.1;
@@ -175,6 +176,7 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
  <h3 class="sec">🔁 同步（在 iPad 和手机之间）</h3><div class="yn" style="margin-top:0"><button class="wide flip" style="margin-top:0" onclick="location.hash='#/exp'">📤 导出整理</button><button class="wide gray" style="margin-top:0" onclick="location.hash='#/imp'">📥 导入</button></div>
+ <h3 class="sec">🧠 今日复习</h3><div class="li" style="display:block"><div style="margin-bottom:8px">每天最多学几个新词</div><div class="zs">${[5,10,15,20,30].map(n=>`<button class="btn${n==srsNewCap()?" on":""}" data-nc="${n}">${n}</button>`).join("")}</div></div>
  <h3 class="sec">🔠 显示</h3><div class="li" style="display:block">
   <div style="margin-bottom:8px">字体大小</div><div class="zs">${ZOOMS.map(([n,z])=>`<button class="btn${Math.abs(z-curZoom())<.01?" on":""}" data-z="${z}">${n}</button>`).join("")}</div>
   <label class="tg"><input type="checkbox" id="bold" ${document.documentElement.classList.contains("bold")?"checked":""}> 字体加深加粗</label>
@@ -182,6 +184,7 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  <h3 class="sec">🔄 更新</h3><div class="li" style="display:block;line-height:1.7">App 版本：<b>${esc(META.v||"?")}</b>　(${esc(META.built||"")})<br>内容目录版本：<b>${esc(META.cv||"?")}</b><br>后台程序版本：<b id="swv">${esc(SWV||"…")}</b><br>离线音频已下载：<b id="fillst">${FILL?FILL.have+" / "+FILL.total:"…"}</b></div>
  <button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>
  <div class="tip" style="margin-top:14px">这些整理只保存在这台设备上；导入的 MP3 删除后无法恢复。</div>`;
+ V.querySelectorAll("[data-nc]").forEach(b=>b.onclick=()=>{stamp("o:srsnew",+b.dataset.nc);srsSave();V.querySelectorAll("[data-nc]").forEach(x=>x.classList.toggle("on",x==b))});
  V.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{setZoom(+b.dataset.z);V.querySelectorAll("[data-z]").forEach(x=>x.classList.toggle("on",x==b))});
  document.getElementById("bold").onchange=e=>{document.documentElement.classList.toggle("bold",e.target.checked);localStorage.setItem("nova_bold",e.target.checked?"1":"0");saveDisplay()};
  document.getElementById("chk").onclick=()=>checkUpdate(true);document.getElementById("force").onclick=async()=>{if(await sure("强制更新？\n会清除离线缓存后重新下载（你的整理和导入的音频不受影响）。","强制更新"))forceUpdate()};
@@ -202,7 +205,7 @@ async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.
 function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if(!e.classList.contains("zh"))b.style.minHeight=b.offsetHeight+"px";e.classList.add("flipping");
  setTimeout(()=>{e.classList.toggle("zh");if(e.classList.contains("zh")){const h0=parseFloat(b.style.minHeight);b.style.minHeight="0";const h1=b.scrollHeight;b.style.minHeight=h0+"px";requestAnimationFrame(()=>{b.style.transition="min-height .25s ease";b.style.minHeight=Math.max(h0,h1)+"px";setTimeout(()=>b.style.transition="",300)})}e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
- V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="shad">跟读停顿</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">🎙 原声连播</button>':""}${d.sents.some(x=>x.seg&&x.oa)?'<button id="dd" class="org">👆 点读</button>':""}<button id="stp">■ 停止</button></div><div class="status" id="st"></div><div id="ss"></div>`;
+ V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="shad">跟读停顿</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">🎙 原声连播</button><button id="oloop" class="org">🔁 原声循环</button>':""}${d.sents.some(x=>x.seg&&x.oa)?'<button id="dd" class="org">👆 点读</button>':""}<button id="stp">■ 停止</button></div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+s.sp.toLowerCase();e.id="s"+i;
   e.innerHTML=`<div class="body"><div class="who">${s.sp=="Naval"?"NAVAL RAVIKANT":"CHRIS WILLIAMSON"}</div><div class="fr"><div class="t"></div>${s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zht"></div>'+(s.gloss&&s.gloss.length?'<div class="gl">'+s.gloss.map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
@@ -243,10 +246,13 @@ function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false
  $("spd").onclick=()=>{si=(si+1)%3;A.playbackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
  // 原声连播: continuous original interview track, sentence follow-along by aligned start times
- if(d.oaudio){const ob=$("oall"),ots=d.sents.map(s=>s.ot);const setO=on=>{ob.classList.toggle("on",on);ob.textContent=on?"⏸ 暂停原声":"🎙 原声连播"};
-  ob.onclick=async()=>{const on=ob.classList.contains("on");stopAll();setAll(false);setO(false);if(on)return;const me=++RUN;setO(true);
-   const s0=cur>0&&cur<d.sents.length-1?cur:0;A.src=await audioURL(d.oaudio);A.playbackRate=1;A.currentTime=Math.max(0,ots[s0]||0);LASTBTN=ob;A.onended=()=>{if(me==RUN){setO(false);st("原声播放完毕")}};A.onerror=null;A.play().catch(()=>{});
-   let last=-1;const tick=()=>{if(me!=RUN){setO(false);return}let k=0;for(let i=0;i<ots.length;i++)if(ots[i]!=null&&A.currentTime+0.1>=ots[i])k=i;if(k!=last){last=k;mark(k);LASTBTN=ob;st(`原声 · 第 ${k+1} / ${d.sents.length} 句`)}if(!A.paused||A.currentTime<0.2)requestAnimationFrame(tick);else if(A.ended)setO(false)};requestAnimationFrame(tick)}}}
+ if(d.oaudio){const ots=d.sents.map(s=>s.ot);const OB={oall:["🎙 原声连播","⏸ 暂停原声"],oloop:["🔁 原声循环","⏸ 停止循环"]};
+  const setO=(on,id)=>{for(const k in OB){const b=$(k);const x=on&&k==id;b.classList.toggle("on",x);b.textContent=OB[k][x?1:0]}};
+  const startO=async id=>{const ob=$(id),loopM=id=="oloop";const on=ob.classList.contains("on");stopAll();setAll(false);setO(false);if(on)return;const me=++RUN;setO(true,id);window._oloop=loopM?me:0;
+   const s0=!loopM&&cur>0&&cur<d.sents.length-1?cur:0;A.src=await audioURL(d.oaudio);A.playbackRate=1;A.currentTime=Math.max(0,ots[s0]||0);LASTBTN=ob;A.onerror=null;
+   let round=1;A.onended=async()=>{if(me!=RUN)return;if(!loopM){setO(false);st("原声播放完毕");return}st("🔁 0.8 秒后从第 1 句重新开始");await wait(800);if(me!=RUN)return;round++;window._oround=round;try{A.currentTime=Math.max(0,ots[0]||0)}catch(e){}A.play().catch(()=>{});last=-1;requestAnimationFrame(tick)};A.play().catch(()=>{});
+   let last=-1;const tick=()=>{if(me!=RUN){setO(false);return}let k=0;for(let i=0;i<ots.length;i++)if(ots[i]!=null&&A.currentTime+0.1>=ots[i])k=i;if(k!=last){last=k;mark(k);LASTBTN=ob;st(`${loopM?"🔁 原声循环（第 "+round+" 遍）":"原声"} · 第 ${k+1} / ${d.sents.length} 句`)}if(!A.paused||A.currentTime<0.2)requestAnimationFrame(tick);else if(A.ended&&!loopM)setO(false)};requestAnimationFrame(tick)};
+  $("oall").onclick=()=>startO("oall");$("oloop").onclick=()=>startO("oloop")}}
 // 原文 in word cards: original interview audio (点读 segment → whole clip → TTS)
 async function playSrc(sr,rate,btn){if(!sr.oa)return playP(sr.a,rate,sr.t);const me=++RUN;const[a,b]=sr.oab||[0,null];
  A.onended=A.onerror=null;A.src=await audioURL(sr.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});

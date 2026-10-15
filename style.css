@@ -211,3 +211,17 @@ html.bold #ss .gl{font-weight:600}
 #ss .s.cur.zh{background:#fff8e6!important}
 #ss .gsr{margin:1px 0 4px 2.2em;color:#555;font-size:.95em;font-style:italic}#ss .gsr b{font-style:normal;text-decoration:underline;color:#2f4f6a}#ss .gsb{font-size:.85em;padding:0 4px;margin-right:4px;border:1px solid #ecd58f;border-radius:8px;background:#fffbe8;cursor:pointer;font-style:normal}#ss .gsb.on{background:#ffd84d}
 .tile .nm .no{display:inline-flex;align-items:center;justify-content:center;min-width:1.45em;height:1.45em;margin-right:6px;border-radius:50%;background:#2f5a8a;color:#fff;font-size:.8em;font-weight:700;vertical-align:1px}
+/* 🧠 今日复习 */
+.srsent{max-width:640px;margin:0 auto 12px}
+.srsin{display:flex;align-items:center;gap:12px;width:100%;border:0;border-radius:18px;padding:16px;background:linear-gradient(135deg,#fff3c4,#ffe08a);box-shadow:0 2px 8px rgba(0,0,0,.08);font-family:inherit;text-align:left;color:#3a2d00;cursor:pointer}
+.srsin .ic{font-size:34px}.srsin .sm{flex:1;display:flex;flex-direction:column;font-size:20px}.srsin .sb{font-size:15px;color:#6b5a1e;margin-top:2px}.srsin .go{font-weight:700;font-size:17px;color:#a06a00}
+.srsst{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;font-size:14px;color:#555}.srsst span{background:#fff;border-radius:12px;padding:5px 10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.srsbar{max-width:640px;margin:0 auto 10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}.srsbar select{font-size:16px;padding:8px 10px;border-radius:10px;border:1px solid #ccc;background:#fff;font-family:inherit;max-width:100%}.srsbar .status{font-size:14px;color:#666}
+.srsdk{text-align:center;font-size:13px;color:#888}.srsdk .nw{background:#e9f6ee;color:#2e7d5b;border-radius:8px;padding:1px 7px;margin-right:6px;font-weight:700}
+.srsc .yrow .osb{flex:0 0 auto}
+.srsimg{background:#fff8e6;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:16px;line-height:1.6}
+.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.rate button{border:0;border-radius:14px;min-height:64px;font-family:inherit;font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#fff;cursor:pointer}
+.rate button span{font-size:13px;opacity:.9;font-weight:400}
+.rate .r0{background:#d64545}.rate .r1{background:#e08a1e}.rate .r2{background:#2e7d5b}.rate .r3{background:#3b5f8f}
+@media (max-width:420px){.rate{grid-template-columns:repeat(2,1fr)}}
