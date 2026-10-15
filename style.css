@@ -205,3 +205,4 @@ html.bold .wd.on{color:#000}
 html.bold #ss .gl{font-weight:600}
 #ss .glg{margin:1px 0 4px 2.2em;color:#7a6a40;font-size:.95em}
 #ss .gli{margin:5px 0}
+#ss .osb.ai{font-size:11px;padding:1px 8px;border:1px solid #d9dde3;background:#f6f7f9;color:#8a95a3;opacity:.85}#ss .osb.ai.playing,#ss .osb.ai.on{background:#e8eef6;color:#2f5a8a;opacity:1}
