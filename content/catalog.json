@@ -8,6 +8,12 @@
    "desc": "Naval 对话 · 逐句跟读",
    "items": [
     {
+     "id": "naval_t01",
+     "title": "Topic 1 · Happiness vs. Success",
+     "sub": "14 句 · Chris & Naval",
+     "data": "naval_t01.json"
+    },
+    {
      "id": "naval_t02",
      "title": "Topic 2 · Does Happiness Hinder Success?",
      "sub": "17 句 · Chris & Naval",
@@ -74,6 +80,12 @@
      "title": "Naval Topic 5 生词",
      "sub": "15 张 · 听音猜意思",
      "data": "t05v_flash.json"
+    },
+    {
+     "id": "t01v_flash",
+     "title": "Naval Topic 1 生词",
+     "sub": "18 张 · 听音猜意思",
+     "data": "t01v_flash.json"
     }
    ]
   },
@@ -136,6 +148,12 @@
      "title": "Naval Topic 5 生词",
      "sub": "15 个词 · 英英解释 · Michael",
      "data": "t05v_long.json"
+    },
+    {
+     "id": "t01v_long",
+     "title": "Naval Topic 1 生词",
+     "sub": "18 个词 · 英英解释 · Michael",
+     "data": "t01v_long.json"
     }
    ]
   },
@@ -174,6 +192,12 @@
      "title": "Topic 6 · Chunks",
      "sub": "15 个词组 · 原声",
      "data": "ch_t06.json"
+    },
+    {
+     "id": "ch_t01",
+     "title": "Topic 1 · Chunks",
+     "sub": "15 个词组 · 原声",
+     "data": "ch_t01.json"
     }
    ]
   }
