@@ -176,3 +176,6 @@ html.bold .wd.on{color:#000}
 
 .wv{cursor:pointer;border-radius:6px;padding:0 2px;-webkit-tap-highlight-color:transparent}.czs:not(.vdone) .wv{border-bottom:1px dashed #c9b97a}.wv.g{background:#e6f4e7;color:#1b5e20;font-weight:700;border-bottom:0}.wv.r{background:#fdeaea;color:#b71c1c}
 .wvs{margin-top:12px}#vbc{font-weight:700;color:#2e7d32;margin-left:4px}.wvn{font-size:.9em;color:#2e7d32}.wps.off .wpx{opacity:.4;filter:grayscale(1)}
+/* hidden-text mode must win over bold/zoom display settings and the current-sentence highlight */
+#ss.hide .t,html.bold #ss.hide .t,html #ss.hide .s.cur .t{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important;user-select:none;-webkit-user-select:none}
+#ss.hide .t::selection{color:transparent;background:transparent}
