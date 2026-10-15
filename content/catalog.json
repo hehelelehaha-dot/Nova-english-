@@ -42,6 +42,18 @@
      "title": "Topic 6 · The Journey Is All There Is",
      "sub": "18 句 · Chris & Naval",
      "data": "naval_t06.json"
+    },
+    {
+     "id": "naval_t07",
+     "title": "Topic 7 · Managing Desires",
+     "sub": "6 句 · Chris & Naval",
+     "data": "naval_t07.json"
+    },
+    {
+     "id": "naval_t08",
+     "title": "Topic 8 · Is Fame Worth It?",
+     "sub": "23 句 · Chris & Naval",
+     "data": "naval_t08.json"
     }
    ]
   },
@@ -92,6 +104,18 @@
      "title": "Naval Topic 6 生词",
      "sub": "43 张 · 听音猜意思",
      "data": "t06v_flash.json"
+    },
+    {
+     "id": "t07v_flash",
+     "title": "Naval Topic 7 生词",
+     "sub": "13 张 · 听音猜意思",
+     "data": "t07v_flash.json"
+    },
+    {
+     "id": "t08v_flash",
+     "title": "Naval Topic 8 生词",
+     "sub": "37 张 · 听音猜意思",
+     "data": "t08v_flash.json"
     }
    ]
   },
@@ -166,6 +190,18 @@
      "title": "Naval Topic 6 生词",
      "sub": "43 个词 · 英英解释 · Michael",
      "data": "t06v_long.json"
+    },
+    {
+     "id": "t07v_long",
+     "title": "Naval Topic 7 生词",
+     "sub": "13 个词 · 英英解释 · Michael",
+     "data": "t07v_long.json"
+    },
+    {
+     "id": "t08v_long",
+     "title": "Naval Topic 8 生词",
+     "sub": "37 个词 · 英英解释 · Michael",
+     "data": "t08v_long.json"
     }
    ]
   },
@@ -210,6 +246,18 @@
      "title": "Topic 1 · Chunks",
      "sub": "15 个词组 · 原声",
      "data": "ch_t01.json"
+    },
+    {
+     "id": "ch_t07",
+     "title": "Topic 7 · Chunks",
+     "sub": "10 个词组 · 原声",
+     "data": "ch_t07.json"
+    },
+    {
+     "id": "ch_t08",
+     "title": "Topic 8 · Chunks",
+     "sub": "15 个词组 · 原声",
+     "data": "ch_t08.json"
     }
    ]
   }

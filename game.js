@@ -60,7 +60,7 @@ async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>
   const win=pts=>{if(done)return;done=true;if(first&&!tries&&!hints)G.correct++;else if(first)G.miss.push(G.q[G.pos]);G.score+=pts;
    document.getElementById("res").innerHTML=`<div class="gok">✅ ${pts?`+${pts}`:""} 太棒了！</div>`+after(w);bindAfter()};
   const lose=()=>{if(done)return;done=true;if(first)G.miss.push(G.q[G.pos]);document.getElementById("res").innerHTML=`<div class="gno">答案是：</div>`+after(w);bindAfter()};
-  const bindAfter=()=>{document.getElementById("nx").onclick=next;const y=document.getElementById("ysrc");if(y)y.onclick=()=>{stopAll();LASTBTN=y;playP(w.src.a,1,w.src.t)};document.getElementById("nx").focus()};
+  const bindAfter=()=>{document.getElementById("nx").onclick=next;const y=document.getElementById("ysrc");if(y)y.onclick=()=>{stopAll();LASTBTN=y;playSrc(w.src,1)};document.getElementById("nx").focus()};
   if(mode=="cloze"){const cz=clozeOf(w);const tgt=cz.t.slice(cz.s,cz.e);
    V.innerHTML=`${roundStart?`<div class="gmsg">🔁 再练一下刚才没一次答对的 ${G.q.length} 个词</div>`:""}${hdr()}<div class="card gcard"><div class="czl"><span class="lab ${cz.label=="原文"?"yw":"ex"}">${cz.label}</span></div>
     <div class="czs en">${esc(cz.t.slice(0,cz.s))}<span class="czb" id="sl"></span>${esc(cz.t.slice(cz.e))}</div>
@@ -76,7 +76,7 @@ async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>
    const fullS=()=>`<div class="row yrow"><div class="tx en"><span class="lab ${cz.label=="原文"?"yw":"ex"}">${cz.label}</span>${esc(cz.t.slice(0,cz.s))}<b class="ywb">${esc(tgt)}</b>${esc(cz.t.slice(cz.e))}${cz.src?` <span class="ywsp">— ${cz.src.sp=="Naval"?"Naval":"Chris"}</span>`:""}</div>${cz.src?'<button class="p sm" id="czp">▶</button>':""}</div>`;
    const fin=(ok,pts)=>{if(done)return;done=true;if(ok){if(first&&!tries&&!hints)G.correct++;else if(first)G.miss.push(G.q[G.pos]);G.score+=pts}else if(first)G.miss.push(G.q[G.pos]);
     inp.value=tgt;paint();inp.blur();document.getElementById("res").innerHTML=(ok?`<div class="gok">✅ ${pts?`+${pts}`:""} 太棒了！</div>`:`<div class="gno">答案是：<b>${esc(tgt)}</b></div>`)+fullS()+`<div class="ga"><div class="zh">${esc(w.w)} · ${esc(w.zh||"")}</div><button class="wide flip" id="nx">下一题 ›</button></div>`;
-    document.getElementById("nx").onclick=next;const p=document.getElementById("czp");if(p){p.onclick=()=>{stopAll();LASTBTN=p;playP(cz.src.a,1,cz.src.t)};LASTBTN=p;playP(cz.src.a,1,cz.src.t)}else{speak(cz.t,1)}};
+    document.getElementById("nx").onclick=next;const p=document.getElementById("czp");if(p){p.onclick=()=>{stopAll();LASTBTN=p;playSrc(cz.src,1)};LASTBTN=p;playSrc(cz.src,1)}else{speak(cz.t,1)}};
    const check=()=>{if(done)return;if(normA(inp.value)==normA(tgt))fin(true,Math.max(10-hints*2-tries*2,2));else{tries++;sl.classList.remove("shake");void sl.offsetWidth;sl.classList.add("shake");if(tries>=3)fin(false)}};
    inp.onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();done?next():check()}};document.getElementById("ok").onclick=check;document.getElementById("skip").onclick=()=>fin(false);
    setTimeout(()=>inp.focus(),300);return}

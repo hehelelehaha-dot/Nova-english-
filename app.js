@@ -247,6 +247,10 @@ function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false
   ob.onclick=async()=>{const on=ob.classList.contains("on");stopAll();setAll(false);setO(false);if(on)return;const me=++RUN;setO(true);
    const s0=cur>0&&cur<d.sents.length-1?cur:0;A.src=await audioURL(d.oaudio);A.playbackRate=1;A.currentTime=Math.max(0,ots[s0]||0);LASTBTN=ob;A.onended=()=>{if(me==RUN){setO(false);st("原声播放完毕")}};A.onerror=null;A.play().catch(()=>{});
    let last=-1;const tick=()=>{if(me!=RUN){setO(false);return}let k=0;for(let i=0;i<ots.length;i++)if(ots[i]!=null&&A.currentTime+0.1>=ots[i])k=i;if(k!=last){last=k;mark(k);LASTBTN=ob;st(`原声 · 第 ${k+1} / ${d.sents.length} 句`)}if(!A.paused||A.currentTime<0.2)requestAnimationFrame(tick);else if(A.ended)setO(false)};requestAnimationFrame(tick)}}}
+// 原文 in word cards: original interview audio (点读 segment → whole clip → TTS)
+async function playSrc(sr,rate,btn){if(!sr.oa)return playP(sr.a,rate,sr.t);const me=++RUN;const[a,b]=sr.oab||[0,null];
+ A.onended=A.onerror=null;A.src=await audioURL(sr.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
+ return new Promise(r=>{const tick=()=>{if(me!=RUN||A.ended||(b!=null&&A.currentTime>=b)){if(me==RUN&&b!=null)A.pause();r(true);return}requestAnimationFrame(tick)};requestAnimationFrame(tick)})}
 // ---------- 原文 (original Naval sentence) ----------
 function ywHTML(src){if(!src)return "";const t=src.t,[a,b]=src.hl;const who=src.sp=="Naval"?"Naval":"Chris";
  return `<span class="lab yw">原文</span>${esc(t.slice(0,a))}<b class="ywb">${esc(t.slice(a,b))}</b>${esc(t.slice(b))} <span class="ywsp">— ${who}</span>`}
@@ -262,7 +266,7 @@ function viewFlash(d,id){const C=d.cards,KEY_="flash_"+id;let S=JSON.parse(local
  window._fc={play:(i,k)=>{stopAll();playP(C[i].a[k],S.rate,[C[i].w,C[i].ex,C[i].exs[0],C[i].exs[1]][k])},
   flip:i=>{const g=$("g");if(g)S.guess[i]=g.value.trim();back=true;save();render()},
   mark:(i,v)=>{S.status[i]=v;if(v=="u")S.queue.splice(Math.min(S.pos+4,S.queue.length),0,i);S.pos++;back=false;stopAll();save();render()},
-  src:i=>{stopAll();playP(C[i].src.a,S.rate,C[i].src.t)},
+  src:i=>{stopAll();playSrc(C[i].src,S.rate)},
   again:()=>{build();render()},un:()=>{S.mode="un";build();render()}};
  function render(){$("mAll").className=S.mode=="all"?"on":"";$("mUn").className=S.mode=="un"?"on":"";$("spd").textContent=S.rate==1?"1x":"0.75x";
   const vals=Object.values(S.status),k=vals.filter(v=>v=="k").length,u=vals.filter(v=>v=="u").length,q=S.queue,n=q.length;
@@ -305,7 +309,7 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();con
  const au=document.getElementById("au");wirePP(au);
  const play=t=>{au.currentTime=Math.max(0,t-0.05);au.playbackRate=R[ri];au.play().catch(()=>{})};
  V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>play(+b.dataset.j));
- V.querySelectorAll("[data-src]").forEach(b=>b.onclick=()=>{au.pause();stopAll();LASTBTN=b;const e=d.items[+b.dataset.src];playP(e.src.a,R[ri],e.src.t)});
+ V.querySelectorAll("[data-src]").forEach(b=>b.onclick=()=>{au.pause();stopAll();LASTBTN=b;const e=d.items[+b.dataset.src];playSrc(e.src,R[ri])});
  V.querySelectorAll(".wd").forEach(w=>w.onclick=()=>{LASTUSER=0;const sn=w.closest(".sn");const f=sn?sn.querySelector(".wd"):w;play(+f.dataset.t)});
  document.getElementById("bk").onclick=()=>au.currentTime=Math.max(0,au.currentTime-10);document.getElementById("fw").onclick=()=>au.currentTime+=10;
  document.getElementById("sp").onclick=e=>{ri=(ri+1)%3;au.playbackRate=R[ri];e.target.textContent="速度 "+R[ri]+"x"};

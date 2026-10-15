@@ -1,0 +1,950 @@
+{
+ "type": "reading",
+ "title": "Topic 8 · Is Fame Worth It?",
+ "sents": [
+  {
+   "sp": "Chris",
+   "t": "Is fame a worthwhile goal?",
+   "a": "audio/t08/s01.mp3",
+   "d": 1.97,
+   "oa": "audio/t08o/s01.mp3",
+   "ot": 1.96,
+   "seg": [
+    [
+     0,
+     4,
+     0.08,
+     1.67
+    ]
+   ],
+   "zh": "名气是个值得追求的目标吗？",
+   "gloss": [
+    [
+     "fame",
+     "n.",
+     "名气；名声",
+     "🌟",
+     "很多人都认识你、都在说你。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "It gets you invited to better parties. It gets you to better restaurants.",
+   "a": "audio/t08/s02.mp3",
+   "d": 4.54,
+   "oa": "audio/t08o/s02.mp3",
+   "ot": 5.8,
+   "seg": [
+    [
+     0,
+     6,
+     0.08,
+     1.9
+    ],
+    [
+     7,
+     12,
+     2.58,
+     4.71
+    ]
+   ],
+   "zh": "它能让你被邀请去更好的派对，能让你进更好的餐厅。",
+   "gloss": [
+    [
+     "invite",
+     "v.",
+     "邀请",
+     "💌",
+     "伸出手说：来吧，欢迎你。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "Fame is this funny thing where a lot of people know you, but you don’t know them, and it does get you put on the pedestal.",
+   "a": "audio/t08/s03.mp3",
+   "d": 6.86,
+   "oa": "audio/t08o/s03.mp3",
+   "ot": 11.86,
+   "seg": [
+    [
+     0,
+     11,
+     0.08,
+     3.12
+    ],
+    [
+     12,
+     16,
+     3.12,
+     4.26
+    ],
+    [
+     17,
+     25,
+     4.74,
+     7.29
+    ]
+   ],
+   "zh": "名气是个很奇怪的东西：很多人认识你，你却不认识他们，而且它确实会把你捧上神坛。",
+   "gloss": [
+    [
+     "pedestal",
+     "n.",
+     "基座；（比喻）被捧上高位",
+     "🗿",
+     "雕像脚下那块高高的底座——被捧上去，高高在上。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "It can get you what you want at distance, so I wouldn’t say it’s worthless.",
+   "a": "audio/t08/s04.mp3",
+   "d": 4.15,
+   "oa": "audio/t08o/s04.mp3",
+   "ot": 19.04,
+   "seg": [
+    [
+     0,
+     8,
+     0.08,
+     3.22
+    ],
+    [
+     9,
+     14,
+     3.42,
+     4.75
+    ]
+   ],
+   "zh": "它能让你隔着老远就得到想要的东西，所以我不会说它一文不值。",
+   "gloss": [
+    [
+     "at distance",
+     "phrase",
+     "隔着距离；远程地",
+     "🔭",
+     "人不用到场，隔着很远也能做到。"
+    ],
+    [
+     "worthless",
+     "adj.",
+     "毫无价值的",
+     "🗑️",
+     "放在秤上，一点分量都没有。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "Obviously people want it for a reason, it’s high status so it attracts the opposite sex, especially for men it attracts women.",
+   "a": "audio/t08/s05.mp3",
+   "d": 8.3,
+   "oa": "audio/t08o/s05.mp3",
+   "ot": 23.72,
+   "seg": [
+    [
+     0,
+     6,
+     0.08,
+     1.64
+    ],
+    [
+     7,
+     15,
+     2.06,
+     4.7
+    ],
+    [
+     16,
+     21,
+     5.52,
+     7.25
+    ]
+   ],
+   "zh": "显然人们想要它是有原因的：它代表高地位，所以能吸引异性，尤其对男人来说，它能吸引女人。",
+   "gloss": [
+    [
+     "obviously",
+     "adv.",
+     "显然；明显地",
+     "👀",
+     "摆在眼前，谁都看得出来。"
+    ],
+    [
+     "status",
+     "n.",
+     "地位；身份",
+     "👑",
+     "你在人群里站得多高。"
+    ],
+    [
+     "attract",
+     "v.",
+     "吸引",
+     "🧲",
+     "像磁铁一样把人吸过来。"
+    ],
+    [
+     "the opposite sex",
+     "n. phrase",
+     "异性",
+     "⚥",
+     "和自己性别相反的那一方。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "That said, it is high cost. It means you have no privacy, you do have weirdos and lunatics,",
+   "a": "audio/t08/s06.mp3",
+   "d": 5.95,
+   "oa": "audio/t08o/s06.mp3",
+   "ot": 31.48,
+   "seg": [
+    [
+     0,
+     5,
+     0.08,
+     1.16
+    ],
+    [
+     6,
+     11,
+     1.46,
+     2.64
+    ],
+    [
+     12,
+     17,
+     3.56,
+     5.65
+    ]
+   ],
+   "zh": "话虽如此，它的代价也很高。它意味着你没有隐私，你确实会碰到怪人和疯子，",
+   "gloss": [
+    [
+     "privacy",
+     "n.",
+     "隐私；私人空间",
+     "🚪",
+     "关上门，别人看不到你的生活。"
+    ],
+    [
+     "weirdo",
+     "n.",
+     "怪人",
+     "🤪",
+     "行为怪怪的、让人不舒服的人。"
+    ],
+    [
+     "lunatic",
+     "n.",
+     "疯子",
+     "🌙",
+     "像被月亮弄疯了一样乱来的人。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "you do get hit up a lot for weird things, and you’re on a stage so you’re forced to perform.",
+   "a": "audio/t08/s07.mp3",
+   "d": 5.26,
+   "oa": "audio/t08o/s07.mp3",
+   "ot": 37.3,
+   "seg": [
+    [
+     0,
+     14,
+     0.08,
+     4.46
+    ],
+    [
+     15,
+     19,
+     4.68,
+     5.91
+    ]
+   ],
+   "zh": "你确实会经常因为一些奇怪的事被人找上门，而且你站在舞台上，就不得不一直表演。",
+   "gloss": [
+    [
+     "hit up",
+     "phrasal verb",
+     "（为某事）找上门；联系",
+     "📲",
+     "冷不丁找上你：在吗？帮个忙？"
+    ],
+    [
+     "perform",
+     "v.",
+     "表演；表现",
+     "🎭",
+     "站在台上，做给别人看。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "You’re forced to be consistent with your past proclamations and actions, and you’re gonna have haters and all that nonsense.",
+   "a": "audio/t08/s08.mp3",
+   "d": 7.25,
+   "oa": "audio/t08o/s08.mp3",
+   "ot": 43.7,
+   "seg": [
+    [
+     0,
+     10,
+     0,
+     1.3
+    ],
+    [
+     11,
+     19,
+     2.36,
+     3.97
+    ]
+   ],
+   "zh": "你不得不和自己过去公开说过的话、做过的事保持一致，你还会有黑粉，以及各种乱七八糟的事。",
+   "gloss": [
+    [
+     "consistent",
+     "adj.",
+     "一致的；前后一贯的",
+     "📏",
+     "今天和昨天一个样，前后对得上。"
+    ],
+    [
+     "proclamation",
+     "n.",
+     "公开宣告；宣言",
+     "📢",
+     "站在高处，大声向所有人宣布。"
+    ],
+    [
+     "hater",
+     "n.",
+     "黑粉；讨厌你的人",
+     "👎",
+     "不管你做什么，都要骂你的人。"
+    ],
+    [
+     "nonsense",
+     "n.",
+     "胡说；无聊的事",
+     "🙄",
+     "说了半天，一点道理都没有。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "But the fact that we do it, the fact that we all seem to want it means that it would be disingenuous to say, “Oh no, no, I’m famous, but you don’t wanna be.”",
+   "a": "audio/t08/s09.mp3",
+   "d": 9.98,
+   "oa": "audio/t08o/s09.mp3",
+   "ot": 48.22,
+   "seg": [
+    [
+     0,
+     6,
+     0.08,
+     2.84
+    ],
+    [
+     7,
+     14,
+     2.84,
+     3.88
+    ],
+    [
+     15,
+     26,
+     4.28,
+     6.89
+    ],
+    [
+     27,
+     33,
+     6.89,
+     8.35
+    ]
+   ],
+   "zh": "但我们确实在做这件事，我们好像都想要它，这就说明，如果说“哦不不，我是出名了，但你不会想出名的”，那就太不真诚了。",
+   "gloss": [
+    [
+     "disingenuous",
+     "adj.",
+     "不真诚的；虚伪的",
+     "🎭",
+     "嘴上说一套，心里想的是另一套。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "That said, I think fame, like anything else, is best produced as a byproduct of something potentially more worthwhile.",
+   "a": "audio/t08/s10.mp3",
+   "d": 7.25,
+   "oa": "audio/t08o/s10.mp3",
+   "ot": 57.82,
+   "seg": [
+    [
+     0,
+     4,
+     0.08,
+     1.91
+    ],
+    [
+     5,
+     7,
+     1.94,
+     2.74
+    ],
+    [
+     8,
+     10,
+     2.9,
+     4.04
+    ],
+    [
+     11,
+     18,
+     5.6,
+     7.99
+    ]
+   ],
+   "zh": "话虽如此，我觉得名气和其他东西一样，最好是作为某件可能更有价值的事情的副产品出现。",
+   "gloss": [
+    [
+     "byproduct",
+     "n.",
+     "副产品；附带结果",
+     "🎁",
+     "做正事时，顺带冒出来的东西。"
+    ],
+    [
+     "potentially",
+     "adv.",
+     "潜在地；可能地",
+     "🌱",
+     "现在还没发生，但有可能长出来。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "Wanting to be famous and craving to be famous and being famous for being famous, these are sort of traps.",
+   "a": "audio/t08/s11.mp3",
+   "d": 6.72,
+   "oa": "audio/t08o/s11.mp3",
+   "ot": 67.64,
+   "seg": [
+    [
+     0,
+     4,
+     0,
+     2.14
+    ],
+    [
+     5,
+     14,
+     2.14,
+     4.7
+    ],
+    [
+     15,
+     19,
+     4.76,
+     5.97
+    ]
+   ],
+   "zh": "想出名、渴望出名、因为出名而出名，这些都算是陷阱。",
+   "gloss": [
+    [
+     "crave",
+     "v.",
+     "渴望；极想要",
+     "🤤",
+     "心里痒痒的，特别特别想要。"
+    ],
+    [
+     "trap",
+     "n.",
+     "陷阱；圈套",
+     "🪤",
+     "看起来诱人，一踩进去就出不来。"
+    ]
+   ]
+  },
+  {
+   "sp": "Chris",
+   "t": "Fame bait.",
+   "a": "audio/t08/s12.mp3",
+   "d": 1.08,
+   "oa": "audio/t08o/s12.mp3",
+   "ot": 73.45,
+   "seg": [
+    [
+     0,
+     1,
+     0.0,
+     1.07
+    ]
+   ],
+   "zh": "名气诱饵。",
+   "gloss": [
+    [
+     "bait",
+     "n.",
+     "诱饵",
+     "🎣",
+     "挂在钩子上、引你上钩的东西。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "Yeah exactly, so it’s better that it’s earned fame.",
+   "a": "audio/t08/s13.mp3",
+   "d": 3.14,
+   "oa": "audio/t08o/s13.mp3",
+   "ot": 74.4,
+   "seg": [
+    [
+     0,
+     8,
+     0.06,
+     2.91
+    ]
+   ],
+   "zh": "对，没错，所以最好是挣来的名气。",
+   "gloss": [
+    [
+     "exactly",
+     "adv.",
+     "正是；完全对",
+     "🎯",
+     "一点不差，正中靶心。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "For example, earned respect in the tribe is you do things that are good for the tribe.",
+   "a": "audio/t08/s14.mp3",
+   "d": 5.21,
+   "oa": "audio/t08o/s14.mp3",
+   "ot": 77.86,
+   "seg": [
+    [
+     0,
+     7,
+     0,
+     2.3
+    ],
+    [
+     8,
+     16,
+     2.4,
+     4.05
+    ]
+   ],
+   "zh": "比如说，在部落里挣来的尊重，就是你做了对部落有益的事。",
+   "gloss": [
+    [
+     "tribe",
+     "n.",
+     "部落；（有共同点的）群体",
+     "🏕️",
+     "围着同一团火、彼此照应的一群人。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "Who are the most famous people in human history? There are people who sort of transcended the self, the Buddhas and the Jesuses and the Mohammads of the world.",
+   "a": "audio/t08/s15.mp3",
+   "d": 9.86,
+   "oa": "audio/t08o/s15.mp3",
+   "ot": 82.18,
+   "seg": [
+    [
+     0,
+     10,
+     0.08,
+     2.54
+    ],
+    [
+     11,
+     17,
+     5.88,
+     7.84
+    ],
+    [
+     18,
+     28,
+     7.9,
+     10.37
+    ]
+   ],
+   "zh": "人类历史上最有名的人是谁？是那些某种程度上超越了自我的人，像佛陀、耶稣、穆罕默德这些人。",
+   "gloss": [
+    [
+     "transcend",
+     "v.",
+     "超越",
+     "🪂",
+     "跨过原来的边界，到更高的地方。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "Who else is famous? The artists are famous—art lasts for a long time. The scientists are famous—they discover things.",
+   "a": "audio/t08/s16.mp3",
+   "d": 8.02,
+   "oa": "audio/t08o/s16.mp3",
+   "ot": 92.58,
+   "seg": [
+    [
+     0,
+     7,
+     0.08,
+     2.38
+    ],
+    [
+     8,
+     12,
+     3.56,
+     4.63
+    ],
+    [
+     13,
+     18,
+     4.63,
+     5.63
+    ]
+   ],
+   "zh": "还有谁出名？艺术家出名——艺术能流传很久。科学家出名——他们发现新东西。",
+   "gloss": [
+    [
+     "discover",
+     "v.",
+     "发现",
+     "🔦",
+     "掀开盖子，第一次看到里面的东西。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "The conquerors are famous, presumably because they conquered for their tribe, was someone that they were fighting for.",
+   "a": "audio/t08/s17.mp3",
+   "d": 6.91,
+   "oa": "audio/t08o/s17.mp3",
+   "ot": 99.06,
+   "seg": [
+    [
+     0,
+     3,
+     0,
+     1.22
+    ],
+    [
+     4,
+     7,
+     1.6,
+     2.64
+    ],
+    [
+     8,
+     17,
+     2.64,
+     3.71
+    ]
+   ],
+   "zh": "征服者出名，大概是因为他们是为自己的部落去征服的，是在为某些人而战。",
+   "gloss": [
+    [
+     "presumably",
+     "adv.",
+     "大概；据推测",
+     "🤔",
+     "我猜八成是这样，但不百分百确定。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "So generally the higher up you rise by doing things for greater and greater groups of people, even though it may be considered tyrannical or negative,",
+   "a": "audio/t08/s18.mp3",
+   "d": 9.38,
+   "oa": "audio/t08o/s18.mp3",
+   "ot": 106.38,
+   "seg": [
+    [
+     0,
+     5,
+     0.08,
+     1.02
+    ],
+    [
+     6,
+     16,
+     1.02,
+     4.16
+    ],
+    [
+     17,
+     25,
+     4.16,
+     7.35
+    ]
+   ],
+   "zh": "所以总的来说，你为越来越大的人群做事，你就爬得越高，哪怕这些事可能被认为是专横的、负面的，",
+   "gloss": [
+    [
+     "tyrannical",
+     "adj.",
+     "专横的；暴君般的",
+     "👹",
+     "手握大权，又凶又不讲理。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "like Genghis Khan is famous, but to the Mongols he was doing good, to the rest of them not so much.",
+   "a": "audio/t08/s19.mp3",
+   "d": 6.48,
+   "oa": "audio/t08o/s19.mp3",
+   "ot": 113.66,
+   "seg": [
+    [
+     0,
+     4,
+     0.08,
+     2.0
+    ],
+    [
+     5,
+     12,
+     2.28,
+     4.2
+    ],
+    [
+     13,
+     20,
+     4.2,
+     5.59
+    ]
+   ],
+   "zh": "比如成吉思汗很有名，对蒙古人来说他在做好事，对其他人来说就没那么好了。",
+   "gloss": [
+    [
+     "not so much",
+     "phrase",
+     "没那么……；不怎么样",
+     "🤏",
+     "跟前面比起来，就没那么……了。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "The higher level you’re operating at, the more people you’re taking care of, the more you sort of earn respect and fame, and I think those are good reasons to be famous.",
+   "a": "audio/t08/s20.mp3",
+   "d": 10.13,
+   "oa": "audio/t08o/s20.mp3",
+   "ot": 121.0,
+   "seg": [
+    [
+     0,
+     5,
+     0.08,
+     2.46
+    ],
+    [
+     6,
+     12,
+     2.66,
+     4.63
+    ],
+    [
+     13,
+     21,
+     4.66,
+     6.94
+    ],
+    [
+     22,
+     31,
+     6.98,
+     9.01
+    ]
+   ],
+   "zh": "你运作的层级越高，你照顾的人越多，你就越能挣得尊重和名气，我觉得这些都是出名的好理由。",
+   "gloss": [
+    [
+     "taking care of",
+     "phrase",
+     "照顾；处理",
+     "🤲",
+     "把人或事接到手里，好好照看。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "If fame is empty, if you’re famous just because your name showed up in a lot of places or your face showed up in a lot of places, then that’s a hollow fame",
+   "a": "audio/t08/s21.mp3",
+   "d": 10.03,
+   "oa": "audio/t08o/s21.mp3",
+   "ot": 130.14,
+   "seg": [
+    [
+     0,
+     3,
+     0.08,
+     1.71
+    ],
+    [
+     4,
+     8,
+     1.72,
+     2.64
+    ],
+    [
+     9,
+     19,
+     2.78,
+     4.44
+    ],
+    [
+     20,
+     27,
+     4.44,
+     5.88
+    ],
+    [
+     28,
+     32,
+     6.22,
+     7.77
+    ]
+   ],
+   "zh": "如果名气是空的，如果你出名只是因为你的名字或者你的脸在很多地方出现过，那就是一种空洞的名气，",
+   "gloss": [
+    [
+     "hollow",
+     "adj.",
+     "空心的；空洞的",
+     "🕳️",
+     "外面看着有，里面是空的。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "and I think deep down you will know that and so it’ll be fragile and you’ll always be afraid of losing it and then you’ll be forced to perform.",
+   "a": "audio/t08/s22.mp3",
+   "d": 8.3,
+   "oa": "audio/t08o/s22.mp3",
+   "ot": 137.68,
+   "seg": [
+    [
+     0,
+     3,
+     0,
+     0.78
+    ],
+    [
+     4,
+     8,
+     0.78,
+     1.8
+    ],
+    [
+     9,
+     16,
+     1.8,
+     3.44
+    ],
+    [
+     17,
+     28,
+     3.44,
+     5.97
+    ]
+   ],
+   "zh": "而且我觉得你内心深处会知道这一点，所以它会很脆弱，你会一直害怕失去它，然后你就不得不一直表演。",
+   "gloss": [
+    [
+     "deep down",
+     "phrase",
+     "内心深处",
+     "⬇️",
+     "剥开外面那层，心底最真实的地方。"
+    ],
+    [
+     "fragile",
+     "adj.",
+     "脆弱的；易碎的",
+     "🥚",
+     "像鸡蛋壳，一碰就碎。"
+    ]
+   ]
+  },
+  {
+   "sp": "Naval",
+   "t": "So the kind of fame that pure actors and celebrities have, I wouldn’t want, but the kind of fame that’s earned because you did something useful, why dodge that?",
+   "a": "audio/t08/s23.mp3",
+   "d": 9.72,
+   "oa": "audio/t08o/s23.mp3",
+   "ot": 143.94,
+   "seg": [
+    [
+     0,
+     14,
+     0.08,
+     4.78
+    ],
+    [
+     15,
+     25,
+     4.78,
+     7.28
+    ],
+    [
+     26,
+     28,
+     8.38,
+     9.65
+    ]
+   ],
+   "zh": "所以，纯演员和明星那种名气，我不想要；但如果是因为你做了有用的事而挣来的名气，为什么要躲开呢？",
+   "gloss": [
+    [
+     "celebrity",
+     "n.",
+     "名人；明星",
+     "📸",
+     "走到哪都有人认出来、拍照的人。"
+    ],
+    [
+     "dodge",
+     "v.",
+     "躲开；回避",
+     "🤸",
+     "身子一闪，躲开飞来的东西。"
+    ]
+   ]
+  }
+ ],
+ "osrc": "Modern Wisdom · youtu.be/KyfUysrNaco",
+ "oaudio": "audio/t08o/all.mp3"
+}
