@@ -173,3 +173,6 @@ html.bold .wd.on{color:#000}
 .wpx{font:inherit;padding:8px 2px;border-radius:12px;border:2px solid #e3d9a8;background:#fffbe8;color:#5a4300;display:flex;flex-direction:column;align-items:center;line-height:1.25;min-width:0}.wpx b{font-size:1em}.wpx small{font-size:.75em;opacity:.8}
 .wpx.g{background:#e6f4e7;border-color:#2e7d32;color:#1b5e20}.wpx.r{background:#fdeaea;border-color:#b71c1c;color:#b71c1c}.wpx.dim{opacity:.4}
 .wfo.off .wfx{opacity:.4;filter:grayscale(1)}
+
+.wv{cursor:pointer;border-radius:6px;padding:0 2px;-webkit-tap-highlight-color:transparent}.czs:not(.vdone) .wv{border-bottom:1px dashed #c9b97a}.wv.g{background:#e6f4e7;color:#1b5e20;font-weight:700;border-bottom:0}.wv.r{background:#fdeaea;color:#b71c1c}
+.wvs{margin-top:12px}#vbc{font-weight:700;color:#2e7d32;margin-left:4px}.wvn{font-size:.9em;color:#2e7d32}.wps.off .wpx{opacity:.4;filter:grayscale(1)}
