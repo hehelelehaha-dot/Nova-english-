@@ -179,3 +179,9 @@ html.bold .wd.on{color:#000}
 /* hidden-text mode must win over bold/zoom display settings and the current-sentence highlight */
 #ss.hide .t,html.bold #ss.hide .t,html #ss.hide .s.cur .t{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important;user-select:none;-webkit-user-select:none}
 #ss.hide .t::selection{color:transparent;background:transparent}
+
+/* 👆 点读 phrase segments */
+#ss .ph{cursor:pointer;border-bottom:2px solid #f3c74f;padding-bottom:1px;border-radius:2px;-webkit-tap-highlight-color:transparent}
+#ss .ph.alt{border-bottom-color:#9ec5f0}
+#ss .ph.play{background:#fff1b8}
+#ss.hide .ph,#ss.hide .ph.play{color:transparent!important;-webkit-text-fill-color:transparent!important;background:transparent!important}

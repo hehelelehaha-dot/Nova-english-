@@ -194,7 +194,7 @@ async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.
  ({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong,chunks:viewChunks})[d.type](d,id)}
 // ---------- reading card ----------
 function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
- V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="shad">跟读停顿</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">🎙 原声连播</button>':""}<button id="stp">■ 停止</button></div><div class="status" id="st"></div><div id="ss"></div>`;
+ V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="shad">跟读停顿</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">🎙 原声连播</button>':""}${d.sents.some(x=>x.seg&&x.oa)?'<button id="dd" class="org">👆 点读</button>':""}<button id="stp">■ 停止</button></div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+s.sp.toLowerCase();e.id="s"+i;
   e.innerHTML=`<div class="body"><div class="who">${s.sp=="Naval"?"NAVAL RAVIKANT":"CHRIS WILLIAMSON"}</div><div class="t"></div>${s.oa?'<button class="osb">🔊 原声</button>':""}</div><button class="p">▶</button>`;
@@ -207,6 +207,14 @@ function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false
  $("all").onclick=()=>{const on=$("all").classList.contains("on");stopAll();setAll(false);if(on)return;setAll(true);const s=cur>0&&cur<d.sents.length-1?cur:0;seq(d.sents.map((_,i)=>i).slice(s))};
  for(const k of ["loop","shad","hid"])$(k).onclick=()=>{F[k]=!F[k];$(k).classList.toggle("on",F[k]);if(k=="hid"){ss.classList.toggle("hide",F.hid);try{localStorage.setItem("rd_hid",F.hid?"1":"0")}catch(e){}}};
  if(F.hid){ss.classList.add("hide");$("hid").classList.add("on")}
+ // 👆 点读: tap a phrase (split at Naval's breath pauses) to play just that original-audio segment
+ if($("dd")){let DD=localStorage.getItem("rd_dd")=="1";const ren=()=>{d.sents.forEach((s,i)=>{const t=document.querySelector("#s"+i+" .t");if(!DD||!s.seg||!s.oa){t.textContent=s.t;return}const w=s.t.split(/\s+/);t.textContent="";
+   s.seg.forEach(([x,y,a,b],k)=>{const p=document.createElement("span");p.className="ph"+(k%2?" alt":"");p.textContent=w.slice(x,y+1).join(" ");p.dataset.s=i;p.dataset.k=k;
+    p.onclick=ev=>{ev.stopPropagation();playSeg(i,k,p)};t.appendChild(p);if(k<s.seg.length-1)t.appendChild(document.createTextNode(" "))})});$("dd").classList.toggle("on",DD)};
+  async function playSeg(i,k,p){stopAll();setAll(false);const me=RUN,s=d.sents[i],[,,a,b]=s.seg[k];mark(i);LASTBTN=$("dd");document.querySelectorAll(".ph.play").forEach(x=>x.classList.remove("play"));p.classList.add("play");st(`点读 · 第 ${i+1} 句 · 第 ${k+1}/${s.seg.length} 段`);
+   A.onended=A.onerror=null;A.src=await audioURL(s.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
+   const tick=()=>{if(me!=RUN){p.classList.remove("play");return}if(A.currentTime>=b||A.ended){A.pause();p.classList.remove("play");return}requestAnimationFrame(tick)};requestAnimationFrame(tick);window._dd={i,k,a,b,src:s.oa}}
+  $("dd").onclick=()=>{DD=!DD;try{localStorage.setItem("rd_dd",DD?"1":"0")}catch(e){}ren();st(DD?"点读：点句子里的任一小段，只播那一段原声":"")};ren()}
  $("spd").onclick=()=>{si=(si+1)%3;A.playbackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
  // 原声连播: continuous original interview track, sentence follow-along by aligned start times
