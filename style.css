@@ -196,3 +196,12 @@ html.bold .wd.on{color:#000}
 #ss .zhb{display:none;line-height:1.6;color:#4a3a10}
 #ss .s.zh .fr{display:none}#ss .s.zh .zhb{display:block}
 #ss .s.zh{background:#fff8e6}#ss .s.zh .who::after{content:" · 中文";font-weight:600;opacity:.75}
+
+/* 📚 back-side glossary */
+#ss .zht{line-height:1.6}
+#ss .gl{margin-top:8px;padding-top:6px;border-top:1px dashed #e6cf8a;text-align:left;font-size:.82em;line-height:1.5;color:#5a4a20;font-weight:normal}
+#ss .gli{margin:3px 0}#ss .gli b{color:#2f4f6a}#ss .gli i{color:#8a6a1a;font-style:normal}
+#ss .gls{font-size:.85em;padding:0 4px;margin-right:4px;border:1px solid #ecd58f;border-radius:8px;background:#fffbe8;cursor:pointer}#ss .gls.on{background:#ffd84d}
+html.bold #ss .gl{font-weight:600}
+#ss .glg{margin:1px 0 4px 2.2em;color:#7a6a40;font-size:.95em}
+#ss .gli{margin:5px 0}
