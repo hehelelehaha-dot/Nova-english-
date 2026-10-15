@@ -86,6 +86,12 @@
      "title": "Naval Topic 1 生词",
      "sub": "18 张 · 听音猜意思",
      "data": "t01v_flash.json"
+    },
+    {
+     "id": "t06v_flash",
+     "title": "Naval Topic 6 生词",
+     "sub": "43 张 · 听音猜意思",
+     "data": "t06v_flash.json"
     }
    ]
   },
@@ -154,6 +160,12 @@
      "title": "Naval Topic 1 生词",
      "sub": "18 个词 · 英英解释 · Michael",
      "data": "t01v_long.json"
+    },
+    {
+     "id": "t06v_long",
+     "title": "Naval Topic 6 生词",
+     "sub": "43 个词 · 英英解释 · Michael",
+     "data": "t06v_long.json"
     }
    ]
   },

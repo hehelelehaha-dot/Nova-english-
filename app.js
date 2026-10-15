@@ -36,6 +36,8 @@ function wirePP(au){const b=document.getElementById("pp");b.onclick=()=>au.pause
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 // ---------- ui helpers ----------
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// Nova refers to sections by number: 1 阅读卡 2 单词卡 3 英英解释音频 4 Chunks 5 词形练习 6 小游戏
+const SECN={reading:1,flash:2,longaudio:3,chunks:4,wf:5,game:6},CIRC=" ①②③④⑤⑥",secT=(id,t)=>SECN[id]?CIRC[SECN[id]]+" "+t:t;
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
@@ -152,13 +154,13 @@ let LP=null;function longPress(el,fn){let t;el.addEventListener("touchstart",()=
 const tapOK=()=>!LP||Date.now()-LP>700;
 function gear(){const h=document.getElementById("hdr-r");h.innerHTML=`<button id="gear" aria-label="设置">⚙︎</button>`;document.getElementById("gear").onclick=()=>location.hash="#/s"}
 async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span id="yec">${yearLeft()}</span></div></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic">${c.icon}</span><span class="nm">${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
- <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic">🔤</span><span class="nm">词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic">🎮</span><span class="nm">小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span></button>
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span id="yec">${yearLeft()}</span></div></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic">${c.icon}</span><span class="nm">${SECN[c.id]?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
+ <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic">🔤</span><span class="nm"><span class="no">5</span>词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic">🎮</span><span class="nm"><span class="no">6</span>小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span></button>
  <button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
  V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
  V.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>catMenu(cs.find(x=>x.id==b.dataset.m)));
  document.getElementById("newc").onclick=async()=>{const n=await ask("新分类的名字");if(n){ORG.cats.push({id:"u"+Date.now(),name:n});saveOrg();route()}}}
-async function showCat(id){const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(c.name,true);
+async function showCat(id){const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  V.innerHTML=`<div class="tip">提示：点右边的 ⋯（或长按）可以重命名、移动、删除</div><div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button><button class="dots" data-d="${k}" aria-label="更多">⋯</button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
@@ -193,7 +195,7 @@ async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)ret
  const au=document.getElementById("au");wirePP(document.getElementById("au"));let r=[1,.85,.75],i=0;document.getElementById("sp").onclick=e=>{i=(i+1)%3;au.playbackRate=r[i];e.target.textContent="速度 "+r[i]+"x"};
  document.getElementById("del").onclick=async()=>{if(await sure("永久删除这个导入的音频？")){await idbDel(id);history.back()}}}
 async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}if(!it)return showHome();
- setHeader(ttl(it),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
+ setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  ({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong,chunks:viewChunks})[d.type](d,id)}
 // ---------- reading card ----------
 // 3D flip a reading card to its Chinese translation (size kept via min-height of the front)
@@ -204,7 +206,24 @@ function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+s.sp.toLowerCase();e.id="s"+i;
   e.innerHTML=`<div class="body"><div class="who">${s.sp=="Naval"?"NAVAL RAVIKANT":"CHRIS WILLIAMSON"}</div><div class="fr"><div class="t"></div>${s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zht"></div>'+(s.gloss&&s.gloss.length?'<div class="gl">'+s.gloss.map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
-  e.querySelector(".t").textContent=s.t;if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();sayEN(b.dataset.w.replace(/…/g," "),b)});e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],!!s.oa)};if(s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});
+  e.querySelector(".t").textContent=s.t;if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();sayEN(b.dataset.w.replace(/…/g," "),b)});glossSrc(e,s,i);e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],!!s.oa)};if(s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});
+ // gloss line 3: where the word appears (点读 phrase or sentence) + 🌻 plays the original segment containing it
+ function glossSrc(e,s,i){const W=s.t.split(/\s+/),nz=x=>x.toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9']/g,"");
+  e.querySelectorAll(".gli").forEach((li,gk)=>{const g=s.gloss[gk];if(!g)return;const q=g[0].replace(/…/g," ").split(/\s+/).map(nz).filter(Boolean);let at=-1;
+   const m=(tok,w)=>{const t=nz(tok);if(t==w)return true;if(w=="be"&&/^(is|am|are|was|were|been|being)$/.test(t))return true;const st=w.length>4?w.slice(0,w.length-(/[ey]$/.test(w)?1:0)).slice(0,Math.max(4,w.length-2)):w;return t.startsWith(st)&&t.length<=w.length+4};
+   const gap=/…/.test(g[0]);let hit=null;
+   for(let k=0;k<W.length&&!hit;k++){if(!m(W[k],q[0]))continue;const idx=[k];let j=k,ok=true;
+    for(const w of q.slice(1)){j++;if(gap)while(j<W.length&&!m(W[j],w)&&j-k<8)j++;if(j>=W.length||!m(W[j],w)){ok=false;break}idx.push(j)}
+    if(ok)hit=idx}
+   if(!hit)for(let k=0;k<W.length&&!hit;k++)if(m(W[k],q[0]))hit=[k];
+   if(!hit)return;at=hit[0];const last=hit[hit.length-1],HS=new Set(hit);
+   let x0=0,x1=W.length-1,a=null,b=null,src=s.oa||null;const sg=(s.seg||[]).find(z=>z[0]<=at&&at<=z[1]);
+   if(sg&&s.oa&&W.length>14){x0=sg[0];x1=Math.max(sg[1],Math.min(last,W.length-1));const sg2=(s.seg||[]).find(z=>z[0]<=x1&&x1<=z[1])||sg;a=sg[2];b=sg2[3]}else if(sg&&s.oa){a=sg[2];const sg2=(s.seg||[]).find(z=>z[0]<=last&&last<=z[1])||sg;b=sg2[3]}
+   const html=W.slice(x0,x1+1).map((w,k)=>HS.has(k+x0)?`<b>${esc(w)}</b>`:esc(w)).join(" ");
+   const d=document.createElement("div");d.className="gsr";d.innerHTML=`<button class="gsb" aria-label="原声">${s.oa?"🌻":"🔊"}</button><span class="gst">${x0>0?"…":""}${html}${x1<W.length-1?"…":""}</span>`;li.appendChild(d);
+   d.querySelector(".gsb").onclick=async ev=>{ev.stopPropagation();const btn=ev.currentTarget;stopAll();const me=RUN;if(!s.oa){LASTBTN=btn;playP(s.a,1,s.t);return}
+    A.onended=A.onerror=null;A.src=await audioURL(s.oa);A.playbackRate=1;btn.classList.add("on");const st0=a??0;const go=()=>{try{A.currentTime=st0}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
+    const tick=()=>{if(me!=RUN||A.ended||(b!=null&&A.currentTime>=b)){if(me==RUN&&b!=null)A.pause();btn.classList.remove("on");return}requestAnimationFrame(tick)};requestAnimationFrame(tick);window._gs={i,gk,a:st0,b,src:s.oa}}})}
  const mark=i=>{document.querySelectorAll(".cur").forEach(x=>x.classList.remove("cur"));cur=i;const e=document.getElementById("s"+i);e.classList.add("cur");LASTBTN=e.querySelector(".p");follow(e)};
  const setAll=on=>{const b=document.getElementById("all");b.classList.toggle("on",on);b.textContent=on?"⏸ 暂停连播":"▶ 全部连播"};
  async function seq(list,orig=false,btn=null){const me=++RUN;for(const i of list){do{if(me!=RUN)return;mark(i);if(btn)LASTBTN=btn;const S_=d.sents[i];st(`${orig?"原声":btn?"AI 朗读":""}${orig||btn?" · ":""}第 ${i+1} / ${d.sents.length} 句`);await playP(orig?S_.oa:S_.a,SP[si],S_.t);if(me!=RUN)return;
