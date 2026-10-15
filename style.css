@@ -188,3 +188,11 @@ html.bold .wd.on{color:#000}
 /* lighter active reading sentence; 点读 phrase contrasts */
 #ss .s.cur{background:#fffdf6!important;outline:2px solid #f5c518}
 #ss .ph.play{background:#ffd84d;box-shadow:0 0 0 2px #ffd84d;border-bottom-color:#e0a000}
+
+/* 🔄 reading card flip → Chinese */
+#ss .s{cursor:pointer;transform-style:preserve-3d;-webkit-tap-highlight-color:transparent}
+#ss .s.flipping{transition:transform .23s ease-in;transform:perspective(900px) rotateY(90deg)}
+#ss .s.unflip{animation:unfl .23s ease-out}@keyframes unfl{from{transform:perspective(900px) rotateY(-90deg)}to{transform:perspective(900px) rotateY(0)}}
+#ss .zhb{display:none;line-height:1.6;color:#4a3a10}
+#ss .s.zh .fr{display:none}#ss .s.zh .zhb{display:block}
+#ss .s.zh{background:#fff8e6}#ss .s.zh .who::after{content:" · 中文";font-weight:600;opacity:.75}

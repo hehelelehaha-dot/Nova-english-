@@ -193,12 +193,15 @@ async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.
  setHeader(ttl(it),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  ({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong,chunks:viewChunks})[d.type](d,id)}
 // ---------- reading card ----------
+// 3D flip a reading card to its Chinese translation (size kept via min-height of the front)
+function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if(!e.classList.contains("zh"))b.style.minHeight=b.offsetHeight+"px";e.classList.add("flipping");
+ setTimeout(()=>{e.classList.toggle("zh");e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
  V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="shad">跟读停顿</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">🎙 原声连播</button>':""}${d.sents.some(x=>x.seg&&x.oa)?'<button id="dd" class="org">👆 点读</button>':""}<button id="stp">■ 停止</button></div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+s.sp.toLowerCase();e.id="s"+i;
-  e.innerHTML=`<div class="body"><div class="who">${s.sp=="Naval"?"NAVAL RAVIKANT":"CHRIS WILLIAMSON"}</div><div class="t"></div>${s.oa?'<button class="osb">🔊 原声</button>':""}</div><button class="p">▶</button>`;
-  e.querySelector(".t").textContent=s.t;e.querySelector(".t").onclick=e.querySelector(".p").onclick=()=>{stopAll();setAll(false);seq([i])};if(s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);const b=ev.currentTarget;mark(i);LASTBTN=b;st(`原声 · 第 ${i+1} 句`);playP(s.oa,1,s.t)};ss.appendChild(e)});
+  e.innerHTML=`<div class="body"><div class="who">${s.sp=="Naval"?"NAVAL RAVIKANT":"CHRIS WILLIAMSON"}</div><div class="fr"><div class="t"></div>${s.oa?'<button class="osb">🔊 原声</button>':""}</div>${s.zh?'<div class="zhb"></div>':""}</div><button class="p">▶</button>`;
+  e.querySelector(".t").textContent=s.t;if(s.zh){e.querySelector(".zhb").textContent=s.zh;e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i])};if(s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);const b=ev.currentTarget;mark(i);LASTBTN=b;st(`原声 · 第 ${i+1} 句`);playP(s.oa,1,s.t)};ss.appendChild(e)});
  const mark=i=>{document.querySelectorAll(".cur").forEach(x=>x.classList.remove("cur"));cur=i;const e=document.getElementById("s"+i);e.classList.add("cur");LASTBTN=e.querySelector(".p");follow(e)};
  const setAll=on=>{const b=document.getElementById("all");b.classList.toggle("on",on);b.textContent=on?"⏸ 暂停连播":"▶ 全部连播"};
  async function seq(list){const me=++RUN;for(const i of list){do{if(me!=RUN)return;mark(i);st(`第 ${i+1} / ${d.sents.length} 句`);await playP(d.sents[i].a,SP[si],d.sents[i].t);if(me!=RUN)return;
