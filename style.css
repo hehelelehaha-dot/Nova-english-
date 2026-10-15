@@ -225,3 +225,7 @@ html.bold #ss .gl{font-weight:600}
 .rate button span{font-size:13px;opacity:.9;font-weight:400}
 .rate .r0{background:#d64545}.rate .r1{background:#e08a1e}.rate .r2{background:#2e7d5b}.rate .r3{background:#3b5f8f}
 @media (max-width:420px){.rate{grid-template-columns:repeat(2,1fr)}}
+.hero>div{flex:1;min-width:0}.stt{margin-left:auto;flex:none;background:#fff8dc;border:0;border-radius:14px;padding:6px 10px;display:flex;flex-direction:column;align-items:flex-end;gap:1px;font:inherit;cursor:pointer}
+.hero .stt .sl{display:block;margin:0;font-size:12px;color:#7a6a3a;white-space:nowrap}.stt .sl b{font-size:14px;color:#0f2c44}
+@media(max-width:420px){.hero img{width:56px;height:56px}.stt{padding:5px 8px}.hero .stt .sl{font-size:11px}.stt .sl b{font-size:13px}}
+.tlog .tr{display:flex;align-items:center;gap:8px;font-size:14px}.tlog .tdw{width:84px;color:#555}.tlog .tb{flex:1;height:12px;background:#f1f1f1;border-radius:6px;overflow:hidden}.tlog .tb i{display:block;height:100%;background:#f5c518;border-radius:6px}.tlog .tv{width:64px;text-align:right;font-variant-numeric:tabular-nums}.tlog .td{font-weight:700}

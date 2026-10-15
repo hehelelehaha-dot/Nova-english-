@@ -72,7 +72,7 @@ function saveOrg(){const f=flat(ORG);for(const k in FIELDS)if(k[1]==":"&&"hrmc".
  localStorage.setItem(FK,JSON.stringify(FIELDS));localStorage.setItem(ORGK,JSON.stringify(ORG))}
 function saveDisplay(){stamp("d:zoom",curZoom());stamp("d:bold",document.documentElement.classList.contains("bold")?1:0);localStorage.setItem(FK,JSON.stringify(FIELDS))}
 // LWW merge; returns summary of what changed locally
-function mergeFields(R){const sum={h:0,r:0,m:0,c:0,d:0,g:0};for(const k in R){const r=R[k];if(!Array.isArray(r)||typeof r[1]!="number")continue;const l=FIELDS[k];
+function mergeFields(R){const sum={h:0,r:0,m:0,c:0,d:0,g:0};if(R["t:log"]){sum.t=tMerge(R["t:log"][0]);R=Object.assign({},R);delete R["t:log"]}for(const k in R){const r=R[k];if(!Array.isArray(r)||typeof r[1]!="number")continue;const l=FIELDS[k];
   if(!l||r[1]>l[1]){if(!l||JSON.stringify(l[0])!==JSON.stringify(r[0]))sum[k[0]]=(sum[k[0]]||0)+1;FIELDS[k]=[r[0],r[1]]}}
  localStorage.setItem(FK,JSON.stringify(FIELDS));ORG=orgFrom(FIELDS);localStorage.setItem(ORGK,JSON.stringify(ORG));
  if(sum.d){const z=FIELDS["d:zoom"],b=FIELDS["d:bold"];if(z&&z[0])setZoom(z[0],true);if(b){document.documentElement.classList.toggle("bold",!!b[0]);localStorage.setItem("nova_bold",b[0]?"1":"0")}}
@@ -81,13 +81,13 @@ function mergeFields(R){const sum={h:0,r:0,m:0,c:0,d:0,g:0};for(const k in R){co
 const b64u=u=>btoa(String.fromCharCode(...u)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 const ub64u=s=>Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
 async function zip(str,inv){const cs=inv?new DecompressionStream("deflate-raw"):new CompressionStream("deflate-raw");const b=new Blob([str]).stream().pipeThrough(cs);return new Uint8Array(await new Response(b).arrayBuffer())}
-async function exportCode(withDisplay){const F={};for(const k in FIELDS)if(withDisplay||k[0]!="d")F[k]=FIELDS[k];
+async function exportCode(withDisplay){const F={};for(const k in FIELDS)if(withDisplay||k[0]!="d")F[k]=FIELDS[k];tSave();if(Object.keys(TLOG).length)F["t:log"]=[TLOG,0];
  let body;try{body="Z"+b64u(await zip(JSON.stringify(F)))}catch(e){body="J"+b64u(new TextEncoder().encode(JSON.stringify(F)))}return "N1"+body}
 async function decodeCode(raw){let s=String(raw||"").trim();const m=s.match(/N1[ZJ][A-Za-z0-9_-]+/);if(!m)throw new Error("看不懂这个同步码");s=m[0];
  const u=ub64u(s.slice(3));const txt=s[2]=="Z"?new TextDecoder().decode(await zip(u,true)):new TextDecoder().decode(u);return JSON.parse(txt)}
 const exportURL=code=>location.origin+location.pathname.replace(/index\.html$/,"")+"#/imp/"+code;
-function sumText(s){const p=[];if(s.r)p.push(`改名 ${s.r}`);if(s.m)p.push(`移动 ${s.m}`);if(s.h)p.push(`删除/恢复 ${s.h}`);if(s.c)p.push(`分类 ${s.c}`);if(s.d)p.push("显示设置");if(s.g)p.push(`游戏成绩 ${s.g}`);if(s.s)p.push(`单词复习进度 ${s.s}`);return p.length?p.join("，"):"没有新的变化"}
-function previewMerge(R){const save=JSON.stringify(FIELDS);const sum={h:0,r:0,m:0,c:0,d:0,g:0,s:0,q:0,o:0};for(const k in R){const r=R[k],l=FIELDS[k];if(Array.isArray(r)&&(!l||r[1]>l[1])&&(!l||JSON.stringify(l[0])!==JSON.stringify(r[0])))sum[k[0]]++}return sum}
+function sumText(s){const p=[];if(s.r)p.push(`改名 ${s.r}`);if(s.m)p.push(`移动 ${s.m}`);if(s.h)p.push(`删除/恢复 ${s.h}`);if(s.c)p.push(`分类 ${s.c}`);if(s.d)p.push("显示设置");if(s.g)p.push(`游戏成绩 ${s.g}`);if(s.s)p.push(`单词复习进度 ${s.s}`);if(s.t)p.push(`学习时长 ${s.t} 天`);return p.length?p.join("，"):"没有新的变化"}
+function previewMerge(R){const save=JSON.stringify(FIELDS);const sum={h:0,r:0,m:0,c:0,d:0,g:0,s:0,q:0,o:0};for(const k in R){if(k=="t:log"){sum.t=tMerge(R[k][0],true);continue}const r=R[k],l=FIELDS[k];if(Array.isArray(r)&&(!l||r[1]>l[1])&&(!l||JSON.stringify(l[0])!==JSON.stringify(r[0])))sum[k[0]]++}return sum}
 const isStandalone=()=>navigator.standalone===true||matchMedia("(display-mode: standalone)").matches;
 const isIOS=()=>/iP(ad|hone|od)/.test(navigator.userAgent)||(navigator.platform=="MacIntel"&&navigator.maxTouchPoints>1);
 async function copyText(t){try{await navigator.clipboard.writeText(t);toast("已复制 ✓")}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("已复制 ✓")}catch(_){toast("请长按文字手动复制")}a.remove()}}
@@ -154,10 +154,10 @@ let LP=null;function longPress(el,fn){let t;el.addEventListener("touchstart",()=
 const tapOK=()=>!LP||Date.now()-LP>700;
 function gear(){const h=document.getElementById("hdr-r");h.innerHTML=`<button id="gear" aria-label="设置">⚙︎</button>`;document.getElementById("gear").onclick=()=>location.hash="#/s"}
 async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span id="yec">${yearLeft()}</span></div></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic">${c.icon}</span><span class="nm">${SECN[c.id]?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span id="yec">${yearLeft()}</span></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic">${c.icon}</span><span class="nm">${SECN[c.id]?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
  <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic">🔤</span><span class="nm"><span class="no">5</span>词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic">🎮</span><span class="nm"><span class="no">6</span>小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span></button>
  <button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
- V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
+ document.getElementById("stt").onclick=showTimeLog;V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
  V.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>catMenu(cs.find(x=>x.id==b.dataset.m)));
  document.getElementById("newc").onclick=async()=>{const n=await ask("新分类的名字");if(n){ORG.cats.push({id:"u"+Date.now(),name:n});saveOrg();route()}}}
 async function showCat(id){const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
@@ -205,7 +205,7 @@ async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.
 function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if(!e.classList.contains("zh"))b.style.minHeight=b.offsetHeight+"px";e.classList.add("flipping");
  setTimeout(()=>{e.classList.toggle("zh");if(e.classList.contains("zh")){const h0=parseFloat(b.style.minHeight);b.style.minHeight="0";const h1=b.scrollHeight;b.style.minHeight=h0+"px";requestAnimationFrame(()=>{b.style.transition="min-height .25s ease";b.style.minHeight=Math.max(h0,h1)+"px";setTimeout(()=>b.style.transition="",300)})}e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
- V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="shad">跟读停顿</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">🎙 原声连播</button><button id="oloop" class="org">🔁 原声循环</button>':""}${d.sents.some(x=>x.seg&&x.oa)?'<button id="dd" class="org">👆 点读</button>':""}<button id="stp">■ 停止</button></div><div class="status" id="st"></div><div id="ss"></div>`;
+ V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">🎙 原声连播</button><button id="oloop" class="org">🔁 原声循环</button>':""}${d.sents.some(x=>x.seg&&x.oa)?'<button id="dd" class="org">👆 点读</button>':""}<button id="stp">■ 停止</button></div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+s.sp.toLowerCase();e.id="s"+i;
   e.innerHTML=`<div class="body"><div class="who">${s.sp=="Naval"?"NAVAL RAVIKANT":"CHRIS WILLIAMSON"}</div><div class="fr"><div class="t"></div>${s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zht"></div>'+(s.gloss&&s.gloss.length?'<div class="gl">'+s.gloss.map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
@@ -233,7 +233,7 @@ function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false
   const dur=orig&&isFinite(A.duration)&&A.duration>0?A.duration:S_.d;if(F.shad){st(`第 ${i+1} 句 · 请跟读…`);await wait(dur/SP[si]*1000+600)}else await wait(F.loop?700:350)}while(F.loop&&me==RUN)}if(me==RUN){setAll(false);st("播放完毕")}}
  const $=id=>document.getElementById(id);
  $("all").onclick=()=>{const on=$("all").classList.contains("on");stopAll();setAll(false);if(on)return;setAll(true);const s=cur>0&&cur<d.sents.length-1?cur:0;seq(d.sents.map((_,i)=>i).slice(s))};
- for(const k of ["loop","shad","hid"])$(k).onclick=()=>{F[k]=!F[k];$(k).classList.toggle("on",F[k]);if(k=="hid"){ss.classList.toggle("hide",F.hid);try{localStorage.setItem("rd_hid",F.hid?"1":"0")}catch(e){}}};
+ for(const k of ["loop","hid"])$(k).onclick=()=>{F[k]=!F[k];$(k).classList.toggle("on",F[k]);if(k=="hid"){ss.classList.toggle("hide",F.hid);try{localStorage.setItem("rd_hid",F.hid?"1":"0")}catch(e){}}};
  if(F.hid){ss.classList.add("hide");$("hid").classList.add("on")}
  // 👆 点读: tap a phrase (split at Naval's breath pauses) to play just that original-audio segment
  if($("dd")){let DD=localStorage.getItem("rd_dd")=="1";const ren=()=>{d.sents.forEach((s,i)=>{const t=document.querySelector("#s"+i+" .t");if(!DD||!s.seg||!s.oa){t.textContent=s.t;return}const w=s.t.split(/\s+/);t.textContent="";
@@ -247,7 +247,7 @@ function viewReading(d){const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
  // 原声连播: continuous original interview track, sentence follow-along by aligned start times
  if(d.oaudio){const ots=d.sents.map(s=>s.ot);const OB={oall:["🎙 原声连播","⏸ 暂停原声"],oloop:["🔁 原声循环","⏸ 停止循环"]};
-  const setO=(on,id)=>{for(const k in OB){const b=$(k);const x=on&&k==id;b.classList.toggle("on",x);b.textContent=OB[k][x?1:0]}};
+  const setO=(on,id)=>{for(const k in OB){const b=$(k);if(!b)continue;const x=on&&k==id;b.classList.toggle("on",x);b.textContent=OB[k][x?1:0]}};
   const startO=async id=>{const ob=$(id),loopM=id=="oloop";const on=ob.classList.contains("on");stopAll();setAll(false);setO(false);if(on)return;const me=++RUN;setO(true,id);window._oloop=loopM?me:0;
    const s0=!loopM&&cur>0&&cur<d.sents.length-1?cur:0;A.src=await audioURL(d.oaudio);A.playbackRate=1;A.currentTime=Math.max(0,ots[s0]||0);LASTBTN=ob;A.onerror=null;
    let round=1;A.onended=async()=>{if(me!=RUN)return;if(!loopM){setO(false);st("原声播放完毕");return}st("🔁 0.8 秒后从第 1 句重新开始");await wait(800);if(me!=RUN)return;round++;window._oround=round;try{A.currentTime=Math.max(0,ots[0]||0)}catch(e){}A.play().catch(()=>{});last=-1;requestAnimationFrame(tick)};A.play().catch(()=>{});
@@ -380,3 +380,25 @@ async function viewChunks(d){const url=await audioURL(d.audio);const hl=e=>e.hl?
   if(!au.paused)raf=requestAnimationFrame(tick)}
  au.addEventListener("play",()=>{try{A.pause()}catch(e){}cancelAnimationFrame(raf);tick()});au.addEventListener("seeked",tick);
  window._stopLong=()=>au.pause()}
+
+// ---------- study timer (home hero: 今天 / 累计) ----------
+// Counts only while visible AND active: interaction within 2 min, or audio/speech playing. Log: localStorage nova_time {YYYY-MM-DD: seconds}.
+const TK="nova_time",T_IDLE=120e3;let TLOG={};try{TLOG=JSON.parse(localStorage.getItem(TK)||"{}")||{}}catch(e){TLOG={}}
+let tAct=Date.now(),tLast=Date.now();
+const dKey=d=>{d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+function tSave(){try{localStorage.setItem(TK,JSON.stringify(TLOG))}catch(e){}}
+function tPlaying(){try{if(!A.paused&&!A.ended)return true;for(const a of document.querySelectorAll("audio,video"))if(!a.paused&&!a.ended)return true;if(window.speechSynthesis&&speechSynthesis.speaking)return true}catch(e){}return false}
+function tActive(now){return !document.hidden&&(now-tAct<T_IDLE||tPlaying())}
+function tTick(){const now=Date.now();const dt=Math.min(now-tLast,5e3);tLast=now;if(dt>0&&tActive(now)){const k=dKey();TLOG[k]=Math.round(((TLOG[k]||0)+dt/1e3)*10)/10;tSave()}const el=document.getElementById("stt");if(el)el.innerHTML=sttHTML()}
+function fmtT(sec){const m=Math.floor((sec||0)/60);const h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
+function tTotal(){return Object.values(TLOG).reduce((a,b)=>a+(+b||0),0)}
+function sttHTML(){return `<span class="sl">今天 <b>${fmtT(TLOG[dKey()])}</b></span><span class="sl">累计 <b>${fmtT(tTotal())}</b></span>`}
+function tMerge(R,dry){let n=0;if(!R||typeof R!="object")return 0;for(const k in R){const v=+R[k];if(!/^\d{4}-\d\d-\d\d$/.test(k)||!(v>0))continue;if(v>(TLOG[k]||0)+0.5){n++;if(!dry)TLOG[k]=v}}if(!dry){tSave();tTick()}return n}
+function showTimeLog(){const o=document.createElement("div");o.className="ov";const days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push([d,TLOG[dKey(d)]||0])}
+ const mx=Math.max(60,...days.map(x=>x[1]));const W="日一二三四五六";
+ o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 最近 7 天学习时长</div>${days.map(([d,v],i)=>`<div class="tr${i==6?" td":""}"><span class="tdw">${i==6?"今天":(d.getMonth()+1)+"/"+d.getDate()+" 周"+W[d.getDay()]}</span><span class="tb"><i style="width:${Math.round(v/mx*100)}%"></i></span><span class="tv">${fmtT(v)}</span></div>`).join("")}
+ <div class="tip" style="margin:6px 2px 0">7 天合计 ${fmtT(days.reduce((a,x)=>a+x[1],0))} · 累计 ${fmtT(tTotal())}<br>只在 App 打开、并且你在操作或在播放音频时计时；2 分钟没有操作就暂停。</div><button class="shb cancel" data-x>关闭</button></div>`;
+ o.onclick=e=>{if(e.target==o||e.target.closest("[data-x]"))o.remove()};document.body.appendChild(o)}
+["pointerdown","keydown","touchstart","wheel","scroll"].forEach(t=>addEventListener(t,()=>{tAct=Date.now()},{passive:true,capture:true}));
+document.addEventListener("visibilitychange",()=>{tLast=Date.now();if(!document.hidden)tAct=Date.now()});
+setInterval(tTick,1000);
