@@ -18,8 +18,10 @@ async function showWF(sid){const d=await loadWF();await loadEXP();const S=d.sets
  function render(rs){const it=S.items[G.q[G.pos]];const first=G.round==1;let done=false;const [b,a]=it.s.split("___");
   const yw=it.l=="原文";const opts=shuffle(it.o);
   V.innerHTML=`${rs?`<div class="gmsg">🔁 再练一下刚才做错的 ${G.q.length} 题</div>`:""}${hdr()}<div class="card gcard"><div class="czl"><span class="lab ${yw?"yw":"ex"}">${yw?"📖 原文":"🏠 生活"}</span>${yw&&it.sp?` <span class="ywsp">— ${esc(it.sp)}</span>`:""}</div>
-   <div class="czs en">${esc(b)}<span class="wfb" id="bl">&nbsp;?&nbsp;</span>${esc(a)}</div><div class="wfo">${opts.map((o,i)=>`<button class="wfx" data-i="${i}">${esc(o)}</button>`).join("")}</div><div id="res"></div></div>`;
-  V.querySelectorAll(".wfx").forEach(x=>x.onclick=()=>{if(done)return wfSay(opts[+x.dataset.i],x);done=true;const pick=opts[+x.dataset.i],ok=pick==it.a;
+   <div class="czs en">${esc(b)}<span class="wfb" id="bl">&nbsp;?&nbsp;</span>${esc(a)}</div><div class="wps"><div class="wpl">① 先选词性：空格里应该填什么词性？</div><div class="wpo">${["n.","v.","adj.","adv."].map(q=>`<button class="wpx" data-p="${q}"><b>${{"n.":"noun","v.":"verb","adj.":"adj.","adv.":"adv."}[q]}</b><small>${POSN[q]}</small></button>`).join("")}</div></div><div class="wpl wpl2">② 再选词：</div><div class="wfo off">${opts.map((o,i)=>`<button class="wfx" data-i="${i}">${esc(o)}</button>`).join("")}</div><div id="res"></div></div>`;
+  let posOK=false;const wo=V.querySelector(".wfo");
+  V.querySelectorAll(".wpx").forEach(x=>x.onclick=()=>{if(posOK)return;if(x.dataset.p==it.p){posOK=true;x.classList.add("g");V.querySelectorAll(".wpx").forEach(y=>{y.classList.remove("r");if(y!=x)y.classList.add("dim")});wo.classList.remove("off")}else{x.classList.remove("shake");void x.offsetWidth;x.classList.add("r","shake")}});
+  V.querySelectorAll(".wfx").forEach(x=>x.onclick=()=>{if(!posOK){const w=V.querySelector(".wps");w.classList.remove("shake");void w.offsetWidth;w.classList.add("shake");return}if(done)return wfSay(opts[+x.dataset.i],x);done=true;const pick=opts[+x.dataset.i],ok=pick==it.a;
    V.querySelectorAll(".wfx").forEach(y=>{const o=opts[+y.dataset.i];if(o==it.a)y.classList.add("g");else if(y==x)y.classList.add("r");y.classList.add("done")});
    const bl=document.getElementById("bl");bl.textContent=it.a;bl.classList.add(ok?"g":"r");
    if(ok){if(first)G.correct++;G.score+=first?10:5}else G.miss.push(G.q[G.pos]);

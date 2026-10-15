@@ -168,3 +168,8 @@ html.bold .wd.on{color:#000}
 .ov .sh{max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .osb{margin-top:6px;font:inherit;font-size:13px;padding:3px 10px;border-radius:999px;border:1.5px solid #e0b400;background:#fff8d6;color:#7a5a00;font-weight:700}.osb.playing,.osb:active{background:#f5c518}
 .bar .org{border-color:#d89b00;color:#7a5a00}.bar .org.on{background:#f5c518;color:#3d2c00}
+
+.wps{margin-top:16px}.wpl{font-size:.9em;color:#555;margin-bottom:6px}.wpl2{margin-top:14px;margin-bottom:-8px}.wpo{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.wpx{font:inherit;padding:8px 2px;border-radius:12px;border:2px solid #e3d9a8;background:#fffbe8;color:#5a4300;display:flex;flex-direction:column;align-items:center;line-height:1.25;min-width:0}.wpx b{font-size:1em}.wpx small{font-size:.75em;opacity:.8}
+.wpx.g{background:#e6f4e7;border-color:#2e7d32;color:#1b5e20}.wpx.r{background:#fdeaea;border-color:#b71c1c;color:#b71c1c}.wpx.dim{opacity:.4}
+.wfo.off .wfx{opacity:.4;filter:grayscale(1)}
