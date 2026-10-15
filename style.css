@@ -185,3 +185,6 @@ html.bold .wd.on{color:#000}
 #ss .ph.alt{border-bottom-color:#9ec5f0}
 #ss .ph.play{background:#fff1b8}
 #ss.hide .ph,#ss.hide .ph.play{color:transparent!important;-webkit-text-fill-color:transparent!important;background:transparent!important}
+/* lighter active reading sentence; 点读 phrase contrasts */
+#ss .s.cur{background:#fffdf6!important;outline:2px solid #f5c518}
+#ss .ph.play{background:#ffd84d;box-shadow:0 0 0 2px #ffd84d;border-bottom-color:#e0a000}
