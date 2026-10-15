@@ -30,6 +30,12 @@
      "title": "Topic 5 · Learning from Your Past Self",
      "sub": "11 句 · Chris & Naval",
      "data": "naval_t05.json"
+    },
+    {
+     "id": "naval_t06",
+     "title": "Topic 6 · The Journey Is All There Is",
+     "sub": "18 句 · Chris & Naval",
+     "data": "naval_t06.json"
     }
    ]
   },
@@ -162,6 +168,12 @@
      "title": "Topic 5 · Chunks",
      "sub": "13 个词组 · 原声",
      "data": "ch_t05.json"
+    },
+    {
+     "id": "ch_t06",
+     "title": "Topic 6 · Chunks",
+     "sub": "15 个词组 · 原声",
+     "data": "ch_t06.json"
     }
    ]
   }
