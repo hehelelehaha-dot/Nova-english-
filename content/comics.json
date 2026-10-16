@@ -1,0 +1,346 @@
+{
+ "items": [
+  {
+   "id": "t01_s06",
+   "topic": "naval_t01",
+   "si": 6,
+   "img": "comics/t01_s06.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "He WANTS a sports car",
+    "WANTING feels like a chain",
+    "He stops WANTING it",
+    "FREEDOM"
+   ],
+   "keys": [
+    [
+     "wanting",
+     0
+    ],
+    [
+     "freedom",
+     3
+    ],
+    [
+     "as good as having it",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t01_s10",
+   "topic": "naval_t01",
+   "si": 10,
+   "img": "comics/t01_s10.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "TWO PATHS to happiness",
+    "Path 1: SUCCESS",
+    "You GET what you WANT",
+    "You SATISFY your NEEDS"
+   ],
+   "keys": [
+    [
+     "two paths",
+     0
+    ],
+    [
+     "success",
+     1
+    ],
+    [
+     "get what you want",
+     2
+    ],
+    [
+     "satisfy",
+     3
+    ],
+    [
+     "material needs",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t02_s02",
+   "topic": "naval_t02",
+   "si": 2,
+   "img": "comics/t02_s02.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "He is HAPPY",
+    "He doesn't WANT anything",
+    "So he doesn't GET UP",
+    "...or DO anything"
+   ],
+   "keys": [
+    [
+     "happy",
+     0
+    ],
+    [
+     "want anything",
+     1
+    ],
+    [
+     "get up",
+     2
+    ],
+    [
+     "do anything",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t02_s08",
+   "topic": "naval_t02",
+   "si": 8,
+   "img": "comics/t02_s08.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "He is HAPPY now",
+    "He STILL wants to DO things",
+    "Before: small things",
+    "Now: BIGGER things"
+   ],
+   "keys": [
+    [
+     "still want to do things",
+     1
+    ],
+    [
+     "bigger things",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t03_s03",
+   "topic": "naval_t03",
+   "si": 3,
+   "img": "comics/t03_s03.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "You PLAY the game",
+    "You WIN the game",
+    "Again... and again",
+    "You get BORED of it"
+   ],
+   "keys": [
+    [
+     "play the games",
+     0
+    ],
+    [
+     "win the games",
+     1
+    ],
+    [
+     "bored",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t03_s07",
+   "topic": "naval_t03",
+   "si": 7,
+   "img": "comics/t03_s07.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "You are FREE of the game",
+    "MOVE to a DIFFERENT GAME",
+    "OR...",
+    "Play for the SHEER JOY"
+   ],
+   "keys": [
+    [
+     "different game",
+     1
+    ],
+    [
+     "sheer joy",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t04_s00",
+   "topic": "naval_t04",
+   "si": 0,
+   "img": "comics/t04_s00.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "SHORT TERM: SUFFERING",
+    "Every single day",
+    "LONG TERM...",
+    "...you GET PAID"
+   ],
+   "keys": [
+    [
+     "suffering",
+     0
+    ],
+    [
+     "short term",
+     0
+    ],
+    [
+     "long term",
+     2
+    ],
+    [
+     "get paid",
+     3
+    ],
+    [
+     "gains",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t04_s03",
+   "topic": "naval_t04",
+   "si": 3,
+   "img": "comics/t04_s03.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "He SUFFERS a lot",
+    "PAIN = PROGRESS?",
+    "Look at the OUTCOME",
+    "The OUTCOME matters"
+   ],
+   "keys": [
+    [
+     "suffering",
+     0
+    ],
+    [
+     "proxy for progress",
+     1
+    ],
+    [
+     "outcome",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t05_s01",
+   "topic": "naval_t05",
+   "si": 1,
+   "img": "comics/t05_s01.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "Go BACK into your life",
+    "5 years ago",
+    "10 years ago",
+    "The EXACT POSITION"
+   ],
+   "keys": [
+    [
+     "go back",
+     0
+    ],
+    [
+     "five years ago",
+     1
+    ],
+    [
+     "ten years ago",
+     2
+    ],
+    [
+     "exact position",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t05_s07",
+   "topic": "naval_t05",
+   "si": 7,
+   "img": "comics/t05_s07.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "Then: lots of ANGER",
+    "Now: the SAME work",
+    "LESS anger, LESS suffering",
+    "The suffering was OPTIONAL"
+   ],
+   "keys": [
+    [
+     "anger",
+     0
+    ],
+    [
+     "the same",
+     1
+    ],
+    [
+     "less",
+     2
+    ],
+    [
+     "internal suffering",
+     2
+    ],
+    [
+     "optional",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t07_s03",
+   "topic": "naval_t07",
+   "si": 3,
+   "img": "comics/t07_s03.webp",
+   "cols": 2,
+   "rows": 3,
+   "caps": [
+    "So many DESIRES",
+    "The SOURCE of UNHAPPINESS",
+    "Just KNOWING this...",
+    "...makes you CHOOSY",
+    "Pick only a few",
+    "Fewer desires, more happiness"
+   ],
+   "keys": [
+    [
+     "desires",
+     0
+    ],
+    [
+     "source",
+     1
+    ],
+    [
+     "unhappiness",
+     1
+    ],
+    [
+     "knowing",
+     2
+    ],
+    [
+     "choosy",
+     3
+    ]
+   ]
+  }
+ ]
+}
