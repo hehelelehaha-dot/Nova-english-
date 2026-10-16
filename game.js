@@ -52,7 +52,7 @@ async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>
  function finish(){stopAll();const r=saveResult(uid,mode,G.score,G.total,G.correct);
   V.innerHTML=`<div class="card gend"><img src="icons/icon-192.png" alt=""><div class="conf">🌻 🎉 🌻</div><h2>完成啦，Nova！</h2><div class="big2">⭐ ${G.score}</div>
    <div>一次答对 ${G.correct} / ${G.total} 个词${r.best==G.score&&r.plays>1?" · 🏆 新纪录！":""}</div><div class="sb">最高分 ${r.best} · 第 ${r.plays} 次</div>
-   <button class="wide flip" id="again">再玩一次</button>${["spell","puzzle","cloze"].filter(m=>m!=mode).map(m=>`<button class="wide gblue" onclick="location.hash='#/g/${uid}/${m}'">换${MN[m]}</button>`).join("")}<button class="wide gray" onclick="location.hash='#/g'">返回单元列表</button></div>`;
+   <button class="wide flip" id="again">再玩一次</button>${["spell","puzzle","cloze"].filter(m=>m!=mode).map(m=>`<button class="wide gblue" onclick="navSib('#/g/${uid}/${m}')">换${MN[m]}</button>`).join("")}<button class="wide gray" onclick="location.hash='#/g'">返回单元列表</button></div>`;
   document.getElementById("again").onclick=()=>showGame(uid,mode)}
  function render(roundStart){const w=u.words[G.q[G.pos]];const ans=ansOf(w.w);const first=G.round==1;let tries=0,hints=0,done=false;
   const hintEx=w.ex?w.ex.split(/(?<=[.?!])\s/)[0].replace(new RegExp(ans.split(" ").filter(x=>x.length>2).map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")||"$^","gi"),"____"):"";

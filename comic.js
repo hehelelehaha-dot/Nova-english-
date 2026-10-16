@@ -35,4 +35,4 @@ async function showComic(id){const xs=comicOrder(await loadComics());const ix=xs
  V.querySelectorAll(".ph").forEach(e=>e.onclick=()=>{if(!s.oa||!s.seg)return;const g=s.seg[+e.dataset.g];V.querySelectorAll(".ph.play").forEach(x=>x.classList.remove("play"));e.classList.add("play");st("点读 · 原声");playClip(g[2],g[3])});
  if(s.oa)document.getElementById("corig").onclick=()=>{hi(-1);st("🌻 原声");playClip(0,null)};
  document.getElementById("cstp").onclick=()=>{stopAll();hi(-1);st("已停止")};
- document.getElementById("cprev").onclick=()=>{if(ix>0)location.hash="#/k/"+xs[ix-1].id};document.getElementById("cnext").onclick=()=>{if(ix<xs.length-1)location.hash="#/k/"+xs[ix+1].id}}
+ document.getElementById("cprev").onclick=()=>{if(ix>0)navSib("#/k/"+xs[ix-1].id)};document.getElementById("cnext").onclick=()=>{if(ix<xs.length-1)navSib("#/k/"+xs[ix+1].id)}}
