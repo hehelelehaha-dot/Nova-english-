@@ -315,12 +315,13 @@ function follow(el){if(el&&Date.now()-LASTUSER>4000)el.scrollIntoView({block:"ce
 const endS=tk=>/[.?!…]["”’)]*$/.test(tk);
 function spans(toks){let h="",open=false;for(const [tk,t] of toks){if(!open){h+='<span class="sn">';open=true}h+=`<span class="wd" data-t="${t}">${esc(tk)}</span> `;if(endS(tk)){h+="</span>";open=false}}if(open)h+="</span>";return h}
 // ---------- long audio with item jump + follow-along ----------
-async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();const R=[1,.85,.75];let ri=0;
+let EXZH=null;async function loadEXZH(){if(!EXZH){try{EXZH=await getJSON("exzh.json")}catch(e){EXZH={}}}return EXZH}
+async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();await loadEXZH();const R=[1,.85,.75];let ri=0;
  V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div></div>
  <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。手动滑动后 4 秒内不自动滚动。</div>
  ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;
   return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${e.t!=null?`<button class="jump" data-j="${e.t}">▶ 从这里听</button>`:""}</div>
-  <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><div class="tx en">${ywHTML(e.src)}</div><button class="p sm" data-src="${i}" aria-label="播放原文">▶</button></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
+  <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}${(e.exzh&&e.exzh[j])||EXZH[x]?`<div class="exz">${esc((e.exzh&&e.exzh[j])||EXZH[x])}</div>`:""}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><div class="tx en">${ywHTML(e.src)}</div><button class="p sm" data-src="${i}" aria-label="播放原文">▶</button></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
  const au=document.getElementById("au");wirePP(au);
  const play=t=>{au.currentTime=Math.max(0,t-0.05);au.playbackRate=R[ri];au.play().catch(()=>{})};
  V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>play(+b.dataset.j));
