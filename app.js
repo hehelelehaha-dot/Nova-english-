@@ -43,7 +43,15 @@ let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
 const topicNo=x=>{const m=/(?:^|_)t(\d\d)(?:v|_|$)/.exec(x.id||"");return m?+m[1]:null};
 function topicSort(a){const idx=[],its=[];a.forEach((x,i)=>{if(topicNo(x)!=null){idx.push(i);its.push(x)}});its.sort((p,q)=>topicNo(q)-topicNo(p));const r=a.slice();idx.forEach((k,j)=>r[k]=its[j]);return r}
-async function route(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
+// ---------- scroll memory: back restores, forward starts at top ----------
+try{history.scrollRestoration="manual"}catch(e){}
+const SCR={};let NAVSTK=[],LASTH=null,SCRSEQ=0;
+async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=window.scrollY;
+ let back=false;if(NAVSTK.length>=2&&NAVSTK[NAVSTK.length-2]==h){NAVSTK.pop();back=true}else if(NAVSTK[NAVSTK.length-1]!=h)NAVSTK.push(h);else back=true;LASTH=h;
+ const seq=++SCRSEQ;await route0();if(seq!=SCRSEQ)return;
+ const y=back?SCR[h]||0:0;if(!y)return;const t0=Date.now();
+ const tryR=()=>{if(seq!=SCRSEQ)return;const maxY=document.documentElement.scrollHeight-innerHeight;if(maxY>=y-2){window.scrollTo(0,y);if(Math.abs(window.scrollY-y)<3)return}if(Date.now()-t0<2500)setTimeout(tryR,60);else window.scrollTo(0,Math.min(y,maxY))};tryR()}
+async function route0(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
  const h=location.hash.slice(1).split("/");
