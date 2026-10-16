@@ -1,524 +1,854 @@
 {
- "items": [
-  {
-   "id": "t01_s06",
-   "topic": "naval_t01",
-   "si": 6,
-   "img": "comics/t01_s06.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "He WANTS a sports car",
-    "WANTING feels like a chain",
-    "He stops WANTING it",
-    "FREEDOM"
-   ],
-   "keys": [
-    [
-     "wanting",
-     0
-    ],
-    [
-     "freedom",
-     3
-    ],
-    [
-     "as good as having it",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t01_s10",
-   "topic": "naval_t01",
-   "si": 10,
-   "img": "comics/t01_s10.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "TWO PATHS to happiness",
-    "Path 1: SUCCESS",
-    "You GET what you WANT",
-    "You SATISFY your NEEDS"
-   ],
-   "keys": [
-    [
-     "two paths",
-     0
-    ],
-    [
-     "success",
-     1
-    ],
-    [
-     "get what you want",
-     2
-    ],
-    [
-     "satisfy",
-     3
-    ],
-    [
-     "material needs",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t02_s02",
-   "topic": "naval_t02",
-   "si": 2,
-   "img": "comics/t02_s02.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "He is HAPPY",
-    "He doesn't WANT anything",
-    "So he doesn't GET UP",
-    "...or DO anything"
-   ],
-   "keys": [
-    [
-     "happy",
-     0
-    ],
-    [
-     "want anything",
-     1
-    ],
-    [
-     "get up",
-     2
-    ],
-    [
-     "do anything",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t02_s08",
-   "topic": "naval_t02",
-   "si": 8,
-   "img": "comics/t02_s08.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "He is HAPPY now",
-    "He STILL wants to DO things",
-    "Before: small things",
-    "Now: BIGGER things"
-   ],
-   "keys": [
-    [
-     "still want to do things",
-     1
-    ],
-    [
-     "bigger things",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t03_s03",
-   "topic": "naval_t03",
-   "si": 3,
-   "img": "comics/t03_s03.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "You PLAY the game",
-    "You WIN the game",
-    "Again... and again",
-    "You get BORED of it"
-   ],
-   "keys": [
-    [
-     "play the games",
-     0
-    ],
-    [
-     "win the games",
-     1
-    ],
-    [
-     "bored",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t03_s07",
-   "topic": "naval_t03",
-   "si": 7,
-   "img": "comics/t03_s07.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "You are FREE of the game",
-    "MOVE to a DIFFERENT GAME",
-    "OR...",
-    "Play for the SHEER JOY"
-   ],
-   "keys": [
-    [
-     "different game",
-     1
-    ],
-    [
-     "sheer joy",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t04_s00",
-   "topic": "naval_t04",
-   "si": 0,
-   "img": "comics/t04_s00.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "SHORT TERM: SUFFERING",
-    "Every single day",
-    "LONG TERM...",
-    "...you GET PAID"
-   ],
-   "keys": [
-    [
-     "suffering",
-     0
-    ],
-    [
-     "short term",
-     0
-    ],
-    [
-     "long term",
-     2
-    ],
-    [
-     "get paid",
-     3
-    ],
-    [
-     "gains",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t04_s03",
-   "topic": "naval_t04",
-   "si": 3,
-   "img": "comics/t04_s03.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "He SUFFERS a lot",
-    "PAIN = PROGRESS?",
-    "Look at the OUTCOME",
-    "The OUTCOME matters"
-   ],
-   "keys": [
-    [
-     "suffering",
-     0
-    ],
-    [
-     "proxy for progress",
-     1
-    ],
-    [
-     "outcome",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t05_s01",
-   "topic": "naval_t05",
-   "si": 1,
-   "img": "comics/t05_s01.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "Go BACK into your life",
-    "5 years ago",
-    "10 years ago",
-    "The EXACT POSITION"
-   ],
-   "keys": [
-    [
-     "go back",
-     0
-    ],
-    [
-     "five years ago",
-     1
-    ],
-    [
-     "ten years ago",
-     2
-    ],
-    [
-     "exact position",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t05_s07",
-   "topic": "naval_t05",
-   "si": 7,
-   "img": "comics/t05_s07.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "Then: lots of ANGER",
-    "Now: the SAME work",
-    "LESS anger, LESS suffering",
-    "The suffering was OPTIONAL"
-   ],
-   "keys": [
-    [
-     "anger",
-     0
-    ],
-    [
-     "the same",
-     1
-    ],
-    [
-     "less",
-     2
-    ],
-    [
-     "internal suffering",
-     2
-    ],
-    [
-     "optional",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t06_s05",
-   "topic": "naval_t06",
-   "si": 5,
-   "img": "comics/t06_s05.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "You GET that thing",
-    "Day 2: still nice",
-    "You GET USED TO it",
-    "BORED again"
-   ],
-   "keys": [
-    [
-     "get that thing",
-     0
-    ],
-    [
-     "get used to it",
-     2
-    ],
-    [
-     "bored again",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t06_s11",
-   "topic": "naval_t06",
-   "si": 11,
-   "img": "comics/t06_s11.webp",
-   "cols": 2,
-   "rows": 3,
-   "caps": [
-    "He WINS the LOTTERY",
-    "He BREAKS his BACK",
-    "TWO YEARS LATER...",
-    "Back to normal",
-    "Back to normal",
-    "BACK TO BASELINE"
-   ],
-   "keys": [
-    [
-     "win the lottery",
-     0
-    ],
-    [
-     "break their back",
-     1
-    ],
-    [
-     "two years later",
-     2
-    ],
-    [
-     "baseline happiness",
-     5
-    ]
-   ]
-  },
-  {
-   "id": "t06_s17",
-   "topic": "naval_t06",
-   "si": 17,
-   "img": "comics/t06_s17.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "The JOURNEY",
-    "99% of your time",
-    "Hate the journey?",
-    "ENJOY the journey!"
-   ],
-   "keys": [
-    [
-     "journey",
-     0
-    ],
-    [
-     "ninety-nine percent",
-     1
-    ],
-    [
-     "enjoy",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t07_s03",
-   "topic": "naval_t07",
-   "si": 3,
-   "img": "comics/t07_s03.webp",
-   "cols": 2,
-   "rows": 3,
-   "caps": [
-    "So many DESIRES",
-    "The SOURCE of UNHAPPINESS",
-    "Just KNOWING this...",
-    "...makes you CHOOSY",
-    "Pick only a few",
-    "Fewer desires, more happiness"
-   ],
-   "keys": [
-    [
-     "desires",
-     0
-    ],
-    [
-     "source",
-     1
-    ],
-    [
-     "unhappiness",
-     1
-    ],
-    [
-     "knowing",
-     2
-    ],
-    [
-     "choosy",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t07_s05",
-   "topic": "naval_t07",
-   "si": 5,
-   "img": "comics/t07_s05.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "Great at EVERYTHING?",
-    "Energy running out",
-    "WASTE your ENERGY",
-    "WASTE your TIME"
-   ],
-   "keys": [
-    [
-     "great at everything",
-     0
-    ],
-    [
-     "waste your energy",
-     2
-    ],
-    [
-     "waste your time",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t08_s02",
-   "topic": "naval_t08",
-   "si": 2,
-   "img": "comics/t08_s02.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "A LOT of people KNOW YOU",
-    "But you DON'T KNOW THEM",
-    "FAME",
-    "Put on a PEDESTAL"
-   ],
-   "keys": [
-    [
-     "know you",
-     0
-    ],
-    [
-     "don't know them",
-     1
-    ],
-    [
-     "fame",
-     2
-    ],
-    [
-     "pedestal",
-     3
-    ]
-   ]
-  },
-  {
-   "id": "t08_s09",
-   "topic": "naval_t08",
-   "si": 9,
-   "img": "comics/t08_s09.webp",
-   "cols": 2,
-   "rows": 2,
-   "caps": [
-    "Chasing FAME",
-    "Doing something WORTHWHILE",
-    "People love it",
-    "Fame as a BYPRODUCT"
-   ],
-   "keys": [
-    [
-     "fame",
-     0
-    ],
-    [
-     "worthwhile",
-     1
-    ],
-    [
-     "byproduct",
-     3
-    ]
-   ]
-  }
- ]
+"items": [
+{
+"id": "c1_1",
+"topic": "naval_t01",
+"sis": [
+4,
+5,
+6
+],
+"si": 4,
+"title": "Not wanting = freedom",
+"img": "comics/c1_1.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"marketplace",
+0,
+5
+],
+[
+"luxuries",
+1,
+5
+],
+[
+"do not want",
+2,
+5
+],
+[
+"not wanting",
+5,
+6
+],
+[
+"freedom",
+6,
+6
+],
+[
+"as good as having it",
+7,
+6
+]
+]
+},
+{
+"id": "c1_2",
+"topic": "naval_t01",
+"sis": [
+7,
+8,
+9,
+10,
+11,
+12,
+13
+],
+"si": 7,
+"title": "Alexander vs. Diogenes: two paths",
+"img": "comics/c1_2.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"conquers the world",
+0,
+7
+],
+[
+"barrel",
+1,
+7
+],
+[
+"blocking my sun",
+2,
+8
+],
+[
+"I wish I could be like Diogenes",
+3,
+9
+],
+[
+"two paths",
+4,
+10
+],
+[
+"get what you want",
+5,
+10
+],
+[
+"don’t want it in the first place",
+6,
+11
+],
+[
+"straight for it",
+7,
+13
+]
+]
+},
+{
+"id": "c2_1",
+"topic": "naval_t02",
+"sis": [
+0,
+1,
+2,
+3,
+4,
+5,
+6,
+7,
+8,
+9,
+10
+],
+"si": 0,
+"title": "Happy but lazy? No: bigger things",
+"img": "comics/c2_1.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"happy",
+0,
+2
+],
+[
+"do anything",
+1,
+2
+],
+[
+"driven",
+2,
+4
+],
+[
+"arena",
+3,
+6
+],
+[
+"more peaceful",
+4,
+7
+],
+[
+"bigger things",
+5,
+8
+],
+[
+"definition of success",
+6,
+10
+]
+],
+"boxes": [
+[
+0,
+0,
+50,
+25
+],
+[
+50,
+0,
+50,
+25
+],
+[
+0,
+25,
+50,
+25
+],
+[
+50,
+25,
+50,
+25
+],
+[
+0,
+50,
+50,
+25
+],
+[
+50,
+50,
+50,
+25
+],
+[
+0,
+75,
+100,
+25
+]
+]
+},
+{
+"id": "c2_2",
+"topic": "naval_t02",
+"sis": [
+11,
+12,
+13,
+14,
+15,
+16
+],
+"si": 11,
+"title": "Prince first, then the woods",
+"img": "comics/c2_2.webp",
+"cols": 2,
+"rows": 3,
+"keys": [
+[
+"success in the first place",
+0,
+11
+],
+[
+"material success first",
+1,
+12
+],
+[
+"renounce everything",
+2,
+13
+],
+[
+"prince",
+3,
+14
+],
+[
+"woods",
+4,
+15
+],
+[
+"happy route",
+5,
+16
+]
+]
+},
+{
+"id": "c3_1",
+"topic": "naval_t03",
+"sis": [
+0,
+1,
+2,
+3,
+4,
+5,
+6,
+7
+],
+"si": 0,
+"title": "Win the game to be free of it",
+"img": "comics/c3_1.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"go get it",
+0,
+1
+],
+[
+"play the games",
+1,
+3
+],
+[
+"win the games",
+2,
+3
+],
+[
+"bored",
+3,
+3
+],
+[
+"open-ended",
+4,
+5
+],
+[
+"free of the game",
+5,
+6
+],
+[
+"different game",
+6,
+7
+],
+[
+"sheer joy",
+7,
+7
+]
+]
+},
+{
+"id": "c4_1",
+"topic": "naval_t04",
+"sis": [
+0,
+1,
+2,
+3,
+4,
+5
+],
+"si": 0,
+"title": "Don't become a suffering addict",
+"img": "comics/c4_1.webp",
+"cols": 3,
+"rows": 2,
+"keys": [
+[
+"marshmallow test",
+0,
+1
+],
+[
+"short term",
+1,
+0
+],
+[
+"get paid",
+2,
+0
+],
+[
+"in pain doing this work",
+3,
+4
+],
+[
+"suffering addict",
+4,
+2
+],
+[
+"outcome",
+5,
+3
+]
+]
+},
+{
+"id": "c4_2",
+"topic": "naval_t04",
+"sis": [
+6,
+7,
+8,
+9,
+10,
+11,
+12
+],
+"si": 6,
+"title": "Suffering is in your head",
+"img": "comics/c4_2.webp",
+"cols": 2,
+"rows": 3,
+"keys": [
+[
+"physical pain",
+0,
+6
+],
+[
+"mental anguish",
+1,
+7
+],
+[
+"don’t wanna do the task",
+2,
+7
+],
+[
+"interpret it",
+3,
+9
+],
+[
+"the journey was the fun part",
+4,
+10
+],
+[
+"common regret",
+5,
+12
+]
+]
+},
+{
+"id": "c5_1",
+"topic": "naval_t05",
+"sis": [
+0,
+1,
+2,
+3,
+4,
+5,
+6,
+7,
+8,
+9,
+10
+],
+"si": 0,
+"title": "Visit your past self",
+"img": "comics/c5_1.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"go back",
+0,
+1
+],
+[
+"exact position",
+1,
+1
+],
+[
+"who was I with",
+2,
+2
+],
+[
+"new information",
+3,
+4
+],
+[
+"advice",
+4,
+3
+],
+[
+"less anger",
+5,
+7
+],
+[
+"optional",
+6,
+7
+],
+[
+"miserable successes",
+7,
+9
+]
+]
+},
+{
+"id": "c6_1",
+"topic": "naval_t06",
+"sis": [
+1,
+2,
+3,
+4,
+5,
+6,
+7
+],
+"si": 1,
+"title": "The desire loop",
+"img": "comics/c6_1.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"bored",
+0,
+2
+],
+[
+"want something",
+1,
+2
+],
+[
+"not gonna be happy",
+2,
+3
+],
+[
+"suffering",
+3,
+4
+],
+[
+"get that thing",
+4,
+5
+],
+[
+"get used to it",
+5,
+5
+],
+[
+"want something else",
+6,
+6
+],
+[
+"not to last",
+7,
+7
+]
+]
+},
+{
+"id": "c6_2",
+"topic": "naval_t06",
+"sis": [
+8,
+9,
+10,
+11,
+12,
+13,
+14,
+15
+],
+"si": 8,
+"title": "Money, the lottery & earned happiness",
+"img": "comics/c6_2.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"money problems",
+0,
+9
+],
+[
+"win the lottery",
+1,
+11
+],
+[
+"break their back",
+2,
+11
+],
+[
+"two years later",
+3,
+11
+],
+[
+"baseline happiness",
+5,
+11
+],
+[
+"earned it",
+6,
+13
+],
+[
+"pride and confidence",
+7,
+14
+]
+]
+},
+{
+"id": "c6_3",
+"topic": "naval_t06",
+"sis": [
+0,
+16,
+17
+],
+"si": 0,
+"title": "The journey is 99%",
+"img": "comics/c6_3.webp",
+"cols": 2,
+"rows": 2,
+"keys": [
+[
+"journey",
+0,
+0
+],
+[
+"ninety-nine percent",
+1,
+17
+],
+[
+"enjoy the journey",
+3,
+16
+]
+]
+},
+{
+"id": "c7_1",
+"topic": "naval_t07",
+"sis": [
+0,
+1,
+2,
+3,
+4,
+5
+],
+"si": 0,
+"title": "Be choosy, focus",
+"img": "comics/c7_1.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"desire contract",
+0,
+0
+],
+[
+"pick up everywhere",
+1,
+2
+],
+[
+"source of unhappiness",
+2,
+3
+],
+[
+"knowing",
+3,
+3
+],
+[
+"choosy",
+4,
+3
+],
+[
+"focus",
+5,
+4
+],
+[
+"great at everything",
+6,
+5
+],
+[
+"waste your energy",
+7,
+5
+]
+]
+},
+{
+"id": "c8_1",
+"topic": "naval_t08",
+"sis": [
+0,
+1,
+2,
+3,
+4,
+5,
+6,
+7,
+8
+],
+"si": 0,
+"title": "What fame gives & costs",
+"img": "comics/c8_1.webp",
+"cols": 2,
+"rows": 4,
+"keys": [
+[
+"know you",
+0,
+2
+],
+[
+"don’t know them",
+1,
+2
+],
+[
+"pedestal",
+2,
+2
+],
+[
+"better parties",
+3,
+1
+],
+[
+"no privacy",
+4,
+5
+],
+[
+"forced to perform",
+5,
+6
+],
+[
+"haters",
+6,
+7
+],
+[
+"want it",
+7,
+8
+]
+]
+},
+{
+"id": "c8_2",
+"topic": "naval_t08",
+"sis": [
+9,
+10,
+11,
+12,
+13,
+14,
+15,
+16,
+17,
+18,
+19
+],
+"si": 9,
+"title": "Earned fame: who becomes famous",
+"img": "comics/c8_2.webp",
+"cols": 2,
+"rows": 3,
+"keys": [
+[
+"traps",
+0,
+10
+],
+[
+"worthwhile",
+1,
+9
+],
+[
+"good for the tribe",
+2,
+13
+],
+[
+"byproduct",
+3,
+9
+],
+[
+"artists",
+4,
+15
+],
+[
+"earn respect and fame",
+5,
+19
+]
+]
+},
+{
+"id": "c8_3",
+"topic": "naval_t08",
+"sis": [
+20,
+21,
+22
+],
+"si": 20,
+"title": "Hollow vs. earned fame",
+"img": "comics/c8_3.webp",
+"cols": 2,
+"rows": 3,
+"keys": [
+[
+"hollow fame",
+0,
+20
+],
+[
+"fragile",
+1,
+21
+],
+[
+"forced to perform",
+2,
+21
+],
+[
+"something useful",
+3,
+22
+],
+[
+"why dodge that",
+4,
+22
+],
+[
+"earned",
+5,
+22
+]
+]
+}
+]
 }
