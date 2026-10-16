@@ -305,6 +305,96 @@
    ]
   },
   {
+   "id": "t06_s05",
+   "topic": "naval_t06",
+   "si": 5,
+   "img": "comics/t06_s05.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "You GET that thing",
+    "Day 2: still nice",
+    "You GET USED TO it",
+    "BORED again"
+   ],
+   "keys": [
+    [
+     "get that thing",
+     0
+    ],
+    [
+     "get used to it",
+     2
+    ],
+    [
+     "bored again",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t06_s11",
+   "topic": "naval_t06",
+   "si": 11,
+   "img": "comics/t06_s11.webp",
+   "cols": 2,
+   "rows": 3,
+   "caps": [
+    "He WINS the LOTTERY",
+    "He BREAKS his BACK",
+    "TWO YEARS LATER...",
+    "Back to normal",
+    "Back to normal",
+    "BACK TO BASELINE"
+   ],
+   "keys": [
+    [
+     "win the lottery",
+     0
+    ],
+    [
+     "break their back",
+     1
+    ],
+    [
+     "two years later",
+     2
+    ],
+    [
+     "baseline happiness",
+     5
+    ]
+   ]
+  },
+  {
+   "id": "t06_s17",
+   "topic": "naval_t06",
+   "si": 17,
+   "img": "comics/t06_s17.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "The JOURNEY",
+    "99% of your time",
+    "Hate the journey?",
+    "ENJOY the journey!"
+   ],
+   "keys": [
+    [
+     "journey",
+     0
+    ],
+    [
+     "ninety-nine percent",
+     1
+    ],
+    [
+     "enjoy",
+     3
+    ]
+   ]
+  },
+  {
    "id": "t07_s03",
    "topic": "naval_t07",
    "si": 3,
@@ -338,6 +428,94 @@
     ],
     [
      "choosy",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t07_s05",
+   "topic": "naval_t07",
+   "si": 5,
+   "img": "comics/t07_s05.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "Great at EVERYTHING?",
+    "Energy running out",
+    "WASTE your ENERGY",
+    "WASTE your TIME"
+   ],
+   "keys": [
+    [
+     "great at everything",
+     0
+    ],
+    [
+     "waste your energy",
+     2
+    ],
+    [
+     "waste your time",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t08_s02",
+   "topic": "naval_t08",
+   "si": 2,
+   "img": "comics/t08_s02.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "A LOT of people KNOW YOU",
+    "But you DON'T KNOW THEM",
+    "FAME",
+    "Put on a PEDESTAL"
+   ],
+   "keys": [
+    [
+     "know you",
+     0
+    ],
+    [
+     "don't know them",
+     1
+    ],
+    [
+     "fame",
+     2
+    ],
+    [
+     "pedestal",
+     3
+    ]
+   ]
+  },
+  {
+   "id": "t08_s09",
+   "topic": "naval_t08",
+   "si": 9,
+   "img": "comics/t08_s09.webp",
+   "cols": 2,
+   "rows": 2,
+   "caps": [
+    "Chasing FAME",
+    "Doing something WORTHWHILE",
+    "People love it",
+    "Fame as a BYPRODUCT"
+   ],
+   "keys": [
+    [
+     "fame",
+     0
+    ],
+    [
+     "worthwhile",
+     1
+    ],
+    [
+     "byproduct",
      3
     ]
    ]
