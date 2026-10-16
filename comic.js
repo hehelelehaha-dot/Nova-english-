@@ -21,7 +21,7 @@ async function showComic(id){const xs=comicOrder(await loadComics());const ix=xs
  const segOf=i=>(s.seg||[]).findIndex(g=>i>=g[0]&&i<=g[1]);
  let html="",open=-1;words.forEach((w,i)=>{const g=segOf(i);if(g!=open){if(open>=0)html+="</span> ";if(g>=0)html+=`<span class="ph" data-g="${g}">`;else if(open>=0)html+="";open=g}else html+=" ";const k=km[i];html+=k!=null?`<span class="kw" data-k="${k}" style="--kc:${KC[k%KC.length]}">${esc(w)}</span>`:esc(w)});if(open>=0)html+="</span>";
  V.innerHTML=`<div class="cmw" id="cmw"><img id="cimg" alt="comic"><div class="cpan">${Array.from({length:NP},(_,i)=>`<div class="pn" data-p="${i}" style="left:${(i%c.cols)*100/c.cols}%;top:${Math.floor(i/c.cols)*100/c.rows}%;width:${100/c.cols}%;height:${100/c.rows}%"></div>`).join("")}</div></div>
- <div class="bar cmbar"><button id="cplay" class="red">▶ 看漫画听原声</button>${s.oa?'<button id="corig" class="org">🌻 原声</button>':""}<button id="cstp">■ 停止</button></div><div class="status" id="cst">点彩色的词 → 看对应的那一格；点句子 → 点读原声</div>
+ <div class="bar cmbar">${s.oa?'<button id="corig" class="org">🌻 原声</button>':""}<button id="cstp">■ 停止</button></div><div class="status" id="cst">点彩色的词 → 看对应的那一格；点句子 → 点读原声</div>
  <div class="cmsent en" id="csent">${html}</div>${s.zh?`<div class="cmzh">${esc(s.zh)}</div>`:""}
  <div class="cmkeys">${c.keys.map(([ph,p],k)=>`<button class="kc" data-k="${k}" style="--kc:${KC[k%KC.length]}">${esc(ph)} <small>→ 第 ${p+1} 格</small></button>`).join("")}</div>
  <div class="yn cmnav"><button class="wide gray" id="cprev" ${ix>0?"":"disabled"}>‹ 上一张</button><button class="wide gray" id="cnext" ${ix<xs.length-1?"":"disabled"}>下一张 ›</button></div>`;
@@ -31,10 +31,8 @@ async function showComic(id){const xs=comicOrder(await loadComics());const ix=xs
  const keyTap=k=>{const p=c.keys[k][1],col=KC[k%KC.length];hi(p,col);V.querySelectorAll(".kw,.kc").forEach(e=>e.classList.toggle("sel",+e.dataset.k==k));const r=document.getElementById("cmw").getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)document.getElementById("cmw").scrollIntoView({behavior:"smooth",block:"start"});st(`“${c.keys[k][0]}” → 第 ${p+1} 格`)};
  V.querySelectorAll(".kw,.kc").forEach(e=>e.onclick=ev=>{ev.stopPropagation();keyTap(+e.dataset.k)});
  const playClip=async(a,b,onT)=>{stopAll();const me=RUN;A.onended=null;A.src=await audioURL(s.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a||0}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
-  const tick=()=>{if(me!=RUN)return;if(b!=null&&A.currentTime>=b){A.pause();done();return}if(onT)onT(A.currentTime);if(!A.paused||A.currentTime<0.3)requestAnimationFrame(tick);else done()};const done=()=>{V.querySelectorAll(".ph.play").forEach(x=>x.classList.remove("play"));const pb=document.getElementById("cplay");if(pb)pb.classList.remove("on")};requestAnimationFrame(tick)};
+  const tick=()=>{if(me!=RUN)return;if(b!=null&&A.currentTime>=b){A.pause();done();return}if(onT)onT(A.currentTime);if(!A.paused||A.currentTime<0.3)requestAnimationFrame(tick);else done()};const done=()=>{V.querySelectorAll(".ph.play").forEach(x=>x.classList.remove("play"));};requestAnimationFrame(tick)};
  V.querySelectorAll(".ph").forEach(e=>e.onclick=()=>{if(!s.oa||!s.seg)return;const g=s.seg[+e.dataset.g];V.querySelectorAll(".ph.play").forEach(x=>x.classList.remove("play"));e.classList.add("play");st("点读 · 原声");playClip(g[2],g[3])});
  if(s.oa)document.getElementById("corig").onclick=()=>{hi(-1);st("🌻 原声");playClip(0,null)};
- document.getElementById("cplay").onclick=()=>{const b=document.getElementById("cplay");if(!s.oa)return toast("这句没有原声");b.classList.add("on");hi(0);st(`▶ 第 1 / ${NP} 格`);let last=0;
-  playClip(0,null,t=>{const dur=isFinite(A.duration)&&A.duration>0?A.duration:(s.d||5);const p=Math.min(NP-1,Math.floor(t/dur*NP));if(p!=last){last=p;hi(p);st(`▶ 第 ${p+1} / ${NP} 格`)}})};
- document.getElementById("cstp").onclick=()=>{stopAll();hi(-1);st("已停止");document.getElementById("cplay").classList.remove("on")};
+ document.getElementById("cstp").onclick=()=>{stopAll();hi(-1);st("已停止")};
  document.getElementById("cprev").onclick=()=>{if(ix>0)location.hash="#/k/"+xs[ix-1].id};document.getElementById("cnext").onclick=()=>{if(ix<xs.length-1)location.hash="#/k/"+xs[ix+1].id}}
