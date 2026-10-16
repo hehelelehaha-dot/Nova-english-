@@ -45,7 +45,7 @@ async function showComic(id){const xs=comicOrder(await loadComics());const ix=xs
  V.querySelectorAll(".ph").forEach(e=>e.onclick=async()=>{const si=+e.dataset.si,s=sOf(si);if(!s.oa||!s.seg)return;const g=s.seg[+e.dataset.g];stopAll();const me=RUN;clr();e.classList.add("play");st("点读 · 原声");await playClip(si,g[2],g[3],me);if(me==RUN)e.classList.remove("play")});
  V.querySelectorAll(".cso").forEach(e=>e.onclick=async()=>{const si=+e.dataset.si;stopAll();const me=RUN;hi(-1);mark(si);st(`🌻 第 ${si+1} 句 · 原声`);await playClip(si,0,null,me);if(me==RUN){clr();st("播放完毕")}});
  if(hasO)document.getElementById("corig").onclick=async()=>{stopAll();const me=RUN;hi(-1);window._cplayed=[];
-  for(const [si] of SS){if(me!=RUN)return;mark(si);const ky=c.keys.findIndex(k=>k[2]==si);if(ky>=0)hi(c.keys[ky][1],KC[ky%KC.length]);else hi(-1);st(`🌻 整段原声 · 第 ${si+1} 句`);const e=V.querySelector(`.cms1[data-si="${si}"]`);if(e){const r=e.getBoundingClientRect();if(r.bottom>innerHeight||r.top<0)e.scrollIntoView({behavior:"smooth",block:"center"})}if(!await playClip(si,0,null,me))return}
+  for(const [si] of SS){if(me!=RUN)return;mark(si);const ky=c.keys.findIndex(k=>k[2]==si);if(ky>=0)hi(c.keys[ky][1],KC[ky%KC.length]);else hi(-1);st(`🌻 整段原声 · 第 ${si+1} 句`);if(!await playClip(si,0,null,me))return}
   if(me==RUN){clr();hi(-1);st("整段播放完毕")}};
  document.getElementById("cstp").onclick=()=>{stopAll();clr();hi(-1);st("已停止")};
  document.getElementById("cprev").onclick=()=>{if(ix>0)navSib("#/k/"+xs[ix-1].id)};document.getElementById("cnext").onclick=()=>{if(ix<xs.length-1)navSib("#/k/"+xs[ix+1].id)}}
