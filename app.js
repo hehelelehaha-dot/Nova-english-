@@ -259,10 +259,22 @@ function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=
  // 原声连播: continuous original interview track, sentence follow-along by aligned start times
  if(d.oaudio){const ots=d.sents.map(s=>s.ot);const OB={oall:["🎙 原声连播","⏸ 暂停原声"],oloop:["🔁 原声循环","⏸ 停止循环"]};
   const setO=(on,id)=>{for(const k in OB){const b=$(k);if(!b)continue;const x=on&&k==id;b.classList.toggle("on",x);b.textContent=OB[k][x?1:0]}};
-  const startO=async id=>{const ob=$(id),loopM=id=="oloop";const on=ob.classList.contains("on");stopAll();setAll(false);setO(false);if(on)return;const me=++RUN;setO(true,id);window._oloop=loopM?me:0;
-   const s0=!loopM&&cur>0&&cur<d.sents.length-1?cur:0;A.src=await audioURL(d.oaudio);A.playbackRate=1;A.currentTime=Math.max(0,ots[s0]||0);LASTBTN=ob;A.onerror=null;
-   let round=1;A.onended=async()=>{if(me!=RUN)return;if(!loopM){setO(false);st("原声播放完毕");return}st("🔁 0.8 秒后从第 1 句重新开始");await wait(800);if(me!=RUN)return;round++;window._oround=round;try{A.currentTime=Math.max(0,ots[0]||0)}catch(e){}A.play().catch(()=>{});last=-1;requestAnimationFrame(tick)};A.play().catch(()=>{});
-   let last=-1;const tick=()=>{if(me!=RUN){setO(false);return}let k=0;for(let i=0;i<ots.length;i++)if(ots[i]!=null&&A.currentTime+0.1>=ots[i])k=i;if(k!=last){last=k;mark(k);LASTBTN=ob;st(`${loopM?"🔁 原声循环（第 "+round+" 遍）":"原声"} · 第 ${k+1} / ${d.sents.length} 句`)}if(!A.paused||A.currentTime<0.2)requestAnimationFrame(tick);else if(A.ended&&!loopM)setO(false)};requestAnimationFrame(tick)};
+  // ONE highlight loop per run, alive until the run ends (me!=RUN) — never stops just because A is paused: iOS pauses/resumes the
+  // element on its own (AirPods, lock screen, interruptions); the old loop died on the first pause, freezing the red border + scroll.
+  const oIdx=t=>{let k=0;for(let i=0;i<ots.length;i++)if(ots[i]!=null&&t+0.1>=ots[i])k=i;return k};window._oIdx=oIdx;
+  const startO=async id=>{const ob=$(id),loopM=id=="oloop";const on=ob.classList.contains("on");stopAll();setAll(false);setO(false);if(on)return;LASTUSER=0;const me=++RUN;window._orun=me;setO(true,id);window._oloop=loopM?me:0;
+   const s0=!loopM&&cur>0&&cur<d.sents.length-1?cur:0;A.onended=A.onerror=null;A.src=await audioURL(d.oaudio);if(me!=RUN)return;A.playbackRate=1;
+   const seek0=()=>{try{A.currentTime=Math.max(0,ots[s0]||0)}catch(e){}};if(A.readyState>=1)seek0();else A.addEventListener("loadedmetadata",seek0,{once:true});LASTBTN=ob;
+   let round=1,last=-1,wrapping=false,lastFollow=0;window._oround=1;
+   const upd=()=>{if(me!=RUN||wrapping)return;const k=oIdx(A.currentTime);const e=document.getElementById("s"+k);
+    if(k!=last){last=k;mark(k);lastFollow=Date.now();LASTBTN=ob;st(`${loopM?"🔁 原声循环（第 "+round+" 遍）":"原声"} · 第 ${k+1} / ${d.sents.length} 句`)}
+    else if(e&&!A.paused&&Date.now()-lastFollow>1500&&Date.now()-LASTUSER>4000){const r=e.getBoundingClientRect(),c=r.top+r.height/2;if(Math.abs(c-innerHeight/2)>innerHeight*0.2&&r.height<innerHeight*0.9){lastFollow=Date.now();follow(e)}}};
+   window._oupd=upd;
+   A.onended=async()=>{if(me!=RUN)return;if(!loopM){setO(false);st("原声播放完毕");return}wrapping=true;st("🔁 0.8 秒后从第 1 句重新开始");await wait(800);if(me!=RUN)return;round++;window._oround=round;try{A.currentTime=Math.max(0,ots[0]||0)}catch(e){}last=-1;wrapping=false;A.play().catch(()=>{})};
+   A.play().catch(()=>{});
+   const tick=()=>{if(me!=RUN){if(window._orun==me)setO(false);return}upd();requestAnimationFrame(tick)};requestAnimationFrame(tick);
+   // rAF is throttled/suspended in the background: catch up from media events too (seek, resume, timeupdate)
+   for(const ev of["timeupdate","seeked","playing"]){const h=()=>{if(me!=RUN)return A.removeEventListener(ev,h);upd()};A.addEventListener(ev,h)}};
   $("oall").onclick=()=>startO("oall");$("oloop").onclick=()=>startO("oloop")}}
 // 原文 in word cards: original interview audio (点读 segment → whole clip → TTS)
 async function playSrc(sr,rate,btn){if(!sr.oa)return playP(sr.a,rate,sr.t);const me=++RUN;const[a,b]=sr.oab||[0,null];
