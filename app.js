@@ -181,8 +181,9 @@ const ZOOMS=[["小",.9],["标准",1.1],["大",1.25],["特大",1.4],["超大",1.6
 const curZoom=()=>parseFloat(localStorage.getItem("nova_zoom"))||1.1;
 function setZoom(z,noStamp){localStorage.setItem("nova_zoom",z);document.documentElement.style.setProperty("--z",z);if(!noStamp)saveDisplay()}
 function showSettings(){setHeader("设置",true);const hid=builtinItems().filter(x=>ORG.hidden[x.it.id]);
- V.innerHTML=`<h3 class="sec">🗑 回收站（已删除的自带材料）</h3><div class="list">${hid.length?hid.map(x=>`<div class="lw"><div class="li"><span class="tt">${esc(ttl(x.it))}<span class="sb">${esc(x.it.sub||"")}</span></span></div><button class="rs" data-r="${x.it.id}">恢复</button></div>`).join(""):`<div class="done">回收站是空的</div>`}</div>
- ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}
+ const rbo=sessionStorage.getItem("nova_rb_open")=="1";  // 回收站 collapsed by default; open/closed remembered for this session only
+ V.innerHTML=`<button class="sec rbh" id="rbh" aria-expanded="${rbo}" aria-controls="rbb">🗑 回收站 (${hid.length}) <span class="rbc">${rbo?"▾":"▸"}</span></button><div id="rbb"${rbo?"":" hidden"}><div class="tip">已删除的自带材料，点“恢复”放回原处。</div><div class="list">${hid.length?hid.map(x=>`<div class="lw"><div class="li"><span class="tt">${esc(ttl(x.it))}<span class="sb">${esc(x.it.sub||"")}</span></span></div><button class="rs" data-r="${x.it.id}">恢复</button></div>`).join(""):`<div class="done">回收站是空的</div>`}</div>
+ ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}</div>
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
  <h3 class="sec">🔁 同步（在 iPad 和手机之间）</h3><div class="yn" style="margin-top:0"><button class="wide flip" style="margin-top:0" onclick="location.hash='#/exp'">📤 导出整理</button><button class="wide gray" style="margin-top:0" onclick="location.hash='#/imp'">📥 导入</button></div>
  <h3 class="sec">🧠 今日复习</h3><div class="li" style="display:block"><div style="margin-bottom:8px">每天最多学几个新词</div><div class="zs">${[5,10,15,20,30].map(n=>`<button class="btn${n==srsNewCap()?" on":""}" data-nc="${n}">${n}</button>`).join("")}</div></div>
@@ -201,6 +202,7 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  setTimeout(()=>{const e=document.getElementById("swv");if(e&&SWV)e.textContent=SWV},800);
  V.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{delete ORG.hidden[b.dataset.r];saveOrg();showSettings()});
  const ra=document.getElementById("rall");if(ra)ra.onclick=()=>{ORG.hidden={};saveOrg();showSettings()};
+ {const h=document.getElementById("rbh"),b=document.getElementById("rbb");h.onclick=()=>{const o=b.hidden;b.hidden=!o;h.setAttribute("aria-expanded",o);h.querySelector(".rbc").textContent=o?"▾":"▸";sessionStorage.setItem("nova_rb_open",o?"1":"0")}}
  document.getElementById("reset").onclick=async()=>{if(await sure("恢复所有自带材料的原名字和原分类？（回收站和你建的分类不受影响）","恢复原样")){ORG.rename={};ORG.move={};saveOrg();showSettings()}}}
 async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)return showHome();setHeader(f.name,true);
  V.innerHTML=`<div class="player"><audio id="au" controls src="${URL.createObjectURL(f.blob)}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="del">删除这个音频</button></div></div>`;
@@ -271,6 +273,8 @@ async function playClips(list,btn){const me=++RUN;window._oplayed=[];window._opl
  for(const p of list){if(me!=RUN)break;A.onended=A.onerror=null;A.src=await audioURL(p);if(me!=RUN)break;window._oplayed.push(p);LASTBTN=btn;A.playbackRate=1;try{A.currentTime=0}catch(e){}A.play().catch(()=>{});
   await new Promise(r=>{const t0=Date.now();const tick=()=>{if(me!=RUN)return r();const el=Date.now()-t0;if(el>300&&(A.ended||(A.paused&&el>800&&A.currentTime>0.2)))return r();requestAnimationFrame(tick)};requestAnimationFrame(tick)})}
  if(me==RUN){if(btn)btn.classList.remove("playing");window._oplaying=false}return me==RUN}
+// whole original sentence (src.oas) for every 原文 ▶ (②③⑥⑤); falls back to the 点读 segment / TTS when there is no original clip
+function playFull(s,btn,rate){if(s&&s.oas&&s.oas.length)return playClips(s.oas,btn);LASTBTN=btn;return playSrc(s,rate||1)}
 // ---------- 原文 (original Naval sentence) ----------
 function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t,[a,b]=full&&src.ft&&src.fhl?src.fhl:src.hl;const who=src.sp=="Naval"?"Naval":"Chris";
  return `<span class="lab yw">原文</span>${esc(t.slice(0,a))}<b class="ywb">${esc(t.slice(a,b))}</b>${esc(t.slice(b))} <span class="ywsp">— ${who}</span>`}
@@ -286,7 +290,7 @@ function viewFlash(d,id){const C=d.cards,KEY_="flash_"+id;let S=JSON.parse(local
  window._fc={play:(i,k)=>{stopAll();playP(C[i].a[k],S.rate,[C[i].w,C[i].ex,C[i].exs[0],C[i].exs[1]][k])},
   flip:i=>{const g=$("g");if(g)S.guess[i]=g.value.trim();back=true;save();render()},
   mark:(i,v)=>{S.status[i]=v;if(v=="u")S.queue.splice(Math.min(S.pos+4,S.queue.length),0,i);S.pos++;back=false;stopAll();save();render()},
-  src:(i,b)=>{stopAll();const s=C[i].src;if(s.oas&&s.oas.length)playClips(s.oas,b);else{LASTBTN=b;playSrc(s,S.rate)}},
+  src:(i,b)=>{stopAll();playFull(C[i].src,b,S.rate)},
   osent:(i,b)=>{const on=window._oplaying&&b.classList.contains("playing");stopAll();window._oplaying=false;b.classList.remove("playing");if(on)return;playClips(C[i].src.oas,b)},
   again:()=>{build();render()},un:()=>{S.mode="un";build();render()}};
  function render(){$("mAll").className=S.mode=="all"?"on":"";$("mUn").className=S.mode=="un"?"on":"";$("spd").textContent=S.rate==1?"1x":"0.75x";
@@ -327,11 +331,11 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
  <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?"每个例句后读中文翻译，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。</div>
  ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;
   return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${e.t!=null?`<button class="jump" data-j="${e.t}">▶ 从这里听</button>`:""}</div>
-  <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}${(e.exzh&&e.exzh[j])||EXZH[x]?`<div class="exz${tt&&tt.z&&tt.z[j]!=null?` wd lz" data-t="${tt.z[j]}`:""}">${esc((e.exzh&&e.exzh[j])||EXZH[x])}</div>`:""}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><div class="tx en${tt&&tt.o!=null?` wd lo" data-t="${tt.o}`:""}">${ywHTML(e.src)}</div><button class="p sm" data-src="${i}" aria-label="播放原文">▶</button></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
+  <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}${(e.exzh&&e.exzh[j])||EXZH[x]?`<div class="exz${tt&&tt.z&&tt.z[j]!=null?` wd lz" data-t="${tt.z[j]}`:""}">${esc((e.exzh&&e.exzh[j])||EXZH[x])}</div>`:""}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><div class="tx en${tt&&tt.o!=null?` wd lo" data-t="${tt.o}`:""}">${ywHTML(e.src,true)}</div><button class="p sm" data-src="${i}" aria-label="播放原文">▶</button></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
  const au=document.getElementById("au");wirePP(au);
  const play=t=>{au.currentTime=Math.max(0,t-0.05);au.playbackRate=R[ri];au.play().catch(()=>{})};
  V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>play(+b.dataset.j));
- V.querySelectorAll("[data-src]").forEach(b=>b.onclick=()=>{au.pause();stopAll();LASTBTN=b;const e=d.items[+b.dataset.src];playSrc(e.src,R[ri])});
+ V.querySelectorAll("[data-src]").forEach(b=>b.onclick=()=>{au.pause();stopAll();const e=d.items[+b.dataset.src];playFull(e.src,b,R[ri])});
  V.querySelectorAll(".wd").forEach(w=>w.onclick=()=>{LASTUSER=0;const sn=w.closest(".sn");const f=sn?sn.querySelector(".wd"):w;play(+f.dataset.t)});
  document.getElementById("bk").onclick=()=>au.currentTime=Math.max(0,au.currentTime-10);document.getElementById("fw").onclick=()=>au.currentTime+=10;
  document.getElementById("sp").onclick=e=>{ri=(ri+1)%3;au.playbackRate=R[ri];e.target.textContent="速度 "+R[ri]+"x"};

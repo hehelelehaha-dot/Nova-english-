@@ -26,7 +26,7 @@ function formRe(ans){const parts=ans.split(" ").filter(p=>p&&!/^(sth|sb|someone|
  return new RegExp("\\b"+parts.map(p=>{const l=p.toLowerCase();let alt=reEsc(l)+"(?:s|es|ed|d|ing|'s)?";
   if(/e$/.test(l))alt+="|"+reEsc(l.slice(0,-1))+"(?:ing|ed)";if(/y$/.test(l))alt+="|"+reEsc(l.slice(0,-1))+"(?:ies|ied)";
   if(/[bdgmnpt]$/.test(l))alt+="|"+reEsc(l)+l.slice(-1)+"(?:ed|ing)";return "(?:"+alt+")"}).join("[\\s-]+(?:\\w+\\s+)?")+"\\b","i")}
-function clozeOf(w){if(w.src&&w.src.hl)return {t:w.src.t,s:w.src.hl[0],e:w.src.hl[1],label:"原文",src:w.src};
+function clozeOf(w){if(w.src&&w.src.hl){const f=w.src.ft&&w.src.fhl;return {t:f?w.src.ft:w.src.t,s:f?w.src.fhl[0]:w.src.hl[0],e:f?w.src.fhl[1]:w.src.hl[1],label:"原文",src:w.src}}
  const re=formRe(ansOf(w.w));for(const x of w.exs||[]){const m=re.exec(x.replace(/[’]/g,"'"));if(m)return {t:x,s:m.index,e:m.index+m[0].length,label:"例句"}}return null}
 // ---------- results (local + sync fields g:<unit>:<mode>) ----------
 const GK="nova_game";const gRes=()=>JSON.parse(localStorage.getItem(GK)||"{}");
@@ -45,7 +45,7 @@ async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>
  const pool=u.words.map((w,i)=>i).filter(i=>mode!="cloze"||clozeOf(u.words[i]));
  const G={q:shuffle(pool),pos:0,score:0,correct:0,miss:[],round:1,total:pool.length};
  const hdr=()=>`<div class="gs"><span>${G.round>1?"🔁 错题回顾 · ":""}第 ${Math.min(G.pos+1,G.q.length)} / ${G.q.length} 题</span><span>⭐ ${G.score}</span></div><div class="gp"><i style="width:${100*G.pos/G.q.length}%"></i></div>`;
- const after=w=>`<div class="ga"><div class="word">${esc(w.w)}</div><div class="zh">${esc(w.zh||"")}</div>${w.exs&&w.exs[0]?`<div class="row"><div class="tx en"><span class="lab ex">例句</span>${esc(w.exs[0])}</div></div>`:""}${w.src?`<div class="row yrow"><div class="tx en">${ywHTML(w.src)}</div><button class="p sm" id="ysrc">▶</button></div>`:""}<button class="wide flip" id="nx">下一题 ›</button></div>`;
+ const after=w=>`<div class="ga"><div class="word">${esc(w.w)}</div><div class="zh">${esc(w.zh||"")}</div>${w.exs&&w.exs[0]?`<div class="row"><div class="tx en"><span class="lab ex">例句</span>${esc(w.exs[0])}</div></div>`:""}${w.src?`<div class="row yrow"><div class="tx en">${ywHTML(w.src,true)}</div><button class="p sm" id="ysrc">▶</button></div>`:""}<button class="wide flip" id="nx">下一题 ›</button></div>`;
  function next(){G.pos++;if(G.pos<G.q.length)return render();
   if(G.miss.length){const m=[...new Set(G.miss)];G.miss=[];G.q=shuffle(m);G.pos=0;G.round++;return render(true)}
   finish()}
@@ -60,7 +60,7 @@ async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>
   const win=pts=>{if(done)return;done=true;if(first&&!tries&&!hints)G.correct++;else if(first)G.miss.push(G.q[G.pos]);G.score+=pts;
    document.getElementById("res").innerHTML=`<div class="gok">✅ ${pts?`+${pts}`:""} 太棒了！</div>`+after(w);bindAfter()};
   const lose=()=>{if(done)return;done=true;if(first)G.miss.push(G.q[G.pos]);document.getElementById("res").innerHTML=`<div class="gno">答案是：</div>`+after(w);bindAfter()};
-  const bindAfter=()=>{document.getElementById("nx").onclick=next;const y=document.getElementById("ysrc");if(y)y.onclick=()=>{stopAll();LASTBTN=y;playSrc(w.src,1)};document.getElementById("nx").focus()};
+  const bindAfter=()=>{document.getElementById("nx").onclick=next;const y=document.getElementById("ysrc");if(y)y.onclick=()=>{stopAll();playFull(w.src,y,1)};document.getElementById("nx").focus()};
   if(mode=="cloze"){const cz=clozeOf(w);const tgt=cz.t.slice(cz.s,cz.e);
    V.innerHTML=`${roundStart?`<div class="gmsg">🔁 再练一下刚才没一次答对的 ${G.q.length} 个词</div>`:""}${hdr()}<div class="card gcard"><div class="czl"><span class="lab ${cz.label=="原文"?"yw":"ex"}">${cz.label}</span></div>
     <div class="czs en">${esc(cz.t.slice(0,cz.s))}<span class="czb" id="sl"></span>${esc(cz.t.slice(cz.e))}</div>
@@ -76,7 +76,7 @@ async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>
    const fullS=()=>`<div class="row yrow"><div class="tx en"><span class="lab ${cz.label=="原文"?"yw":"ex"}">${cz.label}</span>${esc(cz.t.slice(0,cz.s))}<b class="ywb">${esc(tgt)}</b>${esc(cz.t.slice(cz.e))}${cz.src?` <span class="ywsp">— ${cz.src.sp=="Naval"?"Naval":"Chris"}</span>`:""}</div>${cz.src?'<button class="p sm" id="czp">▶</button>':""}</div>`;
    const fin=(ok,pts)=>{if(done)return;done=true;if(ok){if(first&&!tries&&!hints)G.correct++;else if(first)G.miss.push(G.q[G.pos]);G.score+=pts}else if(first)G.miss.push(G.q[G.pos]);
     inp.value=tgt;paint();inp.blur();document.getElementById("res").innerHTML=(ok?`<div class="gok">✅ ${pts?`+${pts}`:""} 太棒了！</div>`:`<div class="gno">答案是：<b>${esc(tgt)}</b></div>`)+fullS()+`<div class="ga"><div class="zh">${esc(w.w)} · ${esc(w.zh||"")}</div><button class="wide flip" id="nx">下一题 ›</button></div>`;
-    document.getElementById("nx").onclick=next;const p=document.getElementById("czp");if(p){p.onclick=()=>{stopAll();LASTBTN=p;playSrc(cz.src,1)};LASTBTN=p;playSrc(cz.src,1)}else{speak(cz.t,1)}};
+    document.getElementById("nx").onclick=next;const p=document.getElementById("czp");if(p){p.onclick=()=>{stopAll();playFull(cz.src,p,1)};stopAll();playFull(cz.src,p,1)}else{speak(cz.t,1)}};
    const check=()=>{if(done)return;if(normA(inp.value)==normA(tgt))fin(true,Math.max(10-hints*2-tries*2,2));else{tries++;sl.classList.remove("shake");void sl.offsetWidth;sl.classList.add("shake");if(tries>=3)fin(false)}};
    inp.onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();done?next():check()}};document.getElementById("ok").onclick=check;document.getElementById("skip").onclick=()=>fin(false);
    setTimeout(()=>inp.focus(),300);return}

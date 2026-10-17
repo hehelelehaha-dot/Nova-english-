@@ -65,7 +65,7 @@ async function showSRS(){setHeader("🧠 今日复习",true);const h=document.ge
    <div class="rate">${["忘了","有点难","记得","很轻松"].map((t,g)=>`<button class="r${g}" data-g="${g}"><b>${t}</b><span>${pv[g]}</span></button>`).join("")}</div>`}
   V.innerHTML=top+h+"</div>";wire()}
  function wire(){$("sf").onchange=e=>{filter=e.target.value;localStorage.setItem("nova_srs_f",filter);build();next()};if(!cur)return;
-  $("pw").onclick=()=>{stopAll();playP(cur.c.a[0],1,cur.c.w)};const y=$("ysrc");if(y)y.onclick=()=>{stopAll();const s=cur.c.src;if(s.oas&&s.oas.length)playClips(s.oas,y);else{LASTBTN=y;playSrc(s,1)}};
+  $("pw").onclick=()=>{stopAll();playP(cur.c.a[0],1,cur.c.w)};const y=$("ysrc");if(y)y.onclick=()=>{stopAll();playFull(cur.c.src,y,1)};
   if(!back){$("show").onclick=()=>{back=true;render()};return}
   $("pex").onclick=()=>{stopAll();playP(cur.c.a[1],1,cur.c.ex)};
   V.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{stopAll();const now=Date.now(),ns=srsRate(cur,+b.dataset.g,now);

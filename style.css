@@ -254,3 +254,6 @@ html.bold #ss .gl{font-weight:600}
 
 .osent{display:block;margin:10px auto 0;padding:8px 18px;border-radius:22px;border:2px solid #2a6f97;background:#fff;color:#2a6f97;font-size:17px;font-weight:700}
 .osent.playing{background:#2a6f97;color:#fff;animation:sfglow 1.4s ease-in-out infinite}
+
+.rbh{display:flex;width:100%;align-items:center;justify-content:space-between;background:none;border:0;padding:6px 2px;text-align:left;cursor:pointer;font:inherit;font-weight:700}
+.rbh .rbc{font-size:20px;color:#2a6f97}
