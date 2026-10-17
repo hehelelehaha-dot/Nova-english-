@@ -60,7 +60,7 @@ async function showSRS(){setHeader("🧠 今日复习",true);const h=document.ge
   let h=`<div class="card srsc"><div class="srsdk">${cur.isNew?'<span class="nw">新词</span>':""}${esc(d.title)}</div><div class="word">${esc(c.w)}</div><div class="pos en">${esc(c.pos)}</div><button class="big" id="pw">▶</button>${yw}`;
   if(!back)h+=`<div class="tip" style="text-align:center">先自己想一想：它是什么意思？</div><button class="wide flip" id="show">显示答案</button>`;
   else{const now=Date.now(),pv=[0,1,2,3].map(g=>fmtIv(srsNext(cur.s,g,now),now));
-   h+=`<div class="zh">${esc(c.zh)}</div><div class="row"><div class="tx en"><span class="lab">解释</span>${esc(String(c.ex).split(/(?<=[.!?])\s/)[0])}</div><button class="p sm" id="pex">▶</button></div>
+   h+=`<div class="zh">${esc(c.zh)}</div>${lgHTML(c)}<div class="row"><div class="tx en"><span class="lab">解释</span>${esc(String(c.ex).split(/(?<=[.!?])\s/)[0])}</div><button class="p sm" id="pex">▶</button></div>
    ${e&&e.img?`<div class="srsimg">${esc(e.em||"💡")} 底层逻辑：${esc(e.img)}</div>`:""}
    <div class="rate">${["忘了","有点难","记得","很轻松"].map((t,g)=>`<button class="r${g}" data-g="${g}"><b>${t}</b><span>${pv[g]}</span></button>`).join("")}</div>`}
   V.innerHTML=top+h+"</div>";wire()}

@@ -288,6 +288,8 @@ async function playClips(list,btn){const me=++RUN;window._oplayed=[];window._opl
 // whole original sentence (src.oas) for every 原文 ▶ (②③⑥⑤); falls back to the 点读 segment / TTS when there is no original clip
 function playFull(s,btn,rate){if(s&&s.oas&&s.oas.length)return playClips(s.oas,btn);LASTBTN=btn;return playSrc(s,rate||1)}
 // ---------- 原文 (original Naval sentence) ----------
+// ② / 🧠 card back: 底层逻辑 row (c.lg=[emoji,text], same text as the ① gloss / 拓展 底层画面; added by build/card_logic.py)
+function lgHTML(c){return c&&c.lg&&c.lg[1]?`<div class="row lgrow"><div class="tx"><span class="lab lg">底层逻辑</span>${c.lg[0]?`<span class="lge">${esc(c.lg[0])}</span> `:""}${esc(c.lg[1])}</div></div>`:""}
 function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t,[a,b]=full&&src.ft&&src.fhl?src.fhl:src.hl;const who=src.sp=="Naval"?"Naval":"Chris";
  return `<span class="lab yw">原文</span>${esc(t.slice(0,a))}<b class="ywb">${esc(t.slice(a,b))}</b>${esc(t.slice(b))} <span class="ywsp">— ${who}</span>`}
 // ---------- flashcards ----------
@@ -312,7 +314,7 @@ function viewFlash(d,id){const C=d.cards,KEY_="flash_"+id;let S=JSON.parse(local
   if(S.pos>=n){$("fc").innerHTML=`<div class="card done">这一轮完成了！<br>认识 ${k} 个，不认识 ${u} 个<button class="wide flip" onclick="_fc.again()">再来一轮</button>${u?'<button class="wide no" onclick="_fc.un()">只练不认识的</button>':""}</div>`;return}
   const i=q[S.pos],c=C[i];let h=`<div class="card"><div class="word">${esc(c.w)}</div><div class="pos en">${esc(c.pos)}</div><button class="big" onclick="_fc.play(${i},0)">▶</button>${c.src&&c.src.oas&&c.src.oas.length?`<button class="osent" id="osent" onclick="_fc.osent(${i},this)" aria-label="播放原句原声">🎧 原句</button>`:""}`;
   if(!back)h+=`<input class="guess" id="g" placeholder="我猜的意思（可不填）" value="${esc(S.guess[i]||"")}"><button class="wide flip" onclick="_fc.flip(${i})">翻看答案</button>`;
-  else h+=`<div class="zh">${esc(c.zh)}</div>${S.guess[i]?`<div class="mine">我猜的：${esc(S.guess[i])}</div>`:""}
+  else h+=`<div class="zh">${esc(c.zh)}</div>${S.guess[i]?`<div class="mine">我猜的：${esc(S.guess[i])}</div>`:""}${lgHTML(c)}
    <div class="row"><div class="tx en"><span class="lab">解释</span>${esc(c.ex)}</div><button class="p sm" onclick="_fc.play(${i},1)">▶</button></div>
    <div class="row"><div class="tx en"><span class="lab ex">例句1</span>${esc(c.exs[0])}</div><button class="p sm" onclick="_fc.play(${i},2)">▶</button></div>
    <div class="row"><div class="tx en"><span class="lab ex">例句2</span>${esc(c.exs[1])}</div><button class="p sm" onclick="_fc.play(${i},3)">▶</button></div>
