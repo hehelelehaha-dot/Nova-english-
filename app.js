@@ -272,7 +272,7 @@ async function playClips(list,btn){const me=++RUN;window._oplayed=[];window._opl
   await new Promise(r=>{const t0=Date.now();const tick=()=>{if(me!=RUN)return r();const el=Date.now()-t0;if(el>300&&(A.ended||(A.paused&&el>800&&A.currentTime>0.2)))return r();requestAnimationFrame(tick)};requestAnimationFrame(tick)})}
  if(me==RUN){if(btn)btn.classList.remove("playing");window._oplaying=false}return me==RUN}
 // ---------- 原文 (original Naval sentence) ----------
-function ywHTML(src){if(!src)return "";const t=src.t,[a,b]=src.hl;const who=src.sp=="Naval"?"Naval":"Chris";
+function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t,[a,b]=full&&src.ft&&src.fhl?src.fhl:src.hl;const who=src.sp=="Naval"?"Naval":"Chris";
  return `<span class="lab yw">原文</span>${esc(t.slice(0,a))}<b class="ywb">${esc(t.slice(a,b))}</b>${esc(t.slice(b))} <span class="ywsp">— ${who}</span>`}
 // ---------- flashcards ----------
 function viewFlash(d,id){const C=d.cards,KEY_="flash_"+id;let S=JSON.parse(localStorage.getItem(KEY_)||"null")||{mode:"all",status:{},queue:null,pos:0,rate:1,guess:{}};let back=false;
@@ -286,7 +286,7 @@ function viewFlash(d,id){const C=d.cards,KEY_="flash_"+id;let S=JSON.parse(local
  window._fc={play:(i,k)=>{stopAll();playP(C[i].a[k],S.rate,[C[i].w,C[i].ex,C[i].exs[0],C[i].exs[1]][k])},
   flip:i=>{const g=$("g");if(g)S.guess[i]=g.value.trim();back=true;save();render()},
   mark:(i,v)=>{S.status[i]=v;if(v=="u")S.queue.splice(Math.min(S.pos+4,S.queue.length),0,i);S.pos++;back=false;stopAll();save();render()},
-  src:i=>{stopAll();playSrc(C[i].src,S.rate)},
+  src:(i,b)=>{stopAll();const s=C[i].src;if(s.oas&&s.oas.length)playClips(s.oas,b);else{LASTBTN=b;playSrc(s,S.rate)}},
   osent:(i,b)=>{const on=window._oplaying&&b.classList.contains("playing");stopAll();window._oplaying=false;b.classList.remove("playing");if(on)return;playClips(C[i].src.oas,b)},
   again:()=>{build();render()},un:()=>{S.mode="un";build();render()}};
  function render(){$("mAll").className=S.mode=="all"?"on":"";$("mUn").className=S.mode=="un"?"on":"";$("spd").textContent=S.rate==1?"1x":"0.75x";
@@ -300,7 +300,7 @@ function viewFlash(d,id){const C=d.cards,KEY_="flash_"+id;let S=JSON.parse(local
    <div class="row"><div class="tx en"><span class="lab">解释</span>${esc(c.ex)}</div><button class="p sm" onclick="_fc.play(${i},1)">▶</button></div>
    <div class="row"><div class="tx en"><span class="lab ex">例句1</span>${esc(c.exs[0])}</div><button class="p sm" onclick="_fc.play(${i},2)">▶</button></div>
    <div class="row"><div class="tx en"><span class="lab ex">例句2</span>${esc(c.exs[1])}</div><button class="p sm" onclick="_fc.play(${i},3)">▶</button></div>
-   ${c.src?`<div class="row yrow"><div class="tx en">${ywHTML(c.src)}</div><button class="p sm" onclick="_fc.src(${i})">▶</button></div>`:""}
+   ${c.src?`<div class="row yrow"><div class="tx en">${ywHTML(c.src,true)}</div><button class="p sm" id="ysrc" onclick="_fc.src(${i},this)">▶</button></div>`:""}
    <div class="yn"><button class="wide no" onclick="_fc.mark(${i},'u')">不认识</button><button class="wide yes" onclick="_fc.mark(${i},'k')">认识</button></div>`;
   $("fc").innerHTML=h+"</div>"}
  render()}
