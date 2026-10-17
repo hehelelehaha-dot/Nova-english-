@@ -1,7 +1,7 @@
 // ---------- ⑦ 画面漫画 (context comics: one comic per stretch of sentences) ----------
 // content/comics.json: {items:[{id,topic,sis:[sentence idx…],title,img,cols,rows,boxes?:[[l,t,w,h]%…],keys:[[phrase,panel,si],…]}]}
 const KC=["#e2557a","#2f7fd8","#23955a","#d98200","#8a5cc7","#0f9aa8"];
-let COMICS=null;async function loadComics(){if(!COMICS){try{COMICS=(await getJSON("comics.json")).items}catch(e){COMICS=[]}}return COMICS}
+let COMICS=null;async function loadComics(){if(!COMICS){try{COMICS=((await getJSON("comics.json")).items||[]).filter(c=>c&&c.img&&!c.pending)}catch(e){COMICS=[]}}return COMICS}
 const ctNo=c=>+(/t(\d\d)/.exec(c.topic)||[0,0])[1];
 function comicOrder(xs){return xs.slice().sort((a,b)=>ctNo(b)-ctNo(a)||a.sis[0]-b.sis[0]||a.sis.length-b.sis.length)}
 function comicRange(sis){const r=[];let a=sis[0],p=a;for(const x of sis.slice(1).concat([null])){if(x!==p+1){r.push(a==p?`${a+1}`:`${a+1}–${p+1}`);a=x}p=x}return "第 "+r.join("、")+" 句"}

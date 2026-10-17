@@ -54,6 +54,30 @@
      "title": "Topic 8 · Is Fame Worth It?",
      "sub": "23 句 · Chris & Naval",
      "data": "naval_t08.json"
+    },
+    {
+     "id": "naval_t09",
+     "title": "Topic 9 · Changing Your Mind",
+     "sub": "10 句 · Chris & Naval",
+     "data": "naval_t09.json"
+    },
+    {
+     "id": "naval_t10",
+     "title": "Topic 10 · Living Authentically",
+     "sub": "39 句 · Chris & Naval",
+     "data": "naval_t10.json"
+    },
+    {
+     "id": "naval_t11",
+     "title": "Topic 11 · Status Games vs. Wealth Creation",
+     "sub": "68 句 · Chris & Naval",
+     "data": "naval_t11.json"
+    },
+    {
+     "id": "naval_t12",
+     "title": "Topic 12 · The Importance of Self-Esteem",
+     "sub": "22 句 · Chris & Naval",
+     "data": "naval_t12.json"
     }
    ]
   },
@@ -116,6 +140,30 @@
      "title": "Naval Topic 8 生词",
      "sub": "37 张 · 听音猜意思",
      "data": "t08v_flash.json"
+    },
+    {
+     "id": "t09v_flash",
+     "title": "Naval Topic 9 生词",
+     "sub": "19 张 · 听音猜意思",
+     "data": "t09v_flash.json"
+    },
+    {
+     "id": "t10v_flash",
+     "title": "Naval Topic 10 生词",
+     "sub": "62 张 · 听音猜意思",
+     "data": "t10v_flash.json"
+    },
+    {
+     "id": "t11v_flash",
+     "title": "Naval Topic 11 生词",
+     "sub": "116 张 · 听音猜意思",
+     "data": "t11v_flash.json"
+    },
+    {
+     "id": "t12v_flash",
+     "title": "Naval Topic 12 生词",
+     "sub": "40 张 · 听音猜意思",
+     "data": "t12v_flash.json"
     }
    ]
   },
@@ -128,31 +176,31 @@
     {
      "id": "p47_ee",
      "title": "P47 · 40词英英解释",
-     "sub": "Jenny 女声 + Guy 男声例句 · 42分40秒",
+     "sub": "Jenny 女声 + Guy 男声例句 · 50分17秒",
      "data": "p47_ee.json"
     },
     {
      "id": "p47_sel21",
      "title": "精选21词 · 英英解释",
-     "sub": "Andrew 男声 · 21分31秒",
+     "sub": "Andrew 男声 · 25分35秒",
      "data": "p47_sel21.json"
     },
     {
      "id": "ielts_full",
      "title": "雅思P21 · 30词英英解释",
-     "sub": "Joe 男声（完整版） · 25分14秒",
+     "sub": "Joe 男声（完整版） · 32分0秒",
      "data": "ielts_full.json"
     },
     {
      "id": "ielts_short",
      "title": "雅思P21 · 30词简洁版",
-     "sub": "Bryce 男声 · 16分37秒",
+     "sub": "Bryce 男声 · 20分40秒",
      "data": "ielts_short.json"
     },
     {
      "id": "avoid",
      "title": "avoid · 英英解释",
-     "sub": "单词讲解 · 1分7秒",
+     "sub": "单词讲解 · 1分20秒",
      "data": "avoid.json"
     },
     {
@@ -202,6 +250,30 @@
      "title": "Naval Topic 8 生词",
      "sub": "37 个词 · 英英解释 · Michael",
      "data": "t08v_long.json"
+    },
+    {
+     "id": "t09v_long",
+     "title": "Naval Topic 9 生词",
+     "sub": "19 个词 · 英英解释 · Michael",
+     "data": "t09v_long.json"
+    },
+    {
+     "id": "t10v_long",
+     "title": "Naval Topic 10 生词",
+     "sub": "62 个词 · 英英解释 · Michael",
+     "data": "t10v_long.json"
+    },
+    {
+     "id": "t11v_long",
+     "title": "Naval Topic 11 生词",
+     "sub": "116 个词 · 英英解释 · Michael",
+     "data": "t11v_long.json"
+    },
+    {
+     "id": "t12v_long",
+     "title": "Naval Topic 12 生词",
+     "sub": "40 个词 · 英英解释 · Michael",
+     "data": "t12v_long.json"
     }
    ]
   },
@@ -258,6 +330,30 @@
      "title": "Topic 8 · Chunks",
      "sub": "15 个词组 · 原声",
      "data": "ch_t08.json"
+    },
+    {
+     "id": "ch_t09",
+     "title": "Topic 9 · Chunks",
+     "sub": "12 个词组 · 原声",
+     "data": "ch_t09.json"
+    },
+    {
+     "id": "ch_t10",
+     "title": "Topic 10 · Chunks",
+     "sub": "15 个词组 · 原声",
+     "data": "ch_t10.json"
+    },
+    {
+     "id": "ch_t11",
+     "title": "Topic 11 · Chunks",
+     "sub": "15 个词组 · 原声",
+     "data": "ch_t11.json"
+    },
+    {
+     "id": "ch_t12",
+     "title": "Topic 12 · Chunks",
+     "sub": "15 个词组 · 原声",
+     "data": "ch_t12.json"
     }
    ]
   }
