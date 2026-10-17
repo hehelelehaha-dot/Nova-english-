@@ -251,3 +251,6 @@ html.bold #ss .gl{font-weight:600}
 .exz{font-size:13px;color:#8a8f98;line-height:1.45;margin:2px 0 6px;font-family:-apple-system,"PingFang SC","Noto Sans SC",sans-serif}
 
 .exz.wd.on,.tx.wd.on{background:#fff2b3;color:inherit;box-shadow:0 0 0 3px #fff2b3;border-radius:4px}
+
+.osent{display:block;margin:10px auto 0;padding:8px 18px;border-radius:22px;border:2px solid #2a6f97;background:#fff;color:#2a6f97;font-size:17px;font-weight:700}
+.osent.playing{background:#2a6f97;color:#fff;animation:sfglow 1.4s ease-in-out infinite}

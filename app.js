@@ -24,7 +24,7 @@ async function idbPut(o){const db=await idb();return new Promise(r=>{const t=db.
 async function idbDel(id){const db=await idb();return new Promise(r=>{const t=db.transaction("files","readwrite");t.objectStore("files").delete(id);t.oncomplete=r})}
 // ---------- audio ----------
 const A=new Audio();A.preload="auto";let RUN=0;let LASTBTN=null;
-const setPlaying=(b,on)=>{document.querySelectorAll(".p.playing,.big.playing,.osb.playing").forEach(x=>{if(x!=b||!on)x.classList.remove("playing")});if(b&&on)b.classList.add("playing")};
+const setPlaying=(b,on)=>{document.querySelectorAll(".p.playing,.big.playing,.osb.playing,.osent.playing").forEach(x=>{if(x!=b||!on)x.classList.remove("playing")});if(b&&on)b.classList.add("playing")};
 document.addEventListener("click",e=>{const b=e.target.closest(".p,.big");if(b&&!b.id)LASTBTN=b},true);
 A.addEventListener("playing",()=>setPlaying(LASTBTN,true));for(const ev of["pause","ended","emptied"])A.addEventListener(ev,()=>setPlaying(null,false));
 function stopAll(){RUN++;try{A.pause()}catch(e){}if(window.speechSynthesis)speechSynthesis.cancel()}
@@ -266,6 +266,11 @@ function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=
 async function playSrc(sr,rate,btn){if(!sr.oa)return playP(sr.a,rate,sr.t);const me=++RUN;const[a,b]=sr.oab||[0,null];
  A.onended=A.onerror=null;A.src=await audioURL(sr.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
  return new Promise(r=>{const tick=()=>{if(me!=RUN||A.ended||(b!=null&&A.currentTime>=b)){if(me==RUN&&b!=null)A.pause();r(true);return}requestAnimationFrame(tick)};requestAnimationFrame(tick)})}
+// ② 🎧 原句: play the original clips of the complete source sentence in order (whole clips, not a 点读 segment). Tap again = stop.
+async function playClips(list,btn){const me=++RUN;window._oplayed=[];window._oplaying=true;
+ for(const p of list){if(me!=RUN)break;A.onended=A.onerror=null;A.src=await audioURL(p);if(me!=RUN)break;window._oplayed.push(p);LASTBTN=btn;A.playbackRate=1;try{A.currentTime=0}catch(e){}A.play().catch(()=>{});
+  await new Promise(r=>{const t0=Date.now();const tick=()=>{if(me!=RUN)return r();const el=Date.now()-t0;if(el>300&&(A.ended||(A.paused&&el>800&&A.currentTime>0.2)))return r();requestAnimationFrame(tick)};requestAnimationFrame(tick)})}
+ if(me==RUN){if(btn)btn.classList.remove("playing");window._oplaying=false}return me==RUN}
 // ---------- 原文 (original Naval sentence) ----------
 function ywHTML(src){if(!src)return "";const t=src.t,[a,b]=src.hl;const who=src.sp=="Naval"?"Naval":"Chris";
  return `<span class="lab yw">原文</span>${esc(t.slice(0,a))}<b class="ywb">${esc(t.slice(a,b))}</b>${esc(t.slice(b))} <span class="ywsp">— ${who}</span>`}
@@ -282,13 +287,14 @@ function viewFlash(d,id){const C=d.cards,KEY_="flash_"+id;let S=JSON.parse(local
   flip:i=>{const g=$("g");if(g)S.guess[i]=g.value.trim();back=true;save();render()},
   mark:(i,v)=>{S.status[i]=v;if(v=="u")S.queue.splice(Math.min(S.pos+4,S.queue.length),0,i);S.pos++;back=false;stopAll();save();render()},
   src:i=>{stopAll();playSrc(C[i].src,S.rate)},
+  osent:(i,b)=>{const on=window._oplaying&&b.classList.contains("playing");stopAll();window._oplaying=false;b.classList.remove("playing");if(on)return;playClips(C[i].src.oas,b)},
   again:()=>{build();render()},un:()=>{S.mode="un";build();render()}};
  function render(){$("mAll").className=S.mode=="all"?"on":"";$("mUn").className=S.mode=="un"?"on":"";$("spd").textContent=S.rate==1?"1x":"0.75x";
   const vals=Object.values(S.status),k=vals.filter(v=>v=="k").length,u=vals.filter(v=>v=="u").length,q=S.queue,n=q.length;
   $("pg").textContent=`第 ${Math.min(S.pos+1,n)} / ${n} 张 · 认识 ${k} · 不认识 ${u} · 共 ${C.length} 词`;
   if(!n){$("fc").innerHTML=`<div class="card done">没有标记为“不认识”的单词了 🎉<button class="wide flip" onclick="document.getElementById('mAll').click()">练习全部单词</button></div>`;return}
   if(S.pos>=n){$("fc").innerHTML=`<div class="card done">这一轮完成了！<br>认识 ${k} 个，不认识 ${u} 个<button class="wide flip" onclick="_fc.again()">再来一轮</button>${u?'<button class="wide no" onclick="_fc.un()">只练不认识的</button>':""}</div>`;return}
-  const i=q[S.pos],c=C[i];let h=`<div class="card"><div class="word">${esc(c.w)}</div><div class="pos en">${esc(c.pos)}</div><button class="big" onclick="_fc.play(${i},0)">▶</button>`;
+  const i=q[S.pos],c=C[i];let h=`<div class="card"><div class="word">${esc(c.w)}</div><div class="pos en">${esc(c.pos)}</div><button class="big" onclick="_fc.play(${i},0)">▶</button>${c.src&&c.src.oas&&c.src.oas.length?`<button class="osent" id="osent" onclick="_fc.osent(${i},this)" aria-label="播放原句原声">🎧 原句</button>`:""}`;
   if(!back)h+=`<input class="guess" id="g" placeholder="我猜的意思（可不填）" value="${esc(S.guess[i]||"")}"><button class="wide flip" onclick="_fc.flip(${i})">翻看答案</button>`;
   else h+=`<div class="zh">${esc(c.zh)}</div>${S.guess[i]?`<div class="mine">我猜的：${esc(S.guess[i])}</div>`:""}
    <div class="row"><div class="tx en"><span class="lab">解释</span>${esc(c.ex)}</div><button class="p sm" onclick="_fc.play(${i},1)">▶</button></div>
