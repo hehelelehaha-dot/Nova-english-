@@ -291,7 +291,18 @@ function playFull(s,btn,rate){if(s&&s.oas&&s.oas.length)return playClips(s.oas,b
 // ② / 🧠 card back: 底层逻辑 row (c.lg=[emoji,text], same text as the ① gloss / 拓展 底层画面; added by build/card_logic.py)
 function lgHTML(c){return c&&c.lg&&c.lg[1]?`<div class="row lgrow"><div class="tx"><span class="lab lg">底层逻辑</span>${c.lg[0]?`<span class="lge">${esc(c.lg[0])}</span> `:""}${esc(c.lg[1])}</div></div>`:""}
 function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t,[a,b]=full&&src.ft&&src.fhl?src.fhl:src.hl;const who=src.sp=="Naval"?"Naval":"Chris";
- return `<span class="lab yw">原文</span>${esc(t.slice(0,a))}<b class="ywb">${esc(t.slice(a,b))}</b>${esc(t.slice(b))} <span class="ywsp">— ${who}</span>`}
+ return `<span class="lab yw">原文</span>${dsegHTML(t,[a,b],t==(src.ft||src.t)?src.sg:null)} <span class="ywsp">— ${who}</span>`}
+// 点读 for every 原文/原句 render (②③④⑤⑥🧠): sg=[[charStart,charEnd,clip,t0,t1|null],…] over the displayed text (build/src_orig.py).
+// Each segment is a .dseg span; tap = play just that stretch of the original audio (highlighted while playing). hl=[a,b] stays bold.
+function dsegHTML(t,hl,sg,hlText){const[a,b]=hl||[-1,-1];const part=(s,e)=>{if(e<=s)return "";const x=Math.max(s,a),y=Math.min(e,b);if(a<0||x>=y)return esc(t.slice(s,e));
+  return esc(t.slice(s,x))+(x==a?`<b class="ywb">${esc(hlText!=null?hlText:t.slice(a,b))}</b>`:hlText!=null?"":`<b class="ywb">${esc(t.slice(x,y))}</b>`)+esc(t.slice(y,e))};
+ if(!sg||!sg.length)return part(0,t.length);let h="",p=0;
+ for(const[s,e,c,t0,t1]of sg){if(s<p||e>t.length)continue;h+=part(p,s)+`<span class="dseg" data-c="${esc(c)}" data-a="${t0}" data-b="${t1==null?"":t1}">${part(s,e)}</span>`;p=e}
+ return h+part(p,t.length)}
+document.addEventListener("click",async ev=>{const s=ev.target.closest&&ev.target.closest(".dseg");if(!s)return;ev.stopPropagation();ev.preventDefault();
+ document.querySelectorAll("audio").forEach(x=>{try{x.pause()}catch(e){}});stopAll();document.querySelectorAll(".dseg.dplay").forEach(x=>x.classList.remove("dplay"));
+ s.classList.add("dplay");window._dseg={c:s.dataset.c,a:+s.dataset.a,b:s.dataset.b===""?null:+s.dataset.b};
+ await playSrc({oa:s.dataset.c,oab:[+s.dataset.a,s.dataset.b===""?null:+s.dataset.b]},1);s.classList.remove("dplay")},true);
 // ---------- flashcards ----------
 // ② 单词卡: two directions. 英→中 (recognise, default) and 中→英 (recall: Chinese + 底层逻辑 + letter hint + blanked 原句翻译 on the
 // front, say it / optionally type it, flip → English word + autoplay + 原句). Progress is per direction: flash_<id> / flash_<id>_r.
@@ -307,7 +318,7 @@ function fcZh(src){const z=src.zh||"";if(!src.zb)return esc(z);const[a,b]=src.zb
 function viewFlash(d,id){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+id+(CE?"_r":"");let S=JSON.parse(localStorage.getItem(KEY_)||"null")||{mode:"all",status:{},queue:null,pos:0,rate:1,guess:{}};S.rv=S.rv||{};S.sp=S.sp||{};S.typed=S.typed||{};if(S.queue){S.queue=S.queue.filter(i=>i<C.length);const have=new Set(S.queue);for(let i=0;i<C.length;i++)if(!have.has(i)&&!S.status[i])S.queue.push(i)}/* cards appended to a deck later (e.g. T9 #20 mention) join a saved queue */let back=false;
   const save=()=>{try{localStorage.setItem(KEY_,JSON.stringify(S))}catch(e){}};
   const build=()=>{let ids=C.map((_,i)=>i);if(S.mode=="un")ids=ids.filter(i=>S.status[i]=="u");S.queue=ids;S.pos=0;save()};if(!S.queue)build();
-  V.innerHTML=`<div class="bar fcdir"><button id="dEC" class="${CE?"":"on"}">英→中</button><button id="dCE" class="${CE?"on":""}">中→英</button></div><div class="bar"><button id="mAll">全部单词</button><button id="mUn">只练不认识的</button><button id="shf">打乱顺序</button><button id="spd">1x</button><button id="rst">重置</button></div><div class="status" id="pg"></div><div id="fc"></div>`;
+  V.innerHTML=`<div class="fcwrap"><div class="bar fcdir"><button id="dEC" class="${CE?"":"on"}">英→中</button><button id="dCE" class="${CE?"on":""}">中→英</button></div><div class="bar"><button id="mAll">全部单词</button><button id="mUn">只练不认识的</button><button id="shf">打乱顺序</button><button id="spd">1x</button><button id="rst">重置</button></div><div class="status" id="pg"></div></div><div id="fc"></div>`;
   const $=x=>document.getElementById(x);
   const setDir=x=>{if(x==DIR)return;try{localStorage.setItem("nova_fc_dir",x)}catch(e){}stopAll();viewFlash(d,id)};$("dEC").onclick=()=>setDir("ec");$("dCE").onclick=()=>setDir("ce");
   $("mAll").onclick=()=>{S.mode="all";build();render()};$("mUn").onclick=()=>{S.mode="un";build();render()};
@@ -318,6 +329,7 @@ function viewFlash(d,id){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+
    mark:(i,v)=>{if(CE&&S.sp[i]=="bad")v="u";S.status[i]=v;if(v=="u")S.queue.splice(Math.min(S.pos+4,S.queue.length),0,i);S.pos++;back=false;stopAll();save();render()},
    src:(i,b)=>{stopAll();playFull(C[i].src,b,S.rate)},
    osent:(i,b)=>{const on=window._oplaying&&b.classList.contains("playing");stopAll();window._oplaying=false;b.classList.remove("playing");if(on)return;playClips(C[i].src.oas,b)},
+   say:(i,b)=>{stopAll();LASTBTN=b;playP(C[i].a[0],S.rate,C[i].w)},/* 中→英 front 🔊: word audio only, no autoplay, not counted */
    hint:i=>{S.rv[i]=Math.min((S.rv[i]||1)+1,fcLetters(C[i].w));save();const h=$("hint");if(h)h.innerHTML=fcMask(C[i].w,S.rv[i])},
    spell:(i,quiet)=>{const sp=$("sp");const t=sp?sp.value.trim():"";if(!t)return;S.typed[i]=t;S.sp[i]=fcOK(t,C[i].w)?"ok":"bad";save();if(!quiet)render()},
    again:()=>{build();render()},un:()=>{S.mode="un";build();render()}};
@@ -329,7 +341,7 @@ function viewFlash(d,id){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+
    const i=q[S.pos],c=C[i];
    if(CE&&!back){const sp=S.sp[i];
     $("fc").innerHTML=`<div class="card ce"><div class="cez">${esc(c.zh)}</div><div class="pos en">${esc(c.pos)}</div>${lgHTML(c)}
-     <button class="fchint" id="hint" onclick="_fc.hint(${i})" aria-label="提示：再显示一个字母">${fcMask(c.w,S.rv[i]||1)}</button><div class="tip" style="text-align:center">共 ${fcLetters(c.w)} 个字母 · 点一下多显示一个</div>
+     <div class="fchrow"><button class="fchint" id="hint" onclick="_fc.hint(${i})" aria-label="提示：再显示一个字母">${fcMask(c.w,S.rv[i]||1)}</button><button class="btn fcsay" id="fcsay" onclick="_fc.say(${i},this)" aria-label="听单词发音（提示）">🔊</button></div><div class="tip" style="text-align:center">共 ${fcLetters(c.w)} 个字母 · 点一下多显示一个</div>
      ${c.src&&c.src.zh?`<div class="row czr"><div class="tx"><span class="lab yw">原句</span>${fcZh(c.src)}${c.src.sp?` <span class="ywsp">— ${c.src.sp=="Naval"?"Naval":"Chris"}</span>`:""}</div></div>`:""}
      <div class="tip" style="text-align:center;margin-top:10px">🗣 先大声说出英文，再翻看答案</div>
      <div class="fcsp"><input id="sp" class="guess" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="✍️ 拼一拼（可不填）" value="${esc(S.typed[i]||"")}"><button class="btn" id="spk" onclick="_fc.spell(${i})">✓ 检查</button></div>
@@ -417,7 +429,7 @@ let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
 
 // ---------- 🧩 chunks: original-audio phrases, 3x original + 中文 + 3x original ----------
-async function viewChunks(d){const url=await audioURL(d.audio);const hl=e=>e.hl?esc(e.s.slice(0,e.hl[0]))+`<b class="ywb">${esc(e.s.slice(e.hl[0],e.hl[1]))}</b>`+esc(e.s.slice(e.hl[1])):esc(e.s);
+async function viewChunks(d){const url=await audioURL(d.audio);const hl=e=>dsegHTML(e.s,e.hl,e.sg);
  V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放全部">▶</button><button class="btn" id="bk">⟲ 上一个</button><button class="btn" id="fw">下一个 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0">▶ 播放全部：每个词组 原声×3 → 中文 → 原声×3</div></div>
  <div class="tip">原声来自 ${esc(d.source)}。点 🌻 听这个词组的完整练习，点「原声」只听一遍。</div>
  ${d.items.map((e,i)=>`<div class="ent chk" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en">${esc(e.c)}</span><span class="z">${esc(e.zh)}</span></div>

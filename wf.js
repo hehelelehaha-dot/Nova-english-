@@ -40,7 +40,7 @@ async function showWF(sid){const d=await loadWF();await loadEXP();const S=d.sets
    const fam=d.fams[it.f]||[];
    document.getElementById("res").innerHTML=`${ok?`<div class="gok">✅ ${first?"+10":"+5"} 太棒了！</div>`:`<div class="gno">答案是：<b>${esc(it.a)}</b></div>`}
     <div class="wfa"><b class="en">${esc(it.a)}</b> <span class="lab pos">${esc(it.p)} ${POSN[posBase(it.p)]||""}</span></div><div class="wfw">💡 ${esc(it.why)}</div>
-    ${it.ft&&it.oas&&it.oas.length?`<div class="row yrow"><div class="tx en"><span class="lab yw">原文</span>${it.fhl?esc(it.ft.slice(0,it.fhl[0]))+`<b class="ywb">${esc(it.ft.slice(it.fhl[0],it.fhl[1]))}</b>`+esc(it.ft.slice(it.fhl[1])):esc(it.ft)} <span class="ywsp">— ${it.sp=="Naval"?"Naval":"Chris"}</span></div><button class="p sm" id="wfp">▶</button></div>`
+    ${it.ft&&it.oas&&it.oas.length?`<div class="row yrow"><div class="tx en"><span class="lab yw">原文</span>${dsegHTML(it.ft,it.fhl,it.sg)} <span class="ywsp">— ${it.sp=="Naval"?"Naval":"Chris"}</span></div><button class="p sm" id="wfp">▶</button></div>`
      :`<div class="row yrow"><div class="tx en">${esc(b)}<b class="ywb">${esc(it.a)}</b>${esc(a)}</div>${it.au?'<button class="p sm" id="wfp">▶</button>':""}</div>`}
     <table class="wft"><tr><th>词形</th><th>词性</th><th>中文</th></tr>${fam.map(([w,p,z])=>`<tr class="${w.toLowerCase()==it.a.toLowerCase()||it.a.toLowerCase().startsWith(w.toLowerCase())&&it.a.length-w.length<=2?"on":""}"><td class="en wfc"><i><button class="p xs" data-w="${esc(w)}">▶</button><span class="wfn" data-w="${esc(w)}">${esc(w)}</span></i></td><td>${esc(p)}</td><td>${esc(z)}</td></tr>`).join("")}</table>
     ${expHTML(it.f)}<button class="wide flip" id="nx">下一题 ›</button>`;
