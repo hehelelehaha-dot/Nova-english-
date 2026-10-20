@@ -442,11 +442,41 @@ html[data-theme=t6] .qbar{background:linear-gradient(180deg,#24456f,#1c3557);bor
 html[data-theme=t6] .hq .hqd{color:#ffe2a8;font-size:17px}html[data-theme=t6] .hq .hqs{color:#ead9b4}
 html[data-theme=t3] .qbar{background:#13233a;border:1px solid rgba(201,162,74,.45);border-left:4px solid #e9c46a}
 html[data-theme=t3] .hq :is(.hqe,.hqd){color:#f3f5f8}html[data-theme=t3] .hq .hqz{color:#dfe6ef}html[data-theme=t3] .hq .hqs{color:#e9c46a}
-html:is([data-theme=t6],[data-theme=t7]) .qbar{padding-right:96px;background-repeat:no-repeat;background-position:right 12px center;background-size:auto 64px}
-html[data-theme=t6] .qbar{background-image:url(icons/m_wander.svg),linear-gradient(180deg,#24456f,#1c3557)}
-html[data-theme=t7] .qbar{background-image:url(icons/m_owl.svg)}
+
+
+
 html:is([data-theme=t6],[data-theme=t7]) .qbar .hq{padding-right:0;min-height:0;background:none}
-@media(max-width:480px){html:is([data-theme=t6],[data-theme=t7]) .qbar{padding-right:62px;background-size:auto 46px;background-position:right 8px bottom 10px}.qbar{padding:10px 12px}.hq .hqe{font-size:14.5px}}
+@media(max-width:480px){.qbar{padding:10px 12px}.hq .hqe{font-size:14.5px}}
 html.bold:not([data-theme=t3]):not([data-theme=t6]) .hq :is(.hqe,.hqd){font-weight:600}
 html.bold:is([data-theme=t3],[data-theme=t6]) body{font-weight:600}html.bold:is([data-theme=t3],[data-theme=t6]) :is(.word,.w,b,.tile .nm){font-weight:800}
 html[data-theme^=t] .wvn{color:#1b5e20}html[data-theme=t3] .wvn{color:#7ee08a}
+
+/* mascot = next-quote button (every theme) */
+.qnx{display:none}
+.qm{flex:none;align-self:center;width:64px;height:64px;min-width:44px;min-height:44px;padding:0;border:0;background:transparent;cursor:pointer;border-radius:14px;-webkit-tap-highlight-color:transparent}
+.qm:focus-visible{outline:2px solid var(--ac,#f5c518);outline-offset:2px}
+.qmi{display:block;width:100%;height:100%;background:url(icons/sunflower.png) center/contain no-repeat;transform-origin:50% 80%}
+html[data-theme=t2] .qmi{background-image:url(icons/m_orb.svg)}
+html[data-theme=t3] .qmi{background-image:url(icons/m_star.svg);transform-origin:50% 50%}
+html[data-theme=t4] .qmi{background-image:url(icons/m_cloud.svg)}
+html[data-theme=t5] .qmi{background-image:url(icons/m_pen.svg)}
+html[data-theme=t6] .qm{width:76px;height:76px}html[data-theme=t6] .qmi{background-image:url(icons/m_wander.svg)}
+html[data-theme=t7] .qm{width:70px;height:70px}html[data-theme=t7] .qmi{background-image:url(icons/m_owl.svg)}
+@media(max-width:480px){.qm{width:52px;height:52px}html[data-theme=t6] .qm,html[data-theme=t7] .qm{width:58px;height:58px}}
+@keyframes qmSpin{0%{transform:rotate(0)}60%{transform:rotate(200deg) scale(1.08)}100%{transform:rotate(360deg)}}
+@keyframes qmBob{0%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}55%{transform:translateY(0)}75%{transform:translateY(-3px)}}
+@keyframes qmGlow{0%,100%{transform:scale(1);filter:none}40%{transform:scale(1.12);filter:drop-shadow(0 0 8px #9fbaff)}}
+@keyframes qmStar{0%{transform:rotate(0)}50%{transform:rotate(-25deg) scale(1.1)}80%{transform:rotate(12deg)}100%{transform:rotate(0)}}
+@keyframes qmPen{0%,100%{transform:rotate(0) translate(0)}25%{transform:rotate(-12deg) translate(-3px,2px)}50%{transform:rotate(8deg) translate(3px,-1px)}75%{transform:rotate(-6deg)}}
+@keyframes qmStrum{0%,100%{transform:rotate(0) translateY(0)}20%{transform:rotate(-5deg) translateY(-3px)}45%{transform:rotate(4deg)}70%{transform:rotate(-3deg) translateY(-2px)}}
+@keyframes qmFlick{0%,100%{filter:none}30%{filter:brightness(1.35) drop-shadow(0 0 6px #ffd27a)}50%{filter:brightness(.9)}70%{filter:brightness(1.25) drop-shadow(0 0 5px #ffd27a)}}
+@keyframes qmOwl{0%,100%{transform:rotate(0) scaleY(1)}25%{transform:rotate(-10deg)}45%{transform:rotate(8deg) scaleY(.94)}65%{transform:rotate(-4deg) scaleY(1.03)}}
+.qm.tap .qmi{animation:qmSpin .8s ease-out}
+html[data-theme=t2] .qm.tap .qmi{animation:qmGlow .7s ease-out}
+html[data-theme=t3] .qm.tap .qmi{animation:qmStar .8s ease-out}
+html[data-theme=t4] .qm.tap .qmi{animation:qmBob .8s ease-out}
+html[data-theme=t5] .qm.tap .qmi{animation:qmPen .7s ease-in-out}
+html[data-theme=t6] .qm.tap .qmi{animation:qmStrum .8s ease-in-out,qmFlick .8s linear}
+html[data-theme=t7] .qm.tap .qmi{animation:qmOwl .8s ease-in-out}
+html[data-theme=t1] .qm.tap .qmi,html[data-theme=classic] .qm.tap .qmi{animation:qmSpin .8s ease-out}
+@media (prefers-reduced-motion:reduce){.qm.tap .qmi{animation:none!important}.qbar .hq{transition:none}}
