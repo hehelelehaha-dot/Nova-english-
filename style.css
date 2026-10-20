@@ -264,3 +264,11 @@ html.bold #ss .gl{font-weight:600}
 .wfsh{list-style:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:700;padding:6px 2px;-webkit-user-select:none;user-select:none}
 .wfsh::-webkit-details-marker{display:none}.wfar::after{content:"▸";font-size:20px;color:#2a6f97}.wfsec[open] .wfar::after{content:"▾"}
 .wfsec:not([open])>.wfsb{display:none}
+
+.fcdir{justify-content:center}.fcdir button{min-width:120px;font-weight:700}
+.card.ce .cez{font-size:30px;font-weight:800;color:#2a6f97;text-align:center;margin:6px 0 2px;font-family:"Noto Sans CJK SC",sans-serif}
+.fchint{display:block;margin:12px auto 2px;background:#f4f8fc;border:1px dashed #9cbfdc;border-radius:12px;padding:10px 18px;font:700 28px/1.2 ui-monospace,Menlo,monospace;letter-spacing:4px;color:#1d3b57;cursor:pointer}
+.fchint i{font-style:normal;color:#9aaabb}.fchint .gap{display:inline-block;width:14px}
+.czr .tx{font-family:"Noto Sans CJK SC",sans-serif;line-height:1.7}.zbl{display:inline-block;min-width:2.4em;border-bottom:2px solid #d89b00;color:#d89b00;text-align:center}
+.fcsp{display:flex;gap:8px;align-items:center;margin-top:8px}.fcsp .guess{flex:1;margin:0}
+.fcdiff{font:600 24px/1.4 ui-monospace,Menlo,monospace;text-align:center;margin:4px 0 6px;letter-spacing:1px}.fcdiff .dk{color:#2e7d32}.fcdiff .dm{color:#2e7d32;background:#dff3e0;text-decoration:underline}.fcdiff .dx{color:#b71c1c;text-decoration:line-through}
