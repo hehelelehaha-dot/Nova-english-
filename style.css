@@ -384,3 +384,44 @@ html[data-theme=t3] .status{color:#dfe6ef}html[data-theme=t3] :is(.player,.card,
 html[data-theme^=t] #ss .osb.ai{color:#4f5b6a;opacity:1}
 html[data-theme^=t] .status{color:var(--pgtx)}html[data-theme^=t] :is(.player,.card,.li,.ent,.sh) .status{color:var(--mut2)}
 html[data-theme^=t] .tile.add{opacity:1}html[data-theme^=t] .tile.add .nm{color:var(--pgtx)}
+/* t6 大冰鞭策: 小蓝书 deep blue, worn paper, lamplight amber, hand-written accents · t7 纳瓦尔: warm white, ink, one jade accent, whitespace */
+html[data-theme=t6]{--bg:#1c3557 repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px);--hd:#16294a;--hdtx:#f3e6c8;--hdbd:2px solid #c98a2b;--hbtn:transparent;--hbtx:#f3e6c8;--hbbd:1px solid rgba(243,230,200,.5);
+ --sf:#f4ead5;--sfbd:1px solid #d9c49a;--sh:0 6px 18px rgba(0,0,0,.35);--r:10px;--pgtx:#f1e4c6;
+ --b1:#1f3b63;--b1tx:#f8ecd0;--b2:#fbf3e2;--b2tx:#1f3b63;--b2bd:1px solid #cdb489;--ac:#e8a33d;--actx:#2a1800;
+ --hl:#ffe2a1;--hl2:#f0b04a;--hl2tx:#2a1800;--cur:#c9782b;--ic:#1f3b63;--icbg:#e9dcc0;--icbd:1.5px dashed #8a6a3c;--icr:12px;--mut:#5d4a2c;--mut2:#5d4a2c;--ct:#8a4f12}
+html[data-theme=t7]{--bg:#fbfaf7;--hd:#fbfaf7;--hdtx:#111;--hdbd:1px solid #e6e3dc;--hbtn:transparent;--hbtx:#111;--hbbd:1px solid #dcd8cf;
+ --sf:#fff;--sfbd:1px solid #e9e6df;--sh:none;--r:12px;--pgtx:#3a3a3a;
+ --b1:#13695b;--b1tx:#fff;--b2:#fff;--b2tx:#1d1d1d;--b2bd:1px solid #dcd8cf;--ac:#13695b;--actx:#fff;
+ --hl:#e3f2ee;--hl2:#a6dccf;--hl2tx:#0b2b25;--cur:#13695b;--ic:#13695b;--icbg:transparent;--icbd:0;--icr:0;--mut:#555;--mut2:#555;--ct:#13695b}
+html[data-theme=t6] :is(header h1,.tile .nm,.hero b,h3.sec,.hq){font-family:"Kaiti SC","STKaiti","KaiTi","Xingkai SC","Noto Serif CJK SC",serif}
+html[data-theme=t6] .tile{border-top:6px solid #1f3b63}
+html[data-theme=t6] .hero{background:#1f3b63 radial-gradient(ellipse at 85% 10%,rgba(255,190,90,.35),transparent 55%);border:1px solid #c98a2b}
+html[data-theme=t6] .hero b{color:#f8ecd0}html[data-theme=t6] .hero span{color:#ead9b4}html[data-theme=t6] .hero img{border-radius:10px;border:2px solid #e8a33d}
+html[data-theme=t6] .hero .stt{background:rgba(0,0,0,.2);border:1px solid #c98a2b}html[data-theme=t6] .hero .stt .sl{color:#ead9b4}html[data-theme=t6] .stt .sl b{color:#ffd27a}
+html[data-theme=t6] .tile .nm .no{background:#e8a33d;color:#2a1800}html[data-theme=t6] .tile.add .nm{color:#f1e4c6}
+html[data-theme=t7] .tile,html[data-theme=t7] .hero{border-top:1px solid #e9e6df}html[data-theme=t7] .tile .nm{font-weight:600;letter-spacing:.2px}
+html[data-theme=t7] .tile .nm .no{background:transparent;color:#13695b;border:1px solid #13695b}html[data-theme=t7] .hero img{border-radius:50%;filter:grayscale(.15)}
+html[data-theme=t7] header h1{font-weight:600;letter-spacing:.5px}html[data-theme=t7] .hero .stt{background:transparent;border:1px solid #dcd8cf}
+.hq{display:none}.hq.fade{opacity:0}
+html:is([data-theme=t6],[data-theme=t7]) .hero .hq{display:block;margin-top:8px;transition:opacity .35s;line-height:1.5}
+html[data-theme=t6] .hero .hq{font-size:17px;color:#ffe2a8}html[data-theme=t6] .hq .hqk{display:inline-block;margin-right:8px;font-size:12px;padding:0 6px;border:1px solid #e8a33d;border-radius:4px;color:#ffd27a;font-family:"Noto Sans CJK SC",sans-serif;vertical-align:2px}
+html[data-theme=t7] .hero .hq{border-left:2px solid #13695b;padding-left:10px}html[data-theme=t7] .hq .hqe{display:block;color:#111;font-size:15.5px;font-style:italic}html[data-theme=t7] .hq .hqz{display:block;color:#555;font-size:13px;margin-top:2px}
+@media(max-width:420px){html:is([data-theme=t6],[data-theme=t7]) .hero{flex-wrap:wrap}html:is([data-theme=t6],[data-theme=t7]) .hero .stt{margin-left:auto}}
+html[data-theme=t6] .hq .hqd{display:block}html[data-theme=t6] .hq .hqs{display:block;font-size:12.5px;color:#ead9b4;margin-top:2px;font-family:"Noto Sans CJK SC",sans-serif}
+/* theme mascots (symbolic, not real people): t6 wanderer with guitar + little blue book + bar lamp · t7 meditating owl */
+html:is([data-theme=t6],[data-theme=t7]) .hero .hq{min-height:72px;padding-right:96px;background-repeat:no-repeat;background-position:right center;background-size:auto 72px}
+html[data-theme=t6] .hero .hq{background-image:url(icons/m_wander.svg)}
+html[data-theme=t7] .hero .hq{background-image:url(icons/m_owl.svg);background-size:auto 64px}
+html:is([data-theme=t6],[data-theme=t7]) header h1::after{content:"";display:inline-block;width:24px;height:24px;margin-left:8px;vertical-align:-4px;background:center/contain no-repeat}
+html[data-theme=t6] header h1::after{background-image:url(icons/a_lamp.svg)}
+html[data-theme=t7] header h1::after{background-image:url(icons/a_owl.svg)}
+@media(max-width:420px){html:is([data-theme=t6],[data-theme=t7]) .hero .hq{padding-right:70px;background-size:auto 56px}}
+html[data-theme^=t] .gpos{color:var(--mut2)}html[data-theme^=t] .rbh,html[data-theme^=t] .rbc{color:var(--pgtx)}html[data-theme=t6] .tile.add .ic{color:#f1e4c6}
+@media(max-width:420px){html:is([data-theme=t6],[data-theme=t7]) .hero>div{flex:1 1 calc(100% - 76px)}html:is([data-theme=t6],[data-theme=t7]) .hero .stt{order:3;flex:1 1 100%;flex-direction:row;justify-content:flex-end;gap:12px;margin-top:6px}}
+/* left-hand play: sunflower on the LEFT of every sentence/item card (Nova 2026-10-20) */
+:where(.s,.wc .top,.ent .hd,.row,.chb,.fr,.cmsh,.li,.card .top):has(>.p){display:flex}
+:not(.pb):not(.player):not(.bar)>.p{order:-1;margin-left:0!important;margin-right:4px;flex:none}
+.s>.p{align-self:flex-start}
+/* bold mode must not force dark text onto dark headers/heroes */
+html.bold[data-theme^=t] header h1#title{color:var(--hdtx)!important}
+html.bold:is([data-theme=t3],[data-theme=t6]) .hero.hero span{color:inherit!important}

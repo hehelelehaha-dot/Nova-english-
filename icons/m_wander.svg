@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<!-- bar lamp -->
+<path d="M96 4v14" stroke="#c98a2b" stroke-width="2"/><path d="M84 30c0-8 5-12 12-12s12 4 12 12z" fill="#e8a33d" stroke="#8a5a12" stroke-width="2"/>
+<ellipse cx="96" cy="32" rx="20" ry="5" fill="#ffd27a" opacity=".35"/><path d="M80 38l-8 22M112 38l8 22" stroke="#ffd27a" stroke-width="1.5" opacity=".5"/>
+<!-- little blue book -->
+<rect x="80" y="68" width="26" height="20" rx="2" fill="#2d5a94" stroke="#f3e6c8" stroke-width="2"/><path d="M85 74h14M85 79h10" stroke="#f3e6c8" stroke-width="1.6"/>
+<!-- wanderer seen from behind: hat, backpack, guitar -->
+<path d="M30 30h22" stroke="#f3e6c8" stroke-width="3"/><path d="M34 30c0-7 3-10 7-10s7 3 7 10" fill="#3b2a18" stroke="#f3e6c8" stroke-width="2"/>
+<circle cx="41" cy="37" r="7" fill="#f3e6c8"/>
+<path d="M28 88V58c0-9 6-14 13-14s13 5 13 14v30" fill="#8a5a12" stroke="#f3e6c8" stroke-width="2"/>
+<rect x="31" y="52" width="20" height="22" rx="5" fill="#5d3b16" stroke="#f3e6c8" stroke-width="1.8"/>
+<path d="M54 46l16 -14" stroke="#f3e6c8" stroke-width="3"/><ellipse cx="60" cy="72" rx="9" ry="12" transform="rotate(-25 60 72)" fill="#e8a33d" stroke="#f3e6c8" stroke-width="2"/>
+<path d="M56 62l10-22" stroke="#f3e6c8" stroke-width="2.2"/><circle cx="60" cy="71" r="2.5" fill="#3b2a18"/>
+<path d="M33 88v8M49 88v8" stroke="#f3e6c8" stroke-width="3"/>
+</svg>
