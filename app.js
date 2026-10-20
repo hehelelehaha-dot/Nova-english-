@@ -377,10 +377,10 @@ function spans(toks){let h="",open=false;for(const [tk,t] of toks){if(!open){h+=
 // ---------- long audio with item jump + follow-along ----------
 let EXZH=null;async function loadEXZH(){if(!EXZH){try{EXZH=await getJSON("exzh.json")}catch(e){EXZH={}}}return EXZH}
 async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();await loadEXZH();const R=[1,.85,.75];let ri=0;
- V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div></div>
- <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?"每个例句后读中文翻译，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。</div>
+ V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div><div class="skbar" id="skbar" hidden></div></div>
+ <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?"每个例句读完后读中文翻译，再读一遍英文例句，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。听熟的词点「跳过」，连播时就会跳过它。</div>
  ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;
-  return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${e.t!=null?`<button class="jump" data-j="${e.t}">▶ 从这里听</button>`:""}</div>
+  return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${e.t!=null?`<button class="jump" data-j="${e.t}">▶ 从这里听</button>`:""}<button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div>
   <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}${(e.exzh&&e.exzh[j])||EXZH[x]?`<div class="exz${tt&&tt.z&&tt.z[j]!=null?` wd lz" data-t="${tt.z[j]}`:""}">${esc((e.exzh&&e.exzh[j])||EXZH[x])}</div>`:""}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><div class="tx en${tt&&tt.o!=null?` wd lo" data-t="${tt.o}`:""}">${ywHTML(e.src,true)}</div><button class="p sm" data-src="${i}" aria-label="播放原文">▶</button></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
  const au=document.getElementById("au");wirePP(au);
  const play=t=>{au.currentTime=Math.max(0,t-0.05);au.playbackRate=R[ri];au.play().catch(()=>{})};
@@ -389,10 +389,28 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
  V.querySelectorAll(".wd").forEach(w=>w.onclick=()=>{LASTUSER=0;const sn=w.closest(".sn");const f=sn?sn.querySelector(".wd"):w;play(+f.dataset.t)});
  document.getElementById("bk").onclick=()=>au.currentTime=Math.max(0,au.currentTime-10);document.getElementById("fw").onclick=()=>au.currentTime+=10;
  document.getElementById("sp").onclick=e=>{ri=(ri+1)%3;au.playbackRate=R[ri];e.target.textContent="速度 "+R[ri]+"x"};
- const WD=[...V.querySelectorAll(".wd")].map(el=>({el,t:+el.dataset.t})).sort((a,b)=>a.t-b.t);
+ const WD=[...V.querySelectorAll(".wd")].map(el=>({el,t:+el.dataset.t}));
+ // English example read again after its Chinese (tt.rx): the same word spans light up a second time
+ d.items.forEach((e,i)=>{const rx=e.tt&&e.tt.rx;if(!rx)return;const li=document.querySelectorAll(`#e${i} ol > li`);rx.forEach((ts_,j)=>{if(!ts_||!li[j])return;const ws=[...li[j].querySelectorAll(":scope > .sn .wd, :scope > .wd")];ts_.forEach((t,k)=>{if(ws[k]&&t!=null)WD.push({el:ws[k],t})})})});
+ WD.sort((a,b)=>a.t-b.t);
  const ts=d.items.map(e=>e.tt&&e.tt.w!=null?e.tt.w:e.t);let lastE=-1,lastW=null,lastS=null,raf=0;
- function tick(){const ct=au.currentTime+0.05;
+ // ③ per-word 跳过 (Nova 2026-10-20): skipped entries are jumped over in 连播 (also when 从这里听 lands on one);
+ // tapping a word inside a skipped entry still plays it by hand (MANK). Saved per deck+word in localStorage nova_skip_<audio>.
+ const SKK="nova_skip_"+d.audio;let SK={};try{SK=JSON.parse(localStorage.getItem(SKK))||{}}catch(e){}let MANK=-1;
+ const isSk=i=>!!SK[d.items[i].w];
+ const skPaint=()=>{d.items.forEach((e,i)=>{const el=document.getElementById("e"+i),b=el.querySelector(".skb"),s=isSk(i);el.classList.toggle("skipped",s);b.textContent=s?"已跳过 ↺":"跳过";b.setAttribute("aria-pressed",s)});
+  const n=d.items.filter((e,i)=>isSk(i)).length,bar=document.getElementById("skbar");bar.hidden=!n;bar.innerHTML=n?`已跳过 ${n} 个词（连播时跳过）· <button class="btn" id="skall">全部恢复</button>`:"";
+  if(n)document.getElementById("skall").onclick=()=>{SK={};localStorage.removeItem(SKK);skPaint()}};
+ V.querySelectorAll(".skb").forEach(b=>b.onclick=()=>{const w=d.items[+b.dataset.sk].w;if(SK[w])delete SK[w];else SK[w]=1;localStorage.setItem(SKK,JSON.stringify(SK));skPaint()});
+ skPaint();
+ V.querySelectorAll(".ent .wd").forEach(w=>w.addEventListener("click",()=>{MANK=+w.closest(".ent").id.slice(1)}));
+ V.querySelectorAll(".jump").forEach(b=>b.addEventListener("click",()=>{MANK=-1}));
+ function tick(){let ct=au.currentTime+0.05;
   let k=-1;for(let i=0;i<ts.length;i++)if(ts[i]!=null&&ct>=ts[i])k=i;
+  if(MANK>=0&&k==MANK-1&&ts[MANK]-ct<0.3)k=MANK;  // play() starts 0.05s before the tapped word
+  if(k!=MANK)MANK=-1;
+  if(k>=0&&isSk(k)&&k!=MANK&&!au.paused){let n=k+1;while(n<ts.length&&(ts[n]==null||isSk(n)))n++;
+   if(n<ts.length){au.currentTime=ts[n];ct=ts[n]+0.05;k=n}else{au.pause();au.currentTime=au.duration||au.currentTime}}
   if(k!=lastE){lastE=k;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));if(k>=0){document.getElementById("e"+k).classList.add("cur");document.getElementById("nw").textContent=`正在播放：${d.items[k].n}. ${d.items[k].w}`}}
   let lo=0,hi=WD.length-1,j=-1;while(lo<=hi){const m=(lo+hi)>>1;if(WD[m].t<=ct){j=m;lo=m+1}else hi=m-1}
   const w=j>=0?WD[j].el:null;if(w!==lastW){lastW&&lastW.classList.remove("on");w&&w.classList.add("on");lastW=w;

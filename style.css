@@ -290,3 +290,6 @@ html.bold #ss .gl{font-weight:600}
 .gcard.selfspell .ga .word{height:0;margin:0;overflow:hidden}
 .gcard.selfspell .ywb,.gcard.selfspell .exw{color:transparent!important;background:none!important;border-bottom:2px solid #d89b00;-webkit-user-select:none;user-select:none}
 .gpos{font-style:italic;color:#888;font-weight:400;margin-right:2px}
+.skb{margin-left:6px;font-size:12px;padding:3px 8px;border-radius:12px;border:1px solid #ccc;background:#fff;color:#666}
+.ent.skipped{opacity:.45}.ent.skipped .skb{opacity:1;background:#eee;color:#333;font-weight:600}
+.ent.skipped > :not(.hd){display:none}.skbar{margin-top:8px;font-size:13px;color:#555}.skbar .btn{padding:3px 10px;font-size:12px}
