@@ -293,3 +293,94 @@ html.bold #ss .gl{font-weight:600}
 .skb{margin-left:6px;font-size:12px;padding:3px 8px;border-radius:12px;border:1px solid #ccc;background:#fff;color:#666}
 .ent.skipped{opacity:.45}.ent.skipped .skb{opacity:1;background:#eee;color:#333;font-weight:600}
 .ent.skipped > :not(.hd){display:none}.skbar{margin-top:8px;font-size:13px;color:#555}.skbar .btn{padding:3px 10px;font-size:12px}
+.tile .tsec{font-size:12.5px;color:#5b6f80;margin-top:2px;font-variant-numeric:tabular-nums}html.bold .tile .tsec{color:#163a5f!important;font-weight:600}
+
+/* ======================= THEMES (Nova 2026-10-20) =======================
+   html[data-theme] = t1 暖白金 (default) · t2 磨砂玻璃 · t3 海军蓝金 · t4 马卡龙 · t5 杂志 · classic (= the rules above, untouched).
+   Tokens per theme → one shared component layer. Correct/wrong (green/red) and the sunflower play buttons are kept in every theme;
+   content surfaces stay light in every theme (t3 = ivory cards on navy) so all section text keeps its contrast. */
+html[data-theme=classic] .ics{display:none}
+html:not([data-theme=classic]) .ice{display:none}
+html[data-theme=t1]{--bg:#faf6ee;--hd:#faf6ee;--hdtx:#2b2418;--hdbd:1px solid #e6dbc2;--hbtn:#fff;--hbtx:#8a6d2a;--hbbd:1px solid #e3d5b4;
+ --sf:#ffffff;--sfbd:1px solid #efe5cf;--sh:0 4px 16px rgba(120,90,30,.07);--r:20px;--pgtx:#5c5040;
+ --b1:#8a6a1f;--b1tx:#fff;--b2:#fffdf7;--b2tx:#6b5320;--b2bd:1px solid #e3d5b4;--ac:#e2b84a;--actx:#2b2000;
+ --hl:#fbedc2;--hl2:#e2b84a;--hl2tx:#2b2000;--cur:#c9a24a;--ic:#b08a2e;--icbg:transparent;--icbd:1.5px solid #ead9ad;--icr:14px;--mut:#7a6c55;--ct:#a07c26}
+html[data-theme=t2]{--bg:linear-gradient(135deg,#a8d8ff 0%,#c9b8ff 55%,#ffd1e8 100%) fixed;--hd:rgba(255,255,255,.45);--hdtx:#10233a;--hdbd:1px solid rgba(255,255,255,.7);--hbtn:rgba(255,255,255,.7);--hbtx:#2f5a8a;--hbbd:0;
+ --sf:rgba(255,255,255,.78);--sfbd:1px solid rgba(255,255,255,.9);--sh:0 8px 28px rgba(40,60,120,.15);--r:24px;--pgtx:#1d2f47;
+ --b1:#3a56d4;--b1tx:#fff;--b2:rgba(255,255,255,.85);--b2tx:#24407a;--b2bd:1px solid rgba(255,255,255,.95);--ac:#ffcf4d;--actx:#2b2000;
+ --hl:#fff1a8;--hl2:#ffcf4d;--hl2tx:#2b2000;--cur:#4a6cf0;--ic:#fff;--icbg:linear-gradient(135deg,#4f8dfd,#7b61ff);--icbd:0;--icr:15px;--mut:#3c4f66;--ct:#4a5bd8}
+html[data-theme=t3]{--bg:#0e1a2b;--hd:#0b1524;--hdtx:#e9c46a;--hdbd:1px solid rgba(201,162,74,.45);--hbtn:transparent;--hbtx:#e9c46a;--hbbd:1px solid rgba(201,162,74,.6);
+ --sf:#fbf7ee;--sfbd:1px solid #c9a24a55;--sh:0 8px 22px rgba(0,0,0,.35);--r:18px;--pgtx:#dfe6ef;
+ --b1:#1d3352;--b1tx:#f3d27a;--b2:#fffaf0;--b2tx:#1d3352;--b2bd:1px solid #d8c08a;--ac:#e9c46a;--actx:#1a1400;
+ --hl:#f6e3a6;--hl2:#e9c46a;--hl2tx:#1a1400;--cur:#c9a24a;--ic:#e9c46a;--icbg:transparent;--icbd:1px solid rgba(201,162,74,.6);--icr:50%;--mut:#b6c3d3;--ct:#e9c46a}
+html[data-theme=t4]{--bg:#fff7f9;--hd:#ffffff;--hdtx:#3a3046;--hdbd:0;--hbtn:#f3ecff;--hbtx:#5a38b8;--hbbd:0;
+ --sf:#ffffff;--sfbd:0;--sh:0 6px 20px rgba(190,150,200,.2);--r:26px;--pgtx:#5c4f6b;
+ --b1:#7a5ad0;--b1tx:#fff;--b2:#f6f0ff;--b2tx:#5a3fb0;--b2bd:0;--ac:#ffc7d6;--actx:#5a1f33;
+ --hl:#ffe7a8;--hl2:#ffc94d;--hl2tx:#2b2000;--cur:#e0607e;--ic:#8a6ad8;--icbg:#efe7ff;--icbd:0;--icr:18px;--mut:#7a6e87;--ct:#7a5ad0}
+html[data-theme=t5]{--bg:#f6f3ec;--hl2:#ffc800;--hd:#f6f3ec;--hdtx:#141414;--hdbd:2px solid #141414;--hbtn:transparent;--hbtx:#141414;--hbbd:1.5px solid #141414;
+ --sf:#fffdf8;--sfbd:1px solid #141414;--sh:none;--r:4px;--pgtx:#2a2a2a;
+ --b1:#141414;--b1tx:#fff;--b2:#fffdf8;--b2tx:#141414;--b2bd:1px solid #141414;--ac:#c8102e;--actx:#fff;
+ --hl:#ffe9a0;--hl2tx:#141414;--cur:#c8102e;--ic:#c8102e;--icbg:transparent;--icbd:0;--icr:0;--mut:#444;--ct:#c8102e}
+html[data-theme^=t],html[data-theme^=t] body{background:var(--bg);color:#1d2b38}
+html[data-theme=t2] body{background:transparent}
+html[data-theme^=t] header{background:var(--hd);color:var(--hdtx);border-bottom:var(--hdbd);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+html[data-theme^=t] header h1{color:var(--hdtx)}
+html[data-theme^=t] :is(#back,#hdr-r button,#hdr-r .hb){background:var(--hbtn);color:var(--hbtx);border:var(--hbbd)}
+html[data-theme^=t] :where(.tile,.li,.card,.wc,.ent,.s,.player,.dots,.sh,.hero,.gu,.cmi,.cmsent,.cms1,.lock,.srsst>span){background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
+html[data-theme^=t] .s{border-left-width:4px}
+html[data-theme=t2] :is(.tile,.li,.card,.wc,.ent,.s,.player,.hero,.gu,.cmi,.cmsent,.sh){-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+html[data-theme^=t] .tile{border-top:var(--sfbd)}
+html[data-theme^=t] .tile.add{background:transparent;border:2px dashed var(--ct);box-shadow:none;opacity:.75}
+html[data-theme^=t] .hero{border-left:var(--sfbd)}
+html[data-theme^=t] main>:is(h3.sec,.tip,.done,.gs,.rbh,.sb),html[data-theme^=t] :is(.gs,.rbh){color:var(--pgtx)}
+html[data-theme^=t] :is(.bar button,.btn,.gray,.shb,.skb,.osent,.fcsay,.wfx,.exb){background:var(--b2);color:var(--b2tx);border:var(--b2bd)}
+html[data-theme^=t] :is(.bar button.on,.ent .jump,.rs,.zs .btn.on,.gblue,.osent.playing,.toast,.lab.ex,.tile .nm .no,.skb[aria-pressed=true]){background:var(--b1);color:var(--b1tx);border-color:var(--b1)}
+html[data-theme^=t] .bar button.red.on{background:#c0392b;color:#fff}
+html[data-theme^=t] :is(.flip,.flipb,.tile2,.exb2.open,.bar .org.on){background:var(--ac)!important;color:var(--actx)!important}
+html[data-theme^=t] .tile2{box-shadow:0 3px 0 rgba(0,0,0,.18)}
+html[data-theme^=t] :is(.gp i,.tlog .tb i){background:var(--ac)}
+html[data-theme^=t] .no{background:#d64545;color:#fff}html[data-theme^=t] .yes{background:#2e7d32;color:#fff}
+html[data-theme^=t] :is(.sn.now,.w.wd.now,.ywb,.exz.wd.on,.tx.wd.on,#ss .ph.play,.cmsent .ph.play,.wft tr.on td,.gmsg){background:var(--hl)}
+html[data-theme^=t] :is(.exz.wd.on,.tx.wd.on){box-shadow:0 0 0 3px var(--hl)}
+html[data-theme^=t] .wd.on,html[data-theme^=t] .dseg.dplay{background:var(--hl2);color:var(--hl2tx);box-shadow:0 0 0 2px var(--hl2)}
+html[data-theme^=t] :is(.s.cur,.wc.cur){outline:3px solid var(--cur)}
+html[data-theme^=t] .ent.cur{outline:3px solid var(--cur)}
+html[data-theme^=t] .bar{background:transparent}
+/* home tiles */
+html[data-theme^=t] .tile .ic{width:52px;height:52px;display:flex;align-items:center;justify-content:center;color:var(--ic);background:var(--icbg);border:var(--icbd);border-radius:var(--icr);font-size:0}
+html[data-theme^=t] .tile .ic svg{width:30px;height:30px}html[data-theme^=t] .tile.add .ic{font-size:30px;border:0;background:none;color:var(--ct)}
+html[data-theme^=t] .tile .ct{color:var(--ct)}html[data-theme^=t] .tile .ds{color:var(--mut)}html[data-theme^=t] .tile .tsec{color:var(--mut)}
+html[data-theme^=t] .hero .stt{background:var(--b2);border:var(--b2bd)}
+html[data-theme=t1] .tile .nm .no{background:transparent;color:#8a6a1f;border:1.5px solid #c9a24a}
+html[data-theme=t3] :is(.tile,.hero){background:linear-gradient(135deg,#15243a,#1b2f4b);border:1px solid rgba(201,162,74,.4)}
+html[data-theme=t3] .tile .nm,html[data-theme=t3] .hero b{color:#f3f5f8}html[data-theme=t3] .hero span{color:#c8d3e0}
+html[data-theme=t3] .tile .nm .no{background:#e9c46a;color:#0e1a2b}html[data-theme=t3] .hero img{border-radius:50%;border:2px solid #e9c46a}
+html[data-theme=t3] .hero .stt{background:transparent;border:1px solid rgba(201,162,74,.6)}html[data-theme=t3] .hero .stt .sl{color:#c8d3e0}html[data-theme=t3] .stt .sl b{color:#e9c46a}
+html[data-theme=t3] .tw .dots{background:#1b2f4b;color:#e9c46a}
+html[data-theme=t4] .tw:nth-child(1) .ic{background:#ffe3ea;color:#d04e6e}html[data-theme=t4] .tw:nth-child(2) .ic{background:#e3f0ff;color:#3b74c8}
+html[data-theme=t4] .tw:nth-child(3) .ic{background:#e3f6ea;color:#2a8f58}html[data-theme=t4] .tw:nth-child(4) .ic{background:#fff1d9;color:#c07f1a}
+html[data-theme=t4] .gtile:nth-of-type(1) .ic{background:#efe7ff}html[data-theme=t4] .gtile:nth-of-type(2) .ic{background:#dff6f7;color:#1f8a90}html[data-theme=t4] .gtile:nth-of-type(3) .ic{background:#ffe9dc;color:#c9622e}
+html[data-theme=t4] .tile .ic svg :is(path,rect,circle){fill:currentColor;fill-opacity:.18}
+html[data-theme=t4] .hero{background:linear-gradient(120deg,#ffe9f0,#eaf4ff)}
+html[data-theme=t5] :is(header h1,.tile .nm,.hero b,.card .word,h3.sec){font-family:"Noto Serif CJK SC","Songti SC",Georgia,serif}
+html[data-theme=t5] .tile .nm .no{border-radius:0;background:#141414;color:#fff}html[data-theme=t5] .hero img{border-radius:2px}
+html[data-theme=t5] .hero .stt{border:0;border-left:3px solid #c8102e;border-radius:0;background:transparent}
+html[data-theme=t1] .hero img,html[data-theme=t2] .hero img{border-radius:20px}
+/* settings: theme picker */
+.thp{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+.thb{display:flex;flex-direction:column;align-items:center;gap:6px;border:2px solid transparent;background:none;border-radius:16px;padding:6px;font:inherit;cursor:pointer}
+.thb.on{border-color:#2f5a8a}html[data-theme^=t] .thb.on{border-color:var(--b1)}
+.thb .sw{width:72px;height:48px;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);display:flex;align-items:flex-end;gap:4px;padding:6px}
+.thb .sw i{flex:1;height:14px;border-radius:4px}.thb .thn{font-size:14px;color:#333}
+/* theme contrast pass: muted greys / small labels darkened so every text is ≥ 4.5:1 on its card */
+html[data-theme^=t]{--mut2:#595959}html[data-theme=t1]{--mut2:#66573d;--ct:#7d5e12}html[data-theme=t4]{--mut2:#5e5270}html[data-theme=t2]{--mut2:#3f4d60}
+html[data-theme^=t] :is(.sb,.pos,.cmr,.srsdk,.ent .n,.who,.ent .hd span[style],.wfb,.tile .ds,.tile .tsec){color:var(--mut2)!important}
+html[data-theme=t3] .tile :is(.ds.ds.ds,.tsec.tsec.tsec){color:#c3cedb!important}
+html[data-theme^=t] .naval .who{color:#8a5a12!important}
+html[data-theme^=t] .card .tip,html[data-theme^=t] .li .tip{color:var(--mut2)}
+html[data-theme^=t] .lab.yw{background:#946200}html[data-theme^=t] .lab.lg{background:#7d5a06}html[data-theme^=t] .lab.pos{background:#256b29}
+html[data-theme^=t] .exz{color:#4f4f4f}html[data-theme^=t] .osb.ai{color:#4f5b6a}html[data-theme^=t] .srsdk .nw{color:#1f5e44}
+html[data-theme=t3] .status{color:#dfe6ef}html[data-theme=t3] :is(.player,.card,.li,.ent) .status{color:#1d3352}
+html[data-theme^=t] #ss .osb.ai{color:#4f5b6a;opacity:1}
+html[data-theme^=t] .status{color:var(--pgtx)}html[data-theme^=t] :is(.player,.card,.li,.ent,.sh) .status{color:var(--mut2)}
+html[data-theme^=t] .tile.add{opacity:1}html[data-theme^=t] .tile.add .nm{color:var(--pgtx)}

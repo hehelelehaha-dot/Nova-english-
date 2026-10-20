@@ -135,7 +135,7 @@ const effCat=x=>{const m=ORG.move[x.it.id];return m&&allCats().some(c=>c.id==m)?
 const ttl=it=>ORG.rename[it.id]||it.title;
 async function itemsIn(cid){const mine=(await idbAll().catch(()=>[]));
  return builtinItems().filter(x=>!ORG.hidden[x.it.id]&&effCat(x)==cid).map(x=>({kind:"b",id:x.it.id,title:ttl(x.it),sub:x.it.sub||"",it:x.it}))
-  .concat(mine.filter(f=>(allCats().some(c=>c.id==f.cat)?f.cat:"reading")==cid).map(f=>({kind:"m",id:f.id,title:f.name,sub:"我导入的音频",f})))}
+  .concat(mine.filter(f=>{const c=allCats().some(c=>c.id==f.cat)?f.cat:"reading";MCAT[f.id]=c;return c==cid}).map(f=>({kind:"m",id:f.id,title:f.name,sub:"我导入的音频",f})))}
 // ---------- sheet / dialogs (touch friendly) ----------
 function sheet(title,buttons){return new Promise(res=>{const o=document.createElement("div");o.className="ov";
  o.innerHTML=`<div class="sh"><div class="sht">${esc(title)}</div>${buttons.map((b,i)=>`<button class="shb ${b.cls||""}" data-i="${i}">${esc(b.t)}</button>`).join("")}<button class="shb cancel" data-i="-1">取消</button></div>`;
@@ -161,10 +161,26 @@ async function catMenu(c){if(c.builtin)return;const n=(await itemsIn(c.id)).leng
 let LP=null;function longPress(el,fn){let t;el.addEventListener("touchstart",()=>{t=setTimeout(()=>{LP=Date.now();fn()},550)},{passive:true});
  for(const e of["touchend","touchmove","touchcancel"])el.addEventListener(e,()=>clearTimeout(t),{passive:true});el.addEventListener("contextmenu",e=>{e.preventDefault()})}
 const tapOK=()=>!LP||Date.now()-LP>700;
+// ---------- home section icons (SVG line set; the 经典 theme shows the old emoji instead) ----------
+const svgI=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const ICON={reading:svgI('<path d="M3 5.5C5.5 4 8.5 4 12 6c3.5-2 6.5-2 9-.5v13c-2.5-1.5-5.5-1.5-9 .5-3.5-2-6.5-2-9-.5z"/><path d="M12 6v13.5"/>'),
+ flash:svgI('<rect x="3" y="6" width="13" height="15" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v12"/><path d="M7 12h5M7 15.5h3"/>'),
+ longaudio:svgI('<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>'),
+ chunks:svgI('<path d="M4 9h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4H4z"/><path d="M12 9V5h8v8h-4"/>'),
+ wf:svgI('<path d="M4 19 9 5l5 14M5.8 14h6.4"/><path d="M16 9h4M18 7v12"/>'),
+ g:svgI('<rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9"/><circle cx="18" cy="13.5" r=".9"/>'),
+ k:svgI('<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 12h18M12 3v9"/><path d="M7 17.5c1.2-1.4 2.8-1.4 4 0"/>'),
+ folder:svgI('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>')};
+// ---------- themes (Nova 2026-10-20): t1 暖白金 (default) · t2 磨砂玻璃 · t3 海军蓝金 · t4 马卡龙 · t5 杂志 · classic 经典. localStorage nova_theme ----------
+const THEMES=[["t1","暖白金","#faf6ee","#b08a2e"],["t2","磨砂玻璃","#b8c8ff","#4f8dfd"],["t3","海军蓝金","#0e1a2b","#e9c46a"],["t4","马卡龙","#ffe9f0","#8a6ad8"],["t5","杂志","#f6f3ec","#c8102e"],["classic","经典","#bfe0f7","#f5c518"]];
+const THEMEC={t1:"#faf6ee",t2:"#a8c8ff",t3:"#0b1524",t4:"#ffffff",t5:"#f6f3ec",classic:"#6fb3e6"};
+const curTheme=()=>{const t=localStorage.getItem("nova_theme");return THEMES.some(x=>x[0]==t)?t:"t1"};
+function setTheme(t){localStorage.setItem("nova_theme",t);document.documentElement.dataset.theme=t;const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=THEMEC[t]||"#6fb3e6"}
+setTheme(curTheme());
 function gear(){const h=document.getElementById("hdr-r");h.innerHTML=`<button id="gear" aria-label="设置">⚙︎</button>`;document.getElementById("gear").onclick=()=>location.hash="#/s"}
 async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span id="yec">${yearLeft()}</span></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic">${c.icon}</span><span class="nm">${SECN[c.id]?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
- <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic">🔤</span><span class="nm"><span class="no">5</span>词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic">🎮</span><span class="nm"><span class="no">6</span>小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span></button><button class="tile gtile" onclick="location.hash='#/k'"><span class="ic">🎬</span><span class="nm"><span class="no">7</span>画面漫画</span><span class="ds">原句变漫画 · 关键词看图</span><span class="ct">每个单元 2–3 张</span></button>
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span id="yec">${yearLeft()}</span></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic"><span class="ice">${c.icon}</span><span class="ics">${ICON[c.id]||ICON.folder}</span></span><span class="nm">${SECN[c.id]?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span><span class="tsec" data-s="${c.id}">${secHTML(c.id)}</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
+ <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic"><span class="ice">🔤</span><span class="ics">${ICON.wf}</span></span><span class="nm"><span class="no">5</span>词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span><span class="tsec" data-s="wf">${secHTML("wf")}</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic"><span class="ice">🎮</span><span class="ics">${ICON.g}</span></span><span class="nm"><span class="no">6</span>小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span><span class="tsec" data-s="g">${secHTML("g")}</span></button><button class="tile gtile" onclick="location.hash='#/k'"><span class="ic"><span class="ice">🎬</span><span class="ics">${ICON.k}</span></span><span class="nm"><span class="no">7</span>画面漫画</span><span class="ds">原句变漫画 · 关键词看图</span><span class="ct">每个单元 2–3 张</span><span class="tsec" data-s="k">${secHTML("k")}</span></button>
  <button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
  document.getElementById("stt").onclick=showTimeLog;V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
  V.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>catMenu(cs.find(x=>x.id==b.dataset.m)));
@@ -187,6 +203,7 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
  <h3 class="sec">🔁 同步（在 iPad 和手机之间）</h3><div class="yn" style="margin-top:0"><button class="wide flip" style="margin-top:0" onclick="location.hash='#/exp'">📤 导出整理</button><button class="wide gray" style="margin-top:0" onclick="location.hash='#/imp'">📥 导入</button></div>
  <h3 class="sec">🧠 今日复习</h3><div class="li" style="display:block"><div style="margin-bottom:8px">每天最多学几个新词</div><div class="zs">${[5,10,15,20,30].map(n=>`<button class="btn${n==srsNewCap()?" on":""}" data-nc="${n}">${n}</button>`).join("")}</div></div>
+ <h3 class="sec">🎨 主题</h3><div class="li" style="display:block"><div class="thp">${THEMES.map(([id,n,bg,ac])=>`<button class="thb${id==curTheme()?" on":""}" data-th="${id}" aria-pressed="${id==curTheme()}"><span class="sw" style="background:${bg}"><i style="background:${ac}"></i><i style="background:${ac};opacity:.45"></i></span><span class="thn">${n}</span></button>`).join("")}</div></div>
  <h3 class="sec">🔠 显示</h3><div class="li" style="display:block">
   <div style="margin-bottom:8px">字体大小</div><div class="zs">${ZOOMS.map(([n,z])=>`<button class="btn${Math.abs(z-curZoom())<.01?" on":""}" data-z="${z}">${n}</button>`).join("")}</div>
   <label class="tg"><input type="checkbox" id="bold" ${document.documentElement.classList.contains("bold")?"checked":""}> 字体加深加粗</label>
@@ -195,6 +212,7 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  <button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>
  <div class="tip" style="margin-top:14px">这些整理只保存在这台设备上；导入的 MP3 删除后无法恢复。</div>`;
  V.querySelectorAll("[data-nc]").forEach(b=>b.onclick=()=>{stamp("o:srsnew",+b.dataset.nc);srsSave();V.querySelectorAll("[data-nc]").forEach(x=>x.classList.toggle("on",x==b))});
+ V.querySelectorAll("[data-th]").forEach(b=>b.onclick=()=>{setTheme(b.dataset.th);V.querySelectorAll("[data-th]").forEach(x=>{x.classList.toggle("on",x==b);x.setAttribute("aria-pressed",x==b)})});
  V.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{setZoom(+b.dataset.z);V.querySelectorAll("[data-z]").forEach(x=>x.classList.toggle("on",x==b))});
  document.getElementById("bold").onchange=e=>{document.documentElement.classList.toggle("bold",e.target.checked);localStorage.setItem("nova_bold",e.target.checked?"1":"0");saveDisplay()};
  document.getElementById("chk").onclick=()=>checkUpdate(true);document.getElementById("force").onclick=async()=>{if(await sure("强制更新？\n会清除离线缓存后重新下载（你的整理和导入的音频不受影响）。","强制更新"))forceUpdate()};
@@ -441,8 +459,13 @@ async function startSW(){if(!("serviceWorker" in navigator))return;const sw=navi
   if(META.v)localStorage.setItem("nova_v",META.v);route();startSW()})();
 
 
-function yearLeft(d){d=d||new Date();const y=d.getFullYear(),x=Math.round((Date.UTC(y,11,31)-Date.UTC(y,d.getMonth(),d.getDate()))/864e5)+1;return `今年还剩${Math.floor(x/7)}周${x%7}天（${x}天）。`}
-function updYec(){const e=document.getElementById("yec");if(e)e.textContent=yearLeft()}
+// Countdown (Nova 2026-10-20, same wording as the reminders): weeks are Mon–Sun; sprint ends on the year's last Sunday (2026: Dec 27); the days after are rest days.
+function yearLeft(d){d=d||new Date();const y=d.getFullYear(),day=Date.UTC(y,d.getMonth(),d.getDate()),D=864e5;
+ const dec31=Date.UTC(y,11,31),lastSun=dec31-((new Date(dec31).getUTCDay())%7)*D,rest=Math.round((dec31-lastSun)/D),ls=new Date(lastSun);
+ if(day>lastSun)return `今年的冲刺已经完成 🎉<br>年底 ${rest} 天留给你放松`;
+ const X=7-((new Date(day).getUTCDay()+6)%7),N=Math.max(0,Math.round((lastSun-(day+X*D))/D+1)/7|0);
+ return `本周还剩 ${X} 天，之后还有 ${N} 个整周<br>（冲刺到 ${ls.getUTCMonth()+1} 月 ${ls.getUTCDate()} 日），年底 ${rest} 天留给你放松`}
+function updYec(){const e=document.getElementById("yec");if(e)e.innerHTML=yearLeft()}
 let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,1);_yecT=setTimeout(()=>{updYec();schedYec()},m-n)}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
 
@@ -477,7 +500,18 @@ const dKey=d=>{d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1)
 function tSave(){try{localStorage.setItem(TK,JSON.stringify(TLOG))}catch(e){}}
 function tPlaying(){try{if(!A.paused&&!A.ended)return true;for(const a of document.querySelectorAll("audio,video"))if(!a.paused&&!a.ended)return true;if(window.speechSynthesis&&speechSynthesis.speaking)return true}catch(e){}return false}
 function tActive(now){return !document.hidden&&(now-tAct<T_IDLE||tPlaying())}
-function tTick(){const now=Date.now();const dt=Math.min(now-tLast,5e3);tLast=now;if(dt>0&&tActive(now)){const k=dKey();TLOG[k]=Math.round(((TLOG[k]||0)+dt/1e3)*10)/10;tSave()}const el=document.getElementById("stt");if(el)el.innerHTML=sttHTML()}
+// Per-section time (Nova 2026-10-20): the SAME active seconds are also credited to the home section that is open
+// (①–⑦ + custom categories; home / 设置 / 🧠 今日复习 count only in the global total). localStorage nova_tsec {YYYY-MM-DD:{sec:seconds}}; starts at 0 (no back-fill).
+const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)||"{}")||{}}catch(e){TSEC={}}
+const MCAT={};  // imported-audio id → category (filled by itemsIn)
+function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
+ if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return "wf";if(h[1]=="g")return "g";if(h[1]=="k")return "k";
+ if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);return x?effCat(x):null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
+function tsecT(sec,day){if(day)return (TSEC[day]||{})[sec]||0;let s=0;for(const d in TSEC)s+=+(TSEC[d][sec]||0);return s}
+const secHTML=sec=>`今天 ${fmtT(tsecT(sec,dKey()))} · 累计 ${fmtT(tsecT(sec))}`;
+function tTick(){const now=Date.now();const dt=Math.min(now-tLast,5e3);tLast=now;if(dt>0&&tActive(now)){const k=dKey();TLOG[k]=Math.round(((TLOG[k]||0)+dt/1e3)*10)/10;tSave()
+  const s=secOf();if(s){const D=TSEC[k]||(TSEC[k]={});D[s]=Math.round(((D[s]||0)+dt/1e3)*10)/10;try{localStorage.setItem(TSK,JSON.stringify(TSEC))}catch(e){}}}
+ const el=document.getElementById("stt");if(el)el.innerHTML=sttHTML();document.querySelectorAll(".tsec[data-s]").forEach(e=>{const t=secHTML(e.dataset.s);if(e.textContent!=t)e.textContent=t})}
 function fmtT(sec){const m=Math.floor((sec||0)/60);const h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
 function tTotal(){return Object.values(TLOG).reduce((a,b)=>a+(+b||0),0)}
 function sttHTML(){return `<span class="sl">今天 <b>${fmtT(TLOG[dKey()])}</b></span><span class="sl">累计 <b>${fmtT(tTotal())}</b></span>`}
