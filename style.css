@@ -480,3 +480,6 @@ html[data-theme=t6] .qm.tap .qmi{animation:qmStrum .8s ease-in-out,qmFlick .8s l
 html[data-theme=t7] .qm.tap .qmi{animation:qmOwl .8s ease-in-out}
 html[data-theme=t1] .qm.tap .qmi,html[data-theme=classic] .qm.tap .qmi{animation:qmSpin .8s ease-out}
 @media (prefers-reduced-motion:reduce){.qm.tap .qmi{animation:none!important}.qbar .hq{transition:none}}
+
+.lab.nt{background:#5d4037;color:#fff}
+.ntrow .tx{font-size:.92em;line-height:1.5}

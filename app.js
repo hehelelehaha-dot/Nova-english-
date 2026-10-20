@@ -329,6 +329,7 @@ async function playClips(list,btn){const me=++RUN;window._oplayed=[];window._opl
 function playFull(s,btn,rate){if(s&&s.oas&&s.oas.length)return playClips(s.oas,btn);LASTBTN=btn;return playSrc(s,rate||1)}
 // ---------- 原文 (original Naval sentence) ----------
 // ② / 🧠 card back: 底层逻辑 row (c.lg=[emoji,text], same text as the ① gloss / 拓展 底层画面; added by build/card_logic.py)
+function noteHTML(c){return c&&c.note?`<div class="row ntrow"><div class="tx"><span class="lab nt">讲解</span>${esc(c.note)}</div></div>`:""}
 function lgHTML(c){return c&&c.lg&&c.lg[1]?`<div class="row lgrow"><div class="tx"><span class="lab lg">底层逻辑</span>${c.lg[0]?`<span class="lge">${esc(c.lg[0])}</span> `:""}${esc(c.lg[1])}</div></div>`:""}
 function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t,[a,b]=full&&src.ft&&src.fhl?src.fhl:src.hl;const who=src.sp=="Naval"?"Naval":"Chris";
  return `<span class="lab yw">原文</span>${dsegHTML(t,[a,b],t==(src.ft||src.t)?src.sg:null)} <span class="ywsp">— ${who}</span>`}
@@ -380,7 +381,7 @@ function viewFlash(d,id){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+
    if(S.pos>=n){$("fc").innerHTML=`<div class="card done">这一轮完成了！<br>${CE?"想得起":"认识"} ${k} 个，${CE?"想不起":"不认识"} ${u} 个<button class="wide flip" onclick="_fc.again()">再来一轮</button>${u?'<button class="wide no" onclick="_fc.un()">只练不认识的</button>':""}</div>`;return}
    const i=q[S.pos],c=C[i];
    if(CE&&!back){const sp=S.sp[i];
-    $("fc").innerHTML=`<div class="card ce"><div class="cez">${esc(c.zh)}</div><div class="pos en">${esc(c.pos)}</div>${lgHTML(c)}
+    $("fc").innerHTML=`<div class="card ce"><div class="cez">${esc(c.zh)}</div><div class="pos en">${esc(c.pos)}</div>${lgHTML(c)}${noteHTML(c)}
      <div class="fchrow"><button class="fchint" id="hint" onclick="_fc.hint(${i})" aria-label="提示：再显示一个字母">${fcMask(c.w,S.rv[i]||1)}</button><button class="btn fcsay" id="fcsay" onclick="_fc.say(${i},this)" aria-label="听单词发音（提示）">🔊</button></div><div class="tip" style="text-align:center">共 ${fcLetters(c.w)} 个字母 · 点一下多显示一个</div>
      ${c.src&&c.src.zh?`<div class="row czr"><div class="tx"><span class="lab yw">原句</span>${fcZh(c.src)}${c.src.sp?` <span class="ywsp">— ${c.src.sp=="Naval"?"Naval":"Chris"}</span>`:""}</div></div>`:""}
      <div class="tip" style="text-align:center;margin-top:10px">🗣 先大声说出英文，再翻看答案</div>
@@ -390,7 +391,7 @@ function viewFlash(d,id){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+
     const inp=$("sp");inp.onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();_fc.spell(i)}};return}
    let h=`<div class="card"><div class="word">${esc(c.w)}</div><div class="pos en">${esc(c.pos)}</div><button class="big" onclick="_fc.play(${i},0)">▶</button>${c.src&&c.src.oas&&c.src.oas.length?`<button class="osent" id="osent" onclick="_fc.osent(${i},this)" aria-label="播放原句原声">🎧 原句</button>`:""}`;
    if(!back)h+=`<input class="guess" id="g" placeholder="我猜的意思（可不填）" value="${esc(S.guess[i]||"")}"><button class="wide flip" onclick="_fc.flip(${i})">翻看答案</button>`;
-   else h+=`<div class="zh">${esc(c.zh)}</div>${!CE&&S.guess[i]?`<div class="mine">我猜的：${esc(S.guess[i])}</div>`:""}${CE&&S.sp[i]?`<div class="mine">我拼的：${esc(S.typed[i])} ${S.sp[i]=="ok"?"✅":"❌ → 记为想不起"}</div>`:""}${lgHTML(c)}
+   else h+=`<div class="zh">${esc(c.zh)}</div>${!CE&&S.guess[i]?`<div class="mine">我猜的：${esc(S.guess[i])}</div>`:""}${CE&&S.sp[i]?`<div class="mine">我拼的：${esc(S.typed[i])} ${S.sp[i]=="ok"?"✅":"❌ → 记为想不起"}</div>`:""}${lgHTML(c)}${noteHTML(c)}
     <div class="row"><div class="tx en"><span class="lab">解释</span>${esc(c.ex)}</div><button class="p sm" onclick="_fc.play(${i},1)">▶</button></div>
     <div class="row"><div class="tx en"><span class="lab ex">例句1</span>${esc(c.exs[0])}</div><button class="p sm" onclick="_fc.play(${i},2)">▶</button></div>
     <div class="row"><div class="tx en"><span class="lab ex">例句2</span>${esc(c.exs[1])}</div><button class="p sm" onclick="_fc.play(${i},3)">▶</button></div>
@@ -496,7 +497,7 @@ async function viewChunks(d){const url=await audioURL(d.audio);const hl=e=>dsegH
  V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放全部">▶</button><button class="btn" id="bk">⟲ 上一个</button><button class="btn" id="fw">下一个 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0">▶ 播放全部：每个词组 原声×3 → 中文 → 原声×3</div></div>
  <div class="tip">原声来自 ${esc(d.source)}。点 🌻 听这个词组的完整练习，点「原声」只听一遍。</div>
  ${d.items.map((e,i)=>`<div class="ent chk" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en">${esc(e.c)}</span><span class="z">${esc(e.zh)}</span></div>
-  <div class="row yrow"><div class="tx en"><span class="lab yw">原文</span>${hl(e)} <span class="ywsp">— ${esc(e.sp)}</span></div></div>
+  <div class="row yrow"><div class="tx en"><span class="lab yw">原文</span>${hl(e)} <span class="ywsp">— ${esc(e.sp)}</span></div></div>${noteHTML(e)}
   <div class="chb"><button class="p sm" data-q="${i}" aria-label="练习序列">▶</button><button class="btn" data-o="${i}">🔊 原声 1 次</button><button class="jump" data-j="${e.t}">▶ 从这里连播</button><span class="chs" id="cs${i}"></span></div></div>`).join("")}`;
  const au=document.getElementById("au");wirePP(au);const ts=d.items.map(e=>e.t);
  const play=t=>{stopAll();au.currentTime=Math.max(0,t);au.play().catch(()=>{})};
