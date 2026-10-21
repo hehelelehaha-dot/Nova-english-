@@ -20,3 +20,6 @@
 - 第 2 步 19:51：build 通过（③ 1937s→4378s，246 处插入）；新 chunk 原声 whisper 抽查 15 条有半个邻词/截断，已逐条重剪（o22 rises in status 原声实为 rise in status，文字不改）；chunks all.mp3 按实际时长重拼。修复 chunk 页高亮重复（dsegHTML 跨点读段时重复输出整段高亮）。大冰主题换成 Nova 的图片 icons/m_dabing.webp（320px，暖色圆底，点按 = 弹跳/倾斜 + 灯光发亮）。
 - 第 3 步 20:02：部署 633e216（sw 8647473e56）；export_gen / export_yy 已重跑。另：主题列表去掉 ⋯ / 长按菜单 / 提示行。
 - 20:29 加密 build（AES-GCM，固定 salt 存 app/.enc_salt，以后部署设备不用重新输入密码）；test_unlock ALL OK 6；部署中
+- 20:31 已部署 437dd49（sw 14d8d02704），线上 meta enc:true，明文路径 404，线上解锁测试见报告
+- 20:41 T11 7 个新词 📖 拓展词条（expand/data7.py；subscribers 原本已有）；原文 diff 0；加密 build（salt 不变）部署
+- 20:42 大冰图片改为透明抠图（去掉圆底，清理白边，仅 drop-shadow）
