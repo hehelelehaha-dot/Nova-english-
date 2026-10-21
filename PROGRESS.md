@@ -43,3 +43,7 @@
 - 00:0x T14 chfix3 完成：18/24 通过 whisper 复核，6 条未解决保留原剪辑（3,4,6,7,8,14）；词卡音频进行中
 - T14 词卡音频+tt 完成（30）
 - 00:2x T14 测试：test_t14(13+14) ALL OK 27、test_logic 18、test_laseq/test_qtap ALL OK、check_clips 269/0
+- 00:3x T14 部署 9ceb76dd（sw 15e4305d76，加密，pw-absent，线上已确认）；export_gen/export_yy 扩到 T14 并重跑
+## 2026-10-21 00:47 ET · ① 背面显示该句全部 ②③ 词卡 + ④ chunks
+- 01:0x build/back_items.py（build 中自动生成 s.bkw/s.bkc）+ app.js 背面分组 生词 / 搭配·Chunks + 背面可滚动；test_back.mjs
+- 01:2x 测试：test_back ALL OK 4（940 词引用/255 chunk 引用 0 缺失 0 孤儿）、test_t912 38、test_dseg 13（修 T13/14 seg 末尾超出 clip）、test_logic 18、test_t14 27；export_gen 加背面生词/Chunks

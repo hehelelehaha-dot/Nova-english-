@@ -488,3 +488,6 @@ html[data-theme=t1] .qm.tap .qmi,html[data-theme=classic] .qm.tap .qmi{animation
 
 /* only the mascot advances the quote (Nova 2026-10-20): tight button box, bar itself not clickable */
 .qbar .qm{padding:0;margin:0;overflow:visible}
+
+#ss .glh{margin:8px 0 2px;font-size:.85em;font-weight:700;color:#8a6a1a;letter-spacing:.05em}#ss .glh:first-child{margin-top:0}
+#ss .s.zh .zhb{max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
