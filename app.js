@@ -1,4 +1,4 @@
-// build 2026-10-21c: ③ 原句 before every word (m5pre) — cache bump
+// build 2026-10-21d: ③ 原句 before every word (m5pre) — cache bump
 "use strict";
 // ---------- storage / crypto ----------
 let META={enc:false},KEY=null;const blobCache={};
@@ -32,6 +32,12 @@ function stopAll(){RUN++;try{A.pause()}catch(e){}if(window.speechSynthesis)speec
 async function playP(p,rate=1,fbText){const url=await audioURL(p);return new Promise(r=>{A.onended=()=>r(true);A.onerror=()=>speak(fbText,rate).then(r);A.src=url;A.playbackRate=rate;A.defaultPlaybackRate=rate;
  const q=A.play();if(q)q.then(()=>{A.playbackRate=rate}).catch(()=>speak(fbText,rate).then(r))})}
 function speak(t,rate){return new Promise(r=>{if(!t||!window.speechSynthesis)return r();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=rate*.9;u.onend=r;u.onerror=r;speechSynthesis.cancel();speechSynthesis.speak(u)})}
+// custom progress bar (Nova 2026-10-21): on iPad the decrypted blob: audio reports duration Infinity/NaN, so the native bar showed only elapsed time with the dot stuck left; use the file's real length (d.dur) and our own seek
+const fmtC=t=>{t=Math.max(0,Math.floor(t||0));const h=Math.floor(t/3600),m=Math.floor(t/60)%60,x=String(t%60).padStart(2,"0");return h?`${h}:${String(m).padStart(2,"0")}:${x}`:`${m}:${x}`};
+function seekBar(au,dur){const D=()=>isFinite(au.duration)&&au.duration>0?au.duration:(dur||0);const r=document.getElementById("sk"),c=document.getElementById("tc"),e=document.getElementById("td");let drag=false;
+ const up=()=>{const d=D();r.max=d||1;if(!drag)r.value=Math.min(au.currentTime,d||au.currentTime);c.textContent=fmtC(drag?+r.value:au.currentTime);e.textContent=d?fmtC(d):"--:--";r.style.setProperty("--pc",(d?100*(+r.value)/d:0)+"%")};
+ r.addEventListener("input",()=>{drag=true;up()});r.addEventListener("change",()=>{drag=false;au.currentTime=+r.value;up()});
+ ["timeupdate","durationchange","loadedmetadata","seeked","play","pause"].forEach(k=>au.addEventListener(k,up));up();au.seekTo=t=>{const d=D();au.currentTime=Math.max(0,Math.min(d?d-0.05:t,t))};return D}
 function wirePP(au){const b=document.getElementById("pp");b.onclick=()=>au.paused?au.play().catch(()=>{}):au.pause();
  au.addEventListener("play",()=>b.classList.add("playing"));for(const e of["pause","ended"])au.addEventListener(e,()=>b.classList.remove("playing"))}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
@@ -420,17 +426,17 @@ function spans(toks){let h="",open=false;for(const [tk,t] of toks){if(!open){h+=
 // ---------- long audio with item jump + follow-along ----------
 let EXZH=null;async function loadEXZH(){if(!EXZH){try{EXZH=await getJSON("exzh.json")}catch(e){EXZH={}}}return EXZH}
 async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();await loadEXZH();const R=[1,.85,.75];let ri=0;
- V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div><div class="skbar" id="skbar" hidden></div></div>
+ V.innerHTML=`<div class="player"><audio id="au" preload="metadata" src="${url}"></audio><div class="skb"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="1" step="0.1" value="0" aria-label="进度"><span id="td">--:--</span></div><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div><div class="skbar" id="skbar" hidden></div></div>
  <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?(d.items.some(e=>e.tt&&e.tt.o0!=null)?"每个词先放一遍原文句子（原声），":"")+"每个例句读完后读中文翻译，再读一遍英文例句，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后再读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。听熟的词点「跳过」，连播时就会跳过它。</div>
  ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;const st=tt&&tt.s0!=null?tt.s0:e.t;/* ③: starting at a word (从这里听 / tap word) begins with its 原句 (tt.s0) → word → 英解释 → 例句 → 原句 (Nova 2026-10-21) */
   return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}${st!=null?` data-p="${st}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${st!=null?`<button class="jump" data-j="${st}">▶ 从这里听</button>`:""}<button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div>
   <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}${(e.exzh&&e.exzh[j])||EXZH[x]?`<div class="exz${tt&&tt.z&&tt.z[j]!=null?` wd lz" data-t="${tt.z[j]}`:""}">${esc((e.exzh&&e.exzh[j])||EXZH[x])}</div>`:""}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><div class="tx en${tt&&tt.o!=null?` wd lo" data-t="${tt.o}`:""}">${ywHTML(e.src,true)}</div><button class="p sm" data-src="${i}" aria-label="播放原文">▶</button></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
- const au=document.getElementById("au");wirePP(au);
+ const au=document.getElementById("au");wirePP(au);seekBar(au,d.dur);
  const play=t=>{au.currentTime=Math.max(0,t-0.05);au.playbackRate=R[ri];au.play().catch(()=>{})};
  V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>play(+b.dataset.j));
  V.querySelectorAll("[data-src]").forEach(b=>b.onclick=()=>{au.pause();stopAll();const e=d.items[+b.dataset.src];playFull(e.src,b,R[ri])});
  V.querySelectorAll(".wd").forEach(w=>w.onclick=()=>{LASTUSER=0;const sn=w.closest(".sn");const f=sn?sn.querySelector(".wd"):w;play(+(f.dataset.p||f.dataset.t))});
- document.getElementById("bk").onclick=()=>au.currentTime=Math.max(0,au.currentTime-10);document.getElementById("fw").onclick=()=>au.currentTime+=10;
+ document.getElementById("bk").onclick=()=>au.seekTo(au.currentTime-10);document.getElementById("fw").onclick=()=>au.seekTo(au.currentTime+10);
  document.getElementById("sp").onclick=e=>{ri=(ri+1)%3;au.playbackRate=R[ri];e.target.textContent="速度 "+R[ri]+"x"};
  const WD=[...V.querySelectorAll(".wd")].map(el=>({el,t:+el.dataset.t}));
  // English example read again after its Chinese (tt.rx): the same word spans light up a second time
@@ -454,7 +460,7 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
   if(MANK>=0&&k==MANK-1&&ts[MANK]-ct<0.3)k=MANK;  // play() starts 0.05s before the tapped word
   if(k!=MANK)MANK=-1;
   if(k>=0&&isSk(k)&&k!=MANK&&!au.paused){let n=k+1;while(n<ts.length&&(ts[n]==null||isSk(n)))n++;
-   if(n<ts.length){au.currentTime=ts[n];ct=ts[n]+0.05;k=n}else{au.pause();au.currentTime=au.duration||au.currentTime}}
+   if(n<ts.length){au.currentTime=ts[n];ct=ts[n]+0.05;k=n}else{au.pause();au.currentTime=(isFinite(au.duration)?au.duration:d.dur)||au.currentTime}}
   if(k!=lastE){lastE=k;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));if(k>=0){document.getElementById("e"+k).classList.add("cur");document.getElementById("nw").textContent=`正在播放：${d.items[k].n}. ${d.items[k].w}`}}
   let lo=0,hi=WD.length-1,j=-1;while(lo<=hi){const m=(lo+hi)>>1;if(WD[m].t<=ct){j=m;lo=m+1}else hi=m-1}
   const w=j>=0?WD[j].el:null;if(w!==lastW){lastW&&lastW.classList.remove("on");w&&w.classList.add("on");lastW=w;
@@ -497,12 +503,12 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();
 
 // ---------- 🧩 chunks: original-audio phrases, 3x original + 中文 + 3x original ----------
 async function viewChunks(d){const url=await audioURL(d.audio);const hl=e=>dsegHTML(e.s,e.hl,e.sg);
- V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放全部">▶</button><button class="btn" id="bk">⟲ 上一个</button><button class="btn" id="fw">下一个 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0">▶ 播放全部：每个词组 原声×3 → 中文 → 原声×3</div></div>
+ V.innerHTML=`<div class="player"><audio id="au" preload="metadata" src="${url}"></audio><div class="skb"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="1" step="0.1" value="0" aria-label="进度"><span id="td">--:--</span></div><div class="pb"><button class="p" id="pp" aria-label="播放全部">▶</button><button class="btn" id="bk">⟲ 上一个</button><button class="btn" id="fw">下一个 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0">▶ 播放全部：每个词组 原声×3 → 中文 → 原声×3</div></div>
  <div class="tip">原声来自 ${esc(d.source)}。点 🌻 听这个词组的完整练习，点「原声」只听一遍。</div>
  ${d.items.map((e,i)=>`<div class="ent chk" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en">${esc(e.c)}</span><span class="z">${esc(e.zh)}</span></div>
   <div class="row yrow"><div class="tx en"><span class="lab yw">原文</span>${hl(e)} <span class="ywsp">— ${esc(e.sp)}</span></div></div>${noteHTML(e)}
   <div class="chb"><button class="p sm" data-q="${i}" aria-label="练习序列">▶</button><button class="btn" data-o="${i}">🔊 原声 1 次</button><button class="jump" data-j="${e.t}">▶ 从这里连播</button><span class="chs" id="cs${i}"></span></div></div>`).join("")}`;
- const au=document.getElementById("au");wirePP(au);const ts=d.items.map(e=>e.t);
+ const au=document.getElementById("au");wirePP(au);seekBar(au,d.dur);const ts=d.items.map(e=>e.t);
  const play=t=>{stopAll();au.currentTime=Math.max(0,t);au.play().catch(()=>{})};
  V.querySelectorAll(".jump").forEach((b,i)=>b.onclick=async()=>{LASTUSER=0;au.pause();stopAll();/* ④ 从这里连播: first the item's whole original sentence once (Nova 2026-10-21), then the track from this chunk */
   const e=d.items[i],L=e.sg?[...new Set(e.sg.map(x=>x[2]).filter(Boolean))]:[];if(L.length){document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));document.getElementById("e"+i).classList.add("cur");b.classList.add("playing");if(!(await playClips(L,b)))return;b.classList.remove("playing")}play(+b.dataset.j)});

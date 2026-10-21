@@ -495,3 +495,8 @@ html[data-theme=t1] .qm.tap .qmi,html[data-theme=classic] .qm.tap .qmi{animation
 /* ② answer side: 原文 Chinese translation (2026-10-21) */
 .fcsz{font-size:.86em;color:var(--mut,#6f665a);margin:-2px 0 8px 10px;line-height:1.5}
 .fcsz .zbh{font-weight:600;text-decoration:underline;text-underline-offset:3px}
+/* custom progress bar for ③④ (blob audio has no duration on iPad) */
+.skb{display:flex;align-items:center;gap:10px;padding:6px 4px 10px;font-variant-numeric:tabular-nums;font-size:15px;color:#5a4a2a}
+.skb input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:28px;background:transparent;margin:0}
+.skb input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,#c8962e var(--pc,0%),#e2d6bd var(--pc,0%))}
+.skb input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#c8962e;margin-top:-8px;border:2px solid #fff;box-shadow:0 1px 3px #0004}
