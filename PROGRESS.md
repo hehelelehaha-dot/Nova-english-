@@ -26,3 +26,9 @@
 - 部署 3722f7f（sw bc2be196f4），export 已重跑
 - 20:49 金句栏：只有点吉祥物才换下一句（去掉金句文字的点击）；test_qtap 全主题 iPad/iPhone 通过
 - 21:35 纳瓦尔主题：猫头鹰换成 Nova 的《纳瓦尔宝典》贴纸图 m_naval.webp（金句栏 + 顶栏），点按动画 qmPage；test_qtap / test_themes 通过
+
+## 2026-10-20 22:17 ET · Topic 13/14（Nova 的 zip）
+- 第 0 步：zip 解压到 /workspace/nova/import/t13_14/
+- 22:32–23:10 T13 已生成（未部署）：naval_t13 8 句(TTS+原声 oa/点读 seg)、t13v flash/long 23（tt whisper）、ch_t13 22（含讲解）、wordforms t13v 14 题（verbs.py 已加 VB）、拓展 expand/data99_t13_14.py、漫画 c13_1、catalog 追加。test_t13 ALL OK 14；check_clips 0；原文 verbatim 0 差。备份 backup_t13_2232/。words_merged T13 段换成 large-v3 词时间。
+- 进行中：chunk 原声剪辑修正 import/t13_14/chfix3.py（短 clip 带邻词）
+- 23:2x 修 底层逻辑一致：去掉与旧拓展重复的 internal/align/go around 条目；T13 go around → 词卡名 go around doing（意思不同）；gloss emoji/底层画面与拓展同步
