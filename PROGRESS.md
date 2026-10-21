@@ -21,3 +21,6 @@
 - 17:05 m5pre all 18 decks rebuilt (0 order errors); tests: laseq 34 (new pre-order + 原句 highlight checks), new test_laskip 3, regress 25, comic 47, exzh 19, ceosent 19, oloop 23, srs 7, timer 7. Diff 0. Deploying.
 - DEPLOYED 03a8005 (sw aa5ef7a575); backups refreshed.
 - 16:45 ET: Nova said 原句 only before 1st word. Verified audio (t05/t12/t17 words 2,3,10 transcribed) + live files == local + browser 连播 test (test_laskip 6) → content correct; cause = stale old version on iPad. Single-card change reverted. Cache bump (app.js comment) deploy.
+- DEPLOYED fd5fe38 (sw 0b62714d08); backups refreshed.
+- 17:05 ET: 板块三 request ambiguous — app has no per-card continuous mode other than ③ longaudio (home order ①阅读卡 ②单词卡 ③英英解释音频 ④Chunks). Reverted pending patch; nothing deployed; asked parent to confirm.
+- 17:40 ET: 从这里听 everywhere starts with 原句. ③ (viewLong): ▶ 从这里听 / tap word → tt.s0 (lead 原句); main ▶/跳过/seek already used s0. ④ Chunks ▶ 从这里连播 → plays the item's whole sentence clip(s) (sg oa) once, then track from chunk (no sg → no lead). Only ③④ have 从这里. Verified t10v word1 0–7.7 s = 原句 then "Number one, live up to". Tests: laskip 11, regress 25, laseq 34, ceosent 19, oloop 23.

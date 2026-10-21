@@ -1,4 +1,4 @@
-// build 2026-10-21b: ③ 原句 before every word (m5pre) — cache bump
+// build 2026-10-21c: ③ 原句 before every word (m5pre) — cache bump
 "use strict";
 // ---------- storage / crypto ----------
 let META={enc:false},KEY=null;const blobCache={};
@@ -422,14 +422,14 @@ let EXZH=null;async function loadEXZH(){if(!EXZH){try{EXZH=await getJSON("exzh.j
 async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();await loadEXZH();const R=[1,.85,.75];let ri=0;
  V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div><div class="skbar" id="skbar" hidden></div></div>
  <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?(d.items.some(e=>e.tt&&e.tt.o0!=null)?"每个词先放一遍原文句子（原声），":"")+"每个例句读完后读中文翻译，再读一遍英文例句，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后再读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。听熟的词点「跳过」，连播时就会跳过它。</div>
- ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;
-  return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${e.t!=null?`<button class="jump" data-j="${e.t}">▶ 从这里听</button>`:""}<button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div>
+ ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;const st=tt&&tt.s0!=null?tt.s0:e.t;/* ③: starting at a word (从这里听 / tap word) begins with its 原句 (tt.s0) → word → 英解释 → 例句 → 原句 (Nova 2026-10-21) */
+  return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}${st!=null?` data-p="${st}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${st!=null?`<button class="jump" data-j="${st}">▶ 从这里听</button>`:""}<button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div>
   <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}${(e.exzh&&e.exzh[j])||EXZH[x]?`<div class="exz${tt&&tt.z&&tt.z[j]!=null?` wd lz" data-t="${tt.z[j]}`:""}">${esc((e.exzh&&e.exzh[j])||EXZH[x])}</div>`:""}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><div class="tx en${tt&&tt.o!=null?` wd lo" data-t="${tt.o}`:""}">${ywHTML(e.src,true)}</div><button class="p sm" data-src="${i}" aria-label="播放原文">▶</button></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
  const au=document.getElementById("au");wirePP(au);
  const play=t=>{au.currentTime=Math.max(0,t-0.05);au.playbackRate=R[ri];au.play().catch(()=>{})};
  V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>play(+b.dataset.j));
  V.querySelectorAll("[data-src]").forEach(b=>b.onclick=()=>{au.pause();stopAll();const e=d.items[+b.dataset.src];playFull(e.src,b,R[ri])});
- V.querySelectorAll(".wd").forEach(w=>w.onclick=()=>{LASTUSER=0;const sn=w.closest(".sn");const f=sn?sn.querySelector(".wd"):w;play(+f.dataset.t)});
+ V.querySelectorAll(".wd").forEach(w=>w.onclick=()=>{LASTUSER=0;const sn=w.closest(".sn");const f=sn?sn.querySelector(".wd"):w;play(+(f.dataset.p||f.dataset.t))});
  document.getElementById("bk").onclick=()=>au.currentTime=Math.max(0,au.currentTime-10);document.getElementById("fw").onclick=()=>au.currentTime+=10;
  document.getElementById("sp").onclick=e=>{ri=(ri+1)%3;au.playbackRate=R[ri];e.target.textContent="速度 "+R[ri]+"x"};
  const WD=[...V.querySelectorAll(".wd")].map(el=>({el,t:+el.dataset.t}));
@@ -504,7 +504,8 @@ async function viewChunks(d){const url=await audioURL(d.audio);const hl=e=>dsegH
   <div class="chb"><button class="p sm" data-q="${i}" aria-label="练习序列">▶</button><button class="btn" data-o="${i}">🔊 原声 1 次</button><button class="jump" data-j="${e.t}">▶ 从这里连播</button><span class="chs" id="cs${i}"></span></div></div>`).join("")}`;
  const au=document.getElementById("au");wirePP(au);const ts=d.items.map(e=>e.t);
  const play=t=>{stopAll();au.currentTime=Math.max(0,t);au.play().catch(()=>{})};
- V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>{LASTUSER=0;play(+b.dataset.j)});
+ V.querySelectorAll(".jump").forEach((b,i)=>b.onclick=async()=>{LASTUSER=0;au.pause();stopAll();/* ④ 从这里连播: first the item's whole original sentence once (Nova 2026-10-21), then the track from this chunk */
+  const e=d.items[i],L=e.sg?[...new Set(e.sg.map(x=>x[2]).filter(Boolean))]:[];if(L.length){document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));document.getElementById("e"+i).classList.add("cur");b.classList.add("playing");if(!(await playClips(L,b)))return;b.classList.remove("playing")}play(+b.dataset.j)});
  V.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{au.pause();stopAll();LASTBTN=b;const e=d.items[+b.dataset.q];playP(e.q,1,e.c)});
  V.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{au.pause();stopAll();const e=d.items[+b.dataset.o];playP(e.o,1,e.c)});
  const cur=()=>{let k=0;for(let i=0;i<ts.length;i++)if(au.currentTime+0.05>=ts[i])k=i;return k};
