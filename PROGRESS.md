@@ -25,3 +25,4 @@
 - 20:42 大冰图片改为透明抠图（去掉圆底，清理白边，仅 drop-shadow）
 - 部署 3722f7f（sw bc2be196f4），export 已重跑
 - 20:49 金句栏：只有点吉祥物才换下一句（去掉金句文字的点击）；test_qtap 全主题 iPad/iPhone 通过
+- 21:35 纳瓦尔主题：猫头鹰换成 Nova 的《纳瓦尔宝典》贴纸图 m_naval.webp（金句栏 + 顶栏），点按动画 qmPage；test_qtap / test_themes 通过

@@ -408,10 +408,10 @@ html[data-theme=t6] .qbar .hq{font-size:17px;color:#ffe2a8}html[data-theme=t6] .
 html[data-theme=t7] .qbar .hq{border-left:2px solid #13695b;padding-left:10px}html[data-theme=t7] .hq .hqe{display:block;color:#111;font-size:15.5px;font-style:italic}html[data-theme=t7] .hq .hqz{display:block;color:#555;font-size:13px;margin-top:2px}
 @media(max-width:420px){html:is([data-theme=t6],[data-theme=t7]) .hero{flex-wrap:wrap}html:is([data-theme=t6],[data-theme=t7]) .hero .stt{margin-left:auto}}
 html[data-theme=t6] .hq .hqd{display:block}html[data-theme=t6] .hq .hqs{display:block;font-size:12.5px;color:#ead9b4;margin-top:2px;font-family:"Noto Sans CJK SC",sans-serif}
-/* theme mascots (symbolic, not real people): t6 Nova's reading-man picture (m_dabing.webp, tap = bounce/tilt + lamp glow) · t7 meditating owl */
+/* theme mascots (symbolic, not real people): t6 Nova's reading-man picture (m_dabing.webp, tap = bounce/tilt + lamp glow) · t7 Nova's Almanack-reader sticker (m_naval.webp) */
 html:is([data-theme=t6],[data-theme=t7]) header h1::after{content:"";display:inline-block;width:24px;height:24px;margin-left:8px;vertical-align:-4px;background:center/contain no-repeat}
 html[data-theme=t6] header h1::after{background-image:url(icons/a_lamp.svg)}
-html[data-theme=t7] header h1::after{background-image:url(icons/a_owl.svg)}
+html[data-theme=t7] header h1::after{background-image:url(icons/m_naval.webp)}
 html[data-theme^=t] .gpos{color:var(--mut2)}html[data-theme^=t] .rbh,html[data-theme^=t] .rbc{color:var(--pgtx)}html[data-theme=t6] .tile.add .ic{color:#f1e4c6}
 @media(max-width:420px){html:is([data-theme=t6],[data-theme=t7]) .hero>div{flex:1 1 calc(100% - 76px)}html:is([data-theme=t6],[data-theme=t7]) .hero .stt{order:3;flex:1 1 100%;flex-direction:row;justify-content:flex-end;gap:12px;margin-top:6px}}
 /* left-hand play: sunflower on the LEFT of every sentence/item card (Nova 2026-10-20) */
@@ -461,7 +461,7 @@ html[data-theme=t3] .qmi{background-image:url(icons/m_star.svg);transform-origin
 html[data-theme=t4] .qmi{background-image:url(icons/m_cloud.svg)}
 html[data-theme=t5] .qmi{background-image:url(icons/m_pen.svg)}
 html[data-theme=t6] .qm{width:76px;height:76px}html[data-theme=t6] .qmi{background:url(icons/m_dabing.webp) center/contain no-repeat;border-radius:0;box-shadow:none;border:0;filter:drop-shadow(0 1px 3px rgba(0,0,0,.45));transform-origin:50% 90%}
-html[data-theme=t7] .qm{width:70px;height:70px}html[data-theme=t7] .qmi{background-image:url(icons/m_owl.svg)}
+html[data-theme=t7] .qm{width:70px;height:70px}html[data-theme=t7] .qmi{background:url(icons/m_naval.webp) center/contain no-repeat;border-radius:0;box-shadow:none;border:0;transform-origin:50% 90%}
 @media(max-width:480px){.qm{width:52px;height:52px}html[data-theme=t6] .qm,html[data-theme=t7] .qm{width:58px;height:58px}}
 @keyframes qmSpin{0%{transform:rotate(0)}60%{transform:rotate(200deg) scale(1.08)}100%{transform:rotate(360deg)}}
 @keyframes qmBob{0%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}55%{transform:translateY(0)}75%{transform:translateY(-3px)}}
@@ -471,6 +471,7 @@ html[data-theme=t7] .qm{width:70px;height:70px}html[data-theme=t7] .qmi{backgrou
 @keyframes qmStrum{0%,100%{transform:rotate(0) translateY(0)}20%{transform:rotate(-5deg) translateY(-3px)}45%{transform:rotate(4deg)}70%{transform:rotate(-3deg) translateY(-2px)}}
 @keyframes qmFlick{0%,100%{filter:none}30%{filter:brightness(1.35) drop-shadow(0 0 6px #ffd27a)}50%{filter:brightness(.9)}70%{filter:brightness(1.25) drop-shadow(0 0 5px #ffd27a)}}
 @keyframes qmRead{0%,100%{transform:translateY(0) rotate(0) scale(1);filter:drop-shadow(0 1px 3px rgba(0,0,0,.45))}20%{transform:translateY(-6px) rotate(-6deg) scale(1.06);filter:drop-shadow(0 0 6px #ffd27a)}45%{transform:translateY(0) rotate(4deg) scale(1.1);filter:brightness(1.12) drop-shadow(0 0 12px #ffcf6a)}70%{transform:translateY(-2px) rotate(-2deg) scale(1.03);filter:drop-shadow(0 0 5px #ffd27a)}}
+@keyframes qmPage{0%,100%{transform:translateY(0) rotate(0) scale(1)}18%{transform:translateY(-5px) rotate(-4deg) scale(1.05)}36%{transform:translateY(0) rotate(3deg) skewX(-3deg)}54%{transform:translateY(-2px) rotate(-2deg) skewX(3deg)}72%{transform:rotate(1deg) skewX(-1.5deg) scale(1.02)}}
 @keyframes qmOwl{0%,100%{transform:rotate(0) scaleY(1)}25%{transform:rotate(-10deg)}45%{transform:rotate(8deg) scaleY(.94)}65%{transform:rotate(-4deg) scaleY(1.03)}}
 .qm.tap .qmi{animation:qmSpin .8s ease-out}
 html[data-theme=t2] .qm.tap .qmi{animation:qmGlow .7s ease-out}
@@ -478,7 +479,7 @@ html[data-theme=t3] .qm.tap .qmi{animation:qmStar .8s ease-out}
 html[data-theme=t4] .qm.tap .qmi{animation:qmBob .8s ease-out}
 html[data-theme=t5] .qm.tap .qmi{animation:qmPen .7s ease-in-out}
 html[data-theme=t6] .qm.tap .qmi{animation:qmRead .9s ease-in-out}
-html[data-theme=t7] .qm.tap .qmi{animation:qmOwl .8s ease-in-out}
+html[data-theme=t7] .qm.tap .qmi{animation:qmPage .9s ease-in-out}
 html[data-theme=t1] .qm.tap .qmi,html[data-theme=classic] .qm.tap .qmi{animation:qmSpin .8s ease-out}
 @media (prefers-reduced-motion:reduce){.qm.tap .qmi{animation:none!important}.qbar .hq{transition:none}}
 
