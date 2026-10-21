@@ -420,7 +420,7 @@ function spans(toks){let h="",open=false;for(const [tk,t] of toks){if(!open){h+=
 let EXZH=null;async function loadEXZH(){if(!EXZH){try{EXZH=await getJSON("exzh.json")}catch(e){EXZH={}}}return EXZH}
 async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();await loadEXZH();const R=[1,.85,.75];let ri=0;
  V.innerHTML=`<div class="player"><audio id="au" controls preload="metadata" src="${url}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div><div class="skbar" id="skbar" hidden></div></div>
- <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?"每个例句读完后读中文翻译，再读一遍英文例句，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。听熟的词点「跳过」，连播时就会跳过它。</div>
+ <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?(d.items.some(e=>e.tt&&e.tt.o0!=null)?"每个词先放一遍原文句子（原声），":"")+"每个例句读完后读中文翻译，再读一遍英文例句，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后再读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。听熟的词点「跳过」，连播时就会跳过它。</div>
  ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;
   return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${e.t!=null?`<button class="jump" data-j="${e.t}">▶ 从这里听</button>`:""}<button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div>
   <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}${(e.exzh&&e.exzh[j])||EXZH[x]?`<div class="exz${tt&&tt.z&&tt.z[j]!=null?` wd lz" data-t="${tt.z[j]}`:""}">${esc((e.exzh&&e.exzh[j])||EXZH[x])}</div>`:""}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><div class="tx en${tt&&tt.o!=null?` wd lo" data-t="${tt.o}`:""}">${ywHTML(e.src,true)}</div><button class="p sm" data-src="${i}" aria-label="播放原文">▶</button></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
@@ -433,9 +433,10 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
  document.getElementById("sp").onclick=e=>{ri=(ri+1)%3;au.playbackRate=R[ri];e.target.textContent="速度 "+R[ri]+"x"};
  const WD=[...V.querySelectorAll(".wd")].map(el=>({el,t:+el.dataset.t}));
  // English example read again after its Chinese (tt.rx): the same word spans light up a second time
+ d.items.forEach((e,i)=>{if(e.tt&&e.tt.o0!=null){const lo=document.querySelector(`#e${i} .lo`);if(lo)WD.push({el:lo,t:e.tt.o0})}});  // ③ 原句 also at the start of each word (Nova 2026-10-21)
  d.items.forEach((e,i)=>{const rx=e.tt&&e.tt.rx;if(!rx)return;const li=document.querySelectorAll(`#e${i} ol > li`);rx.forEach((ts_,j)=>{if(!ts_||!li[j])return;const ws=[...li[j].querySelectorAll(":scope > .sn .wd, :scope > .wd")];ts_.forEach((t,k)=>{if(ws[k]&&t!=null)WD.push({el:ws[k],t})})})});
  WD.sort((a,b)=>a.t-b.t);
- const ts=d.items.map(e=>e.tt&&e.tt.w!=null?e.tt.w:e.t);let lastE=-1,lastW=null,lastS=null,raf=0;
+ const ts=d.items.map(e=>e.tt&&e.tt.s0!=null?e.tt.s0:e.tt&&e.tt.w!=null?e.tt.w:e.t);let lastE=-1,lastW=null,lastS=null,raf=0;
  // ③ per-word 跳过 (Nova 2026-10-20): skipped entries are jumped over in 连播 (also when 从这里听 lands on one);
  // tapping a word inside a skipped entry still plays it by hand (MANK). Saved per deck+word in localStorage nova_skip_<audio>.
  const SKK="nova_skip_"+d.audio;let SK={};try{SK=JSON.parse(localStorage.getItem(SKK))||{}}catch(e){}let MANK=-1;

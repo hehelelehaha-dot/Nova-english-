@@ -16,3 +16,6 @@
 - 16:00 T13/14 re-split applied (import/resplit: resplit.py map.json apply.py read/link): T13 8→12, T14 14→17 cards (all ≤30); re-TTS, align+segs, flash/long/ch relinked, comics c13/c14 si remapped, catalog sub, la_seq t13v/t14v rerun. Backup of pre-split content: backup_pre_resplit_content/.
 - T15–18 enrich done for flash/long (NOCH=1); la_seq rerun. chfix t15 done (4 unresolved: kept gen.py cut), t16–18 running.
 - 17:20 chunk clip checks done (unresolved kept: t15 #2,#6,#10,#13; t17 #4,#12,#15; t18 #6,#11,#12). Diff 0 (T13/14 vs pre-split, T15–18 vs turns.py). Tests: regress ALL OK 25 (18 topics, backs 646/344, max 30 words), ceosent 19, comic 47, exzh 19, laseq 32, oloop 23, srs 7 (expect t18v newest), timer 7. Encrypted build → deploying.
+- 17:35 DEPLOYED 9a1966c (sw 50b1c7aa4d). Backups refreshed (backup_build_latest, store tgz incl. import/t15_18 + import/resplit).
+- 16:20 ③ m5pre: export/gpt/la_seq_m5.py (原句 also before each word: tt.s0 item start, tt.o0); app.js ts uses s0 + .lo highlight at o0 (backup app.js.pre_o0). Running main() on all longaudio. overcome own 拓展 entry (🏃); c17_1 redrawn w/o LIBRARY.
+- 17:05 m5pre all 18 decks rebuilt (0 order errors); tests: laseq 34 (new pre-order + 原句 highlight checks), new test_laskip 3, regress 25, comic 47, exzh 19, ceosent 19, oloop 23, srs 7, timer 7. Diff 0. Deploying.
