@@ -32,3 +32,14 @@
 - 22:32–23:10 T13 已生成（未部署）：naval_t13 8 句(TTS+原声 oa/点读 seg)、t13v flash/long 23（tt whisper）、ch_t13 22（含讲解）、wordforms t13v 14 题（verbs.py 已加 VB）、拓展 expand/data99_t13_14.py、漫画 c13_1、catalog 追加。test_t13 ALL OK 14；check_clips 0；原文 verbatim 0 差。备份 backup_t13_2232/。words_merged T13 段换成 large-v3 词时间。
 - 进行中：chunk 原声剪辑修正 import/t13_14/chfix3.py（短 clip 带邻词）
 - 23:2x 修 底层逻辑一致：去掉与旧拓展重复的 internal/align/go around 条目；T13 go around → 词卡名 go around doing（意思不同）；gloss emoji/底层画面与拓展同步
+- 23:3x T13 检查点部署 d1b2a5b（sw ef1999ce14，加密，pw-absent）；test_logic 17/test_t13 14 全过
+- 23:4x 线上确认 ef1999ce14；export 已重跑（注意：export 脚本只到 T12，需加 T13/14）。开始 T14
+- T14 read/vocab/align/segs 完成
+- T14 chunks gen 完成（words_merged T14 段换 large-v3）
+- T14 chunks 24（去掉 got hit hard：原声听不到 hit）；开始 chfix3 + 词卡音频
+- T14 拓展/WF/catalog 完成；漫画 c14_1 c14_2 提示已写
+- c14_1/c14_2 图片已生成并 pack
+- c14_1/c14_2 图片已 pack
+- 00:0x T14 chfix3 完成：18/24 通过 whisper 复核，6 条未解决保留原剪辑（3,4,6,7,8,14）；词卡音频进行中
+- T14 词卡音频+tt 完成（30）
+- 00:2x T14 测试：test_t14(13+14) ALL OK 27、test_logic 18、test_laseq/test_qtap ALL OK、check_clips 269/0
