@@ -59,3 +59,11 @@
   词头：W20/W27/W30 GPT 改成了原文没有的形式（hold someone to a standard / few and far between / make a sacrifice），保留原词头只换释义。
 - 待 Nova 定方案。
 - 13:2x 开始执行 T12 方案；备份 backup_t12_1307
+- 13:5x T12 完成：R 中文 20（R01 去“也不认可自己的价值”，R08 恢复“最”）；W/E 40 释义+中文（W20/27/30 词头不变，W04/W28 去执行说明）；讲解 13 张（含 5 条逻辑说明）；W02 新例句（重 TTS）；slot/unconditionally/reputation 底层逻辑+拓展同步（data8）；新词 4（toughest/issues/mental exercise/I'll bet you，data12_t12.py 拓展）；chunks 15→35；词形 +4（explicit/implicitly，verbs.py VB 插入）。③ 全部重 TTS 706s→1337s（la_seq m4 重建：export/gpt/t12/la_seq_m4.py，含“英文再读一遍”，因 build/la_seq.py.off 是旧 m2 版）。原文 diff 0；test_regress ALL OK 20（期望值更新 T12 44/35、背面 567/275）；check_clips 0；test_laseq PASS；test_t912 仅 t10/t11 旧期望失败。
+- 部署 4b8637a（sw 41b2315eae）；build 备份已更新。
+- 14:0x 开始 T1–9 批次；备份 backup_t0109_1329
+- 15:2x T12 修正：la_seq_m4 的“原句”一步改为整句（@full，拼接所有 oas），原来 T12 只播了含该词的那一段；T12 ③ 1337s→1519s。
+- T1–9 批次：英英 92 条中 91 条改（含 5 条修正；T09 retreat 保留原释义）；阅读卡中文 57 条（5 条按 Nova 版本修改；T02-R03 用“快乐”因原文 happy）；src.zh 同步（单句 + ft 整段），zb 高亮重新定位（47 处手工）。
+- happiness→幸福：T01-R05、T01-R11、T06-R14、T07-R04（unhappiness→不幸福）、T07 unhappiness 卡（不幸福；不快乐）、ch_t07 the source of unhappiness、exzh “欲望太多会导致不幸福”、拓展 unhappiness。保留：T02-R03/R17（happy）、T05-R09（happily）、“Her unhappiness showed on her face”（不开心，表情）、joy 类。
+- 新词卡 22（T1 barrel；T2 survive/meaningless/start out as；T3 achieve/open-ended/keep looping on；T4 outcome/ignore/marshmallow test/look back；T5 optional/a series of/emotional turmoil/age-related/thought exercise；T6 unfulfillment；T7 be great at；T8 show up/rise/high cost/earned respect；T9 advice）+ 拓展 data13_t0109.py；新 chunk 11（含 T03 to be free of it）。③ T1–9 全部重 TTS + m4full 重排。
+- 功能：② 中→英 正面加 🎧 原句（只在点按时播放）；② 答案面 原文下加中文译文（src.zh，弱化样式）。测试 test_ceosent ALL OK 19；test_regress ALL OK 20（背面 577/286）；check_clips 0；test_laseq PASS；test_t912 仅 t10/t11 旧期望失败。

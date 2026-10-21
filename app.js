@@ -354,6 +354,7 @@ function fcLetters(w){return [...w].filter(ch=>/[a-zA-Z]/.test(ch)).length}
 function fcDiff(typed,w){const a=[...fcNorm(typed)],b=[...w.toLowerCase().replace(/[’‘]/g,"'")];const L=Array.from({length:a.length+1},()=>new Array(b.length+1).fill(0));
  for(let i=a.length-1;i>=0;i--)for(let j=b.length-1;j>=0;j--)L[i][j]=a[i]==b[j]?L[i+1][j+1]+1:Math.max(L[i+1][j],L[i][j+1]);
  let i=0,j=0,h="";while(i<a.length||j<b.length){if(i<a.length&&j<b.length&&a[i]==b[j]){h+=`<span class="dk">${esc(a[i])}</span>`;i++;j++}else if(j<b.length&&(i>=a.length||L[i][j+1]>=L[i+1][j])){h+=`<span class="dm">${esc(b[j])}</span>`;j++}else{h+=`<span class="dx">${esc(a[i])}</span>`;i++}}return h}
+function fcZhHL(src){const z=src.zh||"";if(!src.zb)return esc(z);const[a,b]=src.zb;return esc(z.slice(0,a))+'<span class="zbh">'+esc(z.slice(a,b))+'</span>'+esc(z.slice(b))}
 function fcZh(src){const z=src.zh||"";if(!src.zb)return esc(z);const[a,b]=src.zb;return esc(z.slice(0,a))+'<span class="zbl">＿＿</span>'+esc(z.slice(b))}
 function viewFlash(d,id){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+id+(CE?"_r":"");let S=JSON.parse(localStorage.getItem(KEY_)||"null")||{mode:"all",status:{},queue:null,pos:0,rate:1,guess:{}};S.rv=S.rv||{};S.sp=S.sp||{};S.typed=S.typed||{};if(S.queue){S.queue=S.queue.filter(i=>i<C.length);const have=new Set(S.queue);for(let i=0;i<C.length;i++)if(!have.has(i)&&!S.status[i])S.queue.push(i)}/* cards appended to a deck later (e.g. T9 #20 mention) join a saved queue */let back=false;
   const save=()=>{try{localStorage.setItem(KEY_,JSON.stringify(S))}catch(e){}};
@@ -383,6 +384,7 @@ function viewFlash(d,id){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+
     $("fc").innerHTML=`<div class="card ce"><div class="cez">${esc(c.zh)}</div><div class="pos en">${esc(c.pos)}</div>${lgHTML(c)}${noteHTML(c)}
      <div class="fchrow"><button class="fchint" id="hint" onclick="_fc.hint(${i})" aria-label="提示：再显示一个字母">${fcMask(c.w,S.rv[i]||1)}</button><button class="btn fcsay" id="fcsay" onclick="_fc.say(${i},this)" aria-label="听单词发音（提示）">🔊</button></div><div class="tip" style="text-align:center">共 ${fcLetters(c.w)} 个字母 · 点一下多显示一个</div>
      ${c.src&&c.src.zh?`<div class="row czr"><div class="tx"><span class="lab yw">原句</span>${fcZh(c.src)}${c.src.sp?` <span class="ywsp">— ${c.src.sp=="Naval"?"Naval":"Chris"}</span>`:""}</div></div>`:""}
+     ${c.src&&c.src.oas&&c.src.oas.length?`<div style="text-align:center"><button class="osent" id="osent" onclick="_fc.osent(${i},this)" aria-label="播放原句原声（会听到答案）">🎧 原句</button><div class="tip">点了才播放 · 原声里会听到答案</div></div>`:""}
      <div class="tip" style="text-align:center;margin-top:10px">🗣 先大声说出英文，再翻看答案</div>
      <div class="fcsp"><input id="sp" class="guess" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="✍️ 拼一拼（可不填）" value="${esc(S.typed[i]||"")}"><button class="btn" id="spk" onclick="_fc.spell(${i})">✓ 检查</button></div>
      <div id="spr">${sp=="ok"?`<div class="gok">✅ 拼对了</div>`:sp=="bad"?`<div class="gno">❌ 拼写有误（这张记为想不起）</div><div class="fcdiff en">${fcDiff(S.typed[i],c.w)}</div>`:""}</div>
@@ -394,7 +396,7 @@ function viewFlash(d,id){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+
     <div class="row"><div class="tx en"><span class="lab">解释</span>${esc(c.ex)}</div><button class="p sm" onclick="_fc.play(${i},1)">▶</button></div>
     <div class="row"><div class="tx en"><span class="lab ex">例句1</span>${esc(c.exs[0])}</div><button class="p sm" onclick="_fc.play(${i},2)">▶</button></div>
     <div class="row"><div class="tx en"><span class="lab ex">例句2</span>${esc(c.exs[1])}</div><button class="p sm" onclick="_fc.play(${i},3)">▶</button></div>
-    ${c.src?`<div class="row yrow"><div class="tx en">${ywHTML(c.src,true)}</div><button class="p sm" id="ysrc" onclick="_fc.src(${i},this)">▶</button></div>`:""}
+    ${c.src?`<div class="row yrow"><div class="tx en">${ywHTML(c.src,true)}</div><button class="p sm" id="ysrc" onclick="_fc.src(${i},this)">▶</button></div>${c.src.zh?`<div class="fcsz">${fcZhHL(c.src)}</div>`:""}`:""}
     <div class="yn"><button class="wide no" onclick="_fc.mark(${i},'u')">${CE?"想不起":"不认识"}</button>${CE&&S.sp[i]=="bad"?"":`<button class="wide yes" onclick="_fc.mark(${i},'k')">${CE?"想起来了":"认识"}</button>`}</div>`;
    $("fc").innerHTML=h+"</div>"}
   render()}
