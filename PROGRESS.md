@@ -18,3 +18,5 @@
 - 第 0 步：备份 → backup_t11_1919
 - 第 1 步 19:33：文本完成（31 条 R 中文含 R14 去“通常”；60 个 W/E 释义；24 条讲解；8 个新卡 116–123 含 subscribers（拓展卡，原声里没有此词）；chunks 15→46）。音频：② 释义/新卡重 TTS，③ 全部 615 行重生成，按实际时长拼接 + 逐句 whisper 时间。
 - 第 2 步 19:51：build 通过（③ 1937s→4378s，246 处插入）；新 chunk 原声 whisper 抽查 15 条有半个邻词/截断，已逐条重剪（o22 rises in status 原声实为 rise in status，文字不改）；chunks all.mp3 按实际时长重拼。修复 chunk 页高亮重复（dsegHTML 跨点读段时重复输出整段高亮）。大冰主题换成 Nova 的图片 icons/m_dabing.webp（320px，暖色圆底，点按 = 弹跳/倾斜 + 灯光发亮）。
+- 第 3 步 20:02：部署 633e216（sw 8647473e56）；export_gen / export_yy 已重跑。另：主题列表去掉 ⋯ / 长按菜单 / 提示行。
+- 20:29 加密 build（AES-GCM，固定 salt 存 app/.enc_salt，以后部署设备不用重新输入密码）；test_unlock ALL OK 6；部署中
