@@ -19,3 +19,5 @@
 - 17:35 DEPLOYED 9a1966c (sw 50b1c7aa4d). Backups refreshed (backup_build_latest, store tgz incl. import/t15_18 + import/resplit).
 - 16:20 ③ m5pre: export/gpt/la_seq_m5.py (原句 also before each word: tt.s0 item start, tt.o0); app.js ts uses s0 + .lo highlight at o0 (backup app.js.pre_o0). Running main() on all longaudio. overcome own 拓展 entry (🏃); c17_1 redrawn w/o LIBRARY.
 - 17:05 m5pre all 18 decks rebuilt (0 order errors); tests: laseq 34 (new pre-order + 原句 highlight checks), new test_laskip 3, regress 25, comic 47, exzh 19, ceosent 19, oloop 23, srs 7, timer 7. Diff 0. Deploying.
+- DEPLOYED 03a8005 (sw aa5ef7a575); backups refreshed.
+- 16:45 ET: Nova said 原句 only before 1st word. Verified audio (t05/t12/t17 words 2,3,10 transcribed) + live files == local + browser 连播 test (test_laskip 6) → content correct; cause = stale old version on iPad. Single-card change reverted. Cache bump (app.js comment) deploy.
