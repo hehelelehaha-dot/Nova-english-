@@ -429,7 +429,7 @@ html[data-theme^=t] .who .sno{background:var(--b1);color:var(--b1tx)}
 /* quote bar under the greeting card, every theme (Nova 2026-10-20) */
 .qbar{display:flex;align-items:flex-start;gap:10px;margin:-4px 0 14px;padding:12px 14px;border-radius:18px;background:#fffefa;box-shadow:0 2px 8px rgba(47,90,138,.1);border-left:4px solid #f5c518}
 .qbar[hidden]{display:none}
-.qbar .hq{flex:1;min-width:0;display:block;cursor:pointer;line-height:1.5;transition:opacity .35s ease,height .4s ease;overflow:hidden;overflow-wrap:anywhere}
+.qbar .hq{flex:1;min-width:0;display:block;cursor:default;line-height:1.5;transition:opacity .35s ease,height .4s ease;overflow:hidden;overflow-wrap:anywhere}
 .qbar .hq.fade{opacity:0}
 .hq .hqe{display:block;font-size:15.5px;font-style:italic;color:#0f2c44}.hq .hqd{display:block;font-size:16px;color:#0f2c44}
 .hq .hqz{display:block;font-size:13.5px;color:#3f5568;margin-top:2px}
@@ -484,3 +484,6 @@ html[data-theme=t1] .qm.tap .qmi,html[data-theme=classic] .qm.tap .qmi{animation
 
 .lab.nt{background:#5d4037;color:#fff}
 .ntrow .tx{font-size:.92em;line-height:1.5}
+
+/* only the mascot advances the quote (Nova 2026-10-20): tight button box, bar itself not clickable */
+.qbar .qm{padding:0;margin:0;overflow:visible}

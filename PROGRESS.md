@@ -23,3 +23,5 @@
 - 20:31 已部署 437dd49（sw 14d8d02704），线上 meta enc:true，明文路径 404，线上解锁测试见报告
 - 20:41 T11 7 个新词 📖 拓展词条（expand/data7.py；subscribers 原本已有）；原文 diff 0；加密 build（salt 不变）部署
 - 20:42 大冰图片改为透明抠图（去掉圆底，清理白边，仅 drop-shadow）
+- 部署 3722f7f（sw bc2be196f4），export 已重跑
+- 20:49 金句栏：只有点吉祥物才换下一句（去掉金句文字的点击）；test_qtap 全主题 iPad/iPhone 通过
