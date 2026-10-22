@@ -1,4 +1,4 @@
-// build 2026-10-22b: ③ 原句 before every word (m5pre) — cache bump
+// build 2026-10-22c: ③ 原句 before every word (m5pre) — cache bump
 "use strict";
 // ---------- storage / crypto ----------
 let META={enc:false},KEY=null;const blobCache={};
