@@ -500,3 +500,4 @@ html[data-theme=t1] .qm.tap .qmi,html[data-theme=classic] .qm.tap .qmi{animation
 .skb input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:28px;background:transparent;margin:0}
 .skb input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,#c8962e var(--pc,0%),#e2d6bd var(--pc,0%))}
 .skb input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#c8962e;margin-top:-8px;border:2px solid #fff;box-shadow:0 1px 3px #0004}
+.btn.shf.on{background:#c8962e;color:#fff;border-color:#c8962e}

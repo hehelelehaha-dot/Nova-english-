@@ -1,4 +1,4 @@
-// build 2026-10-21d: ③ 原句 before every word (m5pre) — cache bump
+// build 2026-10-22a: ③ 原句 before every word (m5pre) — cache bump
 "use strict";
 // ---------- storage / crypto ----------
 let META={enc:false},KEY=null;const blobCache={};
@@ -426,7 +426,7 @@ function spans(toks){let h="",open=false;for(const [tk,t] of toks){if(!open){h+=
 // ---------- long audio with item jump + follow-along ----------
 let EXZH=null;async function loadEXZH(){if(!EXZH){try{EXZH=await getJSON("exzh.json")}catch(e){EXZH={}}}return EXZH}
 async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();await loadEXZH();const R=[1,.85,.75];let ri=0;
- V.innerHTML=`<div class="player"><audio id="au" preload="metadata" src="${url}"></audio><div class="skb"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="1" step="0.1" value="0" aria-label="进度"><span id="td">--:--</span></div><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div><div class="skbar" id="skbar" hidden></div></div>
+ V.innerHTML=`<div class="player"><audio id="au" preload="metadata" src="${url}"></audio><div class="skb"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="1" step="0.1" value="0" aria-label="进度"><span id="td">--:--</span></div><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button><button class="btn shf" id="shf" aria-pressed="false">🔀 乱序</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div><div class="skbar" id="skbar" hidden></div></div>
  <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?(d.items.some(e=>e.tt&&e.tt.o0!=null)?"每个词先放一遍原文句子（原声），":"")+"每个例句读完后读中文翻译，再读一遍英文例句，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后再读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。听熟的词点「跳过」，连播时就会跳过它。</div>
  ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;const st=tt&&tt.s0!=null?tt.s0:e.t;/* ③: starting at a word (从这里听 / tap word) begins with its 原句 (tt.s0) → word → 英解释 → 例句 → 原句 (Nova 2026-10-21) */
   return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}${st!=null?` data-p="${st}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${st!=null?`<button class="jump" data-j="${st}">▶ 从这里听</button>`:""}<button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div>
@@ -453,15 +453,32 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
   if(n)document.getElementById("skall").onclick=()=>{SK={};localStorage.removeItem(SKK);skPaint()}};
  V.querySelectorAll(".skb").forEach(b=>b.onclick=()=>{const w=d.items[+b.dataset.sk].w;if(SK[w])delete SK[w];else SK[w]=1;localStorage.setItem(SKK,JSON.stringify(SK));skPaint()});
  skPaint();
+ // ③ 乱序 (Nova 2026-10-22): optional; each entry still one block (原文→单词→英解释→例句→原文). When an entry finishes naturally,
+ // jump to the next unplayed entry of a random order (no repeats; 跳过 entries left out). Bar/±10秒 stay on the real file time.
+ let SH=localStorage.getItem("nova_shuf3")=="1",ORD=[],PL=new Set(),USR=true;
+ const newOrd=()=>{ORD=d.items.map((e,i)=>i).filter(i=>ts[i]!=null);for(let i=ORD.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ORD[i],ORD[j]]=[ORD[j],ORD[i]]}PL=new Set()};
+ const nextSh=()=>ORD.find(i=>!PL.has(i)&&!isSk(i));
+ const shPaint=()=>{const b=document.getElementById("shf");b.classList.toggle("on",SH);b.setAttribute("aria-pressed",SH);b.textContent=SH?"🔀 乱序：开":"🔀 乱序";
+  const n=document.getElementById("nw");if(SH&&!n.textContent)n.textContent="乱序已开：按 ▶ 随机顺序连播，每个词完整播一遍，不重复"};
+ const shStart=()=>{newOrd();const f=nextSh();if(f!=null){au.pause();au.currentTime=Math.max(0,ts[f]-0.05);USR=true}};
+ document.getElementById("shf").onclick=()=>{SH=!SH;localStorage.setItem("nova_shuf3",SH?"1":"0");if(SH)shStart();else{PL=new Set()}shPaint();lastE=-2;tick()};
+ if(SH)shStart();shPaint();window._sh=()=>({ORD:[...ORD],PL:[...PL],SH});
+ ["seeking"].forEach(k=>au.addEventListener(k,()=>{if(!AUTO)USR=true}));let AUTO=false;
+ const shGo=i=>{AUTO=true;au.currentTime=ts[i];setTimeout(()=>AUTO=false,300)};
+ au.addEventListener("ended",()=>{if(!SH)return;const n=nextSh();if(n!=null){shGo(n);au.play().catch(()=>{})}else{document.getElementById("nw").textContent="乱序播放完毕 ✓（再按 ▶ 换一个新顺序）";newOrd()}});
  V.querySelectorAll(".ent .wd").forEach(w=>w.addEventListener("click",()=>{MANK=+w.closest(".ent").id.slice(1)}));
  V.querySelectorAll(".jump").forEach(b=>b.addEventListener("click",()=>{MANK=-1}));
  function tick(){let ct=au.currentTime+0.05;
   let k=-1;for(let i=0;i<ts.length;i++)if(ts[i]!=null&&ct>=ts[i])k=i;
   if(MANK>=0&&k==MANK-1&&ts[MANK]-ct<0.3)k=MANK;  // play() starts 0.05s before the tapped word
   if(k!=MANK)MANK=-1;
+  if(SH&&k>=0&&!au.paused){if(USR){USR=false;if(!ORD.length)newOrd();PL.add(k)}
+   else if(k!=lastE&&lastE>=0||isSk(k)){const n=nextSh();if(n==null){au.pause();document.getElementById("nw").textContent="乱序播放完毕 ✓（再按 ▶ 换一个新顺序）";newOrd();k=lastE}else{shGo(n);ct=ts[n]+0.05;k=n;PL.add(n)}}
+   else PL.add(k)}
   if(k>=0&&isSk(k)&&k!=MANK&&!au.paused){let n=k+1;while(n<ts.length&&(ts[n]==null||isSk(n)))n++;
    if(n<ts.length){au.currentTime=ts[n];ct=ts[n]+0.05;k=n}else{au.pause();au.currentTime=(isFinite(au.duration)?au.duration:d.dur)||au.currentTime}}
-  if(k!=lastE){lastE=k;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));if(k>=0){document.getElementById("e"+k).classList.add("cur");document.getElementById("nw").textContent=`正在播放：${d.items[k].n}. ${d.items[k].w}`}}
+  if(SH&&k>=0&&k==lastE&&!au.paused){const nw=document.getElementById("nw"),tx=`正在播放：${d.items[k].n}. ${d.items[k].w}（乱序 ${PL.size}/${ORD.filter(i=>!isSk(i)).length}）`;if(nw.textContent!=tx)nw.textContent=tx}
+  if(k!=lastE){lastE=k;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));if(k>=0){document.getElementById("e"+k).classList.add("cur");document.getElementById("nw").textContent=`正在播放：${d.items[k].n}. ${d.items[k].w}`+(SH?`（乱序 ${PL.size}/${ORD.filter(i=>!isSk(i)).length}）`:"")}}
   let lo=0,hi=WD.length-1,j=-1;while(lo<=hi){const m=(lo+hi)>>1;if(WD[m].t<=ct){j=m;lo=m+1}else hi=m-1}
   const w=j>=0?WD[j].el:null;if(w!==lastW){lastW&&lastW.classList.remove("on");w&&w.classList.add("on");lastW=w;
    const sn=w?(w.closest(".sn")||w):null;if(sn!==lastS){lastS&&lastS.classList.remove("now");sn&&sn.classList.add("now");lastS=sn;if(!au.paused)follow(sn)}}
