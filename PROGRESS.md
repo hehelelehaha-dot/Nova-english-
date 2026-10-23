@@ -47,3 +47,9 @@ DEPLOYED 7818861
 - Scan of all 18 topics (/tmp/chkall.py: ot+clip vs next ot / track end): only T5, T7 last cards affected; other overlaps are ≤0.5s clip padding.
 - Note for Nova: in T7 Naval says "you can't be great at everything" twice; card 6 = the 2nd; in 原声连播 the 1st plays under card 5's highlight (not changed).
 - New test build/test_lastcard.mjs (single ▶ / 全部连播 / 原声连播 / 原声循环, T7 + T5): ALL OK 9. Regression all pass (shuffle 1 random flake, rerun 16/16).
+- DEPLOYED 4d4b29c7 (sw c25437ade6); backups refreshed.
+
+## 2026-10-22f 'desire contract' added to Topic 7 (Nova)
+- "desire contract" IS in T7 (card 1, Chris: "How do you shortcut that desire contract?", 原声 t07o/s01). The Naval quote "Desire is a contract that you make with yourself to be unhappy until you get what you want." is NOT in the T7 recording (only one "contract" in the whole interview) -> AI voice (Kokoro am_michael), no T7 timestamp.
+- orig/add_t07_desire_contract.py (from add_t09_mention.py; appended so ② progress / ③ timings stay valid): ① card 1 back gloss/bkw row (phrase · 欲望契约 · 📜 每多一个欲望，就多签一份“先不开心”的合同。) with 🌻 原文 = card 1; ② t07v_flash card 15 (c14_*); ③ t07v_long item 15: ex = quote, exs = [quote, "Every new desire is one more desire contract you sign with yourself."], exzh; src = card 1 (原声). la_seq_m5 rebuilt t07v_long (dur 647.88→701.8, order 原文→单词→英解释→例句+中文→原文; earlier items unchanged). catalog 15. ④ already has "shortcut that desire contract" (not added). Backup backup_pre_desirec_1022/.
+- test_desirec.mjs ALL OK 5; regress baseline back items 646→647; all regression pass.

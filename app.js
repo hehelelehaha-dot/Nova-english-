@@ -1,4 +1,4 @@
-// build 2026-10-22e: T5/T7 topic track tail re-cut; ③ 原句 before every word (m5pre) — cache bump
+// build 2026-10-22f: T7 desire contract; 2026-10-22e: T5/T7 topic track tail re-cut; ③ 原句 before every word (m5pre) — cache bump
 "use strict";
 // ---------- storage / crypto ----------
 let META={enc:false},KEY=null;const blobCache={};
