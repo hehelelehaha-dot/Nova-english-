@@ -39,3 +39,11 @@ DEPLOYED 7818861
 - Text follows audio: T3#6 "that are relatively open-ended" → "and are relatively open-ended"; T14#15 → "And this goes back…". Updated cards, ②/③/④ (t03v/t14v flash+long), wordforms, chunks, expand + source data files. AI TTS s06 (T3) / s15 (T14) regenerated (Whisper-verified). ③/④ use original clips → no re-cut / dur change. Chinese unchanged (T3 already 而且, T14 又 covers And).
 - ① back flat: style.css `#ss .s.zh .zhb` max-height:none; overflow:visible (was 70vh inner scroll). New test build/test_flat.mjs (ALL OK 9, iPad 820x1180, T5#9); screenshot app/test/r1_back_flat_t05.png.
 - Tests: regress 25, laskip 19, shuffle 16 (1 random flake, rerun ok), laseq 34, ceosent 19, oloop 23, comic 47, srs 7, timer 7, exzh 19, flat 9.
+- DEPLOYED 5a908d3e (sw 6aa238a566); backups refreshed.
+
+## 2026-10-22e last card cut off in 原声连播/原声循环 (T7#6, T5#11)
+- Root cause: the topic track audio/tNNo/all.mp3 was cut at the fixed topic window end in orig/align.py (T7 492.5s, T5 362.5s), but the last card's sentence runs past it (T7: 1.24s missing "…waste your energy and waste your time"; T5: 1.8s missing "…the entire experience of getting there"). Per-card clips (▶, 全部连播 AI/TTS) were complete.
+- Fix: orig/fix_all_tail.py re-cuts t05o/t07o all.mp3 from the same start (all ot unchanged) to last clip end + 0.25s (T7 28.97→30.53s, T5 →77.88s). Whisper-verified. Backup backup_pre_allfix_1022/.
+- Scan of all 18 topics (/tmp/chkall.py: ot+clip vs next ot / track end): only T5, T7 last cards affected; other overlaps are ≤0.5s clip padding.
+- Note for Nova: in T7 Naval says "you can't be great at everything" twice; card 6 = the 2nd; in 原声连播 the 1st plays under card 5's highlight (not changed).
+- New test build/test_lastcard.mjs (single ▶ / 全部连播 / 原声连播 / 原声循环, T7 + T5): ALL OK 9. Regression all pass (shuffle 1 random flake, rerun 16/16).
