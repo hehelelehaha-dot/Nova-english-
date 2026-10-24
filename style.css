@@ -517,3 +517,6 @@ html[data-theme=t1] .qm.tap .qmi,html[data-theme=classic] .qm.tap .qmi{animation
 html[data-theme^=t] .pgb{background:var(--sf);border:var(--sfbd);box-shadow:var(--sh);border-radius:var(--r)}
 html[data-theme^=t] .pgt{color:var(--pgtx)}html[data-theme^=t] :is(.pgl,.pgx){color:var(--mut2)}
 html:is([data-theme=t3],[data-theme=t6]) .pgb{background:#13233a}html:is([data-theme=t3],[data-theme=t6]) :is(.pgt,.pgt em,.pgh){color:#f3f5f8}html:is([data-theme=t3],[data-theme=t6]) .pgm{background:#f3f5f8}
+.pgk{position:absolute;top:0;width:1px;height:14px;background:rgba(15,44,68,.25)}.pgk span{position:absolute;top:15px;left:-8px;width:16px;text-align:center;font-size:9px;color:#8a9aa8}
+.pgtr{margin-bottom:16px}.pgend{font-size:12px;color:#0f2c44;margin-top:2px;line-height:1.4}
+html[data-theme^=t] .pgend{color:var(--pgtx)}html:is([data-theme=t3],[data-theme=t6]) .pgend{color:#f3f5f8}
