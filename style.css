@@ -520,3 +520,6 @@ html:is([data-theme=t3],[data-theme=t6]) .pgb{background:#13233a}html:is([data-t
 .pgk{position:absolute;top:0;width:1px;height:14px;background:rgba(15,44,68,.25)}.pgk span{position:absolute;top:15px;left:-8px;width:16px;text-align:center;font-size:9px;color:#8a9aa8}
 .pgtr{margin-bottom:16px}.pgend{font-size:12px;color:#0f2c44;margin-top:2px;line-height:1.4}
 html[data-theme^=t] .pgend{color:var(--pgtx)}html:is([data-theme=t3],[data-theme=t6]) .pgend{color:#f3f5f8}
+.pgl{justify-content:flex-end}.pgh{text-decoration:none;padding:3px 12px;border-radius:12px;background:#eef3f8;border:1px solid #d5e0ea;font-size:12px;color:#2f5a8a}
+html[data-theme^=t] .pgh{background:var(--b2);color:var(--b2tx);border:var(--b2bd)}
+.pgx .pgend{margin:2px 0 6px}
