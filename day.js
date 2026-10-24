@@ -1,4 +1,4 @@
-// ---------- ⓪ 每日一练 (2026-10-23): one Topic in ~30 min, learning only (no scores). Driven by Topic number: naval_tNN / tNNv_flash / ch_tNN / wordforms wf_tNNv. English original never altered. ----------
+// ---------- ⓪ 清醒重点 (2026-10-23): one Topic in ~30 min, learning only (no scores). Driven by Topic number: naval_tNN / tNNv_flash / ch_tNN / wordforms wf_tNNv. English original never altered. ----------
 const DAYK="nova_day",DAYST=()=>{try{return JSON.parse(localStorage.getItem(DAYK))||{}}catch(e){return {}}},daySave=o=>{try{localStorage.setItem(DAYK,JSON.stringify(Object.assign(DAYST(),o)))}catch(e){}};
 const DSTEPS=[["rd","读+听",6],["wd","单词",6],["wf","词形",3],["ch","Chunks",4],["dt","听写",6],["sp","口语",5]];
 const dpad=n=>String(n).padStart(2,"0");
@@ -10,7 +10,7 @@ function dTimer(min){clearInterval(DTM);let left=min*60,run=false;const el=docum
  const draw=()=>{el.querySelector(".dtv").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");el.classList.toggle("over",left<=0)};draw();
  el.querySelector(".dtb").onclick=()=>{run=!run;el.querySelector(".dtb").textContent=run?"⏸":"▶︎";if(run)DTM=setInterval(()=>{if(!document.getElementById("dtm")){clearInterval(DTM);return}if(left>0)left--;draw()},1000);else clearInterval(DTM)}}
 async function showDay(n){n=+n||+(DAYST().topic)||11;const st=DAYST();const mode=st.mode||"in";const N=dpad(n);
- setHeader("⓪ 每日一练",true);let R,F,C,W;
+ setHeader("⓪ 清醒重点",true);let R,F,C,W;
  try{[R,F,C]=await Promise.all([getJSON("naval_t"+N+".json"),getJSON("t"+N+"v_flash.json"),getJSON("ch_t"+N+".json")]);}catch(e){V.innerHTML=`<div class="done">Topic ${n} 的材料还没有准备好</div>`;return}
  try{W=(await loadWF()).sets.find(s=>s.unit=="t"+N+"v")}catch(e){W=null}
  const steps=DSTEPS.filter(s=>mode=="in"||s[0]!="sp");let cur=Math.min(st.step&&st.topic==n?st.step:0,steps.length-1);

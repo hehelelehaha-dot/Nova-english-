@@ -528,7 +528,7 @@ html[data-theme^=t] .pgh{background:var(--b2);color:var(--b2tx);border:var(--b2b
 .pgb{padding-top:14px}
 .pgg{top:16px;margin-left:-7px;font-size:12px}.pgg:after{left:6px;top:-18px;height:18px}
 
-/* ⓪ 每日一练 (2026-10-23) */
+/* ⓪ 清醒重点 (2026-10-23) */
 .dhd{position:sticky;top:0;z-index:5;background:var(--pg,#faf5ec);padding:6px 0 8px}
 .dmode{display:flex;align-items:center;gap:8px;font-size:15px;color:#0f2c44}.dmode button{flex:1;padding:9px 0;border-radius:14px;border:1px solid #d5e0ea;background:#fff;font-size:15px;color:#2f5a8a}.dmode button.on{background:#2f5a8a;color:#fff;border-color:#2f5a8a;font-weight:700}
 .dtop{margin:8px 2px 6px;font-size:14px;color:#5b6f80}
@@ -547,3 +547,17 @@ html[data-theme^=t] .pgh{background:var(--b2);color:var(--b2tx);border:var(--b2b
 .drow{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:#5b6f80;margin-bottom:10px}.drow audio{width:100%}.dok{font-size:18px;text-align:center;padding:30px 10px;line-height:1.7;color:#0f2c44}.dmore{text-align:center;font-size:14px}
 html[data-theme^=t] :is(.dsn,.dq,.dcard){background:var(--sf);border:var(--sfbd);box-shadow:var(--sh)}html[data-theme^=t] .dhd{background:var(--pg,inherit)}
 html:is([data-theme=t3],[data-theme=t6]) :is(.dse,.dqs,.dcz,.dname,.dmode,.dok){color:#f3f5f8}html:is([data-theme=t3],[data-theme=t6]) .dhd{background:transparent}
+/* ⓪ contrast fix (2026-10-23): cards always cream + dark text in every theme; page text adapts; header not sticky */
+.dhd{position:static;background:transparent}
+html .dsn,html .dq,html .dcard{background:#fbf3e2!important;border:1px solid #ecdcb8!important;box-shadow:0 2px 8px rgba(0,0,0,.12)!important;color:#2b2b2b}
+html :is(.dsn,.dq,.dcard) :is(.dse,.dqs,.dcz,.dcw,.dck,.dck b){color:#2b2b2b!important}
+html :is(.dsn,.dq,.dcard) :is(.dsz,.dqz,.dcx,.dcn,.dcp){color:#5a4d3a!important}
+html :is(.dsn,.dq,.dcard) .dqw{color:#1b5e20!important}html :is(.dsn,.dq,.dcard) .dsh{color:#8a5a00!important}
+html :is(.dsn,.dq,.dcard) button,html .dpl{background:#fff!important;color:#6b4e12!important;border:1px solid #e0c98f!important}
+html .dqo button.ok{background:#e3f4e3!important;border-color:#4caf50!important;color:#1b5e20!important}html .dqo button.try{background:#fdeaea!important;border-color:#e0a0a0!important;color:#7a2a2a!important}
+html .din{background:#fff;color:#2b2b2b;border-color:#d9c48f}html .din.good{background:#f0faf0}html .din.near{background:#fff8ec}
+.dmore a{display:inline-block;padding:9px 18px;border-radius:14px;background:#fbf3e2;border:1px solid #e0c98f;color:#6b4e12!important;text-decoration:none!important;font-weight:600}
+.dtop,.dtip,.dtm{color:#5a4d3a}.dname,.dmode{color:#2b2b2b}.dok{color:#2b2b2b}
+html:is([data-theme=t3],[data-theme=t6]) :is(.dtop,.dtip,.dtm,.drow){color:#dfe6ef!important}
+html:is([data-theme=t3],[data-theme=t6]) :is(.dname,.dmode,.dok,.dtip b){color:#f3f5f8!important}
+html .drow audio{color-scheme:light}
