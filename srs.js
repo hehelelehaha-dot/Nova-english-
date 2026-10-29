@@ -56,7 +56,7 @@ async function showSRS(){setHeader("🧠 今日复习",true);const h=document.ge
   const top=`<div class="srsbar"><select id="sf"><option value="">全部单元</option>${decks.map(d=>`<option value="${d.id}"${d.id==filter?" selected":""}>${esc(d.title)}</option>`).join("")}</select><span class="status">剩 ${Q.length+(cur?1:0)} 张 · 今天已复习 ${s.done} · 连续 ${s.streak} 天 · 已掌握 ${s.mastered}</span></div>`;
   if(!cur){V.innerHTML=top+`<div class="card done">今天的复习完成了 🎉<br>明天再来，记忆会更牢。<button class="wide flip" onclick="location.hash='#/c/flash'">返回单词卡</button></div>`;wire();return}
   const c=cur.c,d=cur.d,e=EXP&&expKey(c.w)?EXP.e[expKey(c.w)]:null;
-  const yw=c.src?`<div class="row yrow"><div class="tx en">${ywHTML(c.src,true)}</div><button class="osb" id="ysrc" aria-label="播放原声">🌻</button></div>`:"";
+  const yw=c.src?`<div class="row yrow"><button class="osb" id="ysrc" aria-label="播放原文原声">🌻 原声</button><div class="tx en">${ywHTML(c.src,true)}</div></div>`:"";
   let h=`<div class="card srsc"><div class="srsdk">${cur.isNew?'<span class="nw">新词</span>':""}${esc(d.title)}</div><div class="word">${esc(c.w)}</div><div class="pos en">${esc(c.pos)}</div><button class="big" id="pw">▶</button>${yw}`;
   if(!back)h+=`<div class="tip" style="text-align:center">先自己想一想：它是什么意思？</div><button class="wide flip" id="show">显示答案</button>`;
   else{const now=Date.now(),pv=[0,1,2,3].map(g=>fmtIv(srsNext(cur.s,g,now),now));
