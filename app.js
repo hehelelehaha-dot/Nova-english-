@@ -44,7 +44,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 // ---------- ui helpers ----------
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 // Nova refers to sections by number: 1 阅读卡 2 单词卡 3 英英解释音频 4 Chunks 5 词形练习 6 小游戏
-const SECN={reading:1,flash:2,longaudio:3,chunks:4,wf:5,game:6,comic:7},CIRC=" ①②③④⑤⑥⑦",secT=(id,t)=>SECN[id]?CIRC[SECN[id]]+" "+t:t;
+const SECN={reading:1,flash:2,longaudio:3,chunks:4,wf:5,game:6,comic:7,phrases:8},CIRC=" ①②③④⑤⑥⑦⑧",secT=(id,t)=>SECN[id]?CIRC[SECN[id]]+" "+t:t;
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
