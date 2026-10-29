@@ -1,6 +1,6 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:#f4f2ee;color:#222;font-family:"Noto Sans CJK SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,sans-serif}
-.en,.t,.word,.w{font-family:Georgia,"Noto Serif",serif}
+.en,.t,.zhe,.word,.w{font-family:Georgia,"Noto Serif",serif}
 header{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;background:#fff;border-bottom:1px solid #ddd;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;min-height:56px}
 header h1{flex:1;font-size:19px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #back{border:0;background:#eef3f6;color:#1d5675;font-size:17px;border-radius:10px;min-height:42px;padding:0 14px;font-family:inherit}
@@ -106,7 +106,7 @@ body{zoom:var(--z)}
 .tg{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:17px;min-height:44px}.tg input{width:26px;height:26px}
 .pv{margin-top:10px;padding:10px 12px;border:1px dashed #c9dcec;border-radius:12px;background:#fff}
 html.bold:not([data-theme=t3]):not([data-theme=t6]) body{color:#000;font-weight:600}
-html.bold:not([data-theme=t3]):not([data-theme=t6]) :is(.sb,.ds,.tip,.status,.ps,.pos,.n,.mine,.sht,.ent p,.ent ol,.t,.tx,.li,.exb,.wc .z,.who,.tile .nm,.row .tx,header h1,.hero span,.shb){color:#0b0b0b!important;font-weight:600}
+html.bold:not([data-theme=t3]):not([data-theme=t6]) :is(.sb,.ds,.tip,.status,.ps,.pos,.n,.mine,.sht,.ent p,.ent ol,.t,.zhe,.tx,.li,.exb,.wc .z,.who,.tile .nm,.row .tx,header h1,.hero span,.shb){color:#0b0b0b!important;font-weight:600}
 html.bold:not([data-theme=t3]):not([data-theme=t6]) :is(.zh,.ent .z,.tile .ct,.pv .z){color:#163a5f!important;font-weight:700}
 html.bold:not([data-theme=t3]):not([data-theme=t6]) :is(.word,.w,.ent .w,.wc .w,b){font-weight:800}
 html.bold:not([data-theme=t3]):not([data-theme=t6]) .naval .who{color:#5c3f00!important}
@@ -185,6 +185,9 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 #ss .ph.alt{border-bottom-color:#9ec5f0}
 #ss .ph.play{background:#fff1b8}
 #ss.hide .ph,#ss.hide .ph.play{color:transparent!important;-webkit-text-fill-color:transparent!important;background:transparent!important}
+/* flipped answer keeps its English visible while the front stays hidden */
+#ss.hide .zhe,#ss.hide .zhe .ph{color:#1d2b38!important;-webkit-text-fill-color:#1d2b38!important;background:transparent!important;text-shadow:none!important;user-select:text;-webkit-user-select:text}
+#ss.hide .zhe .ph.play{background:#ffd84d!important;box-shadow:0 0 0 2px #ffd84d}
 /* lighter active reading sentence; 点读 phrase contrasts */
 #ss .s.cur{background:#fffdf6!important;outline:2px solid #f5c518}
 #ss .ph.play{background:#ffd84d;box-shadow:0 0 0 2px #ffd84d;border-bottom-color:#e0a000}
@@ -199,6 +202,8 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 
 /* 📚 back-side glossary */
 #ss .zht{line-height:1.6}
+/* ① back: same English as the front, above 中文. Ink, not a link. */
+#ss .zhe{font-size:19px;font-weight:400;line-height:1.5;color:#1d2b38;text-align:left;margin:0 0 8px;padding-bottom:8px;border-bottom:1px dashed #e6cf8a}
 #ss .gl{margin-top:8px;padding-top:6px;border-top:1px dashed #e6cf8a;text-align:left;font-size:.82em;line-height:1.5;color:#5a4a20;font-weight:normal}
 #ss .gli{margin:3px 0}#ss .gli b{color:#2f4f6a}#ss .gli i{color:#8a6a1a;font-style:normal}
 #ss .gls{font-size:.85em;padding:0 4px;margin-right:4px;border:1px solid #ecd58f;border-radius:8px;background:#fffbe8;cursor:pointer}#ss .gls.on{background:#ffd84d}
