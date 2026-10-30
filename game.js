@@ -4,7 +4,7 @@ let UNITS=null;
 const ansOf=w=>String(w).replace(/\([^)]*\)/g," ").replace(/…|\.\.\./g," ").split("/")[0].replace(/\s+/g," ").trim();
 const normA=s=>s.toLowerCase().replace(/[’‘]/g,"'").replace(/[-‐–]/g," ").replace(/[^a-z' ]/g,"").replace(/\s+/g," ").trim();
 async function loadUnits(){if(UNITS)return UNITS;const map=new Map();
- const CS=CAT.categories.filter(c=>c.id!="longaudio").concat([{items:CAT.gameOnly||[]}],CAT.categories.filter(c=>c.id=="longaudio"));
+ const CS=CAT.categories.filter(c=>c.id!="longaudio"&&c.id!="dictation"&&c.id!="chunks").concat([{items:CAT.gameOnly||[]}],CAT.categories.filter(c=>c.id=="longaudio"));
  for(const c of CS)for(const it of c.items){let d;try{d=await getJSON(it.data)}catch(e){continue}
   let ws=null;
   if(d.type=="flash")ws=d.cards.map(x=>({w:x.w,pos:x.pos,zh:x.zh,ex:x.ex,exs:x.exs||[],src:x.src,clip:x.a&&x.a[0]}));
