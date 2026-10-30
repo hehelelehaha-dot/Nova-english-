@@ -603,6 +603,12 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .hero .hdate :is(.hwk,.hwd){
 .dtwho{font-weight:700;letter-spacing:.04em}
 .dtplay{display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0}
 .dtplab{font-size:13px;font-weight:700;color:#8a6200}
+.dtsegs{margin:2px 0 8px}
+.dtsegrow{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:6px}
+.dtseg{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid #e0b400;background:#fff8d6;color:#6b4e12;font:inherit;font-size:15px;font-weight:700}
+.dtseg.on{background:#f5c518;color:#3a2c00;border-color:#e0b400}
+html[data-theme^=t] .dtseg{background:var(--b2);color:var(--b2tx);border:var(--b2bd)}
+html[data-theme^=t] .dtseg.on{background:var(--ac);color:var(--actx);border-color:var(--ac)}
 .dtin{display:block;width:100%;min-height:128px;margin-top:8px;padding:12px 14px;border-radius:14px;border:1px solid #e0c98f;background:#fff;color:#2b2b2b;font:18px/1.5 Georgia,"Noto Serif",serif;resize:vertical}
 .dtin:focus{outline:2px solid #e0b400;border-color:#e0b400}
 .dtin.good{border-color:#4caf50;background:#f3fbf3}
