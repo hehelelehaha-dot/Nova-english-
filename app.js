@@ -576,13 +576,13 @@ async function startSW(){if(!("serviceWorker" in navigator))return;const sw=navi
   if(META.v)localStorage.setItem("nova_v",META.v);route();startSW()})();
 
 
-// Countdown (Nova 2026-10-20, same wording as the reminders): weeks are Mon–Sun; sprint ends on the year's last Sunday (2026: Dec 27); the days after are rest days.
+// Countdown under the avatar (Nova 2026-10-30): two short lines. Weeks are Mon–Sun; sprint ends on the year's last Sunday (2026: Dec 27); the days after are rest days.
 function yearLeft(d){d=d||new Date();const y=d.getFullYear(),day=Date.UTC(y,d.getMonth(),d.getDate()),D=864e5;
- const dec31=Date.UTC(y,11,31),lastSun=dec31-((new Date(dec31).getUTCDay())%7)*D,rest=Math.round((dec31-lastSun)/D),ls=new Date(lastSun);
- if(day>lastSun)return `今年的冲刺已经完成 🎉<br>年底 ${rest} 天留给你放松`;
+ const dec31=Date.UTC(y,11,31),lastSun=dec31-((new Date(dec31).getUTCDay())%7)*D,rest=Math.round((dec31-lastSun)/D);
+ if(day>lastSun)return `<span class="hwk">冲刺完成</span><span class="hwd">放松${rest}天</span>`;
  const X=7-((new Date(day).getUTCDay()+6)%7),N=Math.max(0,Math.round((lastSun-(day+X*D))/D+1)/7|0);
- return `本周还剩 ${X} 天，之后还有 ${N} 个整周<br>（冲刺到 ${ls.getUTCMonth()+1} 月 ${ls.getUTCDate()} 日），年底 ${rest} 天留给你放松`}
-function yecHTML(){const d=new Date(),W="日一二三四五六";const day=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 周${W[d.getDay()]}`;return `<span class="hday">${day}</span><span class="hleft">${yearLeft()}</span>`}
+ return `<span class="hwk">还剩${N}周</span><span class="hwd">本周剩余${X}天</span>`}
+function yecHTML(){const d=new Date(),W="日一二三四五六";const day=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 周${W[d.getDay()]}`;return `<span class="hday">${day}</span><span class="hcount">${yearLeft()}</span>`}
 function updYec(){const e=document.getElementById("yec");if(e)e.innerHTML=yecHTML()}
 let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,1);_yecT=setTimeout(()=>{updYec();schedYec()},m-n)}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
