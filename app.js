@@ -635,15 +635,26 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
   document.getElementById("dtnext").onclick=()=>{if(pos>=sents.length-1)return;pos++;save();stopAll();render();scrollTo(0,0)};
   document.getElementById("dtjump").onclick=()=>{save();stopAll();showPick()};
   playOA(s.oa,playBtn,true)};
- function showPick(){const last=saved();
-  V.innerHTML=`<div class="card dtcard"><div class="dtpickh">从第几句开始</div><p class="tip">共 ${sents.length} 句原声。点一个数字，听原声再写整句。英文先不显示。</p>
+ function showPick(){const last=saved();let spinning=false;
+  V.innerHTML=`<div class="card dtcard" id="dtcard"><div class="dtpickh">从第几句开始</div><p class="tip">共 ${sents.length} 句原声。点一个数字，听原声再写整句。英文先不显示。</p>
    <button class="wide flip" id="dtgo" type="button">从第 1 句开始</button>
+   <button class="wide dtluck" id="dtluck" type="button">🎲 随机抽一句</button>
    ${last>0?`<button class="wide dtresume" id="dtlast" type="button">从上次的第 ${last+1} 句继续</button>`:""}
    <div class="dtpick" role="group" aria-label="从第几句开始">${sents.map((_,i)=>`<button type="button" class="dtn${i==0?" on":""}${i==last&&last>0?" was":""}" data-i="${i}" aria-label="第 ${i+1} 句">${i+1}</button>`).join("")}</div></div>`;
-  const start=i=>{if(!(i>=0)||i>=sents.length)return;pos=i;save();stopAll();render();scrollTo(0,0)};
+  const start=i=>{if(spinning||!(i>=0)||i>=sents.length)return;pos=i;save();stopAll();render();scrollTo(0,0)};
   document.getElementById("dtgo").onclick=()=>start(0);
   const b=document.getElementById("dtlast");if(b)b.onclick=()=>start(last);
-  V.querySelectorAll(".dtn").forEach(btn=>btn.onclick=()=>start(+btn.dataset.i))}
+  V.querySelectorAll(".dtn").forEach(btn=>btn.onclick=()=>start(+btn.dataset.i));
+  document.getElementById("dtluck").onclick=()=>{if(spinning)return;spinning=true;const n=sents.length,land=rndInt(n),btns=[...V.querySelectorAll(".dtn")],card=document.getElementById("dtcard"),luck=document.getElementById("dtluck");
+   if(matchMedia("(prefers-reduced-motion: reduce)").matches){spinning=false;start(land);return}
+   card.classList.add("spinning");luck.textContent="转转转…";btns.forEach(x=>x.classList.remove("on"));
+   const steps=n*2+land+1,gaps=Math.max(1,steps-1),weights=[];
+   for(let i=0;i<gaps;i++){const p=gaps<2?1:i/(gaps-1);weights.push(0.04+Math.pow(p,3.2))}
+   const sum=weights.reduce((a,c)=>a+c,0),total=2700;let i=0;
+   const tick=()=>{if(!btns[0].isConnected)return;btns.forEach(x=>x.classList.remove("on"));btns[i%n].classList.add("on");
+    if(i===steps-1){luck.textContent=`抽到第 ${land+1} 句`;setTimeout(()=>{if(!btns[0].isConnected)return;spinning=false;start(land)},700);return}
+    const delay=total*weights[i]/sum;i++;setTimeout(tick,delay)};
+   tick()}}
  showPick()}
 
 // ---------- study timer (home hero: 今天 / 累计) ----------
