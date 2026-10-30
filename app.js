@@ -609,7 +609,8 @@ function dtFeedback(s,typed){const r=dtMark(typed,s.t);const zh=s.zh?`<div class
  return {ok:r.ok,html:`<div class="${r.ok?"gok":"gno"}">${esc(r.summary)}</div>${r.ok?"":`<div class="dtlab">你写的</div><div class="dtdiff en">${r.yours}</div><div class="dtleg"><span class="dk">对的</span><span class="dx">多了</span><span class="dm">漏了</span></div>${r.miss.length?`<div class="dtlab">漏掉的词</div><div class="dtdiff en">${r.miss.map(w=>`<span class="dm">${esc(w)}</span>`).join(" ")}</div>`:""}`}<div class="dtlab">正确句子</div><div class="dtans en">${esc(s.t)}</div>${zh}<button class="osb" id="dtre" type="button">🌻 再听原声</button>`}}
 function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filter(x=>x.s&&x.s.oa);
  if(!sents.length){V.innerHTML=`<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;return}
- const key="nova_dt_"+(it&&it.id||"x");let pos=+localStorage.getItem(key)||0;if(!(pos>=0)||pos>=sents.length)pos=0;
+ const key="nova_dt_"+(it&&it.id||"x");let pos=0;
+ const saved=()=>{let n=+localStorage.getItem(key)||0;return n>=0&&n<sents.length?n:0};
  const save=()=>{try{localStorage.setItem(key,String(pos))}catch(e){}};
  const render=()=>{const {s}=sents[pos];const who=s.sp=="Naval"?"NAVAL":s.sp=="Chris"?"CHRIS":(s.sp||"");
   V.innerHTML=`<div class="card dtcard"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
@@ -618,7 +619,7 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
    <textarea id="dtin" class="dtin" rows="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="在这里写下听到的整句"></textarea>
    <div class="dtact"><button class="btn" id="dthint" type="button">中文提示</button><button class="wide flip" id="dtok" type="button">检查</button></div>
    <div id="dthz" class="dthz" hidden></div><div id="dtfb"></div></div>
-   <div class="dtnav"><button type="button" id="dtprev" ${pos?"":"disabled"}>‹ 上一句</button><button type="button" id="dtnext" ${pos<sents.length-1?"":"disabled"}>下一句 ›</button></div>`;
+   <div class="dtnav"><button type="button" id="dtprev" ${pos?"":"disabled"}>‹ 上一句</button><button type="button" id="dtjump">选句子</button><button type="button" id="dtnext" ${pos<sents.length-1?"":"disabled"}>下一句 ›</button></div>`;
   const playBtn=document.getElementById("dtplay");
   playBtn.onclick=()=>{stopAll();playOA(s.oa,playBtn)};
   document.getElementById("dthint").onclick=()=>{const z=document.getElementById("dthz");if(!s.zh){toast("这句没有中文");return}z.hidden=!z.hidden;if(!z.hidden)z.textContent=s.zh;document.getElementById("dthint").textContent=z.hidden?"中文提示":"收起中文"};
@@ -632,8 +633,18 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
   document.getElementById("dtin").addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key=="Enter"){e.preventDefault();chk()}});
   document.getElementById("dtprev").onclick=()=>{if(pos<=0)return;pos--;save();stopAll();render();scrollTo(0,0)};
   document.getElementById("dtnext").onclick=()=>{if(pos>=sents.length-1)return;pos++;save();stopAll();render();scrollTo(0,0)};
+  document.getElementById("dtjump").onclick=()=>{save();stopAll();showPick()};
   playOA(s.oa,playBtn,true)};
- render()}
+ function showPick(){const last=saved();
+  V.innerHTML=`<div class="card dtcard"><div class="dtpickh">从第几句开始</div><p class="tip">共 ${sents.length} 句原声。点一个数字，听原声再写整句。英文先不显示。</p>
+   <button class="wide flip" id="dtgo" type="button">从第 1 句开始</button>
+   ${last>0?`<button class="wide dtresume" id="dtlast" type="button">从上次的第 ${last+1} 句继续</button>`:""}
+   <div class="dtpick" role="group" aria-label="从第几句开始">${sents.map((_,i)=>`<button type="button" class="dtn${i==0?" on":""}${i==last&&last>0?" was":""}" data-i="${i}" aria-label="第 ${i+1} 句">${i+1}</button>`).join("")}</div></div>`;
+  const start=i=>{if(!(i>=0)||i>=sents.length)return;pos=i;save();stopAll();render();scrollTo(0,0)};
+  document.getElementById("dtgo").onclick=()=>start(0);
+  const b=document.getElementById("dtlast");if(b)b.onclick=()=>start(last);
+  V.querySelectorAll(".dtn").forEach(btn=>btn.onclick=()=>start(+btn.dataset.i))}
+ showPick()}
 
 // ---------- study timer (home hero: 今天 / 累计) ----------
 // Counts only while visible AND active: interaction within 2 min, or audio/speech playing. Log: localStorage nova_time {YYYY-MM-DD: seconds}.
