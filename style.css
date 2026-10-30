@@ -428,7 +428,7 @@ html[data-theme^=t] .gpos{color:var(--mut2)}html[data-theme^=t] .rbh,html[data-t
 .s>.p{align-self:flex-start}
 /* bold mode must not force dark text onto dark headers/heroes */
 html.bold[data-theme^=t] header h1#title{color:var(--hdtx)!important}
-/* phone: stack today/total under the countdown so the text keeps its width */
+/* phone: the date line stays full width under the avatar; today/total drops below it */
 @media(max-width:480px){html .hero.hero{flex-wrap:wrap}html .hero.hero>div{flex:1 1 0;min-width:0}html .hero.hero>.stt{order:3;flex:1 1 100%;flex-direction:row;justify-content:center;gap:16px;margin:4px 0 0}}
 /* ① sentence numbers, both sides */
 .who .sno{display:inline-block;min-width:20px;height:20px;line-height:20px;padding:0 5px;margin-right:6px;border-radius:10px;font-size:12px;font-weight:700;text-align:center;letter-spacing:0;background:#f5c518;color:#3a2a00;vertical-align:1px}
@@ -569,3 +569,58 @@ html .din{background:#fff;color:#2b2b2b;border-color:#d9c48f}html .din.good{back
 html:is([data-theme=t3],[data-theme=t6]) :is(.dtop,.dtip,.dtm,.drow){color:#dfe6ef!important}
 html:is([data-theme=t3],[data-theme=t6]) :is(.dname,.dmode,.dok,.dtip b){color:#f3f5f8!important}
 html .drow audio{color-scheme:light}
+
+/* Home date line sits under the avatar. Countdown wording still comes from yearLeft(). */
+html .hero.hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ava greet time" "date date date";align-items:center;column-gap:14px;row-gap:8px}
+html .hero.hero>img{grid-area:ava;align-self:center}
+html .hero.hero>.hgreet{grid-area:greet;min-width:0;align-self:center}
+html .hero.hero>.stt{grid-area:time;margin-left:0;align-self:center}
+html .hero.hero>.hdate{grid-area:date;min-width:0;padding-top:8px;border-top:1px dashed rgba(212,168,60,.75)}
+html .hero .hdate .hday{display:block;margin:0;font-size:13px;font-weight:700;letter-spacing:.03em;color:#8a6200}
+html .hero .hdate .hleft{display:block;margin:3px 0 0;font-size:16px;line-height:1.45;font-weight:700;color:#3a2c00}
+html[data-theme=t3] .hero .hdate,html[data-theme=t6] .hero .hdate{border-top-color:rgba(233,196,106,.45)}
+html[data-theme=t3] .hero .hdate .hday,html[data-theme=t6] .hero .hdate .hday{color:#e9c46a}
+html[data-theme=t3] .hero .hdate .hleft,html[data-theme=t6] .hero .hdate .hleft{color:#ffe7b0}
+html[data-theme=t5] .hero .hdate{border-top-color:#141414}
+html[data-theme=t5] .hero .hdate .hday{color:#c8102e}
+html[data-theme=t5] .hero .hdate .hleft{color:#141414}
+html[data-theme=t7] .hero .hdate{border-top-color:#e4e0d6}
+html[data-theme=t7] .hero .hdate .hday{color:#13695b}
+html[data-theme=t7] .hero .hdate .hleft{color:#1a3a34}
+@media(max-width:480px){
+ html .hero.hero{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ava greet" "date date" "time time"}
+ html .hero.hero>.stt{flex-direction:row;justify-content:flex-end;gap:16px;width:100%;margin:0}
+}
+
+/* ④ 句子听写 */
+.dtcard{text-align:center}
+.dtmeta{display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:4px;font-size:14px;font-weight:700;color:#6b4e12}
+.dtmeta .sno{display:inline-block;min-width:20px;height:22px;line-height:22px;padding:0 8px;border-radius:11px;background:#f5c518;color:#3a2a00;font-size:13px;font-weight:700}
+.dtwho{font-weight:700;letter-spacing:.04em}
+.dtplay{display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0}
+.dtplab{font-size:13px;font-weight:700;color:#8a6200}
+.dtin{display:block;width:100%;min-height:128px;margin-top:8px;padding:12px 14px;border-radius:14px;border:1px solid #e0c98f;background:#fff;color:#2b2b2b;font:18px/1.5 Georgia,"Noto Serif",serif;resize:vertical}
+.dtin:focus{outline:2px solid #e0b400;border-color:#e0b400}
+.dtin.good{border-color:#4caf50;background:#f3fbf3}
+.dtin.near{border-color:#e0a000;background:#fff8ec}
+.dtin.shake{animation:shk .4s}
+.dtact{display:flex;gap:10px;align-items:center;margin-top:12px}
+.dtact .btn{flex:0 0 auto;min-height:54px;padding:0 14px;border-radius:14px}
+.dtact .wide{flex:1;margin-top:0}
+.dthz{margin-top:10px;text-align:left;font-size:16px;line-height:1.55;padding:10px 12px;border-radius:12px;background:#fff8d6;color:#3a2c00}
+.dtlab{text-align:left;font-size:12px;font-weight:700;letter-spacing:.06em;margin:14px 0 4px;color:#8a6200}
+.dtdiff,.dtans{text-align:left;font-size:18px;line-height:1.65;color:#2b2b2b}
+.dtdiff .dk{color:#1b5e20;font-weight:700}
+.dtdiff .dm{color:#6b4e12;background:#fff1c2;border-bottom:2px solid #e0a000;padding:0 2px;border-radius:3px;font-weight:700}
+.dtdiff .dx{color:#9a3030;text-decoration:line-through;font-weight:700}
+.dtleg{display:flex;gap:14px;justify-content:flex-start;font-size:12px;margin-top:6px;color:#6b4e12}
+.dtleg .dk{color:#1b5e20;font-weight:700}
+.dtleg .dx{color:#9a3030;text-decoration:line-through;font-weight:700}
+.dtleg .dm{color:#8a5a00;border-bottom:2px solid #e0a000;font-weight:700}
+.dtnav{display:flex;gap:10px;max-width:640px;margin:12px auto 24px}
+.dtnav button{flex:1;min-height:48px;border-radius:14px;border:1px solid #e0c98f;background:#fffefa;color:#6b4e12;font:inherit;font-size:16px;font-weight:700}
+.dtnav button:disabled{opacity:.4}
+.dtcard .osb{margin-top:12px}
+html[data-theme^=t] .dtnav button{background:var(--b2);color:var(--b2tx);border:var(--b2bd)}
+html[data-theme^=t] .dtin{background:#fff;color:#2b2b2b}
+html[data-theme^=t] .dthz{background:var(--hl,#fff8d6);color:#3a2c00}

@@ -43,13 +43,20 @@ function wirePP(au){const b=document.getElementById("pp");b.onclick=()=>au.pause
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 // ---------- ui helpers ----------
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-// Nova refers to sections by number: 1 阅读卡 2 单词卡 3 英英解释音频 4 Chunks 5 词形练习 6 小游戏
-const SECN={phrases:0,reading:1,flash:2,longaudio:3,chunks:4,wf:5,game:6,comic:7},CIRC="⓪①②③④⑤⑥⑦",secT=(id,t)=>id in SECN?CIRC[SECN[id]]+" "+t:t;
+// Nova refers to sections by number: 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 7 画面漫画
+const SECN={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6,comic:7},CIRC="⓪①②③④⑤⑥⑦",secT=(id,t)=>id in SECN?CIRC[SECN[id]]+" "+t:t;
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
 const topicNo=x=>{const m=/(?:^|_)t(\d\d)(?:v|_|$)/.exec(x.id||"");return m?+m[1]:null};
 function topicSort(a){const idx=[],its=[];a.forEach((x,i)=>{if(topicNo(x)!=null){idx.push(i);its.push(x)}});its.sort((p,q)=>topicNo(q)-topicNo(p));const r=a.slice();idx.forEach((k,j)=>r[k]=its[j]);return r}
+// ④ used to be the Chunks category. Same home slot, now a Topic list of sentence dictation over reading cards that have interview audio.
+function applyDictation(cat){if(!cat||!cat.categories||cat._dt)return;const ch=cat.categories.find(c=>c.id=="chunks"||c.id=="dictation");if(!ch){cat._dt=1;return}
+ const rd=cat.categories.find(c=>c.id=="reading");
+ const src=((rd&&rd.items)||[]).filter(it=>/naval_t\d+/.test(it.id)||/naval_t\d+/.test(it.data||""));
+ ch.id="dictation";ch.name="句子听写";ch.desc="听原声，写出整句";ch.icon="✍️";
+ ch.items=topicSort(src.map(it=>({id:"dt_"+it.id,base:it.id,title:it.title,sub:it.sub||"",data:it.data,dictation:1})));
+ cat._dt=1}
 // ---------- scroll memory: back restores, forward starts at top ----------
 try{history.scrollRestoration="manual"}catch(e){}
 const SCR={};let NAVSTK=[],LASTH=null,SCRSEQ=0,NAVREPL=false;
@@ -62,7 +69,9 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
 async function route0(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
+ applyDictation(CAT);
  const h=location.hash.slice(1).split("/");
+ if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="k")return h[2]?showComic(h[2]):showComics();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
@@ -139,7 +148,7 @@ const allCats=()=>CAT.categories.map(c=>({id:c.id,name:c.name,icon:c.icon,desc:c
 const catOf=it=>{for(const c of CAT.categories)if(c.items.includes(it))return c.id};
 const builtinItems=()=>CAT.categories.flatMap(c=>c.items.map(it=>({it,home:c.id})));
 const effCat=x=>{const m=ORG.move[x.it.id];return m&&allCats().some(c=>c.id==m)?m:x.home};
-const ttl=it=>ORG.rename[it.id]||it.title;
+const ttl=it=>ORG.rename[it.id]||(it.base&&ORG.rename[it.base])||it.title;
 async function itemsIn(cid){const mine=(await idbAll().catch(()=>[]));
  return builtinItems().filter(x=>!ORG.hidden[x.it.id]&&effCat(x)==cid).map(x=>({kind:"b",id:x.it.id,title:ttl(x.it),sub:x.it.sub||"",it:x.it}))
   .concat(mine.filter(f=>{const c=allCats().some(c=>c.id==f.cat)?f.cat:"reading";MCAT[f.id]=c;return c==cid}).map(f=>({kind:"m",id:f.id,title:f.name,sub:"我导入的音频",f})))}
@@ -173,7 +182,7 @@ const svgI=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 const ICON={reading:svgI('<path d="M3 5.5C5.5 4 8.5 4 12 6c3.5-2 6.5-2 9-.5v13c-2.5-1.5-5.5-1.5-9 .5-3.5-2-6.5-2-9-.5z"/><path d="M12 6v13.5"/>'),
  flash:svgI('<rect x="3" y="6" width="13" height="15" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v12"/><path d="M7 12h5M7 15.5h3"/>'),
  longaudio:svgI('<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>'),
- chunks:svgI('<path d="M4 9h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4H4z"/><path d="M12 9V5h8v8h-4"/>'),
+ dictation:svgI('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/>'),
  wf:svgI('<path d="M4 19 9 5l5 14M5.8 14h6.4"/><path d="M16 9h4M18 7v12"/>'),
  g:svgI('<rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9"/><circle cx="18" cy="13.5" r=".9"/>'),
  k:svgI('<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 12h18M12 3v9"/><path d="M7 17.5c1.2-1.4 2.8-1.4 4 0"/>'),
@@ -221,15 +230,15 @@ async function pgbFill(){const el=document.getElementById("pgb");if(!el)return;l
  el.innerHTML=`<div class="pgt"><b>纳瓦尔</b><span>已走 <em>${r.pct}%</em> · 还差 <em>${100-r.pct}%</em></span></div><div class="pgtr" role="progressbar" aria-valuenow="${r.pct}" aria-valuemin="0" aria-valuemax="100"><div class="pgf" style="width:${r.pct}%"></div>${(P.milestones||[]).map(m=>`<div class="pgk" style="left:${m}%"><span>${m}</span></div>`).join("")}<div class="pgm" style="left:${base}%" title="起点"></div><div class="pgg" style="left:${P.graduate||80}%" title="毕业">🏁</div></div>${r.pct>=(P.graduate||80)?`<div class="pgw">你真牛！纳瓦尔毕业啦 🎉</div>`:""}<div class="pgl"><button class="pgh" aria-expanded="false">详情 ›</button></div><div class="pgx" hidden><div>▲起点 ${base}%（${esc(P.tests[0].label)}）</div><div class="pgend">🏁 80% = 毕业，换下一个视频或演讲</div>这是根据<b>真实记录</b>估算的，不是精确测量；打卡和学习时长不算。<br>${Object.keys(C).map(k=>L[k]).join("<br>")}<br>没数据的部分先不算，其余按比例重算。最近一次周考：${esc(last.label)} ${esc(last.total||"")}。</div>`;
  el.hidden=false;el.querySelector(".pgh").onclick=ev=>{const x=el.querySelector(".pgx"),bt=ev.currentTarget;x.hidden=!x.hidden;bt.textContent=x.hidden?"详情 ›":"收起 ‹";bt.setAttribute("aria-expanded",!x.hidden)}}
 async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div><b>Hi, Nova! 🌻</b><span id="yec">${yearLeft()}</span></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="pgb" id="pgb" hidden></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic"><span class="ice">${c.icon}</span><span class="ics">${ICON[c.id]||ICON.folder}</span></span><span class="nm">${c.id in SECN?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span><span class="tsec" data-s="${c.id}">${secHTML(c.id)}</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="pgb" id="pgb" hidden></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic"><span class="ice">${c.icon}</span><span class="ics">${ICON[c.id]||ICON.folder}</span></span><span class="nm">${c.id in SECN?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span><span class="tsec" data-s="${c.id}">${secHTML(c.id)}</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
  <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic"><span class="ice">🔤</span><span class="ics">${ICON.wf}</span></span><span class="nm"><span class="no">5</span>词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span><span class="tsec" data-s="wf">${secHTML("wf")}</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic"><span class="ice">🎮</span><span class="ics">${ICON.g}</span></span><span class="nm"><span class="no">6</span>小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span><span class="tsec" data-s="g">${secHTML("g")}</span></button><button class="tile gtile" onclick="location.hash='#/k'"><span class="ic"><span class="ice">🎬</span><span class="ics">${ICON.k}</span></span><span class="nm"><span class="no">7</span>画面漫画</span><span class="ds">原句变漫画 · 关键词看图</span><span class="ct">每个单元 2–3 张</span><span class="tsec" data-s="k">${secHTML("k")}</span></button>
  <button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
  document.getElementById("stt").onclick=showTimeLog;hqStart();pgbFill();V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
  V.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>catMenu(cs.find(x=>x.id==b.dataset.m)));
  document.getElementById("newc").onclick=async()=>{const n=await ask("新分类的名字");if(n){ORG.cats.push({id:"u"+Date.now(),name:n});saveOrg();route()}}}
-async function showCat(id){const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
+async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
- V.innerHTML=`${id=="flash"?'<div id="srsent" class="srsent"></div>':""}<div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
+ V.innerHTML=`${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}<div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id}});
  if(id=="flash")srsEntry(document.getElementById("srsent"));
@@ -267,9 +276,13 @@ async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)ret
  V.innerHTML=`<div class="player"><audio id="au" controls src="${URL.createObjectURL(f.blob)}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="del">删除这个音频</button></div></div>`;
  const au=document.getElementById("au");wirePP(document.getElementById("au"));let r=[1,.85,.75],i=0;document.getElementById("sp").onclick=e=>{i=(i+1)%3;au.playbackRate=r[i];e.target.textContent="速度 "+r[i]+"x"};
  document.getElementById("del").onclick=async()=>{if(await sure("永久删除这个导入的音频？")){await idbDel(id);history.back()}}}
-async function showItem(id){let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}if(!it)return showHome();
+async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dictation");return}
+ let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}if(!it)return showHome();
  setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
- ({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong,chunks:viewChunks})[d.type](d,id)}
+ if(it.dictation||(cat&&cat.id=="dictation"))return viewDictation(d,it);
+ if(d.type=="chunks"){location.replace("#/c/dictation");return}
+ const view=({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong})[d.type];
+ if(view)view(d,id);else V.innerHTML=`<div class="done">这个内容打不开</div>`}
 // ---------- reading card ----------
 // 3D flip a reading card to its Chinese translation (size kept via min-height of the front)
 function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if(!e.classList.contains("zh"))b.style.minHeight=b.offsetHeight+"px";e.classList.add("flipping");
@@ -381,7 +394,7 @@ function playOrig(how,btn){if(!how){toast("这句还没有原声");return}if(how
 async function playFull(s,btn){const me=RUN;let how=srcOrig(s);
  if(!how){if(btn)btn.disabled=true;try{how=await matchReadingOrig(s)}finally{if(btn)btn.disabled=false}}
  if(me!=RUN)return;return playOrig(how,btn)}
-// Full unit list (English + 中文) before card-by-card drill. ⓪ 口语句式, ② 单词卡, ④ Chunks.
+// Full unit list (English + 中文) before card-by-card drill. ⓪ 口语句式, ② 单词卡.
 function unitRoster(rows,startLabel){const n=rows.length;
  V.innerHTML=`<p class="tip">这一组共 ${n} 个。先看完，再进入练习。</p>`+(n?`<div class="list rost">${rows.map((r,i)=>`<div class="li"><span class="rn">${i+1}</span><span class="tt"><span class="rw en">${esc(r.en)}</span>${r.zh?`<span class="sb">${esc(r.zh)}</span>`:""}</span></div>`).join("")}</div><button class="wide flip rostgo" id="godrill">${startLabel||"开始练习 ›"}</button>`:`<div class="done">这一组还是空的</div>`)}
 // ---------- 原文 (original Naval sentence) ----------
@@ -569,38 +582,58 @@ function yearLeft(d){d=d||new Date();const y=d.getFullYear(),day=Date.UTC(y,d.ge
  if(day>lastSun)return `今年的冲刺已经完成 🎉<br>年底 ${rest} 天留给你放松`;
  const X=7-((new Date(day).getUTCDay()+6)%7),N=Math.max(0,Math.round((lastSun-(day+X*D))/D+1)/7|0);
  return `本周还剩 ${X} 天，之后还有 ${N} 个整周<br>（冲刺到 ${ls.getUTCMonth()+1} 月 ${ls.getUTCDate()} 日），年底 ${rest} 天留给你放松`}
-function updYec(){const e=document.getElementById("yec");if(e)e.innerHTML=yearLeft()}
+function yecHTML(){const d=new Date(),W="日一二三四五六";const day=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 周${W[d.getDay()]}`;return `<span class="hday">${day}</span><span class="hleft">${yearLeft()}</span>`}
+function updYec(){const e=document.getElementById("yec");if(e)e.innerHTML=yecHTML()}
 let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,1);_yecT=setTimeout(()=>{updYec();schedYec()},m-n)}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
 
-// ---------- 🧩 chunks: original-audio phrases, 3x original + 中文 + 3x original ----------
-async function viewChunks(d,opt){if(!(opt&&opt.drill)){unitRoster((d.items||[]).map(e=>({en:e.c,zh:e.zh})),"开始练习 ›");
-  const go=document.getElementById("godrill");if(go)go.onclick=()=>{stopAll();viewChunks(d,{drill:1})};return}
- const url=await audioURL(d.audio);const hl=e=>dsegHTML(e.s,e.hl,e.sg);
- V.innerHTML=`<div class="player"><audio id="au" preload="metadata" src="${url}"></audio><div class="skb"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="1" step="0.1" value="0" aria-label="进度"><span id="td">--:--</span></div><div class="pb"><button class="p" id="pp" aria-label="播放全部">▶</button><button class="btn" id="bk">⟲ 上一个</button><button class="btn" id="fw">下一个 ⟳</button><button class="btn" id="roster">词表</button></div><div class="status" id="nw" style="margin:8px 2px 0">▶ 播放全部：每个词组 原声×3 → 中文 → 原声×3</div></div>
- <div class="tip">原声来自 ${esc(d.source)}。原文旁的「🌻 原声」播这一整句采访原声。点 ▶ 听这个词组的完整练习，点「原声 1 次」只听词组一遍。</div>
- ${d.items.map((e,i)=>`<div class="ent chk" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en">${esc(e.c)}</span><span class="z">${esc(e.zh)}</span></div>
-  <div class="row yrow"><button class="osb" data-ys="${i}" aria-label="播放原文原声">🌻 原声</button><div class="tx en"><span class="lab yw">原文</span>${hl(e)} <span class="ywsp">— ${esc(e.sp)}</span></div></div>${noteHTML(e)}
-  <div class="chb"><button class="p sm" data-q="${i}" aria-label="练习序列">▶</button><button class="btn" data-o="${i}">🔊 原声 1 次</button><button class="jump" data-j="${e.t}">▶ 从这里连播</button><span class="chs" id="cs${i}"></span></div></div>`).join("")}`;
- const au=document.getElementById("au");wirePP(au);seekBar(au,d.dur);const ts=d.items.map(e=>e.t);
- const chunkSrc=e=>({t:e.s,ft:e.s,sg:e.sg,oa:e.oa,oas:e.oas,a:e.a});
- document.getElementById("roster").onclick=()=>{try{au.pause()}catch(e){}stopAll();viewChunks(d)};
- V.querySelectorAll("[data-ys]").forEach(b=>b.onclick=()=>{au.pause();stopAll();playFull(chunkSrc(d.items[+b.dataset.ys]),b)});
- const play=t=>{stopAll();au.currentTime=Math.max(0,t);au.play().catch(()=>{})};
- V.querySelectorAll(".jump").forEach((b,i)=>b.onclick=async()=>{LASTUSER=0;au.pause();stopAll();/* ④ 从这里连播: first the item's whole original sentence once (Nova 2026-10-21), then the track from this chunk */
-  const e=d.items[i],L=e.sg?[...new Set(e.sg.map(x=>x[2]).filter(Boolean))]:[];if(L.length){document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));document.getElementById("e"+i).classList.add("cur");b.classList.add("playing");if(!(await playClips(L,b)))return;b.classList.remove("playing")}play(+b.dataset.j)});
- V.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{au.pause();stopAll();LASTBTN=b;const e=d.items[+b.dataset.q];playP(e.q,1,e.c)});
- V.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{au.pause();stopAll();const e=d.items[+b.dataset.o];playP(e.o,1,e.c)});
- const cur=()=>{let k=0;for(let i=0;i<ts.length;i++)if(au.currentTime+0.05>=ts[i])k=i;return k};
- document.getElementById("bk").onclick=()=>play(ts[Math.max(0,cur()-(au.currentTime-ts[cur()]<1.5?1:0))]);document.getElementById("fw").onclick=()=>play(ts[Math.min(ts.length-1,cur()+1)]);
- let lastE=-1,lastP="",raf=0;
- function tick(){const ct=au.currentTime+0.05;let k=-1;for(let i=0;i<ts.length;i++)if(ct>=ts[i])k=i;
-  if(k!=lastE){if(lastE>=0){document.getElementById("e"+lastE).classList.remove("cur");document.getElementById("cs"+lastE).textContent=""}lastE=k;if(k>=0){const el=document.getElementById("e"+k);el.classList.add("cur");if(!au.paused)follow(el)}}
-  if(k>=0){const m=d.items[k].m;let o=0,lab="";for(const [t,tt] of m){if(ct>=tt){if(t=="o"){o++;lab=`原声 ${o<=3?o:o-3}/3`}else lab="中文"}}
-   const txt=`${d.items[k].n}. ${d.items[k].c} · ${lab}`;if(txt!=lastP){lastP=txt;document.getElementById("nw").textContent="正在播放："+txt;document.getElementById("cs"+k).textContent=lab}}
-  if(!au.paused)raf=requestAnimationFrame(tick)}
- au.addEventListener("play",()=>{try{A.pause()}catch(e){}cancelAnimationFrame(raf);tick()});au.addEventListener("seeked",tick);
- window._stopLong=()=>au.pause()}
+// ---------- ④ 句子听写: interview original only, then the whole sentence ----------
+function playOA(p,btn,quiet){if(!p)return Promise.resolve(false);if(btn)LASTBTN=btn;return audioURL(p).then(url=>new Promise(res=>{
+ A.onended=()=>res(true);A.onerror=()=>{if(!quiet)toast("原声加载失败");res(false)};
+ A.src=url;A.playbackRate=1;A.defaultPlaybackRate=1;try{A.currentTime=0}catch(e){}
+ const q=A.play();if(q&&q.catch)q.catch(()=>{if(!quiet)toast("点 🌻 再听一遍");res(false)})}))}
+function dtWords(s){return String(s||"").match(/[A-Za-z0-9]+(?:['’‘][A-Za-z0-9]+)*/g)||[]}
+function dtKey(w){return String(w||"").toLowerCase().replace(/[’‘']/g,"").replace(/[^a-z0-9]/g,"")}
+function dtMark(typed,answer){const A=dtWords(typed),B=dtWords(answer),a=A.map(dtKey),b=B.map(dtKey),n=a.length,m=b.length;
+ const L=Array.from({length:n+1},()=>Array(m+1).fill(0));
+ for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)L[i][j]=a[i]===b[j]?L[i+1][j+1]+1:Math.max(L[i+1][j],L[i][j+1]);
+ const aOk=Array(n).fill(false),bOk=Array(m).fill(false);let i=0,j=0;
+ while(i<n&&j<m){if(a[i]===b[j]){aOk[i]=bOk[j]=true;i++;j++}else if(L[i+1][j]>=L[i][j+1])i++;else j++}
+ const extra=[],miss=[];A.forEach((w,k)=>{if(!aOk[k])extra.push(w)});B.forEach((w,k)=>{if(!bOk[k])miss.push(w)});
+ const yours=A.length?A.map((w,k)=>`<span class="${aOk[k]?"dk":"dx"}">${esc(w)}</span>`).join(" "):"";
+ const ok=!!A.length&&!extra.length&&!miss.length;
+ const bit=(lab,arr)=>!arr.length?"":arr.length<=8?`${lab} ${arr.length} 个：${arr.join("、")}`:`${lab} ${arr.length} 个`;
+ const summary=ok?"整句对了":[bit("漏了",miss),bit("多了",extra)].filter(Boolean).join(" · ")||"再听一遍";
+ return {ok,yours,summary,miss,extra}}
+function dtFeedback(s,typed){const r=dtMark(typed,s.t);const zh=s.zh?`<div class="dtlab">中文</div><div class="dthz">${esc(s.zh)}</div>`:"";
+ return {ok:r.ok,html:`<div class="${r.ok?"gok":"gno"}">${esc(r.summary)}</div>${r.ok?"":`<div class="dtlab">你写的</div><div class="dtdiff en">${r.yours}</div><div class="dtleg"><span class="dk">对的</span><span class="dx">多了</span><span class="dm">漏了</span></div>${r.miss.length?`<div class="dtlab">漏掉的词</div><div class="dtdiff en">${r.miss.map(w=>`<span class="dm">${esc(w)}</span>`).join(" ")}</div>`:""}`}<div class="dtlab">正确句子</div><div class="dtans en">${esc(s.t)}</div>${zh}<button class="osb" id="dtre" type="button">🌻 再听原声</button>`}}
+function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filter(x=>x.s&&x.s.oa);
+ if(!sents.length){V.innerHTML=`<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;return}
+ const key="nova_dt_"+(it&&it.id||"x");let pos=+localStorage.getItem(key)||0;if(!(pos>=0)||pos>=sents.length)pos=0;
+ const save=()=>{try{localStorage.setItem(key,String(pos))}catch(e){}};
+ const render=()=>{const {s}=sents[pos];const who=s.sp=="Naval"?"NAVAL":s.sp=="Chris"?"CHRIS":(s.sp||"");
+  V.innerHTML=`<div class="card dtcard"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
+   <div class="dtplay"><button class="big" id="dtplay" type="button" aria-label="播放原声"></button><div class="dtplab">🌻 原声</div></div>
+   <p class="tip">听原声，把整句打出来。英文先不显示。</p>
+   <textarea id="dtin" class="dtin" rows="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="在这里写下听到的整句"></textarea>
+   <div class="dtact"><button class="btn" id="dthint" type="button">中文提示</button><button class="wide flip" id="dtok" type="button">检查</button></div>
+   <div id="dthz" class="dthz" hidden></div><div id="dtfb"></div></div>
+   <div class="dtnav"><button type="button" id="dtprev" ${pos?"":"disabled"}>‹ 上一句</button><button type="button" id="dtnext" ${pos<sents.length-1?"":"disabled"}>下一句 ›</button></div>`;
+  const playBtn=document.getElementById("dtplay");
+  playBtn.onclick=()=>{stopAll();playOA(s.oa,playBtn)};
+  document.getElementById("dthint").onclick=()=>{const z=document.getElementById("dthz");if(!s.zh){toast("这句没有中文");return}z.hidden=!z.hidden;if(!z.hidden)z.textContent=s.zh;document.getElementById("dthint").textContent=z.hidden?"中文提示":"收起中文"};
+  const chk=()=>{const inp=document.getElementById("dtin"),typed=inp.value.trim(),fb=document.getElementById("dtfb");
+   if(!typed){inp.classList.remove("shake");void inp.offsetWidth;inp.classList.add("shake");toast("先把听到的整句打出来");return}
+   const r=dtFeedback(s,typed);inp.classList.toggle("good",r.ok);inp.classList.toggle("near",!r.ok);
+   const hz=document.getElementById("dthz");if(hz)hz.hidden=true;const hb=document.getElementById("dthint");if(hb)hb.textContent="中文提示";
+   fb.innerHTML=r.html;const re=document.getElementById("dtre");if(re)re.onclick=()=>{stopAll();playOA(s.oa,playBtn)};
+   fb.scrollIntoView({block:"nearest",behavior:"smooth"})};
+  document.getElementById("dtok").onclick=chk;
+  document.getElementById("dtin").addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key=="Enter"){e.preventDefault();chk()}});
+  document.getElementById("dtprev").onclick=()=>{if(pos<=0)return;pos--;save();stopAll();render();scrollTo(0,0)};
+  document.getElementById("dtnext").onclick=()=>{if(pos>=sents.length-1)return;pos++;save();stopAll();render();scrollTo(0,0)};
+  playOA(s.oa,playBtn,true)};
+ render()}
 
 // ---------- study timer (home hero: 今天 / 累计) ----------
 // Counts only while visible AND active: interaction within 2 min, or audio/speech playing. Log: localStorage nova_time {YYYY-MM-DD: seconds}.
@@ -617,7 +650,8 @@ const MCAT={};  // imported-audio id → category (filled by itemsIn)
 function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
  if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return "wf";if(h[1]=="d")return "d";if(h[1]=="g")return "g";if(h[1]=="k")return "k";
  if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);return x?effCat(x):null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
-function tsecT(sec,day){if(day)return (TSEC[day]||{})[sec]||0;let s=0;for(const d in TSEC)s+=+(TSEC[d][sec]||0);return s}
+function tsecKeys(sec){return sec=="dictation"||sec=="chunks"?["dictation","chunks"]:[sec]}
+function tsecT(sec,day){const ks=tsecKeys(sec);if(day){const D=TSEC[day]||{};return ks.reduce((n,k)=>n+(+D[k]||0),0)}let s=0;for(const d in TSEC)for(const k of ks)s+=+(TSEC[d][k]||0);return s}
 const secHTML=sec=>`今天 ${fmtT(tsecT(sec,dKey()))} · 累计 ${fmtT(tsecT(sec))}`;
 function tTick(){const now=Date.now();const dt=Math.min(now-tLast,5e3);tLast=now;if(dt>0&&tActive(now)){const k=dKey();TLOG[k]=Math.round(((TLOG[k]||0)+dt/1e3)*10)/10;tSave()
   const s=secOf();if(s){const D=TSEC[k]||(TSEC[k]={});D[s]=Math.round(((D[s]||0)+dt/1e3)*10)/10;try{localStorage.setItem(TSK,JSON.stringify(TSEC))}catch(e){}}}
