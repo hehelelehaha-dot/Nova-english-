@@ -624,7 +624,15 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .hero .hdate :is(.hwk,.hwd){
 .dtnav{display:flex;gap:10px;max-width:640px;margin:12px auto 24px}
 .dtnav button{flex:1;min-height:48px;border-radius:14px;border:1px solid #e0c98f;background:#fffefa;color:#6b4e12;font:inherit;font-size:16px;font-weight:700}
 .dtnav button:disabled{opacity:.4}
+.dtpickh{font-size:22px;font-weight:800;color:#3a2c00;margin:2px 0 6px}
+.dtresume{background:#fffefa;color:#6b4e12;border:1px solid #e0c98f}
+.dtpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px;margin-top:14px}
+.dtn{min-height:52px;border-radius:14px;border:1px solid #e0c98f;background:#fffefa;color:#6b4e12;font:inherit;font-size:18px;font-weight:800}
+.dtn.on{background:#f5c518;color:#3a2c00;border-color:#e0b400}
+.dtn.was{box-shadow:inset 0 0 0 2px #c8962e}
 .dtcard .osb{margin-top:12px}
-html[data-theme^=t] .dtnav button{background:var(--b2);color:var(--b2tx);border:var(--b2bd)}
+html[data-theme^=t] .dtnav button,html[data-theme^=t] .dtn,html[data-theme^=t] .dtresume{background:var(--b2);color:var(--b2tx);border:var(--b2bd)}
+html[data-theme^=t] .dtn.on{background:var(--ac);color:var(--actx);border-color:var(--ac)}
+html[data-theme^=t] .dtpickh{color:var(--pgtx,#3a2c00)}
 html[data-theme^=t] .dtin{background:#fff;color:#2b2b2b}
 html[data-theme^=t] .dthz{background:var(--hl,#fff8d6);color:#3a2c00}
