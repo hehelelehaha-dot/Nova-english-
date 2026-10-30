@@ -43,8 +43,8 @@ function wirePP(au){const b=document.getElementById("pp");b.onclick=()=>au.pause
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 // ---------- ui helpers ----------
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-// Nova refers to sections by number: 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 7 画面漫画
-const SECN={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6,comic:7},CIRC="⓪①②③④⑤⑥⑦",secT=(id,t)=>id in SECN?CIRC[SECN[id]]+" "+t:t;
+// Nova refers to sections by number: 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏
+const SECN={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6},CIRC="⓪①②③④⑤⑥",secT=(id,t)=>id in SECN?CIRC[SECN[id]]+" "+t:t;
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
@@ -72,7 +72,7 @@ async function route0(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.
  applyDictation(CAT);
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
- try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="k")return h[2]?showComic(h[2]):showComics();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
 // Storage model (v2, sync-ready): FIELDS = { key: [value, ts] }, value null = tombstone.
@@ -185,7 +185,6 @@ const ICON={reading:svgI('<path d="M3 5.5C5.5 4 8.5 4 12 6c3.5-2 6.5-2 9-.5v13c-
  dictation:svgI('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/>'),
  wf:svgI('<path d="M4 19 9 5l5 14M5.8 14h6.4"/><path d="M16 9h4M18 7v12"/>'),
  g:svgI('<rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9"/><circle cx="18" cy="13.5" r=".9"/>'),
- k:svgI('<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 12h18M12 3v9"/><path d="M7 17.5c1.2-1.4 2.8-1.4 4 0"/>'),
  folder:svgI('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>')};
 // ---------- themes (Nova 2026-10-20): t1 暖白金 (default) · t2 磨砂玻璃 · t3 海军蓝金 · t4 马卡龙 · t5 杂志 · classic 经典. localStorage nova_theme ----------
 const THEMES=[["t1","暖白金","#faf6ee","#b08a2e"],["t2","磨砂玻璃","#b8c8ff","#4f8dfd"],["t3","海军蓝金","#0e1a2b","#e9c46a"],["t4","马卡龙","#ffe9f0","#8a6ad8"],["t5","杂志","#f6f3ec","#c8102e"],["t6","大冰鞭策","#1f3b63","#e8a33d"],["t7","纳瓦尔","#fbfaf7","#1a7f6e"],["classic","经典","#bfe0f7","#f5c518"]];
@@ -231,7 +230,7 @@ async function pgbFill(){const el=document.getElementById("pgb");if(!el)return;l
  el.hidden=false;el.querySelector(".pgh").onclick=ev=>{const x=el.querySelector(".pgx"),bt=ev.currentTarget;x.hidden=!x.hidden;bt.textContent=x.hidden?"详情 ›":"收起 ‹";bt.setAttribute("aria-expanded",!x.hidden)}}
 async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
  V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="pgb" id="pgb" hidden></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic"><span class="ice">${c.icon}</span><span class="ics">${ICON[c.id]||ICON.folder}</span></span><span class="nm">${c.id in SECN?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span><span class="tsec" data-s="${c.id}">${secHTML(c.id)}</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
- <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic"><span class="ice">🔤</span><span class="ics">${ICON.wf}</span></span><span class="nm"><span class="no">5</span>词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span><span class="tsec" data-s="wf">${secHTML("wf")}</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic"><span class="ice">🎮</span><span class="ics">${ICON.g}</span></span><span class="nm"><span class="no">6</span>小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span><span class="tsec" data-s="g">${secHTML("g")}</span></button><button class="tile gtile" onclick="location.hash='#/k'"><span class="ic"><span class="ice">🎬</span><span class="ics">${ICON.k}</span></span><span class="nm"><span class="no">7</span>画面漫画</span><span class="ds">原句变漫画 · 关键词看图</span><span class="ct">每个单元 2–3 张</span><span class="tsec" data-s="k">${secHTML("k")}</span></button>
+ <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic"><span class="ice">🔤</span><span class="ics">${ICON.wf}</span></span><span class="nm"><span class="no">5</span>词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span><span class="tsec" data-s="wf">${secHTML("wf")}</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic"><span class="ice">🎮</span><span class="ics">${ICON.g}</span></span><span class="nm"><span class="no">6</span>小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span><span class="tsec" data-s="g">${secHTML("g")}</span></button>
  <button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
  document.getElementById("stt").onclick=showTimeLog;hqStart();pgbFill();V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
  V.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>catMenu(cs.find(x=>x.id==b.dataset.m)));
@@ -687,11 +686,11 @@ function tSave(){try{localStorage.setItem(TK,JSON.stringify(TLOG))}catch(e){}}
 function tPlaying(){try{if(!A.paused&&!A.ended)return true;for(const a of document.querySelectorAll("audio,video"))if(!a.paused&&!a.ended)return true;if(window.speechSynthesis&&speechSynthesis.speaking)return true}catch(e){}return false}
 function tActive(now){return !document.hidden&&(now-tAct<T_IDLE||tPlaying())}
 // Per-section time (Nova 2026-10-20): the SAME active seconds are also credited to the home section that is open
-// (①–⑦ + custom categories; home / 设置 / 🧠 今日复习 count only in the global total). localStorage nova_tsec {YYYY-MM-DD:{sec:seconds}}; starts at 0 (no back-fill).
+// (⓪–⑥ + custom categories; home / 设置 / 🧠 今日复习 count only in the global total). localStorage nova_tsec {YYYY-MM-DD:{sec:seconds}}; starts at 0 (no back-fill).
 const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)||"{}")||{}}catch(e){TSEC={}}
 const MCAT={};  // imported-audio id → category (filled by itemsIn)
 function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
- if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return "wf";if(h[1]=="d")return "d";if(h[1]=="g")return "g";if(h[1]=="k")return "k";
+ if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return "wf";if(h[1]=="d")return "d";if(h[1]=="g")return "g";
  if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);return x?effCat(x):null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
 function tsecKeys(sec){return sec=="dictation"||sec=="chunks"?["dictation","chunks"]:[sec]}
 function tsecT(sec,day){const ks=tsecKeys(sec);if(day){const D=TSEC[day]||{};return ks.reduce((n,k)=>n+(+D[k]||0),0)}let s=0;for(const d in TSEC)for(const k of ks)s+=+(TSEC[d][k]||0);return s}
