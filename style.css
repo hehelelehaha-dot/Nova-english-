@@ -577,16 +577,20 @@ html .hero.hero>.hgreet{grid-area:greet;min-width:0;align-self:center}
 html .hero.hero>.stt{grid-area:time;margin-left:0;align-self:center}
 html .hero.hero>.hdate{grid-area:date;min-width:0;padding-top:8px;border-top:1px dashed rgba(212,168,60,.75)}
 html .hero .hdate .hday{display:block;margin:0;font-size:13px;font-weight:700;letter-spacing:.03em;color:#8a6200}
-html .hero .hdate .hleft{display:block;margin:3px 0 0;font-size:16px;line-height:1.45;font-weight:700;color:#3a2c00}
+html .hero .hdate .hcount{display:block;margin-top:4px}
+html .hero .hdate :is(.hwk,.hwd){display:block;margin:0;font-weight:800;letter-spacing:.01em;color:#2a2108;line-height:1.15}
+html .hero .hdate .hwk{font-size:32px}
+html .hero .hdate .hwd{font-size:26px;margin-top:2px}
 html[data-theme=t3] .hero .hdate,html[data-theme=t6] .hero .hdate{border-top-color:rgba(233,196,106,.45)}
 html[data-theme=t3] .hero .hdate .hday,html[data-theme=t6] .hero .hdate .hday{color:#e9c46a}
-html[data-theme=t3] .hero .hdate .hleft,html[data-theme=t6] .hero .hdate .hleft{color:#ffe7b0}
+html[data-theme=t3] .hero .hdate :is(.hwk,.hwd),html[data-theme=t6] .hero .hdate :is(.hwk,.hwd){color:#ffe7b0}
 html[data-theme=t5] .hero .hdate{border-top-color:#141414}
 html[data-theme=t5] .hero .hdate .hday{color:#c8102e}
-html[data-theme=t5] .hero .hdate .hleft{color:#141414}
+html[data-theme=t5] .hero .hdate :is(.hwk,.hwd){color:#141414}
 html[data-theme=t7] .hero .hdate{border-top-color:#e4e0d6}
 html[data-theme=t7] .hero .hdate .hday{color:#13695b}
-html[data-theme=t7] .hero .hdate .hleft{color:#1a3a34}
+html[data-theme=t7] .hero .hdate :is(.hwk,.hwd){color:#102820}
+html.bold:not([data-theme=t3]):not([data-theme=t6]) .hero .hdate :is(.hwk,.hwd){font-weight:800!important}
 @media(max-width:480px){
  html .hero.hero{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ava greet" "date date" "time time"}
  html .hero.hero>.stt{flex-direction:row;justify-content:flex-end;gap:16px;width:100%;margin:0}
