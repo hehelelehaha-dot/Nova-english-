@@ -6,7 +6,9 @@ const b64=u=>btoa(String.fromCharCode(...new Uint8Array(u)));const ub64=s=>Uint8
 async function deriveKey(pw){const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
  return crypto.subtle.deriveKey({name:"PBKDF2",salt:ub64(META.salt),iterations:META.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},true,["decrypt"])}
 async function dec(buf){const u=new Uint8Array(buf);return crypto.subtle.decrypt({name:"AES-GCM",iv:u.slice(0,12)},KEY,u.slice(12))}
-async function getBuf(p){const r=await fetch(META.enc?p+".enc":p);if(!r.ok)throw new Error("加载失败 "+p);const b=await r.arrayBuffer();return META.enc?dec(b):b}
+async function getBuf(p){if(!META.enc){const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
+ const r=await fetch(p+".enc");if(r.ok)return dec(await r.arrayBuffer());
+ const plain=await fetch(p);if(plain.ok)return plain.arrayBuffer();throw new Error("加载失败 "+p)}
 async function getJSON(p){return JSON.parse(new TextDecoder().decode(await getBuf("content/"+p)))}
 async function audioURL(p){if(!META.enc)return "content/"+p;if(!blobCache[p])blobCache[p]=URL.createObjectURL(new Blob([await getBuf("content/"+p)],{type:"audio/mpeg"}));return blobCache[p]}
 async function unlock(){
@@ -51,6 +53,11 @@ let CAT=null;
 const topicNo=x=>{const m=/(?:^|_)t(\d\d)(?:v|_|$)/.exec(x.id||"");return m?+m[1]:null};
 function topicSort(a){const idx=[],its=[];a.forEach((x,i)=>{if(topicNo(x)!=null){idx.push(i);its.push(x)}});its.sort((p,q)=>topicNo(q)-topicNo(p));const r=a.slice();idx.forEach((k,j)=>r[k]=its[j]);return r}
 // ④ used to be the Chunks category. Same home slot, now a Topic list of sentence dictation over reading cards that have interview audio.
+// ⓪ task on hand is shipped as plaintext content/phrases_p03.json until the next encrypted rebuild.
+function applyPhraseCount(cat){if(!cat||cat._p03)return;for(const c of cat.categories||[]){if(c.id!="phrases")continue;for(const it of c.items||[]){
+ if((it.id=="phrases_flash"||it.data=="phrases_flash.json")&&typeof it.sub=="string")it.sub=it.sub.replace(/(^|[^\d])3 张/,(m,p)=>p+"4 张")}}cat._p03=1}
+async function withPhraseCard(d,id){if(id!="phrases_flash"||!d||d.type!="flash"||!Array.isArray(d.cards)||d.cards.some(c=>c&&c.w==="task on hand"))return d;
+ try{const r=await fetch("content/phrases_p03.json",{cache:"no-store"});if(!r.ok)return d;const card=await r.json();if(card&&card.w==="task on hand")d.cards.push(card)}catch(e){}return d}
 function applyDictation(cat){if(!cat||!cat.categories||cat._dt)return;const ch=cat.categories.find(c=>c.id=="chunks"||c.id=="dictation");if(!ch){cat._dt=1;return}
  const rd=cat.categories.find(c=>c.id=="reading");
  const src=((rd&&rd.items)||[]).filter(it=>/naval_t\d+/.test(it.id)||/naval_t\d+/.test(it.data||""));
@@ -69,7 +76,7 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
 async function route0(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- applyDictation(CAT);
+ applyDictation(CAT);applyPhraseCount(CAT);
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="k")return h[2]?showComic(h[2]):showComics();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
@@ -278,7 +285,7 @@ async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)ret
  document.getElementById("del").onclick=async()=>{if(await sure("永久删除这个导入的音频？")){await idbDel(id);history.back()}}}
 async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dictation");return}
  let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}if(!it)return showHome();
- setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
+ setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;let d=await getJSON(it.data);d=await withPhraseCard(d,id);
  if(it.dictation||(cat&&cat.id=="dictation"))return viewDictation(d,it);
  if(d.type=="chunks"){location.replace("#/c/dictation");return}
  const view=({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong})[d.type];

@@ -1,0 +1,30 @@
+{
+  "w": "task on hand",
+  "pos": "phr.",
+  "zh": "手头的任务；眼前要做的事",
+  "ex": "The job or matter you need to deal with right now.",
+  "exs": [
+    "Focus on the task on hand instead of worrying about next week.",
+    "Put your phone away and finish the task on hand."
+  ],
+  "a": [
+    "audio/phrases/p03_0.mp3",
+    "audio/phrases/p03_1.mp3",
+    "audio/phrases/p03_2.mp3",
+    "audio/phrases/p03_3.mp3"
+  ],
+  "src": {
+    "t": "Suffering is mostly mental anguish and mental pain, and it just means you don’t wanna do the task at hand.",
+    "zh": "这里说的受苦，主要是心理上的煎熬：眼前有件事要做，而你心里抗拒做它。",
+    "hl": [
+      93,
+      105
+    ],
+    "a": "audio/phrases/p03_0.mp3",
+    "sp": "Naval"
+  },
+  "lg": [
+    "✋",
+    "task on hand = 手头这件要做的事。Naval 原话说的是 the task at hand，意思一样。"
+  ]
+}
