@@ -81,15 +81,9 @@ header h1{color:#0f2c44}
 .zh,.ent .z{color:#2f5a8a}.lab.ex{background:#3b5f8f}
 .hero{display:flex;align-items:center;gap:14px;background:#fffefa;border-radius:22px;padding:12px 16px;margin-bottom:14px;box-shadow:0 3px 10px rgba(47,90,138,.12);border-left:6px solid #f5c518}
 .hero img{width:72px;height:72px;border-radius:18px;object-fit:cover}.hero b{font-size:20px;color:#0f2c44}.hero span{display:block;color:#5b6f80;font-size:14px;margin-top:2px}
-/* ---- sunflower play buttons ---- */
-.p,.naval .p,.p.sm,.big{position:relative;background:url(icons/sunflower.png) center/cover no-repeat,#f5c518!important;color:transparent!important;border:0;border-radius:50%;box-shadow:0 2px 6px rgba(120,80,0,.35);min-width:46px;min-height:46px;overflow:visible}
-.p::after,.big::after{content:"";position:absolute;left:50%;top:50%;width:0;height:0;transform:translate(-35%,-50%);border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent rgba(255,255,255,.95);filter:drop-shadow(0 0 2px rgba(0,0,0,.6))}
-.big::after{border-width:16px 0 16px 26px}
-.p.playing,.big.playing{animation:sfglow 1.4s ease-in-out infinite;box-shadow:0 0 0 4px rgba(245,197,24,.55),0 0 16px 4px rgba(245,197,24,.75)}
-.p.playing::after,.big.playing::after{width:14px;height:18px;border:0;border-left:5px solid #fff;border-right:5px solid #fff;transform:translate(-50%,-50%)}
-.big.playing::after{width:24px;height:30px;border-left-width:8px;border-right-width:8px}
-@keyframes sfglow{50%{box-shadow:0 0 0 7px rgba(245,197,24,.35),0 0 22px 8px rgba(245,197,24,.9)}}
-.p.playing::after,.big.playing::after{animation:none}
+/* ---- plain play buttons: one ordinary ▶ on a simple circle ---- */
+.p,.naval .p,.p.sm,.big{background:#3b5f8f!important;color:#fff!important;border:0;border-radius:50%;box-shadow:none;display:flex;align-items:center;justify-content:center;line-height:1;padding:0 0 0 2px}
+.p.playing,.big.playing{box-shadow:0 0 0 3px rgba(59,95,143,.5)}
 .player .pb .p{flex:0 0 52px;width:52px;height:52px}
 .toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2f5a8a;color:#fff;padding:12px 20px;border-radius:24px;font-size:16px;z-index:99;box-shadow:0 4px 14px rgba(0,0,0,.25)}
 /* ---- follow-along highlight ---- */
@@ -158,8 +152,7 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 .wfc>i{display:flex;align-items:center;gap:8px;font-style:normal}.p.xs{width:30px;height:30px;min-width:30px;font-size:12px;padding:0;flex:none}.wfn{cursor:pointer;text-decoration:underline dotted #b9a14a;text-underline-offset:3px;word-break:break-word}
 .wft td{vertical-align:middle}.wfx.done{cursor:pointer}
 @media(max-width:480px){.wft{font-size:.88em}.wft th,.wft td{padding:5px 3px}.wft td:nth-child(2){white-space:nowrap}}
-.p.xs{flex:0 0 30px!important;width:30px!important;height:30px!important;background-size:cover}
-.p.xs{min-width:32px!important;min-height:32px!important;width:32px!important;height:32px!important;flex:0 0 32px!important}.p.xs::after{border-width:6px 0 6px 10px}
+.p.xs{flex:0 0 32px!important;width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;font-size:15px;padding:0 0 0 1px}
 .chb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}.chs{color:#8a6200;font-weight:700;font-size:14px}.ent.chk .w{font-size:1.15em;font-weight:700}
 .exb2{font:inherit;font-size:14px;margin-top:10px;padding:6px 14px;border-radius:999px;border:1.5px solid #e0b400;background:#fff8d6;color:#7a5a00;font-weight:700}.exb2.open{background:#f5c518;color:#3d2c00}
 .xpan{margin-top:10px;padding:12px 14px;border-radius:12px;background:#fffdf3;border:1px solid #f0e2a0;line-height:1.6}.xh{font-size:1.15em}.ipa{color:#6b6b6b;font-family:"Doulos SIL","Charis SIL","Lucida Sans Unicode",sans-serif}
@@ -245,7 +238,7 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) #ss .gl{font-weight:600}
 .exz.wd.on,.tx.wd.on{background:#fff2b3;color:inherit;box-shadow:0 0 0 3px #fff2b3;border-radius:4px}
 
 .osent{display:block;margin:10px auto 0;padding:8px 18px;border-radius:22px;border:2px solid #2a6f97;background:#fff;color:#2a6f97;font-size:17px;font-weight:700}
-.osent.playing{background:#2a6f97;color:#fff;animation:sfglow 1.4s ease-in-out infinite}
+.osent.playing{background:#2a6f97;color:#fff}
 
 .rbh{display:flex;width:100%;align-items:center;justify-content:space-between;background:none;border:0;padding:6px 2px;text-align:left;cursor:pointer;font:inherit;font-weight:700}
 .rbh .rbc{font-size:20px;color:#2a6f97}
@@ -289,7 +282,7 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) #ss .gl{font-weight:600}
 
 /* ======================= THEMES (Nova 2026-10-20) =======================
    html[data-theme] = t1 暖白金 (default) · t2 磨砂玻璃 · t3 海军蓝金 · t4 马卡龙 · t5 杂志 · classic (= the rules above, untouched).
-   Tokens per theme → one shared component layer. Correct/wrong (green/red) and the sunflower play buttons are kept in every theme;
+   Tokens per theme → one shared component layer. Correct/wrong (green/red) and the plain ▶ play buttons stay the same in every theme;
    content surfaces stay light in every theme (t3 = ivory cards on navy) so all section text keeps its contrast. */
 html[data-theme=classic] .ics{display:none}
 html:not([data-theme=classic]) .ice{display:none}
@@ -406,7 +399,7 @@ html[data-theme=t6] header h1::after{background-image:url(icons/a_lamp.svg)}
 html[data-theme=t7] header h1::after{background-image:url(icons/m_naval.webp)}
 html[data-theme^=t] .gpos{color:var(--mut2)}html[data-theme^=t] .rbh,html[data-theme^=t] .rbc{color:var(--pgtx)}html[data-theme=t6] .tile.add .ic{color:#f1e4c6}
 @media(max-width:420px){html:is([data-theme=t6],[data-theme=t7]) .hero>div{flex:1 1 calc(100% - 76px)}html:is([data-theme=t6],[data-theme=t7]) .hero .stt{order:3;flex:1 1 100%;flex-direction:row;justify-content:flex-end;gap:12px;margin-top:6px}}
-/* left-hand play: sunflower on the LEFT of every sentence/item card (Nova 2026-10-20) */
+/* left-hand play button on the LEFT of every sentence/item card (Nova 2026-10-20) */
 :where(.s,.wc .top,.ent .hd,.row,.chb,.fr,.li,.card .top):has(>.p){display:flex}
 :not(.pb):not(.player):not(.bar)>.p{order:-1;margin-left:0!important;margin-right:4px;flex:none}
 .s>.p{align-self:flex-start}
