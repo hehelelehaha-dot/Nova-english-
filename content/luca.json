@@ -11,6 +11,12 @@
       "title": "Day 3",
       "sub": "12 句",
       "data": "luca_d03.json"
+    },
+    {
+      "id": "luca_d04",
+      "title": "Day 4",
+      "sub": "36 句",
+      "data": "luca_d04.json"
     }
   ]
 }

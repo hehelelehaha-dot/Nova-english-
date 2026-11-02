@@ -1,0 +1,295 @@
+{
+  "id": "luca_d04",
+  "type": "reading",
+  "title": "Day 4",
+  "sents": [
+    {
+      "sp": "",
+      "t": "Wait",
+      "zh": "等一下",
+      "a": "audio/luca_d04o/s01.mp3",
+      "oa": "audio/luca_d04o/s01.mp3",
+      "d": 0.82
+    },
+    {
+      "sp": "",
+      "t": "It feels like it's still there",
+      "zh": "总感觉尾巴还在",
+      "a": "audio/luca_d04o/s02.mp3",
+      "oa": "audio/luca_d04o/s02.mp3",
+      "d": 1.9
+    },
+    {
+      "sp": "",
+      "t": "Yeah, that's called phantom tail",
+      "zh": "对 这种现象叫幻尾",
+      "a": "audio/luca_d04o/s03.mp3",
+      "oa": "audio/luca_d04o/s03.mp3",
+      "d": 1.49
+    },
+    {
+      "sp": "",
+      "t": "You'll get used to it",
+      "zh": "习惯就好了",
+      "a": "audio/luca_d04o/s04.mp3",
+      "oa": "audio/luca_d04o/s04.mp3",
+      "d": 1.25
+    },
+    {
+      "sp": "",
+      "t": "Right",
+      "zh": "对了",
+      "a": "audio/luca_d04o/s05.mp3",
+      "oa": "audio/luca_d04o/s05.mp3",
+      "d": 0.5
+    },
+    {
+      "sp": "",
+      "t": "Walking",
+      "zh": "用走的",
+      "a": "audio/luca_d04o/s06.mp3",
+      "oa": "audio/luca_d04o/s06.mp3",
+      "d": 0.77
+    },
+    {
+      "sp": "",
+      "t": "Don't worry, you're in luck",
+      "zh": "别担心 你很走运",
+      "a": "audio/luca_d04o/s07.mp3",
+      "oa": "audio/luca_d04o/s07.mp3",
+      "d": 1.54
+    },
+    {
+      "sp": "",
+      "t": "I basically invented it",
+      "zh": "这方法是我自创的",
+      "a": "audio/luca_d04o/s08.mp3",
+      "oa": "audio/luca_d04o/s08.mp3",
+      "d": 1.49
+    },
+    {
+      "sp": "",
+      "t": "To start",
+      "zh": "首先",
+      "a": "audio/luca_d04o/s09.mp3",
+      "oa": "audio/luca_d04o/s09.mp3",
+      "d": 1.06
+    },
+    {
+      "sp": "",
+      "t": "stack everything one on top of the other",
+      "zh": "把全身摞起来",
+      "a": "audio/luca_d04o/s10.mp3",
+      "oa": "audio/luca_d04o/s10.mp3",
+      "d": 2.04
+    },
+    {
+      "sp": "",
+      "t": "Like a pile of rocks",
+      "zh": "就像堆石头一样",
+      "a": "audio/luca_d04o/s11.mp3",
+      "oa": "audio/luca_d04o/s11.mp3",
+      "d": 1.25
+    },
+    {
+      "sp": "",
+      "t": "Great!",
+      "zh": "很好",
+      "a": "audio/luca_d04o/s12.mp3",
+      "oa": "audio/luca_d04o/s12.mp3",
+      "d": 0.86
+    },
+    {
+      "sp": "",
+      "t": "I mean, fine, whatever",
+      "zh": "我是说马马虎虎吧",
+      "a": "audio/luca_d04o/s13.mp3",
+      "oa": "audio/luca_d04o/s13.mp3",
+      "d": 1.25
+    },
+    {
+      "sp": "",
+      "t": "Now, walking is just like swimming",
+      "zh": "走路和游泳差不多",
+      "a": "audio/luca_d04o/s14.mp3",
+      "oa": "audio/luca_d04o/s14.mp3",
+      "d": 2.26
+    },
+    {
+      "sp": "",
+      "t": "But without fins",
+      "zh": "只不过不靠鳍",
+      "a": "audio/luca_d04o/s15.mp3",
+      "oa": "audio/luca_d04o/s15.mp3",
+      "d": 1.25
+    },
+    {
+      "sp": "",
+      "t": "Or a tail",
+      "zh": "或者尾巴",
+      "a": "audio/luca_d04o/s16.mp3",
+      "oa": "audio/luca_d04o/s16.mp3",
+      "d": 1.13
+    },
+    {
+      "sp": "",
+      "t": "And also, there's no water",
+      "zh": "而且 也没有水",
+      "a": "audio/luca_d04o/s17.mp3",
+      "oa": "audio/luca_d04o/s17.mp3",
+      "d": 1.15
+    },
+    {
+      "sp": "",
+      "t": "Otherwise",
+      "zh": "除此以外",
+      "a": "audio/luca_d04o/s18.mp3",
+      "oa": "audio/luca_d04o/s18.mp3",
+      "d": 0.6
+    },
+    {
+      "sp": "",
+      "t": "it's like the exact same thing",
+      "zh": "剩下的都一样",
+      "a": "audio/luca_d04o/s19.mp3",
+      "oa": "audio/luca_d04o/s19.mp3",
+      "d": 1.37
+    },
+    {
+      "sp": "",
+      "t": "Give it a try",
+      "zh": "走两步试试",
+      "a": "audio/luca_d04o/s20.mp3",
+      "oa": "audio/luca_d04o/s20.mp3",
+      "d": 0.77
+    },
+    {
+      "sp": "",
+      "t": "That's not it",
+      "zh": "不是这样",
+      "a": "audio/luca_d04o/s21.mp3",
+      "oa": "audio/luca_d04o/s21.mp3",
+      "d": 0.96
+    },
+    {
+      "sp": "",
+      "t": "Try it again",
+      "zh": "再来",
+      "a": "audio/luca_d04o/s22.mp3",
+      "oa": "audio/luca_d04o/s22.mp3",
+      "d": 0.53
+    },
+    {
+      "sp": "",
+      "t": "Oh, try to lead with your head",
+      "zh": "试着用头带动身体向前",
+      "a": "audio/luca_d04o/s23.mp3",
+      "oa": "audio/luca_d04o/s23.mp3",
+      "d": 2.18
+    },
+    {
+      "sp": "",
+      "t": "No, more belly",
+      "zh": "不对 腹部用力",
+      "a": "audio/luca_d04o/s24.mp3",
+      "oa": "audio/luca_d04o/s24.mp3",
+      "d": 1.56
+    },
+    {
+      "sp": "",
+      "t": "That's...",
+      "zh": "这...",
+      "a": "audio/luca_d04o/s25.mp3",
+      "oa": "audio/luca_d04o/s25.mp3",
+      "d": 0.77
+    },
+    {
+      "sp": "",
+      "t": "that's lying on the ground",
+      "zh": "这是躺在地上",
+      "a": "audio/luca_d04o/s26.mp3",
+      "oa": "audio/luca_d04o/s26.mp3",
+      "d": 1.51
+    },
+    {
+      "sp": "",
+      "t": "How about this?",
+      "zh": "这样如何？",
+      "a": "audio/luca_d04o/s27.mp3",
+      "oa": "audio/luca_d04o/s27.mp3",
+      "d": 0.96
+    },
+    {
+      "sp": "",
+      "t": "Just take a step without even thinking about it",
+      "zh": "往前走一步 什么都别想",
+      "a": "audio/luca_d04o/s28.mp3",
+      "oa": "audio/luca_d04o/s28.mp3",
+      "d": 2.35
+    },
+    {
+      "sp": "",
+      "t": "No, no, no, don't think about it",
+      "zh": "不不 别去想它",
+      "a": "audio/luca_d04o/s29.mp3",
+      "oa": "audio/luca_d04o/s29.mp3",
+      "d": 1.85
+    },
+    {
+      "sp": "",
+      "t": "I don't know how to not think about something",
+      "zh": "我不知道怎么不去想某件事",
+      "a": "audio/luca_d04o/s30.mp3",
+      "oa": "audio/luca_d04o/s30.mp3",
+      "d": 2.04
+    },
+    {
+      "sp": "",
+      "t": "Okay, okay",
+      "zh": "好吧",
+      "a": "audio/luca_d04o/s31.mp3",
+      "oa": "audio/luca_d04o/s31.mp3",
+      "d": 1.01
+    },
+    {
+      "sp": "",
+      "t": "Watch",
+      "zh": "看着",
+      "a": "audio/luca_d04o/s32.mp3",
+      "oa": "audio/luca_d04o/s32.mp3",
+      "d": 0.7
+    },
+    {
+      "sp": "",
+      "t": "Point your feet to where you wanna go",
+      "zh": "脚尖朝向你要去的方向",
+      "a": "audio/luca_d04o/s33.mp3",
+      "oa": "audio/luca_d04o/s33.mp3",
+      "d": 1.49
+    },
+    {
+      "sp": "",
+      "t": "Okay?",
+      "zh": "懂吗？",
+      "a": "audio/luca_d04o/s34.mp3",
+      "oa": "audio/luca_d04o/s34.mp3",
+      "d": 0.67
+    },
+    {
+      "sp": "",
+      "t": "And then you just catch yourself before you fall",
+      "zh": "在摔倒以前 稳住自己",
+      "a": "audio/luca_d04o/s35.mp3",
+      "oa": "audio/luca_d04o/s35.mp3",
+      "d": 3.12
+    },
+    {
+      "sp": "",
+      "t": "Yeah, that's right",
+      "zh": "对就是这样",
+      "a": "audio/luca_d04o/s36.mp3",
+      "oa": "audio/luca_d04o/s36.mp3",
+      "d": 1.49
+    }
+  ]
+}
