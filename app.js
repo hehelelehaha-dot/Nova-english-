@@ -6,7 +6,10 @@ const b64=u=>btoa(String.fromCharCode(...new Uint8Array(u)));const ub64=s=>Uint8
 async function deriveKey(pw){const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
  return crypto.subtle.deriveKey({name:"PBKDF2",salt:ub64(META.salt),iterations:META.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},true,["decrypt"])}
 async function dec(buf){const u=new Uint8Array(buf);return crypto.subtle.decrypt({name:"AES-GCM",iv:u.slice(0,12)},KEY,u.slice(12))}
-async function getBuf(p){const r=await fetch(META.enc?p+".enc":p);if(!r.ok)throw new Error("加载失败 "+p);const b=await r.arrayBuffer();return META.enc?dec(b):b}
+// Encrypted files win. A missing .enc (Luca Day 1, until the bot encrypts it) loads the plaintext sibling.
+async function getBuf(p){if(!META.enc){const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
+ let enc=null;try{const r=await fetch(p+".enc");if(r.ok)enc=await r.arrayBuffer()}catch(e){}
+ if(enc)return dec(enc);const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
 async function getJSON(p){return JSON.parse(new TextDecoder().decode(await getBuf("content/"+p)))}
 async function audioURL(p){if(!META.enc)return "content/"+p;if(!blobCache[p])blobCache[p]=URL.createObjectURL(new Blob([await getBuf("content/"+p)],{type:"audio/mpeg"}));return blobCache[p]}
 async function unlock(){
@@ -45,7 +48,8 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 // Home folds number their own sections from 1. Naval keeps the existing study sections in curriculum order
 // (old 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 → 1–7).
-// 夏日友晴天 (internal id luca) is an empty scaffold of the same section types, skipping 板块二 / 单词卡.
+// 夏日友晴天 (internal id luca) uses the same section types, skipping 板块二 / 单词卡.
+// 阅读卡 + 句子听写 come from content/luca.json (plaintext until encrypted). 口语句式 and 英英解释 stay empty.
 const CIRC="⓪①②③④⑤⑥⑦⑧⑨";
 const NAVAL_RANK={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6};
 const LUCA_DEF=[
@@ -62,6 +66,12 @@ function refreshFoldNumbers(){FOLDN={};navalSectionIds().forEach((id,i)=>{FOLDN[
  LUCA_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
 const secT=(id,t)=>{const n=FOLDN[id];return n?CIRC[n]+" "+t:t};
 const lucaSec=id=>LUCA_DEF.find(s=>s.id==id);
+let LUCA=null;
+async function loadLuca(){if(LUCA)return LUCA;try{LUCA=await getJSON("luca.json")}catch(e){LUCA={reading:[]}}if(!LUCA.reading)LUCA.reading=[];return LUCA}
+function lucaReading(){return (LUCA&&LUCA.reading)||[]}
+function lucaDict(){return lucaReading().map(it=>({id:"dt_"+it.id,base:it.id,title:it.title,sub:it.sub||"",data:it.data,dictation:1}))}
+function lucaItemsFor(s){return s.like=="reading"?lucaReading():s.like=="dictation"?lucaDict():[]}
+function lucaHit(id){const r=lucaReading().find(it=>it.id==id);if(r)return{it:r,sec:"luca_reading"};const d=lucaDict().find(it=>it.id==id);if(d)return{it:d,sec:"luca_dictation"};return null}
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
@@ -86,7 +96,7 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
 async function route0(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- applyDictation(CAT);refreshFoldNumbers();
+ await loadLuca();applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
@@ -260,7 +270,7 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
   return studyTile({id,name:c.name,icon:c.icon,desc:c.desc,count:countOf(id),hash:"#/c/"+id})}).join("");
  const lucaIcon={"phrases":"💬","reading":"📖","longaudio":"🎧","dictation":"✍️"};
  const luca=LUCA_DEF.map(s=>{const src=byId[s.like]||{};
-  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:"0 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
+  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
  V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="pgb" id="pgb" hidden></div><div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
@@ -270,8 +280,12 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
  mine.forEach(c=>{const b=V.querySelector(`[data-go="#/c/${CSS.escape(c.id)}"]`);if(b)longPress(b,()=>catMenu(c))});
  V.querySelectorAll("[data-m]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();catMenu(cs.find(x=>x.id==b.dataset.m))})}
 function showLuca(s){setHeader(secT(s.id,s.name),true);
- const kind=s.like=="dictation"?"选一个 Topic。只听采访原声，把整句写下来，再核对。":s.typeName;
- V.innerHTML=`<p class="tip">夏日友晴天 · ${esc(kind)}</p><div class="done">这个板块还是空的</div>`}
+ const xs=lucaItemsFor(s);
+ const kind=s.like=="dictation"?"选一个 Topic。听句子，把整句写下来，再核对。":s.typeName;
+ if(!xs.length){V.innerHTML=`<p class="tip">夏日友晴天 · ${esc(kind)}</p><div class="done">这个板块还是空的</div>`;return}
+ const tip=s.like=="dictation"?'<p class="tip">选一个 Topic。听句子，把整句写下来，再核对。</p>':"";
+ V.innerHTML=`${tip}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
+ V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
 async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  V.innerHTML=`${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}<div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
@@ -315,9 +329,11 @@ async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)ret
  const au=document.getElementById("au");wirePP(document.getElementById("au"));let r=[1,.85,.75],i=0;document.getElementById("sp").onclick=e=>{i=(i+1)%3;au.playbackRate=r[i];e.target.textContent="速度 "+r[i]+"x"};
  document.getElementById("del").onclick=async()=>{if(await sure("永久删除这个导入的音频？")){await idbDel(id);history.back()}}}
 async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dictation");return}
- let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}if(!it)return showHome();
+ let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}
+ if(!it){const L=lucaHit(id);if(L){it=L.it;cat={id:L.sec}}}
+ if(!it)return showHome();
  setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
- if(it.dictation||(cat&&cat.id=="dictation"))return viewDictation(d,it);
+ if(it.dictation||(cat&&cat.id=="dictation")||(cat&&cat.id=="luca_dictation"))return viewDictation(d,it);
  if(d.type=="chunks"){location.replace("#/c/dictation");return}
  const view=({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong})[d.type];
  if(view)view(d,id);else V.innerHTML=`<div class="done">这个内容打不开</div>`}
@@ -326,12 +342,13 @@ async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dicta
 function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if(!e.classList.contains("zh"))b.style.minHeight=b.offsetHeight+"px";e.classList.add("flipping");
  setTimeout(()=>{e.classList.toggle("zh");if(e.classList.contains("zh")){const h0=parseFloat(b.style.minHeight);b.style.minHeight="0";const h1=b.scrollHeight;b.style.minHeight=h0+"px";requestAnimationFrame(()=>{b.style.transition="min-height .25s ease";b.style.minHeight=Math.max(h0,h1)+"px";setTimeout(()=>b.style.transition="",300)})}e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function stTop(){const ss=document.getElementById("ss");let b=0;for(const e of document.querySelectorAll("body *")){if(ss&&ss.contains(e))continue;const p=getComputedStyle(e).position;if(p!="sticky"&&p!="fixed")continue;const r=e.getBoundingClientRect();for(const x of [e,...e.querySelectorAll("*")]){const r=x.getBoundingClientRect();if(r.height>0&&r.top<innerHeight*.4&&r.bottom<innerHeight*.6)b=Math.max(b,r.bottom)}}return b}
+function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":(sp||"")}
 function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
  V.innerHTML=`<div class="bar"><button id="stp">■ 停止</button><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">▶ 原声连播</button><button id="oloop" class="org">🔁 原声循环</button>':""}${d.sents.some(x=>x.seg&&x.oa)?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
- d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+s.sp.toLowerCase();e.id="s"+i;
-  e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${i+1}句">${i+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${s.sp=="Naval"?"NAVAL RAVIKANT":"CHRIS WILLIAMSON"}</div><div class="fr"><div class="t"></div>${s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
-  e.querySelector(".t").textContent=s.t;const ze=e.querySelector(".zhe");if(ze)ze.textContent=s.t;{const sb=e.querySelector(".sun");const stop=ev=>ev.stopPropagation();sb.addEventListener("pointerdown",stop);sb.addEventListener("touchstart",stop,{passive:true});sb.onclick=ev=>{ev.stopPropagation();ev.preventDefault();const on=sunToggle(rid,i);e.classList.toggle("lit",on);sb.setAttribute("aria-pressed",on)}}if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();sayEN(b.dataset.w.replace(/…/g," "),b)});glossSrc(e,s,i);e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],!!s.oa)};if(s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});{const LK="nova_last_"+rid;const L=+localStorage.getItem(LK)||0;if(L>0){const t=document.getElementById("s"+L);if(t){const go=()=>{if(!document.body.contains(t))return;const off=stTop()+8;scrollTo(0,t.getBoundingClientRect().top+scrollY-off)};setTimeout(go,350);setTimeout(go,1100)}}
+ d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+String(s.sp||"").toLowerCase();e.id="s"+i;
+  e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${i+1}句">${i+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${esc(rdWho(s.sp))}</div><div class="fr"><div class="t"></div>${s.oa&&s.a!==s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
+  e.querySelector(".t").textContent=s.t;const ze=e.querySelector(".zhe");if(ze)ze.textContent=s.t;{const sb=e.querySelector(".sun");const stop=ev=>ev.stopPropagation();sb.addEventListener("pointerdown",stop);sb.addEventListener("touchstart",stop,{passive:true});sb.onclick=ev=>{ev.stopPropagation();ev.preventDefault();const on=sunToggle(rid,i);e.classList.toggle("lit",on);sb.setAttribute("aria-pressed",on)}}if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();sayEN(b.dataset.w.replace(/…/g," "),b)});glossSrc(e,s,i);e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],!!s.oa)};if(s.oa&&s.a!==s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});{const LK="nova_last_"+rid;const L=+localStorage.getItem(LK)||0;if(L>0){const t=document.getElementById("s"+L);if(t){const go=()=>{if(!document.body.contains(t))return;const off=stTop()+8;scrollTo(0,t.getBoundingClientRect().top+scrollY-off)};setTimeout(go,350);setTimeout(go,1100)}}
  let lt=0;const sv=()=>{if(!document.body.contains(ss)){removeEventListener("scroll",sv);return}clearTimeout(lt);lt=setTimeout(()=>{const y=stTop()+10;const c=[...ss.children].find(x=>x.getBoundingClientRect().bottom>y);if(c)localStorage.setItem(LK,c.id.slice(1))},250)};addEventListener("scroll",sv,{passive:true})}
  // gloss line 3: where the word appears (点读 phrase or sentence) + ▶ plays the original segment containing it
  function glossSrc(e,s,i){const W=s.t.split(/\s+/),nz=x=>x.toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9']/g,"");
@@ -731,7 +748,7 @@ const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)|
 const MCAT={};  // imported-audio id → category (filled by itemsIn)
 function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
  if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return "wf";if(h[1]=="d")return "d";if(h[1]=="g")return "g";
- if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);return x?effCat(x):null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
+ if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const L=lucaHit(h[2]);return L?L.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
 function tsecKeys(sec){return sec=="dictation"||sec=="chunks"?["dictation","chunks"]:[sec]}
 function tsecT(sec,day){const ks=tsecKeys(sec);if(day){const D=TSEC[day]||{};return ks.reduce((n,k)=>n+(+D[k]||0),0)}let s=0;for(const d in TSEC)for(const k of ks)s+=+(TSEC[d][k]||0);return s}
 const secHTML=sec=>`今天 ${fmtT(tsecT(sec,dKey()))} · 累计 ${fmtT(tsecT(sec))}`;
