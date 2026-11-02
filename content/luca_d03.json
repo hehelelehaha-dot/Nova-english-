@@ -1,0 +1,103 @@
+{
+  "id": "luca_d03",
+  "type": "reading",
+  "title": "Day 3",
+  "sents": [
+    {
+      "sp": "",
+      "t": "It's fine",
+      "zh": "没事的",
+      "a": "audio/luca_d03o/s01.mp3",
+      "oa": "audio/luca_d03o/s01.mp3",
+      "d": 1.63
+    },
+    {
+      "sp": "",
+      "t": "I'm not human",
+      "zh": "我不是人类",
+      "a": "audio/luca_d03o/s02.mp3",
+      "oa": "audio/luca_d03o/s02.mp3",
+      "d": 1.25
+    },
+    {
+      "sp": "",
+      "t": "Thank goodness",
+      "zh": "谢天谢地",
+      "a": "audio/luca_d03o/s03.mp3",
+      "oa": "audio/luca_d03o/s03.mp3",
+      "d": 1.66
+    },
+    {
+      "sp": "",
+      "t": "Here, hold this",
+      "zh": "给，拿着这个",
+      "a": "audio/luca_d03o/s04.mp3",
+      "oa": "audio/luca_d03o/s04.mp3",
+      "d": 2.18
+    },
+    {
+      "sp": "",
+      "t": "Do you live around here?",
+      "zh": "你住在这附近吗",
+      "a": "audio/luca_d03o/s05.mp3",
+      "oa": "audio/luca_d03o/s05.mp3",
+      "d": 2.04
+    },
+    {
+      "sp": "",
+      "t": "Down here?",
+      "zh": "这下面吗",
+      "a": "audio/luca_d03o/s06.mp3",
+      "oa": "audio/luca_d03o/s06.mp3",
+      "d": 0.67
+    },
+    {
+      "sp": "",
+      "t": "No, no, no",
+      "zh": "不不不",
+      "a": "audio/luca_d03o/s07.mp3",
+      "oa": "audio/luca_d03o/s07.mp3",
+      "d": 0.91
+    },
+    {
+      "sp": "",
+      "t": "I just came for my stuff",
+      "zh": "我只是来找我的东西",
+      "a": "audio/luca_d03o/s08.mp3",
+      "oa": "audio/luca_d03o/s08.mp3",
+      "d": 1.18
+    },
+    {
+      "sp": "",
+      "t": "Wait, that's mine!",
+      "zh": "等等那是我的",
+      "a": "audio/luca_d03o/s09.mp3",
+      "oa": "audio/luca_d03o/s09.mp3",
+      "d": 1.39
+    },
+    {
+      "sp": "",
+      "t": "Sir?",
+      "zh": "先生",
+      "a": "audio/luca_d03o/s10.mp3",
+      "oa": "audio/luca_d03o/s10.mp3",
+      "d": 0.79
+    },
+    {
+      "sp": "",
+      "t": "You forgot your harpoon and...",
+      "zh": "你忘了你的鱼叉和",
+      "a": "audio/luca_d03o/s11.mp3",
+      "oa": "audio/luca_d03o/s11.mp3",
+      "d": 1.73
+    },
+    {
+      "sp": "",
+      "t": "Hey, relax",
+      "zh": "嘿，放松",
+      "a": "audio/luca_d03o/s12.mp3",
+      "oa": "audio/luca_d03o/s12.mp3",
+      "d": 1.39
+    }
+  ]
+}
