@@ -682,12 +682,12 @@ function dtFeedback(s,typed){const r=dtMark(typed,s.t);const zh=s.zh?`<div class
  return {ok:r.ok,html:`<div class="${r.ok?"gok":"gno"}">${esc(r.summary)}</div>${r.ok?"":`<div class="dtlab">你写的</div><div class="dtdiff en">${r.yours}</div><div class="dtleg"><span class="dk">对的</span><span class="dx">多了</span><span class="dm">漏了</span></div>${r.miss.length?`<div class="dtlab">漏掉的词</div><div class="dtdiff en">${r.miss.map(w=>`<span class="dm">${esc(w)}</span>`).join(" ")}</div>`:""}`}<div class="dtlab">正确句子</div><div class="dtans en">${esc(s.t)}</div>${zh}<button class="osb" id="dtre" type="button">▶ 再听原声</button>`}}
 function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filter(x=>x.s&&x.s.oa);
  if(!sents.length){V.innerHTML=`<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;return}
- const key="nova_dt_"+(it&&it.id||"x");let pos=0;
+ const rid=sunTopic(it),key="nova_dt_"+(it&&it.id||"x");let pos=0;
  const saved=()=>{let n=+localStorage.getItem(key)||0;return n>=0&&n<sents.length?n:0};
  const save=()=>{try{localStorage.setItem(key,String(pos))}catch(e){}};
- const render=()=>{const {s}=sents[pos];const who=s.sp=="Naval"?"NAVAL":s.sp=="Chris"?"CHRIS":(s.sp||"");
+ const render=()=>{const cur=sents[pos],s=cur.s,si=cur.i,lit=sunHas(rid,si);const who=s.sp=="Naval"?"NAVAL":s.sp=="Chris"?"CHRIS":(s.sp||"");
   const segs=dtSegList(s);
-  V.innerHTML=`<div class="card dtcard"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
+  V.innerHTML=`<div class="card dtcard${lit?" sunon":""}"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span><button type="button" class="sun" id="dtsun" aria-label="标记重点" aria-pressed="${lit}">☀</button>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
    <div class="dtplay"><button class="big" id="dtplay" type="button" aria-label="播放原声">▶</button><div class="dtplab">原声</div></div>
    ${segs.length?`<div class="dtsegs"><div class="dtplab">👆 点读原声</div><div class="dtsegrow" role="group" aria-label="点读原声">${segs.map((_,k)=>`<button type="button" class="dtseg" data-k="${k}" aria-label="第${k+1}段">第${k+1}段</button>`).join("")}</div></div>`:""}
    <p class="tip">听原声，把整句打出来。英文先不显示。</p>
@@ -696,6 +696,7 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
    <div id="dthz" class="dthz" hidden></div><div id="dtfb"></div></div>
    <div class="dtnav"><button type="button" id="dtprev" ${pos?"":"disabled"}>‹ 上一句</button><button type="button" id="dtjump">选句子</button><button type="button" id="dtnext" ${pos<sents.length-1?"":"disabled"}>下一句 ›</button></div>`;
   const playBtn=document.getElementById("dtplay");
+  document.getElementById("dtsun").onclick=()=>{const on=sunToggle(rid,si),b=document.getElementById("dtsun");b.setAttribute("aria-pressed",on);const card=b.closest(".dtcard");if(card)card.classList.toggle("sunon",on)};
   playBtn.onclick=()=>{dtSegClear();stopAll();playOA(s.oa,playBtn)};
   document.querySelectorAll(".dtseg").forEach(b=>b.onclick=()=>playSegOA(s,+b.dataset.k,b));
   document.getElementById("dthint").onclick=()=>{const z=document.getElementById("dthz");if(!s.zh){toast("这句没有中文");return}z.hidden=!z.hidden;if(!z.hidden)z.textContent=s.zh;document.getElementById("dthint").textContent=z.hidden?"中文提示":"收起中文"};
@@ -716,7 +717,7 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
    <button class="wide flip" id="dtgo" type="button">从第 1 句开始</button>
    <button class="wide dtluck" id="dtluck" type="button">🎲 随机抽一句</button>
    ${last>0?`<button class="wide dtresume" id="dtlast" type="button">从上次的第 ${last+1} 句继续</button>`:""}
-   <div class="dtpick" role="group" aria-label="从第几句开始">${sents.map((_,i)=>`<button type="button" class="dtn${i==0?" on":""}${i==last&&last>0?" was":""}" data-i="${i}" aria-label="第 ${i+1} 句">${i+1}</button>`).join("")}</div></div>`;
+   <div class="dtpick" role="group" aria-label="从第几句开始">${sents.map((x,i)=>{const lit=sunHas(rid,x.i);return `<button type="button" class="dtn${i==0?" on":""}${i==last&&last>0?" was":""}${lit?" lit":""}" data-i="${i}" aria-label="第 ${i+1} 句${lit?"，已标重点":""}">${i+1}${lit?`<span class="dtsun" aria-hidden="true">☀</span>`:""}</button>`}).join("")}</div></div>`;
   const start=i=>{if(spinning||!(i>=0)||i>=sents.length)return;pos=i;save();stopAll();render();scrollTo(0,0)};
   document.getElementById("dtgo").onclick=()=>start(0);
   const b=document.getElementById("dtlast");if(b)b.onclick=()=>start(last);
@@ -772,10 +773,12 @@ function showTimeLog(){const o=document.createElement("div");o.className="ov";co
 document.addEventListener("visibilitychange",()=>{tLast=Date.now();if(!document.hidden)tAct=Date.now()});
 setInterval(tTick,1000);
 
-// ---------- ☀ focus-sentence marks (reading cards) ----------
-// localStorage nova_sun = {topicId: [sentenceIndex,...]}; sync key "u:sun", merged as a union.
+// ---------- ☀ focus-sentence marks (阅读卡 and 句子听写 share one set) ----------
+// localStorage nova_sun = {readingTopicId: [sentenceIndex,...]}; sync key "u:sun", merged as a union.
+// Dictation items are id "dt_<readingId>" and carry base. sunTopic() is that reading id, so a tap on either screen writes the same key.
 const SUNK="nova_sun";let SUN={};try{SUN=JSON.parse(localStorage.getItem(SUNK)||"{}")||{}}catch(e){SUN={}}
 function sunSave(){try{localStorage.setItem(SUNK,JSON.stringify(SUN))}catch(e){}}
+function sunTopic(it){if(!it)return "";if(it.base)return it.base;const id=String(it.id||"");return id.startsWith("dt_")?id.slice(3):id}
 function sunHas(t,i){return !!(SUN[t]&&SUN[t].includes(i))}
 function sunToggle(t,i){const a=SUN[t]||[];const k=a.indexOf(i);if(k>=0)a.splice(k,1);else{a.push(i);a.sort((x,y)=>x-y)}if(a.length)SUN[t]=a;else delete SUN[t];sunSave();return k<0}
 function sunMerge(R,dry){let n=0;if(!R||typeof R!="object")return 0;for(const t in R){if(!Array.isArray(R[t]))continue;for(const i of R[t]){if(!Number.isInteger(i)||sunHas(t,i))continue;n++;if(!dry){(SUN[t]=SUN[t]||[]).push(i);SUN[t].sort((x,y)=>x-y)}}}if(!dry)sunSave();return n}

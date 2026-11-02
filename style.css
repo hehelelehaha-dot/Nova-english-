@@ -601,6 +601,9 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .hero .hdate :is(.hwk,.hwd){
 .dtcard{text-align:center}
 .dtmeta{display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:4px;font-size:14px;font-weight:700;color:#6b4e12}
 .dtmeta .sno{display:inline-block;min-width:20px;height:22px;line-height:22px;padding:0 8px;border-radius:11px;background:#f5c518;color:#3a2a00;font-size:13px;font-weight:700}
+.dtmeta .sun{all:unset;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;font-size:22px;line-height:1;color:transparent;-webkit-text-stroke:1.4px #b9b1a0;cursor:pointer;transition:all .15s}
+.dtmeta .sun[aria-pressed="true"]{color:#ffc400;-webkit-text-stroke:0;text-shadow:0 0 6px rgba(255,196,0,.9),0 0 12px rgba(255,170,0,.55);background:radial-gradient(circle,rgba(255,226,120,.45),transparent 70%)}
+.dtcard.sunon{box-shadow:inset 3px 0 0 #ffb000,0 3px 10px rgba(47,90,138,.12)}
 .dtwho{font-weight:700;letter-spacing:.04em}
 .dtplay{display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0}
 .dtplab{font-size:13px;font-weight:700;color:#8a6200}
@@ -637,9 +640,12 @@ html[data-theme^=t] .dtseg.on{background:var(--ac);color:var(--actx);border-colo
 .dtcard.spinning button{pointer-events:none}
 .dtn.on{transition:background .08s ease,transform .08s ease}
 .dtpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px;margin-top:14px}
-.dtn{min-height:52px;border-radius:14px;border:1px solid #e0c98f;background:#fffefa;color:#6b4e12;font:inherit;font-size:18px;font-weight:800}
+.dtn{position:relative;min-height:52px;border-radius:14px;border:1px solid #e0c98f;background:#fffefa;color:#6b4e12;font:inherit;font-size:18px;font-weight:800}
 .dtn.on{background:#f5c518;color:#3a2c00;border-color:#e0b400}
 .dtn.was{box-shadow:inset 0 0 0 2px #c8962e}
+.dtn.lit{box-shadow:inset 0 -3px 0 #ffb000}
+.dtn.lit.was{box-shadow:inset 0 0 0 2px #c8962e,inset 0 -3px 0 #ffb000}
+.dtn .dtsun{position:absolute;top:3px;right:5px;font-size:12px;line-height:1;color:#ffc400;-webkit-text-stroke:.6px #6b4e12;paint-order:stroke fill;pointer-events:none}
 .dtcard .osb{margin-top:12px}
 html[data-theme^=t] .dtnav button,html[data-theme^=t] .dtn,html[data-theme^=t] .dtresume{background:var(--b2);color:var(--b2tx);border:var(--b2bd)}
 html[data-theme^=t] .dtn.on{background:var(--ac);color:var(--actx);border-color:var(--ac)}
