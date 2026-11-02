@@ -1,0 +1,95 @@
+{
+  "id": "luca_d05",
+  "type": "reading",
+  "title": "Day 5",
+  "sents": [
+    {
+      "sp": "",
+      "t": "Come on, I'll show you some more stuff!",
+      "zh": "来，我再给你看点东西",
+      "a": "audio/luca_d05o/s01.mp3",
+      "oa": "audio/luca_d05o/s01.mp3",
+      "d": 1.83
+    },
+    {
+      "sp": "",
+      "t": "Me and my dad. He's not even here a whole lot, so I pretty much just do whatever I want.",
+      "zh": "我和我爸。他不怎么在，所以我基本上想干嘛就干嘛",
+      "a": "audio/luca_d05o/s02.mp3",
+      "oa": "audio/luca_d05o/s02.mp3",
+      "d": 3.84
+    },
+    {
+      "sp": "",
+      "t": "Isn't it dangerous?",
+      "zh": "这不危险吗",
+      "a": "audio/luca_d05o/s03.mp3",
+      "oa": "audio/luca_d05o/s03.mp3",
+      "d": 2.85
+    },
+    {
+      "sp": "",
+      "t": "Yeah, it's the best! Everything good is above the surface.",
+      "zh": "对，这最棒了。好东西都在水面上",
+      "a": "audio/luca_d05o/s04.mp3",
+      "oa": "audio/luca_d05o/s04.mp3",
+      "d": 3.34
+    },
+    {
+      "sp": "",
+      "t": "Gravity! Also known as falling!",
+      "zh": "重力！也叫往下掉",
+      "a": "audio/luca_d05o/s05.mp3",
+      "oa": "audio/luca_d05o/s05.mp3",
+      "d": 4.34
+    },
+    {
+      "sp": "",
+      "t": "Don't look at it. Just kidding. Definitely look at it.",
+      "zh": "别看。开玩笑的。一定要看",
+      "a": "audio/luca_d05o/s06.mp3",
+      "oa": "audio/luca_d05o/s06.mp3",
+      "d": 4.83
+    },
+    {
+      "sp": "",
+      "t": "And then, there's human stuff.",
+      "zh": "然后还有人类的东西",
+      "a": "audio/luca_d05o/s07.mp3",
+      "oa": "audio/luca_d05o/s07.mp3",
+      "d": 3.34
+    },
+    {
+      "sp": "",
+      "t": "As you can see, I've been collecting for a long time, so ask me anything.",
+      "zh": "你看，我收集很久了，随便问",
+      "a": "audio/luca_d05o/s08.mp3",
+      "oa": "audio/luca_d05o/s08.mp3",
+      "d": 4.34
+    },
+    {
+      "sp": "",
+      "t": "That's the magic singing lady machine.",
+      "zh": "那就是会唱歌的魔法机器",
+      "a": "audio/luca_d05o/s09.mp3",
+      "oa": "audio/luca_d05o/s09.mp3",
+      "d": 3.84
+    },
+    {
+      "sp": "",
+      "t": "It's broken, unfortunately.",
+      "zh": "可惜，它坏了",
+      "a": "audio/luca_d05o/s10.mp3",
+      "oa": "audio/luca_d05o/s10.mp3",
+      "d": 3.34
+    },
+    {
+      "sp": "",
+      "t": "You... You unbroke it! The... the thing you just said?",
+      "zh": "你……你把它修好了！就是你刚才说的那个",
+      "a": "audio/luca_d05o/s11.mp3",
+      "oa": "audio/luca_d05o/s11.mp3",
+      "d": 3.84
+    }
+  ]
+}
