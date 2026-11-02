@@ -43,8 +43,25 @@ function wirePP(au){const b=document.getElementById("pp");b.onclick=()=>au.pause
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 // ---------- ui helpers ----------
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-// Nova refers to sections by number: 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏
-const SECN={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6},CIRC="⓪①②③④⑤⑥",secT=(id,t)=>id in SECN?CIRC[SECN[id]]+" "+t:t;
+// Home folds number their own sections from 1. Naval keeps the existing study sections in curriculum order
+// (old 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 → 1–7).
+// 夏日友晴天 (internal id luca) is an empty scaffold of the same section types, skipping 板块二 / 单词卡.
+const CIRC="⓪①②③④⑤⑥⑦⑧⑨";
+const NAVAL_RANK={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6};
+const LUCA_DEF=[
+ {id:"luca_phrases",like:"phrases",name:"板块零",typeName:"口语句式"},
+ {id:"luca_reading",like:"reading",name:"板块一",typeName:"阅读卡"},
+ {id:"luca_longaudio",like:"longaudio",name:"板块三",typeName:"英英解释音频"},
+ {id:"luca_dictation",like:"dictation",name:"板块四",typeName:"句子听写"}];
+let FOLDN={};
+function navalSectionIds(){if(!CAT)return ["wf","game"];
+ const ids=CAT.categories.map(c=>c.id).slice().sort((a,b)=>(NAVAL_RANK[a]??4.5)-(NAVAL_RANK[b]??4.5));
+ return ids.concat(["wf","game"])}
+function refreshFoldNumbers(){FOLDN={};navalSectionIds().forEach((id,i)=>{FOLDN[id]=i+1});
+ if(FOLDN.dictation)FOLDN.chunks=FOLDN.dictation;if(FOLDN.game)FOLDN.g=FOLDN.game;
+ LUCA_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
+const secT=(id,t)=>{const n=FOLDN[id];return n?CIRC[n]+" "+t:t};
+const lucaSec=id=>LUCA_DEF.find(s=>s.id==id);
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
@@ -69,7 +86,7 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
 async function route0(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- applyDictation(CAT);
+ applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
@@ -228,14 +245,35 @@ async function pgbFill(){const el=document.getElementById("pgb");if(!el)return;l
  const CW=Object.values(C).reduce((x,y)=>x+y,0),cw=k=>Math.round(C[k]/CW*100);const L={topics:`Topic 掌握 ${cw("topics")}%：考过 ${r.np} 个（各算1）、学过未考过 ${r.ns} 个（各算0.5），共 ${r.N} 个 → ${q(r.part.topics)}%`,daily:`每日小测 ${C.daily}%：${r.part.daily!=null?q(r.part.daily)+"%":"还没有记录，暂不计入"}`,speaking:`口语 ${cw("speaking")}%：${r.part.speaking!=null?q(r.part.speaking)+"%（周考口语）":"暂无"}`};
  el.innerHTML=`<div class="pgt"><b>纳瓦尔</b><span>已走 <em>${r.pct}%</em> · 还差 <em>${100-r.pct}%</em></span></div><div class="pgtr" role="progressbar" aria-valuenow="${r.pct}" aria-valuemin="0" aria-valuemax="100"><div class="pgf" style="width:${r.pct}%"></div>${(P.milestones||[]).map(m=>`<div class="pgk" style="left:${m}%"><span>${m}</span></div>`).join("")}<div class="pgm" style="left:${base}%" title="起点"></div><div class="pgg" style="left:${P.graduate||80}%" title="毕业">🏁</div></div>${r.pct>=(P.graduate||80)?`<div class="pgw">你真牛！纳瓦尔毕业啦 🎉</div>`:""}<div class="pgl"><button class="pgh" aria-expanded="false">详情 ›</button></div><div class="pgx" hidden><div>▲起点 ${base}%（${esc(P.tests[0].label)}）</div><div class="pgend">🏁 80% = 毕业，换下一个视频或演讲</div>这是根据<b>真实记录</b>估算的，不是精确测量；打卡和学习时长不算。<br>${Object.keys(C).map(k=>L[k]).join("<br>")}<br>没数据的部分先不算，其余按比例重算。最近一次周考：${esc(last.label)} ${esc(last.total||"")}。</div>`;
  el.hidden=false;el.querySelector(".pgh").onclick=ev=>{const x=el.querySelector(".pgx"),bt=ev.currentTarget;x.hidden=!x.hidden;bt.textContent=x.hidden?"详情 ›":"收起 ‹";bt.setAttribute("aria-expanded",!x.hidden)}}
-async function showHome(){setHeader("Nova 英语",false);gear();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="pgb" id="pgb" hidden></div><div class="tiles">${cs.map((c,k)=>`<div class="tw"><button class="tile" data-c="${c.id}"><span class="ic"><span class="ice">${c.icon}</span><span class="ics">${ICON[c.id]||ICON.folder}</span></span><span class="nm">${c.id in SECN?`<span class="no">${SECN[c.id]}</span>`:""}${esc(c.name)}</span><span class="ds">${esc(c.desc)}</span><span class="ct">${counts[k]} 项</span><span class="tsec" data-s="${c.id}">${secHTML(c.id)}</span></button>${c.builtin?"":`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`}</div>`).join("")}
- <button class="tile gtile" onclick="location.hash='#/wf'"><span class="ic"><span class="ice">🔤</span><span class="ics">${ICON.wf}</span></span><span class="nm"><span class="no">5</span>词形练习</span><span class="ds">名词 · 动词 · 形容词 · 副词</span><span class="ct">每个单元一套</span><span class="tsec" data-s="wf">${secHTML("wf")}</span></button><button class="tile gtile" onclick="location.hash='#/g'"><span class="ic"><span class="ice">🎮</span><span class="ics">${ICON.g}</span></span><span class="nm"><span class="no">6</span>小游戏</span><span class="ds">拼写 · 拼图 · 填词</span><span class="ct">每个单元都能玩</span><span class="tsec" data-s="g">${secHTML("g")}</span></button>
- <button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
- document.getElementById("stt").onclick=showTimeLog;hqStart();pgbFill();V.querySelectorAll("[data-c]").forEach(b=>{const c=cs.find(x=>x.id==b.dataset.c);b.onclick=()=>{if(tapOK())location.hash="#/c/"+c.id};if(!c.builtin)longPress(b,()=>catMenu(c))});
- V.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>catMenu(cs.find(x=>x.id==b.dataset.m)));
+function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder;
+ const btn=`<button class="tile${o.gtile?" gtile":""}" data-go="${esc(o.hash)}"><span class="ic"><span class="ice">${o.icon}</span><span class="ics">${ics}</span></span><span class="nm">${n?`<span class="no">${n}</span>`:""}${esc(o.name)}</span><span class="ds">${esc(o.desc||"")}</span><span class="ct">${esc(o.count)}</span><span class="tsec" data-s="${esc(o.sec||o.id)}">${secHTML(o.sec||o.id)}</span></button>`;
+ return o.gtile?btn:`<div class="tw">${btn}${o.menu||""}</div>`}
+function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)!="0"}catch(e){return true}}
+function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
+async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbers();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
+ const byId=Object.fromEntries(cs.map(c=>[c.id,c]));const countOf=id=>{const i=cs.findIndex(c=>c.id==id);return (i<0?0:counts[i])+" 项"};
+ const navalIds=navalSectionIds();
+ const naval=navalIds.map(id=>{
+  if(id=="wf")return studyTile({id,name:"词形练习",icon:"🔤",desc:"名词 · 动词 · 形容词 · 副词",count:"每个单元一套",hash:"#/wf",gtile:true,iconKey:"wf"});
+  if(id=="game")return studyTile({id,name:"小游戏",icon:"🎮",desc:"拼写 · 拼图 · 填词",count:"每个单元都能玩",hash:"#/g",gtile:true,iconKey:"g",sec:"g"});
+  const c=byId[id];if(!c)return "";
+  return studyTile({id,name:c.name,icon:c.icon,desc:c.desc,count:countOf(id),hash:"#/c/"+id})}).join("");
+ const lucaIcon={"phrases":"💬","reading":"📖","longaudio":"🎧","dictation":"✍️"};
+ const luca=LUCA_DEF.map(s=>{const src=byId[s.like]||{};
+  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName,count:"0 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
+ const mine=cs.filter(c=>!c.builtin);
+ const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="pgb" id="pgb" hidden></div><div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div><div class="tiles mine">${mineHTML}<button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
+ document.getElementById("stt").onclick=showTimeLog;hqStart();pgbFill();
+ V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
+ V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
+ mine.forEach(c=>{const b=V.querySelector(`[data-go="#/c/${CSS.escape(c.id)}"]`);if(b)longPress(b,()=>catMenu(c))});
+ V.querySelectorAll("[data-m]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();catMenu(cs.find(x=>x.id==b.dataset.m))});
  document.getElementById("newc").onclick=async()=>{const n=await ask("新分类的名字");if(n){ORG.cats.push({id:"u"+Date.now(),name:n});saveOrg();route()}}}
-async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
+function showLuca(s){setHeader(secT(s.id,s.name),true);
+ const kind=s.like=="dictation"?"选一个 Topic。只听采访原声，把整句写下来，再核对。":s.typeName;
+ V.innerHTML=`<p class="tip">夏日友晴天 · ${esc(kind)}</p><div class="done">这个板块还是空的</div>`}
+async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  V.innerHTML=`${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}<div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
@@ -686,7 +724,7 @@ function tSave(){try{localStorage.setItem(TK,JSON.stringify(TLOG))}catch(e){}}
 function tPlaying(){try{if(!A.paused&&!A.ended)return true;for(const a of document.querySelectorAll("audio,video"))if(!a.paused&&!a.ended)return true;if(window.speechSynthesis&&speechSynthesis.speaking)return true}catch(e){}return false}
 function tActive(now){return !document.hidden&&(now-tAct<T_IDLE||tPlaying())}
 // Per-section time (Nova 2026-10-20): the SAME active seconds are also credited to the home section that is open
-// (⓪–⑥ + custom categories; home / 设置 / 🧠 今日复习 count only in the global total). localStorage nova_tsec {YYYY-MM-DD:{sec:seconds}}; starts at 0 (no back-fill).
+// (Naval 1–7, 夏日友晴天 sections, and custom categories; home / 设置 / 🧠 今日复习 count only in the global total). localStorage nova_tsec {YYYY-MM-DD:{sec:seconds}}; starts at 0 (no back-fill).
 const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)||"{}")||{}}catch(e){TSEC={}}
 const MCAT={};  // imported-audio id → category (filled by itemsIn)
 function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;

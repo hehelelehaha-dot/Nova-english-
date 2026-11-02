@@ -7,6 +7,16 @@ header h1{flex:1;font-size:19px;margin:0;white-space:nowrap;overflow:hidden;text
 .hidden{display:none!important}
 main{padding:14px;max-width:1000px;margin:0 auto 60px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.folds{display:flex;flex-direction:column;gap:14px;margin-bottom:14px}
+.fold{background:#fffefa;border-radius:22px;box-shadow:0 3px 10px rgba(47,90,138,.12)}
+.foldh{list-style:none;display:flex;align-items:center;gap:8px;padding:16px 16px 14px;cursor:pointer;font:inherit}
+.foldh::-webkit-details-marker{display:none}
+.foldar::before{content:"▸";font-size:22px;line-height:1;color:#2a6f97;width:1.1em;display:inline-block}
+.fold[open]>.foldh .foldar::before{content:"▾"}
+.foldnm{font-size:22px;font-weight:800;color:#1d2b38}
+.foldsub{margin-left:auto;font-size:14px;font-weight:700;color:#2a6f97}
+.fold>.tiles{padding:0 12px 14px}
+.tiles.mine{margin-top:0}
 .tile{background:#fff;border-radius:20px;padding:22px 18px;box-shadow:0 2px 8px rgba(0,0,0,.07);border:0;text-align:left;font-family:inherit;min-height:150px;display:flex;flex-direction:column;gap:6px}
 .tile .ic{font-size:40px}.tile .nm{font-size:22px;font-weight:700;color:#222}.tile .ds{font-size:14px;color:#777}.tile .ct{font-size:13px;color:#2a6f97;margin-top:auto}
 .list{display:flex;flex-direction:column;gap:10px}
@@ -311,7 +321,11 @@ html[data-theme=t2] body{background:transparent}
 html[data-theme^=t] header{background:var(--hd);color:var(--hdtx);border-bottom:var(--hdbd);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
 html[data-theme^=t] header h1{color:var(--hdtx)}
 html[data-theme^=t] :is(#back,#hdr-r button,#hdr-r .hb){background:var(--hbtn);color:var(--hbtx);border:var(--hbbd)}
-html[data-theme^=t] :where(.tile,.li,.card,.wc,.ent,.s,.player,.dots,.sh,.hero,.gu,.lock,.srsst>span){background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
+html[data-theme^=t] :where(.tile,.li,.card,.wc,.ent,.s,.player,.dots,.sh,.hero,.gu,.lock,.srsst>span,.fold){background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
+html[data-theme^=t] .foldsub,html[data-theme^=t] .foldar::before{color:var(--ct)}
+html[data-theme=t2] .fold{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+html[data-theme=t3] .foldnm{color:#1d2b38}
+html[data-theme=t6] .foldnm{font-family:"Kaiti SC","STKaiti","KaiTi","Xingkai SC","Noto Serif CJK SC",serif;color:#1d2b38}
 html[data-theme^=t] .s{border-left-width:4px}
 html[data-theme=t2] :is(.tile,.li,.card,.wc,.ent,.s,.player,.hero,.gu,.sh){-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 html[data-theme^=t] .tile{border-top:var(--sfbd)}
