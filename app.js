@@ -53,10 +53,10 @@ const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>
 const CIRC="⓪①②③④⑤⑥⑦⑧⑨";
 const NAVAL_RANK={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6};
 const LUCA_DEF=[
- {id:"luca_phrases",like:"phrases",name:"板块零",typeName:"口语句式"},
- {id:"luca_reading",like:"reading",name:"板块一",typeName:"阅读卡"},
- {id:"luca_longaudio",like:"longaudio",name:"板块三",typeName:"英英解释音频"},
- {id:"luca_dictation",like:"dictation",name:"板块四",typeName:"句子听写"}];
+ {id:"luca_phrases",like:"phrases",name:"口语句式",typeName:"口语句式"},
+ {id:"luca_reading",like:"reading",name:"阅读卡",typeName:"阅读卡"},
+ {id:"luca_longaudio",like:"longaudio",name:"英英解释音频",typeName:"英英解释音频"},
+ {id:"luca_dictation",like:"dictation",name:"句子听写",typeName:"句子听写"}];
 let FOLDN={};
 function navalSectionIds(){if(!CAT)return ["wf","game"];
  const ids=CAT.categories.map(c=>c.id).slice().sort((a,b)=>(NAVAL_RANK[a]??4.5)-(NAVAL_RANK[b]??4.5));
@@ -188,8 +188,8 @@ function ask(title,val=""){return new Promise(res=>{const o=document.createEleme
  document.body.appendChild(o);const i=o.querySelector("#ask");i.value=val;setTimeout(()=>i.focus(),50);
  const done=v=>{o.remove();res(v)};o.querySelector("#ok").onclick=()=>done(i.value.trim()||null);o.querySelector("#no").onclick=()=>done(null);i.onkeydown=e=>{if(e.key=="Enter")done(i.value.trim()||null)}})}
 const sure=(t,ok="删除")=>sheet(t,[{t:ok,cls:"red"}]).then(i=>i==0);
-async function pickCat(exclude){const cs=allCats().filter(c=>c.id!=exclude);const i=await sheet("移动到哪个分类？",cs.map(c=>({t:c.icon+" "+c.name})).concat([{t:"＋ 新建分类…",cls:"blue"}]));
- if(i<0)return null;if(i<cs.length)return cs[i].id;const n=await ask("新分类的名字");if(!n)return null;const id="u"+Date.now();ORG.cats.push({id,name:n});saveOrg();return id}
+async function pickCat(exclude){const cs=allCats().filter(c=>c.id!=exclude);if(!cs.length)return null;const i=await sheet("移动到哪个分类？",cs.map(c=>({t:c.icon+" "+c.name})));
+ if(i<0||i>=cs.length)return null;return cs[i].id}
 async function itemMenu(x,cid){const i=await sheet(x.title,[{t:"✏️ 重命名"},{t:"📂 移动到…"},{t:"🗑 删除",cls:"red"}]);
  if(i==0){const n=await ask("新名字",x.title);if(!n)return;if(x.kind=="m"){x.f.name=n;await idbPut(x.f)}else{if(n==x.it.title)delete ORG.rename[x.id];else ORG.rename[x.id]=n;saveOrg()}}
  if(i==1){const t=await pickCat(cid);if(!t)return;if(x.kind=="m"){x.f.cat=t;await idbPut(x.f)}else{if(t==catOf(x.it))delete ORG.move[x.id];else ORG.move[x.id]=t;saveOrg()}}
@@ -270,16 +270,15 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
   return studyTile({id,name:c.name,icon:c.icon,desc:c.desc,count:countOf(id),hash:"#/c/"+id})}).join("");
  const lucaIcon={"phrases":"💬","reading":"📖","longaudio":"🎧","dictation":"✍️"};
  const luca=LUCA_DEF.map(s=>{const src=byId[s.like]||{};
-  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName,count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
+  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="pgb" id="pgb" hidden></div><div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div><div class="tiles mine">${mineHTML}<button class="tile add" id="newc"><span class="ic">＋</span><span class="nm">新建分类</span></button></div>`;
- document.getElementById("stt").onclick=showTimeLog;hqStart();pgbFill();
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="pgb" id="pgb" hidden></div><div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();pgbFill();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
  mine.forEach(c=>{const b=V.querySelector(`[data-go="#/c/${CSS.escape(c.id)}"]`);if(b)longPress(b,()=>catMenu(c))});
- V.querySelectorAll("[data-m]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();catMenu(cs.find(x=>x.id==b.dataset.m))});
- document.getElementById("newc").onclick=async()=>{const n=await ask("新分类的名字");if(n){ORG.cats.push({id:"u"+Date.now(),name:n});saveOrg();route()}}}
+ V.querySelectorAll("[data-m]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();catMenu(cs.find(x=>x.id==b.dataset.m))})}
 function showLuca(s){setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
  const kind=s.like=="dictation"?"选一个 Topic。听句子，把整句写下来，再核对。":s.typeName;
@@ -303,6 +302,7 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}</div>
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
  <h3 class="sec">🔁 同步（在 iPad 和手机之间）</h3><div class="yn" style="margin-top:0"><button class="wide flip" style="margin-top:0" onclick="location.hash='#/exp'">📤 导出整理</button><button class="wide gray" style="margin-top:0" onclick="location.hash='#/imp'">📥 导入</button></div>
+ <h3 class="sec">☁ 学习时长云同步</h3><div class="li cloudbox" data-cloud style="display:block"></div>
  <h3 class="sec">🧠 今日复习</h3><div class="li" style="display:block"><div style="margin-bottom:8px">每天最多学几个新词</div><div class="zs">${[5,10,15,20,30].map(n=>`<button class="btn${n==srsNewCap()?" on":""}" data-nc="${n}">${n}</button>`).join("")}</div></div>
  <h3 class="sec">🎨 主题</h3><div class="li" style="display:block"><div class="thp">${THEMES.map(([id,n,bg,ac])=>`<button class="thb${id==curTheme()?" on":""}" data-th="${id}" aria-pressed="${id==curTheme()}"><span class="sw" style="background:${bg}"><i style="background:${ac}"></i><i style="background:${ac};opacity:.45"></i></span><span class="thn">${n}</span></button>`).join("")}</div></div>
  <h3 class="sec">🔠 显示</h3><div class="li" style="display:block">
@@ -322,7 +322,8 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  V.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{delete ORG.hidden[b.dataset.r];saveOrg();showSettings()});
  const ra=document.getElementById("rall");if(ra)ra.onclick=()=>{ORG.hidden={};saveOrg();showSettings()};
  {const h=document.getElementById("rbh"),b=document.getElementById("rbb");h.onclick=()=>{const o=b.hidden;b.hidden=!o;h.setAttribute("aria-expanded",o);h.querySelector(".rbc").textContent=o?"▾":"▸";sessionStorage.setItem("nova_rb_open",o?"1":"0")}}
- document.getElementById("reset").onclick=async()=>{if(await sure("恢复所有自带材料的原名字和原分类？（回收站和你建的分类不受影响）","恢复原样")){ORG.rename={};ORG.move={};saveOrg();showSettings()}}}
+ document.getElementById("reset").onclick=async()=>{if(await sure("恢复所有自带材料的原名字和原分类？（回收站和你建的分类不受影响）","恢复原样")){ORG.rename={};ORG.move={};saveOrg();showSettings()}}
+ if(window.novaCloudPaint)novaCloudPaint()}
 async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)return showHome();setHeader(f.name,true);
  V.innerHTML=`<div class="player"><audio id="au" controls src="${URL.createObjectURL(f.blob)}"></audio><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="del">删除这个音频</button></div></div>`;
  const au=document.getElementById("au");wirePP(document.getElementById("au"));let r=[1,.85,.75],i=0;document.getElementById("sp").onclick=e=>{i=(i+1)%3;au.playbackRate=r[i];e.target.textContent="速度 "+r[i]+"x"};
@@ -732,12 +733,13 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
    tick()}}
  showPick()}
 
-// ---------- study timer (home hero: 今天 / 累计) ----------
-// Counts only while visible AND active: interaction within 2 min, or audio/speech playing. Log: localStorage nova_time {YYYY-MM-DD: seconds}.
+// ---------- study timer (home hero: 今天 / 累计时长) ----------
+// Counts only while visible AND active: interaction within 2 min, or audio/speech playing.
+// Log: localStorage nova_time {YYYY-MM-DD: seconds}. Every stored day stays. 累计时长 is the sum of all of them.
 const TK="nova_time",T_IDLE=120e3;let TLOG={};try{TLOG=JSON.parse(localStorage.getItem(TK)||"{}")||{}}catch(e){TLOG={}}
 let tAct=Date.now(),tLast=Date.now();
 const dKey=d=>{d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
-function tSave(){try{localStorage.setItem(TK,JSON.stringify(TLOG))}catch(e){}}
+function tSave(){try{localStorage.setItem(TK,JSON.stringify(TLOG))}catch(e){}if(!tSave.quiet&&window.novaCloudDirty)novaCloudDirty()}
 function tPlaying(){try{if(!A.paused&&!A.ended)return true;for(const a of document.querySelectorAll("audio,video"))if(!a.paused&&!a.ended)return true;if(window.speechSynthesis&&speechSynthesis.speaking)return true}catch(e){}return false}
 function tActive(now){return !document.hidden&&(now-tAct<T_IDLE||tPlaying())}
 // Per-section time (Nova 2026-10-20): the SAME active seconds are also credited to the home section that is open
@@ -755,12 +757,16 @@ function tTick(){const now=Date.now();const dt=Math.min(now-tLast,5e3);tLast=now
  const el=document.getElementById("stt");if(el)el.innerHTML=sttHTML();document.querySelectorAll(".tsec[data-s]").forEach(e=>{const t=secHTML(e.dataset.s);if(e.textContent!=t)e.textContent=t})}
 function fmtT(sec){const m=Math.floor((sec||0)/60);const h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
 function tTotal(){return Object.values(TLOG).reduce((a,b)=>a+(+b||0),0)}
-function sttHTML(){return `<span class="sl">今天 <b>${fmtT(TLOG[dKey()])}</b></span><span class="sl">累计 <b>${fmtT(tTotal())}</b></span>`}
-function tMerge(R,dry){let n=0;if(!R||typeof R!="object")return 0;for(const k in R){const v=+R[k];if(!/^\d{4}-\d\d-\d\d$/.test(k)||!(v>0))continue;if(v>(TLOG[k]||0)+0.5){n++;if(!dry)TLOG[k]=v}}if(!dry){tSave();tTick()}return n}
-function showTimeLog(){const o=document.createElement("div");o.className="ov";const days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push([d,TLOG[dKey(d)]||0])}
- const mx=Math.max(60,...days.map(x=>x[1]));const W="日一二三四五六";
- o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 最近 7 天学习时长</div>${days.map(([d,v],i)=>`<div class="tr${i==6?" td":""}"><span class="tdw">${i==6?"今天":(d.getMonth()+1)+"/"+d.getDate()+" 周"+W[d.getDay()]}</span><span class="tb"><i style="width:${Math.round(v/mx*100)}%"></i></span><span class="tv">${fmtT(v)}</span></div>`).join("")}
- <div class="tip" style="margin:6px 2px 0">7 天合计 ${fmtT(days.reduce((a,x)=>a+x[1],0))} · 累计 ${fmtT(tTotal())}<br>只在 App 打开、并且你在操作或在播放音频时计时；2 分钟没有操作就暂停。</div><button class="shb cancel" data-x>关闭</button></div>`;
+function sttHTML(){return `<span class="sl">今天 <b>${fmtT(TLOG[dKey()])}</b></span><span class="sl">累计时长 <b>${fmtT(tTotal())}</b></span>`}
+function tMerge(R,dry){if(!R||typeof R!="object")return 0;const m=tApply(TLOG,R);if(!dry){if(m.n)TLOG=m.log;tSave();tTick()}return m.n}
+function tDayRows(){const keys=new Set(Object.keys(TLOG).filter(k=>/^\d{4}-\d\d-\d\d$/.test(k)));keys.add(dKey());const W="日一二三四五六",now=new Date();
+ return [...keys].sort().reverse().map(k=>{const [y,m,d]=k.split("-").map(Number),dt=new Date(y,m-1,d),today=k===dKey();
+  const lab=today?"今天":(y===now.getFullYear()?`${m}/${d} 周${W[dt.getDay()]}`:`${y}/${m}/${d}`);
+  return {lab,v:+TLOG[k]||0,today}})}
+function showTimeLog(){const o=document.createElement("div");o.className="ov";const rows=tDayRows(),tot=tTotal();
+ const mx=Math.max(60,...rows.map(x=>x.v));
+ o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 累计时长</div><div class="ttot"><b>${fmtT(tot)}</b><span>从开始使用到现在的全部学习时间</span></div><div class="tlogdays">${rows.map(r=>`<div class="tr${r.today?" td":""}"><span class="tdw">${r.lab}</span><span class="tb"><i style="width:${Math.round(r.v/mx*100)}%"></i></span><span class="tv">${fmtT(r.v)}</span></div>`).join("")}</div>
+ <div class="tip" style="margin:6px 2px 0">这个数字是已记下的每一天加在一起，之后也会一直累加。<br>只在 App 打开、并且你在操作或在播放音频时计时；2 分钟没有操作就暂停。<br>点旁边的 ☁ 登录后，每台设备合成一份，同一天取较大值。</div><button class="shb cancel" data-x>关闭</button></div>`;
  o.onclick=e=>{if(e.target==o||e.target.closest("[data-x]"))o.remove()};document.body.appendChild(o)}
 ["pointerdown","keydown","touchstart","wheel","scroll"].forEach(t=>addEventListener(t,()=>{tAct=Date.now()},{passive:true,capture:true}));
 document.addEventListener("visibilitychange",()=>{tLast=Date.now();if(!document.hidden)tAct=Date.now()});

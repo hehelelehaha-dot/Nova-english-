@@ -239,7 +239,9 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) #ss .gl{font-weight:600}
 .hero>div{flex:1;min-width:0}.stt{margin-left:auto;flex:none;background:#fff8dc;border:0;border-radius:14px;padding:6px 10px;display:flex;flex-direction:column;align-items:flex-end;gap:1px;font:inherit;cursor:pointer}
 .hero .stt .sl{display:block;margin:0;font-size:12px;color:#7a6a3a;white-space:nowrap}.stt .sl b{font-size:14px;color:#0f2c44}
 @media(max-width:420px){.hero img{width:56px;height:56px}.stt{padding:5px 8px}.hero .stt .sl{font-size:11px}.stt .sl b{font-size:13px}}
-.tlog .tr{display:flex;align-items:center;gap:8px;font-size:14px}.tlog .tdw{width:84px;color:#555}.tlog .tb{flex:1;height:12px;background:#f1f1f1;border-radius:6px;overflow:hidden}.tlog .tb i{display:block;height:100%;background:#f5c518;border-radius:6px}.tlog .tv{width:64px;text-align:right;font-variant-numeric:tabular-nums}.tlog .td{font-weight:700}
+.tlog .tr{display:flex;align-items:center;gap:8px;font-size:14px}.tlog .tdw{width:92px;color:#555}.tlog .tb{flex:1;height:12px;background:#f1f1f1;border-radius:6px;overflow:hidden}.tlog .tb i{display:block;height:100%;background:#f5c518;border-radius:6px}.tlog .tv{width:64px;text-align:right;font-variant-numeric:tabular-nums}.tlog .td{font-weight:700}
+.tlog .ttot{text-align:center;margin:2px 0 10px}.tlog .ttot b{display:block;font-size:28px;color:#0f2c44}.tlog .ttot span{display:block;font-size:13px;color:#666;margin-top:2px}
+.tlogdays{max-height:46vh;overflow:auto}
 #ss .sun{all:unset;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin:-5px 4px -5px -4px;border-radius:50%;font-size:17px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #b9b1a0;cursor:pointer;vertical-align:middle;transition:all .15s}
 #ss .sun[aria-pressed="true"]{color:#ffc400;-webkit-text-stroke:0;text-shadow:0 0 6px rgba(255,196,0,.9),0 0 12px rgba(255,170,0,.55);background:radial-gradient(circle,rgba(255,226,120,.45),transparent 70%)}
 #ss .s.lit{box-shadow:inset 3px 0 0 #ffb000,0 1px 3px rgba(0,0,0,.07)}
@@ -565,7 +567,14 @@ html .drow audio{color-scheme:light}
 html .hero.hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ava greet time" "date date date";align-items:center;column-gap:14px;row-gap:8px}
 html .hero.hero>img{grid-area:ava;align-self:center}
 html .hero.hero>.hgreet{grid-area:greet;min-width:0;align-self:center}
-html .hero.hero>.stt{grid-area:time;margin-left:0;align-self:center}
+html .hero.hero>.sttwrap{grid-area:time;margin-left:0;align-self:center;display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none;min-width:0}
+html .hero.hero>.sttwrap>.stt{margin-left:0}
+.csync{border:0;background:transparent;font:inherit;font-size:12px;font-weight:700;line-height:1.2;padding:2px 2px 0;cursor:pointer;color:#7a6a3a}
+html[data-theme=t3] .csync,html[data-theme=t6] .csync{color:#ead9b4}
+.li.cloudbox,.li.cloudbox input,.cloudsh input{user-select:text;-webkit-user-select:text}
+.cloudbox .shi,.cloudsh .shi{width:100%;box-sizing:border-box;margin:4px 0 8px;display:block}
+.cloudbox label.tip,.cloudsh label.tip{display:block}
+.cloudmsg{min-height:1.2em;color:#a33;font-size:14px;margin:4px 2px}
 html .hero.hero>.hdate{grid-area:date;min-width:0;padding-top:8px;border-top:1px dashed rgba(212,168,60,.75)}
 html .hero .hdate .hday{display:block;margin:0;font-size:13px;font-weight:700;letter-spacing:.03em;color:#8a6200}
 html .hero .hdate .hcount{display:block;margin-top:4px}
@@ -584,7 +593,8 @@ html[data-theme=t7] .hero .hdate :is(.hwk,.hwd){color:#102820}
 html.bold:not([data-theme=t3]):not([data-theme=t6]) .hero .hdate :is(.hwk,.hwd){font-weight:800!important}
 @media(max-width:480px){
  html .hero.hero{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ava greet" "date date" "time time"}
- html .hero.hero>.stt{flex-direction:row;justify-content:flex-end;gap:16px;width:100%;margin:0}
+ html .hero.hero>.sttwrap{flex-direction:row;justify-content:flex-end;align-items:center;gap:10px;width:100%}
+ html .hero.hero>.sttwrap>.stt{flex-direction:row;justify-content:flex-end;gap:16px;width:auto;margin:0}
 }
 
 /* ④ 句子听写 */
