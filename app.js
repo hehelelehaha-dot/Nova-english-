@@ -298,6 +298,7 @@ const curZoom=()=>parseFloat(localStorage.getItem("nova_zoom"))||1.1;
 function setZoom(z,noStamp){localStorage.setItem("nova_zoom",z);document.documentElement.style.setProperty("--z",z);if(!noStamp)saveDisplay()}
 function showSettings(){setHeader("设置",true);const hid=builtinItems().filter(x=>ORG.hidden[x.it.id]);
  const rbo=sessionStorage.getItem("nova_rb_open")=="1";  // 回收站 collapsed by default; open/closed remembered for this session only
+ const ft=fillText(FILL);
  V.innerHTML=`<button class="sec rbh" id="rbh" aria-expanded="${rbo}" aria-controls="rbb">🗑 回收站 (${hid.length}) <span class="rbc">${rbo?"▾":"▸"}</span></button><div id="rbb"${rbo?"":" hidden"}><div class="tip">已删除的自带材料，点“恢复”放回原处。</div><div class="list">${hid.length?hid.map(x=>`<div class="lw"><div class="li"><span class="tt">${esc(ttl(x.it))}<span class="sb">${esc(x.it.sub||"")}</span></span></div><button class="rs" data-r="${x.it.id}">恢复</button></div>`).join(""):`<div class="done">回收站是空的</div>`}</div>
  ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}</div>
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
@@ -309,15 +310,15 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
   <div style="margin-bottom:8px">字体大小</div><div class="zs">${ZOOMS.map(([n,z])=>`<button class="btn${Math.abs(z-curZoom())<.01?" on":""}" data-z="${z}">${n}</button>`).join("")}</div>
   <label class="tg"><input type="checkbox" id="bold" ${document.documentElement.classList.contains("bold")?"checked":""}> 字体加深加粗</label>
   <div class="pv"><b class="en">conventional wisdom</b> <span class="z">普遍看法</span><p class="en" style="margin:6px 0 0">Conventional wisdom is what most people believe is true.</p></div></div>
- <h3 class="sec">🔄 更新</h3><div class="li" style="display:block;line-height:1.7">App 版本：<b>${esc(META.v||"?")}</b>　(${esc(META.built||"")})<br>内容目录版本：<b>${esc(META.cv||"?")}</b><br>后台程序版本：<b id="swv">${esc(SWV||"…")}</b><br>离线音频已下载：<b id="fillst">${FILL?FILL.have+" / "+FILL.total:"…"}</b></div>
- <button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>
+ <h3 class="sec">🔄 更新</h3><div class="li" style="display:block;line-height:1.7">App 版本：<b>${esc(META.v||"?")}</b>　(${esc(META.built||"")})<br>内容目录版本：<b>${esc(META.cv||"?")}</b><br>后台程序版本：<b id="swv">${esc(SWV||"…")}</b><br>离线音频已下载：<b id="fillst">${esc(ft.line)}</b><div class="gp" id="fillbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${ft.pct}" aria-label="离线内容下载进度"><i id="fillbi" style="width:${ft.pct}%"></i></div><p class="tip" id="fillmsg">${esc(ft.msg)}</p></div>
+ <button class="wide flip" id="cachebtn" type="button" aria-busy="${ft.busy?"true":"false"}">${esc(ft.btn)}</button><button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>
  <div class="tip" style="margin-top:14px">这些整理只保存在这台设备上；导入的 MP3 删除后无法恢复。</div>`;
  V.querySelectorAll("[data-nc]").forEach(b=>b.onclick=()=>{stamp("o:srsnew",+b.dataset.nc);srsSave();V.querySelectorAll("[data-nc]").forEach(x=>x.classList.toggle("on",x==b))});
  V.querySelectorAll("[data-th]").forEach(b=>b.onclick=()=>{setTheme(b.dataset.th);V.querySelectorAll("[data-th]").forEach(x=>{x.classList.toggle("on",x==b);x.setAttribute("aria-pressed",x==b)})});
  V.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{setZoom(+b.dataset.z);V.querySelectorAll("[data-z]").forEach(x=>x.classList.toggle("on",x==b))});
  document.getElementById("bold").onchange=e=>{document.documentElement.classList.toggle("bold",e.target.checked);localStorage.setItem("nova_bold",e.target.checked?"1":"0");saveDisplay()};
- document.getElementById("chk").onclick=()=>checkUpdate(true);document.getElementById("force").onclick=async()=>{if(await sure("强制更新？\n会清除离线缓存后重新下载（你的整理和导入的音频不受影响）。","强制更新"))forceUpdate()};
- navigator.serviceWorker&&navigator.serviceWorker.controller&&(navigator.serviceWorker.controller.postMessage({t:"ver"}),navigator.serviceWorker.controller.postMessage({t:"fill"}));
+ document.getElementById("cachebtn").onclick=()=>onCacheTap();document.getElementById("chk").onclick=()=>checkUpdate(true);document.getElementById("force").onclick=async()=>{if(await sure("强制更新？\n会清除离线缓存后重新下载（你的整理和导入的音频不受影响）。","强制更新"))forceUpdate()};
+ postSW({t:"ver"});postSW({t:"stat"});
  setTimeout(()=>{const e=document.getElementById("swv");if(e&&SWV)e.textContent=SWV},800);
  V.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{delete ORG.hidden[b.dataset.r];saveOrg();showSettings()});
  const ra=document.getElementById("rall");if(ra)ra.onclick=()=>{ORG.hidden={};saveOrg();showSettings()};
@@ -612,23 +613,73 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
 window.addEventListener("hashchange",()=>{document.querySelectorAll("audio").forEach(a=>a.pause())});
 // ---------- boot ----------
 // ---------- updates / service worker ----------
-let REG=null,SWV=null,FILL=null;
+let REG=null,SWV=null,FILL=null,fillWant=false,fillPosted=false,fillWd=0,regP=null,seenSeq=0;
 function toast(t,ms=3500){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),ms)}
+// FILL_UI_START
+function fillText(d){
+ const none={line:"…",msg:"连上 Wi-Fi 后点一次，把还没打开过的音频也存进这台 iPad（Naval 和夏日友晴天都算）。你的整理、导入和时长不会动。",pct:0,btn:"一键缓存 / 下载离线内容",busy:false};
+ if(!d||d.total==null)return none;
+ let pct=d.total?Math.round(100*d.have/d.total):0;
+ if(d.have>0&&pct===0)pct=1;
+ if(d.total&&d.have<d.total&&pct===100)pct=99;
+ if(d.state==="done")pct=100;
+ const line=d.total?`${d.have} / ${d.total}（${pct}%）`:"…";
+ if(d.reason==="quota")return {line,msg:"存储空间不够，已经下好的还留着。清出一点空间后再点一次。",pct,btn:"重试没下完的内容",busy:false};
+ if(d.state==="run"){
+  const msg=d.phase==="shell"?"正在保存页面和目录…请留在这个页面，不要锁屏。":d.phase==="media"?`正在下载 ${d.have} / ${d.total}（${pct}%）。请留在这个页面，不要锁屏或切走。`:"正在看看这台设备还缺哪些文件…";
+  return {line,msg,pct,btn:"正在下载…",busy:true};
+ }
+ if(d.state==="pause")return {line,msg:"下载暂停了（没有网络或连不上）。连上 Wi-Fi 后再点一次，会从断掉的地方接着下。",pct,btn:"继续下载剩余内容",busy:false};
+ if(d.state==="fail"){const n=d.fail||0;return {line,msg:n?`有 ${n} 个文件没下下来。再点一次会重试，已经下好的不会重下。`:"还有文件没下下来。再点一次会重试，已经下好的不会重下。",pct,btn:"重试没下完的内容",busy:false}}
+ if(d.state==="done"||(d.total&&d.have>=d.total))return {line:d.total?`${d.have} / ${d.total}（100%）`:line,msg:"已经全部存到这台设备，可以关掉网络使用。",pct:100,btn:"已全部缓存 ✓",busy:false};
+ return {line,msg:"还有内容没存在这台 iPad 上。连上 Wi-Fi 后点下面的按钮，一次下完。整理、导入和时长不会动。",pct,btn:"一键缓存 / 下载离线内容",busy:false};
+}
+// FILL_UI_END
+function paintFill(){const t=fillText(FILL);
+ const st=document.getElementById("fillst"),msg=document.getElementById("fillmsg"),bar=document.getElementById("fillbar"),bi=document.getElementById("fillbi"),btn=document.getElementById("cachebtn");
+ if(st)st.textContent=t.line;if(msg)msg.textContent=t.msg;
+ if(bi)bi.style.width=t.pct+"%";if(bar)bar.setAttribute("aria-valuenow",String(t.pct));
+ if(btn){btn.textContent=t.btn;btn.setAttribute("aria-busy",t.busy?"true":"false")}}
+function armFillWatch(){clearTimeout(fillWd);if(!fillWant)return;fillWd=setTimeout(()=>{fillPosted=false;if(fillWant)postFill(false)},25000)}
+function meterOK(){const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;if(!c)return true;if(c.saveData)return false;return c.type!=="cellular"}
+function noteFill(d){
+ if(d.seq&&d.seq===seenSeq)return;if(d.seq)seenSeq=d.seq;
+ if(d.op==="stat"&&fillWant&&FILL&&FILL.state==="run")return;
+ FILL=d;paintFill();if(d.op==="stat")return;
+ if(d.state==="run"&&d.step==="next"){fillPosted=false;if(fillWant)postFill(false)}
+ else if(d.state!=="run"){fillWant=false;fillPosted=false}
+ armFillWatch()}
+async function postSW(msg){const reg=await startSW();if(!reg||!("serviceWorker" in navigator))return false;
+ let w=null;try{w=(await navigator.serviceWorker.ready).active}catch(e){}
+ w=w||navigator.serviceWorker.controller;if(!w)return false;w.postMessage(msg);return true}
+async function postFill(retry){if(fillPosted)return true;fillPosted=true;armFillWatch();const ok=await postSW({t:"fill",retry:!!retry});if(!ok)fillPosted=false;return ok}
+async function onCacheTap(){
+ if(!("serviceWorker" in navigator)){toast("这个浏览器不能把内容存下来离线用");return}
+ if(fillWant&&FILL&&FILL.state==="run"){toast("正在下载，请留在这个页面");fillPosted=false;postFill(false);return}
+ const prev=FILL,retry=!!(FILL&&FILL.state==="fail");
+ fillWant=true;fillPosted=false;
+ FILL=Object.assign({have:0,total:0},FILL||{},{op:"fill",state:"run",step:"work",phase:"scan",more:true,reason:""});
+ paintFill();
+ const ok=await postFill(retry);
+ if(!ok){fillWant=false;FILL=prev;paintFill();toast("后台还没准备好，请再点一次")}}
 async function checkUpdate(manual){try{const m=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json();
   if(REG)await REG.update();if(m.v&&META.v&&m.v!=META.v){toast("发现新版本，正在更新…");setTimeout(()=>location.reload(),1500)}else if(manual)toast("已经是最新版本 ✓");return m}catch(e){if(manual)toast("没有网络，稍后再试")}}
 async function forceUpdate(){toast("正在强制更新…");try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister()}catch(e){}
   try{for(const k of await caches.keys())await caches.delete(k)}catch(e){}sessionStorage.setItem("nova_updated","1");location.replace(location.pathname+"?u="+Date.now())}
 if("serviceWorker" in navigator){const sw=navigator.serviceWorker;const had=!!sw.controller;let rl=0;
   sw.addEventListener("controllerchange",()=>{if(had&&!rl){rl=1;sessionStorage.setItem("nova_updated","1");location.reload()}});
-  sw.addEventListener("message",e=>{const d=e.data||{};if(d.t=="ver")SWV=d.v;if(d.t=="fill"){FILL=d;const el=document.getElementById("fillst");if(el)el.textContent=`${d.have} / ${d.total}`}});
-  document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="visible")checkUpdate(false)});
-  window.addEventListener("pageshow",e=>{if(e.persisted)checkUpdate(false)})}
-async function startSW(){if(!("serviceWorker" in navigator))return;const sw=navigator.serviceWorker;
-  try{REG=await sw.register("sw.js?v="+(META.v||"0"),{updateViaCache:"none"});REG.update().catch(()=>{})}catch(e){console.warn("SW",e);return}
-  const r=await sw.ready;r.active&&r.active.postMessage({t:"ver"});setTimeout(()=>{r.active&&r.active.postMessage({t:"fill"})},4000)}
+  sw.addEventListener("message",e=>{const d=e.data||{};if(d.t=="ver"){SWV=d.v;const el=document.getElementById("swv");if(el&&SWV)el.textContent=SWV}if(d.t=="fill")noteFill(d)});
+  const resumeFill=()=>{if(fillWant&&(!FILL||FILL.state==="run")){fillPosted=false;postFill(false)}};
+  document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="visible"){checkUpdate(false);resumeFill()}});
+  window.addEventListener("pageshow",e=>{if(e.persisted){checkUpdate(false);resumeFill()}});
+  window.addEventListener("online",()=>{if(FILL&&FILL.state==="pause")toast("网络好了。打开设置，点「一键缓存」接着下载。")})}
+function startSW(){if(!("serviceWorker" in navigator))return Promise.resolve(null);if(REG)return Promise.resolve(REG);
+  if(!regP)regP=navigator.serviceWorker.register("sw.js?v="+(META.v||"0"),{updateViaCache:"none"}).then(r=>{REG=r;r.update().catch(()=>{});return r}).catch(e=>{regP=null;console.warn("SW",e);return null});
+  return regP}
+async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"});setTimeout(()=>{if(fillWant||!meterOK())return;fillWant=true;postFill(false)},4000)}
 (async()=>{try{META=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json()}catch(e){}
   const last=localStorage.getItem("nova_v");if(sessionStorage.getItem("nova_updated")||(last&&META.v&&last!=META.v)){sessionStorage.removeItem("nova_updated");setTimeout(()=>toast("已更新 ✓ 版本 "+(META.v||"")),600)}
-  if(META.v)localStorage.setItem("nova_v",META.v);route();startSW()})();
+  if(META.v)localStorage.setItem("nova_v",META.v);route();bootSW()})();
 
 
 // Countdown under the avatar (Nova 2026-10-30): two short lines. Weeks are Mon–Sun; sprint ends on the year's last Sunday (2026: Dec 27); the days after are rest days.

@@ -132,6 +132,7 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 .gb{display:flex;gap:10px}.gb .wide{margin-top:10px}.gblue{background:#3b5f8f;color:#fff}
 .gs{display:flex;justify-content:space-between;font-size:15px;color:#2f5a8a;font-weight:700;margin:0 4px 6px}
 .gp{height:8px;background:#dce9f4;border-radius:6px;overflow:hidden;margin-bottom:12px}.gp i{display:block;height:100%;background:#f5c518;transition:width .3s}
+.li .gp{margin:8px 0 4px}.li #fillmsg{margin:6px 2px 0}
 .gmsg{background:#fff2b3;border-radius:12px;padding:10px 14px;margin-bottom:10px;font-weight:700;color:#5c3f00}
 .gcard{text-align:center}.ghint{color:#555;font-size:15px;margin:6px 0 10px;line-height:1.5}
 .slots{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:14px 0 10px}
