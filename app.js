@@ -49,7 +49,7 @@ const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>
 const CIRC="⓪①②③④⑤⑥⑦⑧⑨";
 const NAVAL_RANK={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6};
 const LUCA_DEF=[
- {id:"luca_phrases",like:"phrases",name:"口语叙事",typeName:"口语句式"},
+ {id:"luca_phrases",like:"phrases",name:"口语句式",typeName:"口语句式"},
  {id:"luca_reading",like:"reading",name:"阅读卡",typeName:"阅读卡"},
  {id:"luca_longaudio",like:"longaudio",name:"英英解释音频",typeName:"英英解释音频"},
  {id:"luca_dictation",like:"dictation",name:"句子听写",typeName:"句子听写"}];
