@@ -567,7 +567,14 @@ html .drow audio{color-scheme:light}
 html .hero.hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ava greet time" "date date date";align-items:center;column-gap:14px;row-gap:8px}
 html .hero.hero>img{grid-area:ava;align-self:center}
 html .hero.hero>.hgreet{grid-area:greet;min-width:0;align-self:center}
-html .hero.hero>.stt{grid-area:time;margin-left:0;align-self:center}
+html .hero.hero>.sttwrap{grid-area:time;margin-left:0;align-self:center;display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none;min-width:0}
+html .hero.hero>.sttwrap>.stt{margin-left:0}
+.csync{border:0;background:transparent;font:inherit;font-size:12px;font-weight:700;line-height:1.2;padding:2px 2px 0;cursor:pointer;color:#7a6a3a}
+html[data-theme=t3] .csync,html[data-theme=t6] .csync{color:#ead9b4}
+.li.cloudbox,.li.cloudbox input,.cloudsh input{user-select:text;-webkit-user-select:text}
+.cloudbox .shi,.cloudsh .shi{width:100%;box-sizing:border-box;margin:4px 0 8px;display:block}
+.cloudbox label.tip,.cloudsh label.tip{display:block}
+.cloudmsg{min-height:1.2em;color:#a33;font-size:14px;margin:4px 2px}
 html .hero.hero>.hdate{grid-area:date;min-width:0;padding-top:8px;border-top:1px dashed rgba(212,168,60,.75)}
 html .hero .hdate .hday{display:block;margin:0;font-size:13px;font-weight:700;letter-spacing:.03em;color:#8a6200}
 html .hero .hdate .hcount{display:block;margin-top:4px}
@@ -586,7 +593,8 @@ html[data-theme=t7] .hero .hdate :is(.hwk,.hwd){color:#102820}
 html.bold:not([data-theme=t3]):not([data-theme=t6]) .hero .hdate :is(.hwk,.hwd){font-weight:800!important}
 @media(max-width:480px){
  html .hero.hero{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ava greet" "date date" "time time"}
- html .hero.hero>.stt{flex-direction:row;justify-content:flex-end;gap:16px;width:100%;margin:0}
+ html .hero.hero>.sttwrap{flex-direction:row;justify-content:flex-end;align-items:center;gap:10px;width:100%}
+ html .hero.hero>.sttwrap>.stt{flex-direction:row;justify-content:flex-end;gap:16px;width:auto;margin:0}
 }
 
 /* ④ 句子听写 */
