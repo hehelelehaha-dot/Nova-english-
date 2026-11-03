@@ -16,7 +16,7 @@ assert.equal(/slice\(\s*0\s*,\s*10\s*\)|length\s*>=\s*10|length\s*>\s*10|DQ_SUGG
 
 const ctx = {};
 runInContext(logic, createContext(ctx));
-const {dqBlank, dqNorm, dqToggle, dqOnCheck, dqView} = ctx;
+const {dqBlank, dqNorm, dqToggle, dqOnCheck, dqView, dqMergeDay, dqSameDay, dqCloudPlan, dqCloudSafe, dqLogTouch, dqApplyPlan} = ctx;
 // Values built inside the vm have a different realm prototype than this file.
 const plain = v => JSON.parse(JSON.stringify(v));
 
@@ -171,6 +171,164 @@ const pick = (st, ...keys) => keys.reduce((s, k) => dqToggle(s, k), st);
   assert.equal(dqView(st).pct, 100);
 }
 
+assert.equal(logic.includes("localStorage"), false);
+assert.equal(logic.includes("novaCloudDirty"), false);
+assert.equal(logic.includes("firebase"), false);
+
+const dayB = "2026-11-02";
+const pack = (sel, done, extra) => ({sel, done, extra});
+
+// Two devices, one day: selections union, and every 整句对了 stays. Target becomes the union count.
+{
+  let phone = pick(dqBlank(day), "a:0", "a:1");
+  phone = dqOnCheck(phone, "a:0", true).st;
+  let pad = pick(dqBlank(day), "a:1", "b:2");
+  pad = dqOnCheck(pad, "b:2", true).st;
+  const m = dqMergeDay(phone, pad);
+  const v = dqView({day, sel: m.sel, done: m.done, extra: m.extra});
+  assert.deepEqual(plain(m.sel), ["a:0", "a:1", "b:2"]);
+  assert.deepEqual(plain(m.done), ["a:0", "b:2"]);
+  assert.equal(v.tot, 3);
+  assert.equal(v.n, 2);
+  assert.equal(v.full, false);
+  assert.equal(dqSameDay(m, dqMergeDay(pad, phone)), true);
+  assert.equal(dqSameDay(m, dqMergeDay(m, pad)), true);
+}
+
+// A finished sentence the other device never selected stays selected and done.
+{
+  const m = dqMergeDay({day, sel: ["a:0"], done: ["a:0"], extra: 0}, {day, sel: ["b:1"], done: [], extra: 0});
+  assert.equal(m.done.includes("a:0"), true);
+  assert.equal(m.sel.includes("a:0"), true);
+  const v = dqView({day, sel: m.sel, done: m.done, extra: m.extra});
+  assert.equal(v.n, 1);
+  assert.equal(v.tot, 2);
+}
+
+// A done id with no selection on either side is kept, so a later re-select still counts.
+{
+  const copied = plain(dqMergeDay(pack(["b:1"], ["a:0"], 0), pack([], [], 0)));
+  assert.deepEqual(copied.done, ["a:0"]);
+  let st = {day, sel: copied.sel, done: copied.done, extra: 0};
+  st = dqToggle(st, "a:0");
+  assert.equal(dqView(st).n, 1);
+  assert.equal(dqView(st).tot, 2);
+  const missed = dqOnCheck(pick(dqBlank(day), "a:0"), "a:0", false);
+  assert.equal(dqMergeDay(missed.st, pack(["b:1"], [], 0)).done.includes("a:0"), false);
+}
+
+// 超额 keeps the larger count. It stays stored when the union is not full yet.
+{
+  let phone = pick(dqBlank(day), "a:0");
+  phone = dqOnCheck(phone, "a:0", true).st;
+  phone = dqOnCheck(phone, "z:1", true).st;
+  let pad = pick(dqBlank(day), "a:0", "b:2");
+  pad = dqOnCheck(pad, "a:0", true).st;
+  const m = dqMergeDay(
+    {sel: phone.sel, done: phone.done, extra: phone.extra},
+    {sel: pad.sel, done: pad.done, extra: 4}
+  );
+  assert.equal(m.extra, 4);
+  const v = dqView({day, sel: m.sel, done: m.done, extra: m.extra});
+  assert.equal(v.full, false);
+  assert.equal(v.showExtra, false);
+  assert.equal(v.extra, 4);
+  assert.equal(v.tot, 2);
+  assert.equal(v.n, 1);
+}
+
+// The union is the target. It is not capped at the suggested 10.
+{
+  const left = Array.from({length: 12}, (_, i) => "L:" + i);
+  const right = Array.from({length: 12}, (_, i) => "R:" + i);
+  const m = dqMergeDay(pack(left, ["L:0"], 0), pack(right, ["R:1"], 0));
+  const v = dqView({day, sel: m.sel, done: m.done, extra: m.extra});
+  assert.equal(v.tot, 24);
+  assert.equal(v.n, 2);
+}
+
+// Same sets in a different order are already merged. A higher 超额 still needs a push.
+{
+  const local = {[day]: pack(["b:1", "a:0"], ["a:0"], 1)};
+  const remote = {[day]: pack(["a:0", "b:1"], ["a:0"], 1)};
+  const same = dqCloudPlan(local, remote);
+  assert.equal(same.push, false);
+  assert.equal(same.applied, 0);
+  const ahead = dqCloudPlan({[day]: pack(["a:0"], ["a:0"], 2)}, {[day]: pack(["a:0"], ["a:0"], 1)});
+  assert.equal(ahead.push, true);
+  assert.equal(ahead.map[day].extra, 2);
+  assert.equal(ahead.applied, 0);
+}
+
+// Remote-only progress updates the plan for local and does not ask for a write.
+{
+  const plan = dqCloudPlan(
+    {[day]: pack(["a:0"], ["a:0"], 0)},
+    {[day]: pack(["a:0", "b:1"], ["a:0"], 0), [dayB]: pack(["c:1"], ["c:1"], 3)}
+  );
+  assert.equal(plan.push, false);
+  assert.equal(plan.applied, 2);
+  assert.deepEqual(plain(plan.map[day].sel), ["a:0", "b:1"]);
+  assert.equal(plan.map[dayB].extra, 3);
+  assert.equal(plan.map[dayB].done.includes("c:1"), true);
+}
+
+// A new local day pushes, and older cloud days stay in the map that would be written.
+{
+  const remote = {
+    [dayB]: pack(["b:1"], ["b:1"], 1),
+    "2026-11-01": pack(["c:1"], [], 0)
+  };
+  const plan = dqCloudPlan({[day]: pack(["a:1"], ["a:1"], 0)}, remote);
+  assert.equal(plan.push, true);
+  assert.equal(plan.map[day].done.includes("a:1"), true);
+  assert.equal(plan.map[dayB].done.includes("b:1"), true);
+  assert.equal(plan.map["2026-11-01"].sel.includes("c:1"), true);
+  assert.equal(dqCloudSafe(remote, plan.map), true);
+  assert.equal(dqCloudSafe(remote, {}), false);
+  assert.equal(dqCloudSafe(remote, {[dayB]: pack(["b:1"], [], 1), "2026-11-01": pack(["c:1"], [], 0)}), false);
+}
+
+// Junk keys never become a day, and inputs are left alone. A local 整句对了 still wins the push.
+{
+  const local = {[day]: pack(["a:1"], ["a:1"], 1), nope: pack(["z:1"], ["z:1"], 9), "2026-11-3": pack(["q:1"], ["q:1"], 1)};
+  const remote = {bad: {sel: ["nope"], done: ["nope"], extra: 4}, [day]: {sel: ["a:1", "a:1"], done: "a:1", extra: -3}};
+  const before = JSON.stringify({local, remote});
+  const plan = dqCloudPlan(local, remote);
+  assert.equal(JSON.stringify({local, remote}), before);
+  assert.deepEqual(Object.keys(plan.map), [day]);
+  assert.deepEqual(plain(plan.map[day].done), ["a:1"]);
+  assert.equal(plan.map[day].extra, 1);
+  assert.equal(plan.push, true);
+}
+
+// Local midnight keeps yesterday in the log. An empty today does not erase it.
+{
+  const y = {day: dayB, sel: ["a:1"], done: ["a:1"], extra: 2};
+  const first = dqLogTouch({}, y);
+  const frozen = JSON.stringify(first);
+  const next = dqLogTouch(first, {day, sel: [], done: [], extra: 0});
+  assert.equal(JSON.stringify(first), frozen);
+  assert.deepEqual(plain(next[dayB].done), ["a:1"]);
+  assert.equal(next[dayB].extra, 2);
+  assert.equal(next[day], undefined);
+}
+
+// Cloud today arriving after midnight must not drop yesterday still sitting in nova_dq.
+{
+  const yesterday = {day: dayB, sel: ["a:0"], done: ["a:0"], extra: 1};
+  const remote = {[day]: pack(["b:1"], [], 0), [dayB]: pack(["c:9"], ["c:9"], 0)};
+  const before = JSON.stringify({yesterday, remote});
+  const applied = dqApplyPlan(yesterday, {}, remote, day);
+  assert.equal(JSON.stringify({yesterday, remote}), before);
+  assert.equal(applied.applied > 0, true);
+  assert.deepEqual(plain(applied.log[dayB].done), ["a:0", "c:9"]);
+  assert.equal(applied.log[dayB].extra, 1);
+  assert.deepEqual(plain(applied.today.sel), ["b:1"]);
+  assert.equal(applied.today.day, day);
+  assert.equal(applied.today.done.includes("a:0"), false);
+}
+
 const hook = app.slice(app.indexOf("function viewDictation"), app.indexOf("// ---------- daily ④ dictation bar"));
 assert.match(hook, /dqOnCheck\(dqLoad\(\),\(it&&it\.id\|\|"x"\)\+":"\+si,r\.ok\)/);
 assert.match(hook, /if\(hit\.how!=="skip"\)/);
@@ -180,10 +338,23 @@ const exp = app.slice(app.indexOf("async function exportCode"), app.indexOf("asy
 assert.equal(exp.includes("nova_dq"), false);
 assert.match(exp, /u:sun/);
 assert.match(exp, /TLOG/);
-assert.equal(cloud.includes("nova_dq"), false);
-assert.match(app, /const DQK="nova_dq"/);
+assert.match(cloud, /nova_dq/);
+assert.match(cloud, /dqCloudPlan/);
+assert.match(cloud, /dqApplyCloud/);
+assert.match(cloud, /dqCloudSafe/);
+assert.match(cloud, /tCloudPlan\(TLOG/);
+assert.match(cloud, /tMerge\(remoteTime\)/);
+assert.match(cloud, /nova_time:plan\.log/);
+assert.match(cloud, /if\(!cloudUser\|\|!cloudDb\)return/);
+assert.equal(cloud.includes("removeItem"), false);
+assert.match(app, /const DQK="nova_dq",DQL="nova_dq_log"/);
 assert.match(app, /function dqLoad\(\)\{[\s\S]*?dKey\(\)/);
-assert.equal(app.slice(app.indexOf("function dqSave"), app.indexOf("function dqBits")).includes("novaCloudDirty"), false);
+assert.match(app.slice(app.indexOf("function dqSave"), app.indexOf("function dqBits")), /novaCloudDirty/);
+const rules = readFileSync(new URL("./firestore.rules", root), "utf8");
+assert.match(rules, /nova_time/);
+assert.match(rules, /nova_dq/);
+assert.match(rules, /request\.auth\.uid == uid/);
+assert.match(rules, /allow delete: if false/);
 assert.match(app, /建议 \$\{DQ_SUGGEST\} 句，少选、多选都可以/);
 assert.equal(app.includes("pgbFill"), false);
 assert.equal(app.includes('id="pgb"'), false);
@@ -195,3 +366,82 @@ assert.match(topics, /s&&s\.oa/);
 assert.equal(css.includes(".pgb{"), false);
 assert.match(css, /\.daybar\{/);
 assert.match(css, /\.daybar\.is-full/);
+
+// Offline log + apply: yesterday survives midnight, and a pull does not schedule another upload.
+{
+  const store = {};
+  const g = {
+    localStorage: {
+      getItem(k){ return Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null; },
+      setItem(k, v){ store[k] = String(v); }
+    },
+    TODAY: day,
+    dirty: 0
+  };
+  g.dKey = function(){ return g.TODAY; };
+  g.window = { novaCloudDirty(){ g.dirty++; } };
+  const glue = app.slice(app.indexOf('const DQK="nova_dq"'), app.indexOf("function dqBits"));
+  runInContext(logic + "\n" + glue, createContext(g));
+  let st = g.dqToggle(g.dqToggle(g.dqBlank(g.TODAY), "a:0"), "a:1");
+  st = g.dqOnCheck(st, "a:0", true).st;
+  const before = g.dirty;
+  g.dqSave(st);
+  assert.equal(g.dirty, before + 1);
+  g.dqSave.quiet = true;
+  g.dqSave(st);
+  assert.equal(g.dirty, before + 1);
+  g.dqSave.quiet = false;
+  g.localStorage.setItem("nova_dq_log", "{}");
+  assert.deepEqual(plain(g.dqLog()[day].done), ["a:0"]);
+  g.TODAY = "2026-11-04";
+  const rolled = g.dqLoad();
+  assert.equal(rolled.day, "2026-11-04");
+  assert.equal(rolled.sel.length, 0);
+  const kept = JSON.parse(g.localStorage.getItem("nova_dq_log"));
+  assert.deepEqual(kept[day].done, ["a:0"]);
+  assert.deepEqual(kept[day].sel, ["a:0", "a:1"]);
+  assert.equal(kept["2026-11-04"], undefined);
+  const dirtyNow = g.dirty;
+  g.dqApplyCloud({"2026-11-04": {sel: ["b:1"], done: ["b:1"], extra: 2}});
+  assert.equal(g.dirty, dirtyNow);
+  const cur = JSON.parse(g.localStorage.getItem("nova_dq"));
+  assert.equal(cur.day, "2026-11-04");
+  assert.deepEqual(cur.sel, ["b:1"]);
+  assert.deepEqual(cur.done, ["b:1"]);
+  assert.equal(cur.extra, 2);
+  const log2 = JSON.parse(g.localStorage.getItem("nova_dq_log"));
+  assert.deepEqual(log2[day].done, ["a:0"]);
+  assert.ok(log2["2026-11-04"].done.includes("b:1"));
+  let now = g.dqLoad();
+  now = g.dqToggle(now, "a:2");
+  g.dqSave(now);
+  const remote = {"2026-11-04": {sel: ["b:1"], done: ["b:1"], extra: 2}};
+  const plan = g.dqCloudPlan(g.dqLog(), remote);
+  assert.equal(plan.push, true);
+  assert.equal(plan.map["2026-11-04"].done.includes("b:1"), true);
+  assert.equal(plan.map["2026-11-04"].sel.includes("a:2"), true);
+  assert.equal(plan.map["2026-11-04"].sel.includes("b:1"), true);
+  assert.equal(plan.map[day].done.includes("a:0"), true);
+  assert.equal(g.dqCloudSafe(remote, plan.map), true);
+}
+
+// Two sync rounds meet on the same sets, including an older day only one device had.
+{
+  const phone = {[day]: pack(["a:0", "a:1"], ["a:0"], 1), [dayB]: pack(["y:1"], ["y:1"], 0)};
+  const pad = {[day]: pack(["a:1", "b:2"], ["b:2"], 0)};
+  const uploaded = dqCloudPlan(phone, {});
+  const padPull = dqCloudPlan(pad, uploaded.map);
+  const phonePull = dqCloudPlan(phone, padPull.map);
+  assert.equal(dqSameDay(phonePull.map[day], padPull.map[day]), true);
+  assert.equal(phonePull.map[day].done.includes("a:0"), true);
+  assert.equal(phonePull.map[day].done.includes("b:2"), true);
+  assert.equal(phonePull.map[day].sel.length, 3);
+  assert.equal(phonePull.map[day].extra, 1);
+  assert.equal(phonePull.map[dayB].done.includes("y:1"), true);
+  assert.equal(padPull.map[dayB].done.includes("y:1"), true);
+  const settled = dqCloudPlan(phonePull.map, padPull.map);
+  assert.equal(settled.push, false);
+  assert.equal(settled.applied, 0);
+}
+
+console.log("dq tests ok");
