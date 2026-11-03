@@ -680,10 +680,15 @@ let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
 
 // ---------- ④ 句子听写: interview original only, then the whole sentence ----------
-function playOA(p,btn,quiet){if(!p)return Promise.resolve(false);if(btn)LASTBTN=btn;return audioURL(p).then(url=>new Promise(res=>{
+// Same 速度 cycle as 阅读卡 #spd (1 → 0.85 → 0.75). Whole clip and 点读 both read it.
+// Kept for this open screen only: not localStorage, not ☀, not cloud.
+let dtRate=()=>1;
+function applyDtRate(){const r=dtRate();try{A.defaultPlaybackRate=r;A.playbackRate=r}catch(e){}return r}
+function playOA(p,btn,quiet){if(!p)return Promise.resolve(false);if(btn)LASTBTN=btn;const me=RUN;return audioURL(p).then(url=>new Promise(res=>{
+ if(me!=RUN)return res(false);
  A.onended=()=>res(true);A.onerror=()=>{if(!quiet)toast("原声加载失败");res(false)};
- A.src=url;A.playbackRate=1;A.defaultPlaybackRate=1;try{A.currentTime=0}catch(e){}
- const q=A.play();if(q&&q.catch)q.catch(()=>{if(!quiet)toast("点 ▶ 再听一遍");res(false)})}))}
+ A.defaultPlaybackRate=dtRate();A.src=url;applyDtRate();try{A.currentTime=0}catch(e){}
+ const q=A.play();if(q&&q.then)q.then(()=>{if(me==RUN)applyDtRate()}).catch(()=>{if(me!=RUN)return;if(!quiet)toast("点 ▶ 再听一遍");res(false)});else if(q&&q.catch)q.catch(()=>{if(!quiet)toast("点 ▶ 再听一遍");res(false)})}))}
 // Breath-pause slices already stored on the reading sentence (same `seg` ① 点读 uses):
 // [wordStart, wordEnd, t0, t1] into s.oa. Dictation only needs the times — never the words.
 function dtSegList(s){const g=s&&s.seg;if(!s||!s.oa||!Array.isArray(g))return [];
@@ -694,8 +699,8 @@ function playSegOA(s,k,btn){const z=dtSegList(s)[k];if(!z)return Promise.resolve
  stopAll();const me=RUN;dtSegClear();if(btn){btn.classList.add("on");LASTBTN=btn}
  return audioURL(s.oa).then(url=>new Promise(res=>{if(me!=RUN)return res(false);let done=false;
   const fin=v=>{if(done)return;done=true;A.removeEventListener("playing",onplay);if(btn)btn.classList.remove("on","playing");res(v)};
-  A.onended=A.onerror=null;A.src=url;A.playbackRate=1;A.defaultPlaybackRate=1;let live=false;const t0=performance.now();
-  const arm=()=>{try{A.currentTime=a}catch(e){}const q=A.play();if(q&&q.catch)q.catch(()=>{if(me==RUN)fin(false)})};
+  A.onended=A.onerror=null;A.defaultPlaybackRate=dtRate();A.src=url;applyDtRate();let live=false;const t0=performance.now();
+  const arm=()=>{try{A.currentTime=a}catch(e){}applyDtRate();const q=A.play();if(q&&q.then)q.then(()=>{if(me==RUN)applyDtRate()}).catch(()=>{if(me==RUN)fin(false)});else if(q&&q.catch)q.catch(()=>{if(me==RUN)fin(false)})};
   const onplay=()=>{live=true};A.addEventListener("playing",onplay);
   if(A.readyState>=1)arm();else A.addEventListener("loadedmetadata",arm,{once:true});
   const tick=()=>{if(me!=RUN)return fin(false);
@@ -717,7 +722,8 @@ function dtMark(typed,answer){const A=dtWords(typed),B=dtWords(answer),a=A.map(d
  return {ok,yours,summary,miss,extra}}
 function dtFeedback(s,typed){const r=dtMark(typed,s.t);const zh=s.zh?`<div class="dtlab">中文</div><div class="dthz">${esc(s.zh)}</div>`:"";
  return {ok:r.ok,html:`<div class="${r.ok?"gok":"gno"}">${esc(r.summary)}</div>${r.ok?"":`<div class="dtlab">你写的</div><div class="dtdiff en">${r.yours}</div><div class="dtleg"><span class="dk">对的</span><span class="dx">多了</span><span class="dm">漏了</span></div>${r.miss.length?`<div class="dtlab">漏掉的词</div><div class="dtdiff en">${r.miss.map(w=>`<span class="dm">${esc(w)}</span>`).join(" ")}</div>`:""}`}<div class="dtlab">正确句子</div><div class="dtans en">${esc(s.t)}</div>${zh}<button class="osb" id="dtre" type="button">▶ 再听原声</button>`}}
-function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filter(x=>x.s&&x.s.oa);
+function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];const spLab=()=>"速度 "+SP[spi]+"x";
+ const sents=(d.sents||[]).map((s,i)=>({s,i})).filter(x=>x.s&&x.s.oa);
  let jump=null;try{jump=sessionStorage.getItem("nova_dt_go");sessionStorage.removeItem("nova_dt_go")}catch(e){}
  if(!sents.length){V.innerHTML=`${dqHTML({go:false})}<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;return}
  const rid=sunTopic(it),key="nova_dt_"+(it&&it.id||"x");let pos=0;
@@ -726,7 +732,7 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
  const render=()=>{const cur=sents[pos],s=cur.s,si=cur.i,lit=sunHas(rid,si);const who=s.sp=="Naval"?"NAVAL":s.sp=="Chris"?"CHRIS":(s.sp||"");
   const segs=dtSegList(s);
   V.innerHTML=`${dqHTML({go:false})}<div class="card dtcard${lit?" sunon":""}"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span><button type="button" class="sun" id="dtsun" aria-label="标记重点" aria-pressed="${lit}">☀</button>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
-   <div class="dtplay"><button class="big" id="dtplay" type="button" aria-label="播放原声">▶</button><div class="dtplab">原声</div></div>
+   <div class="dtplay"><button class="big" id="dtplay" type="button" aria-label="播放原声">▶</button><div class="dtplab">原声</div><div class="bar dtbar"><button type="button" id="dtspd" aria-label="播放速度 ${SP[spi]}x">${spLab()}</button></div></div>
    ${segs.length?`<div class="dtsegs"><div class="dtplab">👆 点读原声</div><div class="dtsegrow" role="group" aria-label="点读原声">${segs.map((_,k)=>`<button type="button" class="dtseg" data-k="${k}" aria-label="第${k+1}段">第${k+1}段</button>`).join("")}</div></div>`:""}
    <p class="tip">听原声，把整句打出来。英文先不显示。</p>
    <textarea id="dtin" class="dtin" rows="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="在这里写下听到的整句"></textarea>
@@ -736,6 +742,7 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
   const playBtn=document.getElementById("dtplay");
   document.getElementById("dtsun").onclick=()=>{const on=sunToggle(rid,si),b=document.getElementById("dtsun");b.setAttribute("aria-pressed",on);const card=b.closest(".dtcard");if(card)card.classList.toggle("sunon",on)};
   playBtn.onclick=()=>{dtSegClear();stopAll();playOA(s.oa,playBtn)};
+  document.getElementById("dtspd").onclick=()=>{spi=(spi+1)%SP.length;applyDtRate();const b=document.getElementById("dtspd");b.textContent=spLab();b.setAttribute("aria-label","播放速度 "+SP[spi]+"x")};
   document.querySelectorAll(".dtseg").forEach(b=>b.onclick=()=>playSegOA(s,+b.dataset.k,b));
   document.getElementById("dthint").onclick=()=>{const z=document.getElementById("dthz");if(!s.zh){toast("这句没有中文");return}z.hidden=!z.hidden;if(!z.hidden)z.textContent=s.zh;document.getElementById("dthint").textContent=z.hidden?"中文提示":"收起中文"};
   const chk=()=>{const inp=document.getElementById("dtin"),typed=inp.value.trim(),fb=document.getElementById("dtfb");
