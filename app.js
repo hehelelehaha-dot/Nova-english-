@@ -258,7 +258,7 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
   return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div>${dqHTML()}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div>${dqHTML()}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
@@ -289,7 +289,7 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}</div>
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
  <h3 class="sec">🔁 同步（在 iPad 和手机之间）</h3><div class="yn" style="margin-top:0"><button class="wide flip" style="margin-top:0" onclick="location.hash='#/exp'">📤 导出整理</button><button class="wide gray" style="margin-top:0" onclick="location.hash='#/imp'">📥 导入</button></div>
- <h3 class="sec">☁ 学习时长云同步</h3><div class="li cloudbox" data-cloud style="display:block"></div>
+ <h3 class="sec">☁ 学习时长和今天听写</h3><div class="li cloudbox" data-cloud style="display:block"></div>
  <h3 class="sec">🧠 今日复习</h3><div class="li" style="display:block"><div style="margin-bottom:8px">每天最多学几个新词</div><div class="zs">${[5,10,15,20,30].map(n=>`<button class="btn${n==srsNewCap()?" on":""}" data-nc="${n}">${n}</button>`).join("")}</div></div>
  <h3 class="sec">🎨 主题</h3><div class="li" style="display:block"><div class="thp">${THEMES.map(([id,n,bg,ac])=>`<button class="thb${id==curTheme()?" on":""}" data-th="${id}" aria-pressed="${id==curTheme()}"><span class="sw" style="background:${bg}"><i style="background:${ac}"></i><i style="background:${ac};opacity:.45"></i></span><span class="thn">${n}</span></button>`).join("")}</div></div>
  <h3 class="sec">🔠 显示</h3><div class="li" style="display:block">
@@ -778,8 +778,12 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
  if(ji>=0){pos=ji;save();render()}else showPick()}
 
 // ---------- daily ④ dictation bar ----------
-// Local only: localStorage nova_dq. Same device-local calendar day as 今天时长 (dKey).
-// Not the removed Naval % bar, not 复述, and not part of ☀ sync, 累计时长, or Firebase.
+// Today lives in localStorage nova_dq. The day key is dKey(), the same local
+// calendar day as 今天时长. Signed-in devices merge nova_dq_log with Firestore
+// users/{uid}.nova_dq (see dqCloudPlan): one day at a time, union of sel, union
+// of done, larger extra. The target stays the selected count. A 整句对了 id in
+// done is kept. Logged out or offline, the bar still only uses this device.
+// Not the removed Naval % bar, not 复述, and not part of ☀ sync or the N1 code.
 // The day's target is however many sentences she selects (3 → n/3, 12 → n/12).
 // 10 is a suggestion in the picker copy only. A sentence counts only when 检查
 // already says 整句对了 (dqOnCheck's ok flag). Until every selected sentence is
@@ -787,7 +791,8 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
 // DQ_LOGIC_START
 function dqBlank(day){return {day:day||"",sel:[],done:[],extra:0}}
 function dqClean(a){const o=[],s=new Set();if(!Array.isArray(a))return o;for(const k of a){if(typeof k!=="string"||!k||s.has(k))continue;s.add(k);o.push(k)}return o}
-function dqNorm(raw,day){if(!raw||typeof raw!=="object"||raw.day!==day)return dqBlank(day);const extra=Math.floor(+raw.extra||0);return {day,sel:dqClean(raw.sel),done:dqClean(raw.done),extra:extra>0?extra:0}}
+function dqExtra(v){const n=Math.floor(Number(v));return Number.isFinite(n)&&n>0?n:0}
+function dqNorm(raw,day){if(!raw||typeof raw!=="object"||raw.day!==day)return dqBlank(day);return {day,sel:dqClean(raw.sel),done:dqClean(raw.done),extra:dqExtra(raw.extra)}}
 function dqFull(st){return st.sel.length>0&&st.sel.every(k=>st.done.includes(k))}
 function dqToggle(st,key){if(typeof key!=="string"||!key)return st;const sel=st.sel.slice(),i=sel.indexOf(key);if(i>=0)sel.splice(i,1);else sel.push(key);return {day:st.day,sel,done:st.done.slice(),extra:st.extra}}
 function dqNote(st,key){if(typeof key!=="string"||!key)return {st,how:"skip"};const full=dqFull(st);
@@ -797,11 +802,55 @@ function dqNote(st,key){if(typeof key!=="string"||!key)return {st,how:"skip"};co
 function dqOnCheck(st,key,ok){if(!ok)return {st,how:"skip"};return dqNote(st,key)}
 function dqView(st){const tot=st.sel.length,n=st.sel.reduce((a,k)=>a+(st.done.includes(k)?1:0),0),full=tot>0&&n===tot;
  return {n,tot,full,pct:tot?Math.round(100*n/tot):0,extra:st.extra,showExtra:!!(full&&st.extra>0)}}
+function dqDayOk(k){return typeof k==="string"&&/^\d{4}-\d\d-\d\d$/.test(k)}
+function dqPack(st){const s=st&&typeof st==="object"?st:{};return {sel:dqClean(s.sel),done:dqClean(s.done),extra:dqExtra(s.extra)}}
+function dqMergeDay(a,b){const A=a&&typeof a==="object"?a:{},B=b&&typeof b==="object"?b:{};
+ return {sel:dqClean([].concat(A.sel||[],B.sel||[])),done:dqClean([].concat(A.done||[],B.done||[])),extra:Math.max(dqExtra(A.extra),dqExtra(B.extra))}}
+function dqSameDay(a,b){const A=dqPack(a),B=dqPack(b);if(A.extra!==B.extra||A.sel.length!==B.sel.length||A.done.length!==B.done.length)return false;
+ const ss=new Set(B.sel),ds=new Set(B.done);return A.sel.every(k=>ss.has(k))&&A.done.every(k=>ds.has(k))}
+function dqDaysFrom(map){const o={};if(!map||typeof map!=="object"||Array.isArray(map))return o;
+ for(const k in map){if(!dqDayOk(k))continue;const raw=map[k];if(!raw||typeof raw!=="object"||Array.isArray(raw))continue;
+  const day=dqPack(raw);if(!day.sel.length&&!day.done.length&&!day.extra)continue;o[k]=day}return o}
+function dqLogTouch(log,st){const out=dqDaysFrom(log);if(!st||typeof st!=="object"||!dqDayOk(st.day))return out;
+ const packed=dqPack(dqNorm(st,st.day));if(!packed.sel.length&&!packed.done.length&&!packed.extra)delete out[st.day];else out[st.day]=packed;return out}
+function dqCloudPlan(localLog,remote){const L=dqDaysFrom(localLog),R=dqDaysFrom(remote),keys={};
+ for(const k in L)keys[k]=1;for(const k in R)keys[k]=1;const map={};let push=false,applied=0;
+ for(const k of Object.keys(keys).sort()){const m=dqMergeDay(L[k],R[k]);if(!m.sel.length&&!m.done.length&&!m.extra)continue;map[k]=m;
+  if(!R[k]||!dqSameDay(m,R[k]))push=true;if(!L[k]||!dqSameDay(m,L[k]))applied++}
+ return {map,push,applied}}
+function dqCloudSafe(remote,map){if(!map||typeof map!=="object"||Array.isArray(map))return false;const R=dqDaysFrom(remote);
+ for(const k in R){const m=map[k];if(!m||typeof m!=="object"||!dqSameDay(dqMergeDay(R[k],m),m))return false}return true}
+function dqApplyPlan(localRaw,log,remote,today){const remoteDays=dqDaysFrom(remote),base=dqDaysFrom(log);let applied=0;
+ if(localRaw&&typeof localRaw==="object"&&dqDayOk(localRaw.day)){const packed=dqPack(dqNorm(localRaw,localRaw.day));
+  if(packed.sel.length||packed.done.length||packed.extra){const m=dqMergeDay(base[localRaw.day],packed);
+   if(!base[localRaw.day]||!dqSameDay(base[localRaw.day],m)){base[localRaw.day]=m;applied++}}}
+ for(const k in remoteDays){const m=dqMergeDay(base[k],remoteDays[k]);if(!base[k]||!dqSameDay(base[k],m)){base[k]=m;applied++}}
+ let todaySt=null;if(dqDayOk(today)){const local=dqNorm(localRaw,today),merged=dqMergeDay(local,base[today]);
+  const next={day:today,sel:merged.sel,done:merged.done,extra:merged.extra};
+  if(!dqSameDay(local,next)){todaySt=next;applied++}
+  if(next.sel.length||next.done.length||next.extra)base[today]=dqPack(next);else delete base[today]}
+ return {log:base,today:todaySt,applied}}
 // DQ_LOGIC_END
-const DQK="nova_dq",DQ_SUGGEST=10;
+const DQK="nova_dq",DQL="nova_dq_log",DQ_SUGGEST=10;
+function dqLogRead(){let log={};try{log=JSON.parse(localStorage.getItem(DQL)||"{}")||{}}catch(e){log={}}return log&&typeof log==="object"&&!Array.isArray(log)?log:{}}
+function dqLogWrite(log){try{localStorage.setItem(DQL,JSON.stringify(log||{}))}catch(e){}}
+function dqRemember(st){dqLogWrite(dqLogTouch(dqLogRead(),st))}
+function dqLog(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}const log=dqLogRead();
+ if(raw&&typeof raw==="object"&&dqDayOk(raw.day)){const packed=dqPack(dqNorm(raw,raw.day));
+  if(packed.sel.length||packed.done.length||packed.extra)log[raw.day]=dqMergeDay(log[raw.day],packed)}
+ return dqDaysFrom(log)}
 function dqLoad(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
- const day=dKey(),st=dqNorm(raw,day);if(!raw||raw.day!==day)dqSave(st);return st}
-function dqSave(st){try{localStorage.setItem(DQK,JSON.stringify(st))}catch(e){}}
+ const day=dKey(),st=dqNorm(raw,day);if(!raw||raw.day!==day){if(raw&&typeof raw==="object"&&raw.day&&raw.day!==day)dqRemember(raw);dqSave(st)}return st}
+function dqSave(st){try{localStorage.setItem(DQK,JSON.stringify(st))}catch(e){}dqRemember(st);if(!dqSave.quiet&&window.novaCloudDirty)window.novaCloudDirty()}
+function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
+ const today=typeof dKey=="function"?dKey():"",plan=dqApplyPlan(raw,dqLogRead(),remote,today);if(!plan.applied)return plan;
+ dqLogWrite(plan.log);
+ if(plan.today&&dqDayOk(today)&&!dqSameDay(dqNorm(raw,today),plan.today)){const prev=dqSave.quiet;dqSave.quiet=true;
+  try{dqSave(plan.today)}finally{dqSave.quiet=prev}
+  if(typeof dqPaint=="function")dqPaint();
+  if(typeof document!="undefined"&&document.getElementById&&document.getElementById("daynow")&&typeof DQTOPICS!="undefined"&&DQTOPICS&&typeof dqPaintNow=="function"){
+   const seq=DQSEQ;DQTOPICS.then(topics=>{if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;if(document.getElementById("daynow"))dqPaintNow(topics)}).catch(()=>{})}}
+ return plan}
 function dqBits(go){const v=dqView(dqLoad());
  const count=v.tot?v.n+"/"+v.tot+(v.showExtra?" · 超额 "+v.extra:""):"选句子";
  const sub=!v.tot?(go?"点这里，选今天要听写的句子":"先选今天要听写的句子"):v.full?(v.showExtra?"超额 "+v.extra+"，不要求":"今天选的都写对了"):"写对选中的句子，这条才会满";

@@ -1,5 +1,7 @@
-// Cloud sync for nova_time only (累计时长). Logged out = local-only; logout never clears TLOG.
-// Merge is tCloudPlan / tMerge: same calendar day, keep the larger seconds (sync-code rule).
+// Cloud sync for nova_time (累计时长) and nova_dq (④ 今天的句子).
+// Logged out = local-only; logout never clears TLOG or the dictation bar.
+// Time merge is tCloudPlan / tMerge: same calendar day, keep the larger seconds.
+// Dictation merge is dqCloudPlan: same day key, union of sel, union of done, larger extra.
 "use strict";
 const CLOUD_DEBOUNCE=45000, CLOUD_MAX_WAIT=180000, CLOUD_PULL_EVERY=180000;
 const FB_VER="11.10.0";
@@ -54,11 +56,11 @@ function cloudWhen(t){
   return "上次同步是更早以前";
 }
 function cloudBtn(){
-  if(cloudUser&&cloudSyncing)return {t:"☁ …", a:"学习时长云同步，正在同步"};
-  if(cloudUser&&cloudErr)return {t:"☁ !", a:"学习时长云同步，"+cloudErr};
-  if(cloudUser)return {t:"☁ ✓", a:"学习时长云同步，已登录"};
-  if(!cloudCfg())return {t:"☁ 登录", a:"学习时长云同步，还没配置"};
-  return {t:"☁ 登录", a:"学习时长云同步，未登录"};
+  if(cloudUser&&cloudSyncing)return {t:"☁ …", a:"学习时长和今天听写云同步，正在同步"};
+  if(cloudUser&&cloudErr)return {t:"☁ !", a:"学习时长和今天听写云同步，"+cloudErr};
+  if(cloudUser)return {t:"☁ ✓", a:"学习时长和今天听写云同步，已登录"};
+  if(!cloudCfg())return {t:"☁ 登录", a:"学习时长和今天听写云同步，还没配置"};
+  return {t:"☁ 登录", a:"学习时长和今天听写云同步，未登录"};
 }
 function cloudStatusText(){
   if(cloudSyncing)return "正在同步…";
@@ -67,9 +69,11 @@ function cloudStatusText(){
   return "登录后会自动同步";
 }
 function cloudHTML(){
-  if(!cloudCfg())return `<p class="tip">云同步还没填配置，累计时长仍然只保存在这台设备上。按 CLOUD-SYNC.md 建好 Firebase，把配置贴进 firebase-config.js，并发布 firestore.rules。</p>`;
+  if(!cloudCfg())return `<p class="tip">云同步还没填配置，累计时长和今天的听写仍然只保存在这台设备上。按 CLOUD-SYNC.md 建好 Firebase，把配置贴进 firebase-config.js，并发布 firestore.rules。</p>`;
   if(!cloudAuth)return `<p class="tip">正在连接云同步…</p><p class="cloudmsg">${cloudEsc(cloudErr)}</p>`;
-  if(!cloudUser)return `<p class="tip">登录以后，每台设备上的累计时长会合成一份。同一天取较大值，不会把已经记下的时间变少。没登录时，时长只留在这台设备上。</p>
+  if(!cloudUser)return `<p class="tip">登录以后，每台设备上的累计时长会合成一份。同一天取较大值，不会把已经记下的时间变少。</p>
+   <p class="tip">今天的句子听写也会合成一份。同一天里，选中的句子合在一起，目标就是合起来的句数；整句对了的都会留下，超额取较大的数。另一台还选着的句子，在这边取消之后还会回来。</p>
+   <p class="tip">没登录时，时长和听写都只留在这台设备上。</p>
    <button type="button" class="wide flip" data-cloud-act="google">用 Google 登录</button>
    <label class="tip">邮箱<input class="shi" type="email" data-cloud-email autocomplete="username" inputmode="email"></label>
    <label class="tip">密码<input class="shi" type="password" data-cloud-pass autocomplete="current-password"></label>
@@ -79,10 +83,11 @@ function cloudHTML(){
   const who=cloudUser.email||cloudUser.displayName||"已登录";
   return `<p class="tip">已登录：<b>${cloudEsc(who)}</b></p>
    <p class="tip">手机和 iPad 的累计时长会合成一份。同一天取较大值，不会变少。</p>
+   <p class="tip">今天的句子听写也会合成一份。选中的句子合在一起，目标就是合起来的句数。整句对了的都会留下。超额取较大的数。另一台还选着的句子，在这边取消之后还会回来。</p>
    <p class="tip" data-cloud-status>${cloudEsc(cloudStatusText())}</p>
    <button type="button" class="wide flip" data-cloud-act="sync">立即同步</button>
    <button type="button" class="wide gray" data-cloud-act="out">退出登录</button>
-   <p class="tip">退出后，这台设备上的时长还会留着。</p>`;
+   <p class="tip">退出后，这台设备上的时长和今天的听写还会留着。</p>`;
 }
 function novaCloudPaint(){
   const b=document.getElementById("csync");
@@ -123,22 +128,40 @@ async function cloudSyncOnce(reason){
   if(!cloudUser||!cloudDb||typeof tCloudPlan!="function"||typeof tMerge!="function"||typeof TLOG=="undefined")return;
   if(cloudSyncing){cloudQueued=true;return}
   cloudSyncing=true;cloudDirty=false;cloudErr="";novaCloudPaint();
-  let remote=null;
+  let remoteTime=null, remoteDq=null;
   try{
     const ref=cloudDb.collection("users").doc(cloudUser.uid);
     await cloudDb.runTransaction(async tx=>{
       const snap=await tx.get(ref);
       const exists=typeof snap.exists=="function"?snap.exists():!!snap.exists;
       const data=exists&&snap.data()?snap.data():{};
-      const cloud=data.nova_time&&typeof data.nova_time=="object"?data.nova_time:{};
+      const cloud=data.nova_time&&typeof data.nova_time=="object"&&!Array.isArray(data.nova_time)?data.nova_time:{};
       const plan=tCloudPlan(TLOG, cloud);
-      remote=cloud;
-      if(plan.push)tx.set(ref,{nova_time:plan.log, updatedAt:Date.now()},{merge:true});
+      remoteTime=cloud;
+      remoteDq=data.nova_dq&&typeof data.nova_dq=="object"&&!Array.isArray(data.nova_dq)?data.nova_dq:{};
+      let dqPlan=null;
+      try{
+        if(typeof dqCloudPlan=="function")dqPlan=dqCloudPlan(typeof dqLog=="function"?dqLog():{}, remoteDq);
+      }catch(err){dqPlan=null;console.warn("nova dq plan", err)}
+      const dqPush=!!(dqPlan&&dqPlan.push&&typeof dqCloudSafe=="function"&&dqCloudSafe(remoteDq, dqPlan.map));
+      if(dqPlan&&dqPlan.push&&!dqPush)console.warn("nova dq plan dropped a cloud day; skip dictation write");
+      if(plan.push||dqPush){
+        const payload={nova_time:plan.log, updatedAt:Date.now()};
+        if(dqPush)payload.nova_dq=dqPlan.map;
+        tx.set(ref, payload, {merge:true});
+      }
     });
-    if(remote&&typeof tSave=="function"){
+    if(remoteTime&&typeof tSave=="function"){
       const prev=tSave.quiet;tSave.quiet=true;
-      try{tMerge(remote)}finally{tSave.quiet=prev}
-    }else if(remote)tMerge(remote);
+      try{tMerge(remoteTime)}finally{tSave.quiet=prev}
+    }else if(remoteTime)tMerge(remoteTime);
+    if(typeof dqApplyCloud=="function"){
+      try{
+        const prev=typeof dqSave=="function"?dqSave.quiet:false;
+        if(typeof dqSave=="function")dqSave.quiet=true;
+        try{dqApplyCloud(remoteDq||{})}finally{if(typeof dqSave=="function")dqSave.quiet=prev}
+      }catch(err){console.warn("nova dq apply", err)}
+    }
     cloudLastOk=Date.now();cloudLastTry=cloudLastOk;cloudFails=0;cloudHard=false;
   }catch(e){
     cloudErr=cloudFailMsg(e);cloudLastTry=Date.now();cloudFails++;cloudDirty=true;
@@ -169,7 +192,7 @@ async function cloudAct(act, root){
     return;
   }
   if(act=="out"){
-    try{await cloudAuth.signOut();cloudSay("已退出。这台设备上的时长还在")}
+    try{await cloudAuth.signOut();cloudSay("已退出。这台设备上的时长和今天的听写还在")}
     catch(e){cloudMsg(root,cloudAuthMsg(e))}
     return;
   }
@@ -178,7 +201,7 @@ async function cloudAct(act, root){
 function openCloud(){
   if(document.querySelector(".cloudsh"))return;
   const o=document.createElement("div");o.className="ov";
-  o.innerHTML=`<div class="sh cloudsh"><div class="sht">☁ 学习时长</div><div class="cloudbox" data-cloud></div><button type="button" class="shb cancel" data-x>关闭</button></div>`;
+  o.innerHTML=`<div class="sh cloudsh"><div class="sht">☁ 云同步</div><div class="cloudbox" data-cloud></div><button type="button" class="shb cancel" data-x>关闭</button></div>`;
   o.addEventListener("click",e=>{if(e.target==o||e.target.closest("[data-x]"))o.remove()});
   document.body.appendChild(o);novaCloudPaint();
 }
