@@ -31,7 +31,7 @@ const A=new Audio();A.preload="auto";let RUN=0;let LASTBTN=null;
 const setPlaying=(b,on)=>{document.querySelectorAll(".p.playing,.big.playing,.osb.playing,.osent.playing").forEach(x=>{if(x!=b||!on)x.classList.remove("playing")});if(b&&on)b.classList.add("playing")};
 document.addEventListener("click",e=>{const b=e.target.closest(".p,.big");if(b&&!b.id)LASTBTN=b},true);
 A.addEventListener("playing",()=>setPlaying(LASTBTN,true));for(const ev of["pause","ended","emptied"])A.addEventListener(ev,()=>setPlaying(null,false));
-function stopAll(){RUN++;try{A.pause()}catch(e){}if(window.speechSynthesis)speechSynthesis.cancel()}
+function stopAll(){RUN++;try{A.pause()}catch(e){}if(window.speechSynthesis)speechSynthesis.cancel();TLMODE=null;try{listenPaint()}catch(e){}}
 async function playP(p,rate=1,fbText){const url=await audioURL(p);return new Promise(r=>{A.onended=()=>r(true);A.onerror=()=>speak(fbText,rate).then(r);A.src=url;A.playbackRate=rate;A.defaultPlaybackRate=rate;
  const q=A.play();if(q)q.then(()=>{A.playbackRate=rate}).catch(()=>speak(fbText,rate).then(r))})}
 function speak(t,rate){return new Promise(r=>{if(!t||!window.speechSynthesis)return r();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=rate*.9;u.onend=r;u.onerror=r;speechSynthesis.cancel();speechSynthesis.speak(u)})}
@@ -277,52 +277,83 @@ function topicListenHTML(fold){const topics=foldReadingTopics(fold);if(!topics.l
  try{const sv=JSON.parse(localStorage.getItem(key)||"null");if(sv&&topics.some(t=>t.n==sv.a)&&topics.some(t=>t.n==sv.b)&&sv.a<=sv.b){a=sv.a|0;b=sv.b|0}}catch(e){}
  const open=(()=>{try{return sessionStorage.getItem("nova_tl_open_"+fold)=="1"}catch(e){return false}})();
  const lo=topics[0].n,hi=topics[topics.length-1].n;
- return `<details class="tlisten" id="tlisten"${open?" open":""}><summary class="tlh"><span class="tlar" aria-hidden="true"></span><span class="tlnm">连听 ${word}</span><span class="tlsub" id="tlsub">${tag}${a}–${tag}${b}</span></summary><div class="tlbody"><div class="rngrow"><label>从 ${word}<input id="tla" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${a}" aria-label="从哪个${word}"></label><span class="rngto">到</span><label><input id="tlb" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${b}" aria-label="到哪个${word}"></label></div><p class="tlhave" id="tlhave"></p><p class="rngerr" id="tlerr" hidden></p><p class="tip">听 ${word} 几到几，连播这些 ${word} 里的原声，不是里面的句子号。速度：1x → 0.85x → 0.75x。</p></div></details><div class="bar rdbar tlbar"><button type="button" id="stp">■ 停止</button><button type="button" id="rnggo" class="org">▶ 原声连播</button><button type="button" id="rloop" class="org">🔁 原声循环</button><button type="button" id="spd">速度 1x</button></div><div class="status" id="st"></div>`}
-function wireTopicListen(fold){const topics=foldReadingTopics(fold);if(!topics.length||!document.getElementById("tlisten"))return;
- dropOldCardRanges();
- const word=fold=="luca"?"Day":"Topic",tag=fold=="luca"?"D":"T",key="nova_tl_"+fold,SP=[1,.85,.75];let si=0,rngMode=null,rngActive=null;
- const $=id=>document.getElementById(id),st=t=>{const e=$("st");if(e)e.textContent=t},nums=topics.map(t=>t.n);
- const chip=(a,b)=>tag+a+"–"+tag+b;
- const applyRate=()=>{const r=SP[si];if(!(Math.abs(A.playbackRate-r)<0.001)){A.playbackRate=r;A.defaultPlaybackRate=r}};
- const paint=()=>{const go=$("rnggo"),lp=$("rloop");if(go){const on=rngMode=="once";go.classList.toggle("on",on);go.textContent=on?"⏸ 暂停原声":"▶ 原声连播"}if(lp){const on=rngMode=="loop";lp.classList.toggle("on",on);lp.textContent=on?"⏸ 停止循环":"🔁 原声循环"}if(!rngMode)rngActive=null};
- const markTopic=id=>{document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));const e=document.querySelector('.li[data-tid="'+CSS.escape(id)+'"]');if(e){e.classList.add("cur");follow(e)}};
+ const dd=fold=="luca"?"":'<button type="button" id="dd" class="org">👆 点读</button>';
+ return `<details class="tlisten" id="tlisten"${open?" open":""}><summary class="tlh"><span class="tlar" aria-hidden="true"></span><span class="tlnm">连听 ${word}</span><span class="tlsub" id="tlsub">${tag}${a}–${tag}${b}</span></summary><div class="tlbody"><div class="rngrow"><label>从 ${word}<input id="tla" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${a}" aria-label="从哪个${word}"></label><span class="rngto">到</span><label><input id="tlb" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${b}" aria-label="到哪个${word}"></label></div><p class="rngerr" id="tlerr" hidden></p><div class="tlcap" id="tlcap" aria-live="polite"><p class="tlen" id="tlen"></p><p class="tlzh" id="tlzh"></p></div><div class="bar rdbar tlbar"><button type="button" id="stp">■ 停止</button><button type="button" id="bk5">倒退5秒</button><button type="button" id="rnggo" class="org">▶ 原声连播</button><button type="button" id="rloop" class="org">🔁 原声循环</button><button type="button" id="spd">速度 1x</button><button type="button" id="loop">单句循环</button><button type="button" id="hid">隐藏文字</button>${dd}</div><div class="status" id="st"></div></div></details>`}
+let TLSI=0,SENTLOOP=false,TLMODE=null,TLACTIVE=null,TLCAP=null,TLDD=false;
+const TLSP=[1,.85,.75];
+function listenRate(){const r=TLSP[TLSI];if(!(Math.abs(A.playbackRate-r)<0.001)){A.playbackRate=r;A.defaultPlaybackRate=r}}
+function listenPaint(){const go=document.getElementById("rnggo"),lp=document.getElementById("rloop");if(go){const on=TLMODE=="once";go.classList.toggle("on",on);go.textContent=on?"⏸ 暂停原声":"▶ 原声连播"}if(lp){const on=TLMODE=="loop";lp.classList.toggle("on",on);lp.textContent=on?"⏸ 停止循环":"🔁 原声循环"}if(!TLMODE)TLACTIVE=null}
+function listenRewind(){try{A.currentTime=Math.max(0,(A.currentTime||0)-5)}catch(e){}}
+function listenCaption(s){TLCAP=s||null;const cap=document.getElementById("tlcap"),en=document.getElementById("tlen"),zh=document.getElementById("tlzh");if(!cap||!en)return;
+ if(!s){en.textContent="";if(zh)zh.textContent="";return}
+ if(zh)zh.textContent=s.zh||"";
+ if(!(TLDD&&s.seg&&s.oa)){en.textContent=s.t||"";return}
+ const w=s.t.split(/\s+/);en.textContent="";
+ s.seg.forEach(([x,y,a,b],k)=>{const p=document.createElement("span");p.className="ph"+(k%2?" alt":"");p.textContent=w.slice(x,y+1).join(" ");
+  p.onclick=ev=>{ev.stopPropagation();listenSeg(s,a,b,p)};en.appendChild(p);if(k<s.seg.length-1)en.appendChild(document.createTextNode(" "))})}
+async function listenSeg(s,a,b,p){stopAll();TLMODE=null;listenPaint();const me=++RUN;document.querySelectorAll(".tlcap .ph.play").forEach(x=>x.classList.remove("play"));if(p)p.classList.add("play");
+ A.onended=A.onerror=null;A.src=await audioURL(s.oa);listenRate();const go=()=>{try{A.currentTime=a||0}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
+ const tick=()=>{if(me!=RUN){if(p)p.classList.remove("play");return}if((b!=null&&A.currentTime>=b)||A.ended){if(me==RUN&&b!=null)A.pause();if(p)p.classList.remove("play");return}requestAnimationFrame(tick)};requestAnimationFrame(tick)}
+function listenClip(url,me,dur){return new Promise(res=>{let done=false,origin=null;const once=v=>{if(done)return;done=true;res(v)};
+ try{A.pause()}catch(e){}A.onended=A.onerror=null;A.src=url;
+ const seek0=()=>{try{if((A.currentTime||0)>0.05)A.currentTime=0}catch(e){}listenRate()};
+ if(A.readyState>=1)seek0();else A.addEventListener("loadedmetadata",()=>{if(me==RUN&&!done)seek0()},{once:true});
+ listenRate();const t0=performance.now();A.onerror=()=>once(false);
+ const q=A.play();if(q)q.then(()=>{if(!done){seek0();listenRate()}}).catch(()=>once(false));
+ const tick=()=>{if(done)return;if(me!=RUN)return once(false);const heard=A.currentTime||0,wall=performance.now()-t0;
+  if(origin==null){if(heard<0.25)origin=heard;else if(wall>2500)return once(false);else return requestAnimationFrame(tick)}
+  const played=Math.max(0,heard-origin);
+  if(dur>0&&played>=Math.max(0.12,dur-0.08))return once(true);
+  if(A.ended&&played>0.12)return once(true);if(wall>30000)return once(false);requestAnimationFrame(tick)};
+ requestAnimationFrame(tick)})}
+async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold),word=fold=="luca"?"Day":"Topic",tag=fold=="luca"?"D":"T";
+ const me=++RUN,sel=topics.filter(t=>t.n>=a&&t.n<=b);TLACTIVE=a+"-"+b;TLMODE=loop?"loop":"once";listenPaint();
+ const st=t=>{const e=document.getElementById("st");if(e)e.textContent=t},chip=tag+a+"–"+tag+b,label=loop?"原声循环":"原声连播";
+ window._tl={fold,a,b,loop:!!loop,ids:sel.map(t=>t.id)};st(label+" · "+chip);
+ const markTopic=id=>{document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));if(!id)return;const e=document.querySelector('.li[data-tid="'+CSS.escape(id)+'"]');if(e){e.classList.add("cur");follow(e)}
+  if(window._rdRid==id){const card=window._tlCard;if(card!=null){const el=document.getElementById("s"+card);if(el){document.querySelectorAll("#ss .cur").forEach(x=>x.classList.remove("cur"));el.classList.add("cur");follow(el)}}}};
+ do{let played=0;for(const t of sel){if(me!=RUN)return;let d;try{d=await getJSON(t.data)}catch(e){continue}
+  const cards=(d.sents||[]).map((s,i)=>({i,s})).filter(x=>x.s&&x.s.oa);
+  for(const c of cards){if(me!=RUN)return;window._tlCard=c.i;markTopic(t.id);listenCaption(c.s);LASTBTN=document.getElementById(loop?"rloop":"rnggo");st(`${label} · ${word} ${t.n} · 第 ${c.i+1} 张 · ${chip}`);
+   let url;try{url=await audioURL(c.s.oa)}catch(e){url=null}if(me!=RUN)return;if(!url)continue;
+   let ok=false;do{if(me!=RUN)return;ok=await listenClip(url,me,+c.s.d||0)}while(SENTLOOP&&me==RUN);
+   if(me!=RUN)return;if(ok)played++}}
+  if(!played){if(me==RUN){TLMODE=null;listenPaint();st("这一段没有原声");listenCaption(null)}return}}while(loop&&me==RUN);
+ if(me==RUN){TLMODE=null;listenPaint();st("连听完毕 · "+chip)}}
+function listenStart(fold,loop){const topics=foldReadingTopics(fold);if(!topics.length)return;
+ const word=fold=="luca"?"Day":"Topic",nums=topics.map(t=>t.n),key="nova_tl_"+fold;
+ const read=()=>{const ia=document.getElementById("tla"),ib=document.getElementById("tlb");
+  if(ia&&ib)return{a:Math.round(+ia.value),b:Math.round(+ib.value)};
+  try{const sv=JSON.parse(localStorage.getItem(key)||"null");if(sv)return{a:sv.a|0,b:sv.b|0}}catch(e){}
+  return{a:nums[0],b:nums[nums.length-1]}};
+ const r=read();const bad=!nums.includes(r.a)||!nums.includes(r.b),ord=r.a>r.b;
+ const er=document.getElementById("tlerr");
+ if(bad||ord){if(er){er.hidden=false;er.textContent=bad?"请填已有的 "+word+"："+nums.join("、"):"开始不能大于结束"}const pan=document.getElementById("tlisten");if(pan)pan.open=true;return}
+ if(er){er.hidden=true;er.textContent=""}
+ try{localStorage.setItem(key,JSON.stringify({a:r.a,b:r.b}))}catch(e){}
+ const sub=document.getElementById("tlsub");if(sub)sub.textContent=(fold=="luca"?"D":"T")+r.a+"–"+(fold=="luca"?"D":"T")+r.b;
+ const same=TLMODE==(loop?"loop":"once")&&TLACTIVE===r.a+"-"+r.b;stopAll();TLMODE=null;listenPaint();
+ if(same){const e=document.getElementById("st");if(e)e.textContent="已暂停";listenCaption(null);return}
+ playFoldListen(fold,r.a,r.b,loop)}
+function wireTopicListen(fold){if(!document.getElementById("tlisten"))return;dropOldCardRanges();
+ const $=id=>document.getElementById(id),topics=foldReadingTopics(fold),word=fold=="luca"?"Day":"Topic",tag=fold=="luca"?"D":"T",nums=topics.map(t=>t.n);
+ const chip=()=>{$("tlsub").textContent=tag+$("tla").value+"–"+tag+$("tlb").value};
  const vals=()=>{const a=Math.round(+$("tla").value),b=Math.round(+$("tlb").value);
   if(!nums.includes(a)||!nums.includes(b))return{ok:false,msg:"请填已有的 "+word+"："+nums.join("、")};
   if(a>b)return{ok:false,msg:"开始不能大于结束"};return{ok:true,a,b}};
  const err=msg=>{const e=$("tlerr");if(!msg){e.hidden=true;e.textContent=""}else{e.hidden=false;e.textContent=msg}};
- const have=(a,b)=>{$("tlhave").textContent="将连播 "+topics.filter(t=>t.n>=a&&t.n<=b).map(t=>tag+t.n).join("、")};
- const paintChip=()=>{$("tlsub").textContent=chip($("tla").value,$("tlb").value)};
- const save=(a,b)=>{try{localStorage.setItem(key,JSON.stringify({a,b}))}catch(e){}};
- have(+$("tla").value,+$("tlb").value);
- if(!localStorage.getItem(key))save(+$("tla").value,+$("tlb").value);
- for(const id of ["tla","tlb"])$(id).addEventListener("input",()=>{const r=vals();err(r.ok?"":r.msg);if(r.ok){save(r.a,r.b);have(r.a,r.b);paintChip()}});
+ try{if(!localStorage.getItem("nova_tl_"+fold))localStorage.setItem("nova_tl_"+fold,JSON.stringify({a:+$("tla").value,b:+$("tlb").value}))}catch(e){}
+ for(const id of ["tla","tlb"])$(id).addEventListener("input",()=>{const r=vals();err(r.ok?"":r.msg);if(r.ok){try{localStorage.setItem("nova_tl_"+fold,JSON.stringify({a:r.a,b:r.b}))}catch(e){}chip()}});
  $("tlisten").addEventListener("toggle",()=>{try{sessionStorage.setItem("nova_tl_open_"+fold,$("tlisten").open?"1":"0")}catch(e){}});
- function playClip(url,me,dur){return new Promise(res=>{let done=false,origin=null;const once=v=>{if(done)return;done=true;res(v)};
-  try{A.pause()}catch(e){}A.onended=A.onerror=null;A.src=url;
-  const seek0=()=>{try{if((A.currentTime||0)>0.05)A.currentTime=0}catch(e){}applyRate()};
-  if(A.readyState>=1)seek0();else A.addEventListener("loadedmetadata",()=>{if(me==RUN&&!done)seek0()},{once:true});
-  applyRate();const t0=performance.now();A.onerror=()=>once(false);
-  const q=A.play();if(q)q.then(()=>{if(!done){seek0();applyRate()}}).catch(()=>once(false));
-  const tick=()=>{if(done)return;if(me!=RUN)return once(false);const heard=A.currentTime||0,wall=performance.now()-t0;
-   if(origin==null){if(heard<0.25)origin=heard;else if(wall>2500)return once(false);else return requestAnimationFrame(tick)}
-   const played=Math.max(0,heard-origin);
-   if(dur>0&&played>=Math.max(0.12,dur-0.08))return once(true);
-   if(A.ended&&played>0.12)return once(true);if(wall>30000)return once(false);requestAnimationFrame(tick)};
-  requestAnimationFrame(tick)})}
- async function playTopics(a,b,loop){const me=++RUN,sel=topics.filter(t=>t.n>=a&&t.n<=b);rngActive=a+"-"+b;rngMode=loop?"loop":"once";paint();
-  window._tl={fold,a,b,loop:!!loop,ids:sel.map(t=>t.id)};const label=loop?"原声循环":"原声连播";st(`${label} · ${chip(a,b)}`);
-  do{let played=0;for(const t of sel){if(me!=RUN)return;let d;try{d=await getJSON(t.data)}catch(e){continue}
-   const cards=(d.sents||[]).map((s,i)=>({i,s})).filter(x=>x.s&&x.s.oa);
-   for(const c of cards){if(me!=RUN)return;markTopic(t.id);LASTBTN=$(loop?"rloop":"rnggo");st(`${label} · ${word} ${t.n} · 第 ${c.i+1} 张 · ${chip(a,b)}`);
-    let url;try{url=await audioURL(c.s.oa)}catch(e){url=null}if(me!=RUN)return;if(!url)continue;
-    const ok=await playClip(url,me,+c.s.d||0);if(me!=RUN)return;if(ok)played++}}
-   if(!played){if(me==RUN){rngMode=null;paint();st("这一段没有原声")}return}}while(loop&&me==RUN);
-  if(me==RUN){rngMode=null;paint();st("连听完毕 · "+chip(a,b))}}
- const start=loop=>{const r=vals();if(!r.ok){err(r.msg);$("tlisten").open=true;return}err("");save(r.a,r.b);paintChip();have(r.a,r.b);
-  const same=rngMode==(loop?"loop":"once")&&rngActive===r.a+"-"+r.b;stopAll();rngMode=null;paint();if(same){st("已暂停");markTopic("");return}playTopics(r.a,r.b,loop)};
- $("rnggo").onclick=()=>start(false);$("rloop").onclick=()=>start(true);
- $("spd").onclick=()=>{si=(si+1)%3;A.playbackRate=SP[si];A.defaultPlaybackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
- $("stp").onclick=()=>{stopAll();rngMode=null;paint();st("");markTopic("")}}
+ let hid=localStorage.getItem("rd_hid")=="1";const cap=$("tlcap");if(hid&&cap)cap.classList.add("hide");if($("hid"))$("hid").classList.toggle("on",hid);
+ TLDD=localStorage.getItem("rd_dd")=="1";if($("dd"))$("dd").classList.toggle("on",TLDD);if($("loop"))$("loop").classList.toggle("on",SENTLOOP);
+ $("stp").onclick=()=>{stopAll();TLMODE=null;listenPaint();const e=$("st");if(e)e.textContent="";document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));listenCaption(null)};
+ $("bk5").onclick=listenRewind;
+ $("rnggo").onclick=()=>listenStart(fold,false);$("rloop").onclick=()=>listenStart(fold,true);
+ $("spd").onclick=()=>{TLSI=(TLSI+1)%3;A.playbackRate=TLSP[TLSI];A.defaultPlaybackRate=TLSP[TLSI];$("spd").textContent="速度 "+TLSP[TLSI]+"x"};
+ $("loop").onclick=()=>{SENTLOOP=!SENTLOOP;$("loop").classList.toggle("on",SENTLOOP)};
+ $("hid").onclick=()=>{hid=!hid;cap.classList.toggle("hide",hid);$("hid").classList.toggle("on",hid);try{localStorage.setItem("rd_hid",hid?"1":"0")}catch(e){}};
+ if($("dd"))$("dd").onclick=()=>{TLDD=!TLDD;$("dd").classList.toggle("on",TLDD);try{localStorage.setItem("rd_dd",TLDD?"1":"0")}catch(e){}listenCaption(TLCAP)}}
 function showLuca(s){setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
  const kind=s.like=="dictation"?"选一个 Topic。听句子，把整句写下来，再核对。":s.typeName;
@@ -395,7 +426,7 @@ function stTop(){const ss=document.getElementById("ss");let b=0;for(const e of d
 function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":(sp||"")}
 function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
  const hasDD=d.sents.some(x=>x.seg&&x.oa);
- V.innerHTML=`<div class="bar"><button id="stp">■ 停止</button><button id="spd">速度 1x</button><button id="loop">单句循环</button><button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
+ V.innerHTML=`<div class="bar rdbar"><button id="stp">■ 停止</button><button id="bk5" type="button">倒退5秒</button><button id="rnggo" type="button" class="org">▶ 原声连播</button><button id="rloop" type="button" class="org">🔁 原声循环</button><button id="spd">速度 1x</button><button id="loop">单句循环</button><button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+String(s.sp||"").toLowerCase();e.id="s"+i;
   e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${i+1}句">${i+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${esc(rdWho(s.sp))}</div><div class="fr"><div class="t"></div>${s.oa&&s.a!==s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
@@ -423,7 +454,7 @@ function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=
  async function seq(list,orig=false,btn=null){const me=++RUN;for(const i of list){do{if(me!=RUN)return;mark(i);if(btn)LASTBTN=btn;const S_=d.sents[i];st(`${orig?"原声":btn?"AI 朗读":""}${orig||btn?" · ":""}第 ${i+1} / ${d.sents.length} 句`);await playP(orig?S_.oa:S_.a,SP[si],S_.t);if(me!=RUN)return;
   const dur=orig&&isFinite(A.duration)&&A.duration>0?A.duration:S_.d;if(F.shad){st(`第 ${i+1} 句 · 请跟读…`);await wait(dur/SP[si]*1000+600)}else await wait(F.loop?700:350)}while(F.loop&&me==RUN)}if(me==RUN){setAll(false);st("播放完毕")}}
  const $=id=>document.getElementById(id);
- for(const k of ["loop","hid"])$(k).onclick=()=>{F[k]=!F[k];$(k).classList.toggle("on",F[k]);if(k=="hid"){ss.classList.toggle("hide",F.hid);try{localStorage.setItem("rd_hid",F.hid?"1":"0")}catch(e){}}};
+ for(const k of ["loop","hid"])$(k).onclick=()=>{F[k]=!F[k];$(k).classList.toggle("on",F[k]);if(k=="loop")SENTLOOP=F.loop;if(k=="hid"){ss.classList.toggle("hide",F.hid);try{localStorage.setItem("rd_hid",F.hid?"1":"0")}catch(e){}}};
  if(F.hid){ss.classList.add("hide");$("hid").classList.add("on")}
  // 👆 点读: tap a phrase (split at Naval's breath pauses) to play just that original-audio segment.
  // The back copies the same English (.zhe, above 中文) and the same segments; 播放原句 stays the single .p control.
@@ -436,8 +467,12 @@ function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=
    A.onended=A.onerror=null;A.src=await audioURL(s.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
    const tick=()=>{if(me!=RUN){p.classList.remove("play");return}if(A.currentTime>=b||A.ended){A.pause();p.classList.remove("play");return}requestAnimationFrame(tick)};requestAnimationFrame(tick);window._dd={i,k,a,b,src:s.oa}}
   $("dd").onclick=()=>{DD=!DD;try{localStorage.setItem("rd_dd",DD?"1":"0")}catch(e){}ren();st(DD?"点读：点句子里的任一小段，只播那一段原声":"")};ren()}
- $("spd").onclick=()=>{si=(si+1)%3;A.playbackRate=SP[si];A.defaultPlaybackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
+ $("spd").onclick=()=>{si=(si+1)%3;TLSI=si;A.playbackRate=SP[si];A.defaultPlaybackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
+ const fold=/^luca_/.test(rid)?"luca":"naval";
+ $("bk5").onclick=listenRewind;
+ $("rnggo").onclick=()=>listenStart(fold,false);
+ $("rloop").onclick=()=>listenStart(fold,true);
 }
 // 原文 in word cards: original interview audio (点读 segment → whole clip → TTS)
 async function playSrc(sr,rate,btn){if(!sr.oa)return playP(sr.a,rate,sr.t);const me=++RUN;const[a,b]=sr.oab||[0,null];

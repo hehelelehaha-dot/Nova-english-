@@ -183,8 +183,14 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 .tlisten[open]>.tlh .tlar::before{content:"▾"}
 .tlnm{font-size:17px}.tlsub{margin-left:auto;font-size:16px;font-weight:800;color:#2a6f97}
 .tlbody{padding:0 14px 12px}
-.tlhave{margin:8px 0 0;font-size:14px;font-weight:700;color:#2a6f97}
-.tlbar{margin:0 0 8px}
+.tlcap{margin:10px 0 8px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #e6d7a8;min-height:52px}
+.tlcap .tlen{margin:0;font-family:Georgia,"Noto Serif",serif;font-size:18px;line-height:1.45;color:#1d2b38}
+.tlcap .tlzh{margin:6px 0 0;font-size:15px;line-height:1.45;color:#5a4a20}
+.tlcap.hide .tlen,.tlcap.hide .tlzh{color:transparent!important;-webkit-text-fill-color:transparent!important;user-select:none}
+.tlcap .ph{cursor:pointer;border-bottom:2px solid #f3c74f;border-radius:2px}
+.tlcap .ph.alt{border-bottom-color:#9ec5f0}
+.tlcap .ph.play{background:#ffd84d}
+.tlbar{margin:0 0 4px}
 .bar.rdbar{display:flex;flex-wrap:wrap;align-items:stretch}
 .bar.rdbar>button{flex:1 1 96px;min-width:0;white-space:nowrap}
 .rngrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
