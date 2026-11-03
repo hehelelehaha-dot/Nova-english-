@@ -14,7 +14,9 @@ assert.ok(protoStart > 0 && protoEnd > protoStart, "fill protocol block missing 
 const protocol = sw.slice(protoStart, protoEnd);
 
 assert.match(sw, new RegExp('const V="' + meta.v + '"'));
-assert.equal(meta.cv, meta.v.slice(0, 8));
+// v is the app build 检查更新 compares. cv is the content-catalog id and stays put when only the app changes.
+assert.match(meta.v, /^[0-9a-f]{10}$/);
+assert.match(meta.cv, /^[0-9a-f]{8}$/);
 assert.match(meta.built, /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/);
 assert.match(meta.salt, /VDsYu07qwIo/);
 assert.equal(/localStorage|sessionStorage|indexedDB|nova_time|nova_key|caches\.delete/.test(protocol), false);
