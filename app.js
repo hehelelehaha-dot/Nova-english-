@@ -99,7 +99,7 @@ async function route0(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.
  await loadLuca();applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
- try{if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
 // Storage model (v2, sync-ready): FIELDS = { key: [value, ts] }, value null = tombstone.
@@ -258,7 +258,7 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
   return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div>${dqHTML()}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
@@ -267,13 +267,14 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
 function showLuca(s){setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
  const kind=s.like=="dictation"?"选一个 Topic。听句子，把整句写下来，再核对。":s.typeName;
- if(!xs.length){V.innerHTML=`<p class="tip">夏日友晴天 · ${esc(kind)}</p><div class="done">这个板块还是空的</div>`;return}
+ const bar=s.like=="dictation"?dqHTML():"";
+ if(!xs.length){V.innerHTML=`${bar}<p class="tip">夏日友晴天 · ${esc(kind)}</p><div class="done">这个板块还是空的</div>`;return}
  const tip=s.like=="dictation"?'<p class="tip">选一个 Topic。听句子，把整句写下来，再核对。</p>':"";
- V.innerHTML=`${tip}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
+ V.innerHTML=`${bar}${tip}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
 async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
- V.innerHTML=`${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}<div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
+ V.innerHTML=`${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}<div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id}});
  if(id=="flash")srsEntry(document.getElementById("srsent"));
@@ -717,13 +718,14 @@ function dtMark(typed,answer){const A=dtWords(typed),B=dtWords(answer),a=A.map(d
 function dtFeedback(s,typed){const r=dtMark(typed,s.t);const zh=s.zh?`<div class="dtlab">中文</div><div class="dthz">${esc(s.zh)}</div>`:"";
  return {ok:r.ok,html:`<div class="${r.ok?"gok":"gno"}">${esc(r.summary)}</div>${r.ok?"":`<div class="dtlab">你写的</div><div class="dtdiff en">${r.yours}</div><div class="dtleg"><span class="dk">对的</span><span class="dx">多了</span><span class="dm">漏了</span></div>${r.miss.length?`<div class="dtlab">漏掉的词</div><div class="dtdiff en">${r.miss.map(w=>`<span class="dm">${esc(w)}</span>`).join(" ")}</div>`:""}`}<div class="dtlab">正确句子</div><div class="dtans en">${esc(s.t)}</div>${zh}<button class="osb" id="dtre" type="button">▶ 再听原声</button>`}}
 function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filter(x=>x.s&&x.s.oa);
- if(!sents.length){V.innerHTML=`<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;return}
+ let jump=null;try{jump=sessionStorage.getItem("nova_dt_go");sessionStorage.removeItem("nova_dt_go")}catch(e){}
+ if(!sents.length){V.innerHTML=`${dqHTML({go:false})}<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;return}
  const rid=sunTopic(it),key="nova_dt_"+(it&&it.id||"x");let pos=0;
  const saved=()=>{let n=+localStorage.getItem(key)||0;return n>=0&&n<sents.length?n:0};
  const save=()=>{try{localStorage.setItem(key,String(pos))}catch(e){}};
  const render=()=>{const cur=sents[pos],s=cur.s,si=cur.i,lit=sunHas(rid,si);const who=s.sp=="Naval"?"NAVAL":s.sp=="Chris"?"CHRIS":(s.sp||"");
   const segs=dtSegList(s);
-  V.innerHTML=`<div class="card dtcard${lit?" sunon":""}"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span><button type="button" class="sun" id="dtsun" aria-label="标记重点" aria-pressed="${lit}">☀</button>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
+  V.innerHTML=`${dqHTML({go:false})}<div class="card dtcard${lit?" sunon":""}"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span><button type="button" class="sun" id="dtsun" aria-label="标记重点" aria-pressed="${lit}">☀</button>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
    <div class="dtplay"><button class="big" id="dtplay" type="button" aria-label="播放原声">▶</button><div class="dtplab">原声</div></div>
    ${segs.length?`<div class="dtsegs"><div class="dtplab">👆 点读原声</div><div class="dtsegrow" role="group" aria-label="点读原声">${segs.map((_,k)=>`<button type="button" class="dtseg" data-k="${k}" aria-label="第${k+1}段">第${k+1}段</button>`).join("")}</div></div>`:""}
    <p class="tip">听原声，把整句打出来。英文先不显示。</p>
@@ -741,6 +743,10 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
    const r=dtFeedback(s,typed);inp.classList.toggle("good",r.ok);inp.classList.toggle("near",!r.ok);
    const hz=document.getElementById("dthz");if(hz)hz.hidden=true;const hb=document.getElementById("dthint");if(hb)hb.textContent="中文提示";
    fb.innerHTML=r.html;const re=document.getElementById("dtre");if(re)re.onclick=()=>{dtSegClear();stopAll();playOA(s.oa,playBtn)};
+   const hit=dqOnCheck(dqLoad(),(it&&it.id||"x")+":"+si,r.ok);
+   if(hit.how!=="skip"){dqSave(hit.st);dqPaint();
+    if(hit.how==="advance"){const v=dqView(hit.st);toast(v.full?"今天写完了":"记上了 "+v.n+"/"+v.tot)}
+    else toast("超额 "+hit.st.extra)}
    fb.scrollIntoView({block:"nearest",behavior:"smooth"})};
   document.getElementById("dtok").onclick=chk;
   document.getElementById("dtin").addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key=="Enter"){e.preventDefault();chk()}});
@@ -749,7 +755,7 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
   document.getElementById("dtjump").onclick=()=>{save();stopAll();showPick()};
   playOA(s.oa,playBtn,true)};
  function showPick(){const last=saved();let spinning=false;
-  V.innerHTML=`<div class="card dtcard" id="dtcard"><div class="dtpickh">从第几句开始</div><p class="tip">共 ${sents.length} 句原声。点一个数字，听原声再写整句。英文先不显示。</p>
+  V.innerHTML=`${dqHTML({go:false})}<div class="card dtcard" id="dtcard"><div class="dtpickh">从第几句开始</div><p class="tip">共 ${sents.length} 句原声。点一个数字，听原声再写整句。英文先不显示。</p>
    <button class="wide flip" id="dtgo" type="button">从第 1 句开始</button>
    <button class="wide dtluck" id="dtluck" type="button">🎲 随机抽一句</button>
    ${last>0?`<button class="wide dtresume" id="dtlast" type="button">从上次的第 ${last+1} 句继续</button>`:""}
@@ -768,7 +774,83 @@ function viewDictation(d,it){const sents=(d.sents||[]).map((s,i)=>({s,i})).filte
     if(i===steps-1){luck.textContent=`抽到第 ${land+1} 句`;setTimeout(()=>{if(!btns[0].isConnected)return;spinning=false;start(land)},700);return}
     const delay=total*weights[i]/sum;i++;setTimeout(tick,delay)};
    tick()}}
- showPick()}
+ const ji=jump==null?-1:sents.findIndex(x=>x.i===+jump);
+ if(ji>=0){pos=ji;save();render()}else showPick()}
+
+// ---------- daily ④ dictation bar ----------
+// Local only: localStorage nova_dq. Same device-local calendar day as 今天时长 (dKey).
+// Not the removed Naval % bar, not 复述, and not part of ☀ sync, 累计时长, or Firebase.
+// The day's target is however many sentences she selects (3 → n/3, 12 → n/12).
+// 10 is a suggestion in the picker copy only. A sentence counts only when 检查
+// already says 整句对了 (dqOnCheck's ok flag). Until every selected sentence is
+// done, anything else is ignored. After that, further correct checks are 超额.
+// DQ_LOGIC_START
+function dqBlank(day){return {day:day||"",sel:[],done:[],extra:0}}
+function dqClean(a){const o=[],s=new Set();if(!Array.isArray(a))return o;for(const k of a){if(typeof k!=="string"||!k||s.has(k))continue;s.add(k);o.push(k)}return o}
+function dqNorm(raw,day){if(!raw||typeof raw!=="object"||raw.day!==day)return dqBlank(day);const extra=Math.floor(+raw.extra||0);return {day,sel:dqClean(raw.sel),done:dqClean(raw.done),extra:extra>0?extra:0}}
+function dqFull(st){return st.sel.length>0&&st.sel.every(k=>st.done.includes(k))}
+function dqToggle(st,key){if(typeof key!=="string"||!key)return st;const sel=st.sel.slice(),i=sel.indexOf(key);if(i>=0)sel.splice(i,1);else sel.push(key);return {day:st.day,sel,done:st.done.slice(),extra:st.extra}}
+function dqNote(st,key){if(typeof key!=="string"||!key)return {st,how:"skip"};const full=dqFull(st);
+ if(st.sel.includes(key)){if(!st.done.includes(key))return {st:{day:st.day,sel:st.sel.slice(),done:st.done.concat(key),extra:st.extra},how:"advance"};
+  if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1},how:"extra"};return {st,how:"skip"}}
+ if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1},how:"extra"};return {st,how:"skip"}}
+function dqOnCheck(st,key,ok){if(!ok)return {st,how:"skip"};return dqNote(st,key)}
+function dqView(st){const tot=st.sel.length,n=st.sel.reduce((a,k)=>a+(st.done.includes(k)?1:0),0),full=tot>0&&n===tot;
+ return {n,tot,full,pct:tot?Math.round(100*n/tot):0,extra:st.extra,showExtra:!!(full&&st.extra>0)}}
+// DQ_LOGIC_END
+const DQK="nova_dq",DQ_SUGGEST=10;
+function dqLoad(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
+ const day=dKey(),st=dqNorm(raw,day);if(!raw||raw.day!==day)dqSave(st);return st}
+function dqSave(st){try{localStorage.setItem(DQK,JSON.stringify(st))}catch(e){}}
+function dqBits(go){const v=dqView(dqLoad());
+ const count=v.tot?v.n+"/"+v.tot+(v.showExtra?" · 超额 "+v.extra:""):"选句子";
+ const sub=!v.tot?(go?"点这里，选今天要听写的句子":"先选今天要听写的句子"):v.full?(v.showExtra?"超额 "+v.extra+"，不要求":"今天选的都写对了"):"写对选中的句子，这条才会满";
+ return {v,count,sub}}
+function dqHTML(opt){const go=!(opt&&opt.go===false),b=dqBits(go),v=b.v;
+ const tag=go?"button":"div",at=go?' type="button" data-day-go':"";
+ return `<${tag} class="daybar${v.full?" is-full":""}"${at}><span class="daybar-t"><b>④ 句子听写</b><span class="daybar-n">${esc(b.count)}</span></span><span class="daybar-tr" aria-hidden="true"><span class="daybar-f" style="width:${v.pct}%"></span></span><span class="daybar-s">${esc(b.sub)}</span></${tag}>`}
+function dqPaint(){document.querySelectorAll(".daybar").forEach(el=>{const go=el.hasAttribute("data-day-go"),b=dqBits(go),v=b.v,was=el.classList.contains("is-full");
+ el.classList.toggle("is-full",v.full);if(v.full&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),1000)}
+ const n=el.querySelector(".daybar-n"),f=el.querySelector(".daybar-f"),s=el.querySelector(".daybar-s");
+ if(n)n.textContent=b.count;if(f)f.style.width=v.pct+"%";if(s)s.textContent=b.sub})}
+let DQDAY="";
+function dqDayWatch(){const day=dKey();if(DQDAY===day)return;const prev=DQDAY;DQDAY=day;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
+let DQSEQ=0,DQTOPICS=null;
+function dqItemList(){const out=[];
+ if(CAT){const naval=(CAT.categories||[]).find(c=>c.id=="dictation");
+  for(const it of (naval&&naval.items)||[]){if(ORG.hidden[it.id]||(it.base&&ORG.hidden[it.base]))continue;out.push({fold:"Naval",it})}}
+ for(const it of lucaDict()){if(ORG.hidden[it.id]||(it.base&&ORG.hidden[it.base]))continue;out.push({fold:"夏日友晴天",it})}
+ return out}
+function dqTopics(){if(!DQTOPICS)DQTOPICS=(async()=>{const items=dqItemList(),got=new Array(items.length);
+ await Promise.all(items.map(async(row,n)=>{try{const d=await getJSON(row.it.data);const sent=[];
+  (d.sents||[]).forEach((s,i)=>{if(s&&s.oa)sent.push(i)});if(sent.length)got[n]={fold:row.fold,id:row.it.id,title:ttl(row.it),base:row.it.base||row.it.id,sent}}catch(e){}}));
+ return got.filter(Boolean)})();return DQTOPICS}
+function dqFind(topics,key){const m=/^(.*):(\d+)$/.exec(key||"");if(!m)return null;const id=m[1],i=+m[2],t=topics.find(x=>x.id===id);if(!t)return null;const n=t.sent.indexOf(i);if(n<0)return null;return {t,i,n:n+1,key}}
+function dqOpen(topics,key){const f=dqFind(topics,key);if(!f)return;try{sessionStorage.setItem("nova_dt_go",String(f.i))}catch(e){}location.hash="#/i/"+f.t.id}
+function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(st.done);
+ document.querySelectorAll(".dayb").forEach(b=>{const on=sel.has(b.dataset.k),did=on&&done.has(b.dataset.k);
+  b.classList.toggle("on",on);b.classList.toggle("did",did);b.setAttribute("aria-pressed",on?"true":"false");
+  const lab=b.dataset.lab||"";b.setAttribute("aria-label",lab+(on?"，已选":"")+(did?"，今天已写对":""))});
+ const box=document.getElementById("daynow");if(!box)return;const v=dqView(st);
+ const chips=st.sel.map(key=>{const f=dqFind(topics,key),lab=f?f.t.title+" · 第 "+f.n+" 句":"一句",ok=done.has(key);
+  return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><button type="button" class="dayx" data-day-x="${esc(key)}" aria-label="取消这句">×</button></span>`}).join("");
+ box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.tot?" · 写对 "+v.n+"/"+v.tot:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:'<p class="tip">还没选。点下面的数字。</p>'}`;
+ box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=()=>{const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqSave(dqToggle(cur,b.dataset.dayX));dqPaint();dqPaintNow(topics)});
+ box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>dqOpen(topics,b.dataset.open))}
+async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);
+ V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><p class="tip">建议 ${DQ_SUGGEST} 句，少选、多选都可以。点数字选中，再点一下取消。英文先不显示。</p><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;
+ let topics=[];try{topics=await dqTopics()}catch(e){topics=[]}
+ if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;
+ const body=document.getElementById("daybody");if(!body)return;
+ if(!topics.length){body.innerHTML=`<div class="done">还没有可以听写的句子</div>`;dqPaintNow(topics);return}
+ let html="",fold="";
+ for(const t of topics){if(t.fold!==fold){fold=t.fold;html+=`<h3 class="dayfold">${esc(fold)}</h3>`}
+  html+=`<div class="daytopic"><div class="daytn">${esc(t.title)}</div><div class="daygrid" role="group" aria-label="${esc(t.fold+" "+t.title)}">${t.sent.map((i,n)=>{const k=t.id+":"+i,lit=sunHas(t.base,i),lab="第 "+(n+1)+" 句"+(lit?"，已标重点":"");
+   return `<button type="button" class="dayb" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</button>`}).join("")}</div></div>`}
+ body.innerHTML=html;
+ body.querySelectorAll(".dayb").forEach(b=>b.onclick=()=>{dqSave(dqToggle(dqLoad(),b.dataset.k));dqPaint();dqPaintNow(topics)});
+ dqPaintNow(topics)}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-day-go]");if(!b)return;e.preventDefault();location.hash="#/dq"});
 
 // ---------- study timer (home hero: 今天 / 累计时长) ----------
 // Counts only while visible AND active: interaction within 2 min, or audio/speech playing.
@@ -791,7 +873,7 @@ function tsecT(sec,day){const ks=tsecKeys(sec);if(day){const D=TSEC[day]||{};ret
 const secHTML=sec=>`今天 ${fmtT(tsecT(sec,dKey()))} · 累计 ${fmtT(tsecT(sec))}`;
 function tTick(){const now=Date.now();const dt=Math.min(now-tLast,5e3);tLast=now;if(dt>0&&tActive(now)){const k=dKey();TLOG[k]=Math.round(((TLOG[k]||0)+dt/1e3)*10)/10;tSave()
   const s=secOf();if(s){const D=TSEC[k]||(TSEC[k]={});D[s]=Math.round(((D[s]||0)+dt/1e3)*10)/10;try{localStorage.setItem(TSK,JSON.stringify(TSEC))}catch(e){}}}
- const el=document.getElementById("stt");if(el)el.innerHTML=sttHTML();document.querySelectorAll(".tsec[data-s]").forEach(e=>{const t=secHTML(e.dataset.s);if(e.textContent!=t)e.textContent=t})}
+ const el=document.getElementById("stt");if(el)el.innerHTML=sttHTML();document.querySelectorAll(".tsec[data-s]").forEach(e=>{const t=secHTML(e.dataset.s);if(e.textContent!=t)e.textContent=t});dqDayWatch()}
 function fmtT(sec){const m=Math.floor((sec||0)/60);const h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
 function tTotal(){return Object.values(TLOG).reduce((a,b)=>a+(+b||0),0)}
 function sttHTML(){return `<span class="sl">今天 <b>${fmtT(TLOG[dKey()])}</b></span><span class="sl">累计时长 <b>${fmtT(tTotal())}</b></span>`}
@@ -806,7 +888,7 @@ function showTimeLog(){const o=document.createElement("div");o.className="ov";co
  <div class="tip" style="margin:6px 2px 0">这个数字是已记下的每一天加在一起，之后也会一直累加。<br>只在 App 打开、并且你在操作或在播放音频时计时；2 分钟没有操作就暂停。<br>点旁边的 ☁ 登录后，每台设备合成一份，同一天取较大值。</div><button class="shb cancel" data-x>关闭</button></div>`;
  o.onclick=e=>{if(e.target==o||e.target.closest("[data-x]"))o.remove()};document.body.appendChild(o)}
 ["pointerdown","keydown","touchstart","wheel","scroll"].forEach(t=>addEventListener(t,()=>{tAct=Date.now()},{passive:true,capture:true}));
-document.addEventListener("visibilitychange",()=>{tLast=Date.now();if(!document.hidden)tAct=Date.now()});
+document.addEventListener("visibilitychange",()=>{tLast=Date.now();if(!document.hidden){tAct=Date.now();dqDayWatch()}});
 setInterval(tTick,1000);
 
 // ---------- ☀ focus-sentence marks (阅读卡 and 句子听写 share one set) ----------
