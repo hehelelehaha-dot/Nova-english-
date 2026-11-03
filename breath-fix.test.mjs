@@ -19,7 +19,7 @@ const card = () => ({type:"reading", sents:[
   const d = breathFix(card());
   assert.equal(JSON.stringify(d.sents[0].seg), JSON.stringify([[0,5,0.08,1.9],[6,10,2.6,4.78]]));
   // seg arrays are created inside the vm, so compare by value.
-  assert.equal(JSON.stringify(d.sents[1].seg), JSON.stringify([[0,3,0.08,1.18],[4,8,1.18,2.94],[9,15,2.94,4.91]]));
+  assert.equal(JSON.stringify(d.sents[1].seg), JSON.stringify([[0,3,0.08,1.18],[4,8,1.18,3.24],[9,15,3.24,4.91]]));
   const w = text.split(/\s+/);
   assert.equal(w.slice(4,9).join(" "), "bout of suffering or anticipation");
   assert.equal(w.slice(9,16).join(" "), "while you strive to get that thing.");
@@ -31,7 +31,7 @@ const card = () => ({type:"reading", sents:[
   assert.equal(JSON.stringify(d.sents[0].seg), JSON.stringify([[0,8,0.08,2.94],[9,15,2.94,4.91]]));
 }
 
-// A timing window that does not cover 2.94s is left alone (a different cut of the clip).
+// A timing window that does not cover 3.24s is left alone (a different cut of the clip).
 {
   const seg = [[0,3,0.1,0.8],[4,15,0.8,2.2]];
   const d = breathFix({sents:[{t:text, seg}]});
