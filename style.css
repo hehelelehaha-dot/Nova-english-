@@ -583,6 +583,8 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .hero .hdate :is(.hwk,.hwd){
 .dtwho{font-weight:700;letter-spacing:.04em}
 .dtplay{display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0}
 .dtplab{font-size:13px;font-weight:700;color:#8a6200}
+.bar.dtbar{position:static;display:flex;justify-content:center;margin:2px 0 0;padding:0;background:transparent}
+.bar.dtbar button{min-width:7.6em;padding:0 16px;white-space:nowrap}
 .dtsegs{margin:2px 0 8px}
 .dtsegrow{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:6px}
 .dtseg{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid #e0b400;background:#fff8d6;color:#6b4e12;font:inherit;font-size:15px;font-weight:700}
