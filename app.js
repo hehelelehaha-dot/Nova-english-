@@ -330,8 +330,12 @@ function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if
  setTimeout(()=>{e.classList.toggle("zh");if(e.classList.contains("zh")){const h0=parseFloat(b.style.minHeight);b.style.minHeight="0";const h1=b.scrollHeight;b.style.minHeight=h0+"px";requestAnimationFrame(()=>{b.style.transition="min-height .25s ease";b.style.minHeight=Math.max(h0,h1)+"px";setTimeout(()=>b.style.transition="",300)})}e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function stTop(){const ss=document.getElementById("ss");let b=0;for(const e of document.querySelectorAll("body *")){if(ss&&ss.contains(e))continue;const p=getComputedStyle(e).position;if(p!="sticky"&&p!="fixed")continue;const r=e.getBoundingClientRect();for(const x of [e,...e.querySelectorAll("*")]){const r=x.getBoundingClientRect();if(r.height>0&&r.top<innerHeight*.4&&r.bottom<innerHeight*.6)b=Math.max(b,r.bottom)}}return b}
 function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":(sp||"")}
-function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
- V.innerHTML=`<div class="bar"><button id="stp">■ 停止</button><button id="all" class="red">▶ 全部连播</button><button id="loop">单句循环</button><button id="spd">速度 1x</button><button id="hid">隐藏文字</button>${d.oaudio?'<button id="oall" class="org">▶ 原声连播</button><button id="oloop" class="org">🔁 原声循环</button>':""}${d.sents.some(x=>x.seg&&x.oa)?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
+function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=-1,rngActive=null,rngMode=null;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
+ const nS=d.sents.length,rngKey="nova_rd_rng_"+rid;let rngA=1,rngB=Math.max(1,nS);
+ try{const sv=JSON.parse(localStorage.getItem(rngKey)||"null");if(sv&&sv.a>=1&&sv.b>=sv.a&&sv.b<=nS){rngA=sv.a|0;rngB=sv.b|0}}catch(e){}
+ const rngOpen=(()=>{try{return sessionStorage.getItem("nova_rd_rng_open_"+rid)=="1"}catch(e){return false}})();
+ const hasDD=d.sents.some(x=>x.seg&&x.oa);
+ V.innerHTML=`<div class="bar rdbar"><button id="stp">■ 停止</button><div class="rngctl"><button type="button" id="rnggo" class="org">▶ 原声连播</button><button type="button" id="rngfold" class="org" aria-expanded="${rngOpen}" aria-controls="rngbody" aria-label="选择原声范围">${rngA}–${rngB}</button></div><button type="button" id="rloop" class="org">🔁 原声循环</button><button id="spd">速度 1x</button><button id="loop">单句循环</button><button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}<div class="rngbody" id="rngbody"${rngOpen?"":" hidden"}><div class="rngrow"><label>从<input id="rnga" class="rngin" type="number" inputmode="numeric" min="1" max="${nS}" step="1" value="${rngA}" aria-label="从第几张"></label><span class="rngto">到</span><label><input id="rngb" class="rngin" type="number" inputmode="numeric" min="1" max="${nS}" step="1" value="${rngB}" aria-label="到第几张"></label><span class="rngof">共 ${nS} 张</span></div><p class="rngerr" id="rngerr" hidden></p><p class="tip">只播原声。改起止卡后再点「原声连播」或「原声循环」。速度用「速度」：1x → 0.85x → 0.75x。</p></div></div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+String(s.sp||"").toLowerCase();e.id="s"+i;
   e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${i+1}句">${i+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${esc(rdWho(s.sp))}</div><div class="fr"><div class="t"></div>${s.oa&&s.a!==s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
@@ -355,11 +359,11 @@ function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=
     A.onended=A.onerror=null;A.src=await audioURL(s.oa);A.playbackRate=1;btn.classList.add("on");const st0=a??0;const go=()=>{try{A.currentTime=st0}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
     const tick=()=>{if(me!=RUN||A.ended||(b!=null&&A.currentTime>=b)){if(me==RUN&&b!=null)A.pause();btn.classList.remove("on");return}requestAnimationFrame(tick)};requestAnimationFrame(tick);window._gs={i,gk,a:st0,b,src:s.oa}}})}
  const mark=i=>{document.querySelectorAll(".cur").forEach(x=>x.classList.remove("cur"));cur=i;const e=document.getElementById("s"+i);e.classList.add("cur");LASTBTN=e.querySelector(".p");follow(e)};
- const setAll=on=>{const b=document.getElementById("all");b.classList.toggle("on",on);b.textContent=on?"⏸ 暂停连播":"▶ 全部连播"};
+ const paintRun=()=>{const go=document.getElementById("rnggo"),lp=document.getElementById("rloop");if(go){const on=rngMode==="once";go.classList.toggle("on",on);go.textContent=on?"⏸ 暂停原声":"▶ 原声连播"}if(lp){const on=rngMode==="loop";lp.classList.toggle("on",on);lp.textContent=on?"⏸ 停止循环":"🔁 原声循环"}if(!rngMode)rngActive=null};
+ const setAll=on=>{if(!on)rngMode=null;paintRun()};
  async function seq(list,orig=false,btn=null){const me=++RUN;for(const i of list){do{if(me!=RUN)return;mark(i);if(btn)LASTBTN=btn;const S_=d.sents[i];st(`${orig?"原声":btn?"AI 朗读":""}${orig||btn?" · ":""}第 ${i+1} / ${d.sents.length} 句`);await playP(orig?S_.oa:S_.a,SP[si],S_.t);if(me!=RUN)return;
   const dur=orig&&isFinite(A.duration)&&A.duration>0?A.duration:S_.d;if(F.shad){st(`第 ${i+1} 句 · 请跟读…`);await wait(dur/SP[si]*1000+600)}else await wait(F.loop?700:350)}while(F.loop&&me==RUN)}if(me==RUN){setAll(false);st("播放完毕")}}
  const $=id=>document.getElementById(id);
- $("all").onclick=()=>{const on=$("all").classList.contains("on");stopAll();setAll(false);if(on)return;setAll(true);const s=cur>0&&cur<d.sents.length-1?cur:0;seq(d.sents.map((_,i)=>i).slice(s))};
  for(const k of ["loop","hid"])$(k).onclick=()=>{F[k]=!F[k];$(k).classList.toggle("on",F[k]);if(k=="hid"){ss.classList.toggle("hide",F.hid);try{localStorage.setItem("rd_hid",F.hid?"1":"0")}catch(e){}}};
  if(F.hid){ss.classList.add("hide");$("hid").classList.add("on")}
  // 👆 点读: tap a phrase (split at Naval's breath pauses) to play just that original-audio segment.
@@ -373,28 +377,70 @@ function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=
    A.onended=A.onerror=null;A.src=await audioURL(s.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
    const tick=()=>{if(me!=RUN){p.classList.remove("play");return}if(A.currentTime>=b||A.ended){A.pause();p.classList.remove("play");return}requestAnimationFrame(tick)};requestAnimationFrame(tick);window._dd={i,k,a,b,src:s.oa}}
   $("dd").onclick=()=>{DD=!DD;try{localStorage.setItem("rd_dd",DD?"1":"0")}catch(e){}ren();st(DD?"点读：点句子里的任一小段，只播那一段原声":"")};ren()}
- $("spd").onclick=()=>{si=(si+1)%3;A.playbackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
+ $("spd").onclick=()=>{si=(si+1)%3;A.playbackRate=SP[si];A.defaultPlaybackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
- // 原声连播: continuous original interview track, sentence follow-along by aligned start times
- if(d.oaudio){const ots=d.sents.map(s=>s.ot);const OB={oall:["▶ 原声连播","⏸ 暂停原声"],oloop:["🔁 原声循环","⏸ 停止循环"]};
-  const setO=(on,id)=>{for(const k in OB){const b=$(k);if(!b)continue;const x=on&&k==id;b.classList.toggle("on",x);b.textContent=OB[k][x?1:0]}};
-  // ONE highlight loop per run, alive until the run ends (me!=RUN) — never stops just because A is paused: iOS pauses/resumes the
-  // element on its own (AirPods, lock screen, interruptions); the old loop died on the first pause, freezing the red border + scroll.
-  const oIdx=t=>{let k=0;for(let i=0;i<ots.length;i++)if(ots[i]!=null&&t+0.1>=ots[i])k=i;return k};window._oIdx=oIdx;
-  const startO=async id=>{const ob=$(id),loopM=id=="oloop";const on=ob.classList.contains("on");stopAll();setAll(false);setO(false);if(on)return;LASTUSER=0;const me=++RUN;window._orun=me;setO(true,id);window._oloop=loopM?me:0;
-   const s0=!loopM&&cur>0&&cur<d.sents.length-1?cur:0;A.onended=A.onerror=null;A.src=await audioURL(d.oaudio);if(me!=RUN)return;A.playbackRate=1;
-   const seek0=()=>{try{A.currentTime=Math.max(0,ots[s0]||0)}catch(e){}};if(A.readyState>=1)seek0();else A.addEventListener("loadedmetadata",seek0,{once:true});LASTBTN=ob;
-   let round=1,last=-1,wrapping=false,lastFollow=0;window._oround=1;
-   const upd=()=>{if(me!=RUN||wrapping)return;const k=oIdx(A.currentTime);const e=document.getElementById("s"+k);
-    if(k!=last){last=k;mark(k);lastFollow=Date.now();LASTBTN=ob;st(`${loopM?"🔁 原声循环（第 "+round+" 遍）":"原声"} · 第 ${k+1} / ${d.sents.length} 句`)}
-    else if(e&&!A.paused&&Date.now()-lastFollow>1500&&Date.now()-LASTUSER>4000){const r=e.getBoundingClientRect(),c=r.top+r.height/2;if(Math.abs(c-innerHeight/2)>innerHeight*0.2&&r.height<innerHeight*0.9){lastFollow=Date.now();follow(e)}}};
-   window._oupd=upd;
-   A.onended=async()=>{if(me!=RUN)return;if(!loopM){setO(false);st("原声播放完毕");return}wrapping=true;st("🔁 0.8 秒后从第 1 句重新开始");await wait(800);if(me!=RUN)return;round++;window._oround=round;try{A.currentTime=Math.max(0,ots[0]||0)}catch(e){}last=-1;wrapping=false;A.play().catch(()=>{})};
-   A.play().catch(()=>{});
-   const tick=()=>{if(me!=RUN){if(window._orun==me)setO(false);return}upd();requestAnimationFrame(tick)};requestAnimationFrame(tick);
-   // rAF is throttled/suspended in the background: catch up from media events too (seek, resume, timeupdate)
-   for(const ev of["timeupdate","seeked","playing"]){const h=()=>{if(me!=RUN)return A.removeEventListener(ev,h);upd()};A.addEventListener(ev,h)}};
-  $("oall").onclick=()=>startO("oall");$("oloop").onclick=()=>startO("oloop")}}
+ // 连听: original audio only (never TTS), one continuous range. A full interview track plays as one slice
+ // from the start card's timestamp through the end card; otherwise the cards' 原声 clips play back to back.
+ // The bar's 速度 button (1 → 0.85 → 0.75) is the only speed control and applies live.
+ const applyRate=()=>{const r=SP[si];if(!(Math.abs(A.playbackRate-r)<0.001)){A.playbackRate=r;A.defaultPlaybackRate=r}};
+ const rngVals=()=>{const n=d.sents.length,a=Math.round(+$("rnga").value),b=Math.round(+$("rngb").value);
+  if(!Number.isInteger(a)||!Number.isInteger(b)||a<1||b<1||a>n||b>n)return{ok:false,msg:"请填 1 到 "+n+" 的卡号"};
+  if(a>b)return{ok:false,msg:"开始不能大于结束"};return{ok:true,a,b}};
+ const rngErr=msg=>{const e=$("rngerr");if(!msg){e.hidden=true;e.textContent=""}else{e.hidden=false;e.textContent=msg}};
+ const rngPaint=()=>{$("rngfold").textContent=$("rnga").value+"–"+$("rngb").value};
+ const rngSave=(a,b)=>{try{localStorage.setItem(rngKey,JSON.stringify({a,b}))}catch(e){}};
+ const rngShow=open=>{$("rngbody").hidden=!open;$("rngfold").setAttribute("aria-expanded",open);try{sessionStorage.setItem("nova_rd_rng_open_"+rid,open?"1":"0")}catch(e){}};
+ for(const id of ["rnga","rngb"])$(id).addEventListener("input",()=>{rngPaint();const r=rngVals();rngErr(r.ok?"":r.msg);if(r.ok)rngSave(r.a,r.b)});
+ $("rngfold").onclick=()=>rngShow($("rngbody").hidden);
+ // Don't trust a bare `ended`: changing A.src can replay the previous clip's ended event and skip the next card.
+ // `dur` is the file's real length (s.d). Blob audio on iPad often reports duration Infinity, so advance when we've heard that length.
+ function playClip(url,me,dur){return new Promise(res=>{let done=false,origin=null;const once=v=>{if(done)return;done=true;res(v)};
+  try{A.pause()}catch(e){}A.onended=A.onerror=null;A.src=url;
+  // A new src can keep the previous clip's currentTime. Seek home, and don't treat that leftover clock as progress.
+  const seek0=()=>{try{if((A.currentTime||0)>0.05)A.currentTime=0}catch(e){}applyRate()};
+  if(A.readyState>=1)seek0();else A.addEventListener("loadedmetadata",()=>{if(me==RUN&&!done)seek0()},{once:true});
+  applyRate();const t0=performance.now();A.onerror=()=>once(false);
+  const q=A.play();if(q)q.then(()=>{if(!done){seek0();applyRate()}}).catch(()=>once(false));
+  const tick=()=>{if(done)return;if(me!=RUN)return once(false);const heard=A.currentTime||0,wall=performance.now()-t0;
+   if(origin==null){if(heard<0.25)origin=heard;else if(wall>2500)return once(false);else return requestAnimationFrame(tick)}
+   const played=Math.max(0,heard-origin);
+   if(dur>0&&played>=Math.max(0.12,dur-0.08))return once(true);
+   if(A.ended&&played>0.12)return once(true);if(wall>30000)return once(false);requestAnimationFrame(tick)};
+  requestAnimationFrame(tick)})}
+ async function playOrigClips(from,to,me,a,b,loop){const idxs=[];for(let i=from;i<=to;i++)if(d.sents[i]&&d.sents[i].oa)idxs.push(i);
+  if(!idxs.length){if(me==RUN){setAll(false);rngErr("这一段没有原声");st("这一段没有原声");rngShow(true)}return}
+  const pending=idxs.map(i=>audioURL(d.sents[i].oa).catch(()=>null));const label=loop?"原声循环":"原声连播";
+  do{let played=0;for(let k=0;k<idxs.length;k++){if(me!=RUN)return;const i=idxs[k];mark(i);LASTBTN=$(loop?"rloop":"rnggo");st(`${label} · 第 ${i+1} 张 · ${a}–${b}`);
+   const url=await pending[k];if(me!=RUN)return;if(!url){st(`第 ${i+1} 张没有原声，已跳过`);continue}
+   const ok=await playClip(url,me,+d.sents[i].d||0);if(me!=RUN)return;if(ok)played++;else st(`第 ${i+1} 张原声打不开，已跳过`)}
+   if(!played){if(me==RUN){setAll(false);st("原声打不开")}return}}while(loop&&me==RUN);
+  if(me==RUN){setAll(false);st(`连听完毕 · ${a}–${b}`)}}
+ async function playTrack(from,to,me,a,b,loop){const ots=d.sents.map(s=>s.ot);const t0=+ots[from]||0;let t1=null;
+  for(let i=to+1;i<ots.length;i++)if(ots[i]!=null){t1=+ots[i];break}if(!(t1>t0))t1=null;
+  const oAt=t=>{let k=from;for(let i=from;i<=to;i++)if(ots[i]!=null&&t+0.05>=ots[i])k=i;return k};
+  const label=loop?"原声循环":"原声连播";
+  let url;try{url=await audioURL(d.oaudio)}catch(e){url=null}
+  if(me!=RUN)return;if(!url)return playOrigClips(from,to,me,a,b,loop);
+  A.onended=A.onerror=null;A.src=url;let done=false,wrapping=false,last=-1,lastFollow=0;
+  const finish=why=>{if(me!=RUN||done)return;done=true;try{A.pause()}catch(e){}setAll(false);st(why)};
+  const seek0=()=>{try{A.currentTime=Math.max(0,t0)}catch(e){}applyRate()};
+  const wrap=()=>{if(!loop||me!=RUN||done||wrapping)return false;wrapping=true;seek0();last=-1;st(`${label} · ${a}–${b}`);
+   const q=A.play();if(q)q.then(()=>{wrapping=false;if(me==RUN)applyRate()}).catch(()=>{wrapping=false;if(me==RUN)finish("原声打不开")});return true};
+  if(A.readyState>=1)seek0();else A.addEventListener("loadedmetadata",()=>{if(me==RUN)seek0()},{once:true});
+  const upd=()=>{if(me!=RUN||done||wrapping)return;applyRate();if(t1!=null&&A.currentTime>=t1-0.02){if(wrap())return;return finish(`连听完毕 · ${a}–${b}`)}
+   const k=oAt(A.currentTime),e=document.getElementById("s"+k);
+   if(k!=last){last=k;mark(k);lastFollow=Date.now();LASTBTN=$(loop?"rloop":"rnggo");st(`${label} · 第 ${k+1} 张 · ${a}–${b}`)}
+   else if(e&&!A.paused&&Date.now()-lastFollow>1500&&Date.now()-LASTUSER>4000){const r=e.getBoundingClientRect(),c=r.top+r.height/2;if(Math.abs(c-innerHeight/2)>innerHeight*0.2&&r.height<innerHeight*0.9){lastFollow=Date.now();follow(e)}}};
+  A.onended=()=>{if(wrap())return;finish(`连听完毕 · ${a}–${b}`)};A.onerror=()=>finish("原声打不开");applyRate();
+  const q=A.play();if(q)q.then(()=>{if(me==RUN)applyRate()}).catch(()=>finish("原声打不开"));
+  const tick=()=>{if(me!=RUN||done)return;upd();requestAnimationFrame(tick)};requestAnimationFrame(tick);
+  for(const ev of ["timeupdate","seeked","playing"]){const h=()=>{if(me!=RUN||done)return A.removeEventListener(ev,h);upd()};A.addEventListener(ev,h)}}
+ async function playRange(a,b,loop){const me=++RUN,from=a-1,to=b-1;rngActive=a+"-"+b;rngMode=loop?"loop":"once";paintRun();LASTBTN=$(loop?"rloop":"rnggo");
+  const track=!!(d.oaudio&&d.sents[from]&&d.sents[from].ot!=null);window._rng={a,b,loop:!!loop,mode:track?"track":"clips"};
+  st(`${loop?"原声循环":"原声连播"} · ${a}–${b}`);if(track)return playTrack(from,to,me,a,b,!!loop);return playOrigClips(from,to,me,a,b,!!loop)}
+ const startRng=loop=>{const r=rngVals();if(!r.ok){rngErr(r.msg);rngShow(true);return}rngErr("");rngSave(r.a,r.b);rngPaint();
+  const same=rngMode===(loop?"loop":"once")&&rngActive===r.a+"-"+r.b;stopAll();setAll(false);if(same){st("已暂停");return}playRange(r.a,r.b,loop)};
+ $("rnggo").onclick=()=>startRng(false);$("rloop").onclick=()=>startRng(true)}
 // 原文 in word cards: original interview audio (点读 segment → whole clip → TTS)
 async function playSrc(sr,rate,btn){if(!sr.oa)return playP(sr.a,rate,sr.t);const me=++RUN;const[a,b]=sr.oab||[0,null];
  A.onended=A.onerror=null;A.src=await audioURL(sr.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});

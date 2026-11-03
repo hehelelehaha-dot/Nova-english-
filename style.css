@@ -175,6 +175,19 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 .ov .sh{max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .osb{margin-top:6px;font:inherit;font-size:13px;padding:3px 10px;border-radius:999px;border:1.5px solid #e0b400;background:#fff8d6;color:#7a5a00;font-weight:700}.osb.playing,.osb:active{background:#f5c518}
 .bar .org{border-color:#d89b00;color:#7a5a00}.bar .org.on{background:#f5c518;color:#3d2c00}
+/* 阅读卡 top bar: 停止 · 原声连播(范围) · 原声循环 · 速度 · 单句循环 · 隐藏文字 · 点读. No AI 全部连播. */
+.bar.rdbar{display:flex;flex-wrap:wrap;align-items:stretch}
+.bar.rdbar>button{flex:1 1 96px;min-width:0}
+.rngctl{flex:1.5 1 176px;display:flex;min-width:0}
+.rngctl #rnggo{flex:1 1 auto;min-width:0;border-radius:14px 0 0 14px;white-space:nowrap}
+.rngctl .rngfold{flex:0 0 auto;min-width:58px;padding:0 8px;border-radius:0 14px 14px 0;border-left:0;font-weight:800;white-space:nowrap}
+.rngbody{flex:1 0 100%;background:#fffefa;border:1px solid #f0e2a8;border-radius:16px;padding:10px 12px 8px}
+.rngrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rngrow label{display:flex;align-items:center;gap:6px;font-weight:700;color:#1d2b38}
+.rngin{width:4.8em;min-height:46px;font:inherit;font-size:18px;font-weight:700;text-align:center;border:1px solid #c9dcec;border-radius:12px;background:#fff;color:#1d2b38}
+.rngof,.rngto{font-size:14px;font-weight:700;color:#5b6f80}
+.rngerr{color:#c0392b;font-size:14px;font-weight:700;margin:8px 0 0}
+.rngbody .tip{margin:8px 0 0}
 
 .wps{margin-top:16px}.wpl{font-size:.9em;color:#555;margin-bottom:6px}.wpl2{margin-top:14px;margin-bottom:-8px}.wpo{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .wpx{font:inherit;padding:8px 2px;border-radius:12px;border:2px solid #e3d9a8;background:#fffbe8;color:#5a4300;display:flex;flex-direction:column;align-items:center;line-height:1.25;min-width:0}.wpx b{font-size:1em}.wpx small{font-size:.75em;opacity:.8}
@@ -324,7 +337,7 @@ html[data-theme=t2] body{background:transparent}
 html[data-theme^=t] header{background:var(--hd);color:var(--hdtx);border-bottom:var(--hdbd);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
 html[data-theme^=t] header h1{color:var(--hdtx)}
 html[data-theme^=t] :is(#back,#hdr-r button,#hdr-r .hb){background:var(--hbtn);color:var(--hbtx);border:var(--hbbd)}
-html[data-theme^=t] :where(.tile,.li,.card,.wc,.ent,.s,.player,.dots,.sh,.hero,.gu,.lock,.srsst>span,.fold){background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
+html[data-theme^=t] :where(.tile,.li,.card,.wc,.ent,.s,.player,.dots,.sh,.hero,.gu,.lock,.srsst>span,.fold,.rngbody){background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
 html[data-theme^=t] .foldsub,html[data-theme^=t] .foldar::before{color:var(--ct)}
 html[data-theme=t2] .fold{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 html[data-theme=t3] .foldnm{color:#1d2b38}
