@@ -186,7 +186,7 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 .tlcap{margin:10px 0 8px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #e6d7a8;min-height:52px}
 .tlcap .tlen{margin:0;font-family:Georgia,"Noto Serif",serif;font-size:18px;line-height:1.45;color:#1d2b38}
 .tlcap .tlzh{margin:6px 0 0;font-size:15px;line-height:1.45;color:#5a4a20}
-.tlcap.hide .tlen,.tlcap.hide .tlzh{color:transparent!important;-webkit-text-fill-color:transparent!important;user-select:none}
+.tlcap.hide .tlen,.tlcap.hide .tlzh,.tlcap.hide .ph{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important;user-select:none;-webkit-user-select:none;background:transparent!important}
 .tlcap .ph{cursor:pointer;border-bottom:2px solid #f3c74f;border-radius:2px}
 .tlcap .ph.alt{border-bottom-color:#9ec5f0}
 .tlcap .ph.play{background:#ffd84d}

@@ -283,7 +283,7 @@ let TLSI=0,SENTLOOP=false,TLMODE=null,TLACTIVE=null,TLCAP=null,TLDD=false;
 const TLSP=[1,.85,.75];
 function listenRate(){const r=TLSP[TLSI];if(!(Math.abs(A.playbackRate-r)<0.001)){A.playbackRate=r;A.defaultPlaybackRate=r}}
 function listenPaint(){const go=document.getElementById("rnggo"),lp=document.getElementById("rloop");if(go){const on=TLMODE=="once";go.classList.toggle("on",on);go.textContent=on?"⏸ 暂停原声":"▶ 原声连播"}if(lp){const on=TLMODE=="loop";lp.classList.toggle("on",on);lp.textContent=on?"⏸ 停止循环":"🔁 原声循环"}if(!TLMODE)TLACTIVE=null}
-function listenRewind(){try{A.currentTime=Math.max(0,(A.currentTime||0)-5)}catch(e){}}
+function listenRewind(){if(!A.src||A.paused)return;try{A.currentTime=Math.max(0,(A.currentTime||0)-5)}catch(e){}}
 function listenCaption(s){TLCAP=s||null;const cap=document.getElementById("tlcap"),en=document.getElementById("tlen"),zh=document.getElementById("tlzh");if(!cap||!en)return;
  if(!s){en.textContent="";if(zh)zh.textContent="";return}
  if(zh)zh.textContent=s.zh||"";
