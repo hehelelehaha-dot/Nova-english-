@@ -310,7 +310,7 @@ async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold
  const me=++RUN,sel=topics.filter(t=>t.n>=a&&t.n<=b);TLACTIVE=a+"-"+b;TLMODE=loop?"loop":"once";listenPaint();
  const st=t=>{const e=document.getElementById("st");if(e)e.textContent=t},chip=tag+a+"–"+tag+b,label=loop?"原声循环":"原声连播";
  window._tl={fold,a,b,loop:!!loop,ids:sel.map(t=>t.id)};st(label+" · "+chip);
- const markTopic=id=>{document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));if(!id)return;const e=document.querySelector('.li[data-tid="'+CSS.escape(id)+'"]');if(e){e.classList.add("cur");follow(e)}
+ const markTopic=id=>{document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));if(!id)return;const e=document.querySelector('.li[data-tid="'+CSS.escape(id)+'"]');if(e)e.classList.add("cur");
   if(window._rdRid==id){const card=window._tlCard;if(card!=null){const el=document.getElementById("s"+card);if(el){document.querySelectorAll("#ss .cur").forEach(x=>x.classList.remove("cur"));el.classList.add("cur");follow(el)}}}};
  do{let played=0;for(const t of sel){if(me!=RUN)return;let d;try{d=await getJSON(t.data)}catch(e){continue}
   const cards=(d.sents||[]).map((s,i)=>({i,s})).filter(x=>x.s&&x.s.oa);
