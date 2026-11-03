@@ -10,21 +10,20 @@ async function dec(buf){const u=new Uint8Array(buf);return crypto.subtle.decrypt
 async function getBuf(p){if(!META.enc){const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
  let enc=null;try{const r=await fetch(p+".enc");if(r.ok)enc=await r.arrayBuffer()}catch(e){}
  if(enc)return dec(enc);const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
-// Topic 6, sentence 5 ("…anticipation while you strive…"). The original clip's only stored
-// 点读 cut is after "your" (0.08–1.18 | 1.18–4.91), so one segment runs from "bout" through
-// "thing" and the highlight / ④ slice can't stop before "while". Slice checks on that
-// clip (audio/t06o/s05, unchanged since the cut) put the onset of "while" at 2.94s:
-// audio from 2.85s still has the tail of "anticipation"; from 2.94s the first word is "while".
-// Same `seg` array feeds ① 点读 and ④ 点读原声, so one fix covers both.
+// Topic 6, sentence 5. Stored 点读 is "then you start your" | "bout … thing".
+// 2.94s is the /p/ closure inside "anticipation" (antici|pation), so a cut there
+// lights only half the word. On audio/t06o/s05 the whole word is spoken by 3.24s
+// and "while" is the first word from there. Same `seg` feeds ① 点读 and ④ 点读原声.
 function breathFix(d){if(!d||!Array.isArray(d.sents))return d;
  const norm=s=>String(s||"").toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9' ]+/g," ").replace(/\s+/g," ").trim();
  const want="then you start your bout of suffering or anticipation while you strive to get that thing";
+ const cut=3.24;
  for(const s of d.sents){if(norm(s.t)!=want||!Array.isArray(s.seg))continue;
   const w=String(s.t).split(/\s+/),wi=w.findIndex(x=>norm(x)=="while");
   if(wi<1||s.seg.some(z=>z&&z[0]===wi))continue;
-  const hit=s.seg.find(z=>Array.isArray(z)&&z.length>=4&&z[0]<wi&&wi<=z[1]&&+z[2]<2.94&&2.94<+z[3]);
+  const hit=s.seg.find(z=>Array.isArray(z)&&z.length>=4&&z[0]<wi&&wi<=z[1]&&+z[2]<cut&&cut<+z[3]);
   if(!hit)continue;
-  s.seg=s.seg.flatMap(z=>z===hit?[[z[0],wi-1,+z[2],2.94],[wi,z[1],2.94,+z[3]]]:[z])}
+  s.seg=s.seg.flatMap(z=>z===hit?[[z[0],wi-1,+z[2],cut],[wi,z[1],cut,+z[3]]]:[z])}
  return d}
 async function getJSON(p){const d=JSON.parse(new TextDecoder().decode(await getBuf("content/"+p)));return breathFix(d)}
 async function audioURL(p){if(!META.enc)return "content/"+p;if(!blobCache[p])blobCache[p]=URL.createObjectURL(new Blob([await getBuf("content/"+p)],{type:"audio/mpeg"}));return blobCache[p]}
