@@ -366,7 +366,7 @@ assert.match(app, /fp-ot/);
 {
   const foot = app.slice(app.indexOf("const DQ_FLOOR"), app.indexOf("function dqBits"));
   const box = {};
-  runInContext(logic + "\n" + foot + "\nthis.dqFoot=dqFoot;", createContext(box));
+  runInContext(logic + "\n" + foot + "\nthis.dqFoot=dqFoot;this.dqBlank=dqBlank;this.dqToggle=dqToggle;this.dqOnCheck=dqOnCheck;", createContext(box));
   const day = "2026-11-04";
   const none = box.dqFoot({day, sel:["a","b","c","d","e","f","g","h"], done:[], extra:0});
   assert.equal(none.got, 0);
@@ -381,6 +381,19 @@ assert.match(app, /fp-ot/);
   assert.equal(more.got, 7);
   assert.equal(more.won, true);
   assert.equal(more.ot, 2);
+  const short = box.dqFoot({day, sel:["a","b","c"], done:["a","b","c"], extra:2});
+  assert.equal(short.got, 3);
+  assert.equal(short.won, false);
+  assert.equal(short.ot, 0);
+  let picked = box.dqBlank(day);
+  for(let i=0;i<12;i++) picked = box.dqToggle(picked, "s:"+i);
+  assert.equal(picked.sel.length, 12);
+  picked = box.dqToggle(picked, "s:3");
+  assert.equal(picked.sel.includes("s:3"), false);
+  assert.equal(picked.sel.length, 11);
+  const outside = box.dqOnCheck(picked, "not-in-set", true);
+  assert.equal(outside.st.sel.includes("not-in-set"), false);
+  assert.equal(outside.st.sel.length, 11);
   const html = app.slice(app.indexOf("function dqHTML"), app.indexOf("function dqPaint"));
   assert.equal(/\bn\s*\/\s*tot|0\/8|0\/5/.test(html), false);
 }

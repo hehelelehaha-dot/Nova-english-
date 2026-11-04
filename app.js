@@ -1126,12 +1126,12 @@ function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getIt
   if(typeof document!="undefined"&&document.getElementById&&document.getElementById("daynow")&&typeof DQTOPICS!="undefined"&&DQTOPICS&&typeof dqPaintNow=="function"){
    const seq=DQSEQ;DQTOPICS.then(topics=>{if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;if(document.getElementById("daynow"))dqPaintNow(topics)}).catch(()=>{})}}
  return plan}
-// Home footprint is a 5-sentence check-off. Storage is unchanged: n is how many
-// selected sentences are 整句对了, and extra counts only after that set is full.
-// The floor is display-only. Past 5 is overtime (+N), never a larger n/tot.
+// Home footprint is a count of 5, not a chosen set. sel is only the sentences she taps
+// on and off; nothing auto-picks or freezes which ones are in today's set.
+// The checkmark is 5 of those, written 整句对了. Past that, further correct checks are +N.
 const DQ_FLOOR=5;
-function dqFoot(st){const v=dqView(st),got=v.n+(v.showExtra?v.extra:0),won=got>=DQ_FLOOR;
- return {v,got,floor:DQ_FLOOR,won,ot:won?got-DQ_FLOOR:0}}
+function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR;
+ return {v,got:v.n,floor:DQ_FLOOR,won,ot:won?(v.n-DQ_FLOOR)+v.extra:0}}
 function dqBits(){return dqFoot(dqLoad())}
 function dqMarkHTML(got){let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}"></i>`;return h}
 function dqFootInner(f){const lab=f.won?(f.ot?"今天的 5 句，+"+f.ot:"今天的 5 句"):"今天的句子";
