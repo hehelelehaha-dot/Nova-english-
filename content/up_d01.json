@@ -1,0 +1,4691 @@
+{
+  "id": "up_d01",
+  "title": "Day 1",
+  "no": "01",
+  "flash": {
+    "type": "flash",
+    "cards": [
+      {
+        "w": "back out",
+        "pos": "v.",
+        "zh": "退出；答应了又不干",
+        "ipa": "/bæk aʊt/",
+        "ex": "Back out means you promised to do something, then you decide not to do it. Ellie tells Carl there is no backing out of the trip.",
+        "exs": [
+          "Do not back out of a promise you made to a friend."
+        ],
+        "lg": [
+          "🤝",
+          "先拉钩答应，再缩回去，就不算数了。"
+        ],
+        "note": "电影里 Ellie 说 No backing out：去 Paradise Falls 这件事不许反悔。",
+        "chunks": [
+          [
+            "back out of",
+            "退出（某承诺）"
+          ]
+        ]
+      },
+      {
+        "w": "cross",
+        "pos": "v.",
+        "zh": "画十字发誓",
+        "ipa": "/krɔs/",
+        "ex": "Cross your heart means you promise, and you trace a small cross over your heart. Ellie says “Cross your heart” before she shows Carl her book.",
+        "exs": [
+          "Cross your heart before you break a promise."
+        ],
+        "lg": [
+          "❌",
+          "手指在胸口画一个小叉，表示这句话当真。"
+        ],
+        "note": "这里不是人名。Ellie 说的是 Cross your heart：在胸口画十字，表示发誓。",
+        "chunks": [
+          [
+            "cross your heart",
+            "在胸口画十字发誓"
+          ]
+        ]
+      },
+      {
+        "w": "blimp",
+        "pos": "n.",
+        "zh": "软式飞艇",
+        "ipa": "/blɪmp/",
+        "ex": "A blimp is a big airship filled with gas. Ellie asks Carl to take them to Paradise Falls in a blimp.",
+        "exs": [
+          "Ellie wanted Carl to fly them there in a blimp."
+        ],
+        "lg": [
+          "🎈",
+          "一个鼓鼓的大气囊，下面吊着小舱，能在天上慢慢飞。"
+        ],
+        "note": "Ellie 口中的 blimp，就是新闻片里 Muntz 的那种飞艇。更正式的说法是 dirigible。",
+        "chunks": [
+          [
+            "in a blimp",
+            "坐飞艇"
+          ]
+        ]
+      },
+      {
+        "w": "clubhouse",
+        "pos": "n.",
+        "zh": "俱乐部小屋",
+        "ipa": "/ˈklʌbhaʊs/",
+        "ex": "A clubhouse is the little home base of a club. Ellie wants to move her clubhouse next to Paradise Falls.",
+        "exs": [
+          "Ellie wants her clubhouse right next to the waterfall."
+        ],
+        "lg": [
+          "🏠",
+          "只属于这个小团体的屋子，别人不能随便进。"
+        ],
+        "chunks": [
+          [
+            "move a clubhouse",
+            "把小屋搬过去"
+          ]
+        ]
+      },
+      {
+        "w": "out of",
+        "pos": "adv.",
+        "zh": "从……里面；从某方向来",
+        "ipa": "/aʊt əv/",
+        "ex": "Out of means from inside something, or from a direction. Ellie rips a picture out of a library book, and she also calls the wind “out of the east.”",
+        "exs": [
+          "Ellie ripped the picture out of a library book."
+        ],
+        "lg": [
+          "📤",
+          "东西原来在里面，被拿到外面来。风从东边来，也说 out of the east。"
+        ],
+        "note": "两个电影里的用法：winds out of the east（风从东边来）；ripped it out of a book（从书里撕下来）。",
+        "chunks": [
+          [
+            "out of the east",
+            "从东边来"
+          ],
+          [
+            "rip out of",
+            "从……里撕下"
+          ]
+        ]
+      },
+      {
+        "w": "ripped",
+        "pos": "v.",
+        "zh": "撕下来了",
+        "ipa": "/rɪpt/",
+        "ex": "Ripped means tore something by pulling. Ellie ripped a page out of a library book.",
+        "exs": [
+          "She ripped the picture out of a book."
+        ],
+        "lg": [
+          "📄",
+          "用手一扯，纸离开了书。"
+        ],
+        "note": "这是 rip 的过去式。事情已经发生，所以用 ripped。",
+        "chunks": [
+          [
+            "rip out of",
+            "从……撕下"
+          ]
+        ]
+      },
+      {
+        "w": "swear",
+        "pos": "v.",
+        "zh": "发誓",
+        "ipa": "/swer/",
+        "ex": "Swear means you promise something very seriously. Ellie makes Carl swear he will not tell anyone about her book.",
+        "exs": [
+          "You have to swear you will not tell anyone."
+        ],
+        "lg": [
+          "🤫",
+          "把一句承诺说得很重，好像不许反悔。"
+        ],
+        "chunks": [
+          [
+            "swear you will",
+            "发誓你会"
+          ]
+        ]
+      },
+      {
+        "w": "cheer up",
+        "pos": "v.",
+        "zh": "让人高兴起来",
+        "ipa": "/tʃɪr ʌp/",
+        "ex": "Cheer up means to help someone feel happier. Ellie climbs through the window to cheer Carl up after he breaks his arm.",
+        "exs": [
+          "A visit from a friend can cheer up a bad day."
+        ],
+        "lg": [
+          "🌤️",
+          "人闷着，你过去把气氛托起来。"
+        ],
+        "note": "电影里 Ellie 说 cheerin' up，就是 cheer up 的口语说法。",
+        "chunks": [
+          [
+            "cheer someone up",
+            "把某人哄高兴"
+          ]
+        ]
+      },
+      {
+        "w": "aboard",
+        "pos": "adv.",
+        "zh": "上船；加入进来",
+        "ipa": "/əˈbɔrd/",
+        "ex": "Aboard means on a ship or airship, or inside the group. Ellie says “Welcome aboard” when Carl joins her explorer club.",
+        "exs": [
+          "Ellie said welcome aboard when Carl joined the club."
+        ],
+        "lg": [
+          "🚢",
+          "人已经站到船上，或者被收进这个小团体。"
+        ],
+        "chunks": [
+          [
+            "welcome aboard",
+            "欢迎加入"
+          ]
+        ]
+      },
+      {
+        "w": "goggles",
+        "pos": "n.",
+        "zh": "护目镜",
+        "ipa": "/ˈɡɑɡəlz/",
+        "ex": "Goggles are glasses that protect your eyes from wind. Young Carl and Ellie wear flight goggles like Charles Muntz.",
+        "exs": [
+          "Carl put on his goggles before he crossed the beam."
+        ],
+        "lg": [
+          "🥽",
+          "两只圆镜片用皮带勒在眼睛上，飞行时挡风。"
+        ],
+        "note": "通常用复数 goggles，因为是一副。",
+        "chunks": [
+          [
+            "flight goggles",
+            "飞行护目镜"
+          ]
+        ]
+      },
+      {
+        "w": "helmet",
+        "pos": "n.",
+        "zh": "头盔",
+        "ipa": "/ˈhelmɪt/",
+        "ex": "A helmet is a hard hat that protects your head. Ellie wears a flight helmet in her pretend cockpit.",
+        "exs": [
+          "Ellie took off her helmet and her hair stuck out."
+        ],
+        "lg": [
+          "⛑️",
+          "扣在头上的硬帽子，摔下来时护住脑袋。"
+        ],
+        "chunks": [
+          [
+            "flight helmet",
+            "飞行头盔"
+          ]
+        ]
+      },
+      {
+        "w": "exclusive",
+        "pos": "adj.",
+        "zh": "专属的；不随便让人进",
+        "ipa": "/ɪkˈsklusɪv/",
+        "ex": "Exclusive means only a special group may join. Ellie says her club is exclusive: only explorers get in.",
+        "exs": [
+          "The club is exclusive, so not every kid can walk in."
+        ],
+        "lg": [
+          "🚪",
+          "门开一条缝，只给自己人。"
+        ],
+        "chunks": [
+          [
+            "exclusive club",
+            "专属俱乐部"
+          ]
+        ]
+      },
+      {
+        "w": "hail",
+        "pos": "n.",
+        "zh": "冰雹",
+        "ipa": "/heɪl/",
+        "ex": "Hail is small balls of ice that fall in a storm. Ellie shouts “Lightning! Hail!” while she pretends to fly.",
+        "exs": [
+          "Hail started to hit the pretend airship."
+        ],
+        "lg": [
+          "🧊",
+          "天上掉下来的小冰球，砸在船上噼啪响。"
+        ],
+        "note": "这里是天气里的冰雹，不是 hail a taxi（招手叫车），也不是 hail someone as a hero（把某人称赞为英雄）。",
+        "chunks": [
+          [
+            "lightning and hail",
+            "闪电和冰雹"
+          ]
+        ]
+      },
+      {
+        "w": "storm",
+        "pos": "n.",
+        "zh": "暴风雨",
+        "ipa": "/stɔrm/",
+        "ex": "A storm is heavy rain and wind, often with lightning. Ellie yells that a storm is coming, and later a real storm throws the house around.",
+        "exs": [
+          "A sudden storm can throw a little house around in the sky."
+        ],
+        "lg": [
+          "⛈️",
+          "风、雨、雷一起压过来。"
+        ],
+        "note": "名词是暴风雨。storm 也可以作动词，表示气冲冲地走，但这部电影里先记天气。",
+        "chunks": [
+          [
+            "a storm is coming",
+            "暴风雨要来了"
+          ]
+        ]
+      },
+      {
+        "w": "weather",
+        "pos": "n.",
+        "zh": "天气",
+        "ipa": "/ˈweðər/",
+        "ex": "Weather is what the sky is doing: sun, wind, rain, or a storm. Ellie tells her hamster to enter the weather in the logbook.",
+        "exs": [
+          "Ellie wrote the weather in her logbook."
+        ],
+        "lg": [
+          "📒",
+          "飞行员先看天，再把风和能见度记下来。"
+        ],
+        "chunks": [
+          [
+            "enter the weather",
+            "把天气记下来"
+          ]
+        ]
+      },
+      {
+        "w": "unlimited",
+        "pos": "adj.",
+        "zh": "无限的；没有尽头的",
+        "ipa": "/ʌnˈlɪmɪtɪd/",
+        "ex": "Unlimited means there is no limit. Ellie says visibility is unlimited, so she can see very far on a clear day.",
+        "exs": [
+          "On a clear day the visibility is unlimited."
+        ],
+        "lg": [
+          "🔭",
+          "眼睛能看多远，就看多远，没有一条截止线。"
+        ],
+        "chunks": [
+          [
+            "unlimited visibility",
+            "能见度极好"
+          ]
+        ]
+      },
+      {
+        "w": "visibility",
+        "pos": "n.",
+        "zh": "能见度",
+        "ipa": "/ˌvɪzəˈbɪləti/",
+        "ex": "Visibility is how far you can see. Pilots talk about visibility before they fly.",
+        "exs": [
+          "Good visibility means a pilot can see a long way."
+        ],
+        "lg": [
+          "👀",
+          "空气清的时候看得到山；雾里就什么都没有。"
+        ],
+        "chunks": [
+          [
+            "good visibility",
+            "能见度好"
+          ]
+        ]
+      },
+      {
+        "w": "rudder",
+        "pos": "n.",
+        "zh": "方向舵",
+        "ipa": "/ˈrʌdər/",
+        "ex": "A rudder is the flat piece that steers a ship or airship. Ellie calls “Rudders eighteen degrees towards the south.”",
+        "exs": [
+          "The pilot moved the rudder to turn the airship."
+        ],
+        "lg": [
+          "🧭",
+          "船尾那块能左右摆的板，一摆，船就转向。"
+        ],
+        "chunks": [
+          [
+            "move the rudder",
+            "扳方向舵"
+          ]
+        ]
+      },
+      {
+        "w": "starboard",
+        "pos": "n.",
+        "zh": "右舷",
+        "ipa": "/ˈstɑrbərd/",
+        "ex": "Starboard is the right side of a ship or airship when you face the front. Ellie shouts “Hard to starboard.”",
+        "exs": [
+          "Hard to starboard means turn the ship sharply to the right."
+        ],
+        "lg": [
+          "➡️",
+          "脸朝船头时，你的右手边就是 starboard。"
+        ],
+        "note": "和 port（左舷）相对。记的时候可以想：starboard 里有 star，右手边。",
+        "chunks": [
+          [
+            "hard to starboard",
+            "右满舵"
+          ]
+        ]
+      },
+      {
+        "w": "hurdle",
+        "pos": "v.",
+        "zh": "跃过",
+        "ipa": "/ˈhɜrdl/",
+        "ex": "Hurdle means to jump over something. The newsreel says Muntz hurdles mountains in his airship, while little Carl jumps the cracks in the sidewalk.",
+        "exs": [
+          "The explorer can hurdle a canyon in his airship."
+        ],
+        "lg": [
+          "⛰️",
+          "不从旁边绕，而是从障碍上翻过去。"
+        ],
+        "note": "也可以作名词，指跨栏那个栏架。新闻片里是动词：He hurdles Pike's Peak.",
+        "chunks": [
+          [
+            "hurdle a mountain",
+            "跃过一座山"
+          ]
+        ]
+      },
+      {
+        "w": "dirigible",
+        "pos": "n.",
+        "zh": "飞艇",
+        "ipa": "/ˈdɪrədʒəbəl/",
+        "ex": "A dirigible is a large airship you can steer. Muntz flies one called the Spirit of Adventure.",
+        "exs": [
+          "Muntz landed his dirigible in New Hampshire."
+        ],
+        "lg": [
+          "🛸",
+          "比 blimp 更正式的名字：一艘能转向的大气艇。"
+        ],
+        "note": "Ellie 说 blimp，新闻片说 dirigible，指的是同一类飞艇。",
+        "chunks": [
+          [
+            "land a dirigible",
+            "降落飞艇"
+          ]
+        ]
+      },
+      {
+        "w": "famous",
+        "pos": "adj.",
+        "zh": "有名的",
+        "ipa": "/ˈfeɪməs/",
+        "ex": "Famous means lots of people know you. The newsreel shows Charles Muntz piloting his famous dirigible.",
+        "exs": [
+          "The famous explorer waved from his airship."
+        ],
+        "lg": [
+          "📸",
+          "闪光灯对着他，因为大家都认识这张脸。"
+        ],
+        "chunks": [
+          [
+            "famous explorer",
+            "著名探险家"
+          ]
+        ]
+      },
+      {
+        "w": "piloting",
+        "pos": "v.",
+        "zh": "正在驾驶",
+        "ipa": "/ˈpaɪlətɪŋ/",
+        "ex": "Piloting means flying and steering an aircraft. The newsreel says Charles Muntz is piloting his famous dirigible.",
+        "exs": [
+          "Muntz is piloting the Spirit of Adventure."
+        ],
+        "lg": [
+          "🎛️",
+          "手在舵轮上，人负责让这艘船往哪飞。"
+        ],
+        "note": "词表里是 piloting，不是 pilot。pilot 可以是名词“飞行员”，也可以是动词“驾驶”。",
+        "chunks": [
+          [
+            "pilot a dirigible",
+            "驾驶飞艇"
+          ]
+        ]
+      },
+      {
+        "w": "beast",
+        "pos": "n.",
+        "zh": "巨兽",
+        "ipa": "/bist/",
+        "ex": "A beast is a large wild animal or a monster. Muntz promises to capture the beast of Paradise Falls alive.",
+        "exs": [
+          "Muntz wants to capture the beast alive."
+        ],
+        "lg": [
+          "🐾",
+          "还没有被科学命名的大动物，新闻片把它叫成怪物。"
+        ],
+        "chunks": [
+          [
+            "capture the beast",
+            "活捉巨兽"
+          ]
+        ]
+      },
+      {
+        "w": "capture",
+        "pos": "v.",
+        "zh": "活捉",
+        "ipa": "/ˈkæptʃər/",
+        "ex": "Capture means to catch someone or something and hold it. Muntz wants to capture the beast alive, not just bring back bones.",
+        "exs": [
+          "He promised to capture the animal and clear his name."
+        ],
+        "lg": [
+          "🪤",
+          "不是打死，是抓住并留住。"
+        ],
+        "chunks": [
+          [
+            "capture alive",
+            "活捉"
+          ]
+        ]
+      },
+      {
+        "w": "vow",
+        "pos": "v.",
+        "zh": "郑重发誓",
+        "ipa": "/vaʊ/",
+        "ex": "Vow means to promise in a strong, serious way. Muntz vows to return to Paradise Falls and not come back until he finds the beast.",
+        "exs": [
+          "Muntz will vow to bring the beast back alive."
+        ],
+        "lg": [
+          "🕯️",
+          "比普通的 promise 更重，像当众立下的誓。"
+        ],
+        "note": "也可以作名词：a vow。新闻片里是动词 vows。",
+        "chunks": [
+          [
+            "vow to return",
+            "发誓要回去"
+          ]
+        ]
+      },
+      {
+        "w": "strip",
+        "pos": "v.",
+        "zh": "剥夺（资格）",
+        "ipa": "/strɪp/",
+        "ex": "Strip of means to take away a title or a right. The explorers' organization strips Muntz of his membership.",
+        "exs": [
+          "The club can strip a member of his badge."
+        ],
+        "lg": [
+          "🎖️",
+          "把别人身上的头衔摘掉，人还在，资格没了。"
+        ],
+        "note": "电影里不是脱衣服，也不是一条窄地。记 strip someone of something：剥夺某人的某样东西。",
+        "chunks": [
+          [
+            "strip someone of",
+            "剥夺某人的"
+          ]
+        ]
+      },
+      {
+        "w": "organization",
+        "pos": "n.",
+        "zh": "组织；机构",
+        "ipa": "/ˌɔrɡənəˈzeɪʃən/",
+        "ex": "An organization is a formal group with a name and rules. In the film it is the National Explorers Society.",
+        "exs": [
+          "The organization took away his membership."
+        ],
+        "lg": [
+          "🏛️",
+          "有名字、有规则、能做决定的一群人。"
+        ],
+        "chunks": [
+          [
+            "join an organization",
+            "加入一个组织"
+          ]
+        ]
+      },
+      {
+        "w": "skeleton",
+        "pos": "n.",
+        "zh": "骨架；骨骼标本",
+        "ipa": "/ˈskelɪtən/",
+        "ex": "A skeleton is the full set of bones. Muntz brings back a giant bird skeleton, and scientists say it is not real.",
+        "exs": [
+          "Scientists studied the giant bird skeleton."
+        ],
+        "lg": [
+          "🦴",
+          "肉没了，只剩一整副骨头，被当成发现摆出来。"
+        ],
+        "chunks": [
+          [
+            "a bird skeleton",
+            "一具鸟的骨架"
+          ]
+        ]
+      },
+      {
+        "w": "fabricate",
+        "pos": "v.",
+        "zh": "伪造；编造",
+        "ipa": "/ˈfæbrɪkeɪt/",
+        "ex": "Fabricate means to invent something false or build a fake. Scientists say Muntz fabricated the skeleton.",
+        "exs": [
+          "People said he might fabricate the whole story."
+        ],
+        "lg": [
+          "🛠️",
+          "本来没有，却做出一个看起来像真的东西。"
+        ],
+        "note": "也可以表示“制造”。电影里是贬义：伪造骨头。",
+        "chunks": [
+          [
+            "fabricate a skeleton",
+            "伪造一具骨架"
+          ]
+        ]
+      },
+      {
+        "w": "accuse",
+        "pos": "v.",
+        "zh": "指控；指责",
+        "ipa": "/əˈkjuz/",
+        "ex": "Accuse means to say someone did something wrong. The society accuses Muntz of faking the skeleton.",
+        "exs": [
+          "The society will accuse him of a fake discovery."
+        ],
+        "lg": [
+          "👉",
+          "手指着一个人，说错在他。"
+        ],
+        "chunks": [
+          [
+            "accuse someone of",
+            "指控某人做了"
+          ]
+        ]
+      },
+      {
+        "w": "foul",
+        "pos": "n.",
+        "zh": "犯规；不公平的事",
+        "ipa": "/faʊl/",
+        "ex": "Cry foul means to say something is unfair or against the rules. Scientists cry foul about Muntz's skeleton.",
+        "exs": [
+          "The scientists cry foul when the bones look fake."
+        ],
+        "lg": [
+          "🚩",
+          "比赛里举手说“这球犯规了”。这里是科学家觉得发现不老实。"
+        ],
+        "note": "不是臭味，也不是鸟类的 foul。记 cry foul：喊一声“这不公平”。",
+        "chunks": [
+          [
+            "cry foul",
+            "高喊不公 / 犯规"
+          ]
+        ]
+      },
+      {
+        "w": "scientist",
+        "pos": "n.",
+        "zh": "科学家",
+        "ipa": "/ˈsaɪəntɪst/",
+        "ex": "A scientist is a person who studies the natural world and asks for proof. The scientists do not trust Muntz's skeleton.",
+        "exs": [
+          "A scientist asked for proof of the giant bird."
+        ],
+        "lg": [
+          "🔬",
+          "不看热闹，要看骨头是不是经得起检查。"
+        ],
+        "chunks": [
+          [
+            "a scientist asks for proof",
+            "科学家要证据"
+          ]
+        ]
+      },
+      {
+        "w": "swell",
+        "pos": "adj.",
+        "zh": "很棒的（老式口语）",
+        "ipa": "/swel/",
+        "ex": "Swell is an old-fashioned way to say great or wonderful. The announcer says “what a swell monster.”",
+        "exs": [
+          "In old movies, swell means wonderful."
+        ],
+        "lg": [
+          "👍",
+          "1930 年代的人竖起大拇指说：这可真不错。"
+        ],
+        "note": "现代英语里 swell 更常是动词“肿胀、增大”。新闻片用的是当年的形容词：很棒。",
+        "chunks": [
+          [
+            "a swell monster",
+            "一只很棒的怪物"
+          ]
+        ]
+      },
+      {
+        "w": "golly",
+        "pos": "adv.",
+        "zh": "天哪（老式惊叹）",
+        "ipa": "/ˈɡɑli/",
+        "ex": "Golly is an old, gentle way to show surprise. The announcer says “And golly, what a swell monster.”",
+        "exs": [
+          "Golly, that airship is longer than a city block."
+        ],
+        "lg": [
+          "😮",
+          "吃惊，但不是骂人，像轻轻拍一下桌子。"
+        ],
+        "note": "它不变形。口语里单独放在句前。不要用它的词形去套名词或动词。",
+        "chunks": [
+          [
+            "golly",
+            "天哪"
+          ]
+        ]
+      },
+      {
+        "w": "bee's knees",
+        "pos": "n.",
+        "zh": "最棒的人或东西（老俚语）",
+        "ipa": "/biz niz/",
+        "ex": "The bee's knees is old slang for the best person or thing. The locals consider Muntz the bee's knees.",
+        "exs": [
+          "In the 1930s, the bee's knees meant the very best."
+        ],
+        "lg": [
+          "🐝",
+          "老电影里的最高夸奖，相当于今天说 the best。"
+        ],
+        "note": "整段一起记，不要拆开理解成蜜蜂的膝盖。现在很少有人认真这么说，听到会觉得很复古。",
+        "chunks": [
+          [
+            "the bee's knees",
+            "最棒的"
+          ]
+        ]
+      },
+      {
+        "w": "consider",
+        "pos": "v.",
+        "zh": "认为；把……看作",
+        "ipa": "/kənˈsɪdər/",
+        "ex": "Consider means to think of someone in a certain way. The locals consider Muntz the bee's knees.",
+        "exs": [
+          "Fans consider the explorer a hero."
+        ],
+        "lg": [
+          "💭",
+          "你在心里给他一个位置：他是英雄，或他是骗子。"
+        ],
+        "chunks": [
+          [
+            "consider someone a hero",
+            "把某人看作英雄"
+          ]
+        ]
+      },
+      {
+        "w": "walker",
+        "pos": "n.",
+        "zh": "机械犬步道；助行器",
+        "ipa": "/ˈwɔkər/",
+        "ex": "In the newsreel, a walker is a machine that makes a dog run in place. In everyday US life, a walker is also the metal frame some people use to help them walk.",
+        "exs": [
+          "The dog ran on a mechanical walker inside the airship."
+        ],
+        "lg": [
+          "🐕",
+          "电影里是给狗跑步的机器。美国生活里，walker 也常指老人用的助行架。"
+        ],
+        "note": "两个意思都值得记。这一课先记飞艇上的 mechanical canine walker，再记住生活里的助行器。",
+        "chunks": [
+          [
+            "mechanical walker",
+            "机械步道"
+          ],
+          [
+            "use a walker",
+            "用助行器"
+          ]
+        ]
+      },
+      {
+        "w": "canine",
+        "pos": "adj.",
+        "zh": "狗的",
+        "ipa": "/ˈkeɪnaɪn/",
+        "ex": "Canine means related to dogs. Muntz built the airship for canine comfort, so his dogs would feel at ease.",
+        "exs": [
+          "The rooms were made for canine comfort."
+        ],
+        "lg": [
+          "🐶",
+          "不说 dog，而用一个更正式的词，新闻片听起来更气派。"
+        ],
+        "note": "canine 也可以作名词，指狗，或犬齿。这里修饰 comfort 和 walker，是形容词。",
+        "chunks": [
+          [
+            "canine comfort",
+            "让狗舒服"
+          ]
+        ]
+      },
+      {
+        "w": "mechanical",
+        "pos": "adj.",
+        "zh": "机械的",
+        "ipa": "/məˈkænɪkəl/",
+        "ex": "Mechanical means run by a machine, not by hand. The dog walker on the airship is mechanical.",
+        "exs": [
+          "A mechanical bath washes the dogs on board."
+        ],
+        "lg": [
+          "⚙️",
+          "齿轮和马达在动，不是人手在做。"
+        ],
+        "chunks": [
+          [
+            "mechanical walker",
+            "机械步道"
+          ]
+        ]
+      },
+      {
+        "w": "bath",
+        "pos": "n.",
+        "zh": "洗澡；浴缸",
+        "ipa": "/bæθ/",
+        "ex": "A bath is washing in a tub, or the tub itself. The airship has a doggie bath.",
+        "exs": [
+          "The dog did not enjoy the bath."
+        ],
+        "lg": [
+          "🛁",
+          "美国口语里 bath 常指在浴缸里洗。电影里是给狗准备的。"
+        ],
+        "note": "动词“给……洗澡”是 bathe /beɪð/。名词洗澡是 bath /bæθ/。",
+        "chunks": [
+          [
+            "doggie bath",
+            "狗用浴缸"
+          ],
+          [
+            "take a bath",
+            "洗个澡"
+          ]
+        ]
+      },
+      {
+        "w": "complete with",
+        "pos": "adj.",
+        "zh": "配有；一应俱全",
+        "ipa": "/kəmˈplit wɪð/",
+        "ex": "Complete with means including this extra thing. The floating palace is complete with a dog bath and a mechanical dog walker.",
+        "exs": [
+          "The room came complete with a soft bed for the dogs."
+        ],
+        "lg": [
+          "➕",
+          "主物已经很豪华，后面还附带列出里面有什么。"
+        ],
+        "note": "和动词 complete（完成）不是一个意思。complete with 贴在名词后面，表示“还配了……”。",
+        "chunks": [
+          [
+            "complete with",
+            "配有"
+          ]
+        ]
+      },
+      {
+        "w": "palace",
+        "pos": "n.",
+        "zh": "宫殿",
+        "ipa": "/ˈpæləs/",
+        "ex": "A palace is a grand home for a king or queen. The announcer calls the airship a floating palace.",
+        "exs": [
+          "The dining room looked like a palace in the sky."
+        ],
+        "lg": [
+          "🏰",
+          "又大又华丽，所以飞艇被说成一座宫殿。"
+        ],
+        "chunks": [
+          [
+            "a floating palace",
+            "一座浮动的宫殿"
+          ]
+        ]
+      },
+      {
+        "w": "floating",
+        "pos": "adj.",
+        "zh": "漂浮的",
+        "ipa": "/ˈfloʊtɪŋ/",
+        "ex": "Floating means staying up on air or water instead of falling. The airship is a floating palace.",
+        "exs": [
+          "A floating palace stays up in the sky."
+        ],
+        "lg": [
+          "☁️",
+          "下面没有柱子，它自己浮着。"
+        ],
+        "chunks": [
+          [
+            "floating palace",
+            "浮动宫殿"
+          ]
+        ]
+      },
+      {
+        "w": "veritable",
+        "pos": "adj.",
+        "zh": "名副其实的",
+        "ipa": "/ˈverɪtəbəl/",
+        "ex": "Veritable means you can truly call it that. A veritable floating palace is so grand that “palace” is a fair name.",
+        "exs": [
+          "The ship is a veritable palace in the sky."
+        ],
+        "lg": [
+          "✨",
+          "不是比喻过头。它真的豪华到配得上这个名字。"
+        ],
+        "note": "多放在名词前面加强语气，口语里不算最常见，但新闻片很爱用。",
+        "chunks": [
+          [
+            "a veritable palace",
+            "一座名副其实的宫殿"
+          ]
+        ]
+      },
+      {
+        "w": "comfort",
+        "pos": "n.",
+        "zh": "舒适",
+        "ipa": "/ˈkʌmfərt/",
+        "ex": "Comfort is the feeling of being physically at ease. Muntz designed the ship for his dogs' comfort.",
+        "exs": [
+          "The dogs travel in real comfort."
+        ],
+        "lg": [
+          "🛋️",
+          "身体放松，不挤、不冷、不疼。"
+        ],
+        "note": "形容词是 comfortable。这里 Muntz conceived the craft for canine comfort，comfort 是名词。",
+        "chunks": [
+          [
+            "in comfort",
+            "舒适地"
+          ],
+          [
+            "canine comfort",
+            "狗的舒适"
+          ]
+        ]
+      },
+      {
+        "w": "craft",
+        "pos": "n.",
+        "zh": "飞船；船或飞机",
+        "ipa": "/kræft/",
+        "ex": "A craft is a boat, ship, or aircraft. In the newsreel, the craft is Muntz's dirigible, the machine he designed himself.",
+        "exs": [
+          "Muntz designed the craft himself."
+        ],
+        "lg": [
+          "✈️",
+          "能载人移动的一台船或飞行器。"
+        ],
+        "note": "做美甲、手作时听到的 craft 是“手艺、工艺”。这部电影里是船或飞机。两个意思都真实，别混在同一句里。",
+        "chunks": [
+          [
+            "lighter-than-air craft",
+            "轻于空气的飞船"
+          ]
+        ]
+      },
+      {
+        "w": "conceive",
+        "pos": "v.",
+        "zh": "构想；设计出来",
+        "ipa": "/kənˈsiv/",
+        "ex": "Conceive means to think of an idea and design it. Muntz conceived the craft so his dogs would be comfortable.",
+        "exs": [
+          "He wanted to conceive a ship that dogs would love."
+        ],
+        "lg": [
+          "💡",
+          "想法先在脑子里成形，然后才变成一艘真的船。"
+        ],
+        "note": "conceive 也可以表示怀孕。电影里是“构想、设计”。",
+        "chunks": [
+          [
+            "conceive a craft",
+            "构想一艘飞船"
+          ]
+        ]
+      },
+      {
+        "w": "faithful",
+        "pos": "adj.",
+        "zh": "忠诚的",
+        "ipa": "/ˈfeɪθfəl/",
+        "ex": "Faithful means loyal and staying with you. Muntz is never apart from his faithful dogs.",
+        "exs": [
+          "A faithful dog stays next to you."
+        ],
+        "lg": [
+          "🐕",
+          "不管新闻怎么说，狗还是跟着他。"
+        ],
+        "chunks": [
+          [
+            "faithful dogs",
+            "忠诚的狗"
+          ]
+        ]
+      },
+      {
+        "w": "apart from",
+        "pos": "adv.",
+        "zh": "与……分开",
+        "ipa": "/əˈpɑrt frəm/",
+        "ex": "Apart from means separated from. Never apart from his dogs means the dogs are always with him. In daily US English, apart from can also mean except for.",
+        "exs": [
+          "He is never apart from his dogs."
+        ],
+        "lg": [
+          "🔗",
+          "两个人或人和狗之间拉开距离。电影里是“从不离开”。"
+        ],
+        "note": "另一个日常意思是“除了”。He is apart from the group 是分开；Apart from coffee, I drank nothing 是除了咖啡。",
+        "chunks": [
+          [
+            "never apart from",
+            "从不离开"
+          ],
+          [
+            "apart from",
+            "除了"
+          ]
+        ]
+      },
+      {
+        "w": "wagon",
+        "pos": "n.",
+        "zh": "四轮货车",
+        "ipa": "/ˈwæɡən/",
+        "ex": "A wagon is a four-wheeled cart for carrying people or things. The newsreel lines up paddy wagons to show how long the airship is.",
+        "exs": [
+          "The airship is longer than many wagons lined up."
+        ],
+        "lg": [
+          "🚃",
+          "四个轮子的厢式车，用来装人或装货。"
+        ],
+        "note": "美国也把儿童拉的小车叫 wagon。电影里用来比较长度的是 paddy wagon。",
+        "chunks": [
+          [
+            "line up wagons",
+            "把货车排成一排"
+          ]
+        ]
+      },
+      {
+        "w": "paddy",
+        "pos": "n.",
+        "zh": "（paddy wagon）警车",
+        "ipa": "/ˈpædi/",
+        "ex": "In the old phrase paddy wagon, it means a police van. The newsreel measures the airship against Prohibition-era paddy wagons. Do not call a person a paddy. That use is an insult.",
+        "exs": [
+          "A paddy wagon is an old name for a police van."
+        ],
+        "lg": [
+          "🚓",
+          "只记整词 paddy wagon：运人的警车。不要用 paddy 叫人。"
+        ],
+        "note": "paddy 单独用来叫人，是对爱尔兰人的侮辱。学习时只说 paddy wagon，指那种老式警车。",
+        "chunks": [
+          [
+            "paddy wagon",
+            "警车（旧称）"
+          ]
+        ]
+      },
+      {
+        "w": "prohibition",
+        "pos": "n.",
+        "zh": "禁酒令",
+        "ipa": "/ˌproʊəˈbɪʃən/",
+        "ex": "Prohibition was the time in the United States when alcohol was illegal, from 1920 to 1933. The newsreel jokes that the airship is longer than 22 Prohibition paddy wagons.",
+        "exs": [
+          "Prohibition was the US ban on alcohol in the 1920s."
+        ],
+        "lg": [
+          "🚫",
+          "法律把酒按下暂停键的那些年。飞艇比那个年代的警车还长。"
+        ],
+        "note": "动词 prohibit 是“禁止”。大写的 Prohibition 常特指美国这段历史。",
+        "chunks": [
+          [
+            "during Prohibition",
+            "在禁酒令时期"
+          ]
+        ]
+      },
+      {
+        "w": "expedition",
+        "pos": "n.",
+        "zh": "远征；探险旅程",
+        "ipa": "/ˌekspəˈdɪʃən/",
+        "ex": "An expedition is a long, organized trip made to explore. Muntz completes a year-long expedition to the lost world.",
+        "exs": [
+          "The expedition to the lost world took a whole year."
+        ],
+        "lg": [
+          "🗺️",
+          "不是周末出游，是带着计划走很远的一支队伍。"
+        ],
+        "chunks": [
+          [
+            "a year-long expedition",
+            "为期一年的远征"
+          ]
+        ]
+      },
+      {
+        "w": "complete",
+        "pos": "v.",
+        "zh": "完成",
+        "ipa": "/kəmˈplit/",
+        "ex": "Complete means to finish something. Muntz is completing a year-long expedition when he lands in New Hampshire.",
+        "exs": [
+          "He will complete the long trip this week."
+        ],
+        "lg": [
+          "✅",
+          "行程走到最后一步，可以画上句号。"
+        ],
+        "note": "这是动词“完成”。前面的 complete with 是另一个短语，表示“配有”。",
+        "chunks": [
+          [
+            "complete an expedition",
+            "完成一次远征"
+          ]
+        ]
+      },
+      {
+        "w": "spirit",
+        "pos": "n.",
+        "zh": "精神；飞船的名字",
+        "ipa": "/ˈspɪrɪt/",
+        "ex": "Spirit can mean the energy or character of something. In the film, Spirit of Adventure is also the name of Muntz's dirigible.",
+        "exs": [
+          "The Spirit of Adventure is the name of his airship."
+        ],
+        "lg": [
+          "🚢",
+          "一个词两个落点：人的劲头，以及那艘船的船名。"
+        ],
+        "chunks": [
+          [
+            "Spirit of Adventure",
+            "冒险精神号"
+          ],
+          [
+            "in high spirits",
+            "情绪高"
+          ]
+        ]
+      },
+      {
+        "w": "beloved",
+        "pos": "adj.",
+        "zh": "深受喜爱的",
+        "ipa": "/bɪˈlʌvɪd/",
+        "ex": "Beloved means deeply loved. The announcer calls Muntz the beloved explorer.",
+        "exs": [
+          "The beloved explorer waved to the crowd."
+        ],
+        "lg": [
+          "💛",
+          "不是随便喜欢，是很多人放在心上。"
+        ],
+        "chunks": [
+          [
+            "beloved explorer",
+            "深受喜爱的探险家"
+          ]
+        ]
+      },
+      {
+        "w": "summit",
+        "pos": "n.",
+        "zh": "山顶",
+        "ipa": "/ˈsʌmɪt/",
+        "ex": "A summit is the top of a mountain. Paradise Falls sits on an inhospitable summit that few people would dare to climb.",
+        "exs": [
+          "Few people dare to stand on that summit."
+        ],
+        "lg": [
+          "🏔️",
+          "山的最高一点，再往上就没有路了。"
+        ],
+        "note": "summit 也可以指峰会。这里是地理上的山顶。",
+        "chunks": [
+          [
+            "mountain summit",
+            "山顶"
+          ]
+        ]
+      },
+      {
+        "w": "inhospitable",
+        "pos": "adj.",
+        "zh": "不宜居住的；环境恶劣的",
+        "ipa": "/ˌɪnhɑˈspɪtəbəl/",
+        "ex": "Inhospitable means hard to live in and not welcoming. The summit is wild, steep, and dangerous.",
+        "exs": [
+          "An inhospitable mountain has no easy shelter."
+        ],
+        "lg": [
+          "🌬️",
+          "地方本身在赶人：太冷、太陡、没有遮风的地方。"
+        ],
+        "note": "反义词是 hospitable，指人或地方好客。in- 把意思反过来。",
+        "chunks": [
+          [
+            "an inhospitable summit",
+            "不宜停留的山顶"
+          ]
+        ]
+      },
+      {
+        "w": "dare",
+        "pos": "v.",
+        "zh": "敢",
+        "ipa": "/der/",
+        "ex": "Dare means to be brave enough to do something risky. The announcer asks who would dare set foot on that summit.",
+        "exs": [
+          "Who would dare set foot on that wild mountain?"
+        ],
+        "lg": [
+          "🦶",
+          "脚还没踩上去，人已经知道这很危险。"
+        ],
+        "chunks": [
+          [
+            "dare set foot",
+            "敢踏上"
+          ],
+          [
+            "how dare you",
+            "你竟敢"
+          ]
+        ]
+      },
+      {
+        "w": "sport",
+        "pos": "v.",
+        "zh": "长着；有（显眼的特征）",
+        "ipa": "/spɔrt/",
+        "ex": "Sport means to have or show something noticeable. The lost world sports plants and animals that science has not named.",
+        "exs": [
+          "The jungle can sport flowers no one has named."
+        ],
+        "lg": [
+          "🌿",
+          "一个地方把少见的东西“穿”在外面，让你看见。"
+        ],
+        "note": "这里不是名词“体育运动”。新闻片说 it sports plants and animals：它有这些植物和动物。",
+        "chunks": [
+          [
+            "sport plants and animals",
+            "长着各种动植物"
+          ]
+        ]
+      },
+      {
+        "w": "lurking",
+        "pos": "v.",
+        "zh": "潜伏着",
+        "ipa": "/ˈlɜrkɪŋ/",
+        "ex": "Lurking means staying hidden and waiting, usually where you cannot see it clearly. The beast is lurking in the shadow of Paradise Falls.",
+        "exs": [
+          "Something is lurking in the shadow of the falls."
+        ],
+        "lg": [
+          "🌑",
+          "你看见阴影，还没看见里面的东西。它在等。"
+        ],
+        "note": "词表给的是 lurking。原形是 lurk。",
+        "chunks": [
+          [
+            "lurk in the shadow",
+            "潜伏在阴影里"
+          ]
+        ]
+      },
+      {
+        "w": "majestic",
+        "pos": "adj.",
+        "zh": "壮丽的",
+        "ipa": "/məˈdʒestɪk/",
+        "ex": "Majestic means grand and impressive. Paradise Falls is a majestic waterfall dropping off a flat mountain.",
+        "exs": [
+          "The majestic falls drop off a flat mountain."
+        ],
+        "lg": [
+          "💦",
+          "大到让人安静一下，觉得它有王者的气势。"
+        ],
+        "chunks": [
+          [
+            "majestic falls",
+            "壮丽的瀑布"
+          ]
+        ]
+      },
+      {
+        "w": "humanity",
+        "pos": "n.",
+        "zh": "人类",
+        "ipa": "/hjuˈmænəti/",
+        "ex": "Humanity means all people. The footage had never been seen by civilized humanity, the announcer says.",
+        "exs": [
+          "The film shows a place humanity had not seen."
+        ],
+        "lg": [
+          "🌍",
+          "不是一个人，是所有人算在一起。"
+        ],
+        "note": "另一个意思是“人道、人性”。这里是“全人类”。",
+        "chunks": [
+          [
+            "all of humanity",
+            "全人类"
+          ]
+        ]
+      },
+      {
+        "w": "civilized",
+        "pos": "adj.",
+        "zh": "文明社会的",
+        "ipa": "/ˈsɪvəlaɪzd/",
+        "ex": "Civilized, in this old newsreel voice, means from settled modern society. The announcer says civilized humanity had never seen this footage.",
+        "exs": [
+          "The announcer said civilized humanity had never seen this place."
+        ],
+        "lg": [
+          "🎬",
+          "1930 年代新闻片的口气，把“我们这边的人”叫做 civilized。"
+        ],
+        "note": "拿 civilized 评价现在的真实人群，听起来会傲慢。这里只学新闻片里的用法，不要拿它说别人落后。",
+        "chunks": [
+          [
+            "civilized humanity",
+            "文明社会的人类"
+          ]
+        ]
+      },
+      {
+        "w": "footage",
+        "pos": "n.",
+        "zh": "影像片段",
+        "ipa": "/ˈfʊtɪdʒ/",
+        "ex": "Footage is filmed pictures. The newsreel says you are watching footage never shown before.",
+        "exs": [
+          "This footage is the first film of that waterfall."
+        ],
+        "lg": [
+          "🎥",
+          "已经拍下来的画面，可以在新闻片里播。"
+        ],
+        "note": "footage 通常不可数，不说 footages。",
+        "chunks": [
+          [
+            "newsreel footage",
+            "新闻片画面"
+          ]
+        ]
+      },
+      {
+        "w": "witness",
+        "pos": "v.",
+        "zh": "亲眼看见",
+        "ipa": "/ˈwɪtnəs/",
+        "ex": "Witness means to see something happen with your own eyes. “What you are now witnessing” means what you are seeing on the screen right now.",
+        "exs": [
+          "You witness a lost world on the movie screen."
+        ],
+        "lg": [
+          "👁️",
+          "不是听说，是自己的眼睛正在看着它发生。"
+        ],
+        "note": "witness 也可以是名词：目击者。新闻片里是动词 witnessing。",
+        "chunks": [
+          [
+            "witness something",
+            "亲眼看见某事"
+          ]
+        ]
+      },
+      {
+        "w": "spotlight",
+        "pos": "n.",
+        "zh": "聚光灯；专题",
+        "ipa": "/ˈspɑtlaɪt/",
+        "ex": "A spotlight is a strong light aimed at one person or thing. Spotlight on Adventure is the name of the newsreel, meaning this story is the focus.",
+        "exs": [
+          "The newsreel is called Spotlight on Adventure."
+        ],
+        "lg": [
+          "💡",
+          "一束光打在主角身上，别的都暗下去。节目名也是这个意思。"
+        ],
+        "chunks": [
+          [
+            "in the spotlight",
+            "成为焦点"
+          ],
+          [
+            "Spotlight on Adventure",
+            "探险专题"
+          ]
+        ]
+      },
+      {
+        "w": "present",
+        "pos": "v.",
+        "zh": "播出；向观众介绍",
+        "ipa": "/prɪˈzent/",
+        "ex": "Present, said pri-ZENT, means to introduce or put on a show. Movietown News presents Spotlight on Adventure. A gift is a different word, said PREZ-ent.",
+        "exs": [
+          "The newsreel will present a story about an explorer."
+        ],
+        "lg": [
+          "📺",
+          "片头把节目交到观众面前：现在开始播这个。"
+        ],
+        "note": "动词 present 重音在第二音节 /prɪˈzent/：播出、介绍、颁发。名词“礼物”和形容词“在场的”是 /ˈpreznt/，重音在第一音节。",
+        "chunks": [
+          [
+            "present a show",
+            "播出一档节目"
+          ]
+        ]
+      }
+    ]
+  },
+  "ee": {
+    "type": "ee",
+    "items": [
+      {
+        "n": 1,
+        "w": "back out",
+        "pos": "v.",
+        "zh": "退出；答应了又不干",
+        "ex": "Back out means you promised to do something, then you decide not to do it. Ellie tells Carl there is no backing out of the trip.",
+        "exs": [
+          "Do not back out of a promise you made to a friend."
+        ],
+        "exzh": [
+          "不要退出你对朋友许下的承诺。"
+        ]
+      },
+      {
+        "n": 2,
+        "w": "cross",
+        "pos": "v.",
+        "zh": "画十字发誓",
+        "ex": "Cross your heart means you promise, and you trace a small cross over your heart. Ellie says “Cross your heart” before she shows Carl her book.",
+        "exs": [
+          "Cross your heart before you break a promise."
+        ],
+        "exzh": [
+          "发誓之前，先在胸口画个十字。"
+        ]
+      },
+      {
+        "n": 3,
+        "w": "blimp",
+        "pos": "n.",
+        "zh": "软式飞艇",
+        "ex": "A blimp is a big airship filled with gas. Ellie asks Carl to take them to Paradise Falls in a blimp.",
+        "exs": [
+          "Ellie wanted Carl to fly them there in a blimp."
+        ],
+        "exzh": [
+          "Ellie 想让 Carl 开飞艇带他们去。"
+        ]
+      },
+      {
+        "n": 4,
+        "w": "clubhouse",
+        "pos": "n.",
+        "zh": "俱乐部小屋",
+        "ex": "A clubhouse is the little home base of a club. Ellie wants to move her clubhouse next to Paradise Falls.",
+        "exs": [
+          "Ellie wants her clubhouse right next to the waterfall."
+        ],
+        "exzh": [
+          "Ellie 想把她的俱乐部小屋挪到瀑布旁边。"
+        ]
+      },
+      {
+        "n": 5,
+        "w": "out of",
+        "pos": "adv.",
+        "zh": "从……里面；从某方向来",
+        "ex": "Out of means from inside something, or from a direction. Ellie rips a picture out of a library book, and she also calls the wind “out of the east.”",
+        "exs": [
+          "Ellie ripped the picture out of a library book."
+        ],
+        "exzh": [
+          "Ellie 把那张画从图书馆的书里撕了下来。"
+        ]
+      },
+      {
+        "n": 6,
+        "w": "ripped",
+        "pos": "v.",
+        "zh": "撕下来了",
+        "ex": "Ripped means tore something by pulling. Ellie ripped a page out of a library book.",
+        "exs": [
+          "She ripped the picture out of a book."
+        ],
+        "exzh": [
+          "她把那张画从书里撕了下来。"
+        ]
+      },
+      {
+        "n": 7,
+        "w": "swear",
+        "pos": "v.",
+        "zh": "发誓",
+        "ex": "Swear means you promise something very seriously. Ellie makes Carl swear he will not tell anyone about her book.",
+        "exs": [
+          "You have to swear you will not tell anyone."
+        ],
+        "exzh": [
+          "你得发誓，谁也不告诉。"
+        ]
+      },
+      {
+        "n": 8,
+        "w": "cheer up",
+        "pos": "v.",
+        "zh": "让人高兴起来",
+        "ex": "Cheer up means to help someone feel happier. Ellie climbs through the window to cheer Carl up after he breaks his arm.",
+        "exs": [
+          "A visit from a friend can cheer up a bad day."
+        ],
+        "exzh": [
+          "朋友来看你，能把糟糕的一天变好一点。"
+        ]
+      },
+      {
+        "n": 9,
+        "w": "aboard",
+        "pos": "adv.",
+        "zh": "上船；加入进来",
+        "ex": "Aboard means on a ship or airship, or inside the group. Ellie says “Welcome aboard” when Carl joins her explorer club.",
+        "exs": [
+          "Ellie said welcome aboard when Carl joined the club."
+        ],
+        "exzh": [
+          "Carl 加入俱乐部时，Ellie 说欢迎上船。"
+        ]
+      },
+      {
+        "n": 10,
+        "w": "goggles",
+        "pos": "n.",
+        "zh": "护目镜",
+        "ex": "Goggles are glasses that protect your eyes from wind. Young Carl and Ellie wear flight goggles like Charles Muntz.",
+        "exs": [
+          "Carl put on his goggles before he crossed the beam."
+        ],
+        "exzh": [
+          "Carl 走过横梁之前戴上了护目镜。"
+        ]
+      },
+      {
+        "n": 11,
+        "w": "helmet",
+        "pos": "n.",
+        "zh": "头盔",
+        "ex": "A helmet is a hard hat that protects your head. Ellie wears a flight helmet in her pretend cockpit.",
+        "exs": [
+          "Ellie took off her helmet and her hair stuck out."
+        ],
+        "exzh": [
+          "Ellie 摘下头盔，头发都炸开了。"
+        ]
+      },
+      {
+        "n": 12,
+        "w": "exclusive",
+        "pos": "adj.",
+        "zh": "专属的；不随便让人进",
+        "ex": "Exclusive means only a special group may join. Ellie says her club is exclusive: only explorers get in.",
+        "exs": [
+          "The club is exclusive, so not every kid can walk in."
+        ],
+        "exzh": [
+          "这个俱乐部是专属的，不是每个孩子都能进。"
+        ]
+      },
+      {
+        "n": 13,
+        "w": "hail",
+        "pos": "n.",
+        "zh": "冰雹",
+        "ex": "Hail is small balls of ice that fall in a storm. Ellie shouts “Lightning! Hail!” while she pretends to fly.",
+        "exs": [
+          "Hail started to hit the pretend airship."
+        ],
+        "exzh": [
+          "冰雹开始打在那艘假装的飞艇上。"
+        ]
+      },
+      {
+        "n": 14,
+        "w": "storm",
+        "pos": "n.",
+        "zh": "暴风雨",
+        "ex": "A storm is heavy rain and wind, often with lightning. Ellie yells that a storm is coming, and later a real storm throws the house around.",
+        "exs": [
+          "A sudden storm can throw a little house around in the sky."
+        ],
+        "exzh": [
+          "突然的暴风雨能把一栋小房子在天上甩来甩去。"
+        ]
+      },
+      {
+        "n": 15,
+        "w": "weather",
+        "pos": "n.",
+        "zh": "天气",
+        "ex": "Weather is what the sky is doing: sun, wind, rain, or a storm. Ellie tells her hamster to enter the weather in the logbook.",
+        "exs": [
+          "Ellie wrote the weather in her logbook."
+        ],
+        "exzh": [
+          "Ellie 把天气写进了航海日志。"
+        ]
+      },
+      {
+        "n": 16,
+        "w": "unlimited",
+        "pos": "adj.",
+        "zh": "无限的；没有尽头的",
+        "ex": "Unlimited means there is no limit. Ellie says visibility is unlimited, so she can see very far on a clear day.",
+        "exs": [
+          "On a clear day the visibility is unlimited."
+        ],
+        "exzh": [
+          "晴天的时候，能见度没有尽头。"
+        ]
+      },
+      {
+        "n": 17,
+        "w": "visibility",
+        "pos": "n.",
+        "zh": "能见度",
+        "ex": "Visibility is how far you can see. Pilots talk about visibility before they fly.",
+        "exs": [
+          "Good visibility means a pilot can see a long way."
+        ],
+        "exzh": [
+          "能见度好，飞行员就能看很远。"
+        ]
+      },
+      {
+        "n": 18,
+        "w": "rudder",
+        "pos": "n.",
+        "zh": "方向舵",
+        "ex": "A rudder is the flat piece that steers a ship or airship. Ellie calls “Rudders eighteen degrees towards the south.”",
+        "exs": [
+          "The pilot moved the rudder to turn the airship."
+        ],
+        "exzh": [
+          "飞行员扳动方向舵，让飞艇转弯。"
+        ]
+      },
+      {
+        "n": 19,
+        "w": "starboard",
+        "pos": "n.",
+        "zh": "右舷",
+        "ex": "Starboard is the right side of a ship or airship when you face the front. Ellie shouts “Hard to starboard.”",
+        "exs": [
+          "Hard to starboard means turn the ship sharply to the right."
+        ],
+        "exzh": [
+          "Hard to starboard 的意思是把船猛地转向右边。"
+        ]
+      },
+      {
+        "n": 20,
+        "w": "hurdle",
+        "pos": "v.",
+        "zh": "跃过",
+        "ex": "Hurdle means to jump over something. The newsreel says Muntz hurdles mountains in his airship, while little Carl jumps the cracks in the sidewalk.",
+        "exs": [
+          "The explorer can hurdle a canyon in his airship."
+        ],
+        "exzh": [
+          "探险家能开着飞艇跃过一道峡谷。"
+        ]
+      },
+      {
+        "n": 21,
+        "w": "dirigible",
+        "pos": "n.",
+        "zh": "飞艇",
+        "ex": "A dirigible is a large airship you can steer. Muntz flies one called the Spirit of Adventure.",
+        "exs": [
+          "Muntz landed his dirigible in New Hampshire."
+        ],
+        "exzh": [
+          "Muntz 把飞艇降落在新罕布什尔。"
+        ]
+      },
+      {
+        "n": 22,
+        "w": "famous",
+        "pos": "adj.",
+        "zh": "有名的",
+        "ex": "Famous means lots of people know you. The newsreel shows Charles Muntz piloting his famous dirigible.",
+        "exs": [
+          "The famous explorer waved from his airship."
+        ],
+        "exzh": [
+          "那位有名的探险家从飞艇上向人群挥手。"
+        ]
+      },
+      {
+        "n": 23,
+        "w": "piloting",
+        "pos": "v.",
+        "zh": "正在驾驶",
+        "ex": "Piloting means flying and steering an aircraft. The newsreel says Charles Muntz is piloting his famous dirigible.",
+        "exs": [
+          "Muntz is piloting the Spirit of Adventure."
+        ],
+        "exzh": [
+          "Muntz 正在驾驶“冒险精神号”。"
+        ]
+      },
+      {
+        "n": 24,
+        "w": "beast",
+        "pos": "n.",
+        "zh": "巨兽",
+        "ex": "A beast is a large wild animal or a monster. Muntz promises to capture the beast of Paradise Falls alive.",
+        "exs": [
+          "Muntz wants to capture the beast alive."
+        ],
+        "exzh": [
+          "Muntz 想把那只巨兽活捉回来。"
+        ]
+      },
+      {
+        "n": 25,
+        "w": "capture",
+        "pos": "v.",
+        "zh": "活捉",
+        "ex": "Capture means to catch someone or something and hold it. Muntz wants to capture the beast alive, not just bring back bones.",
+        "exs": [
+          "He promised to capture the animal and clear his name."
+        ],
+        "exzh": [
+          "他答应活捉那只动物，洗清自己的名声。"
+        ]
+      },
+      {
+        "n": 26,
+        "w": "vow",
+        "pos": "v.",
+        "zh": "郑重发誓",
+        "ex": "Vow means to promise in a strong, serious way. Muntz vows to return to Paradise Falls and not come back until he finds the beast.",
+        "exs": [
+          "Muntz will vow to bring the beast back alive."
+        ],
+        "exzh": [
+          "Muntz 会发誓把巨兽活着带回来。"
+        ]
+      },
+      {
+        "n": 27,
+        "w": "strip",
+        "pos": "v.",
+        "zh": "剥夺（资格）",
+        "ex": "Strip of means to take away a title or a right. The explorers' organization strips Muntz of his membership.",
+        "exs": [
+          "The club can strip a member of his badge."
+        ],
+        "exzh": [
+          "俱乐部可以剥夺会员的徽章。"
+        ]
+      },
+      {
+        "n": 28,
+        "w": "organization",
+        "pos": "n.",
+        "zh": "组织；机构",
+        "ex": "An organization is a formal group with a name and rules. In the film it is the National Explorers Society.",
+        "exs": [
+          "The organization took away his membership."
+        ],
+        "exzh": [
+          "那个组织取消了他的会员资格。"
+        ]
+      },
+      {
+        "n": 29,
+        "w": "skeleton",
+        "pos": "n.",
+        "zh": "骨架；骨骼标本",
+        "ex": "A skeleton is the full set of bones. Muntz brings back a giant bird skeleton, and scientists say it is not real.",
+        "exs": [
+          "Scientists studied the giant bird skeleton."
+        ],
+        "exzh": [
+          "科学家研究了那具巨鸟骨架。"
+        ]
+      },
+      {
+        "n": 30,
+        "w": "fabricate",
+        "pos": "v.",
+        "zh": "伪造；编造",
+        "ex": "Fabricate means to invent something false or build a fake. Scientists say Muntz fabricated the skeleton.",
+        "exs": [
+          "People said he might fabricate the whole story."
+        ],
+        "exzh": [
+          "人们说他可能把整件事编造出来。"
+        ]
+      },
+      {
+        "n": 31,
+        "w": "accuse",
+        "pos": "v.",
+        "zh": "指控；指责",
+        "ex": "Accuse means to say someone did something wrong. The society accuses Muntz of faking the skeleton.",
+        "exs": [
+          "The society will accuse him of a fake discovery."
+        ],
+        "exzh": [
+          "学会会指控他的发现是假的。"
+        ]
+      },
+      {
+        "n": 32,
+        "w": "foul",
+        "pos": "n.",
+        "zh": "犯规；不公平的事",
+        "ex": "Cry foul means to say something is unfair or against the rules. Scientists cry foul about Muntz's skeleton.",
+        "exs": [
+          "The scientists cry foul when the bones look fake."
+        ],
+        "exzh": [
+          "骨头看起来是假的，科学家就大喊不公平。"
+        ]
+      },
+      {
+        "n": 33,
+        "w": "scientist",
+        "pos": "n.",
+        "zh": "科学家",
+        "ex": "A scientist is a person who studies the natural world and asks for proof. The scientists do not trust Muntz's skeleton.",
+        "exs": [
+          "A scientist asked for proof of the giant bird."
+        ],
+        "exzh": [
+          "一位科学家要求拿出巨鸟的证据。"
+        ]
+      },
+      {
+        "n": 34,
+        "w": "swell",
+        "pos": "adj.",
+        "zh": "很棒的（老式口语）",
+        "ex": "Swell is an old-fashioned way to say great or wonderful. The announcer says “what a swell monster.”",
+        "exs": [
+          "In old movies, swell means wonderful."
+        ],
+        "exzh": [
+          "在老电影里，swell 的意思是“棒极了”。"
+        ]
+      },
+      {
+        "n": 35,
+        "w": "golly",
+        "pos": "adv.",
+        "zh": "天哪（老式惊叹）",
+        "ex": "Golly is an old, gentle way to show surprise. The announcer says “And golly, what a swell monster.”",
+        "exs": [
+          "Golly, that airship is longer than a city block."
+        ],
+        "exzh": [
+          "天哪，那艘飞艇比一条街区还长。"
+        ]
+      },
+      {
+        "n": 36,
+        "w": "bee's knees",
+        "pos": "n.",
+        "zh": "最棒的人或东西（老俚语）",
+        "ex": "The bee's knees is old slang for the best person or thing. The locals consider Muntz the bee's knees.",
+        "exs": [
+          "In the 1930s, the bee's knees meant the very best."
+        ],
+        "exzh": [
+          "在 1930 年代，the bee's knees 就是“最棒的”。"
+        ]
+      },
+      {
+        "n": 37,
+        "w": "consider",
+        "pos": "v.",
+        "zh": "认为；把……看作",
+        "ex": "Consider means to think of someone in a certain way. The locals consider Muntz the bee's knees.",
+        "exs": [
+          "Fans consider the explorer a hero."
+        ],
+        "exzh": [
+          "粉丝们把这位探险家看作英雄。"
+        ]
+      },
+      {
+        "n": 38,
+        "w": "walker",
+        "pos": "n.",
+        "zh": "机械犬步道；助行器",
+        "ex": "In the newsreel, a walker is a machine that makes a dog run in place. In everyday US life, a walker is also the metal frame some people use to help them walk.",
+        "exs": [
+          "The dog ran on a mechanical walker inside the airship."
+        ],
+        "exzh": [
+          "狗在飞艇里的机械步道上跑。"
+        ]
+      },
+      {
+        "n": 39,
+        "w": "canine",
+        "pos": "adj.",
+        "zh": "狗的",
+        "ex": "Canine means related to dogs. Muntz built the airship for canine comfort, so his dogs would feel at ease.",
+        "exs": [
+          "The rooms were made for canine comfort."
+        ],
+        "exzh": [
+          "这些房间是为了让狗舒服而做的。"
+        ]
+      },
+      {
+        "n": 40,
+        "w": "mechanical",
+        "pos": "adj.",
+        "zh": "机械的",
+        "ex": "Mechanical means run by a machine, not by hand. The dog walker on the airship is mechanical.",
+        "exs": [
+          "A mechanical bath washes the dogs on board."
+        ],
+        "exzh": [
+          "船上有一台机械洗澡装置给狗洗澡。"
+        ]
+      },
+      {
+        "n": 41,
+        "w": "bath",
+        "pos": "n.",
+        "zh": "洗澡；浴缸",
+        "ex": "A bath is washing in a tub, or the tub itself. The airship has a doggie bath.",
+        "exs": [
+          "The dog did not enjoy the bath."
+        ],
+        "exzh": [
+          "那只狗并不喜欢这次洗澡。"
+        ]
+      },
+      {
+        "n": 42,
+        "w": "complete with",
+        "pos": "adj.",
+        "zh": "配有；一应俱全",
+        "ex": "Complete with means including this extra thing. The floating palace is complete with a dog bath and a mechanical dog walker.",
+        "exs": [
+          "The room came complete with a soft bed for the dogs."
+        ],
+        "exzh": [
+          "这个房间配有一张给狗睡的软床。"
+        ]
+      },
+      {
+        "n": 43,
+        "w": "palace",
+        "pos": "n.",
+        "zh": "宫殿",
+        "ex": "A palace is a grand home for a king or queen. The announcer calls the airship a floating palace.",
+        "exs": [
+          "The dining room looked like a palace in the sky."
+        ],
+        "exzh": [
+          "餐厅看起来像一座天上的宫殿。"
+        ]
+      },
+      {
+        "n": 44,
+        "w": "floating",
+        "pos": "adj.",
+        "zh": "漂浮的",
+        "ex": "Floating means staying up on air or water instead of falling. The airship is a floating palace.",
+        "exs": [
+          "A floating palace stays up in the sky."
+        ],
+        "exzh": [
+          "一座漂浮的宫殿停在天上。"
+        ]
+      },
+      {
+        "n": 45,
+        "w": "veritable",
+        "pos": "adj.",
+        "zh": "名副其实的",
+        "ex": "Veritable means you can truly call it that. A veritable floating palace is so grand that “palace” is a fair name.",
+        "exs": [
+          "The ship is a veritable palace in the sky."
+        ],
+        "exzh": [
+          "这艘船是一座名副其实的天上宫殿。"
+        ]
+      },
+      {
+        "n": 46,
+        "w": "comfort",
+        "pos": "n.",
+        "zh": "舒适",
+        "ex": "Comfort is the feeling of being physically at ease. Muntz designed the ship for his dogs' comfort.",
+        "exs": [
+          "The dogs travel in real comfort."
+        ],
+        "exzh": [
+          "这些狗旅行时真的很舒服。"
+        ]
+      },
+      {
+        "n": 47,
+        "w": "craft",
+        "pos": "n.",
+        "zh": "飞船；船或飞机",
+        "ex": "A craft is a boat, ship, or aircraft. In the newsreel, the craft is Muntz's dirigible, the machine he designed himself.",
+        "exs": [
+          "Muntz designed the craft himself."
+        ],
+        "exzh": [
+          "这艘飞船是 Muntz 自己设计的。"
+        ]
+      },
+      {
+        "n": 48,
+        "w": "conceive",
+        "pos": "v.",
+        "zh": "构想；设计出来",
+        "ex": "Conceive means to think of an idea and design it. Muntz conceived the craft so his dogs would be comfortable.",
+        "exs": [
+          "He wanted to conceive a ship that dogs would love."
+        ],
+        "exzh": [
+          "他想构想出一艘狗会喜欢的船。"
+        ]
+      },
+      {
+        "n": 49,
+        "w": "faithful",
+        "pos": "adj.",
+        "zh": "忠诚的",
+        "ex": "Faithful means loyal and staying with you. Muntz is never apart from his faithful dogs.",
+        "exs": [
+          "A faithful dog stays next to you."
+        ],
+        "exzh": [
+          "忠诚的狗会待在你身边。"
+        ]
+      },
+      {
+        "n": 50,
+        "w": "apart from",
+        "pos": "adv.",
+        "zh": "与……分开",
+        "ex": "Apart from means separated from. Never apart from his dogs means the dogs are always with him. In daily US English, apart from can also mean except for.",
+        "exs": [
+          "He is never apart from his dogs."
+        ],
+        "exzh": [
+          "他从不和自己的狗分开。"
+        ]
+      },
+      {
+        "n": 51,
+        "w": "wagon",
+        "pos": "n.",
+        "zh": "四轮货车",
+        "ex": "A wagon is a four-wheeled cart for carrying people or things. The newsreel lines up paddy wagons to show how long the airship is.",
+        "exs": [
+          "The airship is longer than many wagons lined up."
+        ],
+        "exzh": [
+          "这艘飞艇比很多辆货车排成一排还长。"
+        ]
+      },
+      {
+        "n": 52,
+        "w": "paddy",
+        "pos": "n.",
+        "zh": "（paddy wagon）警车",
+        "ex": "In the old phrase paddy wagon, it means a police van. The newsreel measures the airship against Prohibition-era paddy wagons. Do not call a person a paddy. That use is an insult.",
+        "exs": [
+          "A paddy wagon is an old name for a police van."
+        ],
+        "exzh": [
+          "paddy wagon 是警车的一种老说法。"
+        ]
+      },
+      {
+        "n": 53,
+        "w": "prohibition",
+        "pos": "n.",
+        "zh": "禁酒令",
+        "ex": "Prohibition was the time in the United States when alcohol was illegal, from 1920 to 1933. The newsreel jokes that the airship is longer than 22 Prohibition paddy wagons.",
+        "exs": [
+          "Prohibition was the US ban on alcohol in the 1920s."
+        ],
+        "exzh": [
+          "禁酒令是 1920 年代美国禁止酒类的法律时期。"
+        ]
+      },
+      {
+        "n": 54,
+        "w": "expedition",
+        "pos": "n.",
+        "zh": "远征；探险旅程",
+        "ex": "An expedition is a long, organized trip made to explore. Muntz completes a year-long expedition to the lost world.",
+        "exs": [
+          "The expedition to the lost world took a whole year."
+        ],
+        "exzh": [
+          "去失落世界的那次远征花了整整一年。"
+        ]
+      },
+      {
+        "n": 55,
+        "w": "complete",
+        "pos": "v.",
+        "zh": "完成",
+        "ex": "Complete means to finish something. Muntz is completing a year-long expedition when he lands in New Hampshire.",
+        "exs": [
+          "He will complete the long trip this week."
+        ],
+        "exzh": [
+          "他这周会完成这次长途旅行。"
+        ]
+      },
+      {
+        "n": 56,
+        "w": "spirit",
+        "pos": "n.",
+        "zh": "精神；飞船的名字",
+        "ex": "Spirit can mean the energy or character of something. In the film, Spirit of Adventure is also the name of Muntz's dirigible.",
+        "exs": [
+          "The Spirit of Adventure is the name of his airship."
+        ],
+        "exzh": [
+          "“冒险精神号”是他那艘飞艇的名字。"
+        ]
+      },
+      {
+        "n": 57,
+        "w": "beloved",
+        "pos": "adj.",
+        "zh": "深受喜爱的",
+        "ex": "Beloved means deeply loved. The announcer calls Muntz the beloved explorer.",
+        "exs": [
+          "The beloved explorer waved to the crowd."
+        ],
+        "exzh": [
+          "这位深受喜爱的探险家向人群挥手。"
+        ]
+      },
+      {
+        "n": 58,
+        "w": "summit",
+        "pos": "n.",
+        "zh": "山顶",
+        "ex": "A summit is the top of a mountain. Paradise Falls sits on an inhospitable summit that few people would dare to climb.",
+        "exs": [
+          "Few people dare to stand on that summit."
+        ],
+        "exzh": [
+          "很少有人敢站上那座山顶。"
+        ]
+      },
+      {
+        "n": 59,
+        "w": "inhospitable",
+        "pos": "adj.",
+        "zh": "不宜居住的；环境恶劣的",
+        "ex": "Inhospitable means hard to live in and not welcoming. The summit is wild, steep, and dangerous.",
+        "exs": [
+          "An inhospitable mountain has no easy shelter."
+        ],
+        "exzh": [
+          "一座环境恶劣的山，找不到容易的落脚处。"
+        ]
+      },
+      {
+        "n": 60,
+        "w": "dare",
+        "pos": "v.",
+        "zh": "敢",
+        "ex": "Dare means to be brave enough to do something risky. The announcer asks who would dare set foot on that summit.",
+        "exs": [
+          "Who would dare set foot on that wild mountain?"
+        ],
+        "exzh": [
+          "谁敢踏上那座荒山？"
+        ]
+      },
+      {
+        "n": 61,
+        "w": "sport",
+        "pos": "v.",
+        "zh": "长着；有（显眼的特征）",
+        "ex": "Sport means to have or show something noticeable. The lost world sports plants and animals that science has not named.",
+        "exs": [
+          "The jungle can sport flowers no one has named."
+        ],
+        "exzh": [
+          "这片丛林能长出谁都没命名过的花。"
+        ]
+      },
+      {
+        "n": 62,
+        "w": "lurking",
+        "pos": "v.",
+        "zh": "潜伏着",
+        "ex": "Lurking means staying hidden and waiting, usually where you cannot see it clearly. The beast is lurking in the shadow of Paradise Falls.",
+        "exs": [
+          "Something is lurking in the shadow of the falls."
+        ],
+        "exzh": [
+          "有什么东西潜伏在瀑布的阴影里。"
+        ]
+      },
+      {
+        "n": 63,
+        "w": "majestic",
+        "pos": "adj.",
+        "zh": "壮丽的",
+        "ex": "Majestic means grand and impressive. Paradise Falls is a majestic waterfall dropping off a flat mountain.",
+        "exs": [
+          "The majestic falls drop off a flat mountain."
+        ],
+        "exzh": [
+          "壮丽的瀑布从一座平顶山泻下来。"
+        ]
+      },
+      {
+        "n": 64,
+        "w": "humanity",
+        "pos": "n.",
+        "zh": "人类",
+        "ex": "Humanity means all people. The footage had never been seen by civilized humanity, the announcer says.",
+        "exs": [
+          "The film shows a place humanity had not seen."
+        ],
+        "exzh": [
+          "这片子展示了一个人类还没见过的地方。"
+        ]
+      },
+      {
+        "n": 65,
+        "w": "civilized",
+        "pos": "adj.",
+        "zh": "文明社会的",
+        "ex": "Civilized, in this old newsreel voice, means from settled modern society. The announcer says civilized humanity had never seen this footage.",
+        "exs": [
+          "The announcer said civilized humanity had never seen this place."
+        ],
+        "exzh": [
+          "播音员说，文明社会的人从没见过这个地方。"
+        ]
+      },
+      {
+        "n": 66,
+        "w": "footage",
+        "pos": "n.",
+        "zh": "影像片段",
+        "ex": "Footage is filmed pictures. The newsreel says you are watching footage never shown before.",
+        "exs": [
+          "This footage is the first film of that waterfall."
+        ],
+        "exzh": [
+          "这段影像是那座瀑布的第一批影片。"
+        ]
+      },
+      {
+        "n": 67,
+        "w": "witness",
+        "pos": "v.",
+        "zh": "亲眼看见",
+        "ex": "Witness means to see something happen with your own eyes. “What you are now witnessing” means what you are seeing on the screen right now.",
+        "exs": [
+          "You witness a lost world on the movie screen."
+        ],
+        "exzh": [
+          "你在电影屏幕上亲眼看见一个失落的世界。"
+        ]
+      },
+      {
+        "n": 68,
+        "w": "spotlight",
+        "pos": "n.",
+        "zh": "聚光灯；专题",
+        "ex": "A spotlight is a strong light aimed at one person or thing. Spotlight on Adventure is the name of the newsreel, meaning this story is the focus.",
+        "exs": [
+          "The newsreel is called Spotlight on Adventure."
+        ],
+        "exzh": [
+          "这部新闻片叫做《探险聚光灯》。"
+        ]
+      },
+      {
+        "n": 69,
+        "w": "present",
+        "pos": "v.",
+        "zh": "播出；向观众介绍",
+        "ex": "Present, said pri-ZENT, means to introduce or put on a show. Movietown News presents Spotlight on Adventure. A gift is a different word, said PREZ-ent.",
+        "exs": [
+          "The newsreel will present a story about an explorer."
+        ],
+        "exzh": [
+          "新闻片会播出一个关于探险家的故事。"
+        ]
+      }
+    ]
+  },
+  "wf": {
+    "set": {
+      "id": "up_d01",
+      "title": "Day 1",
+      "items": [
+        {
+          "l": "生活",
+          "s": "Ellie told Carl not to ___ of the trip.",
+          "o": [
+            "back out",
+            "backed out",
+            "backing out",
+            "backs out"
+          ],
+          "a": "back out",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "to 后面用动词原形。back out 是“说话不算数、不干了”。",
+          "f": "back out"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie told him to ___ his heart.",
+          "o": [
+            "cross",
+            "crosses",
+            "crossed",
+            "crossing"
+          ],
+          "a": "cross",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "to 后面用动词原形。Cross your heart 是发誓的动作。",
+          "f": "cross"
+        },
+        {
+          "l": "生活",
+          "s": "Carl wanted a ___ for the long trip.",
+          "o": [
+            "blimp",
+            "blimps"
+          ],
+          "a": "blimp",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "a 后面接名词。一艘飞艇用单数 blimp。",
+          "f": "blimp"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie wanted her ___ next to the falls.",
+          "o": [
+            "clubhouse",
+            "clubhouses"
+          ],
+          "a": "clubhouse",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "her 后面是名词。她只有一间小屋，用单数。",
+          "f": "clubhouse"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie pulled the page ___ a library book.",
+          "o": [
+            "out of",
+            "out",
+            "outside",
+            "outer"
+          ],
+          "a": "out of",
+          "p": "adv.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "pulled the page out of a book：从书里面拿出来。整段 out of 一起填。",
+          "f": "out of"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie ___ that page from a library book.",
+          "o": [
+            "ripped",
+            "rip",
+            "ripping",
+            "rips"
+          ],
+          "a": "ripped",
+          "p": "v.（过去式）",
+          "vb": [],
+          "why": "这件事已经发生，动词用过去式 ripped。原形是 rip。",
+          "f": "ripped"
+        },
+        {
+          "l": "生活",
+          "s": "Carl had to ___ secrecy to Ellie.",
+          "o": [
+            "swear",
+            "swears",
+            "swore",
+            "sworn"
+          ],
+          "a": "swear",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "had to 后面用动词原形 swear。过去式是 swore。",
+          "f": "swear"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie wanted to ___ the boy with the broken arm.",
+          "o": [
+            "cheer up",
+            "cheered up",
+            "cheering up",
+            "cheers up"
+          ],
+          "a": "cheer up",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "wanted to 后面用动词原形。cheer up 是短语动词，两个词一起用。",
+          "f": "cheer up"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie told Carl to come ___ the pretend ship.",
+          "o": [
+            "aboard",
+            "board",
+            "boards",
+            "boarding"
+          ],
+          "a": "aboard",
+          "p": "adv.",
+          "vb": [
+            [
+              1
+            ],
+            [
+              4
+            ]
+          ],
+          "why": "come aboard 是上船、加入。aboard 修饰这个动作，按副词练。",
+          "f": "aboard"
+        },
+        {
+          "l": "生活",
+          "s": "Carl wanted his ___ before the jump.",
+          "o": [
+            "goggles",
+            "goggle"
+          ],
+          "a": "goggles",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "一副护目镜用复数 goggles。",
+          "f": "goggles"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie removed her ___ in the clubhouse.",
+          "o": [
+            "helmet",
+            "helmets"
+          ],
+          "a": "helmet",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "her 后面是名词。她摘的是一顶头盔。",
+          "f": "helmet"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie kept an ___ club for explorers.",
+          "o": [
+            "exclusive",
+            "exclusively",
+            "exclude",
+            "exclusion"
+          ],
+          "a": "exclusive",
+          "p": "adj.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "空格在名词 club 前面，用来描述它，用形容词 exclusive。",
+          "f": "exclusive"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie shouted about lightning and ___.",
+          "o": [
+            "hail",
+            "hails",
+            "hailed"
+          ],
+          "a": "hail",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "and 后面跟闪电并列的是名词冰雹。这题选 hail。",
+          "f": "hail"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie warned Carl about a sudden ___.",
+          "o": [
+            "storm",
+            "storms",
+            "stormy",
+            "storming"
+          ],
+          "a": "storm",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "a sudden 后面接名词。stormy 是形容词。",
+          "f": "storm"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie recorded the ___ in her logbook.",
+          "o": [
+            "weather",
+            "weathers",
+            "weathered"
+          ],
+          "a": "weather",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "the 后面是名词。weather 一般不用复数。",
+          "f": "weather"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie reported ___ visibility from the cockpit.",
+          "o": [
+            "unlimited",
+            "limit",
+            "limited",
+            "limits"
+          ],
+          "a": "unlimited",
+          "p": "adj.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "空格在名词 visibility 前面，描述能见度，用形容词 unlimited。",
+          "f": "unlimited"
+        },
+        {
+          "l": "生活",
+          "s": "The pilot checked the ___ before takeoff.",
+          "o": [
+            "visibility",
+            "visible",
+            "visibly"
+          ],
+          "a": "visibility",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "the 后面接名词。visible 是形容词“看得见的”。",
+          "f": "visibility"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie moved the ___ to turn south.",
+          "o": [
+            "rudder",
+            "rudders"
+          ],
+          "a": "rudder",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "the 后面是名词。一块舵用单数 rudder。",
+          "f": "rudder"
+        },
+        {
+          "l": "生活",
+          "s": "Ellie called for a hard turn to ___.",
+          "o": [
+            "starboard",
+            "starboards"
+          ],
+          "a": "starboard",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "to 后面是右舷这个名称，按名词练。",
+          "f": "starboard"
+        },
+        {
+          "l": "生活",
+          "s": "The airship had to ___ a high mountain.",
+          "o": [
+            "hurdle",
+            "hurdles",
+            "hurdled",
+            "hurdling"
+          ],
+          "a": "hurdle",
+          "p": "v.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "had to 后面用动词原形 hurdle。",
+          "f": "hurdle"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz landed his ___ in New Hampshire.",
+          "o": [
+            "dirigible",
+            "dirigibles"
+          ],
+          "a": "dirigible",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "his 后面接名词。一艘飞艇用单数。",
+          "f": "dirigible"
+        },
+        {
+          "l": "生活",
+          "s": "The crowd cheered the ___ explorer.",
+          "o": [
+            "famous",
+            "famously",
+            "fame"
+          ],
+          "a": "famous",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "空格在名词 explorer 前面，用形容词 famous。",
+          "f": "famous"
+        },
+        {
+          "l": "生活",
+          "s": "The newsreel shows Muntz ___ his airship.",
+          "o": [
+            "piloting",
+            "pilot",
+            "pilots",
+            "piloted"
+          ],
+          "a": "piloting",
+          "p": "v.（-ing）",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "shows 后面这个动作正在发生，用 piloting。",
+          "f": "piloting"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz hoped to catch the ___ alive.",
+          "o": [
+            "beast",
+            "beasts"
+          ],
+          "a": "beast",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "the 后面是名词。这只巨兽用单数 beast。",
+          "f": "beast"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz hoped to ___ the beast alive.",
+          "o": [
+            "capture",
+            "captures",
+            "captured",
+            "capturing"
+          ],
+          "a": "capture",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "hoped to 后面用动词原形 capture。",
+          "f": "capture"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz started to ___ a return to the falls.",
+          "o": [
+            "vow",
+            "vows",
+            "vowed",
+            "vowing"
+          ],
+          "a": "vow",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "started to 后面用动词原形 vow。",
+          "f": "vow"
+        },
+        {
+          "l": "生活",
+          "s": "The club decided to ___ him of his membership.",
+          "o": [
+            "strip",
+            "strips",
+            "stripped",
+            "stripping"
+          ],
+          "a": "strip",
+          "p": "v.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "decided to 后面用动词原形。strip him of 是固定搭配。",
+          "f": "strip"
+        },
+        {
+          "l": "生活",
+          "s": "The ___ removed his membership.",
+          "o": [
+            "organization",
+            "organizations",
+            "organize",
+            "organized"
+          ],
+          "a": "organization",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "The 后面、动词 removed 前面，是名词主语。",
+          "f": "organization"
+        },
+        {
+          "l": "生活",
+          "s": "Scientists studied the giant ___.",
+          "o": [
+            "skeleton",
+            "skeletons"
+          ],
+          "a": "skeleton",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "the giant 后面接名词。一具骨架用单数。",
+          "f": "skeleton"
+        },
+        {
+          "l": "生活",
+          "s": "They refused to ___ a fake skeleton.",
+          "o": [
+            "fabricate",
+            "fabricates",
+            "fabricated",
+            "fabricating"
+          ],
+          "a": "fabricate",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "refused to 后面用动词原形 fabricate。",
+          "f": "fabricate"
+        },
+        {
+          "l": "生活",
+          "s": "The society began to ___ him of a fake discovery.",
+          "o": [
+            "accuse",
+            "accuses",
+            "accused",
+            "accusing"
+          ],
+          "a": "accuse",
+          "p": "v.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "began to 后面用动词原形。accuse him of 是固定搭配。",
+          "f": "accuse"
+        },
+        {
+          "l": "生活",
+          "s": "The scientists cried ___ about the fake bones.",
+          "o": [
+            "foul",
+            "fouls",
+            "foully"
+          ],
+          "a": "foul",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "cry foul 是固定说法，foul 在这里是名词“犯规、不公”。",
+          "f": "foul"
+        },
+        {
+          "l": "生活",
+          "s": "A ___ asked for proof of the giant bird.",
+          "o": [
+            "scientist",
+            "scientists"
+          ],
+          "a": "scientist",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "A 后面接单数名词 scientist。",
+          "f": "scientist"
+        },
+        {
+          "l": "生活",
+          "s": "The announcer called it a ___ monster.",
+          "o": [
+            "swell",
+            "swells",
+            "swelling",
+            "swollen"
+          ],
+          "a": "swell",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "a 和 monster 中间用形容词。这里 swell 是“很棒”，不是“肿”。",
+          "f": "swell"
+        },
+        {
+          "l": "生活",
+          "s": "The announcer yelled ___ at the huge ship.",
+          "o": [
+            "golly"
+          ],
+          "a": "golly",
+          "p": "adv.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "golly 是感叹，没有别的词形。这题把它放在副词一类：它不描述名词，只表达吃惊。",
+          "f": "golly"
+        },
+        {
+          "l": "生活",
+          "s": "In that old slang he was the ___.",
+          "o": [
+            "bee's knees",
+            "bees knees",
+            "bee knees"
+          ],
+          "a": "bee's knees",
+          "p": "n.",
+          "vb": [
+            [
+              5
+            ]
+          ],
+          "why": "the 后面是一个名词短语。撇号要留在 bee's 里。",
+          "f": "bee's knees"
+        },
+        {
+          "l": "生活",
+          "s": "The locals began to ___ him a hero.",
+          "o": [
+            "consider",
+            "considers",
+            "considered",
+            "considering"
+          ],
+          "a": "consider",
+          "p": "v.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "began to 后面用动词原形 consider。",
+          "f": "consider"
+        },
+        {
+          "l": "生活",
+          "s": "One dog ran on a mechanical ___.",
+          "o": [
+            "walker",
+            "walkers",
+            "walk",
+            "walking"
+          ],
+          "a": "walker",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "a mechanical 后面接名词 walker。",
+          "f": "walker"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz designed the ship for ___ comfort.",
+          "o": [
+            "canine",
+            "canines"
+          ],
+          "a": "canine",
+          "p": "adj.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "空格在名词 comfort 前面，意思是“狗的”，用形容词。",
+          "f": "canine"
+        },
+        {
+          "l": "生活",
+          "s": "The dog used a ___ walker on the ship.",
+          "o": [
+            "mechanical",
+            "mechanically",
+            "mechanic",
+            "mechanism"
+          ],
+          "a": "mechanical",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "空格在名词 walker 前面，用形容词 mechanical。",
+          "f": "mechanical"
+        },
+        {
+          "l": "生活",
+          "s": "The dog hated the noisy ___.",
+          "o": [
+            "bath",
+            "baths",
+            "bathe",
+            "bathing"
+          ],
+          "a": "bath",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "the noisy 后面接名词 bath。动词是 bathe。",
+          "f": "bath"
+        },
+        {
+          "l": "生活",
+          "s": "The room came ___ a soft dog bed.",
+          "o": [
+            "complete with",
+            "complete",
+            "completed",
+            "completely"
+          ],
+          "a": "complete with",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "came complete with 表示“来的时候就配好了”。两个词要一起填。",
+          "f": "complete with"
+        },
+        {
+          "l": "生活",
+          "s": "The announcer called the ship a floating ___.",
+          "o": [
+            "palace",
+            "palaces"
+          ],
+          "a": "palace",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "a floating 后面接名词 palace。",
+          "f": "palace"
+        },
+        {
+          "l": "生活",
+          "s": "They filmed the ___ palace in the sky.",
+          "o": [
+            "floating",
+            "float",
+            "floats",
+            "floated"
+          ],
+          "a": "floating",
+          "p": "adj.（-ing）",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "空格在名词 palace 前面，用形容词 floating。动词原形是 float。",
+          "f": "floating"
+        },
+        {
+          "l": "生活",
+          "s": "The ship was a ___ palace in the sky.",
+          "o": [
+            "veritable",
+            "veritably"
+          ],
+          "a": "veritable",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "a 和 palace 中间用形容词 veritable。",
+          "f": "veritable"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz built the ship for his dogs' ___.",
+          "o": [
+            "comfort",
+            "comforts",
+            "comfortable",
+            "comforted"
+          ],
+          "a": "comfort",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "dogs' 后面接名词 comfort。comfortable 是形容词。",
+          "f": "comfort"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz designed the whole ___ himself.",
+          "o": [
+            "craft",
+            "crafts",
+            "crafty"
+          ],
+          "a": "craft",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "the whole 后面接名词。这里 craft 是飞船，不是手艺。",
+          "f": "craft"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz wanted to ___ a ship for his dogs.",
+          "o": [
+            "conceive",
+            "conceives",
+            "conceived",
+            "conceiving"
+          ],
+          "a": "conceive",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "wanted to 后面用动词原形 conceive。",
+          "f": "conceive"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz traveled with his ___ dogs.",
+          "o": [
+            "faithful",
+            "faithfully",
+            "faith"
+          ],
+          "a": "faithful",
+          "p": "adj.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "his 和 dogs 中间用形容词 faithful。",
+          "f": "faithful"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz never stayed ___ his dogs.",
+          "o": [
+            "apart from",
+            "apart",
+            "part"
+          ],
+          "a": "apart from",
+          "p": "adv.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "stayed apart from 是“和……分开待着”。from 要一起填。",
+          "f": "apart from"
+        },
+        {
+          "l": "生活",
+          "s": "The newsreel lined up many ___ to show the length.",
+          "o": [
+            "wagon",
+            "wagons"
+          ],
+          "a": "wagon",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "many 后面用复数名词 wagons。",
+          "f": "wagon"
+        },
+        {
+          "l": "生活",
+          "s": "The joke measured the ship with an old ___ wagon.",
+          "o": [
+            "paddy",
+            "paddies"
+          ],
+          "a": "paddy",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "old 和 wagon 中间是这个复合词的前半。不要用它称呼人。",
+          "f": "paddy"
+        },
+        {
+          "l": "生活",
+          "s": "The joke pointed back to ___ in the United States.",
+          "o": [
+            "prohibition",
+            "prohibitions",
+            "prohibit",
+            "prohibited"
+          ],
+          "a": "prohibition",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "to 后面接名词 prohibition。动词是 prohibit。",
+          "f": "prohibition"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz finished a year-long ___.",
+          "o": [
+            "expedition",
+            "expeditions"
+          ],
+          "a": "expedition",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "a year-long 后面接名词 expedition。",
+          "f": "expedition"
+        },
+        {
+          "l": "生活",
+          "s": "Muntz hoped to ___ the long expedition.",
+          "o": [
+            "complete",
+            "completes",
+            "completed",
+            "completing"
+          ],
+          "a": "complete",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "hoped to 后面用动词原形。这里是“完成”，不是 complete with。",
+          "f": "complete"
+        },
+        {
+          "l": "生活",
+          "s": "The airship's name is the ___ of Adventure.",
+          "o": [
+            "spirit",
+            "spirits",
+            "spirited"
+          ],
+          "a": "spirit",
+          "p": "n.",
+          "vb": [
+            [
+              3
+            ]
+          ],
+          "why": "the 和 of Adventure 中间是名词 spirit。船名里要大写，练习里填这个词。",
+          "f": "spirit"
+        },
+        {
+          "l": "生活",
+          "s": "The crowd loved the ___ explorer.",
+          "o": [
+            "beloved",
+            "love",
+            "loves",
+            "loving"
+          ],
+          "a": "beloved",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "空格在名词 explorer 前面，用形容词 beloved。",
+          "f": "beloved"
+        },
+        {
+          "l": "生活",
+          "s": "Few explorers reached that wild ___.",
+          "o": [
+            "summit",
+            "summits"
+          ],
+          "a": "summit",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "that wild 后面接名词 summit。",
+          "f": "summit"
+        },
+        {
+          "l": "生活",
+          "s": "The film showed an ___ summit above the clouds.",
+          "o": [
+            "inhospitable",
+            "inhospitably",
+            "hospitable"
+          ],
+          "a": "inhospitable",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "an 和 summit 中间用形容词。inhospitable 表示不适合停留。",
+          "f": "inhospitable"
+        },
+        {
+          "l": "生活",
+          "s": "Few explorers ___ to climb that summit.",
+          "o": [
+            "dare",
+            "dares",
+            "dared",
+            "daring"
+          ],
+          "a": "dare",
+          "p": "v.",
+          "vb": [
+            [
+              4
+            ]
+          ],
+          "why": "空格是句子的主要动词“敢”。climb 是 to 后面的另一个动词，也要点出来。",
+          "f": "dare"
+        },
+        {
+          "l": "生活",
+          "s": "The lost world seemed to ___ strange plants.",
+          "o": [
+            "sport",
+            "sports",
+            "sported",
+            "sporting"
+          ],
+          "a": "sport",
+          "p": "v.",
+          "vb": [
+            [
+              3
+            ]
+          ],
+          "why": "seemed to 后面用动词原形。这里 sport 是“长着”，不是体育运动。",
+          "f": "sport"
+        },
+        {
+          "l": "生活",
+          "s": "A beast was ___ in the shadow of the falls.",
+          "o": [
+            "lurking",
+            "lurk",
+            "lurks",
+            "lurked"
+          ],
+          "a": "lurking",
+          "p": "v.（-ing）",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "was 后面这个动作正在持续，用 lurking。",
+          "f": "lurking"
+        },
+        {
+          "l": "生活",
+          "s": "The camera showed the ___ falls.",
+          "o": [
+            "majestic",
+            "majestically",
+            "majesty"
+          ],
+          "a": "majestic",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "the 和 falls 中间用形容词 majestic。",
+          "f": "majestic"
+        },
+        {
+          "l": "生活",
+          "s": "The pictures surprised all of ___.",
+          "o": [
+            "humanity",
+            "human",
+            "humans",
+            "humane"
+          ],
+          "a": "humanity",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "all of 后面接名词 humanity，表示全人类。",
+          "f": "humanity"
+        },
+        {
+          "l": "生活",
+          "s": "The announcer spoke to ___ humanity.",
+          "o": [
+            "civilized",
+            "civilize",
+            "civilizes",
+            "civilization"
+          ],
+          "a": "civilized",
+          "p": "adj.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "空格在名词 humanity 前面，用形容词 civilized。",
+          "f": "civilized"
+        },
+        {
+          "l": "生活",
+          "s": "The newsreel played new ___ of the falls.",
+          "o": [
+            "footage",
+            "foot"
+          ],
+          "a": "footage",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "new 后面接不可数名词 footage。不要改成 foot。",
+          "f": "footage"
+        },
+        {
+          "l": "生活",
+          "s": "Viewers began to ___ a lost world.",
+          "o": [
+            "witness",
+            "witnesses",
+            "witnessed",
+            "witnessing"
+          ],
+          "a": "witness",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "began to 后面用动词原形 witness。",
+          "f": "witness"
+        },
+        {
+          "l": "生活",
+          "s": "The show's name put the story in the ___.",
+          "o": [
+            "spotlight",
+            "spotlights"
+          ],
+          "a": "spotlight",
+          "p": "n.",
+          "vb": [
+            [
+              3
+            ]
+          ],
+          "why": "in the 后面接名词 spotlight。",
+          "f": "spotlight"
+        },
+        {
+          "l": "生活",
+          "s": "The newsreel wanted to ___ a new adventure.",
+          "o": [
+            "present",
+            "presents",
+            "presented",
+            "presenting"
+          ],
+          "a": "present",
+          "p": "v.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "wanted to 后面用动词原形。这里读 pri-ZENT，是“播出”，不是礼物。",
+          "f": "present"
+        }
+      ]
+    },
+    "fams": {
+      "back out": [
+        [
+          "back out",
+          "v.",
+          "退出"
+        ],
+        [
+          "backed out",
+          "v.",
+          "退出了"
+        ],
+        [
+          "backing out",
+          "v.",
+          "正在退出"
+        ]
+      ],
+      "cross": [
+        [
+          "cross",
+          "v.",
+          "画十字"
+        ],
+        [
+          "crossed",
+          "v.",
+          "画过十字"
+        ],
+        [
+          "crossing",
+          "v.",
+          "正在画十字"
+        ]
+      ],
+      "blimp": [
+        [
+          "blimp",
+          "n.",
+          "飞艇"
+        ],
+        [
+          "blimps",
+          "n.",
+          "飞艇（复数）"
+        ]
+      ],
+      "clubhouse": [
+        [
+          "clubhouse",
+          "n.",
+          "俱乐部小屋"
+        ],
+        [
+          "clubhouses",
+          "n.",
+          "小屋（复数）"
+        ]
+      ],
+      "out of": [
+        [
+          "out of",
+          "adv.",
+          "从……里"
+        ],
+        [
+          "out",
+          "adv.",
+          "在外"
+        ],
+        [
+          "outside",
+          "adv.",
+          "在外面"
+        ]
+      ],
+      "ripped": [
+        [
+          "rip",
+          "v.",
+          "撕"
+        ],
+        [
+          "ripped",
+          "v.",
+          "撕了"
+        ],
+        [
+          "ripping",
+          "v.",
+          "正在撕"
+        ]
+      ],
+      "swear": [
+        [
+          "swear",
+          "v.",
+          "发誓"
+        ],
+        [
+          "swore",
+          "v.",
+          "发誓了"
+        ],
+        [
+          "sworn",
+          "v.",
+          "发过誓"
+        ]
+      ],
+      "cheer up": [
+        [
+          "cheer up",
+          "v.",
+          "使高兴"
+        ],
+        [
+          "cheered up",
+          "v.",
+          "使高兴了"
+        ],
+        [
+          "cheering up",
+          "v.",
+          "正在逗乐"
+        ]
+      ],
+      "aboard": [
+        [
+          "aboard",
+          "adv.",
+          "在船上"
+        ],
+        [
+          "board",
+          "v.",
+          "上船"
+        ],
+        [
+          "boarding",
+          "v.",
+          "正在上船"
+        ]
+      ],
+      "goggles": [
+        [
+          "goggles",
+          "n.",
+          "护目镜"
+        ],
+        [
+          "goggle",
+          "n.",
+          "单片（少用）"
+        ]
+      ],
+      "helmet": [
+        [
+          "helmet",
+          "n.",
+          "头盔"
+        ],
+        [
+          "helmets",
+          "n.",
+          "头盔（复数）"
+        ]
+      ],
+      "exclusive": [
+        [
+          "exclusive",
+          "adj.",
+          "专属的"
+        ],
+        [
+          "exclusively",
+          "adv.",
+          "专门地"
+        ],
+        [
+          "exclude",
+          "v.",
+          "排除"
+        ],
+        [
+          "exclusion",
+          "n.",
+          "排除"
+        ]
+      ],
+      "hail": [
+        [
+          "hail",
+          "n.",
+          "冰雹"
+        ],
+        [
+          "hail",
+          "v.",
+          "招呼；称赞"
+        ]
+      ],
+      "storm": [
+        [
+          "storm",
+          "n.",
+          "暴风雨"
+        ],
+        [
+          "storms",
+          "n.",
+          "暴风雨（复数）"
+        ],
+        [
+          "stormy",
+          "adj.",
+          "暴风雨的"
+        ]
+      ],
+      "weather": [
+        [
+          "weather",
+          "n.",
+          "天气"
+        ],
+        [
+          "weathered",
+          "adj.",
+          "风吹日晒的"
+        ]
+      ],
+      "unlimited": [
+        [
+          "unlimited",
+          "adj.",
+          "无限的"
+        ],
+        [
+          "limit",
+          "n.",
+          "限度"
+        ],
+        [
+          "limited",
+          "adj.",
+          "有限的"
+        ]
+      ],
+      "visibility": [
+        [
+          "visibility",
+          "n.",
+          "能见度"
+        ],
+        [
+          "visible",
+          "adj.",
+          "看得见的"
+        ],
+        [
+          "visibly",
+          "adv.",
+          "明显地"
+        ]
+      ],
+      "rudder": [
+        [
+          "rudder",
+          "n.",
+          "方向舵"
+        ],
+        [
+          "rudders",
+          "n.",
+          "方向舵（复数）"
+        ]
+      ],
+      "starboard": [
+        [
+          "starboard",
+          "n.",
+          "右舷"
+        ]
+      ],
+      "hurdle": [
+        [
+          "hurdle",
+          "v.",
+          "跃过"
+        ],
+        [
+          "hurdled",
+          "v.",
+          "跃过了"
+        ],
+        [
+          "hurdling",
+          "v.",
+          "正在跃过"
+        ],
+        [
+          "hurdle",
+          "n.",
+          "栏架"
+        ]
+      ],
+      "dirigible": [
+        [
+          "dirigible",
+          "n.",
+          "飞艇"
+        ],
+        [
+          "dirigibles",
+          "n.",
+          "飞艇（复数）"
+        ]
+      ],
+      "famous": [
+        [
+          "famous",
+          "adj.",
+          "有名的"
+        ],
+        [
+          "famously",
+          "adv.",
+          "有名地"
+        ],
+        [
+          "fame",
+          "n.",
+          "名声"
+        ]
+      ],
+      "piloting": [
+        [
+          "pilot",
+          "v.",
+          "驾驶"
+        ],
+        [
+          "piloting",
+          "v.",
+          "正在驾驶"
+        ],
+        [
+          "piloted",
+          "v.",
+          "驾驶了"
+        ],
+        [
+          "pilot",
+          "n.",
+          "飞行员"
+        ]
+      ],
+      "beast": [
+        [
+          "beast",
+          "n.",
+          "巨兽"
+        ],
+        [
+          "beasts",
+          "n.",
+          "巨兽（复数）"
+        ]
+      ],
+      "capture": [
+        [
+          "capture",
+          "v.",
+          "活捉"
+        ],
+        [
+          "captured",
+          "v.",
+          "活捉了"
+        ],
+        [
+          "capturing",
+          "v.",
+          "正在捕捉"
+        ]
+      ],
+      "vow": [
+        [
+          "vow",
+          "v.",
+          "发誓"
+        ],
+        [
+          "vowed",
+          "v.",
+          "发誓了"
+        ],
+        [
+          "vow",
+          "n.",
+          "誓言"
+        ]
+      ],
+      "strip": [
+        [
+          "strip",
+          "v.",
+          "剥夺"
+        ],
+        [
+          "stripped",
+          "v.",
+          "剥夺了"
+        ],
+        [
+          "stripping",
+          "v.",
+          "正在剥夺"
+        ]
+      ],
+      "organization": [
+        [
+          "organization",
+          "n.",
+          "组织"
+        ],
+        [
+          "organize",
+          "v.",
+          "组织起来"
+        ],
+        [
+          "organized",
+          "adj.",
+          "有组织的"
+        ]
+      ],
+      "skeleton": [
+        [
+          "skeleton",
+          "n.",
+          "骨架"
+        ],
+        [
+          "skeletons",
+          "n.",
+          "骨架（复数）"
+        ]
+      ],
+      "fabricate": [
+        [
+          "fabricate",
+          "v.",
+          "伪造"
+        ],
+        [
+          "fabricated",
+          "v.",
+          "伪造了"
+        ],
+        [
+          "fabricating",
+          "v.",
+          "正在伪造"
+        ]
+      ],
+      "accuse": [
+        [
+          "accuse",
+          "v.",
+          "指控"
+        ],
+        [
+          "accused",
+          "v.",
+          "指控了"
+        ],
+        [
+          "accusing",
+          "v.",
+          "正在指控"
+        ]
+      ],
+      "foul": [
+        [
+          "foul",
+          "n.",
+          "犯规"
+        ],
+        [
+          "foul",
+          "adj.",
+          "污秽的；不正当的"
+        ]
+      ],
+      "scientist": [
+        [
+          "scientist",
+          "n.",
+          "科学家"
+        ],
+        [
+          "scientists",
+          "n.",
+          "科学家（复数）"
+        ]
+      ],
+      "swell": [
+        [
+          "swell",
+          "adj.",
+          "很棒的"
+        ],
+        [
+          "swell",
+          "v.",
+          "肿胀；增大"
+        ],
+        [
+          "swollen",
+          "adj.",
+          "肿起的"
+        ]
+      ],
+      "golly": [
+        [
+          "golly",
+          "adv.",
+          "天哪"
+        ]
+      ],
+      "bee's knees": [
+        [
+          "bee's knees",
+          "n.",
+          "最棒的"
+        ]
+      ],
+      "consider": [
+        [
+          "consider",
+          "v.",
+          "认为"
+        ],
+        [
+          "considered",
+          "v.",
+          "认为"
+        ],
+        [
+          "considering",
+          "v.",
+          "正在考虑"
+        ]
+      ],
+      "walker": [
+        [
+          "walker",
+          "n.",
+          "步道；助行器"
+        ],
+        [
+          "walk",
+          "v.",
+          "走"
+        ],
+        [
+          "walking",
+          "n.",
+          "行走"
+        ]
+      ],
+      "canine": [
+        [
+          "canine",
+          "adj.",
+          "狗的"
+        ],
+        [
+          "canine",
+          "n.",
+          "狗；犬齿"
+        ]
+      ],
+      "mechanical": [
+        [
+          "mechanical",
+          "adj.",
+          "机械的"
+        ],
+        [
+          "mechanically",
+          "adv.",
+          "机械地"
+        ],
+        [
+          "mechanic",
+          "n.",
+          "机修工"
+        ],
+        [
+          "mechanism",
+          "n.",
+          "机械装置"
+        ]
+      ],
+      "bath": [
+        [
+          "bath",
+          "n.",
+          "洗澡"
+        ],
+        [
+          "bathe",
+          "v.",
+          "洗澡"
+        ],
+        [
+          "bathing",
+          "n.",
+          "沐浴"
+        ]
+      ],
+      "complete with": [
+        [
+          "complete with",
+          "adj.",
+          "配有"
+        ],
+        [
+          "complete",
+          "v.",
+          "完成"
+        ],
+        [
+          "completely",
+          "adv.",
+          "完全地"
+        ]
+      ],
+      "palace": [
+        [
+          "palace",
+          "n.",
+          "宫殿"
+        ],
+        [
+          "palaces",
+          "n.",
+          "宫殿（复数）"
+        ]
+      ],
+      "floating": [
+        [
+          "float",
+          "v.",
+          "漂浮"
+        ],
+        [
+          "floating",
+          "adj.",
+          "漂浮的"
+        ],
+        [
+          "floated",
+          "v.",
+          "漂浮了"
+        ]
+      ],
+      "veritable": [
+        [
+          "veritable",
+          "adj.",
+          "名副其实的"
+        ],
+        [
+          "veritably",
+          "adv.",
+          "真正地"
+        ]
+      ],
+      "comfort": [
+        [
+          "comfort",
+          "n.",
+          "舒适"
+        ],
+        [
+          "comfortable",
+          "adj.",
+          "舒适的"
+        ],
+        [
+          "comfort",
+          "v.",
+          "安慰"
+        ]
+      ],
+      "craft": [
+        [
+          "craft",
+          "n.",
+          "飞船；船"
+        ],
+        [
+          "craft",
+          "n.",
+          "手艺"
+        ],
+        [
+          "crafty",
+          "adj.",
+          "狡猾的"
+        ]
+      ],
+      "conceive": [
+        [
+          "conceive",
+          "v.",
+          "构想"
+        ],
+        [
+          "conceived",
+          "v.",
+          "构想了"
+        ],
+        [
+          "conceiving",
+          "v.",
+          "正在构想"
+        ]
+      ],
+      "faithful": [
+        [
+          "faithful",
+          "adj.",
+          "忠诚的"
+        ],
+        [
+          "faithfully",
+          "adv.",
+          "忠诚地"
+        ],
+        [
+          "faith",
+          "n.",
+          "信念；信任"
+        ]
+      ],
+      "apart from": [
+        [
+          "apart from",
+          "adv.",
+          "与……分开；除了"
+        ],
+        [
+          "apart",
+          "adv.",
+          "分开"
+        ]
+      ],
+      "wagon": [
+        [
+          "wagon",
+          "n.",
+          "货车"
+        ],
+        [
+          "wagons",
+          "n.",
+          "货车（复数）"
+        ]
+      ],
+      "paddy": [
+        [
+          "paddy wagon",
+          "n.",
+          "警车"
+        ],
+        [
+          "paddy",
+          "n.",
+          "该词只用于这个旧称"
+        ]
+      ],
+      "prohibition": [
+        [
+          "prohibition",
+          "n.",
+          "禁酒令；禁止"
+        ],
+        [
+          "prohibit",
+          "v.",
+          "禁止"
+        ],
+        [
+          "prohibited",
+          "adj.",
+          "被禁止的"
+        ]
+      ],
+      "expedition": [
+        [
+          "expedition",
+          "n.",
+          "远征"
+        ],
+        [
+          "expeditions",
+          "n.",
+          "远征（复数）"
+        ]
+      ],
+      "complete": [
+        [
+          "complete",
+          "v.",
+          "完成"
+        ],
+        [
+          "completed",
+          "v.",
+          "完成了"
+        ],
+        [
+          "completing",
+          "v.",
+          "正在完成"
+        ],
+        [
+          "complete",
+          "adj.",
+          "完整的"
+        ]
+      ],
+      "spirit": [
+        [
+          "spirit",
+          "n.",
+          "精神；精灵"
+        ],
+        [
+          "spirits",
+          "n.",
+          "情绪；烈酒"
+        ],
+        [
+          "spirited",
+          "adj.",
+          "有劲的"
+        ]
+      ],
+      "beloved": [
+        [
+          "beloved",
+          "adj.",
+          "深受喜爱的"
+        ],
+        [
+          "love",
+          "v.",
+          "爱"
+        ],
+        [
+          "loving",
+          "adj.",
+          "充满爱的"
+        ]
+      ],
+      "summit": [
+        [
+          "summit",
+          "n.",
+          "山顶"
+        ],
+        [
+          "summits",
+          "n.",
+          "山顶（复数）"
+        ]
+      ],
+      "inhospitable": [
+        [
+          "inhospitable",
+          "adj.",
+          "不宜居住的"
+        ],
+        [
+          "hospitable",
+          "adj.",
+          "好客的"
+        ],
+        [
+          "inhospitably",
+          "adv.",
+          "冷淡地"
+        ]
+      ],
+      "dare": [
+        [
+          "dare",
+          "v.",
+          "敢"
+        ],
+        [
+          "dared",
+          "v.",
+          "敢了"
+        ],
+        [
+          "daring",
+          "adj.",
+          "大胆的"
+        ]
+      ],
+      "sport": [
+        [
+          "sport",
+          "v.",
+          "长着；炫耀"
+        ],
+        [
+          "sport",
+          "n.",
+          "体育运动"
+        ],
+        [
+          "sported",
+          "v.",
+          "长着"
+        ]
+      ],
+      "lurking": [
+        [
+          "lurk",
+          "v.",
+          "潜伏"
+        ],
+        [
+          "lurking",
+          "v.",
+          "潜伏着"
+        ],
+        [
+          "lurked",
+          "v.",
+          "潜伏过"
+        ]
+      ],
+      "majestic": [
+        [
+          "majestic",
+          "adj.",
+          "壮丽的"
+        ],
+        [
+          "majestically",
+          "adv.",
+          "壮丽地"
+        ],
+        [
+          "majesty",
+          "n.",
+          "雄伟；陛下"
+        ]
+      ],
+      "humanity": [
+        [
+          "humanity",
+          "n.",
+          "人类；人道"
+        ],
+        [
+          "human",
+          "n.",
+          "人"
+        ],
+        [
+          "humane",
+          "adj.",
+          "仁慈的"
+        ]
+      ],
+      "civilized": [
+        [
+          "civilized",
+          "adj.",
+          "文明的"
+        ],
+        [
+          "civilize",
+          "v.",
+          "使文明"
+        ],
+        [
+          "civilization",
+          "n.",
+          "文明"
+        ]
+      ],
+      "footage": [
+        [
+          "footage",
+          "n.",
+          "影像片段"
+        ]
+      ],
+      "witness": [
+        [
+          "witness",
+          "v.",
+          "目击"
+        ],
+        [
+          "witnessed",
+          "v.",
+          "目击了"
+        ],
+        [
+          "witness",
+          "n.",
+          "目击者"
+        ]
+      ],
+      "spotlight": [
+        [
+          "spotlight",
+          "n.",
+          "聚光灯；焦点"
+        ],
+        [
+          "spotlight",
+          "v.",
+          "使受关注"
+        ]
+      ],
+      "present": [
+        [
+          "present",
+          "v.",
+          "播出；介绍"
+        ],
+        [
+          "presented",
+          "v.",
+          "播出了"
+        ],
+        [
+          "present",
+          "n.",
+          "礼物"
+        ],
+        [
+          "present",
+          "adj.",
+          "在场的"
+        ]
+      ]
+    }
+  }
+}

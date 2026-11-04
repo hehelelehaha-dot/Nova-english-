@@ -380,6 +380,18 @@ html[data-theme^=t] .foldsub,html[data-theme^=t] .foldar::before{color:var(--ct)
 html[data-theme=t2] .fold{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 html[data-theme=t3] .foldnm{color:#1d2b38}
 html[data-theme=t6] .foldnm{font-family:"Kaiti SC","STKaiti","KaiTi","Xingkai SC","Noto Serif CJK SC",serif;color:#1d2b38}
+/* 大冰 only. Naval paper stays --sf (#f4ead5). 夏日 is one soft step deeper; 飞屋 is one tiny step deeper still. */
+html[data-theme=t6] .fold[data-fold=luca],
+html[data-theme=t6] .fold[data-fold=luca] :is(.tile,.li,.card,.gu){background:#efe4cc}
+html[data-theme=t6] .fold[data-fold=up],
+html[data-theme=t6] .fold[data-fold=up] :is(.tile,.li,.card,.gu){background:#eadec3}
+html[data-theme=t6][data-paper=luca] :is(.tile,.li,.card,.wc,.ent,.s,.player,.gu,.tlisten):not(.zh):not(.cur){background:#efe4cc}
+html[data-theme=t6][data-paper=up] :is(.tile,.li,.card,.wc,.ent,.s,.player,.gu,.tlisten):not(.zh):not(.cur){background:#eadec3}
+html[data-theme=t6][data-paper=luca] :is(.rost .li.zh,#ss .s.zh){background:#f4e7c8}
+html[data-theme=t6][data-paper=luca] #ss .s.cur.zh{background:#f4e7c8!important}
+html[data-theme=t6][data-paper=up] .rost .li.zh{background:#f0e2c2}
+html[data-theme=t6][data-paper=luca] :is(.s.cur,.wc.cur){background:#f3e4bc}
+html[data-theme=t6][data-paper=up] :is(.s.cur,.wc.cur){background:#eddcb4}
 html[data-theme^=t] .s{border-left-width:4px}
 html[data-theme=t2] :is(.tile,.li,.card,.wc,.ent,.s,.player,.hero,.gu,.sh){-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 html[data-theme^=t] .tile{border-top:var(--sfbd)}

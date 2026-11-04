@@ -122,6 +122,8 @@ const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>
 // (old 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 → 1–7).
 // 夏日友晴天 (internal id luca) uses the same section types, skipping 板块二 / 单词卡.
 // 阅读卡 + 句子听写 come from content/luca.json (plaintext until encrypted). 口语句式 and 英英解释 stay empty.
+// 飞屋环游记 (internal id up) is a Day list like Luca. content/up.json names the days; each day is one file.
+// Only Day 1 / 01 is written (69 words). Days 02–08 are not invented. Sections: 单词卡, 英英解释, 词形练习, 小游戏.
 const CIRC="⓪①②③④⑤⑥⑦⑧⑨";
 const NAVAL_RANK={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6};
 const LUCA_DEF=[
@@ -135,7 +137,8 @@ function navalSectionIds(){if(!CAT)return ["wf","game"];
  return ids.concat(["wf","game"])}
 function refreshFoldNumbers(){FOLDN={};navalSectionIds().forEach((id,i)=>{FOLDN[id]=i+1});
  if(FOLDN.dictation)FOLDN.chunks=FOLDN.dictation;if(FOLDN.game)FOLDN.g=FOLDN.game;
- LUCA_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
+ LUCA_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
+ UP_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
 const secT=(id,t)=>{const n=FOLDN[id];return n?CIRC[n]+" "+t:t};
 const lucaSec=id=>LUCA_DEF.find(s=>s.id==id);
 let LUCA=null;
@@ -144,6 +147,27 @@ function lucaReading(){return (LUCA&&LUCA.reading)||[]}
 function lucaDict(){return lucaReading().map(it=>({id:"dt_"+it.id,base:it.id,title:it.title,sub:it.sub||"",data:it.data,dictation:1}))}
 function lucaItemsFor(s){return s.like=="reading"?lucaReading():s.like=="dictation"?lucaDict():[]}
 function lucaHit(id){const r=lucaReading().find(it=>it.id==id);if(r)return{it:r,sec:"luca_reading"};const d=lucaDict().find(it=>it.id==id);if(d)return{it:d,sec:"luca_dictation"};return null}
+const UP_DEF=[
+ {id:"up_flash",like:"flash",name:"单词卡",desc:"翻面看发音和扩展"},
+ {id:"up_ee",like:"ee",name:"英英解释",desc:"用英文讲这个词"},
+ {id:"up_wf",like:"wf",name:"词形练习",desc:"名词 · 动词 · 形容词 · 副词"},
+ {id:"up_game",like:"game",name:"小游戏",desc:"拼写 · 拼图 · 填词"}];
+let UP=null;
+async function loadUp(){if(UP)return UP;try{UP=await getJSON("up.json")}catch(e){UP={days:[],wfMap:[]}}if(!UP.days)UP.days=[];if(!UP.wfMap)UP.wfMap=[];return UP}
+const upSec=id=>UP_DEF.find(s=>s.id==id);
+function upDays(){return (UP&&UP.days)||[]}
+function upHit(id){const m=/^(up_d\d+)_(flash|ee)$/.exec(id||"");if(!m)return null;const day=upDays().find(d=>d.id===m[1]);if(!day)return null;return {it:{id,title:day.title,sub:day.sub||"",data:day.data,upPart:m[2]},sec:m[2]==="flash"?"up_flash":"up_ee"}}
+function syncPaper(){const h=(location.hash||"#/").slice(1).split("/");const a=h[1]||"",b=h[2]||"";let p="";
+ if((a==="c"||a==="i")&&(b.startsWith("luca")||b.startsWith("dt_luca")))p="luca";
+ else if((a==="c"||a==="i")&&b.startsWith("up_"))p="up";
+ else if(a==="wf"&&b.startsWith("up_"))p="up";
+ else if(a==="g"&&(b==="up"||b.startsWith("up_")))p="up";
+ if(p)document.documentElement.dataset.paper=p;else delete document.documentElement.dataset.paper}
+async function showUp(s){if(s.like=="game")return showGames("up");if(s.like=="wf")return showWFs("up");setHeader(secT(s.id,s.name),true);const days=upDays();
+ const tip=s.like=="flash"?"选一集。先翻面看发音和扩展，再开始练习。":"选一集。用简单英文听这个词是什么意思。";
+ if(!days.length){V.innerHTML=`<p class="tip">飞屋环游记 · ${esc(s.name)}</p><div class="done">这一集还没写好</div>`;return}
+ V.innerHTML=`<p class="tip">${tip}</p><div class="list">${days.map((d,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(d.title)}<span class="sb">${esc(d.sub||"")}</span></span></button></div>`).join("")}</div>`;
+ V.querySelectorAll("[data-k]").forEach(b=>{const d=days[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+d.id+"_"+(s.like=="flash"?"flash":"ee")}})}
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
@@ -165,13 +189,13 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
  const seq=++SCRSEQ;await route0();if(seq!=SCRSEQ)return;
  const y=back?SCR[h]||0:0;if(!y)return;const t0=Date.now();
  const tryR=()=>{if(seq!=SCRSEQ)return;const maxY=document.documentElement.scrollHeight-innerHeight;if(maxY>=y-2){window.scrollTo(0,y);if(Math.abs(window.scrollY-y)<3)return}if(Date.now()-t0<2500)setTimeout(tryR,60);else window.scrollTo(0,Math.min(y,maxY))};tryR()}
-async function route0(){ROST++;stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
+async function route0(){syncPaper();ROST++;stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- await loadLuca();applyDictation(CAT);refreshFoldNumbers();
+ await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
- try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]==="up"&&!h[3]?showGames("up"):h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
 // Storage model (v2, sync-ready): FIELDS = { key: [value, ts] }, value null = tombstone.
@@ -328,9 +352,11 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
  const lucaIcon={"phrases":"💬","reading":"📖","longaudio":"🎧","dictation":"✍️"};
  const luca=LUCA_DEF.map(s=>{const src=byId[s.like]||{};
   return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
+ const upIcon={flash:"🗂️",ee:"🎧",wf:"🔤",game:"🎮"},upKey={flash:"flash",ee:"longaudio",wf:"wf",game:"g"},upN=upDays().length;
+ const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div>${dqHTML()}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div>${dqHTML()}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
@@ -427,7 +453,7 @@ function wireTopicListen(fold){if(!document.getElementById("tlisten"))return;dro
  $("hid").onclick=()=>{hid=!hid;cap.classList.toggle("hide",hid);$("hid").classList.toggle("on",hid);try{localStorage.setItem("rd_hid",hid?"1":"0")}catch(e){}};
  if($("dd"))$("dd").onclick=()=>{TLDD=!TLDD;$("dd").classList.toggle("on",TLDD);try{localStorage.setItem("rd_dd",TLDD?"1":"0")}catch(e){}listenCaption(TLCAP)}}
 function catItemRow(x,k){return `<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`}
-function navalGroups(secId){if(!secId||lucaSec(secId)||FOLDN[secId]===1)return false;return navalSectionIds().includes(secId)}
+function navalGroups(secId){if(!secId||lucaSec(secId)||upSec(secId)||FOLDN[secId]===1)return false;return navalSectionIds().includes(secId)}
 function tfOpen(id,def){try{const s=localStorage.getItem("nova_tf_"+id);if(s==null)return def;return s==="1"}catch(e){return def}}
 // Naval sections after 板块一: Topics 1–10, 11–20, … Newest range starts open. 板块一 and 夏日友晴天 stay a flat list.
 function topicGroupsHTML(secId, rows, fold){
@@ -452,7 +478,7 @@ function showLuca(s){setHeader(secT(s.id,s.name),true);
  V.innerHTML=`${bar}${listen}${tip}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  if(listen)wireTopicListen("luca");
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
-async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
+async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
  V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
@@ -500,9 +526,12 @@ async function showMine(id){const f=(await idbAll()).find(x=>x.id==id);if(!f)ret
 async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dictation");return}
  let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}
  if(!it){const L=lucaHit(id);if(L){it=L.it;cat={id:L.sec}}}
+ if(!it){const U=upHit(id);if(U){it=U.it;cat={id:U.sec}}}
  if(!it)return showHome();
  setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  if(it.dictation||(cat&&cat.id=="dictation")||(cat&&cat.id=="luca_dictation"))return viewDictation(d,it);
+ if(it.upPart==="flash")return viewFlash(d.flash,id);
+ if(it.upPart==="ee")return viewEE(d.ee,id);
  if(d.type=="chunks"){location.replace("#/c/dictation");return}
  const view=({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong})[d.type];
  if(view)view(d,id);else V.innerHTML=`<div class="done">这个内容打不开</div>`}
@@ -678,6 +707,32 @@ document.addEventListener("click",async ev=>{const s=ev.target.closest&&ev.targe
  document.querySelectorAll("audio").forEach(x=>{try{x.pause()}catch(e){}});stopAll();document.querySelectorAll(".dseg.dplay").forEach(x=>x.classList.remove("dplay"));
  s.classList.add("dplay");window._dseg={c:s.dataset.c,a:+s.dataset.a,b:s.dataset.b===""?null:+s.dataset.b};
  await playSrc({oa:s.dataset.c,oab:[+s.dataset.a,s.dataset.b===""?null:+s.dataset.b]},1);s.classList.remove("dplay")},true);
+// ---------- 飞屋环游记 英英解释: same entry list as Naval 英英, read aloud with speechSynthesis (no long audio file) ----------
+let eeRate=1;
+const EEPOS={"n.":"noun","v.":"verb","adj.":"adjective","adv.":"adverb","phr.":"phrase"};
+function eeParts(e,ent){const pos=EEPOS[String(e.pos||"").replace(/（.*/,"").trim()]||"word";
+ const out=[{t:e.w,lang:"en-US",ent},{t:pos,lang:"en-US",ent},{t:e.ex||"",lang:"en-US",ent}];
+ (e.exs||[]).forEach((x,j)=>{out.push({t:x,lang:"en-US",ent});const z=e.exzh&&e.exzh[j];if(z)out.push({t:z,lang:"zh-CN",ent});out.push({t:x,lang:"en-US",ent})});return out}
+function eeSpeak(list,btn){if(!window.speechSynthesis){toast("这台设备不支持朗读");return}stopAll();speechSynthesis.cancel();
+ const all=document.getElementById("all");if(all&&all!==btn){all.classList.remove("on");all.textContent="▶ 全部连播"}
+ if(typeof pickVoice=="function"){try{if(!ENV)pickVoice()}catch(e){}}
+ if(btn){LASTBTN=btn;btn.classList.add("playing")}const me=RUN;
+ list.forEach((p,i)=>{const u=new SpeechSynthesisUtterance(p.t);u.lang=p.lang;u.rate=eeRate;
+  if(String(p.lang).startsWith("en")&&typeof ENV!=="undefined"&&ENV)u.voice=ENV;
+  u.onstart=()=>{if(me!==RUN||p.ent==null)return;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));const el=document.getElementById("e"+p.ent);if(el){el.classList.add("cur");follow(el)}};
+  if(i===list.length-1)u.onend=()=>{if(me!==RUN)return;if(btn){btn.classList.remove("playing");if(btn.id==="all"){btn.classList.remove("on");btn.textContent="▶ 全部连播"}}};
+  speechSynthesis.speak(u)})}
+function viewEE(d,id){const items=(d&&d.items)||[];const SKK="nova_skip_"+(id||"up_ee");let SK={};try{SK=JSON.parse(localStorage.getItem(SKK))||{}}catch(e){}
+ const isSk=i=>!!SK[items[i].w];
+ V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="spd">速度 ${eeRate}x</button></div><div class="tip">点「从这里听」：单词、词性、英文解释，然后例句。这一集没有原声，用这台设备朗读。</div><div class="skbar" id="skbar" hidden></div>${items.map((e,i)=>`<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n||i+1}</span><span class="w en">${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span><button class="jump" data-i="${i}">▶ 从这里听</button><button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div><p>${esc(e.ex||"")}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${esc(x)}${e.exzh&&e.exzh[j]?`<div class="exz">${esc(e.exzh[j])}</div>`:""}</li>`).join("")}</ol>`:""}</div>`).join("")}`;
+ const skPaint=()=>{items.forEach((e,i)=>{const el=document.getElementById("e"+i),b=el.querySelector(".skb"),s=isSk(i);el.classList.toggle("skipped",s);b.textContent=s?"已跳过 ↺":"跳过";b.setAttribute("aria-pressed",s)});
+  const n=items.filter((e,i)=>isSk(i)).length,bar=document.getElementById("skbar");bar.hidden=!n;bar.innerHTML=n?`已跳过 ${n} 个词（连播时跳过）· <button class="btn" id="skall">全部恢复</button>`:"";
+  if(n)document.getElementById("skall").onclick=()=>{SK={};localStorage.removeItem(SKK);skPaint()}};
+ V.querySelectorAll(".skb").forEach(b=>b.onclick=()=>{const w=items[+b.dataset.sk].w;if(SK[w])delete SK[w];else SK[w]=1;localStorage.setItem(SKK,JSON.stringify(SK));skPaint()});skPaint();
+ const rates=[1,.85,.75];document.getElementById("spd").onclick=e=>{eeRate=rates[(rates.indexOf(eeRate)+1)%rates.length];e.target.textContent="速度 "+eeRate+"x"};
+ const playFrom=(i,btn)=>{const list=[];for(let k=i;k<items.length;k++){if(isSk(k))continue;eeParts(items[k],k).forEach(p=>list.push(p))}if(list.length)eeSpeak(list,btn)};
+ V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>playFrom(+b.dataset.i,b));
+ document.getElementById("all").onclick=()=>{const b=document.getElementById("all");if(b.classList.contains("on")){stopAll();b.classList.remove("on");b.textContent="▶ 全部连播";return}b.classList.add("on");b.textContent="■ 停止";playFrom(0,b)}}
 // ---------- flashcards ----------
 // ② 单词卡: two directions. 英→中 (recognise, default) and 中→英 (recall: Chinese + 底层逻辑 + letter hint + blanked 原句翻译 on the
 // front, say it / optionally type it, flip → English word + autoplay + 原句). Progress is per direction: flash_<id> / flash_<id>_r.
@@ -710,7 +765,7 @@ function viewFlash(d,id,opt){const token=++ROST;const C=d.cards,DIR=FCDIR(),CE=D
    mark:(i,v)=>{if(CE&&S.sp[i]=="bad")v="u";S.status[i]=v;if(v=="u")S.queue.splice(Math.min(S.pos+4,S.queue.length),0,i);S.pos++;back=false;stopAll();save();render()},
    src:(i,b)=>{stopAll();playFull(C[i].src,b,S.rate)},
    osent:(i,b)=>{const on=window._oplaying&&b.classList.contains("playing");stopAll();window._oplaying=false;b.classList.remove("playing");if(on)return;playClips(C[i].src.oas,b)},
-   say:(i,b)=>{stopAll();LASTBTN=b;playP(C[i].a[0],S.rate,C[i].w)},/* 中→英 front 🔊: word audio only, no autoplay, not counted */
+   say:(i,b)=>{stopAll();LASTBTN=b;const p=C[i].a&&C[i].a[0];if(p)playP(p,S.rate,C[i].w);else speak(C[i].w,S.rate)},/* 中→英 front 🔊: word audio, or TTS when this deck has none */
    hint:i=>{S.rv[i]=Math.min((S.rv[i]||1)+1,fcLetters(C[i].w));save();const h=$("hint");if(h)h.innerHTML=fcMask(C[i].w,S.rv[i])},
    spell:(i,quiet)=>{const sp=$("sp");const t=sp?sp.value.trim():"";if(!t)return;S.typed[i]=t;S.sp[i]=fcOK(t,C[i].w)?"ok":"bad";save();if(!quiet)render()},
    again:()=>{build();render()},un:()=>{S.mode="un";build();render()}};
