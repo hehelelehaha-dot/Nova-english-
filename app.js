@@ -10,6 +10,29 @@ async function dec(buf){const u=new Uint8Array(buf);return crypto.subtle.decrypt
 async function getBuf(p){if(!META.enc){const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
  let enc=null;try{const r=await fetch(p+".enc");if(r.ok)enc=await r.arrayBuffer()}catch(e){}
  if(enc)return dec(enc);const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
+// Topic 6, the sentence that ends "…as I said, it solves your money problems."
+// On audio/t06o/s16 Naval says "money solves" (the same line as Modern Wisdom #922).
+// 听写 was marking Nova's "money" as extra. The phrase is copied onto the reading
+// card, ②/③ 原文, the chunk, and wordforms. "money" is three letters longer than
+// "it", so a character range that runs past that word moves with it. Word indexes
+// stay put, and 它能解决你的钱的问题 follows the spoken word.
+function moneyFix(x){if(!x||typeof x!="object")return x;
+ const OLD="it solves your money problems",NEW="money solves your money problems",D=NEW.length-OLD.length;
+ const OLDZH="它能解决你的钱的问题",NEWZH="钱能解决你的钱的问题";
+ const shift=(n,ats)=>typeof n=="number"?n+ats.reduce((d,at)=>d+(n>at?D:0),0):n;
+ const span=(a,ats)=>{if(Array.isArray(a)&&typeof a[0]=="number"&&typeof a[1]=="number"){a[0]=shift(a[0],ats);a[1]=shift(a[1],ats)}};
+ const segs=(a,ats)=>{if(Array.isArray(a))for(const z of a)if(Array.isArray(z))span(z,ats)};
+ const hits=s=>{if(typeof s!="string"||s.indexOf(OLD)<0)return null;const ats=[];for(let i=0;(i=s.indexOf(OLD,i))>=0;i+=OLD.length)ats.push(i);return ats};
+ const put=(o,k,ats)=>{o[k]=o[k].split(OLD).join(NEW);return ats};
+ const walk=o=>{if(!o||typeof o!="object")return;if(Array.isArray(o)){for(const v of o)walk(v);return}
+  for(const k of Object.keys(o))if(typeof o[k]=="string"&&o[k].indexOf(OLDZH)>=0)o[k]=o[k].split(OLDZH).join(NEWZH);
+  const t=hits(o.t),s=hits(o.s),src=typeof o.src=="string"?hits(o.src):null,ft=hits(o.ft);
+  if(t){put(o,"t",t);span(o.hl,t);if(!o.ft)segs(o.sg,t)}
+  if(s){put(o,"s",s);span(o.hl,s);if(!o.ft)segs(o.sg,s)}
+  if(src){put(o,"src",src);if(!o.ft){span(o.hl,src);segs(o.sg,src)}}
+  if(ft){put(o,"ft",ft);span(o.fhl,ft);segs(o.sg,ft)}
+  for(const k of Object.keys(o))if(o[k]&&typeof o[k]=="object")walk(o[k])};
+ walk(x);return x}
 // Topics 5–7 点读. Reading-card seg is [wordStart, wordEnd, t0, t1] into s.oa.
 // The same array feeds ① 点读 and ④ 点读原声. Clips stay as they are; only the
 // slice times change, retuned on the original audio so a slice ends just after
@@ -43,7 +66,7 @@ function breathFix(d){if(!d||!Array.isArray(d.sents))return d;
   "but it's a fun little study that shows that people who break their back and people who win the lottery are back to their baseline happiness two years later":[[0,3,0,0.8],[4,5,0.98,1.8],[6,8,2.14,2.88],[9,13,2.98,4.38],[14,21,4.4,6.46],[22,28,6.42,8.52]],
   "again don't know if that's entirely true i think money can buy you happiness if you earned it":[[0,8,0.08,1.9],[9,17,2.18,4.7]],
   "because then along the way you have both pride and confidence in yourself and you have a sense of accomplishment":[[0,7,0.18,2.82],[8,12,2.82,4.6],[13,19,4.74,6.4]],
-  "and you set out to do something and you were right so i'll bet that lingers and then as i said it solves your money problems":[[0,10,0.14,2.88],[11,17,2.88,4.52],[18,25,4.52,6.23]],
+  "and you set out to do something and you were right so i'll bet that lingers and then as i said money solves your money problems":[[0,10,0.14,2.88],[11,17,2.88,4.52],[18,25,4.52,6.23]],
   "so i don't want to be too glib about it but i would say in general this loop that we run through of desire dopamine fulfillment unfulfillment you have to enjoy the journey":[[0,9,0,1.4],[10,15,1.78,3.2],[16,21,3.26,5.16],[22,31,5.5,10.32]],
   "the journey is all there is ninety nine percent of your time is spent on the journey so what kind of a journey is it if you're not going to enjoy it":[[0,5,0,1.58],[6,15,1.64,3.62],[16,24,3.62,5.08],[25,30,5.08,5.9]],
   "how do you shortcut that desire contract":[[0,4,0.22,1.44],[5,6,1.58,2.7]],
@@ -54,12 +77,12 @@ function breathFix(d){if(!d||!Array.isArray(d.sents))return d;
   "you can't be great at everything you're just going to waste your energy and waste your time":[[0,5,0,1.1],[6,16,1.12,2.93]],
  };
  for(const s of d.sents){if(!Array.isArray(s.seg)||!/\/t0[567]o\//.test(s.oa||""))continue;
-  const seg=FIX[norm(s.t)];if(!seg)continue;
+  const seg=FIX[norm(s.t).split("it solves your money problems").join("money solves your money problems")];if(!seg)continue;
   const n=String(s.t||"").split(/\s+/).length;
   if(seg.some(z=>!Array.isArray(z)||z.length<4||z[0]<0||z[1]>=n||z[0]>z[1]))continue;
   s.seg=seg.map(z=>z.slice())}
  return d}
-async function getJSON(p){const d=JSON.parse(new TextDecoder().decode(await getBuf("content/"+p)));return breathFix(d)}
+async function getJSON(p){const d=JSON.parse(new TextDecoder().decode(await getBuf("content/"+p)));return breathFix(moneyFix(d))}
 async function audioURL(p){if(!META.enc)return "content/"+p;if(!blobCache[p])blobCache[p]=URL.createObjectURL(new Blob([await getBuf("content/"+p)],{type:"audio/mpeg"}));return blobCache[p]}
 async function unlock(){
  META=await (await fetch("meta.json")).json();if(!META.enc)return true;

@@ -3,11 +3,11 @@ import {readFileSync} from "node:fs";
 import {createContext, runInContext} from "node:vm";
 
 const src = readFileSync(new URL("./app.js", import.meta.url), "utf8");
-const start = src.indexOf("function breathFix");
+const start = src.indexOf("function moneyFix");
 const end = src.indexOf("async function getJSON");
 const ctx = {};
 runInContext(src.slice(start, end), createContext(ctx));
-const {breathFix} = ctx;
+const {breathFix, moneyFix} = ctx;
 
 const norm = s => String(s || "").toLowerCase().replace(/[’']/g, "'").replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ").trim();
 
@@ -84,6 +84,69 @@ const card = () => ({type:"reading", sents:[
 
 assert.equal(breathFix({categories:[]}).categories.length, 0);
 assert.equal(breathFix(null), null);
+
+// Topic 6 "…as I said, it solves…" is "money solves" on the clip. Gold text,
+// the Chinese that translated 它, and character ranges past that word all move.
+// Word indexes stay, so the 点读 slice still covers the same words.
+{
+  const old = "and you set out to do something and you were right, so I’ll bet that lingers, and then as I said, it solves your money problems.";
+  const zh = "你下定决心去做一件事，结果你做对了，所以我敢说那种感觉会一直留着，再加上我说过的，它能解决你的钱的问题。";
+  const reading = {sents:[{t:old, zh, oa:"audio/t06o/s16.mp3", seg:[[0,25,0,6.23]]}]};
+  const fixed = breathFix(moneyFix(reading));
+  const sent = fixed.sents[0];
+  assert.equal(sent.t.includes("money solves your money problems."), true);
+  assert.equal(sent.t.includes("it solves"), false);
+  assert.equal(sent.zh.includes("钱能解决你的钱的问题"), true);
+  assert.equal(sent.zh.includes("它能解决"), false);
+  assert.equal(sent.t.split(/\s+/)[21], "money");
+  assert.equal(sent.seg[2][0], 18);
+  assert.equal(sent.seg[2][1], 25);
+  // Stored text that still says "it" still finds the same slices.
+  const viaOld = breathFix({sents:[{t:old, oa:"audio/t06o/s16.mp3", seg:[[0,25,0,6]]}]});
+  assert.equal(viaOld.sents[0].seg[2][0], 18);
+}
+
+{
+  const ft = "x".repeat(310) + "it solves your money problems.";
+  const card = {src:{
+    t:"and you set out to do something and you were right, so I’ll bet that lingers, and then as I said, it solves your money problems.",
+    ft,
+    zh:"再加上我说过的，它能解决你的钱的问题。",
+    hl:[8,18],
+    fhl:[220,230],
+    sg:[[299,340,"audio/t06o/s16.mp3",4.6,6.23],[0,42,"audio/t06o/s14.mp3",0,1.53]]
+  }};
+  moneyFix(card);
+  assert.equal(card.src.t.endsWith("money solves your money problems."), true);
+  assert.equal(card.src.t.includes("it solves"), false);
+  assert.equal(card.src.ft.slice(310, 315), "money");
+  assert.equal(card.src.ft.length, 343);
+  assert.deepEqual(card.src.hl, [8,18]);
+  assert.deepEqual(card.src.fhl, [220,230]);
+  assert.equal(card.src.sg[0][0], 299);
+  assert.equal(card.src.sg[0][1], 343);
+  assert.deepEqual(card.src.sg[1], [0,42,"audio/t06o/s14.mp3",0,1.53]);
+  assert.equal(card.src.zh.includes("钱能解决你的钱的问题"), true);
+  const again = JSON.parse(JSON.stringify(card));
+  moneyFix(again);
+  assert.equal(JSON.stringify(again), JSON.stringify(card));
+}
+
+{
+  const chunk = {items:[{s:"as I said, it solves your money problems.", hl:[4,11], sg:[[87,128,"audio/t06o/s16.mp3",4.6,6.23]]}]};
+  // "it" sits at the same place as the real chunk sentence (index 98) only if the
+  // prefix matches. Use the real prefix length.
+  chunk.items[0].s = "and you set out to do something and you were right, so I’ll bet that lingers, and then as I said, it solves your money problems.";
+  assert.equal(chunk.items[0].s.indexOf("it solves"), 98);
+  moneyFix(chunk);
+  assert.equal(chunk.items[0].s.indexOf("money solves"), 98);
+  assert.equal(chunk.items[0].sg[0][0], 87);
+  assert.equal(chunk.items[0].sg[0][1], 131);
+  assert.deepEqual(chunk.items[0].hl, [4,11]);
+}
+
+assert.equal(moneyFix({t:"it solves nothing else"}).t, "it solves nothing else");
+assert.equal(moneyFix(null), null);
 
 // Every listed sentence's slices cover its words in order. Keys are the normalized card text.
 const listed = src.slice(src.indexOf("const FIX={"), src.indexOf("};", src.indexOf("const FIX={")));
