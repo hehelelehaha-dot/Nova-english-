@@ -406,7 +406,14 @@ assert.match(app, /America\/New_York/);
   assert.match(html, /fp-home/);
   const inn = app.slice(app.indexOf("function dqFootInner"), app.indexOf("function dqHTML"));
   assert.match(inn, /今天的目标/);
+  assert.match(inn, /fp-qslot/);
+  assert.match(inn, /fp-side/);
   assert.equal(inn.includes("今天的句子"), false);
+  assert.equal(inn.includes("完成句子"), false);
+  assert.equal(inn.includes("每完成1句"), false);
+  const homeFn = app.slice(app.indexOf("async function showHome"), app.indexOf("function foldReadingTopics"));
+  assert.match(homeFn, /dqQuoteShell\(\)/);
+  assert.equal(homeFn.includes('<div class="qbar" id="qb">'), false);
   const from = app.indexOf("async function showDQ");
   const pick = app.slice(from, app.indexOf("// ---------- study timer", from));
   assert.match(pick, /<details class="dqfold"/);
@@ -554,7 +561,7 @@ assert.match(css, /\.daybar\.is-full/);
 
 {
   const stick = app.slice(app.indexOf("// STICK_LOGIC_START"), app.indexOf("// STICK_LOGIC_END"));
-  const sync = app.slice(app.indexOf("function dqDoneN"), app.indexOf("function dqStarDays"));
+  const sync = app.slice(app.indexOf("function dqOtN"), app.indexOf("function dqStarDays"));
   const store = {};
   const g = {
     localStorage: {
@@ -570,18 +577,28 @@ assert.match(css, /\.daybar\.is-full/);
   const evening = new Date("2026-11-04T20:00:00Z");
   const before2 = new Date("2026-11-05T06:30:00Z");
   const after2 = new Date("2026-11-05T08:00:00Z");
-  let n = g.dqStickSync({day:"2026-11-04", done:["a","b","c"], extra:0}, evening);
-  assert.equal(n, 3);
-  n = g.dqStickSync({day:"2026-11-05", done:[], extra:0}, before2);
-  assert.equal(n, 3);
-  n = g.dqStickSync({day:"2026-11-05", done:["z"], extra:0}, before2);
-  assert.equal(n, 4);
-  n = g.dqStickSync({day:"2026-11-05", done:["z"], extra:0}, after2);
+  const five = ["a","b","c","d","e"];
+  let n = g.dqStickSync({day:"2026-11-04", sel:five, done:["a","b","c"], extra:0}, evening);
   assert.equal(n, 0);
-  n = g.dqStickSync({day:"2026-11-05", done:["z","y"], extra:1}, after2);
+  n = g.dqStickSync({day:"2026-11-04", sel:five, done:five, extra:0}, evening);
+  assert.equal(n, 0);
+  n = g.dqStickSync({day:"2026-11-04", sel:five, done:five, extra:1}, evening);
+  assert.equal(n, 1);
+  n = g.dqStickSync({day:"2026-11-05", sel:[], done:[], extra:0}, before2);
+  assert.equal(n, 1);
+  n = g.dqStickSync({day:"2026-11-05", sel:five, done:five, extra:1}, before2);
   assert.equal(n, 2);
-  const again = g.dqStickSync({day:"2026-11-05", done:["z","y"], extra:1}, after2);
-  assert.equal(again, 2);
+  n = g.dqStickSync({day:"2026-11-05", sel:five, done:five, extra:1}, after2);
+  assert.equal(n, 0);
+  n = g.dqStickSync({day:"2026-11-05", sel:five, done:five, extra:2}, after2);
+  assert.equal(n, 1);
+  const again = g.dqStickSync({day:"2026-11-05", sel:five, done:five, extra:2}, after2);
+  assert.equal(again, 1);
+  const fresh = {localStorage: {getItem(){return null}, setItem(){}}};
+  runInContext(logic + "\n" + stick + "\nconst DQSK=\"nova_dq_stick\";\nfunction dqStickRead(){return null}\nfunction dqStickWrite(){}\n" + sync + "\nthis.dqOtN=dqOtN;this.dqStickSync=dqStickSync;", createContext(fresh));
+  assert.equal(fresh.dqOtN({sel:five, done:five, extra:0}), 0);
+  assert.equal(fresh.dqOtN({sel:five, done:five, extra:1}), 1);
+  assert.equal(fresh.dqStickSync({day:"2026-11-04", sel:five, done:five, extra:1}, evening), 1);
 }
 
 assert.match(app, /yearLeft\(\)/);
