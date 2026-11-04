@@ -749,11 +749,9 @@ button.fp-goal{border:0;background:transparent;width:100%;padding:4px 2px 2px}
 .fp-qslot{margin-top:10px;min-width:0}
 .fp-home .qbar{margin:0;width:100%;box-sizing:border-box}
 .fp-home .fp-top b{font-size:18px}
-.fp-home .fp-score{width:100%;margin-top:12px}
+.fp-home .fp-score{width:100%;margin-top:12px;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 .fp-home .fp-marks i{width:26px;height:26px}
-.fp-home.has-ot .fp-score{justify-content:flex-end;gap:8px}
-.fp-home.has-ot .fp-marks{margin-right:auto}
-.fp-home .fp-ot{font-size:54px}
+.fp-home .fp-ot{font-size:54px;margin-top:2px}
 .daybar.shine .fp-marks i.on{animation:fpwin .7s ease}
 @keyframes fpwin{from{transform:scale(.55);opacity:.4}55%{transform:scale(1.12)}to{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .fp-marks i.on{animation:none}}
