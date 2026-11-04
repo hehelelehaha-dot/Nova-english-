@@ -126,6 +126,21 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 .yrow .osb{flex:none;align-self:flex-start;margin:2px 8px 0 0;white-space:nowrap}
 .rost .rn{flex:0 0 2.2em;font-weight:700;opacity:.55}.rost .rw{display:block;font-weight:700;color:inherit;text-decoration:none;word-break:break-word}
 .rostgo{max-width:640px;margin-left:auto;margin-right:auto}
+/* ③ 生词: tap flips in place. No outline, no min-height collapse, no scroll anchoring — those jump the page. */
+.rost{overflow-anchor:none}
+.rost .li{align-items:stretch;cursor:pointer;touch-action:manipulation;overflow-anchor:none;-webkit-tap-highlight-color:transparent}
+.rost .rf,.rost .rh{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.rost .rb{display:none;flex:1;min-width:0;text-align:left}
+.rost .li.zh{background:#fff8e6}
+.rost .li.zh .rf{display:none}
+.rost .li.zh .rb{display:block}
+.rost .li.flipping{transition:transform .23s ease-in;transform:perspective(900px) rotateY(90deg)}
+.rost .li.unflip{animation:unfl .23s ease-out}
+.rost .rsec{margin-top:8px;font-size:15px;line-height:1.5}
+.rost .rln{margin-top:4px}
+.rost .ipa{margin:0 4px;color:#6b6b6b;font-family:"Doulos SIL","Charis SIL","Lucida Sans Unicode",sans-serif}
+.rost .rpron{display:inline-flex;align-items:center;justify-content:center;min-width:32px;min-height:32px;padding:0 4px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+@media (prefers-reduced-motion:reduce){.rost .li.flipping,.rost .li.unflip{transition:none;animation:none;transform:none}}
 /* ---- games ---- */
 .gtile{border-top-color:#3b5f8f!important}
 .gu{background:#fffefa;border-radius:20px;padding:14px;box-shadow:0 3px 10px rgba(47,90,138,.12)}.gt b{font-size:18px}.gt .sb{display:block;color:#666;font-size:13px;margin-top:3px}
@@ -182,6 +197,17 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .wd.on{color:#000}
 .tlar::before{content:"▸";color:#2a6f97;font-size:18px;width:1em;display:inline-block}
 .tlisten[open]>.tlh .tlar::before{content:"▾"}
 .tlnm{font-size:17px}.tlsub{margin-left:auto;font-size:16px;font-weight:800;color:#2a6f97}
+/* Naval topic lists after 板块一: Topic 1–10, 11–20, … */
+.tfolds{display:flex;flex-direction:column;gap:10px}
+.tfold{background:#fffefa;border:1px solid #f0e2a8;border-radius:16px;box-shadow:0 2px 8px rgba(47,90,138,.1)}
+.tfh{list-style:none;display:flex;align-items:center;gap:8px;min-height:48px;padding:10px 14px;cursor:pointer;font-weight:800;color:#1d2b38}
+.tfh::-webkit-details-marker{display:none}
+.tfar::before{content:"▸";color:#2a6f97;font-size:18px;width:1em;display:inline-block}
+.tfold[open]>.tfh .tfar::before{content:"▾"}
+.tfnm{font-size:17px}.tfsub{margin-left:auto;font-size:15px;font-weight:800;color:#2a6f97}
+.tfold>.list{padding:0 10px 10px}
+html[data-theme^=t] .tfold{background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
+html[data-theme^=t] .tfar::before,html[data-theme^=t] .tfsub{color:var(--ct)}
 .tlbody{padding:0 14px 12px}
 .tlcap{margin:10px 0 8px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #e6d7a8;min-height:52px}
 .tlcap .tlen{margin:0;font-family:Georgia,"Noto Serif",serif;font-size:18px;line-height:1.45;color:#1d2b38}

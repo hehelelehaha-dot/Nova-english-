@@ -165,7 +165,7 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
  const seq=++SCRSEQ;await route0();if(seq!=SCRSEQ)return;
  const y=back?SCR[h]||0:0;if(!y)return;const t0=Date.now();
  const tryR=()=>{if(seq!=SCRSEQ)return;const maxY=document.documentElement.scrollHeight-innerHeight;if(maxY>=y-2){window.scrollTo(0,y);if(Math.abs(window.scrollY-y)<3)return}if(Date.now()-t0<2500)setTimeout(tryR,60);else window.scrollTo(0,Math.min(y,maxY))};tryR()}
-async function route0(){stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
+async function route0(){ROST++;stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
  await loadLuca();applyDictation(CAT);refreshFoldNumbers();
@@ -382,7 +382,7 @@ async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold
  const me=++RUN,sel=topics.filter(t=>t.n>=a&&t.n<=b);TLACTIVE=a+"-"+b;TLMODE=loop?"loop":"once";listenPaint();
  const st=t=>{const e=document.getElementById("st");if(e)e.textContent=t},chip=tag+a+"–"+tag+b,label=loop?"原声循环":"原声连播";
  window._tl={fold,a,b,loop:!!loop,ids:sel.map(t=>t.id)};st(label+" · "+chip);
- const markTopic=id=>{document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));if(!id)return;const e=document.querySelector('.li[data-tid="'+CSS.escape(id)+'"]');if(e)e.classList.add("cur");
+ const markTopic=id=>{document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));if(!id)return;const e=document.querySelector('.li[data-tid="'+CSS.escape(id)+'"]');if(e){e.classList.add("cur");const fold=e.closest("details.tfold");if(fold&&!fold.open)fold.open=true}
   if(window._rdRid==id){const card=window._tlCard;if(card!=null){const el=document.getElementById("s"+card);if(el){document.querySelectorAll("#ss .cur").forEach(x=>x.classList.remove("cur"));el.classList.add("cur");follow(el)}}}};
  do{let played=0;for(const t of sel){if(me!=RUN)return;let d;try{d=await getJSON(t.data)}catch(e){continue}
   const cards=(d.sents||[]).map((s,i)=>({i,s})).filter(x=>x.s&&x.s.oa);
@@ -426,6 +426,22 @@ function wireTopicListen(fold){if(!document.getElementById("tlisten"))return;dro
  $("loop").onclick=()=>{SENTLOOP=!SENTLOOP;$("loop").classList.toggle("on",SENTLOOP)};
  $("hid").onclick=()=>{hid=!hid;cap.classList.toggle("hide",hid);$("hid").classList.toggle("on",hid);try{localStorage.setItem("rd_hid",hid?"1":"0")}catch(e){}};
  if($("dd"))$("dd").onclick=()=>{TLDD=!TLDD;$("dd").classList.toggle("on",TLDD);try{localStorage.setItem("rd_dd",TLDD?"1":"0")}catch(e){}listenCaption(TLCAP)}}
+function catItemRow(x,k){return `<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`}
+function navalGroups(secId){if(!secId||lucaSec(secId)||FOLDN[secId]===1)return false;return navalSectionIds().includes(secId)}
+function tfOpen(id,def){try{const s=localStorage.getItem("nova_tf_"+id);if(s==null)return def;return s==="1"}catch(e){return def}}
+// Naval sections after 板块一: Topics 1–10, 11–20, … Newest range starts open. 板块一 and 夏日友晴天 stay a flat list.
+function topicGroupsHTML(secId, rows, fold){
+ const use=fold==null?navalGroups(secId):!!fold;
+ const flat=`<div class="list">${rows.map(r=>r.html).join("")}</div>`;
+ if(!use)return flat;
+ const groups=new Map(),rest=[];
+ for(const r of rows){const n=+r.n;if(!(n>0)){rest.push(r.html);continue}const b=Math.floor((n-1)/10);if(!groups.has(b))groups.set(b,[]);groups.get(b).push(r)}
+ if(!groups.size)return flat;
+ const keys=[...groups.keys()].sort((a,b)=>a-b),hi=keys[keys.length-1];
+ const folds=keys.map(b=>{const a=b*10+1,id=secId+":"+a,items=groups.get(b).slice().sort((p,q)=>p.n-q.n),open=tfOpen(id,b===hi);
+  return `<details class="tfold" data-tf="${esc(id)}"${open?" open":""}><summary class="tfh"><span class="tfar" aria-hidden="true"></span><span class="tfnm">Topic ${a}–${a+9}</span><span class="tfsub">${items.length}</span></summary><div class="list">${items.map(r=>r.html).join("")}</div></details>`}).join("");
+ return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
+document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
 function showLuca(s){setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
  const kind=s.like=="dictation"?"选一个 Topic。听句子，把整句写下来，再核对。":s.typeName;
@@ -439,7 +455,7 @@ function showLuca(s){setHeader(secT(s.id,s.name),true);
 async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
- V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}<div class="list">${xs.length?xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`).join(""):`<div class="done">这个分类还是空的</div>`}</div>
+ V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
  if(listen)wireTopicListen("naval");
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id}});
@@ -587,9 +603,64 @@ function playOrig(how,btn){if(!how){toast("这句还没有原声");return}if(how
 async function playFull(s,btn){const me=RUN;let how=srcOrig(s);
  if(!how){if(btn)btn.disabled=true;try{how=await matchReadingOrig(s)}finally{if(btn)btn.disabled=false}}
  if(me!=RUN)return;return playOrig(how,btn)}
-// Full unit list (English + 中文) before card-by-card drill. ⓪ 口语句式, ② 单词卡.
-function unitRoster(rows,startLabel){const n=rows.length;
- V.innerHTML=`<p class="tip">这一组共 ${n} 个。先看完，再进入练习。</p>`+(n?`<div class="list rost">${rows.map((r,i)=>`<div class="li"><span class="rn">${i+1}</span><span class="tt"><span class="rw en">${esc(r.en)}</span>${r.zh?`<span class="sb">${esc(r.zh)}</span>`:""}</span></div>`).join("")}</div><button class="wide flip rostgo" id="godrill">${startLabel||"开始练习 ›"}</button>`:`<div class="done">这一组还是空的</div>`)}
+// ③ 生词 list (flash decks, including 口语句式 when they share this roster). Tap a row to flip like ② 阅读卡.
+// Back uses only stored fields: IPA from the card (ipa/phon/ph/py) or expand.json, else no phonetic line.
+// 扩展 is 底层逻辑 / 讲解 / 解释 / 例句 / 搭配 — whatever that card already ships.
+// Scroll stays put: the row is not a focusable control, height is never collapsed, and scrollIntoView is not used.
+// (Reading-card flipCard sets min-height to 0 for a frame; that reflow plus scroll anchoring is the bounce.)
+let ROST=0;
+function rostIPA(c){
+ const direct=[c&&c.ipa,c&&c.phon,c&&c.ph,c&&c.py].find(x=>typeof x=="string"&&x.trim());
+ if(direct)return direct.trim();
+ try{const k=typeof expKey=="function"&&EXP&&c&&expKey(c.w);const ipa=k&&EXP.e[k]&&EXP.e[k].ipa;if(typeof ipa=="string"&&ipa.trim())return ipa.trim()}catch(e){}
+ return ""}
+function rostChunks(c){
+ const raw=c&&(c.chunks||c.ck||c.bkc||c.ch);if(!Array.isArray(raw))return [];
+ const out=[];for(const x of raw){if(typeof x=="string"){const t=x.trim();if(t)out.push([t,""])}
+  else if(Array.isArray(x)&&x[0])out.push([String(x[0]),x[1]==null?"":String(x[1])]);
+  else if(x&&typeof x=="object"){const t=x.c||x.t||x.w;if(t)out.push([String(t),String(x.zh||x.m||"")])}}
+ return out}
+function rostExt(c){
+ const bits=[];
+ if(c.lg&&c.lg[1])bits.push(`<div class="rln"><span class="lab lg">底层逻辑</span>${c.lg[0]?`<span class="lge">${esc(c.lg[0])}</span> `:""}${esc(c.lg[1])}</div>`);
+ else{let e=null;try{const k=typeof expKey=="function"&&EXP&&expKey(c.w);e=k&&EXP.e[k]}catch(err){}
+  if(e&&e.img)bits.push(`<div class="rln"><span class="lab lg">底层逻辑</span>${e.em?`<span class="lge">${esc(e.em)}</span> `:""}${esc(e.img)}</div>`)}
+ if(c.note)bits.push(`<div class="rln"><span class="lab nt">讲解</span>${esc(c.note)}</div>`);
+ if(c.ex)bits.push(`<div class="rln"><span class="lab">解释</span><span class="en">${esc(c.ex)}</span></div>`);
+ for(const x of c.exs||[])if(x)bits.push(`<div class="rln"><span class="lab ex">例句</span><span class="en">${esc(x)}</span></div>`);
+ const ch=rostChunks(c);
+ if(ch.length)bits.push(ch.map(([a,b])=>`<div class="rln"><span class="lab">搭配</span><b class="en">${esc(a)}</b>${b?` · ${esc(b)}`:""}</div>`).join(""));
+ return bits.length?`<div class="rsec"><span class="lab">扩展</span>${bits.join("")}</div>`:""}
+function rostCardHTML(c,i){
+ const ipa=rostIPA(c),sub=[c.pos?esc(c.pos):"",c.zh?esc(c.zh):""].filter(Boolean).join(" · ");
+ const pron=`<div class="rsec"><span class="lab">发音</span>${ipa?`<span class="ipa">${esc(ipa)}</span>`:""}<span class="rpron" role="button" data-a="${esc(c.a&&c.a[0]||"")}" data-w="${esc(c.w)}" aria-label="发音">🔊</span></div>`;
+ return `<div class="li" role="button" aria-pressed="false"><div class="rf"><span class="rn">${i+1}</span><span class="tt"><span class="rw en">${esc(c.w)}</span>${c.zh?`<span class="sb">${esc(c.zh)}</span>`:""}</span></div><div class="rb"><div class="rh"><span class="rn">${i+1}</span><span class="tt"><span class="rw en">${esc(c.w)}</span>${sub?`<span class="sb">${sub}</span>`:""}</span></div>${pron}${rostExt(c)}</div></div>`}
+function holdScroll(ms){
+ const y0=window.scrollY;let dead=false;const kill=()=>{dead=true};
+ window.addEventListener("touchmove",kill,{passive:true});window.addEventListener("wheel",kill,{passive:true});
+ const fix=()=>{if(!dead&&Math.abs(window.scrollY-y0)>0.5)window.scrollTo(0,y0)};
+ const t0=performance.now();
+ const step=()=>{fix();if(!dead&&performance.now()-t0<ms)requestAnimationFrame(step);else{window.removeEventListener("touchmove",kill);window.removeEventListener("wheel",kill)}};
+ fix();requestAnimationFrame(step)}
+function flipRoster(e){
+ if(!e||e._fl)return;e._fl=1;
+ const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+ holdScroll(reduce?80:560);
+ const swap=()=>{if(!document.body.contains(e))return;const on=!e.classList.contains("zh");e.classList.toggle("zh",on);e.setAttribute("aria-pressed",on?"true":"false")};
+ if(reduce){swap();e._fl=0;return}
+ e.classList.add("flipping");
+ setTimeout(()=>{swap();e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0},240)},230)}
+function wireRoster(){
+ V.querySelectorAll(".rost .li").forEach(e=>{
+  e.addEventListener("pointerdown",ev=>{if(ev.target.closest(".rpron"))return;e._py=ev.clientY;e._drag=false});
+  e.addEventListener("pointermove",ev=>{if(e._drag||e._py==null)return;if(Math.abs(ev.clientY-e._py)>8)e._drag=true});
+  e.addEventListener("click",ev=>{
+   const b=ev.target.closest(".rpron");
+   if(b){ev.stopPropagation();ev.preventDefault();const w=b.dataset.w||"",a=b.dataset.a||"";stopAll();if(a){try{const p=playP(a,1,w);if(p&&p.catch)p.catch(()=>{})}catch(err){}}else if(typeof sayEN=="function")sayEN(w,b);return}
+   if(e._drag)return;ev.preventDefault();flipRoster(e)})})}
+function unitRoster(cards,startLabel){const n=cards.length;
+ V.innerHTML=`<p class="tip">这一组共 ${n} 个。先看完，再进入练习。</p>`+(n?`<div class="list rost">${cards.map((c,i)=>rostCardHTML(c,i)).join("")}</div><button class="wide flip rostgo" id="godrill">${startLabel||"开始练习 ›"}</button>`:`<div class="done">这一组还是空的</div>`);
+ if(n)wireRoster()}
 // ---------- 原文 (original Naval sentence) ----------
 // ② / 🧠 card back: 底层逻辑 row (c.lg=[emoji,text], same text as the ① gloss / 拓展 底层画面; added by build/card_logic.py)
 function noteHTML(c){return c&&c.note?`<div class="row ntrow"><div class="tx"><span class="lab nt">讲解</span>${esc(c.note)}</div></div>`:""}
@@ -620,12 +691,13 @@ function fcDiff(typed,w){const a=[...fcNorm(typed)],b=[...w.toLowerCase().replac
  let i=0,j=0,h="";while(i<a.length||j<b.length){if(i<a.length&&j<b.length&&a[i]==b[j]){h+=`<span class="dk">${esc(a[i])}</span>`;i++;j++}else if(j<b.length&&(i>=a.length||L[i][j+1]>=L[i+1][j])){h+=`<span class="dm">${esc(b[j])}</span>`;j++}else{h+=`<span class="dx">${esc(a[i])}</span>`;i++}}return h}
 function fcZhHL(src){const z=src.zh||"";if(!src.zb)return esc(z);const[a,b]=src.zb;return esc(z.slice(0,a))+'<span class="zbh">'+esc(z.slice(a,b))+'</span>'+esc(z.slice(b))}
 function fcZh(src){const z=src.zh||"";if(!src.zb)return esc(z);const[a,b]=src.zb;return esc(z.slice(0,a))+'<span class="zbl">＿＿</span>'+esc(z.slice(b))}
-function viewFlash(d,id,opt){const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+id+(CE?"_r":"");let S=JSON.parse(localStorage.getItem(KEY_)||"null")||{mode:"all",status:{},queue:null,pos:0,rate:1,guess:{}};S.rv=S.rv||{};S.sp=S.sp||{};S.typed=S.typed||{};if(S.queue){S.queue=S.queue.filter(i=>i<C.length);const have=new Set(S.queue);for(let i=0;i<C.length;i++)if(!have.has(i)&&!S.status[i])S.queue.push(i)}/* cards appended to a deck later (e.g. T9 #20 mention) join a saved queue */let back=false;
+function viewFlash(d,id,opt){const token=++ROST;const C=d.cards,DIR=FCDIR(),CE=DIR=="ce",KEY_="flash_"+id+(CE?"_r":"");let S=JSON.parse(localStorage.getItem(KEY_)||"null")||{mode:"all",status:{},queue:null,pos:0,rate:1,guess:{}};S.rv=S.rv||{};S.sp=S.sp||{};S.typed=S.typed||{};if(S.queue){S.queue=S.queue.filter(i=>i<C.length);const have=new Set(S.queue);for(let i=0;i<C.length;i++)if(!have.has(i)&&!S.status[i])S.queue.push(i)}/* cards appended to a deck later (e.g. T9 #20 mention) join a saved queue */let back=false;
   const save=()=>{try{localStorage.setItem(KEY_,JSON.stringify(S))}catch(e){}};
   const build=()=>{let ids=C.map((_,i)=>i);if(S.mode=="un")ids=ids.filter(i=>S.status[i]=="u");S.queue=ids;S.pos=0;save()};if(!S.queue)build();
   if(!(opt&&opt.drill)){const q=S.queue||[],pos=Math.min(S.pos||0,q.length),mid=pos>0&&pos<q.length;
-   unitRoster(C.map(c=>({en:c.w,zh:c.zh})),mid?`继续练习（第 ${pos+1} / ${q.length}）›`:"开始练习 ›");
-   const go=document.getElementById("godrill");if(go)go.onclick=()=>{stopAll();viewFlash(d,id,{drill:1})};return}
+   const label=mid?`继续练习（第 ${pos+1} / ${q.length}）›`:"开始练习 ›";
+   const show=()=>{if(token!=ROST)return;unitRoster(C,label);const go=document.getElementById("godrill");if(go)go.onclick=()=>{stopAll();viewFlash(d,id,{drill:1})}};
+   if(typeof loadEXP=="function"&&!EXP)loadEXP().then(show);else show();return}
   V.innerHTML=`<div class="fcwrap"><div class="bar fcdir"><button id="dEC" class="${CE?"":"on"}">英→中</button><button id="dCE" class="${CE?"on":""}">中→英</button></div><div class="bar"><button id="roster">词表</button><button id="mAll">全部单词</button><button id="mUn">只练不认识的</button><button id="shf">打乱顺序</button><button id="spd">1x</button><button id="rst">重置</button></div><div class="status" id="pg"></div></div><div id="fc"></div>`;
   const $=x=>document.getElementById(x);
   const setDir=x=>{if(x==DIR)return;try{localStorage.setItem("nova_fc_dir",x)}catch(e){}stopAll();viewFlash(d,id,{drill:1})};$("dEC").onclick=()=>setDir("ec");$("dCE").onclick=()=>setDir("ce");

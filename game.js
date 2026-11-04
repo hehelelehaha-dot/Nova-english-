@@ -47,9 +47,9 @@ function saveResult(uid,mode,score,total,correct){const old=gResult(uid,mode)||{
  const g=gRes();g[uid+":"+mode]=r;localStorage.setItem(GK,JSON.stringify(g));stamp("g:"+uid+":"+mode,r);localStorage.setItem(FK,JSON.stringify(FIELDS));return r}
 // ---------- UI ----------
 async function showGames(){setHeader(secT("game","🎮 小游戏"),true);V.innerHTML=`<div class="done">加载中…</div>`;const us=await loadUnits();
- V.innerHTML=`<div class="tip">每个单元都可以玩两种游戏。成绩只存在这台设备上（导出整理时会一起同步）。</div><div class="list">${us.map(u=>{const s=gResult(u.id,"spell"),p=gResult(u.id,"puzzle"),z=gResult(u.id,"cloze");
-  return `<div class="gu"><div class="gt"><b>${esc(u.title)}</b><span class="sb">${u.words.length} 个词${s||p||z?` · 最高分 拼写 ${s?s.best:"-"} / 拼图 ${p?p.best:"-"} / 填词 ${z?z.best:"-"}`:""}${u.words.some(w=>w.src)?" · 📖 有原文":""}</span></div>
-  <div class="gb"><button class="wide flip" onclick="location.hash='#/g/${u.id}/spell'">✍️ 拼写</button><button class="wide gblue" onclick="location.hash='#/g/${u.id}/puzzle'">🧩 拼图</button><button class="wide gcl" onclick="location.hash='#/g/${u.id}/cloze'">📝 填词</button></div></div>`}).join("")}</div>`}
+ V.innerHTML=`<div class="tip">每个单元都可以玩两种游戏。成绩只存在这台设备上（导出整理时会一起同步）。</div>`+topicGroupsHTML("game",us.map(u=>{const s=gResult(u.id,"spell"),p=gResult(u.id,"puzzle"),z=gResult(u.id,"cloze");
+  return {n:topicNo(u),html:`<div class="gu"><div class="gt"><b>${esc(u.title)}</b><span class="sb">${u.words.length} 个词${s||p||z?` · 最高分 拼写 ${s?s.best:"-"} / 拼图 ${p?p.best:"-"} / 填词 ${z?z.best:"-"}`:""}${u.words.some(w=>w.src)?" · 📖 有原文":""}</span></div>
+  <div class="gb"><button class="wide flip" onclick="location.hash='#/g/${u.id}/spell'">✍️ 拼写</button><button class="wide gblue" onclick="location.hash='#/g/${u.id}/puzzle'">🧩 拼图</button><button class="wide gcl" onclick="location.hash='#/g/${u.id}/cloze'">📝 填词</button></div></div>`}}))}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>x.id==uid);if(!u)return showGames();
  const MN={spell:"✍️ 拼写",puzzle:"🧩 拼图",cloze:"📝 填词"};setHeader(secT("game",MN[mode]+" · "+u.title),true);
