@@ -355,7 +355,9 @@ assert.match(rules, /nova_time/);
 assert.match(rules, /nova_dq/);
 assert.match(rules, /request\.auth\.uid == uid/);
 assert.match(rules, /allow delete: if false/);
-assert.match(app, /建议 \$\{DQ_SUGGEST\} 句，少选、多选都可以/);
+assert.equal(app.includes("写对选中的句子，这条才会满"), false);
+assert.equal(app.includes("DQ_SUGGEST"), false);
+assert.equal(app.includes("daybar-s"), false);
 assert.equal(app.includes("pgbFill"), false);
 assert.equal(app.includes('id="pgb"'), false);
 

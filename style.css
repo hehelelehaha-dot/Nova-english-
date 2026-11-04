@@ -701,7 +701,7 @@ button.daybar{cursor:pointer}
 .daybar-t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px}
 .daybar-t b{font-size:15px}
 .daybar-n{font-variant-numeric:tabular-nums;font-weight:800;font-size:16px}
-.daybar-tr{display:block;position:relative;height:8px;margin:8px 0 6px;border-radius:99px;background:#efe3c8;overflow:hidden}
+.daybar-tr{display:block;position:relative;height:8px;margin:8px 0 0;border-radius:99px;background:#efe3c8;overflow:hidden}
 .daybar-f{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#f5c518,#e0a020);transition:width .45s ease,background .35s ease}
 .daybar-s{display:block;font-size:12px;line-height:1.4;color:#6b4e12}
 .daybar.is-full .daybar-f{background:linear-gradient(90deg,#ffe07a,#37c56e 72%,#1d8f45)}
