@@ -944,7 +944,8 @@ async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"
   if(META.v)localStorage.setItem("nova_v",META.v);route();bootSW()})();
 
 
-// Sprint calendar (Nova 2026-10-30). Weeks are Mon–Sun; the sprint ends on the year's last Sunday (2026: Dec 27). The home date line no longer prints 还剩几周.
+// Sprint calendar (Nova 2026-10-30). Weeks are Mon–Sun; the sprint ends on the year's last Sunday (2026: Dec 27).
+// The home date line and the goal card stay clear of it. yearLeft() shows only inside 累计时长.
 function yearLeft(d){d=d||new Date();const y=d.getFullYear(),day=Date.UTC(y,d.getMonth(),d.getDate()),D=864e5;
  const dec31=Date.UTC(y,11,31),lastSun=dec31-((new Date(dec31).getUTCDay())%7)*D,rest=Math.round((dec31-lastSun)/D);
  if(day>lastSun)return `<span class="hwk">冲刺完成</span><span class="hwd">放松${rest}天</span>`;
@@ -1065,51 +1066,56 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
 // of done, larger extra. The target stays the selected count. A 整句对了 id in
 // done is kept. Logged out or offline, the bar still only uses this device.
 // Not the removed Naval % bar, not 复述, and not part of ☀ sync or the N1 code.
-// The day's target is however many sentences she selects (3 → n/3, 12 → n/12).
+// The picker stops at 5 (dqPick). A cloud merge can still union an older, longer set.
 // A sentence counts only when 检查 already says 整句对了 (dqOnCheck's ok flag).
 // Until every selected sentence is done, anything else is ignored. After that,
-// further correct checks are 超额.
+// further correct checks are 超额. star stays 1 on a day once five selected sentences are done.
 // DQ_LOGIC_START
-function dqBlank(day){return {day:day||"",sel:[],done:[],extra:0}}
+function dqBlank(day){return {day:day||"",sel:[],done:[],extra:0,star:0}}
 function dqClean(a){const o=[],s=new Set();if(!Array.isArray(a))return o;for(const k of a){if(typeof k!=="string"||!k||s.has(k))continue;s.add(k);o.push(k)}return o}
 function dqExtra(v){const n=Math.floor(Number(v));return Number.isFinite(n)&&n>0?n:0}
-function dqNorm(raw,day){if(!raw||typeof raw!=="object"||raw.day!==day)return dqBlank(day);return {day,sel:dqClean(raw.sel),done:dqClean(raw.done),extra:dqExtra(raw.extra)}}
+function dqStar(v){return v&&(v.star===1||v.star===true)?1:0}
+function dqNorm(raw,day){if(!raw||typeof raw!=="object"||raw.day!==day)return dqBlank(day);return {day,sel:dqClean(raw.sel),done:dqClean(raw.done),extra:dqExtra(raw.extra),star:dqStar(raw)}}
 function dqFull(st){return st.sel.length>0&&st.sel.every(k=>st.done.includes(k))}
-function dqToggle(st,key){if(typeof key!=="string"||!key)return st;const sel=st.sel.slice(),i=sel.indexOf(key);if(i>=0)sel.splice(i,1);else sel.push(key);return {day:st.day,sel,done:st.done.slice(),extra:st.extra}}
-function dqNote(st,key){if(typeof key!=="string"||!key)return {st,how:"skip"};const full=dqFull(st);
- if(st.sel.includes(key)){if(!st.done.includes(key))return {st:{day:st.day,sel:st.sel.slice(),done:st.done.concat(key),extra:st.extra},how:"advance"};
-  if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1},how:"extra"};return {st,how:"skip"}}
- if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1},how:"extra"};return {st,how:"skip"}}
+function dqToggle(st,key){if(typeof key!=="string"||!key)return st;const sel=st.sel.slice(),i=sel.indexOf(key);if(i>=0)sel.splice(i,1);else sel.push(key);return {day:st.day,sel,done:st.done.slice(),extra:st.extra,star:dqStar(st)}}
+function dqNote(st,key){if(typeof key!=="string"||!key)return {st,how:"skip"};const full=dqFull(st),star=dqStar(st);
+ if(st.sel.includes(key)){if(!st.done.includes(key))return {st:{day:st.day,sel:st.sel.slice(),done:st.done.concat(key),extra:st.extra,star},how:"advance"};
+  if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1,star},how:"extra"};return {st,how:"skip"}}
+ if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1,star},how:"extra"};return {st,how:"skip"}}
 function dqOnCheck(st,key,ok){if(!ok)return {st,how:"skip"};return dqNote(st,key)}
 function dqView(st){const tot=st.sel.length,n=st.sel.reduce((a,k)=>a+(st.done.includes(k)?1:0),0),full=tot>0&&n===tot;
  return {n,tot,full,pct:tot?Math.round(100*n/tot):0,extra:st.extra,showExtra:!!(full&&st.extra>0)}}
 function dqDayOk(k){return typeof k==="string"&&/^\d{4}-\d\d-\d\d$/.test(k)}
-function dqPack(st){const s=st&&typeof st==="object"?st:{};return {sel:dqClean(s.sel),done:dqClean(s.done),extra:dqExtra(s.extra)}}
+function dqFloorMet(sel,done){let n=0;for(const k of sel)if(done.indexOf(k)>=0)n++;return n>=5}
+function dqLive(day){return !!(day&&(day.sel.length||day.done.length||day.extra||day.star))}
+function dqPack(st){const s=st&&typeof st==="object"?st:{};const sel=dqClean(s.sel),done=dqClean(s.done),extra=dqExtra(s.extra);
+ return {sel,done,extra,star:(dqStar(s)||dqFloorMet(sel,done))?1:0}}
 function dqMergeDay(a,b){const A=a&&typeof a==="object"?a:{},B=b&&typeof b==="object"?b:{};
- return {sel:dqClean([].concat(A.sel||[],B.sel||[])),done:dqClean([].concat(A.done||[],B.done||[])),extra:Math.max(dqExtra(A.extra),dqExtra(B.extra))}}
-function dqSameDay(a,b){const A=dqPack(a),B=dqPack(b);if(A.extra!==B.extra||A.sel.length!==B.sel.length||A.done.length!==B.done.length)return false;
+ const sel=dqClean([].concat(A.sel||[],B.sel||[])),done=dqClean([].concat(A.done||[],B.done||[])),extra=Math.max(dqExtra(A.extra),dqExtra(B.extra));
+ return {sel,done,extra,star:(dqStar(A)||dqStar(B)||dqFloorMet(sel,done))?1:0}}
+function dqSameDay(a,b){const A=dqPack(a),B=dqPack(b);if(A.extra!==B.extra||A.star!==B.star||A.sel.length!==B.sel.length||A.done.length!==B.done.length)return false;
  const ss=new Set(B.sel),ds=new Set(B.done);return A.sel.every(k=>ss.has(k))&&A.done.every(k=>ds.has(k))}
 function dqDaysFrom(map){const o={};if(!map||typeof map!=="object"||Array.isArray(map))return o;
  for(const k in map){if(!dqDayOk(k))continue;const raw=map[k];if(!raw||typeof raw!=="object"||Array.isArray(raw))continue;
-  const day=dqPack(raw);if(!day.sel.length&&!day.done.length&&!day.extra)continue;o[k]=day}return o}
+  const day=dqPack(raw);if(!dqLive(day))continue;o[k]=day}return o}
 function dqLogTouch(log,st){const out=dqDaysFrom(log);if(!st||typeof st!=="object"||!dqDayOk(st.day))return out;
- const packed=dqPack(dqNorm(st,st.day));if(!packed.sel.length&&!packed.done.length&&!packed.extra)delete out[st.day];else out[st.day]=packed;return out}
+ const packed=dqPack(dqNorm(st,st.day));if(!dqLive(packed))delete out[st.day];else out[st.day]=packed;return out}
 function dqCloudPlan(localLog,remote){const L=dqDaysFrom(localLog),R=dqDaysFrom(remote),keys={};
  for(const k in L)keys[k]=1;for(const k in R)keys[k]=1;const map={};let push=false,applied=0;
- for(const k of Object.keys(keys).sort()){const m=dqMergeDay(L[k],R[k]);if(!m.sel.length&&!m.done.length&&!m.extra)continue;map[k]=m;
+ for(const k of Object.keys(keys).sort()){const m=dqMergeDay(L[k],R[k]);if(!dqLive(m))continue;map[k]=m;
   if(!R[k]||!dqSameDay(m,R[k]))push=true;if(!L[k]||!dqSameDay(m,L[k]))applied++}
  return {map,push,applied}}
 function dqCloudSafe(remote,map){if(!map||typeof map!=="object"||Array.isArray(map))return false;const R=dqDaysFrom(remote);
  for(const k in R){const m=map[k];if(!m||typeof m!=="object"||!dqSameDay(dqMergeDay(R[k],m),m))return false}return true}
 function dqApplyPlan(localRaw,log,remote,today){const remoteDays=dqDaysFrom(remote),base=dqDaysFrom(log);let applied=0;
  if(localRaw&&typeof localRaw==="object"&&dqDayOk(localRaw.day)){const packed=dqPack(dqNorm(localRaw,localRaw.day));
-  if(packed.sel.length||packed.done.length||packed.extra){const m=dqMergeDay(base[localRaw.day],packed);
+  if(dqLive(packed)){const m=dqMergeDay(base[localRaw.day],packed);
    if(!base[localRaw.day]||!dqSameDay(base[localRaw.day],m)){base[localRaw.day]=m;applied++}}}
  for(const k in remoteDays){const m=dqMergeDay(base[k],remoteDays[k]);if(!base[k]||!dqSameDay(base[k],m)){base[k]=m;applied++}}
  let todaySt=null;if(dqDayOk(today)){const local=dqNorm(localRaw,today),merged=dqMergeDay(local,base[today]);
-  const next={day:today,sel:merged.sel,done:merged.done,extra:merged.extra};
+  const next={day:today,sel:merged.sel,done:merged.done,extra:merged.extra,star:merged.star||0};
   if(!dqSameDay(local,next)){todaySt=next;applied++}
-  if(next.sel.length||next.done.length||next.extra)base[today]=dqPack(next);else delete base[today]}
+  if(dqLive(next))base[today]=dqPack(next);else delete base[today]}
  return {log:base,today:todaySt,applied}}
 // DQ_LOGIC_END
 const DQK="nova_dq",DQL="nova_dq_log";
@@ -1118,11 +1124,12 @@ function dqLogWrite(log){try{localStorage.setItem(DQL,JSON.stringify(log||{}))}c
 function dqRemember(st){dqLogWrite(dqLogTouch(dqLogRead(),st))}
 function dqLog(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}const log=dqLogRead();
  if(raw&&typeof raw==="object"&&dqDayOk(raw.day)){const packed=dqPack(dqNorm(raw,raw.day));
-  if(packed.sel.length||packed.done.length||packed.extra)log[raw.day]=dqMergeDay(log[raw.day],packed)}
+  if(dqLive(packed))log[raw.day]=dqMergeDay(log[raw.day],packed)}
  return dqDaysFrom(log)}
 function dqLoad(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
  const day=dKey(),st=dqNorm(raw,day);if(!raw||raw.day!==day){if(raw&&typeof raw==="object"&&raw.day&&raw.day!==day)dqRemember(raw);dqSave(st)}return st}
-function dqSave(st){try{localStorage.setItem(DQK,JSON.stringify(st))}catch(e){}dqRemember(st);if(!dqSave.quiet&&window.novaCloudDirty)window.novaCloudDirty()}
+function dqSave(st){if(st&&!dqStar(st)&&dqFoot(st).won)st.star=1;
+ try{localStorage.setItem(DQK,JSON.stringify(st))}catch(e){}dqRemember(st);if(typeof dqStickSync=="function")dqStickSync(st);if(!dqSave.quiet&&window.novaCloudDirty)window.novaCloudDirty()}
 function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
  const today=typeof dKey=="function"?dKey():"",plan=dqApplyPlan(raw,dqLogRead(),remote,today);if(!plan.applied)return plan;
  dqLogWrite(plan.log);
@@ -1132,25 +1139,58 @@ function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getIt
   if(typeof document!="undefined"&&document.getElementById&&document.getElementById("daynow")&&typeof DQTOPICS!="undefined"&&DQTOPICS&&typeof dqPaintNow=="function"){
    const seq=DQSEQ;DQTOPICS.then(topics=>{if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;if(document.getElementById("daynow"))dqPaintNow(topics)}).catch(()=>{})}}
  return plan}
-// Home footprint is a count of 5, not a chosen set. sel is only the sentences she taps
-// on and off; nothing auto-picks or freezes which ones are in today's set.
-// The checkmark is 5 of those, written 整句对了. Past that, further correct checks are +N.
+// She picks the sentences. The picker stops at 5 and does not choose them.
+// Five written 整句对了 light the five stars. Past that, further correct checks are +N.
+// Once a calendar day reaches 5, nova_dq keeps star:1 for that day. Stickers are separate.
 const DQ_FLOOR=5;
 function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR;
  return {v,got:v.n,floor:DQ_FLOOR,won,ot:won?(v.n-DQ_FLOOR)+v.extra:0}}
 function dqBits(){return dqFoot(dqLoad())}
 function dqMarkHTML(got){let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}"></i>`;return h}
-function dqFootInner(f){const lab=f.won?(f.ot?"今天的 5 句，+"+f.ot:"今天的 5 句"):"今天的句子";
- return {lab,html:`<span class="fp-top"><b>今天的句子</b></span>${f.won?`<span class="fp-win" aria-hidden="true">✓</span>`:""}<span class="fp-marks" aria-hidden="true">${dqMarkHTML(Math.min(f.got,DQ_FLOOR))}</span>${f.ot?`<span class="fp-ot">+${f.ot}</span>`:""}`}}
-function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f);
+// Stickers follow Nova's day: 02:00 America/New_York, not local midnight.
+// STICK_LOGIC_START
+function dqStickerDay(d){d=d?new Date(d):new Date();
+ const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",hourCycle:"h23"}).formatToParts(d);
+ const o={};for(const p of parts)if(p.type!=="literal")o[p.type]=p.value;
+ let y=+o.year,m=+o.month,day=+o.day,h=+o.hour;if(h===24)h=0;
+ if(!(h>=2)){const u=new Date(Date.UTC(y,m-1,day));u.setUTCDate(u.getUTCDate()-1);y=u.getUTCFullYear();m=u.getUTCMonth()+1;day=u.getUTCDate()}
+ return y+"-"+String(m).padStart(2,"0")+"-"+String(day).padStart(2,"0")}
+function dqU(s){let h=2166136261;s=String(s);for(let i=0;i<s.length;i++)h=Math.imul(h^s.charCodeAt(i),16777619);
+ h^=h>>>16;h=Math.imul(h,2246822507);h^=h>>>13;h=Math.imul(h,3266489909);h^=h>>>16;return (h>>>0)/4294967295}
+// STICK_LOGIC_END
+const DQSK="nova_dq_stick";
+function dqStickRead(){try{const o=JSON.parse(localStorage.getItem(DQSK)||"null");return o&&typeof o==="object"&&!Array.isArray(o)?o:null}catch(e){return null}}
+function dqStickWrite(o){try{localStorage.setItem(DQSK,JSON.stringify(o))}catch(e){}}
+function dqDoneN(st){return (st&&Array.isArray(st.done)?st.done.length:0)+dqExtra(st&&st.extra)}
+function dqStickSync(st,now){st=st||{day:"",done:[],extra:0};const sd=dqStickerDay(now);let b=dqStickRead();const fresh=!b||b.day!==sd;
+ if(fresh){const base={};if(b&&b.day&&b.day!==sd)base[st.day]=dqDoneN(st);b={day:sd,base,n:0}}
+ if(!b.base||typeof b.base!=="object")b.base={};
+ const cur=dqDoneN(st),prev=+b.base[st.day]||0;let n=+b.n||0;
+ if(cur>prev){n+=cur-prev;b.base[st.day]=cur;b.n=n}
+ if(fresh||cur>prev)dqStickWrite(b);return n}
+function dqStarDays(){const log=dqLog();return Object.keys(log).filter(k=>log[k]&&log[k].star).sort()}
+function dqBoardHTML(st){const n=dqStickSync(st),day=dqStickerDay(),days=dqStarDays();
+ let stars="";for(const k of days){const x=(10+dqU("sx:"+k)*78).toFixed(2),y=(10+dqU("sy:"+k)*78).toFixed(2),r=((dqU("sr:"+k)-.5)*36).toFixed(1),sz=Math.round(15+dqU("ss:"+k)*11);
+  stars+=`<i class="fp-bstar" style="left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;transform:translate(-50%,-50%) rotate(${r}deg)"></i>`}
+ let stick="";for(let i=0;i<n;i++){const x=(16+dqU("x:"+i+":"+day)*68).toFixed(2),y=(16+dqU("y:"+i+":"+day)*66).toFixed(2),r=((dqU("r:"+i+":"+day)-.5)*50).toFixed(1);
+  stick+=`<img class="fp-stk" alt="" src="icons/chongya.png" style="left:${x}%;top:${y}%;z-index:${2+i};transform:translate(-50%,-50%) rotate(${r}deg)">`}
+ return `<span class="fp-board" aria-hidden="true"><i class="fp-rivet tl"></i><i class="fp-rivet tr"></i><i class="fp-rivet bl"></i><i class="fp-rivet br"></i><span class="fp-layer">${stars}</span><span class="fp-layer fp-stick">${stick}</span></span>`}
+const FP_AIM=`<svg class="fp-aim" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.4" fill="currentColor"/><path d="M12 2.2v3.1M12 18.7v3.1M2.2 12h3.1M18.7 12h3.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
+ const lab="今天的目标，"+got+" / "+DQ_FLOOR+(f.ot?"，+"+f.ot:"");
+ const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
+ const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
+ if(home)return {lab,html:`${dqBoardHTML(dqLoad())}<span class="fp-goal"><span class="fp-top">${FP_AIM}<b>今天的目标</b></span><span class="fp-score">${marks}${ot}</span></span>`};
+ return {lab,html:`<span class="fp-top"><b>今天的目标</b></span><span class="fp-score">${marks}${ot}</span>`}}
+function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f,home);
  const tag=go?"button":"div",at=go?' type="button" data-day-go':"";
  return `<${tag} class="daybar fp${home?" fp-home":""}${f.won?" is-full":""}${f.ot?" has-ot":""}"${at} aria-label="${esc(inn.lab)}">${inn.html}</${tag}>`}
-function dqPaint(){const f=dqBits(),inn=dqFootInner(f);
- document.querySelectorAll(".daybar").forEach(el=>{const was=el.classList.contains("is-full");
+function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
+ document.querySelectorAll(".daybar").forEach(el=>{const home=el.classList.contains("fp-home"),was=el.classList.contains("is-full"),inn=dqFootInner(f,home);
   el.classList.toggle("is-full",f.won);el.classList.toggle("has-ot",!!f.ot);el.setAttribute("aria-label",inn.lab);el.innerHTML=inn.html;
   if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
-let DQDAY="";
-function dqDayWatch(){const day=dKey();if(DQDAY===day)return;const prev=DQDAY;DQDAY=day;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
+let DQDAY="",DQSTICK="";
+function dqDayWatch(){const day=dKey(),sd=dqStickerDay();if(DQDAY===day&&DQSTICK===sd)return;const prev=DQDAY;DQDAY=day;DQSTICK=sd;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
 let DQSEQ=0,DQTOPICS=null;
 function dqItemList(){const out=[];
  if(CAT){const naval=(CAT.categories||[]).find(c=>c.id=="dictation");
@@ -1165,17 +1205,20 @@ function dqFind(topics,key){const m=/^(.*):(\d+)$/.exec(key||"");if(!m)return nu
 function dqOpen(topics,key){const f=dqFind(topics,key);if(!f)return;try{sessionStorage.setItem("nova_dt_go",String(f.i))}catch(e){}location.hash="#/i/"+f.t.id}
 function dqFoldOn(id){try{return localStorage.getItem("nova_dqf_"+id)==="1"}catch(e){return false}}
 function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(st.done);
+ const cap=st.sel.length>=DQ_FLOOR;
  document.querySelectorAll(".dayb").forEach(b=>{const on=sel.has(b.dataset.k),did=on&&done.has(b.dataset.k);
-  b.classList.toggle("on",on);b.classList.toggle("did",did);b.setAttribute("aria-pressed",on?"true":"false");
+  b.classList.toggle("on",on);b.classList.toggle("did",did);b.classList.toggle("cap",cap&&!on);b.setAttribute("aria-pressed",on?"true":"false");
   const lab=b.dataset.lab||"";b.setAttribute("aria-label",lab+(on?"，已选":"")+(did?"，今天已写对":""))});
  const box=document.getElementById("daynow");if(!box)return;const v=dqView(st);
  const chips=st.sel.map(key=>{const f=dqFind(topics,key),lab=f?f.t.title+" · 第 "+f.n+" 句":"一句",ok=done.has(key);
   return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><span class="dayx" role="button" data-day-x="${esc(key)}" aria-label="取消这句">×</span></span>`}).join("");
  box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.n?" · 写对 "+v.n:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`;
  const anchor=document.getElementById("daybody")||box;
- box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=ev=>{ev.preventDefault();const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqHoldTap(anchor,()=>{dqSave(dqToggle(cur,b.dataset.dayX));dqPaint();dqPaintNow(topics)})});
+ box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=ev=>{ev.preventDefault();const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqHoldTap(anchor,()=>{dqSave(dqPick(cur,b.dataset.dayX).st);dqPaint();dqPaintNow(topics)})});
  box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>dqOpen(topics,b.dataset.open))}
-async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);
+function dqPick(st,key){if(!st||typeof key!=="string"||!key)return {st,blocked:false};
+ if(st.sel.includes(key)||st.sel.length<DQ_FLOOR)return {st:dqToggle(st,key),blocked:false};return {st,blocked:true}}
+async function showDQ(){const seq=++DQSEQ;setHeader("今天的目标",true);
  V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;
  let topics=[];try{topics=await dqTopics()}catch(e){topics=[]}
  if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;
@@ -1188,7 +1231,7 @@ async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);
    return `<div class="dayb" role="button" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</div>`}).join("");
   html+=`<details class="dqfold" data-dqf="${esc(t.id)}"${open?" open":""}><summary class="dqfh"><span class="dqfar" aria-hidden="true"></span><span class="dqfnm">${esc(t.title)}</span><span class="dqfsub">${t.sent.length}</span></summary><div class="daygrid" role="group" aria-label="${esc(t.fold+" "+t.title)}">${cells}</div></details>`}
  body.innerHTML=html;
- body.querySelectorAll(".dayb").forEach(b=>b.addEventListener("click",ev=>{ev.preventDefault();dqHoldTap(b,()=>{dqSave(dqToggle(dqLoad(),b.dataset.k));dqPaint();dqPaintNow(topics)})}));
+ body.querySelectorAll(".dayb").forEach(b=>b.addEventListener("click",ev=>{ev.preventDefault();const hit=dqPick(dqLoad(),b.dataset.k);if(hit.blocked){toast("已经 5 句");return}dqHoldTap(b,()=>{dqSave(hit.st);dqPaint();dqPaintNow(topics)})}));
  dqPaintNow(topics)}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-day-go]");if(!b)return;e.preventDefault();location.hash="#/dq"});
 
@@ -1224,7 +1267,7 @@ function tDayRows(){const keys=new Set(Object.keys(TLOG).filter(k=>/^\d{4}-\d\d-
   return {lab,v:+TLOG[k]||0,today}})}
 function showTimeLog(){const o=document.createElement("div");o.className="ov";const rows=tDayRows(),tot=tTotal();
  const mx=Math.max(60,...rows.map(x=>x.v));
- o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 累计时长</div><div class="ttot"><b>${fmtT(tot)}</b></div><div class="tlogdays">${rows.map(r=>`<div class="tr${r.today?" td":""}"><span class="tdw">${r.lab}</span><span class="tb"><i style="width:${Math.round(r.v/mx*100)}%"></i></span><span class="tv">${fmtT(r.v)}</span></div>`).join("")}</div>
+ o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 累计时长</div><div class="ttot"><b>${fmtT(tot)}</b></div><div class="tleft">${yearLeft()}</div><div class="tlogdays">${rows.map(r=>`<div class="tr${r.today?" td":""}"><span class="tdw">${r.lab}</span><span class="tb"><i style="width:${Math.round(r.v/mx*100)}%"></i></span><span class="tv">${fmtT(r.v)}</span></div>`).join("")}</div>
  <button class="shb cancel" data-x>关闭</button></div>`;
  o.onclick=e=>{if(e.target==o||e.target.closest("[data-x]"))o.remove()};document.body.appendChild(o)}
 ["pointerdown","keydown","touchstart","wheel","scroll"].forEach(t=>addEventListener(t,()=>{tAct=Date.now()},{passive:true,capture:true}));
