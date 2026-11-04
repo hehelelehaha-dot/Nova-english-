@@ -361,8 +361,15 @@ assert.equal(app.includes("daybar-s"), false);
 assert.equal(app.includes('v.n+"/"+v.tot'), false);
 assert.equal(/DQ_FLOOR/.test(logic), false);
 assert.match(app, /const DQ_FLOOR=5/);
-assert.match(app, /fp-win/);
+assert.match(app, /fp-stars/);
 assert.match(app, /fp-ot/);
+assert.match(app, /今天的目标/);
+assert.match(app, /icons\/chongya\.png/);
+assert.match(app, /lm-frame/);
+assert.equal(app.includes("fp-win"), false);
+assert.equal(app.includes("完成句子"), false);
+assert.equal(app.includes("每完成1句"), false);
+assert.equal(app.includes("今天的句子"), false);
 {
   const foot = app.slice(app.indexOf("const DQ_FLOOR"), app.indexOf("function dqBits"));
   const box = {};
@@ -492,5 +499,85 @@ assert.match(css, /\.daybar\.is-full/);
   assert.equal(settled.push, false);
   assert.equal(settled.applied, 0);
 }
+
+{
+  const selSrc = app.slice(app.indexOf("function dqSelect"), app.indexOf("function dqBits"));
+  const box = {};
+  runInContext(logic + "\nconst DQ_FLOOR=5;\n" + selSrc, createContext(box));
+  let st = box.dqBlank(day);
+  for (let i = 0; i < 5; i++) st = box.dqSelect(st, "s:" + i);
+  assert.equal(st.sel.length, 5);
+  const blocked = box.dqSelect(st, "s:9");
+  assert.equal(blocked, st);
+  assert.equal(blocked.sel.includes("s:9"), false);
+  const dropped = box.dqSelect(st, "s:1");
+  assert.equal(dropped.sel.includes("s:1"), false);
+  assert.equal(dropped.sel.length, 4);
+  let wide = box.dqBlank(day);
+  for (let i = 0; i < 8; i++) wide = box.dqToggle(wide, "w:" + i);
+  assert.equal(wide.sel.length, 8);
+}
+{
+  let st = pick(dqBlank(day), "a", "b", "c", "d", "e");
+  for (const k of ["a", "b", "c", "d", "e"]) st = dqOnCheck(st, k, true).st;
+  assert.equal(st.star, true);
+  assert.equal(st.stamps, 5);
+  st = dqToggle(st, "e");
+  assert.equal(st.star, true);
+  assert.equal(st.stamps, 5);
+  assert.equal(dqView(st).n, 4);
+  st = dqToggle(st, "f");
+  st = dqOnCheck(st, "f", true).st;
+  assert.equal(st.stamps, 6);
+  assert.equal(st.star, true);
+  const kept = dqMergeDay(st, {sel: ["a"], done: [], extra: 0});
+  assert.equal(kept.star, true);
+  assert.equal(kept.stamps, 6);
+}
+{
+  const sdSrc = app.slice(app.indexOf("function stickerDay"), app.indexOf("function lmRead"));
+  const sd = {};
+  runInContext(sdSrc + "\nthis.stickerDay=stickerDay;", createContext(sd));
+  assert.equal(sd.stickerDay(new Date("2026-11-04T06:30:00Z")), "2026-11-03");
+  assert.equal(sd.stickerDay(new Date("2026-11-04T07:00:00Z")), "2026-11-04");
+  assert.equal(sd.stickerDay(new Date("2026-11-05T05:30:00Z")), "2026-11-04");
+  assert.equal(sd.stickerDay(new Date("2026-11-05T07:00:00Z")), "2026-11-05");
+}
+{
+  const lmSrc = app.slice(app.indexOf("function stickerDay"), app.indexOf("function dqStarDays"));
+  const store = {};
+  const g = {
+    localStorage: {
+      getItem(k){ return Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null; },
+      setItem(k, v){ store[k] = String(v); }
+    }
+  };
+  runInContext(logic + "\n" + lmSrc, createContext(g));
+  store.nova_lm = JSON.stringify({day: "1999-01-01", stickers: [{x: 1, y: 2, r: 3}], seen: {"1999-01-01": 9}});
+  const st = {day: "2026-11-04", sel: ["a", "b"], done: ["a", "b"], extra: 1, stamps: 4};
+  const b = g.lmSync(st);
+  assert.notEqual(b.day, "1999-01-01");
+  assert.equal(b.day, g.stickerDay());
+  assert.equal(b.stickers.length, 4);
+  assert.equal(b.seen["2026-11-04"], 4);
+  assert.equal(g.lmSync(st).stickers.length, 4);
+  const more = g.lmSync(Object.assign({}, st, {stamps: 6, extra: 2}));
+  assert.equal(more.stickers.length, 6);
+}
+const card = app.slice(app.indexOf("function dqFootInner"), app.indexOf("function dqPaint"));
+assert.equal(card.includes("yearLeft"), false);
+assert.equal(card.includes("还剩"), false);
+assert.match(card, /fp-home/);
+const yec = app.slice(app.indexOf("function yecHTML"), app.indexOf("function updYec"));
+assert.equal(yec.includes("yearLeft"), false);
+const sheet = app.slice(app.indexOf("function showTimeLog"), app.indexOf('["pointerdown"'));
+assert.match(sheet, /yearLeft\(\)/);
+const pickUi = app.slice(app.indexOf("function dqPaintNow"), app.indexOf("// ---------- study timer"));
+assert.match(pickUi, /dqSelect\(cur,b\.dataset\.k\)/);
+assert.match(pickUi, /dqSelect\(cur,b\.dataset\.dayX\)/);
+assert.match(pickUi, /今天的目标/);
+assert.match(css, /\.lm-frame\{/);
+assert.match(css, /\.lm-ck\{/);
+assert.match(css, /\.fp-star\.on/);
 
 console.log("dq tests ok");

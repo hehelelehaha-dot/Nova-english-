@@ -602,7 +602,7 @@ html:is([data-theme=t3],[data-theme=t6]) :is(.dtop,.dtip,.dtm,.drow){color:#dfe6
 html:is([data-theme=t3],[data-theme=t6]) :is(.dname,.dmode,.dok,.dtip b){color:#f3f5f8!important}
 html .drow audio{color-scheme:light}
 
-/* Home date line sits under the avatar. Countdown wording still comes from yearLeft(). */
+/* Home date line sits under the avatar. Sprint countdown is only in the 累计时长 sheet. */
 html .hero.hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ava greet time" "date date date";align-items:center;column-gap:14px;row-gap:8px}
 html .hero.hero>img{grid-area:ava;align-self:center}
 html .hero.hero>.hgreet{grid-area:greet;min-width:0;align-self:center}
@@ -694,7 +694,7 @@ html[data-theme^=t] .dthz{background:var(--hl,#fff8d6);color:#3a2c00}
 
 /* daily ④ dictation bar — not the removed Naval % bar */
 .daybar{display:block;box-sizing:border-box;width:100%;margin:0 0 14px;padding:10px 14px 9px;border:0;border-radius:18px;background:#fffefa;box-shadow:0 2px 8px rgba(47,90,138,.1);text-align:left;font:inherit;color:#3a2c00}
-button.daybar{cursor:pointer}
+button.daybar{cursor:pointer;appearance:none;-webkit-appearance:none}
 .daybar-t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px}
 .daybar-t b{font-size:15px}
 .daybar-n{font-variant-numeric:tabular-nums;font-weight:800;font-size:16px}
@@ -704,22 +704,50 @@ button.daybar{cursor:pointer}
 .daybar.is-full .daybar-f{background:linear-gradient(90deg,#ffe07a,#37c56e 72%,#1d8f45)}
 .daybar.is-full{box-shadow:0 0 0 1px rgba(36,150,78,.35),0 8px 18px rgba(36,150,78,.16)}
 .daybar.is-full .daybar-n{color:#1b7a3a}
-.daybar.fp{text-align:center;padding:18px 16px 16px}
-.fp-top b{font-size:15px;font-weight:800;letter-spacing:.04em}
-.fp-marks{display:flex;justify-content:center;gap:14px;margin-top:14px}
-.fp-marks i{width:26px;height:26px;border-radius:50%;box-sizing:border-box;border:2px solid rgba(90,62,8,.28);background:transparent}
-.fp-marks i.on{background:#e8a33d;border-color:#c9782b}
-.fp-win{display:block;margin-top:6px;font-size:64px;line-height:1;font-weight:800;color:#1d8f45}
-.daybar.is-full .fp-marks{margin-top:8px}
-.daybar.is-full .fp-marks i{width:16px;height:16px}
-.fp-ot{display:block;margin-top:10px;font-size:42px;font-weight:800;line-height:1;letter-spacing:.02em;color:#c9782b;font-variant-numeric:tabular-nums}
-.daybar.fp-home .fp-win{font-size:76px}
-.daybar.fp-home .fp-ot{font-size:48px}
-.daybar.shine .fp-win{animation:fpwin .7s ease}
-@keyframes fpwin{from{transform:scale(.45);opacity:0}55%{transform:scale(1.12)}to{transform:scale(1);opacity:1}}
+.daybar.fp{text-align:center;padding:14px 14px 12px}
+.daybar.fp.is-full{box-shadow:0 0 0 1px rgba(201,160,60,.42),0 8px 18px rgba(120,90,30,.1)}
+.fp-top{display:flex;align-items:center;justify-content:center;gap:6px}
+.fp-top b{font-size:16px;font-weight:800;letter-spacing:.06em}
+.fp-ico{width:18px;height:18px;color:#c9a24a;flex:none}
+.fp-stars{display:flex;justify-content:center;gap:3px;margin-top:8px}
+.fp-star{display:block;flex:none;width:22px;height:22px;fill:transparent;stroke:rgba(90,62,8,.32);stroke-width:1.5;stroke-linejoin:round}
+.fp-star.on{fill:#e4b34a;stroke:#c4922e}
+.fp-ot{display:block;margin-top:8px;font-size:32px;font-weight:800;line-height:.9;letter-spacing:.02em;color:#c9782b;font-variant-numeric:tabular-nums}
+.daybar.fp-home{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(118px,.9fr);gap:12px;align-items:stretch;text-align:center;padding:12px}
+.lm{display:block;min-width:0;pointer-events:none}
+.lm-frame{position:relative;display:block;height:100%;min-height:210px;overflow:hidden;border-radius:22px;border:1.5px solid rgba(184,138,58,.5);
+ background:radial-gradient(circle at 18% 12%,rgba(255,255,255,.7),transparent 42%),linear-gradient(165deg,rgba(255,248,230,.92),rgba(232,206,156,.72));
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),inset 0 10px 18px rgba(255,255,255,.28)}
+.lm-rivet{position:absolute;z-index:3;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6e7c4,#c4963e 62%,#8d6828);box-shadow:0 1px 1px rgba(80,50,10,.25)}
+.lm-rivet.a{top:8px;left:8px}.lm-rivet.b{top:8px;right:8px}.lm-rivet.c{bottom:8px;left:8px}.lm-rivet.d{bottom:8px;right:8px}
+.lm-star{position:absolute;z-index:1;width:22px;height:22px;background:radial-gradient(circle at 40% 35%,#fff1c4,#e2b24a 58%,#c4922e);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);filter:drop-shadow(0 1px 1px rgba(120,80,20,.22));opacity:.92}
+.lm-ck{position:absolute;z-index:2;width:80px;height:80px;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(80,50,10,.2))}
+.lm-goal{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;padding:6px 2px}
+.daybar.fp-home .fp-top b{font-size:18px}
+.daybar.fp-home .fp-stars{gap:2px;margin-top:12px}
+.daybar.fp-home .fp-star{width:30px;height:30px}
+.daybar.fp-home .fp-ot{margin-top:14px;font-size:clamp(52px,9vw,76px)}
+.daybar.shine .fp-stars{animation:fpwin .7s ease}
+@keyframes fpwin{from{transform:scale(.92);opacity:.45}to{transform:scale(1);opacity:1}}
 .daybar.shine .daybar-tr::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:translateX(-120%);animation:daybarshine .85s ease}
 @keyframes daybarshine{to{transform:translateX(120%)}}
-@media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .daybar-tr::after,.daybar.shine .fp-win{animation:none}}
+@media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .daybar-tr::after,.daybar.shine .fp-stars{animation:none}}
+@media(min-width:720px){
+ .daybar.fp-home{grid-template-columns:minmax(0,1fr) 220px}
+ .daybar.fp-home .fp-star{width:34px;height:34px}
+}
+@media(max-width:420px){
+ .daybar.fp-home{gap:8px;padding:10px}
+ .lm-frame{min-height:176px;border-radius:18px}
+ .lm-ck{width:68px;height:68px}
+ .daybar.fp-home .fp-star{width:24px;height:24px}
+ .daybar.fp-home .fp-top b{font-size:16px}
+ .daybar.fp-home .fp-ot{font-size:52px}
+}
+html[data-theme=t6] .lm-frame{border-color:rgba(176,112,42,.55);background:radial-gradient(circle at 18% 12%,rgba(255,252,244,.65),transparent 42%),linear-gradient(165deg,rgba(255,244,220,.8),rgba(214,176,112,.55))}
+html[data-theme=t3] .fp-star{stroke:rgba(90,62,8,.4)}
+.tlog .tleft{display:flex;justify-content:center;gap:16px;margin:0 0 8px;font-size:13px;line-height:1.4;color:#8a7350}
+.tlog .tleft .hwk{font-weight:700}
 .daypick .tip{text-align:left}
 .daycnt{font-weight:800;color:#3a2c00;margin:2px 0 6px}
 .daychips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}

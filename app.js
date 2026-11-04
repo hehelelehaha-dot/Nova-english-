@@ -944,7 +944,8 @@ async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"
   if(META.v)localStorage.setItem("nova_v",META.v);route();bootSW()})();
 
 
-// Sprint calendar (Nova 2026-10-30). Weeks are Mon–Sun; the sprint ends on the year's last Sunday (2026: Dec 27). The home date line no longer prints 还剩几周.
+// Sprint calendar (Nova 2026-10-30). Weeks are Mon–Sun; the sprint ends on the year's last Sunday (2026: Dec 27).
+// The home date line and the goal card do not print it. It only shows inside the 累计时长 sheet.
 function yearLeft(d){d=d||new Date();const y=d.getFullYear(),day=Date.UTC(y,d.getMonth(),d.getDate()),D=864e5;
  const dec31=Date.UTC(y,11,31),lastSun=dec31-((new Date(dec31).getUTCDay())%7)*D,rest=Math.round((dec31-lastSun)/D);
  if(day>lastSun)return `<span class="hwk">冲刺完成</span><span class="hwd">放松${rest}天</span>`;
@@ -1065,29 +1066,49 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
 // of done, larger extra. The target stays the selected count. A 整句对了 id in
 // done is kept. Logged out or offline, the bar still only uses this device.
 // Not the removed Naval % bar, not 复述, and not part of ☀ sync or the N1 code.
-// The day's target is however many sentences she selects (3 → n/3, 12 → n/12).
-// A sentence counts only when 检查 already says 整句对了 (dqOnCheck's ok flag).
-// Until every selected sentence is done, anything else is ignored. After that,
-// further correct checks are 超额.
+// She picks at most 5 sentences for the day (dqSelect blocks a 6th). A cloud union
+// can still leave a larger stored set. A sentence counts only when 检查 already
+// says 整句对了 (dqOnCheck's ok flag). Until every selected sentence is done,
+// anything else is ignored. After that, further correct checks are 超额.
 // DQ_LOGIC_START
 function dqBlank(day){return {day:day||"",sel:[],done:[],extra:0}}
 function dqClean(a){const o=[],s=new Set();if(!Array.isArray(a))return o;for(const k of a){if(typeof k!=="string"||!k||s.has(k))continue;s.add(k);o.push(k)}return o}
 function dqExtra(v){const n=Math.floor(Number(v));return Number.isFinite(n)&&n>0?n:0}
-function dqNorm(raw,day){if(!raw||typeof raw!=="object"||raw.day!==day)return dqBlank(day);return {day,sel:dqClean(raw.sel),done:dqClean(raw.done),extra:dqExtra(raw.extra)}}
+function dqNorm(raw,day){if(!raw||typeof raw!=="object"||raw.day!==day)return dqBlank(day);
+ const o={day,sel:dqClean(raw.sel),done:dqClean(raw.done),extra:dqExtra(raw.extra)};
+ const stamps=dqExtra(raw.stamps);if(stamps)o.stamps=stamps;if(raw.star===true||raw.star===1)o.star=true;return o}
 function dqFull(st){return st.sel.length>0&&st.sel.every(k=>st.done.includes(k))}
-function dqToggle(st,key){if(typeof key!=="string"||!key)return st;const sel=st.sel.slice(),i=sel.indexOf(key);if(i>=0)sel.splice(i,1);else sel.push(key);return {day:st.day,sel,done:st.done.slice(),extra:st.extra}}
+// stamps is a high-water count of sentences that counted today (selected done + 超额).
+// It never shrinks when she swaps a sentence out, so each new 整句对了 still adds one.
+function dqStampBase(st){if(!st||typeof st!=="object")return 0;const sel=Array.isArray(st.sel)?st.sel:[],done=Array.isArray(st.done)?st.done:[];
+ let n=0;for(const k of sel)if(done.includes(k))n++;return Math.max(dqExtra(st.stamps),n+dqExtra(st.extra))}
+function dqCarry(prev,o,inc){if(prev&&(prev.star===true||prev.star===1))o.star=true;
+ const n=o.sel.reduce((a,k)=>a+(o.done.includes(k)?1:0),0);
+ const stamps=Math.max(dqStampBase(prev)+(inc?1:0),n+dqExtra(o.extra));
+ if(stamps)o.stamps=stamps;if(n>=5)o.star=true;return o}
+function dqToggle(st,key){if(typeof key!=="string"||!key)return st;const sel=st.sel.slice(),i=sel.indexOf(key);if(i>=0)sel.splice(i,1);else sel.push(key);
+ return dqCarry(st,{day:st.day,sel,done:st.done.slice(),extra:st.extra},false)}
 function dqNote(st,key){if(typeof key!=="string"||!key)return {st,how:"skip"};const full=dqFull(st);
- if(st.sel.includes(key)){if(!st.done.includes(key))return {st:{day:st.day,sel:st.sel.slice(),done:st.done.concat(key),extra:st.extra},how:"advance"};
-  if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1},how:"extra"};return {st,how:"skip"}}
- if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1},how:"extra"};return {st,how:"skip"}}
+ const base=()=>({day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra});
+ if(st.sel.includes(key)){if(!st.done.includes(key)){const o=base();o.done=st.done.concat(key);return {st:dqCarry(st,o,true),how:"advance"}}
+  if(full){const o=base();o.extra=st.extra+1;return {st:dqCarry(st,o,true),how:"extra"}}return {st,how:"skip"}}
+ if(full){const o=base();o.extra=st.extra+1;return {st:dqCarry(st,o,true),how:"extra"}}return {st,how:"skip"}}
 function dqOnCheck(st,key,ok){if(!ok)return {st,how:"skip"};return dqNote(st,key)}
 function dqView(st){const tot=st.sel.length,n=st.sel.reduce((a,k)=>a+(st.done.includes(k)?1:0),0),full=tot>0&&n===tot;
  return {n,tot,full,pct:tot?Math.round(100*n/tot):0,extra:st.extra,showExtra:!!(full&&st.extra>0)}}
 function dqDayOk(k){return typeof k==="string"&&/^\d{4}-\d\d-\d\d$/.test(k)}
-function dqPack(st){const s=st&&typeof st==="object"?st:{};return {sel:dqClean(s.sel),done:dqClean(s.done),extra:dqExtra(s.extra)}}
+function dqPack(st){const s=st&&typeof st==="object"?st:{};
+ const o={sel:dqClean(s.sel),done:dqClean(s.done),extra:dqExtra(s.extra)};
+ const stamps=dqStampBase(s);if(stamps)o.stamps=stamps;
+ const n=o.sel.reduce((a,k)=>a+(o.done.includes(k)?1:0),0);
+ if(s.star===true||s.star===1||n>=5)o.star=true;return o}
 function dqMergeDay(a,b){const A=a&&typeof a==="object"?a:{},B=b&&typeof b==="object"?b:{};
- return {sel:dqClean([].concat(A.sel||[],B.sel||[])),done:dqClean([].concat(A.done||[],B.done||[])),extra:Math.max(dqExtra(A.extra),dqExtra(B.extra))}}
-function dqSameDay(a,b){const A=dqPack(a),B=dqPack(b);if(A.extra!==B.extra||A.sel.length!==B.sel.length||A.done.length!==B.done.length)return false;
+ const o={sel:dqClean([].concat(A.sel||[],B.sel||[])),done:dqClean([].concat(A.done||[],B.done||[])),extra:Math.max(dqExtra(A.extra),dqExtra(B.extra))};
+ const n=o.sel.reduce((a,k)=>a+(o.done.includes(k)?1:0),0);
+ const stamps=Math.max(dqStampBase(A),dqStampBase(B),n+o.extra);if(stamps)o.stamps=stamps;
+ if(A.star===true||A.star===1||B.star===true||B.star===1||n>=5)o.star=true;return o}
+function dqSameDay(a,b){const A=dqPack(a),B=dqPack(b);
+ if(A.extra!==B.extra||(A.stamps||0)!==(B.stamps||0)||!!A.star!==!!B.star||A.sel.length!==B.sel.length||A.done.length!==B.done.length)return false;
  const ss=new Set(B.sel),ds=new Set(B.done);return A.sel.every(k=>ss.has(k))&&A.done.every(k=>ds.has(k))}
 function dqDaysFrom(map){const o={};if(!map||typeof map!=="object"||Array.isArray(map))return o;
  for(const k in map){if(!dqDayOk(k))continue;const raw=map[k];if(!raw||typeof raw!=="object"||Array.isArray(raw))continue;
@@ -1108,6 +1129,7 @@ function dqApplyPlan(localRaw,log,remote,today){const remoteDays=dqDaysFrom(remo
  for(const k in remoteDays){const m=dqMergeDay(base[k],remoteDays[k]);if(!base[k]||!dqSameDay(base[k],m)){base[k]=m;applied++}}
  let todaySt=null;if(dqDayOk(today)){const local=dqNorm(localRaw,today),merged=dqMergeDay(local,base[today]);
   const next={day:today,sel:merged.sel,done:merged.done,extra:merged.extra};
+  if(merged.stamps)next.stamps=merged.stamps;if(merged.star)next.star=true;
   if(!dqSameDay(local,next)){todaySt=next;applied++}
   if(next.sel.length||next.done.length||next.extra)base[today]=dqPack(next);else delete base[today]}
  return {log:base,today:todaySt,applied}}
@@ -1122,7 +1144,8 @@ function dqLog(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"nul
  return dqDaysFrom(log)}
 function dqLoad(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
  const day=dKey(),st=dqNorm(raw,day);if(!raw||raw.day!==day){if(raw&&typeof raw==="object"&&raw.day&&raw.day!==day)dqRemember(raw);dqSave(st)}return st}
-function dqSave(st){try{localStorage.setItem(DQK,JSON.stringify(st))}catch(e){}dqRemember(st);if(!dqSave.quiet&&window.novaCloudDirty)window.novaCloudDirty()}
+function dqSave(st){if(st&&typeof st==="object"&&Array.isArray(st.sel)&&st.sel.reduce((a,k)=>a+(Array.isArray(st.done)&&st.done.includes(k)?1:0),0)>=5)st=Object.assign({},st,{star:true});
+ try{localStorage.setItem(DQK,JSON.stringify(st))}catch(e){}dqRemember(st);if(!dqSave.quiet&&window.novaCloudDirty)window.novaCloudDirty()}
 function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
  const today=typeof dKey=="function"?dKey():"",plan=dqApplyPlan(raw,dqLogRead(),remote,today);if(!plan.applied)return plan;
  dqLogWrite(plan.log);
@@ -1132,25 +1155,66 @@ function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getIt
   if(typeof document!="undefined"&&document.getElementById&&document.getElementById("daynow")&&typeof DQTOPICS!="undefined"&&DQTOPICS&&typeof dqPaintNow=="function"){
    const seq=DQSEQ;DQTOPICS.then(topics=>{if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;if(document.getElementById("daynow"))dqPaintNow(topics)}).catch(()=>{})}}
  return plan}
-// Home footprint is a count of 5, not a chosen set. sel is only the sentences she taps
-// on and off; nothing auto-picks or freezes which ones are in today's set.
-// The checkmark is 5 of those, written 整句对了. Past that, further correct checks are +N.
+// Home goal: up to 5 self-picked sentences. Five stars light as those are written
+// 整句对了. Past the floor, further correct checks are +N on the right.
+// The left 流麻 board keeps one 冲鸭 sticker per counted sentence for the Nova day
+// (clears at 02:00 America/New_York) over one lasting star per calendar day the floor was met.
 const DQ_FLOOR=5;
 function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR;
  return {v,got:v.n,floor:DQ_FLOOR,won,ot:won?(v.n-DQ_FLOOR)+v.extra:0}}
+function dqSelect(st,key){if(!st||typeof key!=="string"||!key)return st;
+ if(st.sel.indexOf(key)<0&&st.sel.length>=DQ_FLOOR)return st;return dqToggle(st,key)}
 function dqBits(){return dqFoot(dqLoad())}
-function dqMarkHTML(got){let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}"></i>`;return h}
-function dqFootInner(f){const lab=f.won?(f.ot?"今天的 5 句，+"+f.ot:"今天的 5 句"):"今天的句子";
- return {lab,html:`<span class="fp-top"><b>今天的句子</b></span>${f.won?`<span class="fp-win" aria-hidden="true">✓</span>`:""}<span class="fp-marks" aria-hidden="true">${dqMarkHTML(Math.min(f.got,DQ_FLOOR))}</span>${f.ot?`<span class="fp-ot">+${f.ot}</span>`:""}`}}
-function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f);
+// Sticker day rolls at 02:00 America/New_York, not at local midnight.
+function stickerDay(d){d=d||new Date();
+ try{const fmt=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",hourCycle:"h23"});
+  const grab=x=>Object.fromEntries(fmt.formatToParts(x).filter(p=>p.type!=="literal").map(p=>[p.type,p.value]));
+  const p=grab(d);let y=+p.year,m=+p.month,day=+p.day;
+  if(+p.hour<2){const q=grab(new Date(d.getTime()-3*3600*1000));y=+q.year;m=+q.month;day=+q.day}
+  return y+"-"+String(m).padStart(2,"0")+"-"+String(day).padStart(2,"0")}
+ catch(e){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}}
+const LMK="nova_lm";
+function lmRead(){let b=null;try{b=JSON.parse(localStorage.getItem(LMK)||"null")}catch(e){}
+ if(!b||typeof b!=="object"||Array.isArray(b))return null;
+ if(!Array.isArray(b.stickers))b.stickers=[];if(!b.seen||typeof b.seen!=="object"||Array.isArray(b.seen))b.seen={};return b}
+function lmWrite(b){try{localStorage.setItem(LMK,JSON.stringify({day:b.day,stickers:b.stickers,seen:b.seen}))}catch(e){}}
+function lmSpot(){return {x:Math.round((16+Math.random()*68)*10)/10,y:Math.round((14+Math.random()*70)*10)/10,r:Math.round(Math.random()*56-28)}}
+function lmSync(st){const sd=stickerDay(),prevB=lmRead(),fresh=!prevB||prevB.day!==sd;
+ const b=fresh?{day:sd,stickers:[],seen:{}}:{day:prevB.day,stickers:prevB.stickers.slice(),seen:Object.assign({},prevB.seen)};
+ const day=st&&dqDayOk(st.day)?st.day:"",earned=st?dqStampBase(st):0,had=+b.seen[day]||0;
+ if(day&&earned>had){for(let i=had;i<earned&&b.stickers.length<80;i++)b.stickers.push(lmSpot());b.seen[day]=earned}
+ if(fresh||(day&&earned>had))lmWrite(b);return b}
+function lmStarSpot(day){let h=2166136261;const s=String(day);for(let i=0;i<s.length;i++)h=Math.imul(h^s.charCodeAt(i),16777619);h>>>=0;
+ return {x:8+(h%80),y:10+((h>>>8)%72),r:((h>>>16)%40)-20,sc:(68+((h>>>24)%48))/100}}
+function dqStarDays(){const log=dqLog(),out=[];
+ for(const k of Object.keys(log).sort()){const d=log[k];if(d.star){out.push(k);continue}
+  let n=0;for(const s of d.sel)if(d.done.includes(s))n++;if(n>=DQ_FLOOR)out.push(k)}
+ return out}
+function lmBoardHTML(stickers,days){
+ const stars=days.map(day=>{const p=lmStarSpot(day);return `<i class="lm-star" style="left:${p.x}%;top:${p.y}%;transform:translate(-50%,-50%) rotate(${p.r}deg) scale(${p.sc})"></i>`}).join("");
+ const pile=stickers.slice(-48).map(s=>{const x=+s.x,y=+s.y,r=+s.r;
+  return `<img class="lm-ck" src="icons/chongya.png" alt="" draggable="false" style="left:${Number.isFinite(x)?x:50}%;top:${Number.isFinite(y)?y:50}%;transform:translate(-50%,-50%) rotate(${Number.isFinite(r)?r:0}deg)">`}).join("");
+ return `<span class="lm" aria-hidden="true"><span class="lm-frame">${stars}${pile}<i class="lm-rivet a"></i><i class="lm-rivet b"></i><i class="lm-rivet c"></i><i class="lm-rivet d"></i></span></span>`}
+function dqStarSVG(on){return `<svg class="fp-star${on?" on":""}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 14.7 8l6.1.9-4.4 4.3 1 6.1L12 16.6 6.6 19.3l1-6.1L3.2 8.9 9.3 8z"/></svg>`}
+function dqStarsHTML(n){let h="";for(let i=0;i<DQ_FLOOR;i++)h+=dqStarSVG(i<n);return h}
+function dqFootInner(f,home){const lit=Math.min(f.got,DQ_FLOOR);
+ const lab=f.ot?`今天的目标，${lit}/5，+${f.ot}`:`今天的目标，${lit}/5`;
+ const stars=`<span class="fp-stars" aria-hidden="true">${dqStarsHTML(lit)}</span>`;
+ const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
+ const goal=`<span class="fp-top"><svg class="fp-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/></svg><b>今天的目标</b></span>${stars}${ot}`;
+ if(!home)return {lab,html:goal};
+ const st=dqLoad(),board=lmBoardHTML(lmSync(st).stickers,dqStarDays());
+ return {lab,html:board+`<span class="lm-goal">${goal}</span>`}}
+function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),st=dqLoad();lmSync(st);const f=dqFoot(st),inn=dqFootInner(f,home);
  const tag=go?"button":"div",at=go?' type="button" data-day-go':"";
  return `<${tag} class="daybar fp${home?" fp-home":""}${f.won?" is-full":""}${f.ot?" has-ot":""}"${at} aria-label="${esc(inn.lab)}">${inn.html}</${tag}>`}
-function dqPaint(){const f=dqBits(),inn=dqFootInner(f);
- document.querySelectorAll(".daybar").forEach(el=>{const was=el.classList.contains("is-full");
+function dqPaint(){const st=dqLoad();lmSync(st);const f=dqFoot(st);
+ document.querySelectorAll(".daybar").forEach(el=>{const home=el.classList.contains("fp-home"),was=el.classList.contains("is-full"),inn=dqFootInner(f,home);
   el.classList.toggle("is-full",f.won);el.classList.toggle("has-ot",!!f.ot);el.setAttribute("aria-label",inn.lab);el.innerHTML=inn.html;
   if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
-let DQDAY="";
-function dqDayWatch(){const day=dKey();if(DQDAY===day)return;const prev=DQDAY;DQDAY=day;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
+let DQDAY="",LMDAY="";
+function dqDayWatch(){const day=dKey(),sd=stickerDay();if(DQDAY===day&&LMDAY===sd)return;const prev=DQDAY;DQDAY=day;LMDAY=sd;if(!prev)return;
+ dqPaint();if(prev!==day&&(location.hash||"")==="#/dq")showDQ()}
 let DQSEQ=0,DQTOPICS=null;
 function dqItemList(){const out=[];
  if(CAT){const naval=(CAT.categories||[]).find(c=>c.id=="dictation");
@@ -1173,9 +1237,9 @@ function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(s
   return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><span class="dayx" role="button" data-day-x="${esc(key)}" aria-label="取消这句">×</span></span>`}).join("");
  box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.n?" · 写对 "+v.n:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`;
  const anchor=document.getElementById("daybody")||box;
- box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=ev=>{ev.preventDefault();const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqHoldTap(anchor,()=>{dqSave(dqToggle(cur,b.dataset.dayX));dqPaint();dqPaintNow(topics)})});
+ box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=ev=>{ev.preventDefault();const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;const next=dqSelect(cur,b.dataset.dayX);if(next===cur)return;dqHoldTap(anchor,()=>{dqSave(next);dqPaint();dqPaintNow(topics)})});
  box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>dqOpen(topics,b.dataset.open))}
-async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);
+async function showDQ(){const seq=++DQSEQ;setHeader("今天的目标",true);
  V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;
  let topics=[];try{topics=await dqTopics()}catch(e){topics=[]}
  if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;
@@ -1188,7 +1252,7 @@ async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);
    return `<div class="dayb" role="button" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</div>`}).join("");
   html+=`<details class="dqfold" data-dqf="${esc(t.id)}"${open?" open":""}><summary class="dqfh"><span class="dqfar" aria-hidden="true"></span><span class="dqfnm">${esc(t.title)}</span><span class="dqfsub">${t.sent.length}</span></summary><div class="daygrid" role="group" aria-label="${esc(t.fold+" "+t.title)}">${cells}</div></details>`}
  body.innerHTML=html;
- body.querySelectorAll(".dayb").forEach(b=>b.addEventListener("click",ev=>{ev.preventDefault();dqHoldTap(b,()=>{dqSave(dqToggle(dqLoad(),b.dataset.k));dqPaint();dqPaintNow(topics)})}));
+ body.querySelectorAll(".dayb").forEach(b=>b.addEventListener("click",ev=>{ev.preventDefault();const cur=dqLoad(),next=dqSelect(cur,b.dataset.k);if(next===cur)return;dqHoldTap(b,()=>{dqSave(next);dqPaint();dqPaintNow(topics)})}));
  dqPaintNow(topics)}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-day-go]");if(!b)return;e.preventDefault();location.hash="#/dq"});
 
@@ -1224,7 +1288,7 @@ function tDayRows(){const keys=new Set(Object.keys(TLOG).filter(k=>/^\d{4}-\d\d-
   return {lab,v:+TLOG[k]||0,today}})}
 function showTimeLog(){const o=document.createElement("div");o.className="ov";const rows=tDayRows(),tot=tTotal();
  const mx=Math.max(60,...rows.map(x=>x.v));
- o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 累计时长</div><div class="ttot"><b>${fmtT(tot)}</b></div><div class="tlogdays">${rows.map(r=>`<div class="tr${r.today?" td":""}"><span class="tdw">${r.lab}</span><span class="tb"><i style="width:${Math.round(r.v/mx*100)}%"></i></span><span class="tv">${fmtT(r.v)}</span></div>`).join("")}</div>
+ o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 累计时长</div><div class="ttot"><b>${fmtT(tot)}</b></div><div class="tleft">${yearLeft()}</div><div class="tlogdays">${rows.map(r=>`<div class="tr${r.today?" td":""}"><span class="tdw">${r.lab}</span><span class="tb"><i style="width:${Math.round(r.v/mx*100)}%"></i></span><span class="tv">${fmtT(r.v)}</span></div>`).join("")}</div>
  <button class="shb cancel" data-x>关闭</button></div>`;
  o.onclick=e=>{if(e.target==o||e.target.closest("[data-x]"))o.remove()};document.body.appendChild(o)}
 ["pointerdown","keydown","touchstart","wheel","scroll"].forEach(t=>addEventListener(t,()=>{tAct=Date.now()},{passive:true,capture:true}));
