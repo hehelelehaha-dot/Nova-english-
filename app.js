@@ -465,6 +465,7 @@ function topicGroupsHTML(secId, rows, fold){
   return `<details class="tfold" data-tf="${esc(id)}"${open?" open":""}><summary class="tfh"><span class="tfar" aria-hidden="true"></span><span class="tfnm">Topic ${a}–${a+9}</span><span class="tfsub">${items.length}</span></summary><div class="list">${items.map(r=>r.html).join("")}</div></details>`}).join("");
  return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
+document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
 function showLuca(s){setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
  const bar=s.like=="dictation"?dqHTML():"";
@@ -665,6 +666,11 @@ function holdScroll(ms){
  const t0=performance.now();
  const step=()=>{fix();if(!dead&&performance.now()-t0<ms)requestAnimationFrame(step);else{window.removeEventListener("touchmove",kill);window.removeEventListener("wheel",kill)}};
  fix();requestAnimationFrame(step)}
+// Keep a tapped chip visually still: correct for height changes above it, then refuse focus-scroll.
+function dqHoldTap(el,fn){const y0=el.getBoundingClientRect().top,sy=window.scrollY;fn();
+ const dy=el.getBoundingClientRect().top-y0;if(Math.abs(dy)>0.5)window.scrollTo(0,sy+dy);
+ try{if(document.activeElement&&document.activeElement!==document.body)document.activeElement.blur()}catch(e){}
+ holdScroll(480)}
 function flipRoster(e){
  if(!e||e._fl)return;e._fl=1;
  const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1157,15 +1163,17 @@ function dqTopics(){if(!DQTOPICS)DQTOPICS=(async()=>{const items=dqItemList(),go
  return got.filter(Boolean)})();return DQTOPICS}
 function dqFind(topics,key){const m=/^(.*):(\d+)$/.exec(key||"");if(!m)return null;const id=m[1],i=+m[2],t=topics.find(x=>x.id===id);if(!t)return null;const n=t.sent.indexOf(i);if(n<0)return null;return {t,i,n:n+1,key}}
 function dqOpen(topics,key){const f=dqFind(topics,key);if(!f)return;try{sessionStorage.setItem("nova_dt_go",String(f.i))}catch(e){}location.hash="#/i/"+f.t.id}
+function dqFoldOn(id){try{return localStorage.getItem("nova_dqf_"+id)==="1"}catch(e){return false}}
 function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(st.done);
  document.querySelectorAll(".dayb").forEach(b=>{const on=sel.has(b.dataset.k),did=on&&done.has(b.dataset.k);
   b.classList.toggle("on",on);b.classList.toggle("did",did);b.setAttribute("aria-pressed",on?"true":"false");
   const lab=b.dataset.lab||"";b.setAttribute("aria-label",lab+(on?"，已选":"")+(did?"，今天已写对":""))});
  const box=document.getElementById("daynow");if(!box)return;const v=dqView(st);
  const chips=st.sel.map(key=>{const f=dqFind(topics,key),lab=f?f.t.title+" · 第 "+f.n+" 句":"一句",ok=done.has(key);
-  return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><button type="button" class="dayx" data-day-x="${esc(key)}" aria-label="取消这句">×</button></span>`}).join("");
+  return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><span class="dayx" role="button" data-day-x="${esc(key)}" aria-label="取消这句">×</span></span>`}).join("");
  box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.n?" · 写对 "+v.n:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`;
- box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=()=>{const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqSave(dqToggle(cur,b.dataset.dayX));dqPaint();dqPaintNow(topics)});
+ const anchor=document.getElementById("daybody")||box;
+ box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=ev=>{ev.preventDefault();const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqHoldTap(anchor,()=>{dqSave(dqToggle(cur,b.dataset.dayX));dqPaint();dqPaintNow(topics)})});
  box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>dqOpen(topics,b.dataset.open))}
 async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);
  V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;
@@ -1175,10 +1183,12 @@ async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);
  if(!topics.length){body.innerHTML=`<div class="done">还没有可以听写的句子</div>`;dqPaintNow(topics);return}
  let html="",fold="";
  for(const t of topics){if(t.fold!==fold){fold=t.fold;html+=`<h3 class="dayfold">${esc(fold)}</h3>`}
-  html+=`<div class="daytopic"><div class="daytn">${esc(t.title)}</div><div class="daygrid" role="group" aria-label="${esc(t.fold+" "+t.title)}">${t.sent.map((i,n)=>{const k=t.id+":"+i,lit=sunHas(t.base,i),lab="第 "+(n+1)+" 句"+(lit?"，已标重点":"");
-   return `<button type="button" class="dayb" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</button>`}).join("")}</div></div>`}
+  const open=dqFoldOn(t.id);
+  const cells=t.sent.map((i,n)=>{const k=t.id+":"+i,lit=sunHas(t.base,i),lab="第 "+(n+1)+" 句"+(lit?"，已标重点":"");
+   return `<div class="dayb" role="button" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</div>`}).join("");
+  html+=`<details class="dqfold" data-dqf="${esc(t.id)}"${open?" open":""}><summary class="dqfh"><span class="dqfar" aria-hidden="true"></span><span class="dqfnm">${esc(t.title)}</span><span class="dqfsub">${t.sent.length}</span></summary><div class="daygrid" role="group" aria-label="${esc(t.fold+" "+t.title)}">${cells}</div></details>`}
  body.innerHTML=html;
- body.querySelectorAll(".dayb").forEach(b=>b.onclick=()=>{dqSave(dqToggle(dqLoad(),b.dataset.k));dqPaint();dqPaintNow(topics)});
+ body.querySelectorAll(".dayb").forEach(b=>b.addEventListener("click",ev=>{ev.preventDefault();dqHoldTap(b,()=>{dqSave(dqToggle(dqLoad(),b.dataset.k));dqPaint();dqPaintNow(topics)})}));
  dqPaintNow(topics)}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-day-go]");if(!b)return;e.preventDefault();location.hash="#/dq"});
 

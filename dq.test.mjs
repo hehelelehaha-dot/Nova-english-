@@ -396,6 +396,14 @@ assert.match(app, /fp-ot/);
   assert.equal(outside.st.sel.length, 11);
   const html = app.slice(app.indexOf("function dqHTML"), app.indexOf("function dqPaint"));
   assert.equal(/\bn\s*\/\s*tot|0\/8|0\/5/.test(html), false);
+  const from = app.indexOf("async function showDQ");
+  const pick = app.slice(from, app.indexOf("// ---------- study timer", from));
+  assert.match(pick, /<details class="dqfold"/);
+  assert.match(pick, /class="dayb" role="button"/);
+  assert.equal(pick.includes("<button type=\"button\" class=\"dayb\""), false);
+  assert.match(pick, /dqHoldTap/);
+  assert.match(css, /\.dqfold\{/);
+  assert.match(css, /overflow-anchor:\s*none/);
 }
 assert.equal(app.includes("pgbFill"), false);
 assert.equal(app.includes('id="pgb"'), false);
