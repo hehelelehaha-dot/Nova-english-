@@ -49,7 +49,7 @@ function saveResult(uid,mode,score,total,correct){const old=gResult(uid,mode)||{
  const g=gRes();g[uid+":"+mode]=r;localStorage.setItem(GK,JSON.stringify(g));stamp("g:"+uid+":"+mode,r);localStorage.setItem(FK,JSON.stringify(FIELDS));return r}
 // ---------- UI ----------
 async function showGames(only){const up=only==="up";setHeader(secT(up?"up_game":"game","🎮 小游戏"),true);V.innerHTML=`<div class="done">加载中…</div>`;const us=(await loadUnits()).filter(u=>up?String(u.id).startsWith("up_"):!String(u.id).startsWith("up_"));
- V.innerHTML=`<div class="tip">${up?"每个 Day 都可以玩三种游戏。成绩只存在这台设备上（导出整理时会一起同步）。":"每个单元都可以玩两种游戏。成绩只存在这台设备上（导出整理时会一起同步）。"}</div>`+topicGroupsHTML(up?"up_game":"game",us.map(u=>{const s=gResult(u.id,"spell"),p=gResult(u.id,"puzzle"),z=gResult(u.id,"cloze");
+ V.innerHTML=topicGroupsHTML(up?"up_game":"game",us.map(u=>{const s=gResult(u.id,"spell"),p=gResult(u.id,"puzzle"),z=gResult(u.id,"cloze");
   return {n:topicNo(u),html:`<div class="gu"><div class="gt"><b>${esc(u.title)}</b><span class="sb">${u.words.length} 个词${s||p||z?` · 最高分 拼写 ${s?s.best:"-"} / 拼图 ${p?p.best:"-"} / 填词 ${z?z.best:"-"}`:""}${u.words.some(w=>w.src)?" · 📖 有原文":""}</span></div>
   <div class="gb"><button class="wide flip" onclick="location.hash='#/g/${u.id}/spell'">✍️ 拼写</button><button class="wide gblue" onclick="location.hash='#/g/${u.id}/puzzle'">🧩 拼图</button><button class="wide gcl" onclick="location.hash='#/g/${u.id}/cloze'">📝 填词</button></div></div>`}}))}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -60,22 +60,22 @@ async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>
  const hdr=()=>`<div class="gs"><span>${G.round>1?"🔁 错题回顾 · ":""}第 ${Math.min(G.pos+1,G.q.length)} / ${G.q.length} 题</span><span>⭐ ${G.score}</span></div><div class="gp"><i style="width:${100*G.pos/G.q.length}%"></i></div>`;
  const after=w=>`<div class="ga"><div class="word">${esc(w.w)}</div><div class="zh">${gpos(w)}${esc(w.zh||"")}</div>${w.exs&&w.exs[0]?`<div class="row"><div class="tx en"><span class="lab ex">例句</span>${exWrap(w.exs[0],ansOf(w.w))}</div></div>`:""}${w.src?`<div class="row yrow"><button class="osb" id="ysrc" aria-label="播放原文原声">▶ 原声</button><div class="tx en">${ywHTML(w.src,true)}</div></div>`:""}${ssHTML()}<button class="wide flip" id="nx">下一题 ›</button></div>`;
  function next(){G.pos++;if(G.pos<G.q.length)return render();
-  if(G.miss.length){const m=[...new Set(G.miss)];G.miss=[];G.q=shuffle(m);G.pos=0;G.round++;return render(true)}
+  if(G.miss.length){const m=[...new Set(G.miss)];G.miss=[];G.q=shuffle(m);G.pos=0;G.round++;return render()}
   finish()}
  function finish(){stopAll();const r=saveResult(uid,mode,G.score,G.total,G.correct);
   V.innerHTML=`<div class="card gend"><img src="icons/icon-192.png" alt=""><div class="conf">🌻 🎉 🌻</div><h2>完成啦，Nova！</h2><div class="big2">⭐ ${G.score}</div>
    <div>一次答对 ${G.correct} / ${G.total} 个词${r.best==G.score&&r.plays>1?" · 🏆 新纪录！":""}</div><div class="sb">最高分 ${r.best} · 第 ${r.plays} 次</div>
    <button class="wide flip" id="again">再玩一次</button>${["spell","puzzle","cloze"].filter(m=>m!=mode).map(m=>`<button class="wide gblue" onclick="navSib('#/g/${uid}/${m}')">换${MN[m]}</button>`).join("")}<button class="wide gray" onclick="location.hash='${up?"#/g/up":"#/g"}'">返回单元列表</button></div>`;
   document.getElementById("again").onclick=()=>showGame(uid,mode)}
- function render(roundStart){const w=u.words[G.q[G.pos]];const ans=ansOf(w.w);const first=G.round==1;let tries=0,hints=0,done=false;
+ function render(){const w=u.words[G.q[G.pos]];const ans=ansOf(w.w);const first=G.round==1;let tries=0,hints=0,done=false;
   const hintEx=w.ex?w.ex.split(/(?<=[.?!])\s/)[0].replace(new RegExp(ans.split(" ").filter(x=>x.length>2).map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")||"$^","gi"),"____"):"";
-  const top=`${roundStart?`<div class="gmsg">🔁 再练一下刚才没一次答对的 ${G.q.length} 个词</div>`:""}${hdr()}<div class="card gcard"><button class="big" id="say" aria-label="听发音">▶</button><div class="zh">${gpos(w)}${esc(w.zh||"")}</div>${hintEx?`<div class="ghint en">${esc(hintEx)}</div>`:""}`;
+  const top=`${hdr()}<div class="card gcard"><button class="big" id="say" aria-label="听发音">▶</button><div class="zh">${gpos(w)}${esc(w.zh||"")}</div>${hintEx?`<div class="ghint en">${esc(hintEx)}</div>`:""}`;
   const win=pts=>{if(done)return;done=true;if(first&&!tries&&!hints)G.correct++;else if(first)G.miss.push(G.q[G.pos]);G.score+=pts;
    document.getElementById("res").innerHTML=`<div class="gok">✅ ${pts?`+${pts}`:""} 太棒了！</div>`+after(w);bindAfter()};
   const lose=()=>{if(done)return;done=true;if(first)G.miss.push(G.q[G.pos]);document.getElementById("res").innerHTML=`<div class="gno">答案是：</div>`+after(w);bindAfter()};
   const bindAfter=()=>{ssBind(ans);document.getElementById("nx").onclick=next;const y=document.getElementById("ysrc");if(y)y.onclick=()=>{stopAll();playFull(w.src,y,1)};document.getElementById("nx").focus()};
   if(mode=="cloze"){const cz=clozeOf(w);const tgt=cz.t.slice(cz.s,cz.e);
-   V.innerHTML=`${roundStart?`<div class="gmsg">🔁 再练一下刚才没一次答对的 ${G.q.length} 个词</div>`:""}${hdr()}<div class="card gcard"><div class="czl"><span class="lab ${cz.label=="原文"?"yw":"ex"}">${cz.label}</span></div>
+   V.innerHTML=`${hdr()}<div class="card gcard"><div class="czl"><span class="lab ${cz.label=="原文"?"yw":"ex"}">${cz.label}</span></div>
     <div class="czs en">${esc(cz.t.slice(0,cz.s))}<span class="czb" id="sl"></span>${esc(cz.t.slice(cz.e))}</div>
     <div class="czh" id="hs"></div><i id="czans" hidden>${esc(tgt)}</i><input id="in" class="gin" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="填入空格里的词">
     <div class="gbar"><button class="btn" id="hint">💡 提示1 中文</button><button class="btn" id="skip">跳过</button><button class="btn flipb" id="ok">✓ 确定</button></div><div id="res"></div></div>`;

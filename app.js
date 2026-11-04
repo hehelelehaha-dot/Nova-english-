@@ -89,7 +89,7 @@ async function unlock(){
  const saved=localStorage.getItem("nova_key");
  if(saved){try{KEY=await crypto.subtle.importKey("raw",ub64(saved),"AES-GCM",false,["decrypt"]);await getBuf("content/check");return true}catch(e){localStorage.removeItem("nova_key")}}
  return false}
-function lockScreen(){setHeader("Nova 英语",false);V.innerHTML=`<div class="lock"><h2>🔒 请输入密码</h2><div>输入一次后本设备会记住</div><input id="pw" type="password" autocomplete="current-password"><button class="wide flip" id="go">解锁</button><div class="err" id="er"></div></div>`;
+function lockScreen(){setHeader("Nova 英语",false);V.innerHTML=`<div class="lock"><h2>🔒 请输入密码</h2><input id="pw" type="password" autocomplete="current-password"><button class="wide flip" id="go">解锁</button><div class="err" id="er"></div></div>`;
  const go=async()=>{const pw=document.getElementById("pw").value;document.getElementById("er").textContent="正在验证…";
   try{KEY=await deriveKey(pw);await getBuf("content/check");localStorage.setItem("nova_key",b64(await crypto.subtle.exportKey("raw",KEY)));route()}catch(e){KEY=null;document.getElementById("er").textContent="密码不对，请再试一次"}};
  document.getElementById("go").onclick=go;document.getElementById("pw").onkeydown=e=>{if(e.key=="Enter")go()}}
@@ -148,8 +148,8 @@ function lucaDict(){return lucaReading().map(it=>({id:"dt_"+it.id,base:it.id,tit
 function lucaItemsFor(s){return s.like=="reading"?lucaReading():s.like=="dictation"?lucaDict():[]}
 function lucaHit(id){const r=lucaReading().find(it=>it.id==id);if(r)return{it:r,sec:"luca_reading"};const d=lucaDict().find(it=>it.id==id);if(d)return{it:d,sec:"luca_dictation"};return null}
 const UP_DEF=[
- {id:"up_flash",like:"flash",name:"单词卡",desc:"翻面看发音和扩展"},
- {id:"up_ee",like:"ee",name:"英英解释",desc:"用英文讲这个词"},
+ {id:"up_flash",like:"flash",name:"单词卡",desc:""},
+ {id:"up_ee",like:"ee",name:"英英解释",desc:""},
  {id:"up_wf",like:"wf",name:"词形练习",desc:"名词 · 动词 · 形容词 · 副词"},
  {id:"up_game",like:"game",name:"小游戏",desc:"拼写 · 拼图 · 填词"}];
 let UP=null;
@@ -164,9 +164,8 @@ function syncPaper(){const h=(location.hash||"#/").slice(1).split("/");const a=h
  else if(a==="g"&&(b==="up"||b.startsWith("up_")))p="up";
  if(p)document.documentElement.dataset.paper=p;else delete document.documentElement.dataset.paper}
 async function showUp(s){if(s.like=="game")return showGames("up");if(s.like=="wf")return showWFs("up");setHeader(secT(s.id,s.name),true);const days=upDays();
- const tip=s.like=="flash"?"选一集。先翻面看发音和扩展，再开始练习。":"选一集。用简单英文听这个词是什么意思。";
  if(!days.length){V.innerHTML=`<p class="tip">飞屋环游记 · ${esc(s.name)}</p><div class="done">这一集还没写好</div>`;return}
- V.innerHTML=`<p class="tip">${tip}</p><div class="list">${days.map((d,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(d.title)}<span class="sb">${esc(d.sub||"")}</span></span></button></div>`).join("")}</div>`;
+ V.innerHTML=`<div class="list">${days.map((d,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(d.title)}<span class="sb">${esc(d.sub||"")}</span></span></button></div>`).join("")}</div>`;
  V.querySelectorAll("[data-k]").forEach(b=>{const d=days[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+d.id+"_"+(s.like=="flash"?"flash":"ee")}})}
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
@@ -177,7 +176,7 @@ function topicSort(a){const idx=[],its=[];a.forEach((x,i)=>{if(topicNo(x)!=null)
 function applyDictation(cat){if(!cat||!cat.categories||cat._dt)return;const ch=cat.categories.find(c=>c.id=="chunks"||c.id=="dictation");if(!ch){cat._dt=1;return}
  const rd=cat.categories.find(c=>c.id=="reading");
  const src=((rd&&rd.items)||[]).filter(it=>/naval_t\d+/.test(it.id)||/naval_t\d+/.test(it.data||""));
- ch.id="dictation";ch.name="句子听写";ch.desc="听原声，写出整句";ch.icon="✍️";
+ ch.id="dictation";ch.name="句子听写";ch.desc="";ch.icon="✍️";
  ch.items=topicSort(src.map(it=>({id:"dt_"+it.id,base:it.id,title:it.title,sub:it.sub||"",data:it.data,dictation:1})));
  cat._dt=1}
 // ---------- scroll memory: back restores, forward starts at top ----------
@@ -242,9 +241,8 @@ async function copyText(t){try{await navigator.clipboard.writeText(t);toast("已
 function qrSVG(text){const q=qrcode(0,"M");q.addData(text);q.make();return q.createSvgTag({cellSize:4,margin:2,scalable:true})}
 async function showExport(){setHeader("导出整理",true);const wd=localStorage.getItem("nova_exp_d")!="0";
  V.innerHTML=`<div class="card" style="max-width:560px"><label class="tg"><input type="checkbox" id="wd" ${wd?"checked":""}> 同时带上显示设置（字体大小、加粗）</label>
- <div id="qr" class="qr"></div><div class="tip" style="text-align:center">用另一台设备的相机扫这个二维码，或复制下面的同步码</div>
- <textarea id="code" class="code" readonly></textarea><button class="wide flip" id="cp">📋 复制同步码</button><button class="wide gray" id="cpl">🔗 复制链接</button>
- <div class="tip" style="margin-top:10px">同步码包含你的整理（改名、移动、删除、分类）和 🧠 单词复习进度，不包含音频。导入时按“最新的修改为准”合并，不会覆盖另一台设备上更新的修改。</div></div>`;
+ <div id="qr" class="qr"></div>
+ <textarea id="code" class="code" readonly></textarea><button class="wide flip" id="cp">📋 复制同步码</button><button class="wide gray" id="cpl">🔗 复制链接</button></div>`;
  const draw=async()=>{const w=document.getElementById("wd").checked;localStorage.setItem("nova_exp_d",w?"1":"0");const c=await exportCode(w);const url=exportURL(c);
   document.getElementById("code").value=c;let qs="";try{qs=qrSVG(url)}catch(e){qs=`<div class="tip">内容太多，二维码放不下了——请用下面的“复制同步码/复制链接”。</div>`}document.getElementById("qr").innerHTML=qs;document.getElementById("cp").onclick=()=>copyText(c);document.getElementById("cpl").onclick=()=>copyText(url)};
  document.getElementById("wd").onchange=draw;draw()}
@@ -263,8 +261,7 @@ function showImportLink(code){
   document.getElementById("cp").onclick=()=>copyText(code);document.getElementById("here").onclick=async()=>{if(await doImport(code))location.replace("#/")};return}
  setHeader("导入整理",true);V.innerHTML=`<div class="done">正在读取同步码…</div>`;doImport(code,{fromLink:true}).then(()=>{history.replaceState(null,"","#/");route()})}
 function showImport(){setHeader("导入整理",true);
- V.innerHTML=`<div class="card" style="max-width:560px"><p style="margin-top:0;line-height:1.6">把另一台设备「导出整理」里的同步码（或链接）粘贴到下面：</p>
- <textarea id="code" class="code" placeholder="N1Z…"></textarea><button class="wide gray" id="paste">📥 从剪贴板粘贴</button><button class="wide flip" id="go">导入</button></div>`;
+ V.innerHTML=`<div class="card" style="max-width:560px"><textarea id="code" class="code" placeholder="N1Z…"></textarea><button class="wide gray" id="paste">📥 从剪贴板粘贴</button><button class="wide flip" id="go">导入</button></div>`;
  const ta=document.getElementById("code");document.getElementById("paste").onclick=async()=>{try{ta.value=await navigator.clipboard.readText()}catch(e){toast("请长按输入框，选「粘贴」")}};
  document.getElementById("go").onclick=async()=>{if(await doImport(ta.value))history.back()}}
 const allCats=()=>CAT.categories.map(c=>({id:c.id,name:c.name,icon:c.icon,desc:c.desc,builtin:true})).concat(ORG.cats.map(c=>({id:c.id,name:c.name,icon:"📁",desc:"我的分类",builtin:false})));
@@ -337,9 +334,9 @@ function hqTimer(){clearInterval(HQT);HQT=setInterval(()=>{if(!document.getEleme
 function hqStart(){hqSet(0);const b=document.getElementById("qb");if(!b)return;b.querySelector(".qm").onclick=ev=>{ev.stopPropagation();hqNext()};hqTimer()}
 function gear(){const h=document.getElementById("hdr-r");h.innerHTML=`<button id="gear" aria-label="设置">⚙︎</button>`;document.getElementById("gear").onclick=()=>location.hash="#/s"}
 function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder;
- const btn=`<button class="tile${o.gtile?" gtile":""}" data-go="${esc(o.hash)}"><span class="ic"><span class="ice">${o.icon}</span><span class="ics">${ics}</span></span><span class="nm">${n?`<span class="no">${n}</span>`:""}${esc(o.name)}</span><span class="ds">${esc(o.desc||"")}</span><span class="ct">${esc(o.count)}</span><span class="tsec" data-s="${esc(o.sec||o.id)}">${secHTML(o.sec||o.id)}</span></button>`;
+ const btn=`<button class="tile${o.gtile?" gtile":""}" data-go="${esc(o.hash)}"><span class="ic"><span class="ice">${o.icon}</span><span class="ics">${ics}</span></span><span class="nm">${n?`<span class="no">${n}</span>`:""}${esc(o.name)}</span>${o.desc?`<span class="ds">${esc(o.desc)}</span>`:""}<span class="ct">${esc(o.count)}</span><span class="tsec" data-s="${esc(o.sec||o.id)}">${secHTML(o.sec||o.id)}</span></button>`;
  return o.gtile?btn:`<div class="tw">${btn}${o.menu||""}</div>`}
-function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)!="0"}catch(e){return true}}
+function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)=="1"}catch(e){return false}}
 function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
 async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbers();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
  const byId=Object.fromEntries(cs.map(c=>[c.id,c]));const countOf=id=>{const i=cs.findIndex(c=>c.id==id);return (i<0?0:counts[i])+" 项"};
@@ -356,7 +353,7 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div>${dqHTML()}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
@@ -468,20 +465,19 @@ function topicGroupsHTML(secId, rows, fold){
   return `<details class="tfold" data-tf="${esc(id)}"${open?" open":""}><summary class="tfh"><span class="tfar" aria-hidden="true"></span><span class="tfnm">Topic ${a}–${a+9}</span><span class="tfsub">${items.length}</span></summary><div class="list">${items.map(r=>r.html).join("")}</div></details>`}).join("");
  return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
+document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
 function showLuca(s){setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
- const kind=s.like=="dictation"?"选一个 Topic。听句子，把整句写下来，再核对。":s.typeName;
  const bar=s.like=="dictation"?dqHTML():"";
  const listen=s.like=="reading"?topicListenHTML("luca"):"";
- if(!xs.length){V.innerHTML=`${bar}${listen}<p class="tip">夏日友晴天 · ${esc(kind)}</p><div class="done">这个板块还是空的</div>`;if(listen)wireTopicListen("luca");return}
- const tip=s.like=="dictation"?'<p class="tip">选一个 Topic。听句子，把整句写下来，再核对。</p>':"";
- V.innerHTML=`${bar}${listen}${tip}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
+ if(!xs.length){V.innerHTML=`${bar}${listen}<p class="tip">夏日友晴天 · ${esc(s.name)}</p><div class="done">这个板块还是空的</div>`;if(listen)wireTopicListen("luca");return}
+ V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  if(listen)wireTopicListen("luca");
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
 async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
- V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${id=="dictation"?'<p class="tip">选一个 Topic。只听采访原声，把整句写下来，再核对。</p>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
+ V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
  if(listen)wireTopicListen("naval");
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id}});
@@ -493,7 +489,7 @@ function setZoom(z,noStamp){localStorage.setItem("nova_zoom",z);document.documen
 function showSettings(){setHeader("设置",true);const hid=builtinItems().filter(x=>ORG.hidden[x.it.id]);
  const rbo=sessionStorage.getItem("nova_rb_open")=="1";  // 回收站 collapsed by default; open/closed remembered for this session only
  const ft=fillText(FILL);
- V.innerHTML=`<button class="sec rbh" id="rbh" aria-expanded="${rbo}" aria-controls="rbb">🗑 回收站 (${hid.length}) <span class="rbc">${rbo?"▾":"▸"}</span></button><div id="rbb"${rbo?"":" hidden"}><div class="tip">已删除的自带材料，点“恢复”放回原处。</div><div class="list">${hid.length?hid.map(x=>`<div class="lw"><div class="li"><span class="tt">${esc(ttl(x.it))}<span class="sb">${esc(x.it.sub||"")}</span></span></div><button class="rs" data-r="${x.it.id}">恢复</button></div>`).join(""):`<div class="done">回收站是空的</div>`}</div>
+ V.innerHTML=`<button class="sec rbh" id="rbh" aria-expanded="${rbo}" aria-controls="rbb">🗑 回收站 (${hid.length}) <span class="rbc">${rbo?"▾":"▸"}</span></button><div id="rbb"${rbo?"":" hidden"}><div class="list">${hid.length?hid.map(x=>`<div class="lw"><div class="li"><span class="tt">${esc(ttl(x.it))}<span class="sb">${esc(x.it.sub||"")}</span></span></div><button class="rs" data-r="${x.it.id}">恢复</button></div>`).join(""):`<div class="done">回收站是空的</div>`}</div>
  ${hid.length>1?`<button class="wide flip" id="rall">全部恢复</button>`:""}</div>
  <h3 class="sec">↺ 还原</h3><button class="wide gray" id="reset">把所有自带材料的名字和位置恢复成原样</button>
  <h3 class="sec">🔁 同步（在 iPad 和手机之间）</h3><div class="yn" style="margin-top:0"><button class="wide flip" style="margin-top:0" onclick="location.hash='#/exp'">📤 导出整理</button><button class="wide gray" style="margin-top:0" onclick="location.hash='#/imp'">📥 导入</button></div>
@@ -504,9 +500,8 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
   <div style="margin-bottom:8px">字体大小</div><div class="zs">${ZOOMS.map(([n,z])=>`<button class="btn${Math.abs(z-curZoom())<.01?" on":""}" data-z="${z}">${n}</button>`).join("")}</div>
   <label class="tg"><input type="checkbox" id="bold" ${document.documentElement.classList.contains("bold")?"checked":""}> 字体加深加粗</label>
   <div class="pv"><b class="en">conventional wisdom</b> <span class="z">普遍看法</span><p class="en" style="margin:6px 0 0">Conventional wisdom is what most people believe is true.</p></div></div>
- <h3 class="sec">🔄 更新</h3><div class="li" style="display:block;line-height:1.7">App 版本：<b>${esc(META.v||"?")}</b>　(${esc(META.built||"")})<br>内容目录版本：<b>${esc(META.cv||"?")}</b><br>后台程序版本：<b id="swv">${esc(SWV||"…")}</b><br>离线音频已下载：<b id="fillst">${esc(ft.line)}</b><div class="gp" id="fillbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${ft.pct}" aria-label="离线内容下载进度"><i id="fillbi" style="width:${ft.pct}%"></i></div><p class="tip" id="fillmsg">${esc(ft.msg)}</p></div>
- <button class="wide flip" id="cachebtn" type="button" aria-busy="${ft.busy?"true":"false"}">${esc(ft.btn)}</button><button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>
- <div class="tip" style="margin-top:14px">这些整理只保存在这台设备上；导入的 MP3 删除后无法恢复。</div>`;
+ <h3 class="sec">🔄 更新</h3><div class="li" style="display:block;line-height:1.7">App 版本：<b>${esc(META.v||"?")}</b>　(${esc(META.built||"")})<br>内容目录版本：<b>${esc(META.cv||"?")}</b><br>后台程序版本：<b id="swv">${esc(SWV||"…")}</b><br>离线音频已下载：<b id="fillst">${esc(ft.line)}</b><div class="gp" id="fillbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${ft.pct}" aria-label="离线内容下载进度"><i id="fillbi" style="width:${ft.pct}%"></i></div><p class="tip" id="fillmsg"${ft.msg?"":" hidden"}>${esc(ft.msg)}</p></div>
+ <button class="wide flip" id="cachebtn" type="button" aria-busy="${ft.busy?"true":"false"}">${esc(ft.btn)}</button><button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>`;
  V.querySelectorAll("[data-nc]").forEach(b=>b.onclick=()=>{stamp("o:srsnew",+b.dataset.nc);srsSave();V.querySelectorAll("[data-nc]").forEach(x=>x.classList.toggle("on",x==b))});
  V.querySelectorAll("[data-th]").forEach(b=>b.onclick=()=>{setTheme(b.dataset.th);V.querySelectorAll("[data-th]").forEach(x=>{x.classList.toggle("on",x==b);x.setAttribute("aria-pressed",x==b)})});
  V.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{setZoom(+b.dataset.z);V.querySelectorAll("[data-z]").forEach(x=>x.classList.toggle("on",x==b))});
@@ -583,7 +578,7 @@ function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=
   async function playSeg(i,k,p){stopAll();setAll(false);const me=RUN,s=d.sents[i],[,,a,b]=s.seg[k];mark(i);LASTBTN=$("dd");document.querySelectorAll(".ph.play").forEach(x=>x.classList.remove("play"));p.classList.add("play");st(`点读 · 第 ${i+1} 句 · 第 ${k+1}/${s.seg.length} 段`);
    A.onended=A.onerror=null;A.src=await audioURL(s.oa);A.playbackRate=1;const go=()=>{try{A.currentTime=a}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
    const tick=()=>{if(me!=RUN){p.classList.remove("play");return}if(A.currentTime>=b||A.ended){A.pause();p.classList.remove("play");return}requestAnimationFrame(tick)};requestAnimationFrame(tick);window._dd={i,k,a,b,src:s.oa}}
-  $("dd").onclick=()=>{DD=!DD;try{localStorage.setItem("rd_dd",DD?"1":"0")}catch(e){}ren();st(DD?"点读：点句子里的任一小段，只播那一段原声":"")};ren()}
+  $("dd").onclick=()=>{DD=!DD;try{localStorage.setItem("rd_dd",DD?"1":"0")}catch(e){}ren();st("")};ren()}
  $("spd").onclick=()=>{si=(si+1)%3;TLSI=si;A.playbackRate=SP[si];A.defaultPlaybackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
  const fold=/^luca_/.test(rid)?"luca":"naval";
@@ -671,6 +666,11 @@ function holdScroll(ms){
  const t0=performance.now();
  const step=()=>{fix();if(!dead&&performance.now()-t0<ms)requestAnimationFrame(step);else{window.removeEventListener("touchmove",kill);window.removeEventListener("wheel",kill)}};
  fix();requestAnimationFrame(step)}
+// Keep a tapped chip visually still: correct for height changes above it, then refuse focus-scroll.
+function dqHoldTap(el,fn){const y0=el.getBoundingClientRect().top,sy=window.scrollY;fn();
+ const dy=el.getBoundingClientRect().top-y0;if(Math.abs(dy)>0.5)window.scrollTo(0,sy+dy);
+ try{if(document.activeElement&&document.activeElement!==document.body)document.activeElement.blur()}catch(e){}
+ holdScroll(480)}
 function flipRoster(e){
  if(!e||e._fl)return;e._fl=1;
  const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -688,7 +688,7 @@ function wireRoster(){
    if(b){ev.stopPropagation();ev.preventDefault();const w=b.dataset.w||"",a=b.dataset.a||"";stopAll();if(a){try{const p=playP(a,1,w);if(p&&p.catch)p.catch(()=>{})}catch(err){}}else if(typeof sayEN=="function")sayEN(w,b);return}
    if(e._drag)return;ev.preventDefault();flipRoster(e)})})}
 function unitRoster(cards,startLabel){const n=cards.length;
- V.innerHTML=`<p class="tip">这一组共 ${n} 个。先看完，再进入练习。</p>`+(n?`<div class="list rost">${cards.map((c,i)=>rostCardHTML(c,i)).join("")}</div><button class="wide flip rostgo" id="godrill">${startLabel||"开始练习 ›"}</button>`:`<div class="done">这一组还是空的</div>`);
+ V.innerHTML=`<p class="tip">这一组共 ${n} 个</p>`+(n?`<div class="list rost">${cards.map((c,i)=>rostCardHTML(c,i)).join("")}</div><button class="wide flip rostgo" id="godrill">${startLabel||"开始练习 ›"}</button>`:`<div class="done">这一组还是空的</div>`);
  if(n)wireRoster()}
 // ---------- 原文 (original Naval sentence) ----------
 // ② / 🧠 card back: 底层逻辑 row (c.lg=[emoji,text], same text as the ① gloss / 拓展 底层画面; added by build/card_logic.py)
@@ -724,9 +724,9 @@ function eeSpeak(list,btn){if(!window.speechSynthesis){toast("这台设备不支
   speechSynthesis.speak(u)})}
 function viewEE(d,id){const items=(d&&d.items)||[];const SKK="nova_skip_"+(id||"up_ee");let SK={};try{SK=JSON.parse(localStorage.getItem(SKK))||{}}catch(e){}
  const isSk=i=>!!SK[items[i].w];
- V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="spd">速度 ${eeRate}x</button></div><div class="tip">点「从这里听」：单词、词性、英文解释，然后例句。这一集没有原声，用这台设备朗读。</div><div class="skbar" id="skbar" hidden></div>${items.map((e,i)=>`<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n||i+1}</span><span class="w en">${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span><button class="jump" data-i="${i}">▶ 从这里听</button><button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div><p>${esc(e.ex||"")}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${esc(x)}${e.exzh&&e.exzh[j]?`<div class="exz">${esc(e.exzh[j])}</div>`:""}</li>`).join("")}</ol>`:""}</div>`).join("")}`;
+ V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="spd">速度 ${eeRate}x</button></div><div class="skbar" id="skbar" hidden></div>${items.map((e,i)=>`<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n||i+1}</span><span class="w en">${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span><button class="jump" data-i="${i}">▶ 从这里听</button><button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div><p>${esc(e.ex||"")}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${esc(x)}${e.exzh&&e.exzh[j]?`<div class="exz">${esc(e.exzh[j])}</div>`:""}</li>`).join("")}</ol>`:""}</div>`).join("")}`;
  const skPaint=()=>{items.forEach((e,i)=>{const el=document.getElementById("e"+i),b=el.querySelector(".skb"),s=isSk(i);el.classList.toggle("skipped",s);b.textContent=s?"已跳过 ↺":"跳过";b.setAttribute("aria-pressed",s)});
-  const n=items.filter((e,i)=>isSk(i)).length,bar=document.getElementById("skbar");bar.hidden=!n;bar.innerHTML=n?`已跳过 ${n} 个词（连播时跳过）· <button class="btn" id="skall">全部恢复</button>`:"";
+  const n=items.filter((e,i)=>isSk(i)).length,bar=document.getElementById("skbar");bar.hidden=!n;bar.innerHTML=n?`已跳过 ${n} 个词· <button class="btn" id="skall">全部恢复</button>`:"";
   if(n)document.getElementById("skall").onclick=()=>{SK={};localStorage.removeItem(SKK);skPaint()}};
  V.querySelectorAll(".skb").forEach(b=>b.onclick=()=>{const w=items[+b.dataset.sk].w;if(SK[w])delete SK[w];else SK[w]=1;localStorage.setItem(SKK,JSON.stringify(SK));skPaint()});skPaint();
  const rates=[1,.85,.75];document.getElementById("spd").onclick=e=>{eeRate=rates[(rates.indexOf(eeRate)+1)%rates.length];e.target.textContent="速度 "+eeRate+"x"};
@@ -777,16 +777,15 @@ function viewFlash(d,id,opt){const token=++ROST;const C=d.cards,DIR=FCDIR(),CE=D
    const i=q[S.pos],c=C[i];
    if(CE&&!back){const sp=S.sp[i];
     $("fc").innerHTML=`<div class="card ce"><div class="cez">${esc(c.zh)}</div><div class="pos en">${esc(c.pos)}</div>${lgHTML(c)}${noteHTML(c)}
-     <div class="fchrow"><button class="fchint" id="hint" onclick="_fc.hint(${i})" aria-label="提示：再显示一个字母">${fcMask(c.w,S.rv[i]||1)}</button><button class="btn fcsay" id="fcsay" onclick="_fc.say(${i},this)" aria-label="听单词发音（提示）">🔊</button></div><div class="tip" style="text-align:center">共 ${fcLetters(c.w)} 个字母 · 点一下多显示一个</div>
+     <div class="fchrow"><button class="fchint" id="hint" onclick="_fc.hint(${i})" aria-label="再显示一个字母">${fcMask(c.w,S.rv[i]||1)}</button><button class="btn fcsay" id="fcsay" onclick="_fc.say(${i},this)" aria-label="听单词发音">🔊</button></div><div class="tip" style="text-align:center">共 ${fcLetters(c.w)} 个字母</div>
      ${c.src&&c.src.zh?`<div class="row czr"><div class="tx"><span class="lab yw">原句</span>${fcZh(c.src)}${c.src.sp?` <span class="ywsp">— ${c.src.sp=="Naval"?"Naval":"Chris"}</span>`:""}</div></div>`:""}
-     ${c.src&&c.src.oas&&c.src.oas.length?`<div style="text-align:center"><button class="osent" id="osent" onclick="_fc.osent(${i},this)" aria-label="播放原句原声（会听到答案）">▶ 原句</button><div class="tip">点了才播放 · 原声里会听到答案</div></div>`:""}
-     <div class="tip" style="text-align:center;margin-top:10px">🗣 先大声说出英文，再翻看答案</div>
-     <div class="fcsp"><input id="sp" class="guess" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="✍️ 拼一拼（可不填）" value="${esc(S.typed[i]||"")}"><button class="btn" id="spk" onclick="_fc.spell(${i})">✓ 检查</button></div>
+     ${c.src&&c.src.oas&&c.src.oas.length?`<div style="text-align:center"><button class="osent" id="osent" onclick="_fc.osent(${i},this)" aria-label="播放原句原声">▶ 原句</button></div>`:""}
+     <div class="fcsp"><input id="sp" class="guess" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="✍️ 拼一拼" value="${esc(S.typed[i]||"")}"><button class="btn" id="spk" onclick="_fc.spell(${i})">✓ 检查</button></div>
      <div id="spr">${sp=="ok"?`<div class="gok">✅ 拼对了</div>`:sp=="bad"?`<div class="gno">❌ 拼写有误（这张记为想不起）</div><div class="fcdiff en">${fcDiff(S.typed[i],c.w)}</div>`:""}</div>
      <button class="wide flip" onclick="_fc.flip(${i})">翻看答案</button></div>`;
     const inp=$("sp");inp.onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();_fc.spell(i)}};return}
    let h=`<div class="card"><div class="word">${esc(c.w)}</div><div class="pos en">${esc(c.pos)}</div><button class="big" onclick="_fc.play(${i},0)">▶</button>${c.src&&c.src.oas&&c.src.oas.length?`<button class="osent" id="osent" onclick="_fc.osent(${i},this)" aria-label="播放原句原声">▶ 原句</button>`:""}`;
-   if(!back)h+=`<input class="guess" id="g" placeholder="我猜的意思（可不填）" value="${esc(S.guess[i]||"")}"><button class="wide flip" onclick="_fc.flip(${i})">翻看答案</button>`;
+   if(!back)h+=`<input class="guess" id="g" placeholder="我猜的意思" value="${esc(S.guess[i]||"")}"><button class="wide flip" onclick="_fc.flip(${i})">翻看答案</button>`;
    else h+=`<div class="zh">${esc(c.zh)}</div>${!CE&&S.guess[i]?`<div class="mine">我猜的：${esc(S.guess[i])}</div>`:""}${CE&&S.sp[i]?`<div class="mine">我拼的：${esc(S.typed[i])} ${S.sp[i]=="ok"?"✅":"❌ → 记为想不起"}</div>`:""}${lgHTML(c)}${noteHTML(c)}
     ${c.ex?`<div class="row"><div class="tx en"><span class="lab">解释</span>${esc(c.ex)}</div><button class="p sm" onclick="_fc.play(${i},1)">▶</button></div>`:""}
     ${(c.exs||[])[0]?`<div class="row"><div class="tx en"><span class="lab ex">例句1</span>${esc(c.exs[0])}</div><button class="p sm" onclick="_fc.play(${i},2)">▶</button></div>`:""}
@@ -815,7 +814,6 @@ function spans(toks){let h="",open=false;for(const [tk,t] of toks){if(!open){h+=
 let EXZH=null;async function loadEXZH(){if(!EXZH){try{EXZH=await getJSON("exzh.json")}catch(e){EXZH={}}}return EXZH}
 async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();await loadEXZH();const R=[1,.85,.75];let ri=0;
  V.innerHTML=`<div class="player"><audio id="au" preload="metadata" src="${url}"></audio><div class="skb"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="1" step="0.1" value="0" aria-label="进度"><span id="td">--:--</span></div><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button><button class="btn shf" id="shf" aria-pressed="false">🔀 乱序</button></div><div class="status" id="nw" style="margin:8px 2px 0"></div><div class="skbar" id="skbar" hidden></div></div>
- <div class="tip">播放时文字会跟着高亮；点任意一句可以从那里听。${d.items.some(e=>e.tt&&(e.tt.z||e.tt.o!=null))?(d.items.some(e=>e.tt&&e.tt.o0!=null)?"每个词先放一遍原文句子（原声），":"")+(d.items.some(e=>e.tt&&e.tt.pos!=null)?"单词读完紧接着读英文词性（Noun / Verb / Adjective…），再读英文解释，":"")+"每个例句读完后读中文翻译，再读一遍英文例句，"+(d.items.some(e=>e.tt&&e.tt.o!=null)?"最后再读这个词的原文句子（有原声用原声）。":""):""}手动滑动后 4 秒内不自动滚动。听熟的词点「跳过」，连播时就会跳过它。</div>
  ${d.items.map((e,i)=>{const tt=e.tt;const wt=tt&&tt.w!=null?tt.w:e.t;const st=tt&&tt.s0!=null?tt.s0:e.t;/* ③: starting at a word (从这里听 / tap word) begins with its 原句 (tt.s0) → word → 英解释 → 例句 → 原句 (Nova 2026-10-21) */
   return `<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n}</span><span class="w en${wt!=null?" wd":""}"${wt!=null?` data-t="${wt}"`:""}${st!=null?` data-p="${st}"`:""}>${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span>${st!=null?`<button class="jump" data-j="${st}">▶ 从这里听</button>`:""}<button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div>
   <p>${tt&&tt.ex.length?spans(tt.ex):esc(e.ex)}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${tt&&tt.exs[j]&&tt.exs[j].length?spans(tt.exs[j]):esc(x)}${(e.exzh&&e.exzh[j])||EXZH[x]?`<div class="exz${tt&&tt.z&&tt.z[j]!=null?` wd lz" data-t="${tt.z[j]}`:""}">${esc((e.exzh&&e.exzh[j])||EXZH[x])}</div>`:""}</li>`).join("")}</ol>`:""}${e.src?`<div class="row yrow"><button class="osb" data-src="${i}" aria-label="播放原文原声">▶ 原声</button><div class="tx en${tt&&tt.o!=null?` wd lo" data-t="${tt.o}`:""}">${ywHTML(e.src,true)}</div></div>`:""}${expHTML(e.w)}</div>`}).join("")}`;
@@ -837,7 +835,7 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
  const SKK="nova_skip_"+d.audio;let SK={};try{SK=JSON.parse(localStorage.getItem(SKK))||{}}catch(e){}let MANK=-1;
  const isSk=i=>!!SK[d.items[i].w];
  const skPaint=()=>{d.items.forEach((e,i)=>{const el=document.getElementById("e"+i),b=el.querySelector(".skb"),s=isSk(i);el.classList.toggle("skipped",s);b.textContent=s?"已跳过 ↺":"跳过";b.setAttribute("aria-pressed",s)});
-  const n=d.items.filter((e,i)=>isSk(i)).length,bar=document.getElementById("skbar");bar.hidden=!n;bar.innerHTML=n?`已跳过 ${n} 个词（连播时跳过）· <button class="btn" id="skall">全部恢复</button>`:"";
+  const n=d.items.filter((e,i)=>isSk(i)).length,bar=document.getElementById("skbar");bar.hidden=!n;bar.innerHTML=n?`已跳过 ${n} 个词· <button class="btn" id="skall">全部恢复</button>`:"";
   if(n)document.getElementById("skall").onclick=()=>{SK={};localStorage.removeItem(SKK);skPaint()}};
  V.querySelectorAll(".skb").forEach(b=>b.onclick=()=>{const w=d.items[+b.dataset.sk].w;if(SK[w])delete SK[w];else SK[w]=1;localStorage.setItem(SKK,JSON.stringify(SK));skPaint()});
  skPaint();
@@ -853,7 +851,7 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
  if(SH)shStart();shPaint();window._sh=()=>({ORD:[...ORD],PL:[...PL],SH});
  ["seeking"].forEach(k=>au.addEventListener(k,()=>{if(!AUTO)USR=true}));let AUTO=false;
  const shGo=i=>{AUTO=true;au.currentTime=ts[i];setTimeout(()=>AUTO=false,300)};
- au.addEventListener("ended",()=>{if(!SH)return;const n=nextSh();if(n!=null){shGo(n);au.play().catch(()=>{})}else{document.getElementById("nw").textContent="乱序播放完毕 ✓（再按 ▶ 换一个新顺序）";newOrd()}});
+ au.addEventListener("ended",()=>{if(!SH)return;const n=nextSh();if(n!=null){shGo(n);au.play().catch(()=>{})}else{document.getElementById("nw").textContent="乱序播放完毕 ✓";newOrd()}});
  V.querySelectorAll(".ent .wd").forEach(w=>w.addEventListener("click",()=>{MANK=+w.closest(".ent").id.slice(1)}));
  V.querySelectorAll(".jump").forEach(b=>b.addEventListener("click",()=>{MANK=-1}));
  function tick(){let ct=au.currentTime+0.05;
@@ -861,7 +859,7 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
   if(MANK>=0&&k==MANK-1&&ts[MANK]-ct<0.3)k=MANK;  // play() starts 0.05s before the tapped word
   if(k!=MANK)MANK=-1;
   if(SH&&k>=0&&!au.paused){if(USR){USR=false;if(!ORD.length)newOrd();PL.add(k)}
-   else if(k!=lastE&&lastE>=0||isSk(k)){const n=nextSh();if(n==null){au.pause();document.getElementById("nw").textContent="乱序播放完毕 ✓（再按 ▶ 换一个新顺序）";newOrd();k=lastE}else{shGo(n);ct=ts[n]+0.05;k=n;PL.add(n)}}
+   else if(k!=lastE&&lastE>=0||isSk(k)){const n=nextSh();if(n==null){au.pause();document.getElementById("nw").textContent="乱序播放完毕 ✓";newOrd();k=lastE}else{shGo(n);ct=ts[n]+0.05;k=n;PL.add(n)}}
    else PL.add(k)}
   if(k>=0&&isSk(k)&&k!=MANK&&!au.paused){let n=k+1;while(n<ts.length&&(ts[n]==null||isSk(n)))n++;
    if(n<ts.length){au.currentTime=ts[n];ct=ts[n]+0.05;k=n}else{au.pause();au.currentTime=(isFinite(au.duration)?au.duration:d.dur)||au.currentTime}}
@@ -881,27 +879,27 @@ let REG=null,SWV=null,FILL=null,fillWant=false,fillPosted=false,fillWd=0,regP=nu
 function toast(t,ms=3500){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),ms)}
 // FILL_UI_START
 function fillText(d){
- const none={line:"…",msg:"连上 Wi-Fi 后点一次，把还没打开过的音频也存进这台 iPad（Naval 和夏日友晴天都算）。你的整理、导入和时长不会动。",pct:0,btn:"一键缓存 / 下载离线内容",busy:false};
+ const none={line:"…",msg:"",pct:0,btn:"一键缓存 / 下载离线内容",busy:false};
  if(!d||d.total==null)return none;
  let pct=d.total?Math.round(100*d.have/d.total):0;
  if(d.have>0&&pct===0)pct=1;
  if(d.total&&d.have<d.total&&pct===100)pct=99;
  if(d.state==="done")pct=100;
  const line=d.total?`${d.have} / ${d.total}（${pct}%）`:"…";
- if(d.reason==="quota")return {line,msg:"存储空间不够，已经下好的还留着。清出一点空间后再点一次。",pct,btn:"重试没下完的内容",busy:false};
+ if(d.reason==="quota")return {line,msg:"存储空间不够，已经下好的还留着。",pct,btn:"重试没下完的内容",busy:false};
  if(d.state==="run"){
-  const msg=d.phase==="shell"?"正在保存页面和目录…请留在这个页面，不要锁屏。":d.phase==="media"?`正在下载 ${d.have} / ${d.total}（${pct}%）。请留在这个页面，不要锁屏或切走。`:"正在看看这台设备还缺哪些文件…";
+  const msg=d.phase==="shell"?"正在保存页面和目录…":d.phase==="media"?`正在下载 ${d.have} / ${d.total}（${pct}%）`:"正在看看这台设备还缺哪些文件…";
   return {line,msg,pct,btn:"正在下载…",busy:true};
  }
- if(d.state==="pause")return {line,msg:"下载暂停了（没有网络或连不上）。连上 Wi-Fi 后再点一次，会从断掉的地方接着下。",pct,btn:"继续下载剩余内容",busy:false};
- if(d.state==="fail"){const n=d.fail||0;return {line,msg:n?`有 ${n} 个文件没下下来。再点一次会重试，已经下好的不会重下。`:"还有文件没下下来。再点一次会重试，已经下好的不会重下。",pct,btn:"重试没下完的内容",busy:false}}
- if(d.state==="done"||(d.total&&d.have>=d.total))return {line:d.total?`${d.have} / ${d.total}（100%）`:line,msg:"已经全部存到这台设备，可以关掉网络使用。",pct:100,btn:"已全部缓存 ✓",busy:false};
- return {line,msg:"还有内容没存在这台 iPad 上。连上 Wi-Fi 后点下面的按钮，一次下完。整理、导入和时长不会动。",pct,btn:"一键缓存 / 下载离线内容",busy:false};
+ if(d.state==="pause")return {line,msg:"下载暂停了（没有网络或连不上）。",pct,btn:"继续下载剩余内容",busy:false};
+ if(d.state==="fail"){const n=d.fail||0;return {line,msg:n?`有 ${n} 个文件没下下来。`:"还有文件没下下来。",pct,btn:"重试没下完的内容",busy:false}}
+ if(d.state==="done"||(d.total&&d.have>=d.total))return {line:d.total?`${d.have} / ${d.total}（100%）`:line,msg:"已经全部存到这台设备。",pct:100,btn:"已全部缓存 ✓",busy:false};
+ return {line,msg:"",pct,btn:"一键缓存 / 下载离线内容",busy:false};
 }
 // FILL_UI_END
 function paintFill(){const t=fillText(FILL);
  const st=document.getElementById("fillst"),msg=document.getElementById("fillmsg"),bar=document.getElementById("fillbar"),bi=document.getElementById("fillbi"),btn=document.getElementById("cachebtn");
- if(st)st.textContent=t.line;if(msg)msg.textContent=t.msg;
+ if(st)st.textContent=t.line;if(msg){msg.textContent=t.msg;msg.hidden=!t.msg}
  if(bi)bi.style.width=t.pct+"%";if(bar)bar.setAttribute("aria-valuenow",String(t.pct));
  if(btn){btn.textContent=t.btn;btn.setAttribute("aria-busy",t.busy?"true":"false")}}
 function armFillWatch(){clearTimeout(fillWd);if(!fillWant)return;fillWd=setTimeout(()=>{fillPosted=false;if(fillWant)postFill(false)},25000)}
@@ -919,7 +917,7 @@ async function postSW(msg){const reg=await startSW();if(!reg||!("serviceWorker" 
 async function postFill(retry){if(fillPosted)return true;fillPosted=true;armFillWatch();const ok=await postSW({t:"fill",retry:!!retry});if(!ok)fillPosted=false;return ok}
 async function onCacheTap(){
  if(!("serviceWorker" in navigator)){toast("这个浏览器不能把内容存下来离线用");return}
- if(fillWant&&FILL&&FILL.state==="run"){toast("正在下载，请留在这个页面");fillPosted=false;postFill(false);return}
+ if(fillWant&&FILL&&FILL.state==="run"){toast("正在下载");fillPosted=false;postFill(false);return}
  const prev=FILL,retry=!!(FILL&&FILL.state==="fail");
  fillWant=true;fillPosted=false;
  FILL=Object.assign({have:0,total:0},FILL||{},{op:"fill",state:"run",step:"work",phase:"scan",more:true,reason:""});
@@ -936,7 +934,7 @@ if("serviceWorker" in navigator){const sw=navigator.serviceWorker;const had=!!sw
   const resumeFill=()=>{if(fillWant&&(!FILL||FILL.state==="run")){fillPosted=false;postFill(false)}};
   document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="visible"){checkUpdate(false);resumeFill()}});
   window.addEventListener("pageshow",e=>{if(e.persisted){checkUpdate(false);resumeFill()}});
-  window.addEventListener("online",()=>{if(FILL&&FILL.state==="pause")toast("网络好了。打开设置，点「一键缓存」接着下载。")})}
+  window.addEventListener("online",()=>{if(FILL&&FILL.state==="pause")toast("网络好了。")})}
 function startSW(){if(!("serviceWorker" in navigator))return Promise.resolve(null);if(REG)return Promise.resolve(REG);
   if(!regP)regP=navigator.serviceWorker.register("sw.js?v="+(META.v||"0"),{updateViaCache:"none"}).then(r=>{REG=r;r.update().catch(()=>{});return r}).catch(e=>{regP=null;console.warn("SW",e);return null});
   return regP}
@@ -946,13 +944,13 @@ async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"
   if(META.v)localStorage.setItem("nova_v",META.v);route();bootSW()})();
 
 
-// Countdown under the avatar (Nova 2026-10-30): two short lines. Weeks are Mon–Sun; sprint ends on the year's last Sunday (2026: Dec 27); the days after are rest days.
+// Sprint calendar (Nova 2026-10-30). Weeks are Mon–Sun; the sprint ends on the year's last Sunday (2026: Dec 27). The home date line no longer prints 还剩几周.
 function yearLeft(d){d=d||new Date();const y=d.getFullYear(),day=Date.UTC(y,d.getMonth(),d.getDate()),D=864e5;
  const dec31=Date.UTC(y,11,31),lastSun=dec31-((new Date(dec31).getUTCDay())%7)*D,rest=Math.round((dec31-lastSun)/D);
  if(day>lastSun)return `<span class="hwk">冲刺完成</span><span class="hwd">放松${rest}天</span>`;
  const X=7-((new Date(day).getUTCDay()+6)%7),N=Math.max(0,Math.round((lastSun-(day+X*D))/D+1)/7|0);
  return `<span class="hwk">还剩${N}周</span><span class="hwd">本周剩余${X}天</span>`}
-function yecHTML(){const d=new Date(),W="日一二三四五六";const day=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 周${W[d.getDay()]}`;return `<span class="hday">${day}</span><span class="hcount">${yearLeft()}</span>`}
+function yecHTML(){const d=new Date(),W="日一二三四五六";const day=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 周${W[d.getDay()]}`;return `<span class="hday">${day}</span>`}
 function updYec(){const e=document.getElementById("yec");if(e)e.innerHTML=yecHTML()}
 let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,1);_yecT=setTimeout(()=>{updYec();schedYec()},m-n)}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
@@ -1012,7 +1010,6 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
   V.innerHTML=`${dqHTML({go:false})}<div class="card dtcard${lit?" sunon":""}"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span><button type="button" class="sun" id="dtsun" aria-label="标记重点" aria-pressed="${lit}">☀</button>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
    <div class="dtplay"><button class="big" id="dtplay" type="button" aria-label="播放原声">▶</button><div class="dtplab">原声</div><div class="bar dtbar"><button type="button" id="dtspd" aria-label="播放速度 ${SP[spi]}x">${spLab()}</button></div></div>
    ${segs.length?`<div class="dtsegs"><div class="dtplab">👆 点读原声</div><div class="dtsegrow" role="group" aria-label="点读原声">${segs.map((_,k)=>`<button type="button" class="dtseg" data-k="${k}" aria-label="第${k+1}段">第${k+1}段</button>`).join("")}</div></div>`:""}
-   <p class="tip">听原声，把整句打出来。英文先不显示。</p>
    <textarea id="dtin" class="dtin" rows="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="在这里写下听到的整句"></textarea>
    <div class="dtact"><button class="btn" id="dthint" type="button">中文提示</button><button class="wide flip" id="dtok" type="button">检查</button></div>
    <div id="dthz" class="dthz" hidden></div><div id="dtfb"></div></div>
@@ -1030,8 +1027,7 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
    fb.innerHTML=r.html;const re=document.getElementById("dtre");if(re)re.onclick=()=>{dtSegClear();stopAll();playOA(s.oa,playBtn)};
    const hit=dqOnCheck(dqLoad(),(it&&it.id||"x")+":"+si,r.ok);
    if(hit.how!=="skip"){dqSave(hit.st);dqPaint();
-    if(hit.how==="advance"){const v=dqView(hit.st);toast(v.full?"今天写完了":"记上了 "+v.n+"/"+v.tot)}
-    else toast("超额 "+hit.st.extra)}
+    const f=dqFoot(hit.st);toast(f.ot?("+"+f.ot):f.won?"✓":"记上了")}
    fb.scrollIntoView({block:"nearest",behavior:"smooth"})};
   document.getElementById("dtok").onclick=chk;
   document.getElementById("dtin").addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key=="Enter"){e.preventDefault();chk()}});
@@ -1040,7 +1036,7 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
   document.getElementById("dtjump").onclick=()=>{save();stopAll();showPick()};
   playOA(s.oa,playBtn,true)};
  function showPick(){const last=saved();let spinning=false;
-  V.innerHTML=`${dqHTML({go:false})}<div class="card dtcard" id="dtcard"><div class="dtpickh">从第几句开始</div><p class="tip">共 ${sents.length} 句原声。点一个数字，听原声再写整句。英文先不显示。</p>
+  V.innerHTML=`${dqHTML({go:false})}<div class="card dtcard" id="dtcard"><div class="dtpickh">从第几句开始</div><p class="tip">共 ${sents.length} 句原声</p>
    <button class="wide flip" id="dtgo" type="button">从第 1 句开始</button>
    <button class="wide dtluck" id="dtluck" type="button">🎲 随机抽一句</button>
    ${last>0?`<button class="wide dtresume" id="dtlast" type="button">从上次的第 ${last+1} 句继续</button>`:""}
@@ -1070,9 +1066,9 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
 // done is kept. Logged out or offline, the bar still only uses this device.
 // Not the removed Naval % bar, not 复述, and not part of ☀ sync or the N1 code.
 // The day's target is however many sentences she selects (3 → n/3, 12 → n/12).
-// 10 is a suggestion in the picker copy only. A sentence counts only when 检查
-// already says 整句对了 (dqOnCheck's ok flag). Until every selected sentence is
-// done, anything else is ignored. After that, further correct checks are 超额.
+// A sentence counts only when 检查 already says 整句对了 (dqOnCheck's ok flag).
+// Until every selected sentence is done, anything else is ignored. After that,
+// further correct checks are 超额.
 // DQ_LOGIC_START
 function dqBlank(day){return {day:day||"",sel:[],done:[],extra:0}}
 function dqClean(a){const o=[],s=new Set();if(!Array.isArray(a))return o;for(const k of a){if(typeof k!=="string"||!k||s.has(k))continue;s.add(k);o.push(k)}return o}
@@ -1116,7 +1112,7 @@ function dqApplyPlan(localRaw,log,remote,today){const remoteDays=dqDaysFrom(remo
   if(next.sel.length||next.done.length||next.extra)base[today]=dqPack(next);else delete base[today]}
  return {log:base,today:todaySt,applied}}
 // DQ_LOGIC_END
-const DQK="nova_dq",DQL="nova_dq_log",DQ_SUGGEST=10;
+const DQK="nova_dq",DQL="nova_dq_log";
 function dqLogRead(){let log={};try{log=JSON.parse(localStorage.getItem(DQL)||"{}")||{}}catch(e){log={}}return log&&typeof log==="object"&&!Array.isArray(log)?log:{}}
 function dqLogWrite(log){try{localStorage.setItem(DQL,JSON.stringify(log||{}))}catch(e){}}
 function dqRemember(st){dqLogWrite(dqLogTouch(dqLogRead(),st))}
@@ -1136,17 +1132,23 @@ function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getIt
   if(typeof document!="undefined"&&document.getElementById&&document.getElementById("daynow")&&typeof DQTOPICS!="undefined"&&DQTOPICS&&typeof dqPaintNow=="function"){
    const seq=DQSEQ;DQTOPICS.then(topics=>{if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;if(document.getElementById("daynow"))dqPaintNow(topics)}).catch(()=>{})}}
  return plan}
-function dqBits(go){const v=dqView(dqLoad());
- const count=v.tot?v.n+"/"+v.tot+(v.showExtra?" · 超额 "+v.extra:""):"选句子";
- const sub=!v.tot?(go?"点这里，选今天要听写的句子":"先选今天要听写的句子"):v.full?(v.showExtra?"超额 "+v.extra+"，不要求":"今天选的都写对了"):"写对选中的句子，这条才会满";
- return {v,count,sub}}
-function dqHTML(opt){const go=!(opt&&opt.go===false),b=dqBits(go),v=b.v;
+// Home footprint is a count of 5, not a chosen set. sel is only the sentences she taps
+// on and off; nothing auto-picks or freezes which ones are in today's set.
+// The checkmark is 5 of those, written 整句对了. Past that, further correct checks are +N.
+const DQ_FLOOR=5;
+function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR;
+ return {v,got:v.n,floor:DQ_FLOOR,won,ot:won?(v.n-DQ_FLOOR)+v.extra:0}}
+function dqBits(){return dqFoot(dqLoad())}
+function dqMarkHTML(got){let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}"></i>`;return h}
+function dqFootInner(f){const lab=f.won?(f.ot?"今天的 5 句，+"+f.ot:"今天的 5 句"):"今天的句子";
+ return {lab,html:`<span class="fp-top"><b>今天的句子</b></span>${f.won?`<span class="fp-win" aria-hidden="true">✓</span>`:""}<span class="fp-marks" aria-hidden="true">${dqMarkHTML(Math.min(f.got,DQ_FLOOR))}</span>${f.ot?`<span class="fp-ot">+${f.ot}</span>`:""}`}}
+function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f);
  const tag=go?"button":"div",at=go?' type="button" data-day-go':"";
- return `<${tag} class="daybar${v.full?" is-full":""}"${at}><span class="daybar-t"><b>④ 句子听写</b><span class="daybar-n">${esc(b.count)}</span></span><span class="daybar-tr" aria-hidden="true"><span class="daybar-f" style="width:${v.pct}%"></span></span><span class="daybar-s">${esc(b.sub)}</span></${tag}>`}
-function dqPaint(){document.querySelectorAll(".daybar").forEach(el=>{const go=el.hasAttribute("data-day-go"),b=dqBits(go),v=b.v,was=el.classList.contains("is-full");
- el.classList.toggle("is-full",v.full);if(v.full&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),1000)}
- const n=el.querySelector(".daybar-n"),f=el.querySelector(".daybar-f"),s=el.querySelector(".daybar-s");
- if(n)n.textContent=b.count;if(f)f.style.width=v.pct+"%";if(s)s.textContent=b.sub})}
+ return `<${tag} class="daybar fp${home?" fp-home":""}${f.won?" is-full":""}${f.ot?" has-ot":""}"${at} aria-label="${esc(inn.lab)}">${inn.html}</${tag}>`}
+function dqPaint(){const f=dqBits(),inn=dqFootInner(f);
+ document.querySelectorAll(".daybar").forEach(el=>{const was=el.classList.contains("is-full");
+  el.classList.toggle("is-full",f.won);el.classList.toggle("has-ot",!!f.ot);el.setAttribute("aria-label",inn.lab);el.innerHTML=inn.html;
+  if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
 let DQDAY="";
 function dqDayWatch(){const day=dKey();if(DQDAY===day)return;const prev=DQDAY;DQDAY=day;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
 let DQSEQ=0,DQTOPICS=null;
@@ -1161,28 +1163,32 @@ function dqTopics(){if(!DQTOPICS)DQTOPICS=(async()=>{const items=dqItemList(),go
  return got.filter(Boolean)})();return DQTOPICS}
 function dqFind(topics,key){const m=/^(.*):(\d+)$/.exec(key||"");if(!m)return null;const id=m[1],i=+m[2],t=topics.find(x=>x.id===id);if(!t)return null;const n=t.sent.indexOf(i);if(n<0)return null;return {t,i,n:n+1,key}}
 function dqOpen(topics,key){const f=dqFind(topics,key);if(!f)return;try{sessionStorage.setItem("nova_dt_go",String(f.i))}catch(e){}location.hash="#/i/"+f.t.id}
+function dqFoldOn(id){try{return localStorage.getItem("nova_dqf_"+id)==="1"}catch(e){return false}}
 function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(st.done);
  document.querySelectorAll(".dayb").forEach(b=>{const on=sel.has(b.dataset.k),did=on&&done.has(b.dataset.k);
   b.classList.toggle("on",on);b.classList.toggle("did",did);b.setAttribute("aria-pressed",on?"true":"false");
   const lab=b.dataset.lab||"";b.setAttribute("aria-label",lab+(on?"，已选":"")+(did?"，今天已写对":""))});
  const box=document.getElementById("daynow");if(!box)return;const v=dqView(st);
  const chips=st.sel.map(key=>{const f=dqFind(topics,key),lab=f?f.t.title+" · 第 "+f.n+" 句":"一句",ok=done.has(key);
-  return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><button type="button" class="dayx" data-day-x="${esc(key)}" aria-label="取消这句">×</button></span>`}).join("");
- box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.tot?" · 写对 "+v.n+"/"+v.tot:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:'<p class="tip">还没选。点下面的数字。</p>'}`;
- box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=()=>{const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqSave(dqToggle(cur,b.dataset.dayX));dqPaint();dqPaintNow(topics)});
+  return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><span class="dayx" role="button" data-day-x="${esc(key)}" aria-label="取消这句">×</span></span>`}).join("");
+ box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.n?" · 写对 "+v.n:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`;
+ const anchor=document.getElementById("daybody")||box;
+ box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=ev=>{ev.preventDefault();const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqHoldTap(anchor,()=>{dqSave(dqToggle(cur,b.dataset.dayX));dqPaint();dqPaintNow(topics)})});
  box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>dqOpen(topics,b.dataset.open))}
 async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);
- V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><p class="tip">建议 ${DQ_SUGGEST} 句，少选、多选都可以。点数字选中，再点一下取消。英文先不显示。</p><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;
+ V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;
  let topics=[];try{topics=await dqTopics()}catch(e){topics=[]}
  if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;
  const body=document.getElementById("daybody");if(!body)return;
  if(!topics.length){body.innerHTML=`<div class="done">还没有可以听写的句子</div>`;dqPaintNow(topics);return}
  let html="",fold="";
  for(const t of topics){if(t.fold!==fold){fold=t.fold;html+=`<h3 class="dayfold">${esc(fold)}</h3>`}
-  html+=`<div class="daytopic"><div class="daytn">${esc(t.title)}</div><div class="daygrid" role="group" aria-label="${esc(t.fold+" "+t.title)}">${t.sent.map((i,n)=>{const k=t.id+":"+i,lit=sunHas(t.base,i),lab="第 "+(n+1)+" 句"+(lit?"，已标重点":"");
-   return `<button type="button" class="dayb" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</button>`}).join("")}</div></div>`}
+  const open=dqFoldOn(t.id);
+  const cells=t.sent.map((i,n)=>{const k=t.id+":"+i,lit=sunHas(t.base,i),lab="第 "+(n+1)+" 句"+(lit?"，已标重点":"");
+   return `<div class="dayb" role="button" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</div>`}).join("");
+  html+=`<details class="dqfold" data-dqf="${esc(t.id)}"${open?" open":""}><summary class="dqfh"><span class="dqfar" aria-hidden="true"></span><span class="dqfnm">${esc(t.title)}</span><span class="dqfsub">${t.sent.length}</span></summary><div class="daygrid" role="group" aria-label="${esc(t.fold+" "+t.title)}">${cells}</div></details>`}
  body.innerHTML=html;
- body.querySelectorAll(".dayb").forEach(b=>b.onclick=()=>{dqSave(dqToggle(dqLoad(),b.dataset.k));dqPaint();dqPaintNow(topics)});
+ body.querySelectorAll(".dayb").forEach(b=>b.addEventListener("click",ev=>{ev.preventDefault();dqHoldTap(b,()=>{dqSave(dqToggle(dqLoad(),b.dataset.k));dqPaint();dqPaintNow(topics)})}));
  dqPaintNow(topics)}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-day-go]");if(!b)return;e.preventDefault();location.hash="#/dq"});
 
@@ -1218,8 +1224,8 @@ function tDayRows(){const keys=new Set(Object.keys(TLOG).filter(k=>/^\d{4}-\d\d-
   return {lab,v:+TLOG[k]||0,today}})}
 function showTimeLog(){const o=document.createElement("div");o.className="ov";const rows=tDayRows(),tot=tTotal();
  const mx=Math.max(60,...rows.map(x=>x.v));
- o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 累计时长</div><div class="ttot"><b>${fmtT(tot)}</b><span>从开始使用到现在的全部学习时间</span></div><div class="tlogdays">${rows.map(r=>`<div class="tr${r.today?" td":""}"><span class="tdw">${r.lab}</span><span class="tb"><i style="width:${Math.round(r.v/mx*100)}%"></i></span><span class="tv">${fmtT(r.v)}</span></div>`).join("")}</div>
- <div class="tip" style="margin:6px 2px 0">这个数字是已记下的每一天加在一起，之后也会一直累加。<br>只在 App 打开、并且你在操作或在播放音频时计时；2 分钟没有操作就暂停。<br>点旁边的 ☁ 登录后，每台设备合成一份，同一天取较大值。</div><button class="shb cancel" data-x>关闭</button></div>`;
+ o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 累计时长</div><div class="ttot"><b>${fmtT(tot)}</b></div><div class="tlogdays">${rows.map(r=>`<div class="tr${r.today?" td":""}"><span class="tdw">${r.lab}</span><span class="tb"><i style="width:${Math.round(r.v/mx*100)}%"></i></span><span class="tv">${fmtT(r.v)}</span></div>`).join("")}</div>
+ <button class="shb cancel" data-x>关闭</button></div>`;
  o.onclick=e=>{if(e.target==o||e.target.closest("[data-x]"))o.remove()};document.body.appendChild(o)}
 ["pointerdown","keydown","touchstart","wheel","scroll"].forEach(t=>addEventListener(t,()=>{tAct=Date.now()},{passive:true,capture:true}));
 document.addEventListener("visibilitychange",()=>{tLast=Date.now();if(!document.hidden){tAct=Date.now();dqDayWatch()}});

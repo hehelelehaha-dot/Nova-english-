@@ -66,28 +66,21 @@ function cloudStatusText(){
   if(cloudSyncing)return "正在同步…";
   if(cloudErr)return cloudErr;
   if(cloudLastOk)return cloudWhen(cloudLastOk);
-  return "登录后会自动同步";
+  return "尚未同步";
 }
 function cloudHTML(){
-  if(!cloudCfg())return `<p class="tip">云同步还没填配置，累计时长和今天的听写仍然只保存在这台设备上。按 CLOUD-SYNC.md 建好 Firebase，把配置贴进 firebase-config.js，并发布 firestore.rules。</p>`;
+  if(!cloudCfg())return `<p class="tip">云同步还没配置。</p>`;
   if(!cloudAuth)return `<p class="tip">正在连接云同步…</p><p class="cloudmsg">${cloudEsc(cloudErr)}</p>`;
-  if(!cloudUser)return `<p class="tip">登录以后，每台设备上的累计时长会合成一份。同一天取较大值，不会把已经记下的时间变少。</p>
-   <p class="tip">今天的句子听写也会合成一份。同一天里，选中的句子合在一起，目标就是合起来的句数；整句对了的都会留下，超额取较大的数。另一台还选着的句子，在这边取消之后还会回来。</p>
-   <p class="tip">没登录时，时长和听写都只留在这台设备上。</p>
-   <button type="button" class="wide flip" data-cloud-act="google">用 Google 登录</button>
+  if(!cloudUser)return `<button type="button" class="wide flip" data-cloud-act="google">用 Google 登录</button>
    <label class="tip">邮箱<input class="shi" type="email" data-cloud-email autocomplete="username" inputmode="email"></label>
    <label class="tip">密码<input class="shi" type="password" data-cloud-pass autocomplete="current-password"></label>
    <div class="yn"><button type="button" class="wide flip" data-cloud-act="login">登录</button><button type="button" class="wide gray" data-cloud-act="reg">注册</button></div>
-   <p class="cloudmsg" data-cloud-msg></p>
-   <p class="tip">加到主屏幕以后，用邮箱登录更稳。</p>`;
+   <p class="cloudmsg" data-cloud-msg></p>`;
   const who=cloudUser.email||cloudUser.displayName||"已登录";
   return `<p class="tip">已登录：<b>${cloudEsc(who)}</b></p>
-   <p class="tip">手机和 iPad 的累计时长会合成一份。同一天取较大值，不会变少。</p>
-   <p class="tip">今天的句子听写也会合成一份。选中的句子合在一起，目标就是合起来的句数。整句对了的都会留下。超额取较大的数。另一台还选着的句子，在这边取消之后还会回来。</p>
    <p class="tip" data-cloud-status>${cloudEsc(cloudStatusText())}</p>
    <button type="button" class="wide flip" data-cloud-act="sync">立即同步</button>
-   <button type="button" class="wide gray" data-cloud-act="out">退出登录</button>
-   <p class="tip">退出后，这台设备上的时长和今天的听写还会留着。</p>`;
+   <button type="button" class="wide gray" data-cloud-act="out">退出登录</button>`;
 }
 function novaCloudPaint(){
   const b=document.getElementById("csync");

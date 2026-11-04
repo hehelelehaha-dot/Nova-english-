@@ -616,10 +616,7 @@ html[data-theme=t3] .csync,html[data-theme=t6] .csync{color:#ead9b4}
 .cloudmsg{min-height:1.2em;color:#a33;font-size:14px;margin:4px 2px}
 html .hero.hero>.hdate{grid-area:date;min-width:0;padding-top:8px;border-top:1px dashed rgba(212,168,60,.75)}
 html .hero .hdate .hday{display:block;margin:0;font-size:13px;font-weight:700;letter-spacing:.03em;color:#8a6200}
-html .hero .hdate .hcount{display:block;margin-top:4px}
-html .hero .hdate :is(.hwk,.hwd){display:block;margin:0;font-weight:800;letter-spacing:.01em;color:#2a2108;line-height:1.15}
-html .hero .hdate .hwk{font-size:32px}
-html .hero .hdate .hwd{font-size:26px;margin-top:2px}
+html .hero .stt .sl b{font-size:13px;font-weight:600}
 html[data-theme=t3] .hero .hdate,html[data-theme=t6] .hero .hdate{border-top-color:rgba(233,196,106,.45)}
 html[data-theme=t3] .hero .hdate .hday,html[data-theme=t6] .hero .hdate .hday{color:#e9c46a}
 html[data-theme=t3] .hero .hdate :is(.hwk,.hwd),html[data-theme=t6] .hero .hdate :is(.hwk,.hwd){color:#ffe7b0}
@@ -701,15 +698,28 @@ button.daybar{cursor:pointer}
 .daybar-t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px}
 .daybar-t b{font-size:15px}
 .daybar-n{font-variant-numeric:tabular-nums;font-weight:800;font-size:16px}
-.daybar-tr{display:block;position:relative;height:8px;margin:8px 0 6px;border-radius:99px;background:#efe3c8;overflow:hidden}
+.daybar-tr{display:block;position:relative;height:8px;margin:8px 0 0;border-radius:99px;background:#efe3c8;overflow:hidden}
 .daybar-f{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#f5c518,#e0a020);transition:width .45s ease,background .35s ease}
 .daybar-s{display:block;font-size:12px;line-height:1.4;color:#6b4e12}
 .daybar.is-full .daybar-f{background:linear-gradient(90deg,#ffe07a,#37c56e 72%,#1d8f45)}
 .daybar.is-full{box-shadow:0 0 0 1px rgba(36,150,78,.35),0 8px 18px rgba(36,150,78,.16)}
 .daybar.is-full .daybar-n{color:#1b7a3a}
+.daybar.fp{text-align:center;padding:18px 16px 16px}
+.fp-top b{font-size:15px;font-weight:800;letter-spacing:.04em}
+.fp-marks{display:flex;justify-content:center;gap:14px;margin-top:14px}
+.fp-marks i{width:26px;height:26px;border-radius:50%;box-sizing:border-box;border:2px solid rgba(90,62,8,.28);background:transparent}
+.fp-marks i.on{background:#e8a33d;border-color:#c9782b}
+.fp-win{display:block;margin-top:6px;font-size:64px;line-height:1;font-weight:800;color:#1d8f45}
+.daybar.is-full .fp-marks{margin-top:8px}
+.daybar.is-full .fp-marks i{width:16px;height:16px}
+.fp-ot{display:block;margin-top:10px;font-size:42px;font-weight:800;line-height:1;letter-spacing:.02em;color:#c9782b;font-variant-numeric:tabular-nums}
+.daybar.fp-home .fp-win{font-size:76px}
+.daybar.fp-home .fp-ot{font-size:48px}
+.daybar.shine .fp-win{animation:fpwin .7s ease}
+@keyframes fpwin{from{transform:scale(.45);opacity:0}55%{transform:scale(1.12)}to{transform:scale(1);opacity:1}}
 .daybar.shine .daybar-tr::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:translateX(-120%);animation:daybarshine .85s ease}
 @keyframes daybarshine{to{transform:translateX(120%)}}
-@media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .daybar-tr::after{animation:none}}
+@media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .daybar-tr::after,.daybar.shine .fp-win{animation:none}}
 .daypick .tip{text-align:left}
 .daycnt{font-weight:800;color:#3a2c00;margin:2px 0 6px}
 .daychips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
@@ -719,8 +729,16 @@ button.daybar{cursor:pointer}
 .dayx{border:0;border-left:1px solid #e0c98f;background:transparent;font:inherit;font-size:18px;min-width:36px;color:#6b4e12;cursor:pointer}
 .dayfold{margin:16px 0 4px;font-size:13px;font-weight:800;letter-spacing:.04em;color:#8a6200}
 .daytn{font-weight:800;margin:10px 0 6px;color:#3a2c00}
-.daygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px}
-.dayb{position:relative;min-height:48px;border-radius:14px;border:1px solid #e0c98f;background:#fffefa;color:#6b4e12;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
+#daybody{display:flex;flex-direction:column;gap:10px}
+.dqfold{background:#fffefa;border:1px solid #e0c98f;border-radius:16px;overflow-anchor:none}
+.dqfh{list-style:none;display:flex;align-items:center;gap:8px;min-height:48px;padding:10px 12px;cursor:pointer;font-weight:800;color:#3a2c00}
+.dqfh::-webkit-details-marker{display:none}
+.dqfar::before{content:"▸";color:#8a6200;font-size:18px;width:1em;display:inline-block}
+.dqfold[open]>.dqfh .dqfar::before{content:"▾"}
+.dqfnm{font-size:16px;min-width:0}.dqfsub{margin-left:auto;font-size:15px;font-weight:800;color:#8a6200}
+.daygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;padding:0 10px 12px;overflow-anchor:none}
+.daypick,#daynow,#daybody{overflow-anchor:none}
+.dayb{position:relative;display:flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:48px;border-radius:14px;border:1px solid #e0c98f;background:#fffefa;color:#6b4e12;font:inherit;font-size:17px;font-weight:800;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;overflow-anchor:none}
 .dayb.on{background:#f5c518;color:#3a2c00;border-color:#e0b400}
 .dayb.did{box-shadow:inset 0 0 0 2px #2e7d32}
 .dayb .daysun{position:absolute;top:2px;left:4px;font-size:11px;line-height:1;pointer-events:none}
@@ -732,5 +750,7 @@ html[data-theme^=t] .dayb{background:var(--b2);color:var(--b2tx);border:var(--b2
 html[data-theme^=t] .dayb.on{background:var(--ac);color:var(--actx);border-color:var(--ac)}
 html[data-theme^=t] .daychip{background:var(--hl,#fff8d6)}
 html[data-theme^=t] .daygo,html[data-theme^=t] .dayx{color:var(--b2tx,#3a2c00)}
-html[data-theme^=t] .dayfold,html[data-theme^=t] .daytn,html[data-theme^=t] .daycnt{color:#5a3e08}
+html[data-theme^=t] .dayfold,html[data-theme^=t] .daytn,html[data-theme^=t] .daycnt,html[data-theme^=t] .dqfnm{color:#5a3e08}
+html[data-theme^=t] .dqfold{background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
+html[data-theme^=t] .dqfar::before,html[data-theme^=t] .dqfsub{color:var(--ct)}
 html:is([data-theme=t3],[data-theme=t6]) .daybar.is-full .daybar-n{color:#1d8f45}
