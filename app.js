@@ -336,7 +336,7 @@ function gear(){const h=document.getElementById("hdr-r");h.innerHTML=`<button id
 function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder;
  const btn=`<button class="tile${o.gtile?" gtile":""}" data-go="${esc(o.hash)}"><span class="ic"><span class="ice">${o.icon}</span><span class="ics">${ics}</span></span><span class="nm">${n?`<span class="no">${n}</span>`:""}${esc(o.name)}</span>${o.desc?`<span class="ds">${esc(o.desc)}</span>`:""}<span class="ct">${esc(o.count)}</span><span class="tsec" data-s="${esc(o.sec||o.id)}">${secHTML(o.sec||o.id)}</span></button>`;
  return o.gtile?btn:`<div class="tw">${btn}${o.menu||""}</div>`}
-function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)!="0"}catch(e){return true}}
+function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)=="1"}catch(e){return false}}
 function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
 async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbers();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
  const byId=Object.fromEntries(cs.map(c=>[c.id,c]));const countOf=id=>{const i=cs.findIndex(c=>c.id==id);return (i<0?0:counts[i])+" 项"};
@@ -353,7 +353,7 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div><div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div>${dqHTML()}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="icons/icon-192.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="qbar" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div><div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
@@ -938,13 +938,13 @@ async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"
   if(META.v)localStorage.setItem("nova_v",META.v);route();bootSW()})();
 
 
-// Countdown under the avatar (Nova 2026-10-30): two short lines. Weeks are Mon–Sun; sprint ends on the year's last Sunday (2026: Dec 27); the days after are rest days.
+// Sprint calendar (Nova 2026-10-30). Weeks are Mon–Sun; the sprint ends on the year's last Sunday (2026: Dec 27). The home date line no longer prints 还剩几周.
 function yearLeft(d){d=d||new Date();const y=d.getFullYear(),day=Date.UTC(y,d.getMonth(),d.getDate()),D=864e5;
  const dec31=Date.UTC(y,11,31),lastSun=dec31-((new Date(dec31).getUTCDay())%7)*D,rest=Math.round((dec31-lastSun)/D);
  if(day>lastSun)return `<span class="hwk">冲刺完成</span><span class="hwd">放松${rest}天</span>`;
  const X=7-((new Date(day).getUTCDay()+6)%7),N=Math.max(0,Math.round((lastSun-(day+X*D))/D+1)/7|0);
  return `<span class="hwk">还剩${N}周</span><span class="hwd">本周剩余${X}天</span>`}
-function yecHTML(){const d=new Date(),W="日一二三四五六";const day=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 周${W[d.getDay()]}`;return `<span class="hday">${day}</span><span class="hcount">${yearLeft()}</span>`}
+function yecHTML(){const d=new Date(),W="日一二三四五六";const day=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 周${W[d.getDay()]}`;return `<span class="hday">${day}</span>`}
 function updYec(){const e=document.getElementById("yec");if(e)e.innerHTML=yecHTML()}
 let _yecT;function schedYec(){clearTimeout(_yecT);const n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,1);_yecT=setTimeout(()=>{updYec();schedYec()},m-n)}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){updYec();schedYec()}});schedYec();
@@ -1021,8 +1021,7 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
    fb.innerHTML=r.html;const re=document.getElementById("dtre");if(re)re.onclick=()=>{dtSegClear();stopAll();playOA(s.oa,playBtn)};
    const hit=dqOnCheck(dqLoad(),(it&&it.id||"x")+":"+si,r.ok);
    if(hit.how!=="skip"){dqSave(hit.st);dqPaint();
-    if(hit.how==="advance"){const v=dqView(hit.st);toast(v.full?"今天写完了":"记上了 "+v.n+"/"+v.tot)}
-    else toast("超额 "+hit.st.extra)}
+    const f=dqFoot(hit.st);toast(f.ot?("+"+f.ot):f.won?"✓":"记上了")}
    fb.scrollIntoView({block:"nearest",behavior:"smooth"})};
   document.getElementById("dtok").onclick=chk;
   document.getElementById("dtin").addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key=="Enter"){e.preventDefault();chk()}});
@@ -1127,16 +1126,23 @@ function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getIt
   if(typeof document!="undefined"&&document.getElementById&&document.getElementById("daynow")&&typeof DQTOPICS!="undefined"&&DQTOPICS&&typeof dqPaintNow=="function"){
    const seq=DQSEQ;DQTOPICS.then(topics=>{if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;if(document.getElementById("daynow"))dqPaintNow(topics)}).catch(()=>{})}}
  return plan}
-function dqBits(){const v=dqView(dqLoad());
- const count=v.tot?v.n+"/"+v.tot+(v.showExtra?" · 超额 "+v.extra:""):"选句子";
- return {v,count}}
-function dqHTML(opt){const go=!(opt&&opt.go===false),b=dqBits(),v=b.v;
+// Home footprint is a 5-sentence check-off. Storage is unchanged: n is how many
+// selected sentences are 整句对了, and extra counts only after that set is full.
+// The floor is display-only. Past 5 is overtime (+N), never a larger n/tot.
+const DQ_FLOOR=5;
+function dqFoot(st){const v=dqView(st),got=v.n+(v.showExtra?v.extra:0),won=got>=DQ_FLOOR;
+ return {v,got,floor:DQ_FLOOR,won,ot:won?got-DQ_FLOOR:0}}
+function dqBits(){return dqFoot(dqLoad())}
+function dqMarkHTML(got){let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}"></i>`;return h}
+function dqFootInner(f){const lab=f.won?(f.ot?"今天的 5 句，+"+f.ot:"今天的 5 句"):"今天的句子";
+ return {lab,html:`<span class="fp-top"><b>今天的句子</b></span>${f.won?`<span class="fp-win" aria-hidden="true">✓</span>`:""}<span class="fp-marks" aria-hidden="true">${dqMarkHTML(Math.min(f.got,DQ_FLOOR))}</span>${f.ot?`<span class="fp-ot">+${f.ot}</span>`:""}`}}
+function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f);
  const tag=go?"button":"div",at=go?' type="button" data-day-go':"";
- return `<${tag} class="daybar${v.full?" is-full":""}"${at}><span class="daybar-t"><b>④ 句子听写</b><span class="daybar-n">${esc(b.count)}</span></span><span class="daybar-tr" aria-hidden="true"><span class="daybar-f" style="width:${v.pct}%"></span></span></${tag}>`}
-function dqPaint(){document.querySelectorAll(".daybar").forEach(el=>{const b=dqBits(),v=b.v,was=el.classList.contains("is-full");
- el.classList.toggle("is-full",v.full);if(v.full&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),1000)}
- const n=el.querySelector(".daybar-n"),f=el.querySelector(".daybar-f");
- if(n)n.textContent=b.count;if(f)f.style.width=v.pct+"%"})}
+ return `<${tag} class="daybar fp${home?" fp-home":""}${f.won?" is-full":""}${f.ot?" has-ot":""}"${at} aria-label="${esc(inn.lab)}">${inn.html}</${tag}>`}
+function dqPaint(){const f=dqBits(),inn=dqFootInner(f);
+ document.querySelectorAll(".daybar").forEach(el=>{const was=el.classList.contains("is-full");
+  el.classList.toggle("is-full",f.won);el.classList.toggle("has-ot",!!f.ot);el.setAttribute("aria-label",inn.lab);el.innerHTML=inn.html;
+  if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
 let DQDAY="";
 function dqDayWatch(){const day=dKey();if(DQDAY===day)return;const prev=DQDAY;DQDAY=day;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
 let DQSEQ=0,DQTOPICS=null;
@@ -1158,7 +1164,7 @@ function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(s
  const box=document.getElementById("daynow");if(!box)return;const v=dqView(st);
  const chips=st.sel.map(key=>{const f=dqFind(topics,key),lab=f?f.t.title+" · 第 "+f.n+" 句":"一句",ok=done.has(key);
   return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><button type="button" class="dayx" data-day-x="${esc(key)}" aria-label="取消这句">×</button></span>`}).join("");
- box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.tot?" · 写对 "+v.n+"/"+v.tot:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`;
+ box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.n?" · 写对 "+v.n:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`;
  box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=()=>{const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqSave(dqToggle(cur,b.dataset.dayX));dqPaint();dqPaintNow(topics)});
  box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>dqOpen(topics,b.dataset.open))}
 async function showDQ(){const seq=++DQSEQ;setHeader("今天的句子",true);

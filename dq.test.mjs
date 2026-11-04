@@ -358,6 +358,32 @@ assert.match(rules, /allow delete: if false/);
 assert.equal(app.includes("写对选中的句子，这条才会满"), false);
 assert.equal(app.includes("DQ_SUGGEST"), false);
 assert.equal(app.includes("daybar-s"), false);
+assert.equal(app.includes('v.n+"/"+v.tot'), false);
+assert.equal(/DQ_FLOOR/.test(logic), false);
+assert.match(app, /const DQ_FLOOR=5/);
+assert.match(app, /fp-win/);
+assert.match(app, /fp-ot/);
+{
+  const foot = app.slice(app.indexOf("const DQ_FLOOR"), app.indexOf("function dqBits"));
+  const box = {};
+  runInContext(logic + "\n" + foot + "\nthis.dqFoot=dqFoot;", createContext(box));
+  const day = "2026-11-04";
+  const none = box.dqFoot({day, sel:["a","b","c","d","e","f","g","h"], done:[], extra:0});
+  assert.equal(none.got, 0);
+  assert.equal(none.won, false);
+  assert.equal(none.ot, 0);
+  assert.equal(none.floor, 5);
+  const five = box.dqFoot({day, sel:["a","b","c","d","e","f","g","h"], done:["a","b","c","d","e"], extra:0});
+  assert.equal(five.got, 5);
+  assert.equal(five.won, true);
+  assert.equal(five.ot, 0);
+  const more = box.dqFoot({day, sel:["a","b","c","d","e","f","g","h"], done:["a","b","c","d","e","f","g"], extra:0});
+  assert.equal(more.got, 7);
+  assert.equal(more.won, true);
+  assert.equal(more.ot, 2);
+  const html = app.slice(app.indexOf("function dqHTML"), app.indexOf("function dqPaint"));
+  assert.equal(/\bn\s*\/\s*tot|0\/8|0\/5/.test(html), false);
+}
 assert.equal(app.includes("pgbFill"), false);
 assert.equal(app.includes('id="pgb"'), false);
 

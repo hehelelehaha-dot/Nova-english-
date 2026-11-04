@@ -616,10 +616,7 @@ html[data-theme=t3] .csync,html[data-theme=t6] .csync{color:#ead9b4}
 .cloudmsg{min-height:1.2em;color:#a33;font-size:14px;margin:4px 2px}
 html .hero.hero>.hdate{grid-area:date;min-width:0;padding-top:8px;border-top:1px dashed rgba(212,168,60,.75)}
 html .hero .hdate .hday{display:block;margin:0;font-size:13px;font-weight:700;letter-spacing:.03em;color:#8a6200}
-html .hero .hdate .hcount{display:block;margin-top:4px}
-html .hero .hdate :is(.hwk,.hwd){display:block;margin:0;font-weight:800;letter-spacing:.01em;color:#2a2108;line-height:1.15}
-html .hero .hdate .hwk{font-size:32px}
-html .hero .hdate .hwd{font-size:26px;margin-top:2px}
+html .hero .stt .sl b{font-size:13px;font-weight:600}
 html[data-theme=t3] .hero .hdate,html[data-theme=t6] .hero .hdate{border-top-color:rgba(233,196,106,.45)}
 html[data-theme=t3] .hero .hdate .hday,html[data-theme=t6] .hero .hdate .hday{color:#e9c46a}
 html[data-theme=t3] .hero .hdate :is(.hwk,.hwd),html[data-theme=t6] .hero .hdate :is(.hwk,.hwd){color:#ffe7b0}
@@ -707,9 +704,22 @@ button.daybar{cursor:pointer}
 .daybar.is-full .daybar-f{background:linear-gradient(90deg,#ffe07a,#37c56e 72%,#1d8f45)}
 .daybar.is-full{box-shadow:0 0 0 1px rgba(36,150,78,.35),0 8px 18px rgba(36,150,78,.16)}
 .daybar.is-full .daybar-n{color:#1b7a3a}
+.daybar.fp{text-align:center;padding:18px 16px 16px}
+.fp-top b{font-size:15px;font-weight:800;letter-spacing:.04em}
+.fp-marks{display:flex;justify-content:center;gap:14px;margin-top:14px}
+.fp-marks i{width:26px;height:26px;border-radius:50%;box-sizing:border-box;border:2px solid rgba(90,62,8,.28);background:transparent}
+.fp-marks i.on{background:#e8a33d;border-color:#c9782b}
+.fp-win{display:block;margin-top:6px;font-size:64px;line-height:1;font-weight:800;color:#1d8f45}
+.daybar.is-full .fp-marks{margin-top:8px}
+.daybar.is-full .fp-marks i{width:16px;height:16px}
+.fp-ot{display:block;margin-top:10px;font-size:42px;font-weight:800;line-height:1;letter-spacing:.02em;color:#c9782b;font-variant-numeric:tabular-nums}
+.daybar.fp-home .fp-win{font-size:76px}
+.daybar.fp-home .fp-ot{font-size:48px}
+.daybar.shine .fp-win{animation:fpwin .7s ease}
+@keyframes fpwin{from{transform:scale(.45);opacity:0}55%{transform:scale(1.12)}to{transform:scale(1);opacity:1}}
 .daybar.shine .daybar-tr::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:translateX(-120%);animation:daybarshine .85s ease}
 @keyframes daybarshine{to{transform:translateX(120%)}}
-@media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .daybar-tr::after{animation:none}}
+@media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .daybar-tr::after,.daybar.shine .fp-win{animation:none}}
 .daypick .tip{text-align:left}
 .daycnt{font-weight:800;color:#3a2c00;margin:2px 0 6px}
 .daychips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
