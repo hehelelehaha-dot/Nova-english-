@@ -10,20 +10,54 @@ async function dec(buf){const u=new Uint8Array(buf);return crypto.subtle.decrypt
 async function getBuf(p){if(!META.enc){const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
  let enc=null;try{const r=await fetch(p+".enc");if(r.ok)enc=await r.arrayBuffer()}catch(e){}
  if(enc)return dec(enc);const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
-// Topic 6, sentence 5. Stored 点读 is "then you start your" | "bout … thing".
-// 2.94s is the /p/ closure inside "anticipation" (antici|pation), so a cut there
-// lights only half the word. On audio/t06o/s05 the whole word is spoken by 3.24s
-// and "while" is the first word from there. Same `seg` feeds ① 点读 and ④ 点读原声.
+// Topics 5–7 点读. Reading-card seg is [wordStart, wordEnd, t0, t1] into s.oa.
+// The same array feeds ① 点读 and ④ 点读原声. Clips stay as they are; only the
+// slice times change, retuned on the original audio so a slice ends just after
+// its last audible word and the next slice starts just before the next word.
+// A long breath sits in neither slice. Topic 6 "anticipation | while" stays at
+// 3.24s, after the whole word — 2.94s is the /p/ closure inside it.
+// Sentences whose cuts were already on a word, with a short breath, are absent.
 function breathFix(d){if(!d||!Array.isArray(d.sents))return d;
  const norm=s=>String(s||"").toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9' ]+/g," ").replace(/\s+/g," ").trim();
- const want="then you start your bout of suffering or anticipation while you strive to get that thing";
- const cut=3.24;
- for(const s of d.sents){if(norm(s.t)!=want||!Array.isArray(s.seg))continue;
-  const w=String(s.t).split(/\s+/),wi=w.findIndex(x=>norm(x)=="while");
-  if(wi<1||s.seg.some(z=>z&&z[0]===wi))continue;
-  const hit=s.seg.find(z=>Array.isArray(z)&&z.length>=4&&z[0]<wi&&wi<=z[1]&&+z[2]<cut&&cut<+z[3]);
-  if(!hit)continue;
-  s.seg=s.seg.flatMap(z=>z===hit?[[z[0],wi-1,+z[2],cut],[wi,z[1],cut,+z[3]]]:[z])}
+ const FIX={
+  "there's a little thought exercise i like to do which is":[[0,10,0,2.4]],
+  "you can go back into your own life and try to put yourself in the exact position you were in five years ago ten years ago fifteen years ago twenty years ago":[[0,3,0.24,1.25],[4,8,1.48,3.14],[9,10,3.4,4.1],[11,22,4.93,8.02],[23,31,8.02,10.18]],
+  "you try to remember who was i with what was i doing what was i feeling what were my emotions what were my objectives":[[0,3,0.02,0.86],[4,7,1.32,2.08],[8,11,2.08,2.82],[12,15,2.92,3.76],[16,19,4.18,5.22],[20,23,5.3,6.22]],
+  "and really try to transport yourself back and see if there's any advice you'd give yourself anything you'd do differently":[[0,3,0,1.12],[4,6,1.4,2.52],[7,15,3.1,5.02],[16,19,5.08,6.28]],
+  "but just knowing what you know now in terms of your temperament and a little bit of age related experience how would you have done things differently":[[0,0,0,0.2],[1,1,0.52,0.96],[2,11,1.04,3.7],[12,16,3.88,4.94],[17,18,5.28,6.98],[19,25,7.94,9.39]],
+  "i think it's a worthwhile exercise to do":[[0,7,0,1.71]],
+  "for me i would have done everything the same except i would have done it with less anger less emotion less internal suffering because that was optional it wasn't necessary":[[0,1,0,0.58],[2,6,3.4,4.5],[7,9,4.5,5.46],[10,19,5.46,7.96],[20,22,8.12,9.48],[23,26,9.82,10.78],[27,29,10.78,11.91]],
+  "and i would argue that someone who can do the job at least peacefully but maybe happily is gonna be more effective than someone who has unnecessary emotional turmoil":[[0,10,0,3.18],[11,16,4.26,6.22],[17,21,6.36,7.42],[22,27,7.42,9.92],[28,28,10.2,10.76]],
+  "well you end up with a series of miserable successes right":[[0,9,0.18,3.22],[10,10,3.74,4.12]],
+  "the outcome may have been the same but the entire experience of getting there":[[0,6,0,2.16],[7,13,2.24,4.32]],
+  "even success it's human nature to bank it very quickly right":[[0,5,0,2.33],[6,9,2.66,4.32],[10,10,4.46,4.71]],
+  "because the normal loop that we run through is you sit around you're bored then you want something":[[0,3,0,1.02],[4,11,1.48,3.24],[12,13,3.38,4.08],[14,17,4.44,5.66]],
+  "then when you want something you decide you're not gonna be happy until you get that thing":[[0,9,0.16,2.5],[10,16,2.5,4.06]],
+  "then you start your bout of suffering or anticipation while you strive to get that thing":[[0,3,0.22,1.3],[4,8,1.52,3.24],[9,15,3.24,4.84]],
+  "if you get that thing then you get used to it and then you get bored again":[[0,10,0.2,2.3],[11,16,2.54,3.6]],
+  "then a few months later you want something else and if you don't get it then you're unhappy for a bit and then you get over it then you want something else":[[0,8,0,1.74],[9,20,2.06,4.32],[21,31,4.36,6.45]],
+  "that's the normal cycle so whether you're happy or unhappy at the end it tends not to last":[[0,3,0,1.08],[4,4,1.48,2.3],[5,12,2.34,4.72],[13,17,5.12,6.55]],
+  "now i don't wanna be glib and say that there's no point in making money or being successful":[[0,8,0.04,2.02],[9,17,2.02,4.35]],
+  "there absolutely is money solves all your money problems so it is good to have money":[[0,6,0,1.95],[7,14,1.95,3.94]],
+  "that said there are those stories i don't know if you've seen those studies i don't know how real these are a lot of these psych studies don't replicate":[[0,4,0.38,2.24],[5,20,2.74,5.82],[21,28,5.82,7.43]],
+  "but it's a fun little study that shows that people who break their back and people who win the lottery are back to their baseline happiness two years later":[[0,3,0,0.8],[4,5,0.98,1.8],[6,8,2.14,2.88],[9,13,2.98,4.38],[14,21,4.4,6.46],[22,28,6.42,8.52]],
+  "again don't know if that's entirely true i think money can buy you happiness if you earned it":[[0,8,0.08,1.9],[9,17,2.18,4.7]],
+  "because then along the way you have both pride and confidence in yourself and you have a sense of accomplishment":[[0,7,0.18,2.82],[8,12,2.82,4.6],[13,19,4.74,6.4]],
+  "and you set out to do something and you were right so i'll bet that lingers and then as i said it solves your money problems":[[0,10,0.14,2.88],[11,17,2.88,4.52],[18,25,4.52,6.23]],
+  "so i don't want to be too glib about it but i would say in general this loop that we run through of desire dopamine fulfillment unfulfillment you have to enjoy the journey":[[0,9,0,1.4],[10,15,1.78,3.2],[16,21,3.26,5.16],[22,31,5.5,10.32]],
+  "the journey is all there is ninety nine percent of your time is spent on the journey so what kind of a journey is it if you're not going to enjoy it":[[0,5,0,1.58],[6,15,1.64,3.62],[16,24,3.62,5.08],[25,30,5.08,5.9]],
+  "how do you shortcut that desire contract":[[0,4,0.22,1.44],[5,6,1.58,2.7]],
+  "you could focus you could decide that i don't want most things":[[0,2,0.34,1.16],[3,6,1.16,2.48],[7,11,2.7,3.88]],
+  "i think we have a lot of unnecessary desires that we just pick up everywhere have opinions on everything judgments on everything":[[0,11,0,3.22],[12,14,3.22,4.16],[15,21,4.16,6.36]],
+  "so i think just knowing that those are the source of unhappiness will make you be choosy about your desires":[[0,11,0,3.66],[12,19,3.82,6.58]],
+  "and frankly if you want to be successful you have to be choosy about your desires you have to focus":[[0,7,0,1.6],[8,19,1.6,4.21]],
+  "you can't be great at everything you're just going to waste your energy and waste your time":[[0,5,0,1.1],[6,16,1.12,2.93]],
+ };
+ for(const s of d.sents){if(!Array.isArray(s.seg)||!/\/t0[567]o\//.test(s.oa||""))continue;
+  const seg=FIX[norm(s.t)];if(!seg)continue;
+  const n=String(s.t||"").split(/\s+/).length;
+  if(seg.some(z=>!Array.isArray(z)||z.length<4||z[0]<0||z[1]>=n||z[0]>z[1]))continue;
+  s.seg=seg.map(z=>z.slice())}
  return d}
 async function getJSON(p){const d=JSON.parse(new TextDecoder().decode(await getBuf("content/"+p)));return breathFix(d)}
 async function audioURL(p){if(!META.enc)return "content/"+p;if(!blobCache[p])blobCache[p]=URL.createObjectURL(new Blob([await getBuf("content/"+p)],{type:"audio/mpeg"}));return blobCache[p]}
