@@ -1149,7 +1149,7 @@ const DQ_FLOOR=5;
 function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR;
  return {v,got:v.n,floor:DQ_FLOOR,won,ot:won?(v.n-DQ_FLOOR)+v.extra:0}}
 function dqBits(){return dqFoot(dqLoad())}
-function dqMarkHTML(got){let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}"></i>`;return h}
+function dqMarkHTML(got){const svg=`<svg viewBox="0 0 64 60" aria-hidden="true"><polygon points="32,2 40.2,22.4 62,23.2 45,36.6 51.2,57.6 32,45.2 12.8,57.6 19,36.6 2,23.2 23.8,22.4"/></svg>`;let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}">${svg}</i>`;return h}
 // Stickers follow Nova's day: 02:00 America/New_York, not local midnight.
 // One sticker per completed sentence above the floor of 5. The first five
 // light stars and do not stamp the board. At 02:00 the board clears: overtime
@@ -1184,13 +1184,15 @@ function dqBoardHTML(st){const n=dqStickSync(st),day=dqStickerDay(),days=dqStarD
  let stick="";for(let i=0;i<n;i++){const x=(18+dqU("x:"+i+":"+day)*64).toFixed(2),y=(18+dqU("y:"+i+":"+day)*64).toFixed(2),r=((dqU("r:"+i+":"+day)-.5)*46).toFixed(1);
   stick+=`<img class="fp-stk" alt="" src="icons/chongya.png" style="left:${x}%;top:${y}%;z-index:${2+i};transform:translate(-50%,-50%) rotate(${r}deg)">`}
  return `<button type="button" class="fp-board" data-day-go aria-label="流麻板"><span class="fp-glitter" aria-hidden="true"></span><i class="fp-rivet tl"></i><i class="fp-rivet tr"></i><i class="fp-rivet bl"></i><i class="fp-rivet br"></i><span class="fp-layer">${stars}</span><span class="fp-layer fp-stick">${stick}</span></button>`}
-const FP_AIM=`<svg class="fp-aim" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.4" fill="currentColor"/><path d="M12 2.2v3.1M12 18.7v3.1M2.2 12h3.1M18.7 12h3.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const FP_AIM=`<svg class="fp-aim" viewBox="0 0 64 64" aria-hidden="true"><circle cx="36" cy="22" r="15" fill="none" stroke="currentColor" stroke-width="3.6"/><circle cx="36" cy="22" r="7.2" fill="none" stroke="currentColor" stroke-width="3.2"/><path d="M3 61 L29 33" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/><path d="M36 22 L22 30 L32 36 Z" fill="currentColor"/></svg>`;
+const FP_ULINE=`<svg class="fp-uline" viewBox="0 0 168 16" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10 C 18 4, 34 14, 54 8 S 92 3, 118 9 S 150 13, 166 6" fill="none" stroke="#ffe14a" stroke-width="3.4" stroke-linecap="round"/></svg>`;
+const FP_SPARK=c=>`<svg class="fp-spark ${c}" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="#ffe56a" stroke-linecap="round"><path d="M7 24 L12 14" stroke-width="2.4"/><path d="M16 26 L17 13" stroke-width="2.4"/><path d="M25 21 L21 11" stroke-width="2.2"/></g></svg>`;
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
- const lab="今天的目标，"+got+" / "+DQ_FLOOR+(f.ot?"，+"+f.ot:"");
+ const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，完成句子 +"+f.ot;
  const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
+ if(home){const score=`<span class="fp-top">${FP_AIM}<span class="fp-name"><b>今天的目标</b>${FP_ULINE}${FP_SPARK("fp-spark-a")}</span></span><span class="fp-score"><span class="fp-starrow">${FP_SPARK("fp-spark-b")}${marks}</span><span class="fp-done"><span class="fp-dlab">完成句子</span><span class="fp-pill">${FP_SPARK("fp-spark-c")}<span class="fp-ot">+${f.ot}</span></span></span></span>`;
+  return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${score}</button><div class="fp-rule" aria-hidden="true"></div><div class="fp-qslot"></div></div>`}}
  const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
- const score=`<span class="fp-top">${FP_AIM}<b>今天的目标</b></span><span class="fp-score">${marks}${ot}</span>`;
- if(home)return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${score}</button><div class="fp-rule" aria-hidden="true"></div><div class="fp-qslot"></div></div>`};
  return {lab,html:`<span class="fp-top"><b>今天的目标</b></span><span class="fp-score">${marks}${ot}</span>`}}
 function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f,home);
  if(home)return `<div class="daybar fp fp-home${f.won?" is-full":""}${f.ot?" has-ot":""}" aria-label="${esc(inn.lab)}">${inn.html}</div>`;
