@@ -760,7 +760,7 @@ button.fp-board,button.fp-goal{appearance:none;-webkit-appearance:none;font:inhe
 button.fp-board{padding:0;text-align:left;display:block}
 button.fp-goal{border:0;background:transparent;width:100%;padding:0;cursor:pointer}
 .fp-boardcol{flex:0 0 42%;min-width:0;align-self:flex-start;display:flex;flex-direction:column;align-items:stretch}
-.fp-board{position:relative;width:100%;aspect-ratio:961/1637;border:0;border-radius:0;overflow:hidden;background:#1e315f;padding:0;box-shadow:none}
+.fp-board{position:relative;width:100%;aspect-ratio:961/1637;border:0;border-radius:0;overflow:hidden;background:transparent;padding:0;box-shadow:none}
 .fp-dayn{display:block;width:100%;margin:6px 0 0;padding:0;text-align:center;font-size:14px;font-weight:800;line-height:1.2;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:#1a306e;white-space:nowrap}
 .fp-face{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;object-position:center;pointer-events:none}
 .fp-layer{position:absolute;inset:0}
@@ -818,7 +818,7 @@ html[data-theme^=t] .dqfold{background:var(--sf);border:var(--sfbd);border-radiu
 html[data-theme^=t] .dqfar::before,html[data-theme^=t] .dqfsub{color:var(--ct)}
 html:is([data-theme=t3],[data-theme=t6]) .daybar.is-full .daybar-n{color:#1d8f45}
 html[data-theme=t6] .daybar.fp-home{background:linear-gradient(180deg,#243872,#1a2e5e);color:#f6e7c4;border:1px solid rgba(214,176,92,.58);box-shadow:0 8px 18px rgba(0,0,0,.28)}
-html[data-theme=t6] .fp-board{background:#1a2e5e;border:0;box-shadow:none}
+html[data-theme=t6] .fp-board{background:transparent;border:0;box-shadow:none}
 html[data-theme=t6] .fp-dayn{color:#f6e7c4}
 html[data-theme=t3] .fp-dayn{color:#e9c46a}
 html[data-theme=t6] .fp-aim{color:#ffe56a}
