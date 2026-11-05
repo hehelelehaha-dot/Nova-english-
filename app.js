@@ -389,6 +389,27 @@ function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder
  return o.gtile?btn:`<div class="tw">${btn}${o.menu||""}</div>`}
 function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)=="1"}catch(e){return false}}
 function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
+// Home sunflower-duck tap. Star rain is not started until the tap. After home
+// renders we preload the bytes; each tap builds a new image at frame 0 for 10s.
+const STAR_GIF="assets/starrain/starrain.gif",STAR_WEBP="assets/starrain/starrain.webp";
+let starBlob=null,starHold=null,starT=0,starF=0,starGot=false;
+function starCanWebp(){try{return document.createElement("canvas").toDataURL("image/webp").startsWith("data:image/webp")}catch(e){return false}}
+function starFile(){return starCanWebp()?STAR_WEBP:STAR_GIF}
+function preloadStarRain(){if(starGot)return;starGot=true;
+ const load=u=>{starHold=new Image();starHold.decoding="async";starHold.src=u;return fetch(u).then(r=>{if(!r.ok)throw new Error("star");return r.blob()}).then(b=>{starBlob=b})};
+ const url=starFile();
+ load(url).catch(()=>{if(url===STAR_GIF)return;starBlob=null;return load(STAR_GIF).catch(()=>{})})}
+function playStarRain(){clearTimeout(starT);clearTimeout(starF);
+ const old=document.getElementById("nova-starrain");
+ if(old){if(old._u)URL.revokeObjectURL(old._u);old.remove()}
+ const img=document.createElement("img");
+ img.id="nova-starrain";img.alt="";img.setAttribute("aria-hidden","true");
+ let url=starFile();
+ if(starBlob){img._u=URL.createObjectURL(starBlob);url=img._u}
+ img.onerror=()=>{if(img.dataset.fb||!img.getAttribute("src")||img.src.indexOf("starrain.gif")>=0)return;img.dataset.fb="1";if(img._u){URL.revokeObjectURL(img._u);img._u=""}img.src=STAR_GIF};
+ img.src=url;
+ document.body.appendChild(img);
+ starT=setTimeout(()=>{img.classList.add("out");starF=setTimeout(()=>{if(img._u)URL.revokeObjectURL(img._u);img.remove()},400)},10000)}
 async function showHome(){document.documentElement.dataset.home="1";setHeader("Nova 英语",false);gear();refreshFoldNumbers();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
  const byId=Object.fromEntries(cs.map(c=>[c.id,c]));const countOf=id=>{const i=cs.findIndex(c=>c.id==id);return (i<0?0:counts[i])+" 项"};
  const navalIds=navalSectionIds();
@@ -406,6 +427,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
  V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();
+ const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playStarRain()};preloadStarRain();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
