@@ -170,6 +170,9 @@ function syncPaper(){const h=(location.hash||"#/").slice(1).split("/");const a=h
  else if((a==="c"||a==="i")&&b.startsWith("up_"))p="up";
  else if(a==="wf"&&b.startsWith("up_"))p="up";
  else if(a==="g"&&(b==="up"||b.startsWith("up_")))p="up";
+ else if(a==="c"&&/^(phrases|reading|flash|longaudio|dictation|chunks|words)$/.test(b))p="naval";
+ else if(a==="i"&&b)p="naval";
+ else if(a==="wf"||a==="g")p="naval";
  if(p)document.documentElement.dataset.paper=p;else delete document.documentElement.dataset.paper}
 async function showUp(s){if(s.like=="game")return showGames("up");if(s.like=="wf")return showWFs("up");setHeader(secT(s.id,s.name),true);const days=upDays();
  if(!days.length){V.innerHTML=`<p class="tip">飞屋环游记 · ${esc(s.name)}</p><div class="done">这一集还没写好</div>`;return}

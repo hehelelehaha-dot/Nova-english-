@@ -60,6 +60,11 @@ assert.equal(css.includes("#efe4cc"), false);
 assert.equal(css.includes("#eadec3"), false);
 assert.equal(css.includes("data-theme=t1] .fold[data-fold"), false);
 assert.match(sw, new RegExp('const V="'+meta.v+'"'));
+assert.match(app, /else if\(a==="c"&&\/\^\(phrases\|reading\|flash\|longaudio\|dictation\|chunks\|words\)\$\/\.test\(b\)\)p="naval"/);
+assert.match(app, /else if\(a==="i"&&b\)p="naval"/);
+assert.match(css, /html\[data-theme=t6\] \.folds>\.fold>\.foldh\{border-width:20px 28px/);
+assert.match(css, /html\[data-theme=t6\] \.folds>\.fold>\.foldh,[\s\S]*?quote-frame-navy\.png/);
+assert.match(css, /html\[data-theme=t6\]\[data-paper\] #ss :is\(\.s,\.s\.cur,\.s\.zh,\.s\.cur\.zh\)\{[\s\S]*?border-width:14px 20px/);
 assert.ok(sw.includes("content/up.json"));
 assert.ok(sw.includes("content/up_d01.json"));
 
