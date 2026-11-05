@@ -374,11 +374,11 @@ function topicListenHTML(fold){const topics=foldReadingTopics(fold);if(!topics.l
  const open=(()=>{try{return sessionStorage.getItem("nova_tl_open_"+fold)=="1"}catch(e){return false}})();
  const lo=topics[0].n,hi=topics[topics.length-1].n;
  const dd=fold=="luca"?"":'<button type="button" id="dd" class="org">👆 点读</button>';
- return `<details class="tlisten" id="tlisten"${open?" open":""}><summary class="tlh"><span class="tlar" aria-hidden="true"></span><span class="tlnm">连听 ${word}</span><span class="tlsub" id="tlsub">${tag}${a}–${tag}${b}</span></summary><div class="tlbody"><div class="rngrow"><label>从 ${word}<input id="tla" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${a}" aria-label="从哪个${word}"></label><span class="rngto">到</span><label><input id="tlb" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${b}" aria-label="到哪个${word}"></label></div><p class="rngerr" id="tlerr" hidden></p><div class="tlcap" id="tlcap" aria-live="polite"><p class="tlen" id="tlen"></p><p class="tlzh" id="tlzh"></p></div><div class="bar rdbar tlbar"><button type="button" id="stp">■ 停止</button><button type="button" id="bk5">倒退5秒</button><button type="button" id="rnggo" class="org">▶ 原声连播</button><button type="button" id="rloop" class="org">🔁 原声循环</button><button type="button" id="spd">速度 1x</button><button type="button" id="loop">单句循环</button><button type="button" id="hid">隐藏文字</button>${dd}</div><div class="status" id="st"></div></div></details>`}
+ return `<details class="tlisten" id="tlisten"${open?" open":""}><summary class="tlh"><span class="tlar" aria-hidden="true"></span><span class="tlnm">连听 ${word}</span><span class="tlsub" id="tlsub">${tag}${a}–${tag}${b}</span></summary><div class="tlbody"><div class="rngrow"><label>从 ${word}<input id="tla" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${a}" aria-label="从哪个${word}"></label><span class="rngto">到</span><label><input id="tlb" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${b}" aria-label="到哪个${word}"></label></div><p class="rngerr" id="tlerr" hidden></p><div class="tlcap" id="tlcap" aria-live="polite"><p class="tlen" id="tlen"></p><p class="tlzh" id="tlzh"></p></div><div class="bar rdbar tlbar"><button type="button" id="stp">■ 停止</button><button type="button" id="bk5">倒退5秒</button><button type="button" id="rnggo" class="org">原声连播</button><button type="button" id="rloop" class="org">🔁 原声循环</button><button type="button" id="spd">速度 1x</button><button type="button" id="loop">单句循环</button><button type="button" id="hid">隐藏文字</button>${dd}</div><div class="status" id="st"></div></div></details>`}
 let TLSI=0,SENTLOOP=false,TLMODE=null,TLACTIVE=null,TLCAP=null,TLDD=false;
 const TLSP=[1,.85,.75];
 function listenRate(){const r=TLSP[TLSI];if(!(Math.abs(A.playbackRate-r)<0.001)){A.playbackRate=r;A.defaultPlaybackRate=r}}
-function listenPaint(){const go=document.getElementById("rnggo"),lp=document.getElementById("rloop");if(go){const on=TLMODE=="once";go.classList.toggle("on",on);go.textContent=on?"⏸ 暂停原声":"▶ 原声连播"}if(lp){const on=TLMODE=="loop";lp.classList.toggle("on",on);lp.textContent=on?"⏸ 停止循环":"🔁 原声循环"}if(!TLMODE)TLACTIVE=null}
+function listenPaint(){const go=document.getElementById("rnggo"),lp=document.getElementById("rloop");if(go){const on=TLMODE=="once";go.classList.toggle("on",on);go.textContent=on?"暂停原声":"原声连播"}if(lp){const on=TLMODE=="loop";lp.classList.toggle("on",on);lp.textContent=on?"⏸ 停止循环":"🔁 原声循环"}if(!TLMODE)TLACTIVE=null}
 function listenRewind(){if(!A.src||A.paused)return;try{A.currentTime=Math.max(0,(A.currentTime||0)-5)}catch(e){}}
 function listenCaption(s){TLCAP=s||null;const cap=document.getElementById("tlcap"),en=document.getElementById("tlen"),zh=document.getElementById("tlzh");if(!cap||!en)return;
  if(!s){en.textContent="";if(zh)zh.textContent="";return}
@@ -539,7 +539,7 @@ function stTop(){const ss=document.getElementById("ss");let b=0;for(const e of d
 function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":(sp||"")}
 function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
  const hasDD=d.sents.some(x=>x.seg&&x.oa);
- V.innerHTML=`<div class="bar rdbar"><button id="stp">■ 停止</button><button id="bk5" type="button">倒退5秒</button><button id="rnggo" type="button" class="org">▶ 原声连播</button><button id="rloop" type="button" class="org">🔁 原声循环</button><button id="spd">速度 1x</button><button id="loop">单句循环</button><button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
+ V.innerHTML=`<div class="bar rdbar"><button id="stp">■ 停止</button><button id="bk5" type="button">倒退5秒</button><button id="rnggo" type="button" class="org">原声连播</button><button id="rloop" type="button" class="org">🔁 原声循环</button><button id="spd">速度 1x</button><button id="loop">单句循环</button><button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+String(s.sp||"").toLowerCase();e.id="s"+i;
   e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${i+1}句">${i+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${esc(rdWho(s.sp))}</div><div class="fr"><div class="t"></div>${s.oa&&s.a!==s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
@@ -1143,8 +1143,9 @@ function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getIt
 // She picks the sentences. The picker stops at 5 and does not choose them.
 // Five written 整句对了 light the five stars, one each, and never more than five.
 // Past that, further correct checks are +N on the right of the stars.
-// Once a calendar day reaches 5, nova_dq keeps star:1 for that day: one long-term
-// star on the 流麻 baseboard, under the stickers. Stickers are overtime only.
+// Once a calendar day reaches 5, nova_dq keeps star:1 for that day.
+// The 流麻 face is Nova's acrylic PNG for this Mon–Sun week (see dqBoardLevel).
+// Stickers stay an overlay on that PNG. They are overtime only.
 const DQ_FLOOR=5;
 function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR;
  return {v,got:v.n,floor:DQ_FLOOR,won,ot:won?(v.n-DQ_FLOOR)+v.extra:0}}
@@ -1178,12 +1179,33 @@ function dqStickSync(st,now){st=st||{day:"",done:[],extra:0};const sd=dqStickerD
  if(chg){b.base[st.day]=cur;b.n=n}
  if(fresh||chg)dqStickWrite(b);return n}
 function dqStarDays(){const log=dqLog();return Object.keys(log).filter(k=>log[k]&&log[k].star).sort()}
-function dqBoardHTML(st){const n=dqStickSync(st),day=dqStickerDay(),days=dqStarDays();
- let stars="";for(const k of days){const x=(12+dqU("sx:"+k)*76).toFixed(2),y=(12+dqU("sy:"+k)*76).toFixed(2),r=((dqU("sr:"+k)-.5)*36).toFixed(1),sz=Math.round(14+dqU("ss:"+k)*8);
-  stars+=`<i class="fp-bstar" style="left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;transform:translate(-50%,-50%) rotate(${r}deg)"></i>`}
+// Weekly density for the acrylic face. Mon–Sun in America/New_York.
+// Each calendar day with star:1 (must-do, floor of 5) stacks one level.
+// Sunday 02:00 ET clears the board onto the next week's Monday; a Sunday
+// star earned before that still counts as this week's seventh level.
+// Density 0 has no blank asset, so the face stays the sparse day1.png.
+// BOARD_LOGIC_START
+function dqEtParts(d){d=d?new Date(d):new Date();
+ const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",hourCycle:"h23",weekday:"short"}).formatToParts(d);
+ const o={};for(const p of parts)if(p.type!=="literal")o[p.type]=p.value;
+ let h=+o.hour;if(h===24)h=0;
+ return {y:+o.year,m:+o.month,day:+o.day,h,wd:{Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6}[o.weekday]}}
+function dqYmd(y,m,d){return y+"-"+String(m).padStart(2,"0")+"-"+String(d).padStart(2,"0")}
+function dqShift(y,m,d,n){const u=new Date(Date.UTC(y,m-1,d+n));return {y:u.getUTCFullYear(),m:u.getUTCMonth()+1,day:u.getUTCDate()}}
+function dqBoardMonday(now){const p=dqEtParts(now);
+ if(p.wd===0&&p.h>=2){const n=dqShift(p.y,p.m,p.day,1);return dqYmd(n.y,n.m,n.day)}
+ const back=p.wd===0?6:p.wd-1,mon=dqShift(p.y,p.m,p.day,-back);return dqYmd(mon.y,mon.m,mon.day)}
+function dqBoardCount(log,now){const mon=dqBoardMonday(now),parts=mon.split("-").map(Number),src=log&&typeof log==="object"&&!Array.isArray(log)?log:{};let n=0;
+ for(let i=0;i<7;i++){const dt=dqShift(parts[0],parts[1],parts[2],i),k=dqYmd(dt.y,dt.m,dt.day);if(src[k]&&src[k].star)n++}
+ return n>7?7:n}
+function dqBoardLevel(n){n=n|0;if(n<1)return 1;return n>7?7:n}
+function dqBoardSrc(level){return "assets/liuma/day"+level+".png"}
+// BOARD_LOGIC_END
+function dqBoardHTML(st,now){const n=dqStickSync(st,now),day=dqStickerDay(now);
+ const count=dqBoardCount(typeof dqLog=="function"?dqLog():{},now),level=dqBoardLevel(count);
  let stick="";for(let i=0;i<n;i++){const x=(18+dqU("x:"+i+":"+day)*64).toFixed(2),y=(18+dqU("y:"+i+":"+day)*64).toFixed(2),r=((dqU("r:"+i+":"+day)-.5)*46).toFixed(1);
   stick+=`<img class="fp-stk" alt="" src="icons/chongya.png" style="left:${x}%;top:${y}%;z-index:${2+i};transform:translate(-50%,-50%) rotate(${r}deg)">`}
- return `<button type="button" class="fp-board" data-day-go aria-label="流麻板"><span class="fp-glitter" aria-hidden="true"></span><i class="fp-rivet tl"></i><i class="fp-rivet tr"></i><i class="fp-rivet bl"></i><i class="fp-rivet br"></i><span class="fp-layer">${stars}</span><span class="fp-layer fp-stick">${stick}</span></button>`}
+ return `<button type="button" class="fp-board" data-day-go data-board-n="${count}" data-board-day="${level}" aria-label="流麻板"><img class="fp-face" alt="" src="${dqBoardSrc(level)}"><span class="fp-layer fp-stick">${stick}</span></button>`}
 const FP_AIM=`<svg class="fp-aim" viewBox="0 0 64 64" aria-hidden="true"><circle cx="36" cy="22" r="15" fill="none" stroke="currentColor" stroke-width="3.6"/><circle cx="36" cy="22" r="7.2" fill="none" stroke="currentColor" stroke-width="3.2"/><path d="M3 61 L29 33" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/><path d="M36 22 L22 30 L32 36 Z" fill="currentColor"/></svg>`;
 const FP_ULINE=`<svg class="fp-uline" viewBox="0 0 168 16" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10 C 18 4, 34 14, 54 8 S 92 3, 118 9 S 150 13, 166 6" fill="none" stroke="#ffe14a" stroke-width="3.4" stroke-linecap="round"/></svg>`;
 const FP_SPARK=c=>`<svg class="fp-spark ${c}" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="#ffe56a" stroke-linecap="round"><path d="M7 24 L12 14" stroke-width="2.4"/><path d="M16 26 L17 13" stroke-width="2.4"/><path d="M25 21 L21 11" stroke-width="2.2"/></g></svg>`;
