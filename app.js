@@ -404,6 +404,7 @@ function playStarRain(){clearTimeout(starT);clearTimeout(starF);
  if(old){if(old._u)URL.revokeObjectURL(old._u);old.remove()}
  const img=document.createElement("img");
  img.id="nova-starrain";img.alt="";img.setAttribute("aria-hidden","true");
+ img.style.backgroundColor="transparent";img.style.backgroundImage="none";img.style.boxShadow="none";img.style.filter="none";img.style.backdropFilter="none";img.style.webkitBackdropFilter="none";
  let url=starFile();
  if(starBlob){img._u=URL.createObjectURL(starBlob);url=img._u}
  img.onerror=()=>{if(img.dataset.fb||!img.getAttribute("src")||img.src.indexOf("starrain.gif")>=0)return;img.dataset.fb="1";if(img._u){URL.revokeObjectURL(img._u);img._u=""}img.src=STAR_GIF};
