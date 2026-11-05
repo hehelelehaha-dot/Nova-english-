@@ -1220,7 +1220,7 @@ function dqBoardHTML(st,now){const live=dqOtN(st),n=dqStickSync(st,now),show=liv
  const count=dqBoardCount(typeof dqLog=="function"?dqLog():{},now),level=dqBoardLevel(count);
  const src=show>=11?"assets/chongya/reward-11-xuanfan.png":show>0?"assets/chongya/overtime-"+show+".png":"";
  const stick=src?`<img class="fp-stk" alt="" src="${src}">`:"";
- return `<div class="fp-board" data-board-n="${count}" data-board-day="${level}"><img class="fp-face" alt="" src="${dqBoardSrc(level)}"><span class="fp-layer fp-stick">${stick}</span></div>`}
+ return `<div class="fp-boardcol"><div class="fp-board" data-board-n="${count}" data-board-day="${level}"><img class="fp-face" alt="" src="${dqBoardSrc(level)}"><span class="fp-layer fp-stick">${stick}</span></div><span class="fp-dayn">${level}/7</span></div>`}
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
  const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，+"+f.ot;
  const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
