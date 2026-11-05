@@ -427,7 +427,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
  V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
- const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();
+ const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();if(typeof dqGoalHome=="function")dqGoalHome();
  const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playStarRain()};preloadStarRain();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
@@ -1292,9 +1292,64 @@ function dqBoardHTML(st,now){const live=dqOtN(st),n=dqStickSync(st,now),show=liv
 function dqLiumaPreload(){if(typeof Image!="function")return;for(let i=1;i<=7;i++){const im=new Image();im.decoding="async";im.src="assets/liuma/day"+i+".png";if(im.decode)im.decode().catch(()=>{})}}
 function dqFaceShow(box,level){if(!box)return;const n=Math.max(1,Math.min(7,level|0));
  box.querySelectorAll(".fp-face").forEach(im=>{const on=+im.getAttribute("data-d")===n;im.classList.toggle("on",on);if(on)im.removeAttribute("aria-hidden");else im.setAttribute("aria-hidden","true")})}
-function dqGoalPreload(){if(typeof Image!="function")return;for(let i=0;i<=5;i++){const im=new Image();im.decoding="async";im.src="assets/goal/goal-"+i+".png";if(im.decode)im.decode().catch(()=>{})}}
+function dqGoalPreload(){if(typeof Image!="function")return;for(let i=0;i<=5;i++){const im=new Image();im.decoding="async";im.src="assets/goal/goal-"+i+".png";if(im.decode)im.decode().catch(()=>{})}const sp=new Image();sp.decoding="async";sp.src="assets/goal/star-pop.webp";if(sp.decode)sp.decode().catch(()=>{})}
 function dqGoalShow(box,got){if(!box)return;const n=Math.max(0,Math.min(5,got|0));
  box.querySelectorAll(".fp-goalart").forEach(im=>{const on=+im.getAttribute("data-g")===n;im.classList.toggle("on",on);if(on)im.removeAttribute("aria-hidden");else im.setAttribute("aria-hidden","true")})}
+// Newly lit star on the 1774×887 sheet, goal-n vs goal-(n-1). x,y is that star's
+// opaque-body bbox center; w is the overlay width so star-pop's glyph (93px of
+// the 118×128 canvas) covers the body. 1: 206,578–458,825  2: 489,577–743,824
+// 3: 768,578–1020,824  4: 1045,576–1299,823  5: 1324,577–1579,824
+const DQ_GOAL_AT=[[.1871,.7909,.1918],[.3472,.7897,.1934],[.5039,.7903,.1918],[.6607,.7886,.1934],[.8182,.7897,.1941]];
+const DQ_GOAL_POP="assets/goal/star-pop.webp";
+let DQGPOP=0,DQGVIS=null,DQ_POP_BYTES=null;
+function dqGoalNow(){try{return Math.max(0,Math.min(5,(typeof dqBits=="function"?dqBits().got:0)|0))}catch(e){return 0}}
+function dqGoalDay(){try{return typeof dKey=="function"?dKey():""}catch(e){return ""}}
+function dqGoalShown(){try{const v=localStorage.getItem("nova_goalshown_"+dqGoalDay());if(v==null||v==="")return 0;const n=+v;return Number.isFinite(n)?Math.max(0,Math.min(5,n|0)):0}catch(e){return 0}}
+function dqGoalShownSet(n){try{localStorage.setItem("nova_goalshown_"+dqGoalDay(),String(Math.max(0,Math.min(5,n|0))))}catch(e){}}
+function dqGoalPopDebug(){try{const q=location.search||"",h=location.hash||"";return /(?:\?|&|^)goalpop=1(?:&|$)/.test(q)||/goalpop=1/.test(h)}catch(e){return false}}
+function dqGoalReduced(){try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
+function dqGoalSleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function dqGoalPopWarm(){if(DQ_POP_BYTES||typeof fetch!="function")return;fetch(DQ_GOAL_POP).then(r=>r.ok?r.arrayBuffer():null).then(b=>{if(b)DQ_POP_BYTES=b}).catch(()=>{})}
+function dqGoalCross(box,n,ms){const next=box&&box.querySelector('.fp-goalart[data-g="'+n+'"]');
+ if(!next){if(box)dqGoalShow(box,n);return Promise.resolve()}
+ const prev=box.querySelector(".fp-goalart.on");
+ if(!prev||prev===next||!next.animate||!(ms>0)){dqGoalShow(box,n);return Promise.resolve()}
+ next.style.zIndex="2";
+ const anim=next.animate([{opacity:0},{opacity:1}],{duration:ms,easing:"linear",fill:"forwards"});
+ return Promise.resolve(anim.finished).catch(()=>{}).then(()=>{dqGoalShow(box,n);try{next.getAnimations().forEach(a=>a.cancel())}catch(e){}next.style.zIndex=""})}
+function dqGoalPopOne(box,n){const at=DQ_GOAL_AT[n-1];
+ if(!box||!at){if(box)dqGoalShow(box,n);return Promise.resolve()}
+ const img=document.createElement("img");img.className="fp-goalpop";img.alt="";img.setAttribute("aria-hidden","true");img.decoding="sync";
+ const w=at[2],nudge=w/59;
+ img.style.left=((at[0]+nudge)*100)+"%";img.style.top=((at[1]-nudge)*100)+"%";img.style.width=(w*100)+"%";
+ let url=DQ_GOAL_POP;if(DQ_POP_BYTES){url=URL.createObjectURL(new Blob([DQ_POP_BYTES],{type:"image/webp"}));img._u=url}
+ img.src=url;box.appendChild(img);
+ const fade=220,total=900;
+ return dqGoalSleep(total-fade).then(()=>{if(box.isConnected)return dqGoalCross(box,n,fade)}).finally(()=>{if(img._u){URL.revokeObjectURL(img._u);img._u=""}if(img.parentNode)img.remove()})}
+async function dqGoalRun(box,from,to){const token=++DQGPOP;box.dataset.popping="1";let i=from|0;
+ try{while(i<to&&i<5){if(token!==DQGPOP||!box.isConnected)return;await dqGoalPopOne(box,i+1);if(token!==DQGPOP||!box.isConnected)return;i++;dqGoalShownSet(i);const cur=dqGoalNow();if(cur>to)to=cur}}
+ catch(e){}
+ finally{if(token===DQGPOP&&box.isConnected)delete box.dataset.popping}}
+function dqGoalWhenVisible(box){if(DQGVIS)document.removeEventListener("visibilitychange",DQGVIS);
+ const on=()=>{if(document.hidden)return;document.removeEventListener("visibilitychange",on);if(DQGVIS===on)DQGVIS=null;if(box.isConnected)dqGoalHome(box)};
+ DQGVIS=on;document.addEventListener("visibilitychange",on)}
+async function dqGoalDemo(box){const token=++DQGPOP;box.dataset.popdemo="1";
+ try{while(box.isConnected&&token===DQGPOP&&dqGoalPopDebug()){dqGoalShow(box,0);
+  for(let n=1;n<=5;n++){if(!box.isConnected||token!==DQGPOP||!dqGoalPopDebug())return;
+   while(document.hidden&&box.isConnected&&token===DQGPOP)await dqGoalSleep(200);
+   if(!box.isConnected||token!==DQGPOP||!dqGoalPopDebug())return;
+   if(dqGoalReduced()){dqGoalShow(box,n);await dqGoalSleep(900)}else await dqGoalPopOne(box,n)}
+  await dqGoalSleep(360)}}
+ finally{if(box.isConnected&&token===DQGPOP)delete box.dataset.popdemo}}
+function dqGoalHome(box){box=box||document.querySelector(".daybar.fp-home .fp-goals");if(!box||!box.isConnected)return;dqGoalPopWarm();
+ if(dqGoalPopDebug()){if(box.dataset.popdemo==="1")return;dqGoalShow(box,0);if(document.hidden){dqGoalWhenVisible(box);return}dqGoalDemo(box);return}
+ if(box.dataset.popping==="1")return;
+ const cur=dqGoalNow(),shown=dqGoalShown();
+ if(cur<=shown){dqGoalShow(box,cur);dqGoalShownSet(cur);return}
+ dqGoalShow(box,shown);
+ if(dqGoalReduced()){dqGoalShow(box,cur);dqGoalShownSet(cur);return}
+ if(document.hidden){dqGoalWhenVisible(box);return}
+ dqGoalRun(box,shown,cur)}
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
  const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，+"+f.ot;
  const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
@@ -1368,7 +1423,8 @@ function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
    if(keep)keep.remove();if(goals)goals.remove();if(faces)faces.remove();if(stick)stick.remove();if(fall)fall.remove();
    el.innerHTML=inn.html;const slot=el.querySelector(".fp-qslot");
    if(slot){if(keep)slot.appendChild(keep);else{slot.innerHTML=dqQuoteShell();if(typeof hqStart=="function")hqStart()}}
-   if(goals){const fresh=el.querySelector(".fp-goals");if(fresh)fresh.replaceWith(goals);dqGoalShow(goals,Math.min(f.got,DQ_FLOOR))}
+   if(goals){const fresh=el.querySelector(".fp-goals");if(fresh)fresh.replaceWith(goals)}
+   if(typeof dqGoalHome=="function")dqGoalHome(el.querySelector(".fp-goals"))
    const day=el.querySelector(".fp-board");
    if(faces){const freshF=el.querySelector(".fp-faces");if(freshF)freshF.replaceWith(faces)}
    const freshStk=el.querySelector(".fp-stk");
