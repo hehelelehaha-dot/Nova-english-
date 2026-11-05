@@ -1225,7 +1225,8 @@ function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
  const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，+"+f.ot;
  const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
  // Goal sheet is the only home control that opens the folded daily list. got is the floor count, capped at 5.
- if(home){const goal=`<img class="fp-goalart" alt="" src="assets/goal/goal-${got}.png">`,pill=f.ot?`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`:"";
+ // Cream-gold +N stays under the stars, including +0 when overtime is still 0. The pill is not the tap target.
+ if(home){const goal=`<img class="fp-goalart" alt="" src="assets/goal/goal-${got}.png">`,pill=`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`;
   const score=`<span class="fp-score"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${goal}</button>${pill}</span>`;
   return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side">${score}<div class="fp-qslot"></div></div>`}}
  const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
