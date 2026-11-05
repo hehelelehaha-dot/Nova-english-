@@ -1010,13 +1010,13 @@ html[data-theme=t6][data-paper] #ss.hide .s.zh .zhe .ph.play{
  border-bottom-color:#e8c56a}
 
 /* 大冰 句子听写 practice plate. The navy quote frame stays on folds, lists, and other cards.
-   This board is worn paper (#f4ead8, the same cream as 大冰 ink) so 检查 feedback can be read.
-   Labels return to the warm brown the light dictation plate was written with.
-   正确句子 and the diff use cream-surface ink; green / strike / miss colors are unchanged. */
+   This board is light sage (#c8d1b8) so 检查 feedback can be read.
+   Labels stay the warm brown the light dictation plate was written with.
+   正确句子 and the diff use sage-surface ink; green / strike / miss colors are unchanged. */
 html[data-theme=t6][data-paper] main .card.dtcard{
- background:#f4ead8!important;
+ background:#c8d1b8!important;
  background-image:none!important;
- border:1px solid #e0c98f!important;
+ border:1px solid #a9b98d!important;
  border-image:none!important;
  border-radius:20px;
  box-shadow:0 8px 22px rgba(20,14,6,.22);
@@ -1027,31 +1027,53 @@ html[data-theme=t6][data-paper] main .card.dtcard .dtpickh{color:#3a2c00}
 
 /* 大冰 study paper. Fold headers, hero, 流麻, acrylic, the goal sheet, and the
    section tiles stay navy glass (pre-#60 frame). 阅读卡 #ss / 点读 stay charcoal.
-   词形练习 stays on the navy quote frame. Beige is 听写, 单词卡, 英英, and 小游戏. */
+   词形练习 stays on the navy quote frame. Sage is 听写, 单词卡, 英英, and 小游戏. */
 html[data-theme=t6][data-paper] main :is(.wc.wc,.ent.ent,.player.player),
 html[data-theme=t6][data-paper] main #fc .card,
 html[data-theme=t6][data-paper] main .gu.gu:has([onclick*="#/g/"]),
 html[data-theme=t6][data-paper] main .card.gcard:not(:has(.wfx)):not(:has(.wpl)):not(:has(.wfb)):not(:has(.wfo)),
 html[data-theme=t6][data-paper] main .card.gend:has([onclick*="#/g/"]){
- background:#f4ead8!important;
+ background:#c8d1b8!important;
  background-image:none!important;
- border:1px solid #e0c98f!important;
+ border:1px solid #a9b98d!important;
  border-image:none!important;
  border-radius:16px;
  box-shadow:0 6px 16px rgba(20,14,6,.16);
  color:#1a2330}
 html[data-theme=t6][data-paper] main :is(.wc.wc,.ent.ent){padding:14px 16px}
-html[data-theme=t6][data-paper] main :is(.wc .w,.wc .z,#fc .word,#fc .cez,.ent .w,.ent .z,.ent p,.gcard:not(:has(.wfx)) .word,.gcard:not(:has(.wfx)) .zh,.gcard:not(:has(.wfx)) .czs){color:#1a2330}
-html[data-theme=t6][data-paper] main :is(.wc .ps,.ent .n,.ent .exz,.player .status,.gu:has([onclick*="#/g/"]) .sb,.gcard:not(:has(.wfx)) :is(.ghint,.pos,.sb,.ywsp),#fc .card :is(.pos,.mine,.ywsp,.tip)){color:#6b4e12!important}
+html[data-theme=t6][data-paper] main :is(.wc .w,.wc .z,#fc .word,#fc .cez,.ent .w,.ent .z,.ent p,.gcard:not(:has(.wfx)) .word,.gcard:not(:has(.wfx)) .zh,.gcard:not(:has(.wfx)) .czs,.fcsz){color:#1a2330}
+html[data-theme=t6][data-paper] main :is(.wc .ps,.ent .n,.ent .exz,.player .status,.player .skbar,.gu:has([onclick*="#/g/"]) .sb,.gcard:not(:has(.wfx)) :is(.ghint,.pos,.sb,.ywsp),#fc .card :is(.pos,.mine,.ywsp,.tip)){color:#6b4e12!important}
 html[data-theme=t6][data-paper] main #fc .card .zh{color:#1a2330}
 html[data-theme=t6][data-paper] main .ent ol{color:#3a2c00}
 html[data-theme=t6][data-paper] main .card.dtcard{
- background:#f4ead8!important;
- border:1px solid #e0c98f!important;
+ background:#c8d1b8!important;
+ border:1px solid #a9b98d!important;
  border-image:none!important;
  border-radius:20px;
  box-shadow:0 8px 22px rgba(20,14,6,.22);
  color:#1a2330}
+/* Pale controls that sat on the #60 beige (player pills, 拓展, 跳过, 听写 nav and
+   sentence chips) move to a lighter sage. Accent buttons stay: orange 拼写 / 检查 /
+   .flip, navy 拼图 / 从这里听, green 填词, gold 原文 .osb. */
+html[data-theme=t6][data-paper] main :is(.player.player,.wc.wc,.ent.ent,#fc .card,.card.dtcard,.gu.gu:has([onclick*="#/g/"]),.card.gcard:not(:has(.wfx)):not(:has(.wpl)):not(:has(.wfb)):not(:has(.wfo)),.card.gend:has([onclick*="#/g/"])) :is(.btn,.bar button,.exb,.exb2,.skb,.gray,.shb,.fcsay,.osent):not(.on):not(.playing):not(.open):not([aria-pressed=true]):not(.flip):not(.flipb):not(.gblue):not(.gcl):not(.org):not(.red):not(.no):not(.yes),
+html[data-theme=t6][data-paper] main :is(.dtnav button,.dtn:not(.on),.dtresume,.dtseg:not(.on)){
+ background:#d6ddc8;
+ border-color:#9aab80}
+html[data-theme=t6][data-paper] main .ent.ent .xpan{background:#d6ddc8;border-color:#9aab80}
+html[data-theme=t6][data-paper] main :is(.ent.ent,#fc .card) .yrow{border-top-color:#9aab80}
+html[data-theme=t6][data-paper] main .ent.ent .xfam{border-top-color:#9aab80;border-bottom-color:#9aab80}
+html[data-theme=t6][data-paper] main .card.dtcard .dtin{background:#eef1e6;border-color:#9aab80;color:#2b2b2b}
+html[data-theme=t6][data-paper] main .card.dtcard .dtin:focus{border-color:#e0b400}
+html[data-theme=t6][data-paper] main .card.dtcard .dtin.good{background:#f3fbf3;border-color:#4caf50}
+html[data-theme=t6][data-paper] main .card.dtcard .dtin.near{background:#fff8ec;border-color:#e0a000}
+html[data-theme=t6][data-paper] main :is(#fc .card,.card.gcard:not(:has(.wfx)):not(:has(.wpl)):not(:has(.wfb)):not(:has(.wfo))) :is(.guess,.gin){background:#eef1e6;color:#1a2330}
+html[data-theme=t6][data-paper] main #fc .card .guess{border-color:#9aab80}
+html[data-theme=t6][data-paper] main .player.player .skb input[type=range]::-webkit-slider-runnable-track{background:linear-gradient(90deg,#c8962e var(--pc,0%),#b3c09a var(--pc,0%))}
+html[data-theme=t6][data-paper] main .player.player .skb input[type=range]::-webkit-slider-thumb{border-color:#eef1e6}
+/* .gno is 18px on the sage board (4.15:1 at #b71c1c). .big2 gold fails even large text.
+   Both drop to colors already used on this paper. .gok is 22px bold and stays #2e7d32. */
+html[data-theme=t6][data-paper] main :is(.card.dtcard,.card.gcard:not(:has(.wfx)):not(:has(.wpl)):not(:has(.wfb)):not(:has(.wfo)),.card.gend:has([onclick*="#/g/"]),#fc .card) .gno{color:#9a3030}
+html[data-theme=t6][data-paper] main .card.gend:has([onclick*="#/g/"]) .big2{color:#6b4e12}
 /* Home avatar star rain. Only the GIF/WebP alpha is painted: no backdrop, tint, blur, or matte. */
 html #nova-starrain{position:fixed;inset:0;width:100%;height:100%;z-index:80;pointer-events:none;object-fit:cover;object-position:center top;background-color:transparent;background-image:none;background-repeat:repeat-y;background-position:center top;background-size:cover;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;filter:none;opacity:1;transition:opacity .4s linear}
 html #nova-starrain.out{opacity:0}
