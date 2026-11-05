@@ -94,6 +94,9 @@ header h1{color:#0f2c44}
 /* ---- plain play buttons: one ordinary ▶ on a simple circle ---- */
 .p,.naval .p,.p.sm,.big{background:#3b5f8f!important;color:#fff!important;border:0;border-radius:50%;box-shadow:none;display:flex;align-items:center;justify-content:center;line-height:1;padding:0 0 0 2px}
 .p.playing,.big.playing{box-shadow:0 0 0 3px rgba(59,95,143,.5)}
+/* Main transport only: large .p and .big. Small chips (.p.sm, .p.xs) keep the plain glyph. */
+.p:not(.sm):not(.xs),.big{background-color:transparent!important;background-image:url("icons/sunflower-play.png")!important;background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;color:transparent!important;border-radius:0!important;padding:0!important;box-shadow:none!important}
+.p:not(.sm):not(.xs).playing,.big.playing{background-image:url("icons/sunflower-pause.png")!important;box-shadow:none!important}
 .player .pb .p{flex:0 0 52px;width:52px;height:52px}
 .toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2f5a8a;color:#fff;padding:12px 20px;border-radius:24px;font-size:16px;z-index:99;box-shadow:0 4px 14px rgba(0,0,0,.25)}
 /* ---- follow-along highlight ---- */
@@ -219,6 +222,9 @@ html[data-theme^=t] .tfar::before,html[data-theme^=t] .tfsub{color:var(--ct)}
 .tlbar{margin:0 0 4px}
 .bar.rdbar{display:flex;flex-wrap:wrap;align-items:stretch}
 .bar.rdbar>button{flex:1 1 96px;min-width:0;white-space:nowrap}
+#rnggo{display:flex;align-items:center;justify-content:center;gap:5px}
+#rnggo::before{content:"";width:26px;height:26px;flex:none;background:url("icons/sunflower-play.png") center/contain no-repeat}
+#rnggo.on::before{background-image:url("icons/sunflower-pause.png")}
 .rngrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .rngrow label{display:flex;align-items:center;gap:6px;font-weight:700;color:#1d2b38}
 .rngin{width:4.8em;min-height:46px;font:inherit;font-size:18px;font-weight:700;text-align:center;border:1px solid #c9dcec;border-radius:12px;background:#fff;color:#1d2b38}

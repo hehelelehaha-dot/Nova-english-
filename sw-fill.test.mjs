@@ -23,6 +23,8 @@ assert.equal(/localStorage|sessionStorage|indexedDB|nova_time|nova_key|caches\.d
 assert.ok(sw.includes('"app.js"'));
 assert.ok(sw.includes("assets/liuma/day1.png"));
 assert.ok(sw.includes("assets/liuma/day7.png"));
+assert.ok(sw.includes("icons/sunflower-play.png"));
+assert.ok(sw.includes("icons/sunflower-pause.png"));
 assert.ok(sw.includes("content/naval_t01.json.enc"));
 assert.ok(sw.includes("luca_d05"));
 assert.ok(app.indexOf('id="cachebtn"') < app.indexOf('id="chk"'));
