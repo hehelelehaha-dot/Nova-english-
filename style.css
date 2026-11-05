@@ -761,6 +761,12 @@ button.fp-goal{border:0;background:transparent;width:100%;padding:4px 2px 2px}
 .fp-rule{margin-top:auto;border-top:1.5px dashed rgba(226,190,110,.72);margin-left:2px;margin-right:2px}
 .fp-qslot{margin-top:10px;min-width:0}
 .fp-home .qbar{margin:0;width:100%;box-sizing:border-box}
+.fp-stage{position:relative;display:block;width:100%;aspect-ratio:476/356;container-type:size}
+.fp-stage .fp-g{position:absolute;height:auto;max-width:none;pointer-events:none;user-select:none}
+.fp-stage .fp-g[src*="spark"]{transform:scale(1.45);transform-origin:center center}
+.fp-stage .fp-g[src$="star-on.png"]{filter:drop-shadow(0 0 5px rgba(255,206,50,.55))}
+.fp-stage .fp-num{position:absolute;left:57.143%;top:75.562%;width:18.487%;height:16.854%;display:flex;align-items:center;justify-content:center;margin:0;padding:0;background:none;border-radius:0;color:#1e305c;font-family:"Noto Sans",Inter,"PingFang SC",sans-serif;font-weight:800;font-size:11cqh;line-height:1;letter-spacing:-0.04em;text-shadow:none}
+.fp-home .fp-goal{padding:0}
 .fp-home .fp-top{gap:8px}
 .fp-home .fp-aim{width:36px;height:36px;color:#ffe56a;filter:drop-shadow(0 0 3px rgba(255,220,90,.9));overflow:visible}
 .fp-home .fp-top b{font-size:20px;font-weight:800;color:#fff;letter-spacing:.06em;font-family:"PingFang SC","Noto Sans CJK SC","Hiragino Sans GB",sans-serif}
@@ -821,6 +827,7 @@ html[data-theme=t6] .fp-home .fp-marks i.on polygon{fill:#ffe14a}
 html[data-theme=t6] .fp-home .fp-marks i.on svg{filter:drop-shadow(0 0 3px #fff6c4) drop-shadow(0 0 8px rgba(255,196,40,.85))}
 html[data-theme=t6] .fp-bstar{background:radial-gradient(circle at 40% 35%,#ffe9a0,#e8a33d)}
 html[data-theme=t6] .fp-home .fp-ot{color:#1a306e;background:#efe6c8}
+html[data-theme=t6] .fp-stage .fp-num{color:#1e305c;background:transparent}
 html[data-theme=t6] .fp-home .fp-dlab{color:#fff}
 html[data-theme=t6] .fp-rule{border-top-color:rgba(226,190,110,.5)}
 html[data-theme=t6] .fp-home .qbar{background:linear-gradient(180deg,#c9c8de,#b3b2ce);border:1px solid rgba(255,255,255,.55);border-left:0;border-radius:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.72),0 6px 14px rgba(8,16,40,.16);color:#1e2a52;padding:10px 12px}

@@ -1187,10 +1187,16 @@ function dqBoardHTML(st){const n=dqStickSync(st),day=dqStickerDay(),days=dqStarD
 const FP_AIM=`<svg class="fp-aim" viewBox="0 0 64 64" aria-hidden="true"><circle cx="36" cy="22" r="15" fill="none" stroke="currentColor" stroke-width="3.6"/><circle cx="36" cy="22" r="7.2" fill="none" stroke="currentColor" stroke-width="3.2"/><path d="M3 61 L29 33" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/><path d="M36 22 L22 30 L32 36 Z" fill="currentColor"/></svg>`;
 const FP_ULINE=`<svg class="fp-uline" viewBox="0 0 168 16" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10 C 18 4, 34 14, 54 8 S 92 3, 118 9 S 150 13, 166 6" fill="none" stroke="#ffe14a" stroke-width="3.4" stroke-linecap="round"/></svg>`;
 const FP_SPARK=c=>`<svg class="fp-spark ${c}" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="#ffe56a" stroke-linecap="round"><path d="M7 24 L12 14" stroke-width="2.4"/><path d="M16 26 L17 13" stroke-width="2.4"/><path d="M25 21 L21 11" stroke-width="2.2"/></g></svg>`;
+function dqStageHTML(got,ot){const G="icons/goal/",W=476,H=356;
+ const img=(name,x,y,ww)=>`<img class="fp-g" alt="" src="${G}${name}.png" style="left:${(x/W*100).toFixed(3)}%;top:${(y/H*100).toFixed(3)}%;width:${(ww/W*100).toFixed(3)}%">`;
+ const stars=[99,168,244,320,396];
+ let row="";
+ for(let i=0;i<5;i++) row+=img(i<got?"star-on":"star-off",stars[i]-42,164,85);
+ return `<span class="fp-stage">${img("aim",28,44,85)}${img("title",112,48,257)}${img("line",170,108,241)}${row}${img("label",125,282,138)}${img("pill",272,269,88)}${img("spark-title",360,28,71)}${img("spark-stars",8,155,51)}${img("spark-pill",338,244,71)}<span class="fp-num">+${ot}</span></span>`}
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
  const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，完成句子 +"+f.ot;
  const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
- if(home){const score=`<span class="fp-top">${FP_AIM}<span class="fp-name"><b>今天的目标</b>${FP_ULINE}${FP_SPARK("fp-spark-a")}</span></span><span class="fp-score"><span class="fp-starrow">${FP_SPARK("fp-spark-b")}${marks}</span><span class="fp-done"><span class="fp-dlab">完成句子</span><span class="fp-pill">${FP_SPARK("fp-spark-c")}<span class="fp-ot">+${f.ot}</span></span></span></span>`;
+ if(home){const score=dqStageHTML(got,f.ot);
   return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${score}</button><div class="fp-rule" aria-hidden="true"></div><div class="fp-qslot"></div></div>`}}
  const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
  return {lab,html:`<span class="fp-top"><b>今天的目标</b></span><span class="fp-score">${marks}${ot}</span>`}}
