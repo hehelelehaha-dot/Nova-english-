@@ -401,16 +401,16 @@ function preloadStarRain(){if(starGot)return;starGot=true;
  load(url).catch(()=>{if(url===STAR_GIF)return;starBlob=null;return load(STAR_GIF).catch(()=>{})})}
 function playStarRain(){clearTimeout(starT);clearTimeout(starF);
  const old=document.getElementById("nova-starrain");
- if(old){if(old._u)URL.revokeObjectURL(old._u);old.remove()}
+ if(old){const u=old._u;old._u="";old.remove();if(u)URL.revokeObjectURL(u)}
  const img=document.createElement("img");
  img.id="nova-starrain";img.alt="";img.setAttribute("aria-hidden","true");
  img.style.backgroundColor="transparent";img.style.backgroundImage="none";img.style.boxShadow="none";img.style.filter="none";img.style.backdropFilter="none";img.style.webkitBackdropFilter="none";
  let url=starFile();
  if(starBlob){img._u=URL.createObjectURL(starBlob);url=img._u}
- img.onerror=()=>{if(img.dataset.fb||!img.getAttribute("src")||img.src.indexOf("starrain.gif")>=0)return;img.dataset.fb="1";if(img._u){URL.revokeObjectURL(img._u);img._u=""}img.src=STAR_GIF};
+ img.onerror=()=>{if(img.dataset.fb||!img.getAttribute("src")||img.src.indexOf("starrain.gif")>=0)return;img.dataset.fb="1";const u=img._u;img._u="";img.src=STAR_GIF;if(u)URL.revokeObjectURL(u)};
  img.src=url;
  document.body.appendChild(img);
- starT=setTimeout(()=>{img.classList.add("out");starF=setTimeout(()=>{if(img._u)URL.revokeObjectURL(img._u);img.remove()},400)},10000)}
+ starT=setTimeout(()=>{img.classList.add("out");starF=setTimeout(()=>{const u=img._u;img._u="";img.remove();if(u)URL.revokeObjectURL(u)},400)},10000)}
 async function showHome(){document.documentElement.dataset.home="1";setHeader("Nova 英语",false);gear();refreshFoldNumbers();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
  const byId=Object.fromEntries(cs.map(c=>[c.id,c]));const countOf=id=>{const i=cs.findIndex(c=>c.id==id);return (i<0?0:counts[i])+" 项"};
  const navalIds=navalSectionIds();
@@ -1325,7 +1325,7 @@ function dqGoalPopOne(box,n){const at=DQ_GOAL_AT[n-1];
  let url=DQ_GOAL_POP;if(DQ_POP_BYTES){url=URL.createObjectURL(new Blob([DQ_POP_BYTES],{type:"image/webp"}));img._u=url}
  img.src=url;box.appendChild(img);
  const fade=220,total=900;
- return dqGoalSleep(total-fade).then(()=>{if(box.isConnected)return dqGoalCross(box,n,fade)}).finally(()=>{if(img._u){URL.revokeObjectURL(img._u);img._u=""}if(img.parentNode)img.remove()})}
+ return dqGoalSleep(total-fade).then(()=>{if(box.isConnected)return dqGoalCross(box,n,fade)}).finally(()=>{const u=img._u;img._u="";if(img.parentNode)img.remove();if(u)URL.revokeObjectURL(u)})}
 async function dqGoalRun(box,from,to){const token=++DQGPOP;box.dataset.popping="1";let i=from|0;
  try{while(i<to&&i<5){if(token!==DQGPOP||!box.isConnected)return;await dqGoalPopOne(box,i+1);if(token!==DQGPOP||!box.isConnected)return;i++;dqGoalShownSet(i);const cur=dqGoalNow();if(cur>to)to=cur}}
  catch(e){}

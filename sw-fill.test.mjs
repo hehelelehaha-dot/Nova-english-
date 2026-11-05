@@ -14,6 +14,17 @@ assert.ok(protoStart > 0 && protoEnd > protoStart, "fill protocol block missing 
 const protocol = sw.slice(protoStart, protoEnd);
 
 assert.match(sw, new RegExp('const V="' + meta.v + '"'));
+const mkLine = sw.split("\n").find(l => l.includes("const mk="));
+assert.ok(mkLine && !mkLine.trimStart().startsWith("//"), "mk must be code, not a comment");
+{
+  const header = sw.split("\n").find(l => l.startsWith("const V="));
+  const ctx = createContext({});
+  runInContext(header + "\nthis.mk=mk;", ctx);
+  assert.equal(typeof ctx.mk, "function");
+  assert.match(ctx.mk("assets/hero/top-sky.png"), /^assets\/hero\/top-sky\.png\?h=[0-9a-f]{8}$/);
+  assert.match(ctx.mk("assets/hero/avatar-sunflower-duck.png"), /^assets\/hero\/avatar-sunflower-duck\.png\?h=[0-9a-f]{8}$/);
+  assert.match(sw, /catch\(err\)\{try\{return await fetch\(req\)\}catch\(e2\)\{return Response\.error\(\)\}/);
+}
 // v is the app build 检查更新 compares. cv is the content-catalog id and stays put when only the app changes.
 assert.match(meta.v, /^[0-9a-f]{10}$/);
 assert.match(meta.cv, /^[0-9a-f]{8}$/);
