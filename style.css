@@ -940,8 +940,7 @@ html[data-theme=t6][data-paper] :is(.li,.wc,.ent,.tfold>.tfh){border-width:14px 
 html[data-theme=t6][data-paper] :is(.card,.gu,.tlisten){border-width:16px 22px}
 html[data-theme=t6][data-paper] .tlisten>.tlh{padding:2px 4px}
 html[data-theme=t6][data-paper] .tlcap{background:transparent!important;border:0!important;box-shadow:none;color:#f6edd8}
-html[data-theme=t6][data-paper] .dtcard.sunon{box-shadow:inset 3px 0 0 #ffb000!important;outline:2px solid #e8a33d;outline-offset:3px}
-html[data-theme=t6][data-paper] :is(.dtmeta,.dtplab,.dtlab,.dtpickh,.dtwho,.dtleg){color:#f0e2c0}
+html[data-theme=t6][data-paper] .dtcard.sunon{box-shadow:inset 3px 0 0 #ffb000,0 8px 22px rgba(20,14,6,.22)!important;outline:2px solid #e8a33d;outline-offset:3px}
 
 /* 点读 sentence boards — template C 暖炭黑. Idle, playing, and the 中文 flip.
    The 激励语 frame above does not paint these cards. Phrase ink stays white; the gold underline is the mark. */
@@ -981,3 +980,68 @@ html[data-theme=t6][data-paper] #ss.hide .s.zh .zhe .ph.play{
  -webkit-text-fill-color:#fff!important;
  box-shadow:none!important;
  border-bottom-color:#e8c56a}
+
+/* 大冰 句子听写 practice plate. The navy quote frame stays on folds, lists, and other cards.
+   This board is worn paper (#f4ead8, the same cream as 大冰 ink) so 检查 feedback can be read.
+   Labels return to the warm brown the light dictation plate was written with.
+   正确句子 and the diff use cream-surface ink; green / strike / miss colors are unchanged. */
+html[data-theme=t6][data-paper] main .card.dtcard{
+ background:#f4ead8!important;
+ background-image:none!important;
+ border:1px solid #e0c98f!important;
+ border-image:none!important;
+ border-radius:20px;
+ box-shadow:0 8px 22px rgba(20,14,6,.22);
+ color:#1a2330}
+html[data-theme=t6][data-paper] main .card.dtcard :is(.dtdiff,.dtans){color:#1a2330}
+html[data-theme=t6][data-paper] main .card.dtcard :is(.dtmeta,.dtplab,.dtlab,.dtwho,.dtleg,.tip){color:#6b4e12}
+html[data-theme=t6][data-paper] main .card.dtcard .dtpickh{color:#3a2c00}
+
+/* 大冰 study paper. Fold headers, hero, 流麻, acrylic, and the goal sheet stay navy.
+   Not this plate: 阅读卡 sentence boards (#ss, 点读) stay template C charcoal,
+   and 词形练习 stays on the navy quote frame (no .wfx / #/wf/ board is restyled).
+   Beige is topic tiles, 听写, 单词卡, 英英, and 小游戏.
+   Doubled classes beat the quote-frame :is(), whose specificity is the navy tile, not the row it matches. */
+html[data-theme=t6] .folds>.fold .tile:not(.add),
+html[data-theme=t6][data-home] .tiles.mine .tile:not(.add){
+ background:#f4ead8!important;
+ background-image:none!important;
+ border:1px solid #e0c98f!important;
+ border-image:none!important;
+ border-radius:18px;
+ box-shadow:0 8px 18px rgba(20,14,6,.18);
+ color:#1a2330;
+ padding:20px 18px 16px}
+html[data-theme=t6] .folds>.fold .tile:not(.add) .ic,
+html[data-theme=t6][data-home] .tiles.mine .tile:not(.add) .ic{
+ color:#8a5a12;
+ background:#fbf3e2;
+ border:1.5px solid #e0c98f}
+html[data-theme=t6] .folds>.fold .tile:not(.add) :is(.nm,.ds,.tsec,.ct),
+html[data-theme=t6][data-home] .tiles.mine .tile:not(.add) :is(.nm,.ds,.tsec,.ct){color:#1a2330!important}
+html[data-theme=t6] .folds>.fold .tile:not(.add) :is(.ds,.tsec,.ct),
+html[data-theme=t6][data-home] .tiles.mine .tile:not(.add) :is(.ds,.tsec,.ct){color:#6b4e12!important}
+html[data-theme=t6][data-paper] main :is(.wc.wc,.ent.ent,.player.player),
+html[data-theme=t6][data-paper] main #fc .card,
+html[data-theme=t6][data-paper] main .gu.gu:has([onclick*="#/g/"]),
+html[data-theme=t6][data-paper] main .card.gcard:not(:has(.wfx)):not(:has(.wpl)):not(:has(.wfb)):not(:has(.wfo)),
+html[data-theme=t6][data-paper] main .card.gend:has([onclick*="#/g/"]){
+ background:#f4ead8!important;
+ background-image:none!important;
+ border:1px solid #e0c98f!important;
+ border-image:none!important;
+ border-radius:16px;
+ box-shadow:0 6px 16px rgba(20,14,6,.16);
+ color:#1a2330}
+html[data-theme=t6][data-paper] main :is(.wc.wc,.ent.ent){padding:14px 16px}
+html[data-theme=t6][data-paper] main :is(.wc .w,.wc .z,#fc .word,#fc .cez,.ent .w,.ent .z,.ent p,.gcard:not(:has(.wfx)) .word,.gcard:not(:has(.wfx)) .zh,.gcard:not(:has(.wfx)) .czs){color:#1a2330}
+html[data-theme=t6][data-paper] main :is(.wc .ps,.ent .n,.ent .exz,.player .status,.gu:has([onclick*="#/g/"]) .sb,.gcard:not(:has(.wfx)) :is(.ghint,.pos,.sb,.ywsp),#fc .card :is(.pos,.mine,.ywsp,.tip)){color:#6b4e12!important}
+html[data-theme=t6][data-paper] main #fc .card .zh{color:#1a2330}
+html[data-theme=t6][data-paper] main .ent ol{color:#3a2c00}
+html[data-theme=t6][data-paper] main .card.dtcard{
+ background:#f4ead8!important;
+ border:1px solid #e0c98f!important;
+ border-image:none!important;
+ border-radius:20px;
+ box-shadow:0 8px 22px rgba(20,14,6,.22);
+ color:#1a2330}
