@@ -992,7 +992,7 @@ function startSW(){if(!("serviceWorker" in navigator))return Promise.resolve(nul
   if(!regP)regP=navigator.serviceWorker.register("sw.js?v="+(META.v||"0"),{updateViaCache:"none"}).then(r=>{REG=r;r.update().catch(()=>{});return r}).catch(e=>{regP=null;console.warn("SW",e);return null});
   return regP}
 async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"});setTimeout(()=>{if(fillWant||!meterOK())return;fillWant=true;postFill(false)},4000)}
-(async()=>{try{if(typeof dqGoalPreload=="function")dqGoalPreload()}catch(e){}try{META=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json()}catch(e){}
+(async()=>{try{if(typeof dqGoalPreload=="function")dqGoalPreload()}catch(e){}try{if(typeof dqLiumaPreload=="function")dqLiumaPreload()}catch(e){}try{META=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json()}catch(e){}
   const last=localStorage.getItem("nova_v");if(sessionStorage.getItem("nova_updated")||(last&&META.v&&last!=META.v)){sessionStorage.removeItem("nova_updated");setTimeout(()=>toast("已更新 ✓ 版本 "+(META.v||"")),600)}
   if(META.v)localStorage.setItem("nova_v",META.v);route();bootSW()})();
 
@@ -1263,7 +1263,12 @@ function dqBoardHTML(st,now){const live=dqOtN(st),n=dqStickSync(st,now),show=liv
  const count=dqBoardCount(typeof dqLog=="function"?dqLog():{},now),level=dqBoardLevel(count);
  const src=show>=11?"assets/chongya/reward-11-xuanfan.png":show>0?"assets/chongya/overtime-"+show+".png":"";
  const stick=src?`<img class="fp-stk" alt="" src="${src}">`:"";
- return `<div class="fp-boardcol"><div class="fp-board" data-board-n="${count}" data-board-day="${level}"><img class="fp-face" alt="" src="${dqBoardSrc(level)}"><span class="fp-layer fp-stick">${stick}</span></div><span class="fp-dayn">${level}/7</span></div>`}
+ let faces="";for(let i=1;i<=7;i++){const on=i===level;const faceSrc=on?dqBoardSrc(level):"assets/liuma/day"+i+".png";
+  faces+=`<img class="fp-face${on?" on":""}" data-d="${i}" alt="" decoding="async" src="${faceSrc}"${on?"":" aria-hidden=\"true\""}>`}
+ return `<div class="fp-boardcol"><div class="fp-board" data-board-n="${count}" data-board-day="${level}"><span class="fp-faces">${faces}</span><span class="fp-layer fp-stick">${stick}</span></div><span class="fp-dayn">${level}/7</span></div>`}
+function dqLiumaPreload(){if(typeof Image!="function")return;for(let i=1;i<=7;i++){const im=new Image();im.decoding="async";im.src="assets/liuma/day"+i+".png";if(im.decode)im.decode().catch(()=>{})}}
+function dqFaceShow(box,level){if(!box)return;const n=Math.max(1,Math.min(7,level|0));
+ box.querySelectorAll(".fp-face").forEach(im=>{const on=+im.getAttribute("data-d")===n;im.classList.toggle("on",on);if(on)im.removeAttribute("aria-hidden");else im.setAttribute("aria-hidden","true")})}
 function dqGoalPreload(){if(typeof Image!="function")return;for(let i=0;i<=5;i++){const im=new Image();im.decoding="async";im.src="assets/goal/goal-"+i+".png";if(im.decode)im.decode().catch(()=>{})}}
 function dqGoalShow(box,got){if(!box)return;const n=Math.max(0,Math.min(5,got|0));
  box.querySelectorAll(".fp-goalart").forEach(im=>{const on=+im.getAttribute("data-g")===n;im.classList.toggle("on",on);if(on)im.removeAttribute("aria-hidden");else im.setAttribute("aria-hidden","true")})}
@@ -1288,10 +1293,14 @@ function dqQuoteShell(){return `<div class="qbar fp-q" id="qb"><div class="hq" i
 function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
  document.querySelectorAll(".daybar").forEach(el=>{const home=el.classList.contains("fp-home"),was=el.classList.contains("is-full"),inn=dqFootInner(f,home);
   el.classList.toggle("is-full",f.won);el.classList.toggle("has-ot",!!f.ot);el.setAttribute("aria-label",inn.lab);
-  if(home){const goals=el.querySelector(".fp-goals"),keep=el.querySelector("#qb");if(keep)keep.remove();if(goals)goals.remove();
+  if(home){const goals=el.querySelector(".fp-goals"),faces=el.querySelector(".fp-faces"),stick=el.querySelector(".fp-stk"),keep=el.querySelector("#qb");
+   if(keep)keep.remove();if(goals)goals.remove();if(faces)faces.remove();if(stick)stick.remove();
    el.innerHTML=inn.html;const slot=el.querySelector(".fp-qslot");
    if(slot){if(keep)slot.appendChild(keep);else{slot.innerHTML=dqQuoteShell();if(typeof hqStart=="function")hqStart()}}
-   if(goals){const fresh=el.querySelector(".fp-goals");if(fresh)fresh.replaceWith(goals);dqGoalShow(goals,Math.min(f.got,DQ_FLOOR))}}
+   if(goals){const fresh=el.querySelector(".fp-goals");if(fresh)fresh.replaceWith(goals);dqGoalShow(goals,Math.min(f.got,DQ_FLOOR))}
+   if(faces){const freshF=el.querySelector(".fp-faces"),day=el.querySelector(".fp-board");if(freshF)freshF.replaceWith(faces);dqFaceShow(faces,day?+(day.getAttribute("data-board-day")||1):1)}
+   const freshStk=el.querySelector(".fp-stk");
+   if(stick&&freshStk){const next=freshStk.getAttribute("src")||"",prev=stick.getAttribute("src")||"";if(prev!==next)stick.setAttribute("src",next);freshStk.replaceWith(stick)}}}
   else el.innerHTML=inn.html;
   if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
 let DQDAY="",DQSTICK="";
