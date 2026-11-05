@@ -396,10 +396,15 @@ html[data-theme=t6] .fold[data-fold=up] :is(.tile,.li,.card,.gu){background:#1e3
 html[data-theme=t6][data-paper=luca] :is(.tile,.li,.card,.wc,.ent,.s,.player,.gu,.tlisten):not(.zh):not(.cur){background:#2c4474}
 html[data-theme=t6][data-paper=up] :is(.tile,.li,.card,.wc,.ent,.s,.player,.gu,.tlisten):not(.zh):not(.cur){background:#1e325c}
 html[data-theme=t6][data-paper=luca] :is(.rost .li.zh,#ss .s.zh){background:#31487a}
-html[data-theme=t6][data-paper=luca] #ss .s.cur.zh{background:#31487a!important}
 html[data-theme=t6][data-paper=up] .rost .li.zh{background:#263862}
 html[data-theme=t6][data-paper=luca] :is(.s.cur,.wc.cur){background:#345084}
 html[data-theme=t6][data-paper=up] :is(.s.cur,.wc.cur){background:#2a406c}
+/* #ss .s.cur{background:#fffefa!important} is the old cream card. On 大冰 the playing row stays navy glass. */
+html[data-theme=t6] #ss .s.cur{background:#3a528c!important;color:#f4ead8}
+html[data-theme=t6][data-paper=luca] #ss .s.cur{background:#345084!important}
+html[data-theme=t6][data-paper=luca] #ss .s.cur.zh{background:#31487a!important}
+html[data-theme=t6][data-paper=up] #ss .s.cur{background:#2a406c!important}
+html[data-theme=t6][data-paper=up] #ss .s.cur.zh{background:#263862!important}
 html[data-theme^=t] .s{border-left-width:4px}
 html[data-theme=t2] :is(.tile,.li,.card,.wc,.ent,.s,.player,.hero,.gu,.sh){-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 html[data-theme^=t] .tile{border-top:var(--sfbd)}
@@ -821,6 +826,10 @@ html[data-theme=t6] .fp-home .hq .hqs{color:#3c4d78}
 html[data-theme=t6] .daybar{color:#f6e7c4}
 html[data-theme=t6] :is(.dayfold,.daytn,.daycnt,.dqfnm){color:#f0e2c0}
 html[data-theme=t6] .tlog .tleft{color:#8a7350}
+/* Font preview is a white chip. 大冰's cream page text is unreadable there. */
+html[data-theme=t6] .pv{background:#fff;color:#1a2330}
+html[data-theme=t6] .pv :is(b,.en,p){color:#1a2330}
+html[data-theme=t6] .pv .z{color:#163a5f}
 html[data-theme=t3] .daybar.fp-home{background:#13233a;color:#f3f5f8;border:1px solid rgba(201,162,74,.4)}
 html[data-theme=t3] .fp-aim,html[data-theme=t3] .fp-home .fp-top b{color:#e9c46a}
 html[data-theme=t3] .fp-home .fp-ot{color:#e9c46a}
