@@ -424,12 +424,12 @@ html[data-theme^=t] .no{background:#c62828;color:#fff}html[data-theme^=t] .yes{b
 html[data-theme^=t] :is(.sn.now,.w.wd.now,.ywb,.exz.wd.on,.tx.wd.on,#ss .ph.play,.wft tr.on td,.gmsg){background:var(--hl)}
 html[data-theme^=t] :is(.exz.wd.on,.tx.wd.on){box-shadow:0 0 0 3px var(--hl)}
 html[data-theme^=t] .wd.on,html[data-theme^=t] .dseg.dplay{background:var(--hl2);color:var(--hl2tx);box-shadow:0 0 0 2px var(--hl2)}
-/* 大冰 点读: the active phrase sits on a navy sentence. Yellow --hl would put light text on cream. Same glass as the playing row. */
-html[data-theme=t6] :is(#ss .ph.play,.tlcap .ph.play,.dseg.dplay){background:#5168a4;color:#f4ead8;box-shadow:0 0 0 2px rgba(232,196,120,.72)}
+/* 大冰 点读: the active phrase sits on a navy sentence. Yellow --hl would put light text on cream. Same glass as the playing row. Ink stays white — brighter than the sentence, never dark. */
+html[data-theme=t6] :is(#ss .ph.play,.tlcap .ph.play,.dseg.dplay){background:#5168a4;color:#fff;-webkit-text-fill-color:#fff;box-shadow:0 0 0 2px rgba(232,196,120,.72)}
 html[data-theme=t6] #ss .ph.play{border-bottom-color:#e8c56a}
-html[data-theme=t6][data-paper=luca] :is(#ss .ph.play,.dseg.dplay){background:#456090;color:#f4ead8}
-html[data-theme=t6][data-paper=up] :is(#ss .ph.play,.dseg.dplay){background:#3a527f;color:#f4ead8}
-html[data-theme=t6] #ss.hide .zhe .ph.play{background:#5168a4!important;color:#f4ead8!important;-webkit-text-fill-color:#f4ead8!important;box-shadow:0 0 0 2px rgba(232,196,120,.72)}
+html[data-theme=t6][data-paper=luca] :is(#ss .ph.play,.dseg.dplay){background:#456090;color:#fff;-webkit-text-fill-color:#fff}
+html[data-theme=t6][data-paper=up] :is(#ss .ph.play,.dseg.dplay){background:#3a527f;color:#fff;-webkit-text-fill-color:#fff}
+html[data-theme=t6] #ss.hide .zhe .ph.play{background:#5168a4!important;color:#fff!important;-webkit-text-fill-color:#fff!important;box-shadow:0 0 0 2px rgba(232,196,120,.72)}
 html[data-theme^=t] :is(.s.cur,.wc.cur){outline:3px solid var(--cur)}
 html[data-theme^=t] .ent.cur{outline:3px solid var(--cur)}
 html[data-theme^=t] .bar{background:transparent}
@@ -840,7 +840,8 @@ html[data-theme=t3] .fp-aim,html[data-theme=t3] .fp-home .fp-top b{color:#e9c46a
 html[data-theme=t3] .fp-home .fp-ot{color:#e9c46a}
 
 /* 大冰 contrast: navy glass gets light ink; white/cream surfaces get #1a2330.
-   Playing-row highlight stays navy (#ss .s.cur). Gold phrase marks get dark ink. */
+   Playing-row highlight stays navy (#ss .s.cur). Gold word chips (.sn.now, .ywb, …) keep dark ink.
+   点读 phrase highlights sit on navy glass, so their ink stays white. */
 html[data-theme=t6] .sht{color:#f6edd8}
 html[data-theme=t6] .tlog{color:#f7f0e0}
 html[data-theme=t6] .tlog .tdw{color:#f6edd8}
@@ -862,7 +863,7 @@ html[data-theme=t6] .xpan :is(.xh,.xt,.xe,.xz,.ipa,.suf,.suf th,.suf td,.ximg){c
 html[data-theme=t6] .exz{color:#ead9b4}
 html[data-theme=t6] :is(.sn.now,.w.wd.now,.ywb,.exz.wd.on,.wft tr.on td){color:#1a2330}
 html[data-theme=t6] #ss:not(.hide) .ph.play,
-html[data-theme=t6] .tlcap:not(.hide) .ph.play{color:#1a2330}
+html[data-theme=t6] .tlcap:not(.hide) .ph.play{color:#fff;-webkit-text-fill-color:#fff}
 html[data-theme=t6] #ss :is(.gl,.glg,.gsr){color:#ead9b4}
 html[data-theme=t6] #ss :is(.gli b,.gsr b){color:#f7f3ea}
 html[data-theme=t6] #ss :is(.gli i,.glh){color:#ffd27a}
@@ -876,10 +877,13 @@ html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.gli b,.gsr b){color:#f7f3ea!
 html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.gli i,.glh,.who){color:#ffd27a!important}
 html[data-theme=t6] #ss :is(.gls,.gsb){color:#1a2330!important}
 html[data-theme=t6] #ss.hide .s.cur .zhe,
-html[data-theme=t6] #ss.hide .s.cur .zhe .ph,
+html[data-theme=t6] #ss.hide .s.cur .zhe .ph:not(.play),
 html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe,
-html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe .ph{color:#f4ead8!important;-webkit-text-fill-color:#f4ead8!important}
-html[data-theme=t6] #ss.hide .zhe .ph.play{color:#1a2330!important;-webkit-text-fill-color:#1a2330!important}
+html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe .ph:not(.play){color:#f4ead8!important;-webkit-text-fill-color:#f4ead8!important}
+html[data-theme=t6] #ss.hide .zhe .ph.play,
+html[data-theme=t6] #ss.hide .s.cur .zhe .ph.play,
+html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe .ph.play,
+html[data-theme=t6][data-paper=up] #ss.hide .s.zh .zhe .ph.play{color:#fff!important;-webkit-text-fill-color:#fff!important}
 
 /* 大冰 reading transport: translucent navy glass pills; active 点读 is warm gold glass. */
 html[data-theme=t6] .bar.rdbar>button,
