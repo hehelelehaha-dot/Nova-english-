@@ -1222,7 +1222,7 @@ function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
  // Goal sheet is the only home control that opens the folded daily list. got is the floor count, capped at 5.
  if(home){const goal=`<img class="fp-goalart" alt="" src="assets/goal/goal-${got}.png">`,pill=f.ot?`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`:"";
   const score=`<span class="fp-score"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${goal}</button>${pill}</span>`;
-  return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side">${score}<div class="fp-rule" aria-hidden="true"></div><div class="fp-qslot"></div></div>`}}
+  return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side">${score}<div class="fp-qslot"></div></div>`}}
  const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
  return {lab,html:`<span class="fp-top"><b>今天的目标</b></span><span class="fp-score">${marks}${ot}</span>`}}
 function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f,home);

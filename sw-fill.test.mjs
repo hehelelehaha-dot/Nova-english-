@@ -28,6 +28,7 @@ assert.ok(sw.includes("assets/chongya/overtime-10.png"));
 assert.ok(sw.includes("assets/chongya/reward-11-xuanfan.png"));
 assert.ok(sw.includes("assets/goal/goal-0.png"));
 assert.ok(sw.includes("assets/goal/goal-5.png"));
+assert.ok(sw.includes("assets/quote/quote-frame-navy.png"));
 assert.ok(sw.includes("icons/sunflower-play.png"));
 assert.ok(sw.includes("icons/sunflower-pause.png"));
 assert.ok(sw.includes("content/naval_t01.json.enc"));

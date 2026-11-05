@@ -765,8 +765,7 @@ button.fp-goal{border:0;background:transparent;width:100%;padding:0;cursor:point
 .fp-side{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:stretch}
 .fp-goal{display:block;width:100%;padding:0}
 .fp-goalart{display:block;width:100%;height:auto;pointer-events:none}
-.fp-rule{margin-top:auto;border-top:1.5px dashed rgba(226,190,110,.72);margin-left:2px;margin-right:2px}
-.fp-qslot{margin-top:10px;min-width:0}
+.fp-qslot{margin-top:auto;min-width:0}
 .fp-home .qbar{margin:0;width:100%;box-sizing:border-box}
 .fp-home .fp-top{gap:8px}
 .fp-home .fp-aim{width:36px;height:36px;color:#ffe56a;filter:drop-shadow(0 0 3px rgba(255,220,90,.9));overflow:visible}
@@ -823,10 +822,9 @@ html[data-theme=t6] .fp-home .fp-marks i polygon{fill:rgba(176,186,220,.4)}
 html[data-theme=t6] .fp-home .fp-marks i.on polygon{fill:#ffe14a}
 html[data-theme=t6] .fp-home .fp-marks i.on svg{filter:drop-shadow(0 0 3px #fff6c4) drop-shadow(0 0 8px rgba(255,196,40,.85))}
 html[data-theme=t6] .fp-home .fp-ot{color:#1a306e;background:#efe6c8}
-html[data-theme=t6] .fp-rule{border-top-color:rgba(226,190,110,.5)}
-html[data-theme=t6] .fp-home .qbar{background:linear-gradient(180deg,#c9c8de,#b3b2ce);border:1px solid rgba(255,255,255,.55);border-left:0;border-radius:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.72),0 6px 14px rgba(8,16,40,.16);color:#1e2a52;padding:10px 12px}
-html[data-theme=t6] .fp-home .hq :is(.hqd,.hqe){color:#1e2a52}
-html[data-theme=t6] .fp-home .hq .hqs{color:#3c4d78}
+html[data-theme=t6] .fp-home .qbar{background:none;border-style:solid;border-width:20px 28px;border-color:transparent;border-image:url("assets/quote/quote-frame-navy.png") 150 190 fill stretch;border-radius:0;box-shadow:none;color:#f6edd8;padding:2px 6px}
+html[data-theme=t6] .fp-home .hq :is(.hqd,.hqe){color:#ffe2a8}
+html[data-theme=t6] .fp-home .hq .hqs{color:#ead9b4}
 html[data-theme=t6] .daybar{color:#f6e7c4}
 html[data-theme=t6] :is(.dayfold,.daytn,.daycnt,.dqfnm){color:#f0e2c0}
 html[data-theme=t6] .tlog .tleft{color:#8a7350}
