@@ -1162,9 +1162,11 @@ function dqBits(){return dqFoot(dqLoad())}
 function dqMarkHTML(got){const svg=`<svg viewBox="0 0 64 60" aria-hidden="true"><polygon points="32,2 40.2,22.4 62,23.2 45,36.6 51.2,57.6 32,45.2 12.8,57.6 19,36.6 2,23.2 23.8,22.4"/></svg>`;let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}">${svg}</i>`;return h}
 // Stickers follow Nova's day: 02:00 America/New_York, not local midnight.
 // Overtime above the floor of 5 shows one precomposed sheet on the acrylic face:
-// 1..10 → assets/chongya/overtime-N.png, 11+ → reward-11-xuanfan.png, 0 → none.
-// At 02:00 the count clears: overtime already stored is the baseline, and only
-// sentences finished after that add to it.
+// 1..10 → assets/chongya/overtime-N.png, 11+ → reward-11-xuanfan.png.
+// Live overtime 0 leaves the acrylic face bare: no fp-stk, and nova_dq_stick.n
+// is zeroed so a missing or stale base key cannot bring the +1 sheet back.
+// At 02:00 the count still baselines overtime already stored; only a later
+// increase stamps the board.
 // STICK_LOGIC_START
 function dqStickerDay(d){d=d?new Date(d):new Date();
  const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",hourCycle:"h23"}).formatToParts(d);
@@ -1183,10 +1185,12 @@ function dqOtN(st){st=st||{};const done=Array.isArray(st.done)?st.done:[];let n=
  if(n<5)return 0;return (n-5)+dqExtra(st.extra)}
 function dqStickSync(st,now){st=st||{day:"",done:[],extra:0};const sd=dqStickerDay(now);let b=dqStickRead();const fresh=!b||b.day!==sd;
  if(fresh){const base={};if(b&&b.day&&b.day!==sd)base[st.day]=dqOtN(st);b={day:sd,base,n:0}}
- if(!b.base||typeof b.base!=="object")b.base={};
- const cur=dqOtN(st),prev=+b.base[st.day]||0;let n=+b.n||0,chg=false;
- if(cur>prev){n+=cur-prev;chg=true}else if(cur<prev){n=Math.max(0,n-(prev-cur));chg=true}
- if(chg){b.base[st.day]=cur;b.n=n}
+ if(!b.base||typeof b.base!=="object"||Array.isArray(b.base))b.base={};
+ const cur=dqOtN(st);let n=+b.n||0,chg=false;
+ if(cur===0){if(n!==0||b.base[st.day]!==0){n=0;b.base[st.day]=0;b.n=0;chg=true}}
+ else{const prev=+b.base[st.day]||0;
+  if(cur>prev){n+=cur-prev;chg=true}else if(cur<prev){n=Math.max(0,n-(prev-cur));chg=true}
+  if(chg){b.base[st.day]=cur;b.n=n}}
  if(fresh||chg)dqStickWrite(b);return n}
 function dqStarDays(){const log=dqLog();return Object.keys(log).filter(k=>log[k]&&log[k].star).sort()}
 // Weekly density for the acrylic face. Mon–Sun in America/New_York.
@@ -1211,9 +1215,9 @@ function dqBoardCount(log,now){const mon=dqBoardMonday(now),parts=mon.split("-")
 function dqBoardLevel(n){n=n|0;if(n<1)return 1;return n>7?7:n}
 function dqBoardSrc(level){return "assets/liuma/day"+level+".png"}
 // BOARD_LOGIC_END
-function dqBoardHTML(st,now){const n=dqStickSync(st,now);
+function dqBoardHTML(st,now){const live=dqOtN(st),n=dqStickSync(st,now),show=live>0?n:0;
  const count=dqBoardCount(typeof dqLog=="function"?dqLog():{},now),level=dqBoardLevel(count);
- const src=n>=11?"assets/chongya/reward-11-xuanfan.png":n>0?"assets/chongya/overtime-"+n+".png":"";
+ const src=show>=11?"assets/chongya/reward-11-xuanfan.png":show>0?"assets/chongya/overtime-"+show+".png":"";
  const stick=src?`<img class="fp-stk" alt="" src="${src}">`:"";
  return `<div class="fp-board" data-board-n="${count}" data-board-day="${level}"><img class="fp-face" alt="" src="${dqBoardSrc(level)}"><span class="fp-layer fp-stick">${stick}</span></div>`}
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
