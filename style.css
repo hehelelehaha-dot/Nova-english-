@@ -768,6 +768,12 @@ button.fp-goal{border:0;background:transparent;width:100%;padding:0;cursor:point
 .fp-side{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:stretch}
 .fp-goal{display:block;width:100%;padding:0}
 .fp-goalart{display:block;width:100%;height:auto;pointer-events:none}
+/* Six identical goal sheets, one box. goal-0 stays in flow so the height never jumps.
+   The lit sheet is opacity 1 instantly — no fade, scale, or src swap. */
+.fp-goals{position:relative;display:block;width:100%;line-height:0}
+.fp-goals .fp-goalart{opacity:0;transition:none;animation:none}
+.fp-goals .fp-goalart:not([data-g="0"]){position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+.fp-goals .fp-goalart.on{opacity:1;z-index:1}
 .fp-qslot{margin-top:auto;min-width:0}
 .fp-home .qbar{margin:0;width:100%;box-sizing:border-box}
 .fp-home .fp-top{gap:8px}

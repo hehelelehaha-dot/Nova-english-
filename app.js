@@ -992,7 +992,7 @@ function startSW(){if(!("serviceWorker" in navigator))return Promise.resolve(nul
   if(!regP)regP=navigator.serviceWorker.register("sw.js?v="+(META.v||"0"),{updateViaCache:"none"}).then(r=>{REG=r;r.update().catch(()=>{});return r}).catch(e=>{regP=null;console.warn("SW",e);return null});
   return regP}
 async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"});setTimeout(()=>{if(fillWant||!meterOK())return;fillWant=true;postFill(false)},4000)}
-(async()=>{try{META=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json()}catch(e){}
+(async()=>{try{if(typeof dqGoalPreload=="function")dqGoalPreload()}catch(e){}try{META=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json()}catch(e){}
   const last=localStorage.getItem("nova_v");if(sessionStorage.getItem("nova_updated")||(last&&META.v&&last!=META.v)){sessionStorage.removeItem("nova_updated");setTimeout(()=>toast("已更新 ✓ 版本 "+(META.v||"")),600)}
   if(META.v)localStorage.setItem("nova_v",META.v);route();bootSW()})();
 
@@ -1264,12 +1264,18 @@ function dqBoardHTML(st,now){const live=dqOtN(st),n=dqStickSync(st,now),show=liv
  const src=show>=11?"assets/chongya/reward-11-xuanfan.png":show>0?"assets/chongya/overtime-"+show+".png":"";
  const stick=src?`<img class="fp-stk" alt="" src="${src}">`:"";
  return `<div class="fp-boardcol"><div class="fp-board" data-board-n="${count}" data-board-day="${level}"><img class="fp-face" alt="" src="${dqBoardSrc(level)}"><span class="fp-layer fp-stick">${stick}</span></div><span class="fp-dayn">${level}/7</span></div>`}
+function dqGoalPreload(){if(typeof Image!="function")return;for(let i=0;i<=5;i++){const im=new Image();im.decoding="async";im.src="assets/goal/goal-"+i+".png";if(im.decode)im.decode().catch(()=>{})}}
+function dqGoalShow(box,got){if(!box)return;const n=Math.max(0,Math.min(5,got|0));
+ box.querySelectorAll(".fp-goalart").forEach(im=>{const on=+im.getAttribute("data-g")===n;im.classList.toggle("on",on);if(on)im.removeAttribute("aria-hidden");else im.setAttribute("aria-hidden","true")})}
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
  const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，+"+f.ot;
  const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
  // Goal sheet is the only home control that opens the folded daily list. got is the floor count, capped at 5.
+ // All six sheets stay stacked in one box. A new star only flips which layer is .on — the img nodes are not swapped.
  // Cream-gold +N stays under the stars, including +0 when overtime is still 0. The pill is not the tap target.
- if(home){const goal=`<img class="fp-goalart" alt="" src="assets/goal/goal-${got}.png">`,pill=`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`;
+ if(home){let layers="";for(let i=0;i<=5;i++){const on=i===got;const src=on?`assets/goal/goal-${got}.png`:`assets/goal/goal-${i}.png`;
+  layers+=`<img class="fp-goalart${on?" on":""}" data-g="${i}" alt="" decoding="async" src="${src}"${on?"":" aria-hidden=\"true\""}>`}
+  const goal=`<span class="fp-goals">${layers}</span>`,pill=`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`;
   const score=`<span class="fp-score"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${goal}</button>${pill}</span>`;
   return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side">${score}<div class="fp-qslot"></div></div>`}}
  const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
@@ -1282,8 +1288,10 @@ function dqQuoteShell(){return `<div class="qbar fp-q" id="qb"><div class="hq" i
 function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
  document.querySelectorAll(".daybar").forEach(el=>{const home=el.classList.contains("fp-home"),was=el.classList.contains("is-full"),inn=dqFootInner(f,home);
   el.classList.toggle("is-full",f.won);el.classList.toggle("has-ot",!!f.ot);el.setAttribute("aria-label",inn.lab);
-  if(home){const keep=el.querySelector("#qb");if(keep)keep.remove();el.innerHTML=inn.html;const slot=el.querySelector(".fp-qslot");
-   if(slot){if(keep)slot.appendChild(keep);else{slot.innerHTML=dqQuoteShell();if(typeof hqStart=="function")hqStart()}}}
+  if(home){const goals=el.querySelector(".fp-goals"),keep=el.querySelector("#qb");if(keep)keep.remove();if(goals)goals.remove();
+   el.innerHTML=inn.html;const slot=el.querySelector(".fp-qslot");
+   if(slot){if(keep)slot.appendChild(keep);else{slot.innerHTML=dqQuoteShell();if(typeof hqStart=="function")hqStart()}}
+   if(goals){const fresh=el.querySelector(".fp-goals");if(fresh)fresh.replaceWith(goals);dqGoalShow(goals,Math.min(f.got,DQ_FLOOR))}}
   else el.innerHTML=inn.html;
   if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
 let DQDAY="",DQSTICK="";
