@@ -99,11 +99,19 @@ async function idbAll(){const db=await idb();return new Promise(r=>{const q=db.t
 async function idbPut(o){const db=await idb();return new Promise(r=>{const t=db.transaction("files","readwrite");t.objectStore("files").put(o);t.oncomplete=r})}
 async function idbDel(id){const db=await idb();return new Promise(r=>{const t=db.transaction("files","readwrite");t.objectStore("files").delete(id);t.oncomplete=r})}
 // ---------- audio ----------
-const A=new Audio();A.preload="auto";let RUN=0;let LASTBTN=null;
+const A=new Audio();A.preload="auto";let RUN=0;let LASTBTN=null;let rdOwn=-1;
 const setPlaying=(b,on)=>{document.querySelectorAll(".p.playing,.big.playing,.osb.playing,.osent.playing").forEach(x=>{if(x!=b||!on)x.classList.remove("playing")});if(b&&on)b.classList.add("playing")};
 document.addEventListener("click",e=>{const b=e.target.closest(".p,.big");if(b&&!b.id)LASTBTN=b},true);
 A.addEventListener("playing",()=>setPlaying(LASTBTN,true));for(const ev of["pause","ended","emptied"])A.addEventListener(ev,()=>setPlaying(null,false));
-function stopAll(){RUN++;try{A.pause()}catch(e){}if(window.speechSynthesis)speechSynthesis.cancel();TLMODE=null;try{listenPaint()}catch(e){}}
+function stopAll(){RUN++;rdOwn=-1;try{A.pause()}catch(e){}if(window.speechSynthesis)speechSynthesis.cancel();TLMODE=null;try{listenPaint()}catch(e){}}
+// RD_SUN_START
+// Reading-card sunflower. One tap plays, the next pauses, the next resumes
+// from the pause point. A second tap within 380ms restarts that sentence.
+function rdSunTap(s){if(s.at>0&&s.now-s.at<380)return "restart";
+ if(s.own&&!s.ended&&!s.paused)return "pause";
+ if(s.own&&!s.ended&&s.paused&&s.t>0.05)return "resume";
+ return "play"}
+// RD_SUN_END
 async function playP(p,rate=1,fbText){const url=await audioURL(p);return new Promise(r=>{A.onended=()=>r(true);A.onerror=()=>speak(fbText,rate).then(r);A.src=url;A.playbackRate=rate;A.defaultPlaybackRate=rate;
  const q=A.play();if(q)q.then(()=>{A.playbackRate=rate}).catch(()=>speak(fbText,rate).then(r))})}
 function speak(t,rate){return new Promise(r=>{if(!t||!window.speechSynthesis)return r();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=rate*.9;u.onend=r;u.onerror=r;speechSynthesis.cancel();speechSynthesis.speak(u)})}
@@ -537,13 +545,14 @@ function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if
  setTimeout(()=>{e.classList.toggle("zh");if(e.classList.contains("zh")){const h0=parseFloat(b.style.minHeight);b.style.minHeight="0";const h1=b.scrollHeight;b.style.minHeight=h0+"px";requestAnimationFrame(()=>{b.style.transition="min-height .25s ease";b.style.minHeight=Math.max(h0,h1)+"px";setTimeout(()=>b.style.transition="",300)})}e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function stTop(){const ss=document.getElementById("ss");let b=0;for(const e of document.querySelectorAll("body *")){if(ss&&ss.contains(e))continue;const p=getComputedStyle(e).position;if(p!="sticky"&&p!="fixed")continue;const r=e.getBoundingClientRect();for(const x of [e,...e.querySelectorAll("*")]){const r=x.getBoundingClientRect();if(r.height>0&&r.top<innerHeight*.4&&r.bottom<innerHeight*.6)b=Math.max(b,r.bottom)}}return b}
 function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":(sp||"")}
-function viewReading(d,rid){rid=rid||d.id||"";const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
+function viewReading(d,rid){rid=rid||d.id||"";rdOwn=-1;const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
  const hasDD=d.sents.some(x=>x.seg&&x.oa);
  V.innerHTML=`<div class="bar rdbar"><button id="stp">■ 停止</button><button id="bk5" type="button">倒退5秒</button><button id="rnggo" type="button" class="org">原声连播</button><button id="rloop" type="button" class="org">🔁 原声循环</button><button id="spd">速度 1x</button><button id="loop">单句循环</button><button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
  d.sents.forEach((s,i)=>{const e=document.createElement("div");e.className="s "+String(s.sp||"").toLowerCase();e.id="s"+i;
   e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${i+1}句">${i+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${esc(rdWho(s.sp))}</div><div class="fr"><div class="t"></div>${s.oa&&s.a!==s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
-  e.querySelector(".t").textContent=s.t;const ze=e.querySelector(".zhe");if(ze)ze.textContent=s.t;{const sb=e.querySelector(".sun");const stop=ev=>ev.stopPropagation();sb.addEventListener("pointerdown",stop);sb.addEventListener("touchstart",stop,{passive:true});sb.onclick=ev=>{ev.stopPropagation();ev.preventDefault();const on=sunToggle(rid,i);e.classList.toggle("lit",on);sb.setAttribute("aria-pressed",on)}}if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();sayEN(b.dataset.w.replace(/…/g," "),b)});glossSrc(e,s,i);e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],!!s.oa)};if(s.oa&&s.a!==s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});{const LK="nova_last_"+rid;const L=+localStorage.getItem(LK)||0;if(L>0){const t=document.getElementById("s"+L);if(t){const go=()=>{if(!document.body.contains(t))return;const off=stTop()+8;scrollTo(0,t.getBoundingClientRect().top+scrollY-off)};setTimeout(go,350);setTimeout(go,1100)}}
+  e.querySelector(".t").textContent=s.t;const ze=e.querySelector(".zhe");if(ze)ze.textContent=s.t;{const sb=e.querySelector(".sun");const stop=ev=>ev.stopPropagation();sb.addEventListener("pointerdown",stop);sb.addEventListener("touchstart",stop,{passive:true});sb.onclick=ev=>{ev.stopPropagation();ev.preventDefault();const on=sunToggle(rid,i);e.classList.toggle("lit",on);sb.setAttribute("aria-pressed",on)}}if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();sayEN(b.dataset.w.replace(/…/g," "),b)});glossSrc(e,s,i);e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();const btn=ev.currentTarget,now=performance.now(),how=rdSunTap({at:+btn._tap||0,now,own:rdOwn===i,ended:!!A.ended,t:A.currentTime||0,paused:!!A.paused});
+  btn._tap=how==="restart"?0:now;if(how==="pause"){try{A.pause()}catch(err){}return}if(how==="resume"){LASTBTN=btn;const q=A.play();if(q&&q.catch)q.catch(()=>{});return}stopAll();setAll(false);rdOwn=i;seq([i],!!s.oa)};if(s.oa&&s.a!==s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});{const LK="nova_last_"+rid;const L=+localStorage.getItem(LK)||0;if(L>0){const t=document.getElementById("s"+L);if(t){const go=()=>{if(!document.body.contains(t))return;const off=stTop()+8;scrollTo(0,t.getBoundingClientRect().top+scrollY-off)};setTimeout(go,350);setTimeout(go,1100)}}
  let lt=0;const sv=()=>{if(!document.body.contains(ss)){removeEventListener("scroll",sv);return}clearTimeout(lt);lt=setTimeout(()=>{const y=stTop()+10;const c=[...ss.children].find(x=>x.getBoundingClientRect().bottom>y);if(c)localStorage.setItem(LK,c.id.slice(1))},250)};addEventListener("scroll",sv,{passive:true})}
  // gloss line 3: where the word appears (点读 phrase or sentence) + ▶ plays the original segment containing it
  function glossSrc(e,s,i){const W=s.t.split(/\s+/),nz=x=>x.toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9']/g,"");
@@ -1152,9 +1161,10 @@ function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR;
 function dqBits(){return dqFoot(dqLoad())}
 function dqMarkHTML(got){const svg=`<svg viewBox="0 0 64 60" aria-hidden="true"><polygon points="32,2 40.2,22.4 62,23.2 45,36.6 51.2,57.6 32,45.2 12.8,57.6 19,36.6 2,23.2 23.8,22.4"/></svg>`;let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}">${svg}</i>`;return h}
 // Stickers follow Nova's day: 02:00 America/New_York, not local midnight.
-// One sticker per completed sentence above the floor of 5. The first five
-// light stars and do not stamp the board. At 02:00 the board clears: overtime
-// already stored is the baseline, and only sentences finished after that add stamps.
+// Overtime above the floor of 5 shows one precomposed sheet on the acrylic face:
+// 1..10 → assets/chongya/overtime-N.png, 11+ → reward-11-xuanfan.png, 0 → none.
+// At 02:00 the count clears: overtime already stored is the baseline, and only
+// sentences finished after that add to it.
 // STICK_LOGIC_START
 function dqStickerDay(d){d=d?new Date(d):new Date();
  const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",hourCycle:"h23"}).formatToParts(d);
@@ -1201,19 +1211,18 @@ function dqBoardCount(log,now){const mon=dqBoardMonday(now),parts=mon.split("-")
 function dqBoardLevel(n){n=n|0;if(n<1)return 1;return n>7?7:n}
 function dqBoardSrc(level){return "assets/liuma/day"+level+".png"}
 // BOARD_LOGIC_END
-function dqBoardHTML(st,now){const n=dqStickSync(st,now),day=dqStickerDay(now);
+function dqBoardHTML(st,now){const n=dqStickSync(st,now);
  const count=dqBoardCount(typeof dqLog=="function"?dqLog():{},now),level=dqBoardLevel(count);
- let stick="";for(let i=0;i<n;i++){const x=(18+dqU("x:"+i+":"+day)*64).toFixed(2),y=(18+dqU("y:"+i+":"+day)*64).toFixed(2),r=((dqU("r:"+i+":"+day)-.5)*46).toFixed(1);
-  stick+=`<img class="fp-stk" alt="" src="icons/chongya.png" style="left:${x}%;top:${y}%;z-index:${2+i};transform:translate(-50%,-50%) rotate(${r}deg)">`}
- return `<button type="button" class="fp-board" data-day-go data-board-n="${count}" data-board-day="${level}" aria-label="流麻板"><img class="fp-face" alt="" src="${dqBoardSrc(level)}"><span class="fp-layer fp-stick">${stick}</span></button>`}
-const FP_AIM=`<svg class="fp-aim" viewBox="0 0 64 64" aria-hidden="true"><circle cx="36" cy="22" r="15" fill="none" stroke="currentColor" stroke-width="3.6"/><circle cx="36" cy="22" r="7.2" fill="none" stroke="currentColor" stroke-width="3.2"/><path d="M3 61 L29 33" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/><path d="M36 22 L22 30 L32 36 Z" fill="currentColor"/></svg>`;
-const FP_ULINE=`<svg class="fp-uline" viewBox="0 0 168 16" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10 C 18 4, 34 14, 54 8 S 92 3, 118 9 S 150 13, 166 6" fill="none" stroke="#ffe14a" stroke-width="3.4" stroke-linecap="round"/></svg>`;
-const FP_SPARK=c=>`<svg class="fp-spark ${c}" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="#ffe56a" stroke-linecap="round"><path d="M7 24 L12 14" stroke-width="2.4"/><path d="M16 26 L17 13" stroke-width="2.4"/><path d="M25 21 L21 11" stroke-width="2.2"/></g></svg>`;
+ const src=n>=11?"assets/chongya/reward-11-xuanfan.png":n>0?"assets/chongya/overtime-"+n+".png":"";
+ const stick=src?`<img class="fp-stk" alt="" src="${src}">`:"";
+ return `<div class="fp-board" data-board-n="${count}" data-board-day="${level}"><img class="fp-face" alt="" src="${dqBoardSrc(level)}"><span class="fp-layer fp-stick">${stick}</span></div>`}
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
- const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，完成句子 +"+f.ot;
+ const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，+"+f.ot;
  const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
- if(home){const score=`<span class="fp-top">${FP_AIM}<span class="fp-name"><b>今天的目标</b>${FP_ULINE}${FP_SPARK("fp-spark-a")}</span></span><span class="fp-score"><span class="fp-starrow">${FP_SPARK("fp-spark-b")}${marks}</span><span class="fp-done"><span class="fp-dlab">完成句子</span><span class="fp-pill">${FP_SPARK("fp-spark-c")}<span class="fp-ot">+${f.ot}</span></span></span></span>`;
-  return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${score}</button><div class="fp-rule" aria-hidden="true"></div><div class="fp-qslot"></div></div>`}}
+ // Goal sheet is the only home control that opens the folded daily list. got is the floor count, capped at 5.
+ if(home){const goal=`<img class="fp-goalart" alt="" src="assets/goal/goal-${got}.png">`,pill=f.ot?`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`:"";
+  const score=`<span class="fp-score"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${goal}</button>${pill}</span>`;
+  return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side">${score}<div class="fp-qslot"></div></div>`}}
  const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
  return {lab,html:`<span class="fp-top"><b>今天的目标</b></span><span class="fp-score">${marks}${ot}</span>`}}
 function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f,home);
