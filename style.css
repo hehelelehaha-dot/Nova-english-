@@ -841,7 +841,12 @@ html[data-theme=t6][data-home]{--nova-sky:url("assets/hero/top-sky.png");--nova-
 html[data-theme=t6][data-home] body{background-color:#17264f;background-image:linear-gradient(180deg,rgba(23,38,79,0) 0,rgba(23,38,79,0) 168px,#17264f 268px,#17264f 640px,rgba(23,38,79,0) 641px),var(--nova-sky),repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px);background-repeat:no-repeat,no-repeat,repeat;background-position:center top,var(--nova-sky-pos),0 0;background-size:100% 100%,var(--nova-sky-size),auto}
 html[data-theme=t6][data-home] header{background-color:#142244;background-image:var(--nova-sky);background-repeat:no-repeat;background-position:var(--nova-sky-pos);background-size:var(--nova-sky-size);border-bottom-color:transparent}
 html[data-theme=t6][data-home] .hero{background:none;border:0;box-shadow:none;border-radius:0;overflow:visible}
-html[data-theme=t6][data-home] .hero.hero>.hdate{border-top-color:transparent}
+html[data-theme=t6][data-home] .hero.hero{padding-top:4px;padding-bottom:4px;row-gap:4px}
+html[data-theme=t6][data-home] .hero.hero>img{width:80px;height:80px}
+html[data-theme=t6][data-home] .hero .hgreet b{font-size:22px}
+html[data-theme=t6][data-home] .hero .hdate .hday{font-size:15px}
+html[data-theme=t6][data-home] .hero.hero>.hdate{border-top-color:transparent;padding-top:2px}
+@media(max-width:420px){html[data-theme=t6][data-home] .hero.hero>img{width:64px;height:64px}}
 html[data-theme=t3] .daybar.fp-home{background:#13233a;color:#f3f5f8;border:1px solid rgba(201,162,74,.4)}
 html[data-theme=t3] .fp-aim,html[data-theme=t3] .fp-home .fp-top b{color:#e9c46a}
 html[data-theme=t3] .fp-home .fp-ot{color:#e9c46a}
