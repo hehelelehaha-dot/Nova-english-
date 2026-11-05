@@ -84,15 +84,54 @@ function breathFix(d){if(!d||!Array.isArray(d.sents))return d;
  return d}
 async function getJSON(p){const d=JSON.parse(new TextDecoder().decode(await getBuf("content/"+p)));return breathFix(moneyFix(d))}
 async function audioURL(p){if(!META.enc)return "content/"+p;if(!blobCache[p])blobCache[p]=URL.createObjectURL(new Blob([await getBuf("content/"+p)],{type:"audio/mpeg"}));return blobCache[p]}
+// UNLOCK_START
+// App unlock is not the website login. autocomplete=current-password made iOS
+// Keychain drop another saved password in (8 dots for a 7-character app password).
+// Trim the edges so a trailing space is not part of the key.
+// AES-GCM OperationError means that key is wrong. A failed load of meta.json or
+// content/check.enc — network, service worker, or an HTML page where the
+// ciphertext should be — must not say 密码不对.
+function unlockTrim(pw){return String(pw==null?"":pw).trim()}
+function unlockErrText(e){return e&&e.kind==="pw"?"密码不对，请再试一次":"网络或缓存问题，请检查更新后重试"}
+function unlockNet(m){const e=new Error(m||"net");e.kind="net";return e}
+function unlockPw(){const e=new Error("pw");e.kind="pw";return e}
+function clearNovaKey(){try{localStorage.removeItem("nova_key")}catch(e){}}
+function looksLikeHtml(buf){const n=Math.min(buf.byteLength,32);const s=new TextDecoder().decode(buf.slice(0,n)).trim().toLowerCase();return s.startsWith("<!doctype")||s.startsWith("<html")}
+async function freshMeta(){
+ let r;try{r=await fetch("meta.json?t="+Date.now(),{cache:"no-store"})}catch(e){throw unlockNet("meta")}
+ if(!r.ok)throw unlockNet("meta");
+ let m;try{m=await r.json()}catch(e){throw unlockNet("meta")}
+ if(!m||typeof m.salt!="string"||typeof m.iter!="number")throw unlockNet("meta");
+ return m}
+async function loadCheck(){
+ let r;try{r=await fetch("content/check.enc?t="+Date.now(),{cache:"no-store"})}catch(e){throw unlockNet("check")}
+ if(!r.ok)throw unlockNet("check");
+ const ct=(r.headers&&r.headers.get?r.headers.get("content-type"):"")||"";
+ if(String(ct).toLowerCase().includes("text/html"))throw unlockNet("check");
+ let buf;try{buf=await r.arrayBuffer()}catch(e){throw unlockNet("check")}
+ if(!buf||buf.byteLength<28||looksLikeHtml(buf))throw unlockNet("check");
+ return buf}
+async function openCheck(buf){
+ try{await dec(buf)}catch(e){if(e&&e.name==="OperationError")throw unlockPw();throw unlockNet("check")}}
+// UNLOCK_END
+let UNLOCK_KIND="";
 async function unlock(){
- META=await (await fetch("meta.json")).json();if(!META.enc)return true;
+ UNLOCK_KIND="";
+ try{META=await freshMeta()}catch(e){UNLOCK_KIND="net";return false}
+ if(!META.enc)return true;
  const saved=localStorage.getItem("nova_key");
- if(saved){try{KEY=await crypto.subtle.importKey("raw",ub64(saved),"AES-GCM",false,["decrypt"]);await getBuf("content/check");return true}catch(e){localStorage.removeItem("nova_key")}}
+ if(saved){try{KEY=await crypto.subtle.importKey("raw",ub64(saved),"AES-GCM",false,["decrypt"]);await openCheck(await loadCheck());return true}catch(e){KEY=null;clearNovaKey();if(e&&e.kind==="net")UNLOCK_KIND="net"}}
  return false}
-function lockScreen(){setHeader("Nova 英语",false);V.innerHTML=`<div class="lock"><h2>🔒 请输入密码</h2><input id="pw" type="password" autocomplete="current-password"><button class="wide flip" id="go">解锁</button><div class="err" id="er"></div></div>`;
- const go=async()=>{const pw=document.getElementById("pw").value;document.getElementById("er").textContent="正在验证…";
-  try{KEY=await deriveKey(pw);await getBuf("content/check");localStorage.setItem("nova_key",b64(await crypto.subtle.exportKey("raw",KEY)));route()}catch(e){KEY=null;document.getElementById("er").textContent="密码不对，请再试一次"}};
- document.getElementById("go").onclick=go;document.getElementById("pw").onkeydown=e=>{if(e.key=="Enter")go()}}
+function lockScreen(){setHeader("Nova 英语",false);V.innerHTML=`<div class="lock"><h2>🔒 请输入密码</h2><input id="pw" type="password" name="nova-unlock" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" data-1p-ignore="true" data-lpignore="true" data-form-type="other"><button class="wide flip" id="go" type="button">解锁</button><div class="err" id="er"></div><button class="wide flip hidden" id="upd" type="button">检查更新</button></div>`;
+ const pwEl=document.getElementById("pw"),er=document.getElementById("er"),upd=document.getElementById("upd");
+ const show=kind=>{er.textContent=kind?unlockErrText({kind}):"";upd.classList.toggle("hidden",kind!="net")};
+ if(UNLOCK_KIND=="net")show("net");
+ const go=async()=>{const pw=unlockTrim(pwEl.value);er.textContent="正在验证…";upd.classList.add("hidden");
+  try{META=await freshMeta();if(!META.enc){KEY=null;route();return}
+   const buf=await loadCheck();try{KEY=await deriveKey(pw)}catch(e){throw unlockNet("key")}
+   await openCheck(buf);localStorage.setItem("nova_key",b64(await crypto.subtle.exportKey("raw",KEY)));route()}
+  catch(e){KEY=null;clearNovaKey();show(e&&e.kind=="pw"?"pw":"net")}};
+ document.getElementById("go").onclick=go;pwEl.onkeydown=e=>{if(e.key=="Enter")go()};upd.onclick=()=>checkUpdate(true)}
 // ---------- imported audio (IndexedDB) ----------
 function idb(){return new Promise((res,rej)=>{const r=indexedDB.open("nova_import",1);r.onupgradeneeded=()=>r.result.createObjectStore("files",{keyPath:"id"});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
 async function idbAll(){const db=await idb();return new Promise(r=>{const q=db.transaction("files").objectStore("files").getAll();q.onsuccess=()=>r(q.result)})}
@@ -200,7 +239,8 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
  const y=back?SCR[h]||0:0;if(!y)return;const t0=Date.now();
  const tryR=()=>{if(seq!=SCRSEQ)return;const maxY=document.documentElement.scrollHeight-innerHeight;if(maxY>=y-2){window.scrollTo(0,y);if(Math.abs(window.scrollY-y)<3)return}if(Date.now()-t0<2500)setTimeout(tryR,60);else window.scrollTo(0,Math.min(y,maxY))};tryR()}
 async function route0(){syncPaper();delete document.documentElement.dataset.home;ROST++;stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
- if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
+ // Boot leaves enc:false when meta.json fails, which used to skip the lock and open as plaintext.
+ if(!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
  await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
