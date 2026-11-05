@@ -402,12 +402,12 @@ html[data-theme=t6][data-paper=luca] :is(.rost .li.zh,#ss .s.zh){background:#314
 html[data-theme=t6][data-paper=up] .rost .li.zh{background:#263862}
 html[data-theme=t6][data-paper=luca] :is(.s.cur,.wc.cur){background:#345084}
 html[data-theme=t6][data-paper=up] :is(.s.cur,.wc.cur){background:#2a406c}
-/* #ss .s.cur{background:#fffefa!important} is the old cream card. On 大冰 the playing row stays navy glass. */
-html[data-theme=t6] #ss .s.cur{background:#3a528c!important;color:#f4ead8}
-html[data-theme=t6][data-paper=luca] #ss .s.cur{background:#345084!important}
-html[data-theme=t6][data-paper=luca] #ss .s.cur.zh{background:#31487a!important}
-html[data-theme=t6][data-paper=up] #ss .s.cur{background:#2a406c!important}
-html[data-theme=t6][data-paper=up] #ss .s.cur.zh{background:#263862!important}
+/* Playing row used to stay navy glass. Template C paints every #ss board charcoal; see the block at the end of this file. */
+html[data-theme=t6] #ss .s.cur{background:#1a1614!important;color:#f6efe4}
+html[data-theme=t6][data-paper=luca] #ss .s.cur{background:#1a1614!important}
+html[data-theme=t6][data-paper=luca] #ss .s.cur.zh{background:#1a1614!important}
+html[data-theme=t6][data-paper=up] #ss .s.cur{background:#1a1614!important}
+html[data-theme=t6][data-paper=up] #ss .s.cur.zh{background:#1a1614!important}
 html[data-theme^=t] .s{border-left-width:4px}
 html[data-theme=t2] :is(.tile,.li,.card,.wc,.ent,.s,.player,.hero,.gu,.sh){-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 html[data-theme^=t] .tile{border-top:var(--sfbd)}
@@ -424,12 +424,13 @@ html[data-theme^=t] .no{background:#c62828;color:#fff}html[data-theme^=t] .yes{b
 html[data-theme^=t] :is(.sn.now,.w.wd.now,.ywb,.exz.wd.on,.tx.wd.on,#ss .ph.play,.wft tr.on td,.gmsg){background:var(--hl)}
 html[data-theme^=t] :is(.exz.wd.on,.tx.wd.on){box-shadow:0 0 0 3px var(--hl)}
 html[data-theme^=t] .wd.on,html[data-theme^=t] .dseg.dplay{background:var(--hl2);color:var(--hl2tx);box-shadow:0 0 0 2px var(--hl2)}
-/* 大冰 点读: the active phrase sits on a navy sentence. Yellow --hl would put light text on cream. Same glass as the playing row. Ink stays white — brighter than the sentence, never dark. */
-html[data-theme=t6] :is(#ss .ph.play,.tlcap .ph.play,.dseg.dplay){background:#5168a4;color:#fff;-webkit-text-fill-color:#fff;box-shadow:0 0 0 2px rgba(232,196,120,.72)}
+/* 大冰 点读 outside the sentence boards (连听 caption, 原文 rows): navy glass chip, white ink.
+   #ss phrase ink is set with the charcoal boards — white on #1a1614, not this navy chip. */
+html[data-theme=t6] :is(.tlcap .ph.play,.dseg.dplay){background:#5168a4;color:#fff;-webkit-text-fill-color:#fff;box-shadow:0 0 0 2px rgba(232,196,120,.72)}
 html[data-theme=t6] #ss .ph.play{border-bottom-color:#e8c56a}
-html[data-theme=t6][data-paper=luca] :is(#ss .ph.play,.dseg.dplay){background:#456090;color:#fff;-webkit-text-fill-color:#fff}
-html[data-theme=t6][data-paper=up] :is(#ss .ph.play,.dseg.dplay){background:#3a527f;color:#fff;-webkit-text-fill-color:#fff}
-html[data-theme=t6] #ss.hide .zhe .ph.play{background:#5168a4!important;color:#fff!important;-webkit-text-fill-color:#fff!important;box-shadow:0 0 0 2px rgba(232,196,120,.72)}
+html[data-theme=t6][data-paper=luca] .dseg.dplay{background:#456090;color:#fff;-webkit-text-fill-color:#fff}
+html[data-theme=t6][data-paper=up] .dseg.dplay{background:#3a527f;color:#fff;-webkit-text-fill-color:#fff}
+html[data-theme=t6] #ss.hide .zhe .ph.play{border-bottom-color:#e8c56a}
 html[data-theme^=t] :is(.s.cur,.wc.cur){outline:3px solid var(--cur)}
 html[data-theme^=t] .ent.cur{outline:3px solid var(--cur)}
 html[data-theme^=t] .bar{background:transparent}
@@ -840,8 +841,8 @@ html[data-theme=t3] .fp-aim,html[data-theme=t3] .fp-home .fp-top b{color:#e9c46a
 html[data-theme=t3] .fp-home .fp-ot{color:#e9c46a}
 
 /* 大冰 contrast: navy glass gets light ink; white/cream surfaces get #1a2330.
-   Playing-row highlight stays navy (#ss .s.cur). Gold word chips (.sn.now, .ywb, …) keep dark ink.
-   点读 phrase highlights sit on navy glass, so their ink stays white. */
+   Gold word chips (.sn.now, .ywb, …) keep dark ink.
+   Reading sentence boards are template C charcoal, with white 点读 phrase ink. */
 html[data-theme=t6] .sht{color:#f6edd8}
 html[data-theme=t6] .tlog{color:#f7f0e0}
 html[data-theme=t6] .tlog .tdw{color:#f6edd8}
@@ -862,7 +863,6 @@ html[data-theme=t6] .xpan,
 html[data-theme=t6] .xpan :is(.xh,.xt,.xe,.xz,.ipa,.suf,.suf th,.suf td,.ximg){color:#1a2330}
 html[data-theme=t6] .exz{color:#ead9b4}
 html[data-theme=t6] :is(.sn.now,.w.wd.now,.ywb,.exz.wd.on,.wft tr.on td){color:#1a2330}
-html[data-theme=t6] #ss:not(.hide) .ph.play,
 html[data-theme=t6] .tlcap:not(.hide) .ph.play{color:#fff;-webkit-text-fill-color:#fff}
 html[data-theme=t6] #ss :is(.gl,.glg,.gsr){color:#ead9b4}
 html[data-theme=t6] #ss :is(.gli b,.gsr b){color:#f7f3ea}
@@ -870,7 +870,9 @@ html[data-theme=t6] #ss :is(.gli i,.glh){color:#ffd27a}
 html[data-theme=t6] #ss :is(.gls,.gsb){color:#1a2330}
 html[data-theme=t6] #ss .s.cur :is(.zhb,.zht){color:#f4ead8}
 html[data-theme=t6] #ss .s.zh:not(.cur),
-html[data-theme=t6] #ss .s.zh:not(.cur) :is(.zhe,.zhb,.zht,.gl,.glg,.gli,.gli b,.gli i,.glh,.gsr,.gsr b,.who){color:#1a2330!important}
+html[data-theme=t6] #ss .s.zh:not(.cur) :is(.zhe,.zhb,.zht,.gl,.glg,.gli,.gsr,.who){color:#f6efe4!important}
+html[data-theme=t6] #ss .s.zh:not(.cur) :is(.gli b,.gsr b){color:#fff8ee!important}
+html[data-theme=t6] #ss .s.zh:not(.cur) :is(.gli i,.glh){color:#e8c56a!important}
 html[data-theme=t6][data-paper=luca] #ss .s.zh,
 html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.zhe,.zhb,.zht,.gl,.glg,.gsr){color:#ead9b4!important}
 html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.gli b,.gsr b){color:#f7f3ea!important}
@@ -907,9 +909,8 @@ html[data-theme=t6] .bar.rdbar>button#dd.on{
  border:1px solid rgba(255,236,180,.95)!important;border-radius:999px;
  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -8px 12px rgba(180,90,0,.12),0 0 18px rgba(255,186,40,.72),0 8px 16px rgba(90,50,0,.28)}
 
-/* 大冰: home fold headers, inner 板块, and sentence cards share the 激励语 navy glass frame.
-   The shell behind a header stays clear. Depth colors above still cover player and any surface this frame does not paint.
-   流麻, hero, and nav are not in these selectors. */
+/* 大冰: home fold headers and inner 板块 use the 激励语 navy glass frame.
+   Sentence boards (#ss) are template C charcoal, not this frame. 流麻, hero, and nav stay out. */
 html[data-theme=t6] .folds>.fold{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0}
 html[data-theme=t6] .folds>.fold>.tiles{background:transparent;border:0;box-shadow:none;padding:8px 0 2px}
 html[data-theme=t6] .folds>.fold[open]>.tiles{margin-top:8px}
@@ -917,8 +918,7 @@ html[data-theme=t6][data-paper] .tfold{background:transparent;border:0;box-shado
 html[data-theme=t6][data-paper] .tfold>.list{padding:8px 0 2px}
 html[data-theme=t6] .folds>.fold>.foldh,
 html[data-theme=t6] .folds>.fold .tile:not(.add),
-html[data-theme=t6][data-paper] :is(.li,.tile:not(.add),.card,.wc,.ent,.gu,.tlisten,.tfold>.tfh),
-html[data-theme=t6][data-paper] #ss :is(.s,.s.cur,.s.zh,.s.cur.zh){
+html[data-theme=t6][data-paper] :is(.li,.tile:not(.add),.card,.wc,.ent,.gu,.tlisten,.tfold>.tfh){
  background:none!important;border-style:solid!important;border-color:transparent!important;
  border-image:url("assets/quote/quote-frame-navy.png") 150 190 fill stretch!important;
  border-radius:0;box-shadow:none}
@@ -927,11 +927,45 @@ html[data-theme=t6] .folds>.fold .tile:not(.add){border-width:16px 22px;padding:
 html[data-theme=t6][data-paper] :is(.li,.wc,.ent,.tfold>.tfh){border-width:14px 20px;padding:4px 8px}
 html[data-theme=t6][data-paper] :is(.card,.gu,.tlisten){border-width:16px 22px}
 html[data-theme=t6][data-paper] .tlisten>.tlh{padding:2px 4px}
-html[data-theme=t6][data-paper] #ss :is(.s,.s.cur,.s.zh,.s.cur.zh){border-width:14px 20px!important;padding:6px 8px}
 html[data-theme=t6][data-paper] .tlcap{background:transparent!important;border:0!important;box-shadow:none;color:#f6edd8}
-html[data-theme=t6][data-paper] #ss .s.lit,
 html[data-theme=t6][data-paper] .dtcard.sunon{box-shadow:inset 3px 0 0 #ffb000!important;outline:2px solid #e8a33d;outline-offset:3px}
-html[data-theme=t6][data-paper] #ss .s.zh{color:#f6edd8!important}
-html[data-theme=t6][data-paper] #ss .s.zh :is(.zhe,.zhb,.zht,.gl,.glg,.gli,.gli b,.gsr,.gsr b,.who){color:#f6edd8!important}
-html[data-theme=t6][data-paper] #ss .s.zh :is(.gli i,.glh,.who){color:#ffd27a!important}
 html[data-theme=t6][data-paper] :is(.dtmeta,.dtplab,.dtlab,.dtpickh,.dtwho,.dtleg){color:#f0e2c0}
+
+/* 点读 sentence boards — template C 暖炭黑. Idle, playing, and the 中文 flip.
+   The 激励语 frame above does not paint these cards. Phrase ink stays white; the gold underline is the mark. */
+html[data-theme=t6] #ss .s,
+html[data-theme=t6][data-paper] #ss .s,
+html[data-theme=t6] #ss .s.cur,
+html[data-theme=t6][data-paper=luca] #ss .s.cur,
+html[data-theme=t6][data-paper=up] #ss .s.cur,
+html[data-theme=t6] #ss .s.zh,
+html[data-theme=t6][data-paper=luca] #ss .s.zh,
+html[data-theme=t6][data-paper=up] #ss .s.zh,
+html[data-theme=t6] #ss .s.cur.zh,
+html[data-theme=t6][data-paper=luca] #ss .s.cur.zh,
+html[data-theme=t6][data-paper=up] #ss .s.cur.zh{
+ background:#1a1614!important;
+ color:#f6efe4;
+ border:1px solid rgba(255,236,214,.18)!important;
+ border-image:none!important;
+ border-left-width:1px;
+ box-shadow:0 8px 22px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,244,230,.07)}
+html[data-theme=t6] #ss .s.lit,
+html[data-theme=t6][data-paper] #ss .s.lit{
+ box-shadow:inset 3px 0 0 #e8c56a,0 8px 22px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,244,230,.07)!important}
+html[data-theme=t6] #ss .s :is(.t,.zhe,.zhb,.zht){color:#f6efe4}
+html[data-theme=t6] #ss .s.zh,
+html[data-theme=t6][data-paper] #ss .s.zh,
+html[data-theme=t6][data-paper] #ss .s.zh :is(.zhe,.zhb,.zht,.gl,.glg,.gli,.gli b,.gsr,.gsr b,.who){color:#f6efe4!important}
+html[data-theme=t6] #ss .s.zh :is(.gli i,.glh),
+html[data-theme=t6][data-paper] #ss .s.zh :is(.gli i,.glh,.who){color:#ffd27a!important}
+html[data-theme=t6] #ss:not(.hide) .ph.play,
+html[data-theme=t6][data-paper] #ss:not(.hide) .ph.play,
+html[data-theme=t6] #ss.hide .zhe .ph.play,
+html[data-theme=t6] #ss.hide .s.cur .zhe .ph.play,
+html[data-theme=t6][data-paper] #ss.hide .s.zh .zhe .ph.play{
+ background:rgba(232,197,106,.16)!important;
+ color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
+ box-shadow:none!important;
+ border-bottom-color:#e8c56a}
