@@ -296,6 +296,9 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) #ss .gl{font-weight:600}
 @media (max-width:420px){.rate{grid-template-columns:repeat(2,1fr)}}
 .hero>div{flex:1;min-width:0}.stt{margin-left:auto;flex:none;background:#fff8dc;border:0;border-radius:14px;padding:6px 10px;display:flex;flex-direction:column;align-items:flex-end;gap:1px;font:inherit;cursor:pointer}
 .hero .stt .sl{display:block;margin:0;font-size:12px;color:#7a6a3a;white-space:nowrap}.stt .sl b{font-size:14px;color:#0f2c44}
+.stt .sls{display:flex;flex-direction:column;align-items:flex-end;gap:1px}
+.stt .yleft{display:flex;flex-direction:column;align-items:flex-end;margin-top:2px;font-size:12px;line-height:1.25;font-weight:700;color:#5c4520}
+html .hero .stt .yleft :is(.hwk,.hwd){color:#5c4520}
 @media(max-width:420px){.hero img{width:56px;height:56px}.stt{padding:5px 8px}.hero .stt .sl{font-size:11px}.stt .sl b{font-size:13px}}
 .tlog .tr{display:flex;align-items:center;gap:8px;font-size:14px}.tlog .tdw{width:92px;color:#555}.tlog .tb{flex:1;height:12px;background:#f1f1f1;border-radius:6px;overflow:hidden}.tlog .tb i{display:block;height:100%;background:#f5c518;border-radius:6px}.tlog .tv{width:64px;text-align:right;font-variant-numeric:tabular-nums}.tlog .td{font-weight:700}
 .tlog .ttot{text-align:center;margin:2px 0 10px}.tlog .ttot b{display:block;font-size:28px;color:#0f2c44}.tlog .ttot span{display:block;font-size:13px;color:#666;margin-top:2px}
@@ -440,6 +443,7 @@ html[data-theme=t3] :is(.tile,.hero){background:linear-gradient(135deg,#15243a,#
 html[data-theme=t3] .tile .nm,html[data-theme=t3] .hero b{color:#f3f5f8}html[data-theme=t3] .hero span{color:#c8d3e0}
 html[data-theme=t3] .tile .nm .no{background:#e9c46a;color:#0e1a2b}html[data-theme=t3] .hero img{border:0;outline:0;box-shadow:none;background:transparent}
 html[data-theme=t3] .hero .stt{background:transparent;border:1px solid rgba(201,162,74,.6)}html[data-theme=t3] .hero .stt .sl{color:#c8d3e0}html[data-theme=t3] .stt .sl b{color:#e9c46a}
+html[data-theme=t3] .hero .stt .yleft,html[data-theme=t3] .hero .stt .yleft :is(.hwk,.hwd){color:#ffe7b0}
 html[data-theme=t3] .tw .dots{background:#1b2f4b;color:#e9c46a}
 html[data-theme=t4] .tw:nth-child(1) .ic{background:#ffe3ea;color:#d04e6e}html[data-theme=t4] .tw:nth-child(2) .ic{background:#e3f0ff;color:#3b74c8}
 html[data-theme=t4] .tw:nth-child(3) .ic{background:#e3f6ea;color:#2a8f58}html[data-theme=t4] .tw:nth-child(4) .ic{background:#fff1d9;color:#c07f1a}
@@ -485,6 +489,7 @@ html[data-theme=t6] .tile{border-top:4px solid rgba(232,163,61,.45)}
 html[data-theme=t6] .hero{background:#16305f url("assets/hero/top-sky.png") center/cover no-repeat;border:0;outline:0;overflow:hidden}
 html[data-theme=t6] .hero b{color:#f8ecd0}html[data-theme=t6] .hero span{color:#ead9b4}html[data-theme=t6] .hero img{border:0;outline:0;box-shadow:none;background:transparent;border-radius:0}
 html[data-theme=t6] .hero .stt{background:rgba(0,0,0,.2);border:1px solid #c98a2b}html[data-theme=t6] .hero .stt .sl{color:#ead9b4}html[data-theme=t6] .stt .sl b{color:#ffd27a}
+html[data-theme=t6] .hero .stt .yleft,html[data-theme=t6] .hero .stt .yleft :is(.hwk,.hwd){color:#ffe7b0}
 html[data-theme=t6] .tile .nm .no{background:#e8a33d;color:#2a1800}html[data-theme=t6] .tile.add .nm{color:#f1e4c6}
 html[data-theme=t7] .tile,html[data-theme=t7] .hero{border-top:1px solid #e9e6df}html[data-theme=t7] .tile .nm{font-weight:600;letter-spacing:.2px}
 html[data-theme=t7] .tile .nm .no{background:transparent;color:#13695b;border:1px solid #13695b}html[data-theme=t7] .hero img{border:0;outline:0;box-shadow:none;background:transparent;filter:grayscale(.15)}
@@ -500,7 +505,7 @@ html:is([data-theme=t6],[data-theme=t7]) header h1::after{content:"";display:inl
 html[data-theme=t6] header h1::after{background-image:url(icons/a_lamp.svg)}
 html[data-theme=t7] header h1::after{background-image:url(icons/m_naval.webp)}
 html[data-theme^=t] .gpos{color:var(--mut2)}html[data-theme^=t] .rbh,html[data-theme^=t] .rbc{color:var(--pgtx)}html[data-theme=t6] .tile.add .ic{color:#f1e4c6}
-@media(max-width:420px){html:is([data-theme=t6],[data-theme=t7]) .hero>div{flex:1 1 calc(100% - 76px)}html:is([data-theme=t6],[data-theme=t7]) .hero .stt{order:3;flex:1 1 100%;flex-direction:row;justify-content:flex-end;gap:12px;margin-top:6px}}
+@media(max-width:420px){html:is([data-theme=t6],[data-theme=t7]) .hero>div{flex:1 1 calc(100% - 76px)}html:is([data-theme=t6],[data-theme=t7]) .hero .stt{order:3;flex:1 1 100%;justify-content:flex-end;gap:12px;margin-top:6px}}
 /* left-hand play button on the LEFT of every sentence/item card (Nova 2026-10-20) */
 :where(.s,.wc .top,.ent .hd,.row,.chb,.fr,.li,.card .top):has(>.p){display:flex}
 :not(.pb):not(.player):not(.bar)>.p{order:-1;margin-left:0!important;margin-right:4px;flex:none}
@@ -652,7 +657,8 @@ html.bold:not([data-theme=t3]):not([data-theme=t6]) .hero .hdate :is(.hwk,.hwd){
 @media(max-width:480px){
  html .hero.hero{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ava greet" "date date" "time time"}
  html .hero.hero>.sttwrap{flex-direction:row;justify-content:flex-end;align-items:center;gap:10px;width:100%}
- html .hero.hero>.sttwrap>.stt{flex-direction:row;justify-content:flex-end;gap:16px;width:auto;margin:0}
+ html .hero.hero>.sttwrap>.stt{flex-direction:column;align-items:flex-end;gap:2px;width:auto;margin:0}
+ html .hero.hero>.sttwrap>.stt .sls{flex-direction:row;gap:16px}
 }
 /* Home avatar is the glass-tile picture itself: no gold/white outline and no clip box. */
 html .hero.hero>img,html[data-theme] .hero.hero>img{border:0;outline:0;box-shadow:none;background:transparent;border-radius:0}
@@ -821,7 +827,6 @@ html[data-theme=t6] .fp-home .hq :is(.hqd,.hqe){color:#ffe2a8}
 html[data-theme=t6] .fp-home .hq .hqs{color:#ead9b4}
 html[data-theme=t6] .daybar{color:#f6e7c4}
 html[data-theme=t6] :is(.dayfold,.daytn,.daycnt,.dqfnm){color:#f0e2c0}
-html[data-theme=t6] .tlog .tleft{color:#8a7350}
 /* Font preview is a white chip. 大冰's cream page text is unreadable there. */
 html[data-theme=t6] .pv{background:#fff;color:#1a2330}
 html[data-theme=t6] .pv :is(b,.en,p){color:#1a2330}
@@ -829,3 +834,67 @@ html[data-theme=t6] .pv .z{color:#163a5f}
 html[data-theme=t3] .daybar.fp-home{background:#13233a;color:#f3f5f8;border:1px solid rgba(201,162,74,.4)}
 html[data-theme=t3] .fp-aim,html[data-theme=t3] .fp-home .fp-top b{color:#e9c46a}
 html[data-theme=t3] .fp-home .fp-ot{color:#e9c46a}
+
+/* 大冰 contrast: navy glass gets light ink; white/cream surfaces get #1a2330.
+   Playing-row highlight stays navy (#ss .s.cur). Gold phrase marks get dark ink. */
+html[data-theme=t6] .sht{color:#f6edd8}
+html[data-theme=t6] .tlog{color:#f7f0e0}
+html[data-theme=t6] .tlog .tdw{color:#f6edd8}
+html[data-theme=t6] .tlog .td .tdw{color:#fff8e8}
+html[data-theme=t6] .tlog .tv{color:#fff8ea}
+html[data-theme=t6] .tlog .ttot b{color:#fff8ea}
+html[data-theme=t6] .tlog .ttot span{color:#ead9b4}
+html[data-theme=t6] .tlog .tleft{color:#ffe7b0}
+html[data-theme=t6] .tlog .tb{background:#15233f;box-shadow:inset 0 0 0 1px rgba(244,234,216,.38)}
+html[data-theme=t6] .tlog .tb i{background:#ffc14d}
+html[data-theme=t6] .tlog .shb{background:#fbf3e2;color:#1a2330;border:1px solid #cdb489}
+html.bold[data-theme=t6] .tile .tsec{color:#e6d5b0!important}
+html[data-theme=t6] :is(.mine,.ghint,.wpl,.skbar,.wft th,.tlcap .tlzh,.rngto,.wc .ps,.rost .ipa,.chs,.ywsp,.thn,.li .ar){color:#ead9b4}
+html[data-theme=t6] :is(.tlsub,.tfsub,.ent ol){color:#ffd27a}
+html[data-theme=t6] .naval .who{color:#f0c36a!important}
+html[data-theme=t6] :is(.guess,.shi,select){background:#fff;color:#1a2330}
+html[data-theme=t6] .xpan,
+html[data-theme=t6] .xpan :is(.xh,.xt,.xe,.xz,.ipa,.suf,.suf th,.suf td,.ximg){color:#1a2330}
+html[data-theme=t6] .exz{color:#ead9b4}
+html[data-theme=t6] :is(.sn.now,.w.wd.now,.ywb,.exz.wd.on,.wft tr.on td){color:#1a2330}
+html[data-theme=t6] #ss:not(.hide) .ph.play,
+html[data-theme=t6] .tlcap:not(.hide) .ph.play{color:#1a2330}
+html[data-theme=t6] #ss :is(.gl,.glg,.gsr){color:#ead9b4}
+html[data-theme=t6] #ss :is(.gli b,.gsr b){color:#f7f3ea}
+html[data-theme=t6] #ss :is(.gli i,.glh){color:#ffd27a}
+html[data-theme=t6] #ss :is(.gls,.gsb){color:#1a2330}
+html[data-theme=t6] #ss .s.cur :is(.zhb,.zht){color:#f4ead8}
+html[data-theme=t6] #ss .s.zh:not(.cur),
+html[data-theme=t6] #ss .s.zh:not(.cur) :is(.zhe,.zhb,.zht,.gl,.glg,.gli,.gli b,.gli i,.glh,.gsr,.gsr b,.who){color:#1a2330!important}
+html[data-theme=t6][data-paper=luca] #ss .s.zh,
+html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.zhe,.zhb,.zht,.gl,.glg,.gsr){color:#ead9b4!important}
+html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.gli b,.gsr b){color:#f7f3ea!important}
+html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.gli i,.glh,.who){color:#ffd27a!important}
+html[data-theme=t6] #ss :is(.gls,.gsb){color:#1a2330!important}
+html[data-theme=t6] #ss.hide .s.cur .zhe,
+html[data-theme=t6] #ss.hide .s.cur .zhe .ph,
+html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe,
+html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe .ph{color:#f4ead8!important;-webkit-text-fill-color:#f4ead8!important}
+html[data-theme=t6] #ss.hide .zhe .ph.play{color:#1a2330!important;-webkit-text-fill-color:#1a2330!important}
+
+/* 大冰 reading transport: translucent navy glass pills; active 点读 is warm gold glass. */
+html[data-theme=t6] .bar.rdbar>button,
+html[data-theme=t6] .bar.rdbar>button.org,
+html[data-theme=t6] .bar.rdbar>button.on:not(#dd),
+html[data-theme=t6] .bar.rdbar>button.org.on:not(#dd){
+ color:#f7fbff!important;
+ background:linear-gradient(180deg,rgba(255,255,255,.62) 0%,rgba(255,255,255,.16) 18%,rgba(255,255,255,0) 46%),linear-gradient(180deg,rgba(126,176,236,.55),rgba(28,64,128,.55))!important;
+ border:1px solid rgba(214,232,255,.82)!important;
+ border-radius:999px;padding:0 14px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.92),inset 0 -10px 14px rgba(10,30,70,.18),0 1px 0 rgba(255,255,255,.28),0 8px 16px rgba(4,12,32,.28),0 0 14px rgba(90,160,240,.42);
+ text-shadow:0 1px 1px rgba(8,24,56,.45);
+ -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+html[data-theme=t6] .bar.rdbar>button.on:not(#dd),
+html[data-theme=t6] .bar.rdbar>button.org.on:not(#dd){
+ border-color:rgba(255,255,255,.95)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 0 0 1px rgba(255,255,255,.28),0 0 16px rgba(150,200,255,.7),0 8px 16px rgba(4,12,32,.28)}
+html[data-theme=t6] .bar.rdbar>button#dd.on{
+ color:#3a2500!important;text-shadow:none;
+ background:linear-gradient(180deg,rgba(255,255,255,.78) 0%,rgba(255,244,200,.28) 24%,rgba(255,180,40,.05) 100%),linear-gradient(180deg,#ffe7a3,#e8a01a)!important;
+ border:1px solid rgba(255,236,180,.95)!important;border-radius:999px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -8px 12px rgba(180,90,0,.12),0 0 18px rgba(255,186,40,.72),0 8px 16px rgba(90,50,0,.28)}

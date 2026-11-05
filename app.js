@@ -361,7 +361,7 @@ async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbe
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt" aria-label="学习时长">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
@@ -955,7 +955,8 @@ async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"
 
 
 // Sprint calendar (Nova 2026-10-30). Weeks are Mon–Sun; the sprint ends on the year's last Sunday (2026: Dec 27).
-// The home date line and the goal card stay clear of it. yearLeft() shows only inside 累计时长.
+// The home date line stays the calendar date. yearLeft() is the two short lines (还剩N周 / 本周剩余D天)
+// inside the 累计时长 sheet and the home duration chip.
 function yearLeft(d){d=d||new Date();const y=d.getFullYear(),day=Date.UTC(y,d.getMonth(),d.getDate()),D=864e5;
  const dec31=Date.UTC(y,11,31),lastSun=dec31-((new Date(dec31).getUTCDay())%7)*D,rest=Math.round((dec31-lastSun)/D);
  if(day>lastSun)return `<span class="hwk">冲刺完成</span><span class="hwd">放松${rest}天</span>`;
@@ -1311,7 +1312,7 @@ function tTick(){const now=Date.now();const dt=Math.min(now-tLast,5e3);tLast=now
  const el=document.getElementById("stt");if(el)el.innerHTML=sttHTML();document.querySelectorAll(".tsec[data-s]").forEach(e=>{const t=secHTML(e.dataset.s);if(e.textContent!=t)e.textContent=t});dqDayWatch()}
 function fmtT(sec){const m=Math.floor((sec||0)/60);const h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
 function tTotal(){return Object.values(TLOG).reduce((a,b)=>a+(+b||0),0)}
-function sttHTML(){return `<span class="sl">今天 <b>${fmtT(TLOG[dKey()])}</b></span><span class="sl">累计时长 <b>${fmtT(tTotal())}</b></span>`}
+function sttHTML(){return `<span class="sls"><span class="sl">今天 <b>${fmtT(TLOG[dKey()])}</b></span><span class="sl">累计时长 <b>${fmtT(tTotal())}</b></span></span><span class="yleft">${yearLeft()}</span>`}
 function tMerge(R,dry){if(!R||typeof R!="object")return 0;const m=tApply(TLOG,R);if(!dry){if(m.n)TLOG=m.log;tSave();tTick()}return m.n}
 function tDayRows(){const keys=new Set(Object.keys(TLOG).filter(k=>/^\d{4}-\d\d-\d\d$/.test(k)));keys.add(dKey());const W="日一二三四五六",now=new Date();
  return [...keys].sort().reverse().map(k=>{const [y,m,d]=k.split("-").map(Number),dt=new Date(y,m-1,d),today=k===dKey();
