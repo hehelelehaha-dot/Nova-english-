@@ -199,7 +199,7 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
  const seq=++SCRSEQ;await route0();if(seq!=SCRSEQ)return;
  const y=back?SCR[h]||0:0;if(!y)return;const t0=Date.now();
  const tryR=()=>{if(seq!=SCRSEQ)return;const maxY=document.documentElement.scrollHeight-innerHeight;if(maxY>=y-2){window.scrollTo(0,y);if(Math.abs(window.scrollY-y)<3)return}if(Date.now()-t0<2500)setTimeout(tryR,60);else window.scrollTo(0,Math.min(y,maxY))};tryR()}
-async function route0(){syncPaper();ROST++;stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
+async function route0(){syncPaper();delete document.documentElement.dataset.home;ROST++;stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  if(META.enc&&!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
  await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}applyDictation(CAT);refreshFoldNumbers();
@@ -349,7 +349,7 @@ function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder
  return o.gtile?btn:`<div class="tw">${btn}${o.menu||""}</div>`}
 function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)=="1"}catch(e){return false}}
 function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
-async function showHome(){setHeader("Nova 英语",false);gear();refreshFoldNumbers();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
+async function showHome(){document.documentElement.dataset.home="1";setHeader("Nova 英语",false);gear();refreshFoldNumbers();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
  const byId=Object.fromEntries(cs.map(c=>[c.id,c]));const countOf=id=>{const i=cs.findIndex(c=>c.id==id);return (i<0?0:counts[i])+" 项"};
  const navalIds=navalSectionIds();
  const naval=navalIds.map(id=>{
