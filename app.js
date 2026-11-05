@@ -405,7 +405,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
  V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
- const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();
+ const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
@@ -1290,17 +1290,68 @@ function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dq
  const tag=go?"button":"div",at=go?' type="button" data-day-go':"";
  return `<${tag} class="daybar fp${f.won?" is-full":""}${f.ot?" has-ot":""}"${at} aria-label="${esc(inn.lab)}">${inn.html}</${tag}>`}
 function dqQuoteShell(){return `<div class="qbar fp-q" id="qb"><div class="hq" id="hq" aria-live="polite"></div><button type="button" class="qm" aria-label="换一句" title="换一句"><span class="qmi"></span></button></div>`}
+// Landing spots are centroids of the new-star band between dayN and dayN+1
+// (distance-transform peaks on the alpha/brightness diff, deduped across the row).
+// k: 0 gold, 1 champagne, 2 pink. x,y are fractions of the board. s is width fraction.
+const DQ_FALL={
+ 2:[[.215,.746,0,.14],[.442,.760,1,.15],[.575,.758,2,.14],[.681,.689,0,.13],[.812,.725,1,.14]],
+ 3:[[.381,.672,0,.15],[.450,.609,1,.14],[.502,.680,2,.14],[.583,.611,0,.13],[.683,.555,1,.13],[.721,.637,2,.13],[.842,.586,0,.13]],
+ 4:[[.260,.543,0,.15],[.392,.539,1,.14],[.483,.489,2,.13],[.583,.529,0,.13],[.623,.468,1,.13],[.754,.428,2,.13],[.817,.473,0,.13]],
+ 5:[[.227,.370,0,.13],[.269,.433,1,.14],[.423,.383,2,.14],[.533,.330,0,.13],[.613,.369,1,.14],[.706,.323,2,.14],[.844,.302,0,.13]],
+ 6:[[.237,.281,0,.13],[.331,.331,1,.13],[.390,.260,2,.15],[.487,.263,0,.13],[.540,.216,1,.13],[.621,.257,2,.13],[.785,.197,0,.14]],
+ 7:[[.169,.203,0,.13],[.275,.183,1,.13],[.360,.095,2,.13],[.510,.132,0,.15],[.608,.073,1,.13],[.640,.154,2,.12],[.752,.071,0,.13]]
+};
+const DQ_STAR=["assets/liuma/stars/star-gold.png","assets/liuma/stars/star-champagne.png","assets/liuma/stars/star-pink.png"];
+function dqStarfallDebug(){try{const q=location.search||"",h=location.hash||"";return /(?:\?|&|^)starfall=1(?:&|$)/.test(q)||/starfall=1/.test(h)}catch(e){return false}}
+function dqStarfallReduced(){try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
+function dqStarfallKey(level){let day="";try{day=typeof dKey=="function"?dKey():""}catch(e){}return "nova_sf_"+day+"_"+level}
+function dqStarfallSeen(level){try{return localStorage.getItem(dqStarfallKey(level))==="1"}catch(e){return false}}
+function dqStarfallMark(level){try{localStorage.setItem(dqStarfallKey(level),"1")}catch(e){}}
+function dqStarfallPlay(board, level, onLand){const spots=DQ_FALL[level];if(!board||!spots||!spots.length){if(onLand)onLand();return}
+ const layer=document.createElement("div");layer.className="fp-fall";board.appendChild(layer);board.dataset.falling="1";
+ const H=board.getBoundingClientRect().height||1;
+ const done=()=>{if(onLand)onLand()};let landed=false;
+ const finish=()=>{if(board.dataset.falling==="1")delete board.dataset.falling;if(layer.parentNode)layer.remove()};
+ spots.forEach((sp,i)=>{const el=document.createElement("img");el.alt="";el.src=DQ_STAR[sp[2]]||DQ_STAR[0];el.style.width=(sp[3]*100)+"%";el.style.left=(sp[0]*100)+"%";el.style.top=(sp[1]*100)+"%";layer.appendChild(el);
+  const delay=60+i*90, rot=(i%2?-1:1)*(16+(i*7)%18);
+  const frames=[{transform:"translate(-50%,-50%) translateY("+(-H*1.12)+"px) rotate("+rot+"deg)",opacity:0},
+   {transform:"translate(-50%,-50%) translateY("+(-H*0.42)+"px) rotate("+(rot*.65)+"deg)",opacity:1,offset:.16},
+   {transform:"translate(-50%,-50%) translateY(0px) rotate("+(rot*.12)+"deg)",opacity:1,offset:.74},
+   {transform:"translate(-50%,-50%) translateY("+(-H*.04)+"px) rotate(0deg)",opacity:1,offset:.86},
+   {transform:"translate(-50%,-50%) translateY(0px) rotate(0deg)",opacity:1,offset:.93},
+   {transform:"translate(-50%,-50%) translateY(0px) rotate(0deg)",opacity:0,offset:1}];
+  const opt={duration:980,delay:delay,fill:"forwards",easing:"cubic-bezier(.45,.05,.85,.45)"};
+  if(el.animate){const anim=el.animate(frames,opt);if(i===Math.min(3,spots.length-1))anim.onfinish=()=>{if(!landed){landed=true;done()}}}
+  else if(i===0)done()});
+ const end=60+(spots.length-1)*90+1040;
+ setTimeout(()=>{if(!landed){landed=true;done()}},60+Math.min(3,spots.length-1)*90+980*.74);
+ setTimeout(finish,end)}
+function dqStarfallSync(board, prevLevel, allowDebug){if(!board)return;const level=+(board.getAttribute("data-board-day")||1),faces=board.querySelector(".fp-faces");
+ if(board.dataset.falling==="1")return;
+ if(dqStarfallReduced()){if(faces)dqFaceShow(faces,level);try{localStorage.setItem("nova_sf_board",String(level))}catch(e){}if(prevLevel>=1&&level>prevLevel)dqStarfallMark(level);return}
+ if(allowDebug&&dqStarfallDebug()){if(faces)dqFaceShow(faces,level);dqStarfallPlay(board,level<2?2:level,null);return}
+ let stored=0;try{stored=+localStorage.getItem("nova_sf_board")||0}catch(e){}
+ const from=prevLevel>=1&&prevLevel<level?prevLevel:stored;
+ try{localStorage.setItem("nova_sf_board",String(level))}catch(e){}
+ if(from>=1&&level>from&&!dqStarfallSeen(level)){dqStarfallMark(level);if(faces)dqFaceShow(faces,from);dqStarfallPlay(board,level,()=>{const f=board.querySelector(".fp-faces");if(f)dqFaceShow(f,level)});return}
+ if(faces)dqFaceShow(faces,level)}
+function dqStarfallHome(){const board=document.querySelector(".daybar.fp-home .fp-board");if(!board)return;const on=board.querySelector(".fp-face.on");dqStarfallSync(board,on?+on.getAttribute("data-d"):0,true)}
 function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
  document.querySelectorAll(".daybar").forEach(el=>{const home=el.classList.contains("fp-home"),was=el.classList.contains("is-full"),inn=dqFootInner(f,home);
   el.classList.toggle("is-full",f.won);el.classList.toggle("has-ot",!!f.ot);el.setAttribute("aria-label",inn.lab);
-  if(home){const goals=el.querySelector(".fp-goals"),faces=el.querySelector(".fp-faces"),stick=el.querySelector(".fp-stk"),keep=el.querySelector("#qb");
-   if(keep)keep.remove();if(goals)goals.remove();if(faces)faces.remove();if(stick)stick.remove();
+  if(home){const goals=el.querySelector(".fp-goals"),faces=el.querySelector(".fp-faces"),stick=el.querySelector(".fp-stk"),fall=el.querySelector(".fp-fall"),keep=el.querySelector("#qb");
+   const prevOn=faces&&faces.querySelector(".fp-face.on"),prevLevel=prevOn?+prevOn.getAttribute("data-d"):0;
+   const wasFalling=!!(el.querySelector(".fp-board")&&el.querySelector(".fp-board").dataset.falling==="1");
+   if(keep)keep.remove();if(goals)goals.remove();if(faces)faces.remove();if(stick)stick.remove();if(fall)fall.remove();
    el.innerHTML=inn.html;const slot=el.querySelector(".fp-qslot");
    if(slot){if(keep)slot.appendChild(keep);else{slot.innerHTML=dqQuoteShell();if(typeof hqStart=="function")hqStart()}}
    if(goals){const fresh=el.querySelector(".fp-goals");if(fresh)fresh.replaceWith(goals);dqGoalShow(goals,Math.min(f.got,DQ_FLOOR))}
-   if(faces){const freshF=el.querySelector(".fp-faces"),day=el.querySelector(".fp-board");if(freshF)freshF.replaceWith(faces);dqFaceShow(faces,day?+(day.getAttribute("data-board-day")||1):1)}
+   const day=el.querySelector(".fp-board");
+   if(faces){const freshF=el.querySelector(".fp-faces");if(freshF)freshF.replaceWith(faces)}
    const freshStk=el.querySelector(".fp-stk");
-   if(stick&&freshStk){const next=freshStk.getAttribute("src")||"",prev=stick.getAttribute("src")||"";if(prev!==next)stick.setAttribute("src",next);freshStk.replaceWith(stick)}}}
+   if(stick&&freshStk){const next=freshStk.getAttribute("src")||"",prev=stick.getAttribute("src")||"";if(prev!==next)stick.setAttribute("src",next);freshStk.replaceWith(stick)}
+   if(wasFalling&&fall&&day){day.dataset.falling="1";day.appendChild(fall)}
+   else if(day)dqStarfallSync(day,prevLevel,false)}
   else el.innerHTML=inn.html;
   if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
 let DQDAY="",DQSTICK="";
