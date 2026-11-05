@@ -649,6 +649,12 @@ assert.match(app.slice(app.indexOf("function showTimeLog"), app.indexOf("functio
 assert.equal(app.slice(app.indexOf("function yecHTML"), app.indexOf("function updYec")).includes("yearLeft"), false);
 assert.match(css, /quote-frame-navy\.png/);
 assert.match(css, /\.fp-board\{/);
+assert.match(css, /\.fp-boardcol\{[^}]*flex:0 0 42%/);
+assert.match(css, /\.fp-dayn\{/);
+assert.match(css, /\.fp-boardcol\{flex-basis:34%\}/);
+assert.match(css, /\.fp-boardcol\{flex:0 0 40%\}/);
+assert.equal(/\.fp-board\{flex-basis:34%\}/.test(css), false);
+assert.equal(/\.fp-board\{flex:0 0 40%\}/.test(css), false);
 assert.match(css, /\.fp-stk\{/);
 assert.match(css, /\.fp-face\{/);
 assert.match(css, /object-fit:contain/);
@@ -686,9 +692,24 @@ assert.equal(app.includes("fp-rivet"), false);
   assert.equal(box.dqBoardCount(stars(week), sunAt), 0);
   assert.equal(box.dqBoardLevel(box.dqBoardCount(stars(week), sunAt)), 1);
   assert.equal(box.dqBoardCount(stars(["2026-11-08","2026-11-09"]), mon), 1);
+  function labelBox(log){
+    const b = {localStorage:{getItem(){return null},setItem(){}}};
+    runInContext(logic + "\n" + stick + "\nconst DQSK=\"nova_dq_stick\";\nfunction dqStickRead(){return null}\nfunction dqStickWrite(){}\n" + sync + "\n" + board + "\nfunction dqLog(){return " + JSON.stringify(log) + "}\n" + htmlFn + "\nthis.dqBoardHTML=dqBoardHTML;", createContext(b));
+    return b;
+  }
+  const twoHtml = labelBox(stars(["2026-11-02","2026-11-04"])).dqBoardHTML({day:"2026-11-05", sel:[], done:[], extra:0}, thu);
+  assert.match(twoHtml, /src="assets\/liuma\/day2\.png"/);
+  assert.match(twoHtml, /data-board-day="2"/);
+  assert.match(twoHtml, /class="fp-dayn">2\/7</);
+  const sevenHtml = labelBox(stars(week)).dqBoardHTML({day:"2026-11-08", sel:[], done:[], extra:0}, sunBefore);
+  assert.match(sevenHtml, /src="assets\/liuma\/day7\.png"/);
+  assert.match(sevenHtml, /data-board-day="7"/);
+  assert.match(sevenHtml, /class="fp-dayn">7\/7</);
   const face = box.dqBoardHTML({day:"2026-11-05", sel:["a","b","c","d","e"], done:["a","b","c","d","e"], extra:2}, thu);
   assert.match(face, /class="fp-face"/);
   assert.match(face, /src="assets\/liuma\/day1\.png"/);
+  assert.match(face, /<div class="fp-boardcol"><div class="fp-board"/);
+  assert.match(face, /<\/div><span class="fp-dayn">1\/7<\/span><\/div>$/);
   assert.equal(face.includes("data-day-go"), false);
   assert.match(face, /class="fp-stk"/);
   assert.match(face, /src="assets\/chongya\/overtime-2\.png"/);

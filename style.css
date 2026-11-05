@@ -758,7 +758,9 @@ button.daybar{cursor:pointer}
 button.fp-board,button.fp-goal{appearance:none;-webkit-appearance:none;font:inherit;color:inherit;cursor:pointer;margin:0}
 button.fp-board{padding:0;text-align:left;display:block}
 button.fp-goal{border:0;background:transparent;width:100%;padding:0;cursor:pointer}
-.fp-board{position:relative;flex:0 0 42%;min-width:0;align-self:flex-start;aspect-ratio:961/1637;border:0;border-radius:0;overflow:hidden;background:#1e315f;padding:0;box-shadow:none}
+.fp-boardcol{flex:0 0 42%;min-width:0;align-self:flex-start;display:flex;flex-direction:column;align-items:stretch}
+.fp-board{position:relative;width:100%;aspect-ratio:961/1637;border:0;border-radius:0;overflow:hidden;background:#1e315f;padding:0;box-shadow:none}
+.fp-dayn{display:block;width:100%;margin:6px 0 0;padding:0;text-align:center;font-size:14px;font-weight:800;line-height:1.2;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:#1a306e;white-space:nowrap}
 .fp-face{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;object-position:center;pointer-events:none}
 .fp-layer{position:absolute;inset:0}
 .fp-stk{position:absolute;inset:0;z-index:2;width:100%;height:100%;object-fit:contain;object-position:center;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(20,16,40,.28))}
@@ -777,8 +779,8 @@ button.fp-goal{border:0;background:transparent;width:100%;padding:0;cursor:point
 .daybar.shine .fp-marks i.on{animation:fpwin .7s ease}
 @keyframes fpwin{from{transform:scale(.55);opacity:.4}55%{transform:scale(1.12)}to{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .fp-marks i.on{animation:none}}
-@media(max-width:480px){.fp-home .fp-marks i{width:24px;height:24px}.fp-home .fp-top b{font-size:17px}.fp-home .fp-aim{width:32px;height:32px}.fp-home .fp-ot{font-size:26px;padding:7px 14px 8px}.daybar.fp-home{gap:8px;padding:10px}.fp-board{flex-basis:34%}html[data-theme=t6] .fp-home .qm{width:50px;height:50px}html[data-theme=t6] .fp-home .hq .hqd{font-size:15px;line-height:1.45}}
-@media(min-width:700px){.daybar.fp-home{flex-direction:row;flex-wrap:nowrap;gap:16px;padding:16px}.fp-board{flex:0 0 40%}.fp-home .fp-marks i{width:36px;height:36px}.fp-home .fp-top b{font-size:26px}.fp-home .fp-aim{width:40px;height:40px}.fp-home .fp-ot{font-size:40px;padding:10px 22px 11px}html[data-theme=t6] .fp-home .qm{width:72px;height:72px}}
+@media(max-width:480px){.fp-home .fp-marks i{width:24px;height:24px}.fp-home .fp-top b{font-size:17px}.fp-home .fp-aim{width:32px;height:32px}.fp-home .fp-ot{font-size:26px;padding:7px 14px 8px}.daybar.fp-home{gap:8px;padding:10px}.fp-boardcol{flex-basis:34%}.fp-dayn{font-size:13px;margin-top:4px}html[data-theme=t6] .fp-home .qm{width:50px;height:50px}html[data-theme=t6] .fp-home .hq .hqd{font-size:15px;line-height:1.45}}
+@media(min-width:700px){.daybar.fp-home{flex-direction:row;flex-wrap:nowrap;gap:16px;padding:16px}.fp-boardcol{flex:0 0 40%}.fp-dayn{font-size:16px;margin-top:8px}.fp-home .fp-marks i{width:36px;height:36px}.fp-home .fp-top b{font-size:26px}.fp-home .fp-aim{width:40px;height:40px}.fp-home .fp-ot{font-size:40px;padding:10px 22px 11px}html[data-theme=t6] .fp-home .qm{width:72px;height:72px}}
 .daypick .tip{text-align:left}
 .daycnt{font-weight:800;color:#3a2c00;margin:2px 0 6px}
 .daychips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
@@ -816,6 +818,8 @@ html[data-theme^=t] .dqfar::before,html[data-theme^=t] .dqfsub{color:var(--ct)}
 html:is([data-theme=t3],[data-theme=t6]) .daybar.is-full .daybar-n{color:#1d8f45}
 html[data-theme=t6] .daybar.fp-home{background:linear-gradient(180deg,#243872,#1a2e5e);color:#f6e7c4;border:1px solid rgba(214,176,92,.58);box-shadow:0 8px 18px rgba(0,0,0,.28)}
 html[data-theme=t6] .fp-board{background:#1a2e5e;border:0;box-shadow:none}
+html[data-theme=t6] .fp-dayn{color:#f6e7c4}
+html[data-theme=t3] .fp-dayn{color:#e9c46a}
 html[data-theme=t6] .fp-aim{color:#ffe56a}
 html[data-theme=t6] .fp-home .fp-top b{color:#fff}
 html[data-theme=t6] .fp-home .fp-marks i polygon{fill:rgba(176,186,220,.4)}
