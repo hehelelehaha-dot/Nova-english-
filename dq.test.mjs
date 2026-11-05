@@ -416,8 +416,21 @@ assert.match(app, /America\/New_York/);
   assert.equal(inn.includes("fp-done"), false);
   const homeBit = inn.slice(inn.indexOf("if(home)"), inn.indexOf("const ot"));
   assert.match(homeBit, /assets\/goal\/goal-\$\{got\}\.png/);
+  assert.match(homeBit, /pill=f\.ot\?/);
   assert.match(homeBit, /class="fp-goal" data-day-go/);
   assert.match(homeBit, /<\/button>\$\{pill\}/);
+  const homeBox = {};
+  runInContext("function esc(s){return String(s)}\nfunction dqMarkHTML(){return \"\"}\nfunction dqBoardHTML(){return \"<div class=\\\"fp-board\\\"></div>\"}\nfunction dqLoad(){return {}}\nconst DQ_FLOOR=5;\n"+inn+"\nthis.dqFootInner=dqFootInner;", createContext(homeBox));
+  const bare = homeBox.dqFootInner({got:5, ot:0}, true);
+  assert.equal(bare.html.includes("fp-pill"), false);
+  assert.equal(bare.html.includes("fp-ot"), false);
+  assert.match(bare.html, /assets\/goal\/goal-5\.png/);
+  const plus = homeBox.dqFootInner({got:5, ot:1}, true);
+  assert.match(plus.html, /class="fp-pill"/);
+  assert.match(plus.html, /class="fp-ot">\+1</);
+  const goal0 = homeBox.dqFootInner({got:0, ot:0}, true);
+  assert.match(goal0.html, /assets\/goal\/goal-0\.png/);
+  assert.equal(goal0.html.includes("fp-ot"), false);
   assert.equal(homeBit.includes("fp-starrow"), false);
   assert.equal(homeBit.includes("fp-marks"), false);
   assert.equal(homeBit.includes("<b>今天的目标</b>"), false);
@@ -597,9 +610,10 @@ assert.match(css, /\.daybar\.is-full/);
   n = g.dqStickSync({day:"2026-11-04", sel:five, done:five, extra:1}, evening);
   assert.equal(n, 1);
   n = g.dqStickSync({day:"2026-11-05", sel:[], done:[], extra:0}, before2);
-  assert.equal(n, 1);
+  assert.equal(n, 0);
+  assert.equal(JSON.parse(store.nova_dq_stick).n, 0);
   n = g.dqStickSync({day:"2026-11-05", sel:five, done:five, extra:1}, before2);
-  assert.equal(n, 2);
+  assert.equal(n, 1);
   n = g.dqStickSync({day:"2026-11-05", sel:five, done:five, extra:1}, after2);
   assert.equal(n, 0);
   n = g.dqStickSync({day:"2026-11-05", sel:five, done:five, extra:2}, after2);
@@ -611,11 +625,29 @@ assert.match(css, /\.daybar\.is-full/);
   assert.equal(fresh.dqOtN({sel:five, done:five, extra:0}), 0);
   assert.equal(fresh.dqOtN({sel:five, done:five, extra:1}), 1);
   assert.equal(fresh.dqStickSync({day:"2026-11-04", sel:five, done:five, extra:1}, evening), 1);
+  const stale = {};
+  const sg = {
+    localStorage: {
+      getItem(k){ return Object.prototype.hasOwnProperty.call(stale, k) ? stale[k] : null; },
+      setItem(k, v){ stale[k] = String(v); }
+    }
+  };
+  runInContext(logic + "\n" + stick + "\nconst DQSK=\"nova_dq_stick\";\nfunction dqStickRead(){try{const o=JSON.parse(localStorage.getItem(DQSK)||\"null\");return o&&typeof o==\"object\"&&!Array.isArray(o)?o:null}catch(e){return null}}\nfunction dqStickWrite(o){localStorage.setItem(DQSK,JSON.stringify(o))}\n" + sync + "\nthis.dqStickerDay=dqStickerDay;this.dqStickSync=dqStickSync;", createContext(sg));
+  const sd = sg.dqStickerDay(evening);
+  const floor = {day:"2026-11-04", sel:five, done:five, extra:0};
+  stale.nova_dq_stick = JSON.stringify({day:sd, n:1});
+  assert.equal(sg.dqStickSync(floor, evening), 0);
+  assert.equal(JSON.parse(stale.nova_dq_stick).n, 0);
+  stale.nova_dq_stick = JSON.stringify({day:sd, base:{"2026-11-03":1}, n:1});
+  assert.equal(sg.dqStickSync(floor, evening), 0);
+  assert.equal(JSON.parse(stale.nova_dq_stick).n, 0);
+  assert.equal(sg.dqStickSync({day:"2026-11-04", sel:five, done:five, extra:1}, evening), 1);
 }
 
 assert.match(app, /yearLeft\(\)/);
 assert.match(app.slice(app.indexOf("function showTimeLog"), app.indexOf("function showTimeLog") + 700), /tleft/);
 assert.equal(app.slice(app.indexOf("function yecHTML"), app.indexOf("function updYec")).includes("yearLeft"), false);
+assert.match(css, /quote-frame-navy\.png/);
 assert.match(css, /\.fp-board\{/);
 assert.match(css, /\.fp-stk\{/);
 assert.match(css, /\.fp-face\{/);
@@ -672,6 +704,30 @@ assert.equal(app.includes("fp-rivet"), false);
   const full = box.dqBoardHTML({day:"2026-11-08", sel:[], done:[], extra:0}, sunBefore);
   assert.equal(full.includes('class="fp-stk"'), false);
   assert.equal(full.includes("assets/chongya"), false);
+  const five = ["a","b","c","d","e"];
+  const floor = box.dqBoardHTML({day:"2026-11-05", sel:five, done:five, extra:0}, thu);
+  assert.equal(floor.includes('class="fp-stk"'), false);
+  assert.equal(floor.includes("assets/chongya"), false);
+  const first = box.dqBoardHTML({day:"2026-11-05", sel:five, done:five, extra:1}, thu);
+  assert.match(first, /src="assets\/chongya\/overtime-1\.png"/);
+  assert.equal(first.includes("reward-11-xuanfan"), false);
+  const kept = {};
+  const live = {localStorage:{
+    getItem(k){ return Object.prototype.hasOwnProperty.call(kept, k) ? kept[k] : null; },
+    setItem(k, v){ kept[k] = String(v); }
+  }};
+  runInContext(logic + "\n" + stick + "\nconst DQSK=\"nova_dq_stick\";\nfunction dqStickRead(){try{const o=JSON.parse(localStorage.getItem(DQSK)||\"null\");return o&&typeof o==\"object\"&&!Array.isArray(o)?o:null}catch(e){return null}}\nfunction dqStickWrite(o){localStorage.setItem(DQSK,JSON.stringify(o))}\n" + sync + "\n" + board + "\n" + htmlFn + "\nthis.dqBoardHTML=dqBoardHTML;", createContext(live));
+  kept.nova_dq_stick = JSON.stringify({day:"2026-11-05", base:{}, n:1});
+  const stuck = live.dqBoardHTML({day:"2026-11-05", sel:five, done:five, extra:0}, thu);
+  assert.equal(stuck.includes('class="fp-stk"'), false);
+  assert.equal(stuck.includes("assets/chongya"), false);
+  assert.equal(JSON.parse(kept.nova_dq_stick).n, 0);
+  kept.nova_dq_stick = JSON.stringify({day:"2026-11-05", n:1});
+  const missing = live.dqBoardHTML({day:"2026-11-05", sel:five, done:five, extra:0}, thu);
+  assert.equal(missing.includes('class="fp-stk"'), false);
+  assert.equal(JSON.parse(kept.nova_dq_stick).n, 0);
+  const earned = live.dqBoardHTML({day:"2026-11-05", sel:five, done:five, extra:1}, thu);
+  assert.match(earned, /src="assets\/chongya\/overtime-1\.png"/);
 }
 
 console.log("dq tests ok");
