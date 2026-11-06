@@ -16,7 +16,7 @@ assert.equal(/slice\(\s*0\s*,\s*10\s*\)|length\s*>=\s*10|length\s*>\s*10|DQ_SUGG
 
 const ctx = {};
 runInContext(logic, createContext(ctx));
-const {dqBlank, dqNorm, dqToggle, dqOnCheck, dqView, dqMergeDay, dqSameDay, dqCloudPlan, dqCloudSafe, dqLogTouch, dqApplyPlan} = ctx;
+const {dqBlank, dqNorm, dqToggle, dqOnCheck, dqView, dqMergeDay, dqSameDay, dqCloudPlan, dqCloudSafe, dqLogTouch, dqApplyPlan, dqSelDoneN, dqBeyond, dqFull} = ctx;
 // Values built inside the vm have a different realm prototype than this file.
 const plain = v => JSON.parse(JSON.stringify(v));
 
@@ -34,13 +34,20 @@ const pick = (st, ...keys) => keys.reduce((s, k) => dqToggle(s, k), st);
   assert.equal(st.extra, 0);
 }
 
-// Nothing selected: a correct check does not count, and there is no /10 target.
+// Nothing selected yet: a direct 整句对了 fills the first open slot of the five. A wrong check and a replay do not.
 {
   const st = dqBlank(day);
+  const bad = dqOnCheck(st, "a:1", false);
+  assert.equal(bad.how, "skip");
+  assert.equal(bad.st, st);
   const r = dqOnCheck(st, "a:1", true);
-  assert.equal(r.how, "skip");
-  assert.deepEqual(plain(r.st.done), []);
+  assert.equal(r.how, "advance");
+  assert.deepEqual(plain(r.st.sel), ["a:1"]);
+  assert.deepEqual(plain(r.st.done), ["a:1"]);
   assert.equal(r.st.extra, 0);
+  const again = dqOnCheck(r.st, "a:1", true);
+  assert.equal(again.how, "skip");
+  assert.equal(again.st.done.length, 1);
   const v = dqView(st);
   assert.equal(v.tot, 0);
   assert.equal(v.pct, 0);
@@ -69,24 +76,30 @@ const pick = (st, ...keys) => keys.reduce((s, k) => dqToggle(s, k), st);
   assert.equal(dqView(r.st).n, 1);
 }
 
-// Other / review sentences do not count until every selected sentence is correct.
+// A direct 整句对了 while fewer than five are pinned joins the day count. A replay does not.
 {
   let st = pick(dqBlank(day), "a:0", "b:1");
   st = dqOnCheck(st, "a:0", true).st;
   const other = dqOnCheck(st, "c:4", true);
-  assert.equal(other.how, "skip");
+  assert.equal(other.how, "advance");
+  assert.equal(other.st.sel.includes("c:4"), true);
+  assert.equal(other.st.done.includes("c:4"), true);
   assert.equal(other.st.extra, 0);
-  assert.equal(other.st.done.includes("c:4"), false);
-  const again = dqOnCheck(st, "a:0", true);
+  const again = dqOnCheck(other.st, "a:0", true);
   assert.equal(again.how, "skip");
+  assert.equal(again.st.done.filter(k => k === "a:0").length, 1);
 }
 
-// A correct check done before the sentence was selected does not complete it later.
+// A direct correct check pins that sentence immediately. Checking it again does not add a second copy.
 {
   let st = pick(dqBlank(day), "a:0");
   st = dqOnCheck(st, "b:1", true).st;
-  st = dqToggle(st, "b:1");
-  assert.deepEqual(plain(dqView(st)), {n: 0, tot: 2, full: false, pct: 0, extra: 0, showExtra: false});
+  assert.equal(st.sel.includes("b:1"), true);
+  assert.equal(st.done.includes("b:1"), true);
+  const again = dqOnCheck(st, "b:1", true);
+  assert.equal(again.how, "skip");
+  assert.equal(again.st.sel.filter(k => k === "b:1").length, 1);
+  assert.equal(again.st.done.filter(k => k === "b:1").length, 1);
 }
 
 // The bar fills at the selected count: 3 sentences → 100% at 3, not at 10.
@@ -101,22 +114,35 @@ const pick = (st, ...keys) => keys.reduce((s, k) => dqToggle(s, k), st);
   assert.equal(v.showExtra, false);
 }
 
-// After the set is complete, further correct checks (new or review) are 超额 only.
+// Direct 听写 after five selected sentences are done: each new id is overtime once.
+// The set does not have to be full (已选 9 · 写对 5 still counts a sentence opened from 听写).
+// Replays of that sentence, or of a finished goal sentence, and a wrong check, do not move +N.
 {
-  let st = pick(dqBlank(day), "a:0");
-  st = dqOnCheck(st, "a:0", true).st;
-  let r = dqOnCheck(st, "b:9", true);
-  assert.equal(r.how, "extra");
-  st = r.st;
-  r = dqOnCheck(st, "a:0", true);
-  assert.equal(r.how, "extra");
-  st = r.st;
-  const v = dqView(st);
-  assert.equal(v.n, 1);
-  assert.equal(v.tot, 1);
-  assert.equal(v.pct, 100);
-  assert.equal(v.extra, 2);
-  assert.equal(v.showExtra, true);
+  let st = dqBlank(day);
+  for (let i = 0; i < 5; i++) st = dqToggle(st, "s:" + i);
+  for (let i = 0; i < 5; i++) st = dqOnCheck(st, "s:" + i, true).st;
+  assert.equal(dqSelDoneN(st), 5);
+  for (let i = 5; i < 9; i++) st = dqToggle(st, "s:" + i);
+  assert.equal(st.sel.length, 9);
+  assert.equal(dqFull(st), false);
+  const sixth = dqOnCheck(st, "dt_topic:8", true);
+  assert.equal(sixth.how, "extra");
+  assert.equal(sixth.st.sel.includes("dt_topic:8"), false);
+  assert.equal(sixth.st.done.includes("dt_topic:8"), true);
+  assert.equal(sixth.st.extra, 0);
+  assert.equal(dqBeyond(sixth.st), 1);
+  const replay = dqOnCheck(sixth.st, "dt_topic:8", true);
+  assert.equal(replay.how, "skip");
+  assert.equal(dqBeyond(replay.st), 1);
+  const wrong = dqOnCheck(sixth.st, "dt_topic:9", false);
+  assert.equal(wrong.how, "skip");
+  assert.equal(wrong.st.done.includes("dt_topic:9"), false);
+  const seventh = dqOnCheck(sixth.st, "dt_topic:9", true);
+  assert.equal(dqBeyond(seventh.st), 2);
+  const reSel = dqOnCheck(seventh.st, "s:0", true);
+  assert.equal(reSel.how, "skip");
+  assert.equal(dqBeyond(reSel.st), 2);
+  assert.equal(dqSelDoneN(reSel.st), 5);
 }
 
 // Twelve selected sentences are allowed. The target becomes 12, not 10.
@@ -144,24 +170,24 @@ const pick = (st, ...keys) => keys.reduce((s, k) => dqToggle(s, k), st);
   assert.equal(r.how, "skip");
 }
 
-// Dropping the last incomplete sentence can fill the bar. Earlier ignored checks stay ignored.
+// Five are already pinned and not all written: an outside sentence waits. It is not overtime yet.
 {
-  let st = pick(dqBlank(day), "a:0", "a:1");
-  st = dqOnCheck(st, "a:0", true).st;
-  st = dqOnCheck(st, "z:1", true).st;
-  assert.equal(st.extra, 0);
-  st = dqToggle(st, "a:1");
-  const v = dqView(st);
-  assert.equal(v.full, true);
-  assert.equal(v.tot, 1);
-  assert.equal(v.showExtra, false);
+  let st = dqBlank(day);
+  for (let i = 0; i < 5; i++) st = dqToggle(st, "k:" + i);
+  st = dqOnCheck(st, "k:0", true).st;
+  const outside = dqOnCheck(st, "z:1", true);
+  assert.equal(outside.how, "skip");
+  assert.equal(outside.st.done.includes("z:1"), false);
+  assert.equal(outside.st.sel.includes("z:1"), false);
+  assert.equal(outside.st.extra, 0);
+  assert.equal(dqBeyond(outside.st), 0);
 }
 
-// 超额 earned while the set was full stays stored, and shows again only when the set is full.
+// A legacy extra number stays on the day when the selection grows, and shows once the set is full again.
 {
   let st = pick(dqBlank(day), "a:0");
   st = dqOnCheck(st, "a:0", true).st;
-  st = dqOnCheck(st, "z:1", true).st;
+  st = {day: st.day, sel: st.sel.slice(), done: st.done.slice(), extra: 1, star: st.star};
   st = dqToggle(st, "b:2");
   assert.equal(dqView(st).showExtra, false);
   assert.equal(st.extra, 1);
@@ -221,7 +247,7 @@ const pack = (sel, done, extra) => ({sel, done, extra});
 {
   let phone = pick(dqBlank(day), "a:0");
   phone = dqOnCheck(phone, "a:0", true).st;
-  phone = dqOnCheck(phone, "z:1", true).st;
+  phone = {day: phone.day, sel: phone.sel.slice(), done: phone.done.slice(), extra: 1, star: phone.star};
   let pad = pick(dqBlank(day), "a:0", "b:2");
   pad = dqOnCheck(pad, "a:0", true).st;
   const m = dqMergeDay(
@@ -332,7 +358,11 @@ const pack = (sel, done, extra) => ({sel, done, extra});
 const hook = app.slice(app.indexOf("function viewDictation"), app.indexOf("// ---------- daily ④ dictation bar"));
 assert.match(hook, /dqOnCheck\(dqLoad\(\),\(it&&it\.id\|\|"x"\)\+":"\+si,r\.ok\)/);
 assert.match(hook, /if\(hit\.how!=="skip"\)/);
+assert.equal((hook.match(/dqOnCheck/g) || []).length, 1);
+assert.equal(hook.includes("#/dq"), false);
+assert.match(hook, /dqGoalMount\(\)/);
 assert.equal(hook.includes("pgbFill"), false);
+assert.match(app.slice(app.indexOf("async function showCat"), app.indexOf("const ZOOMS")), /if\(id=="dictation"\)dqGoalMount\(\)/);
 
 const exp = app.slice(app.indexOf("async function exportCode"), app.indexOf("async function decodeCode"));
 assert.equal(exp.includes("nova_dq"), false);
@@ -348,7 +378,8 @@ assert.match(cloud, /nova_time:plan\.log/);
 assert.match(cloud, /if\(!cloudUser\|\|!cloudDb\)return/);
 assert.equal(cloud.includes("removeItem"), false);
 assert.match(app, /const DQK="nova_dq",DQL="nova_dq_log"/);
-assert.match(app, /function dqLoad\(\)\{[\s\S]*?dKey\(\)/);
+assert.match(app, /function dqDay\(now\)\{if\(typeof dqStickerDay=="function"\)return dqStickerDay\(now\)/);
+assert.match(app, /function dqLoad\(\)\{[\s\S]*?dqDay\(\)/);
 assert.match(app.slice(app.indexOf("function dqSave"), app.indexOf("function dqBits")), /novaCloudDirty/);
 const rules = readFileSync(new URL("./firestore.rules", root), "utf8");
 assert.match(rules, /nova_time/);
@@ -394,6 +425,13 @@ assert.match(app, /America\/New_York/);
   assert.equal(short.got, 3);
   assert.equal(short.won, false);
   assert.equal(short.ot, 0);
+  const direct = box.dqFoot({day, sel:["a","b","c","d","e"], done:["a","b","c","d","e","x","y"], extra:0});
+  assert.equal(direct.got, 5);
+  assert.equal(direct.ot, 2);
+  const legacy = box.dqFoot({day, sel:["a","b","c","d","e"], done:["a","b","c","d","e"], extra:2});
+  assert.equal(legacy.ot, 2);
+  const both = box.dqFoot({day, sel:["a","b","c","d","e"], done:["a","b","c","d","e","x"], extra:1});
+  assert.equal(both.ot, 2);
   let picked = box.dqBlank(day);
   for(let i=0;i<12;i++) picked = box.dqToggle(picked, "s:"+i);
   assert.equal(picked.sel.length, 12);
@@ -414,14 +452,18 @@ assert.match(app, /America\/New_York/);
   assert.equal(inn.includes("完成句子"), false);
   assert.equal(inn.includes("fp-dlab"), false);
   assert.equal(inn.includes("fp-done"), false);
-  const homeBit = inn.slice(inn.indexOf("if(home)"), inn.indexOf("const ot"));
-  assert.match(homeBit, /assets\/goal\/goal-\$\{got\}\.png/);
-  assert.equal(/pill=f\.ot\?/.test(homeBit), false);
-  assert.match(homeBit, /class="fp-pill"><span class="fp-ot">\+\$\{f\.ot\}<\/span>/);
+  const homeBit = inn.slice(inn.indexOf("if(home)"));
+  assert.match(inn, /assets\/goal\/goal-\$\{got\}\.png/);
+  assert.equal(/pill=f\.ot\?/.test(inn), false);
+  assert.match(inn, /class="fp-pill"><span class="fp-ot">\+\$\{f\.ot\}<\/span>/);
   assert.match(homeBit, /class="fp-goal" data-day-go/);
   assert.match(homeBit, /<\/button>\$\{pill\}/);
-  assert.match(css, /\.fp-home \.fp-ot\{[^}]*background:#efe6c8/);
-  assert.match(css, /\.fp-home \.fp-ot\{[^}]*#e6c56a/);
+  assert.match(inn, /class="fp-home fp-strip"/);
+  assert.equal(inn.includes("fp-marks"), false);
+  assert.equal(inn.includes("<polygon"), false);
+  assert.match(css, /\.fp-home \.fp-ot(?:,\.fp-strip \.fp-ot)?\{[^}]*background:#efe6c8/);
+  assert.match(css, /\.fp-home \.fp-ot(?:,\.fp-strip \.fp-ot)?\{[^}]*#e6c56a/);
+  assert.match(css, /\.fp-strip\{display:block/);
   assert.match(css, /\.fp-home \.fp-score\{[^}]*flex-direction:column/);
   const homeBox = {};
   runInContext("function esc(s){return String(s)}\nfunction dqMarkHTML(){return \"\"}\nfunction dqBoardHTML(){return \"<div class=\\\"fp-board\\\"></div>\"}\nfunction dqLoad(){return {}}\nconst DQ_FLOOR=5;\n"+inn+"\nthis.dqFootInner=dqFootInner;", createContext(homeBox));
@@ -446,6 +488,15 @@ assert.match(app, /America\/New_York/);
   const goal3 = homeBox.dqFootInner({got:3, ot:0}, true);
   assert.match(goal3.html, /assets\/goal\/goal-3\.png/);
   assert.match(goal3.html, /class="fp-ot">\+0</);
+  const strip = homeBox.dqFootInner({got:5, ot:2}, false);
+  assert.match(strip.html, /class="fp-goals"/);
+  assert.match(strip.html, /assets\/goal\/goal-5\.png/);
+  assert.match(strip.html, /class="fp-ot">\+2</);
+  assert.match(strip.html, /fp-strip/);
+  assert.equal(strip.html.includes("fp-marks"), false);
+  assert.equal(strip.html.includes("data-day-go"), false);
+  assert.equal(strip.html.includes("<polygon"), false);
+  assert.match(homeBox.dqFootInner({got:5, ot:2}, true).html, /class="fp-ot">\+2</);
   assert.equal(homeBit.includes("fp-starrow"), false);
   assert.equal(homeBit.includes("fp-marks"), false);
   assert.equal(homeBit.includes("<b>今天的目标</b>"), false);
@@ -457,11 +508,24 @@ assert.match(app, /America\/New_York/);
   const from = app.indexOf("async function showDQ");
   const pick = app.slice(from, app.indexOf("// ---------- study timer", from));
   assert.match(pick, /<details class="dqfold"/);
-  assert.match(pick, /class="dayb" role="button"/);
+  assert.match(pick, /class="dayb"/);
+  assert.equal(pick.includes("role=\"button\""), false);
   assert.equal(pick.includes("<button type=\"button\" class=\"dayb\""), false);
-  assert.match(pick, /dqHoldTap/);
-  assert.match(pick, /dqPick\(dqLoad\(\),b\.dataset\.k\)/);
-  assert.match(pick, /已经 5 句/);
+  assert.equal(pick.includes("dqHoldTap"), false);
+  assert.equal(pick.includes("dqPick(dqLoad()"), false);
+  assert.equal(pick.includes("已经 5 句"), false);
+  assert.equal(pick.includes("data-day-x"), false);
+  assert.equal(pick.includes("data-open"), false);
+  assert.equal(pick.includes("dayx"), false);
+  assert.equal(pick.includes("取消这句"), false);
+  assert.match(pick, /dqGoalMount\(\)/);
+  const nowFn = app.slice(app.indexOf("function dqPaintNow"), app.indexOf("function dqPick"));
+  assert.match(nowFn, /class="daychip/);
+  assert.match(nowFn, /已选/);
+  assert.equal(nowFn.includes("data-open"), false);
+  assert.equal(nowFn.includes("data-day-x"), false);
+  assert.equal(nowFn.includes("dayx"), false);
+  assert.equal(nowFn.includes("<button"), false);
   assert.match(css, /\.dqfold\{/);
   assert.match(css, /overflow-anchor:\s*none/);
 }
@@ -564,11 +628,10 @@ assert.match(css, /\.daybar\.is-full/);
   assert.equal(sixth.blocked, true);
   assert.equal(sixth.st, s);
   const off = box.dqPick(s, "s:0");
-  assert.equal(off.blocked, false);
-  assert.equal(off.st.sel.includes("s:0"), false);
-  assert.equal(off.st.sel.length, 4);
-  s = box.dqPick(off.st, "s:0").st;
-  assert.equal(s.sel.length, 5);
+  assert.equal(off.blocked, true);
+  assert.equal(off.st, s);
+  assert.equal(off.st.sel.includes("s:0"), true);
+  assert.equal(off.st.sel.length, 5);
 }
 
 {
@@ -764,6 +827,119 @@ assert.equal(app.includes("fp-rivet"), false);
   assert.equal(JSON.parse(kept.nova_dq_stick).n, 0);
   const earned = live.dqBoardHTML({day:"2026-11-05", sel:five, done:five, extra:1}, thu);
   assert.match(earned, /src="assets\/chongya\/overtime-1\.png"/);
+}
+
+// Study day rolls at 02:00 America/New_York. Yesterday's selection is not copied onto today.
+{
+  const store = {};
+  const g = {
+    localStorage: {
+      getItem(k){ return Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null; },
+      setItem(k, v){ store[k] = String(v); }
+    },
+    DAY: "2026-11-05",
+    window: { novaCloudDirty(){} }
+  };
+  g.dqStickerDay = function(){ return g.DAY; };
+  g.dKey = function(){ return "local-midnight-must-not-win"; };
+  const glue = app.slice(app.indexOf('const DQK="nova_dq"'), app.indexOf("function dqBits"));
+  runInContext(logic + "\n" + glue, createContext(g));
+  const pinned = {day:"2026-11-05", sel:["a:0","a:1","a:2","a:3","a:4"], done:["a:0","a:1"], extra:0, star:0};
+  g.dqSave(pinned);
+  assert.deepEqual(plain(g.dqLoad().sel), pinned.sel);
+  assert.deepEqual(plain(g.dqLoad().done), pinned.done);
+  g.DAY = "2026-11-06";
+  const next = g.dqLoad();
+  assert.equal(next.day, "2026-11-06");
+  assert.deepEqual(plain(next.sel), []);
+  assert.deepEqual(plain(next.done), []);
+  const log = JSON.parse(store.nova_dq_log);
+  assert.deepEqual(log["2026-11-05"].sel, pinned.sel);
+  assert.equal(log["2026-11-06"], undefined);
+  assert.deepEqual(plain(g.dqLoad().sel), []);
+  const fresh = g.dqOnCheck(g.dqLoad(), "b:3", true).st;
+  g.dqSave(fresh);
+  assert.deepEqual(plain(g.dqLoad().sel), ["b:3"]);
+  assert.equal(g.dqLoad().day, "2026-11-06");
+  assert.equal(JSON.parse(store.nova_dq_log)["2026-11-05"].sel.includes("b:3"), false);
+}
+
+// 听写 list and 今天的目标 use the same goal sheets and the same shown-star memory as home.
+// A star already shown does not pop again. A new star still starts the pop.
+{
+  assert.match(app, /function dqGoalDay\(\)\{try\{return typeof dqDay=="function"\?dqDay\(\)/);
+  assert.match(app.slice(app.indexOf("function dqPaint"), app.indexOf("let DQDAY")), /else\{el\.innerHTML=inn\.html;const g=el\.querySelector\("\.fp-goals"\);if\(g\)dqGoalHome\(g\)\}/);
+  const store = {};
+  const pops = [];
+  function art(n){
+    return {classList:{toggle(){}}, setAttribute(){}, removeAttribute(){}, getAttribute(name){return name==="data-g"?String(n):""}, dataset:{}};
+  }
+  const box = {
+    isConnected: true,
+    dataset: {},
+    querySelectorAll(){return [0,1,2,3,4,5].map(art)},
+    querySelector(){return art(0)},
+    appendChild(){}
+  };
+  const g = {
+    localStorage: {
+      getItem(k){ return Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null; },
+      setItem(k, v){ store[k] = String(v); }
+    },
+    document: {hidden:false, querySelector(){return null}, createElement(){pops.push("el");return {className:"",style:{},setAttribute(){},dataset:{}}}},
+    location: {search:"", hash:""},
+    matchMedia(){return {matches:false}},
+    fetch(){return Promise.resolve({ok:false})},
+    dqBits(){return {got:g.GOT}},
+    dqDay(){return "2026-11-06"},
+    GOT: 5
+  };
+  const goal = app.slice(app.indexOf("function dqGoalShow"), app.indexOf("function dqFootInner"));
+  runInContext(goal + "\nthis.dqGoalHome=dqGoalHome;this.dqGoalShownSet=dqGoalShownSet;", createContext(g));
+  g.dqGoalShownSet(5);
+  g.dqGoalHome(box);
+  assert.equal(pops.length, 0);
+  assert.equal(box.dataset.popping, undefined);
+  g.dqGoalShownSet(4);
+  g.dqGoalHome(box);
+  assert.equal(pops.length > 0, true);
+  assert.equal(box.dataset.popping, "1");
+}
+
+// Direct sentences past the floor move the shared +N the list, the daily page, and home all read.
+{
+  const five = ["a","b","c","d","e"];
+  let st = {day, sel:five.slice(), done:five.slice(), extra:0, star:1};
+  for (let i = 1; i <= 11; i++) st = dqOnCheck(st, "dt_direct:"+i, true).st;
+  assert.equal(dqBeyond(st), 11);
+  assert.equal(st.extra, 0);
+  assert.equal(dqOnCheck(st, "dt_direct:11", true).how, "skip");
+  const foot = app.slice(app.indexOf("const DQ_FLOOR"), app.indexOf("function dqBits"));
+  const box = {};
+  runInContext(logic + "\n" + foot + "\nthis.dqFoot=dqFoot;", createContext(box));
+  assert.equal(box.dqFoot(st).ot, 11);
+  assert.equal(box.dqFoot({day, sel:five, done:five.concat(["dt_direct:1"]), extra:0}).ot, 1);
+  assert.equal(box.dqFoot({day, sel:five, done:five.concat(["dt_direct:1","dt_direct:2"]), extra:0}).ot, 2);
+  assert.equal(box.dqFoot({day, sel:five, done:["a","b","c","d"], extra:0}).ot, 0);
+  const stick = app.slice(app.indexOf("// STICK_LOGIC_START"), app.indexOf("// STICK_LOGIC_END"));
+  const sync = app.slice(app.indexOf("function dqOtN"), app.indexOf("function dqStarDays"));
+  const board = app.slice(app.indexOf("// BOARD_LOGIC_START"), app.indexOf("// BOARD_LOGIC_END"));
+  const htmlFn = app.slice(app.indexOf("function dqBoardHTML"), app.indexOf("function dqFootInner"));
+  const live = {localStorage:{getItem(){return null}, setItem(){}}};
+  runInContext(logic + "\n" + stick + "\nconst DQSK=\"nova_dq_stick\";\nfunction dqStickRead(){return null}\nfunction dqStickWrite(){}\n" + sync + "\n" + board + "\nfunction dqLog(){return {}}\n" + htmlFn + "\nthis.dqBoardHTML=dqBoardHTML;this.dqOtN=dqOtN;this.dqStickSync=dqStickSync;", createContext(live));
+  const thu = new Date("2026-11-05T20:00:00Z");
+  const one = live.dqBoardHTML({day:"2026-11-05", sel:five, done:five.concat(["x"]), extra:0}, thu);
+  assert.match(one, /overtime-1\.png/);
+  const two = {localStorage:{getItem(){return null}, setItem(){}}};
+  runInContext(logic + "\n" + stick + "\nconst DQSK=\"nova_dq_stick\";\nfunction dqStickRead(){return null}\nfunction dqStickWrite(){}\n" + sync + "\n" + board + "\nfunction dqLog(){return {}}\n" + htmlFn + "\nthis.dqBoardHTML=dqBoardHTML;", createContext(two));
+  assert.match(two.dqBoardHTML({day:"2026-11-05", sel:five, done:five.concat(["x","y"]), extra:0}, thu), /overtime-2\.png/);
+  const many = {localStorage:{getItem(){return null}, setItem(){}}};
+  runInContext(logic + "\n" + stick + "\nconst DQSK=\"nova_dq_stick\";\nfunction dqStickRead(){return null}\nfunction dqStickWrite(){}\n" + sync + "\n" + board + "\nfunction dqLog(){return {}}\n" + htmlFn + "\nthis.dqBoardHTML=dqBoardHTML;", createContext(many));
+  const ids = five.concat(Array.from({length:11}, (_,i)=>"e"+i));
+  assert.match(many.dqBoardHTML({day:"2026-11-05", sel:five, done:ids, extra:0}, thu), /reward-11-xuanfan\.png/);
+  const again = live.dqStickSync({day:"2026-11-05", sel:five, done:five.concat(["x"]), extra:0}, thu);
+  const revisit = live.dqStickSync({day:"2026-11-05", sel:five, done:five.concat(["x"]), extra:0}, thu);
+  assert.equal(again, revisit);
 }
 
 console.log("dq tests ok");
