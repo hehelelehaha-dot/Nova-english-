@@ -817,7 +817,7 @@ button.daybar.fp .fp-ot{font-size:21px;padding:6px 13px 6px}
 .daychips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
 .daychip{display:inline-flex;align-items:stretch;max-width:100%;border:1px solid #e0c98f;border-radius:999px;background:#fff8d6;overflow:hidden}
 .daychip.did{background:#e5f6ea;border-color:#8ec9a0}
-.daygo{border:0;background:transparent;font:inherit;font-weight:700;color:#3a2c00;padding:8px 8px 8px 12px;cursor:pointer;text-align:left}
+.daygo{border:0;background:transparent;font:inherit;font-weight:700;color:#3a2c00;padding:8px 12px;cursor:default;text-align:left}
 .dayx{border:0;border-left:1px solid #e0c98f;background:transparent;font:inherit;font-size:18px;min-width:36px;color:#6b4e12;cursor:pointer}
 .dayfold{margin:16px 0 4px;font-size:13px;font-weight:800;letter-spacing:.04em;color:#8a6200}
 .daytn{font-weight:800;margin:10px 0 6px;color:#3a2c00}
@@ -832,11 +832,6 @@ button.daybar.fp .fp-ot{font-size:21px;padding:6px 13px 6px}
 .daypick,#daynow,#daybody{overflow-anchor:none}
 .dayb{position:relative;display:flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:48px;border-radius:14px;border:1px solid #e0c98f;background:#fffefa;color:#6b4e12;font:inherit;font-size:17px;font-weight:800;cursor:default;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;overflow-anchor:none}
 button.dayb{cursor:pointer}
-.dqp{margin:0 0 8px;background:#fffefa;border:1px solid #e0c98f;border-radius:16px;overflow-anchor:none}
-.dqph{list-style:none;display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 12px;cursor:pointer;font-weight:800;color:#3a2c00}
-.dqph::-webkit-details-marker{display:none}
-.dqp[open]>.dqph .dqfar::before{content:"▾"}
-.dqpn{font-size:15px}
 .dayb.on{background:#f5c518;color:#3a2c00;border-color:#e0b400}
 .dayb.cap{opacity:.38}
 .dayb.did{box-shadow:inset 0 0 0 2px #2e7d32}
@@ -850,8 +845,7 @@ html[data-theme^=t] .dayb.on{background:var(--ac);color:var(--actx);border-color
 html[data-theme^=t] .daychip{background:var(--hl,#fff8d6)}
 html[data-theme^=t] .daygo,html[data-theme^=t] .dayx{color:var(--b2tx,#3a2c00)}
 html[data-theme^=t] .dayfold,html[data-theme^=t] .daytn,html[data-theme^=t] .daycnt,html[data-theme^=t] .dqfnm{color:#5a3e08}
-html[data-theme^=t] .dqfold,html[data-theme^=t] .dqp{background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
-html[data-theme^=t] .dqph{color:#5a3e08}
+html[data-theme^=t] .dqfold{background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
 html[data-theme^=t] .dqfar::before,html[data-theme^=t] .dqfsub{color:var(--ct)}
 html:is([data-theme=t3],[data-theme=t6]) .daybar.is-full .daybar-n{color:#1d8f45}
 html[data-theme=t6] .daybar.fp-home{background:linear-gradient(180deg,#243872,#1a2e5e);color:#f6e7c4;border:1px solid rgba(214,176,92,.58);box-shadow:0 8px 18px rgba(0,0,0,.28)}
@@ -981,13 +975,13 @@ html[data-theme=t6][data-paper] .tfold{background:transparent;border:0;box-shado
 html[data-theme=t6][data-paper] .tfold>.list{padding:8px 0 2px}
 html[data-theme=t6] .folds>.fold>.foldh,
 html[data-theme=t6] .folds>.fold .tile:not(.add),
-html[data-theme=t6][data-paper] :is(.li,.tile:not(.add),.card,.wc,.ent,.gu,.tlisten,.tfold>.tfh,.dqp){
+html[data-theme=t6][data-paper] :is(.li,.tile:not(.add),.card,.wc,.ent,.gu,.tlisten,.tfold>.tfh){
  background:none!important;border-style:solid!important;border-color:transparent!important;
  border-image:url("assets/quote/quote-frame-navy.png") 150 190 fill stretch!important;
  border-radius:0;box-shadow:none}
 html[data-theme=t6] .folds>.fold>.foldh{border-width:20px 28px;padding:2px 6px}
 html[data-theme=t6] .folds>.fold .tile:not(.add){border-width:16px 22px;padding:8px 10px;min-height:132px}
-html[data-theme=t6][data-paper] :is(.li,.wc,.ent,.tfold>.tfh,.dqp){border-width:14px 20px;padding:4px 8px}
+html[data-theme=t6][data-paper] :is(.li,.wc,.ent,.tfold>.tfh){border-width:14px 20px;padding:4px 8px}
 html[data-theme=t6][data-paper] :is(.card,.gu,.tlisten){border-width:16px 22px}
 html[data-theme=t6][data-paper] .tlisten>.tlh{padding:2px 4px}
 html[data-theme=t6][data-paper] .tlcap{background:transparent!important;border:0!important;box-shadow:none;color:#f6edd8}
