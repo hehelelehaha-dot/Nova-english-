@@ -245,6 +245,7 @@ async function route0(){syncPaper();delete document.documentElement.dataset.home
  await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
+ // #/dq is the read-only 今天的目标. Picking sentences is only on the 句子听写 topic lists.
  try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]==="up"&&!h[3]?showGames("up"):h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
@@ -541,21 +542,55 @@ function topicGroupsHTML(secId, rows, fold){
  return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
+// Sentence picking for 今天的目标 lives under each Topic on #/c/dictation and
+// #/c/luca_dictation. #/dq only displays the pinned sentences (read-only).
+// DQ_PICK_UI_START
+function dqListOn(){const h=(location.hash||"#/").slice(1).split("/");return h[1]==="c"&&(h[2]==="dictation"||h[2]==="luca_dictation")}
+function dqGuideText(n){n=n|0;if(n>=5)return "今天的 5 句已选定，会留到明天凌晨 2 点。";return "还差 "+(5-n)+" 句。请在下面的 Topic 里点「选句」，选定 5 句后会留到明天凌晨 2 点。"}
+function dqApplyPick(st,key){const hit=dqPick(st,key);if(!hit||hit.blocked)return {ok:false,why:hit&&hit.why==="keep"?"keep":"full",st:hit?hit.st:st};return {ok:true,why:"",st:hit.st}}
+function dqBeginPlan(st,topics){const n=st&&Array.isArray(st.sel)?st.sel.length:0;if(n<5)return {go:false,left:5-n};const done=new Set(st.done||[]);const key=st.sel.find(k=>!done.has(k))||st.sel[0];const f=typeof dqFind=="function"?dqFind(topics,key):null;if(!f)return {go:false,left:0,missing:true};return {go:true,left:0,hash:"#/i/"+f.t.id,jump:String(f.i),key}}
+function dictPickShell(id){return `<details class="dqp"><summary class="dqph"><span class="dqfar" aria-hidden="true"></span><span class="dqpn">选句</span></summary><div class="daygrid" data-dqg="${esc(id)}"></div></details>`}
+function dqSelectCells(t){return (t.sent||[]).map((i,n)=>{const k=t.id+":"+i,lit=typeof sunHas=="function"&&sunHas(t.base,i),lab="第 "+(n+1)+" 句"+(lit?"，已标重点":"");return `<button type="button" class="dayb" data-dqk="${esc(k)}" data-lab="${esc(lab)}" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</button>`}).join("")}
+function dqGuideHTML(){const n=typeof dqLoad=="function"?dqLoad().sel.length:0;return `<p class="tip" id="dqneed">${esc(dqGuideText(n))}</p><button type="button" class="wide flip" id="dqstart">开始今天的听写</button>`}
+let DQLIST=0;
+function dqMarkChosen(){const st=typeof dqLoad=="function"?dqLoad():{sel:[],done:[]};const sel=new Set(st.sel||[]),done=new Set(st.done||[]),cap=(st.sel||[]).length>=5;
+ document.querySelectorAll("button.dayb[data-dqk]").forEach(b=>{const on=sel.has(b.dataset.dqk),did=on&&done.has(b.dataset.dqk);
+  b.classList.toggle("on",on);b.classList.toggle("did",did);b.classList.toggle("cap",cap&&!on);
+  b.setAttribute("aria-pressed",on?"true":"false");
+  const lab=b.dataset.lab||"";b.setAttribute("aria-label",lab+(on?"，已选":"")+(did?"，今天已写对":""))});
+ document.querySelectorAll("details.dqp").forEach(d=>{const c=d.querySelectorAll("button.dayb.on").length,s=d.querySelector(".dqpn");if(s)s.textContent=c?"选句 · 已选 "+c:"选句"});
+ const tip=document.getElementById("dqneed");if(tip)tip.textContent=dqGuideText((st.sel||[]).length)}
+function dqToastPick(why){toast(why==="keep"?"这句已经选定，要留到明天凌晨 2 点":"已经 5 句")}
+function dqGoSelected(topics){const plan=dqBeginPlan(dqLoad(),topics);
+ if(!plan.go){toast(plan.missing?"这句暂时打不开，请点 Topic 进入听写":"还差 "+plan.left+" 句。请先在 Topic 下点「选句」。");
+  const d=document.querySelector("details.dqp");if(d){d.open=true;const fold=d.closest&&d.closest("details.tfold");if(fold)fold.open=true}const tip=document.getElementById("dqneed");if(tip&&tip.scrollIntoView)tip.scrollIntoView({block:"nearest"});return}
+ try{sessionStorage.setItem("nova_dt_go",plan.jump)}catch(e){}location.hash=plan.hash}
+async function dqMountList(seq){let topics=[];try{topics=await dqTopics()}catch(e){topics=[]}
+ if(seq!==DQLIST||!dqListOn())return;
+ document.querySelectorAll(".daygrid[data-dqg]").forEach(g=>{const t=topics.find(x=>x.id===g.dataset.dqg);g.innerHTML=t&&t.sent&&t.sent.length?dqSelectCells(t):`<p class="tip">这个 Topic 还没有可听写的句子</p>`});
+ document.querySelectorAll("button.dayb[data-dqk]").forEach(b=>{b.onclick=ev=>{if(ev&&ev.preventDefault)ev.preventDefault();if(ev&&ev.stopPropagation)ev.stopPropagation();
+  const hit=dqApplyPick(dqLoad(),b.dataset.dqk);if(!hit.ok){dqToastPick(hit.why);return}
+  const save=()=>{dqSave(hit.st);if(typeof dqPaint=="function")dqPaint();dqMarkChosen()};
+  if(typeof dqHoldTap=="function")dqHoldTap(b,save);else save()}});
+ const start=document.getElementById("dqstart");if(start)start.onclick=()=>dqGoSelected(topics);
+ dqMarkChosen()}
+// DQ_PICK_UI_END
 function showLuca(s){setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
- const bar=s.like=="dictation"?dqHTML():"";
+ const dict=s.like=="dictation";
+ const bar=dict?dqHTML()+dqGuideHTML():"";
  const listen=s.like=="reading"?topicListenHTML("luca"):"";
- if(!xs.length){V.innerHTML=`${bar}${listen}<p class="tip">夏日友晴天 · ${esc(s.name)}</p><div class="done">这个板块还是空的</div>`;if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();return}
- V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
- if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();
- V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
+ if(!xs.length){V.innerHTML=`${bar}${listen}<p class="tip">夏日友晴天 · ${esc(s.name)}</p><div class="done">这个板块还是空的</div>`;if(listen)wireTopicListen("luca");if(dict){dqGoalMount();dqMountList(++DQLIST)}return}
+ V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>${dict?dictPickShell(x.id):""}`).join("")}</div>`;
+ if(listen)wireTopicListen("luca");if(dict){dqGoalMount();dqMountList(++DQLIST)}
+ V.querySelectorAll(".li[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
 async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
- V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
+ V.innerHTML=`${listen}${id=="dictation"?dqHTML()+dqGuideHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)+(id=="dictation"?dictPickShell(x.id):"")}))):`<div class="done">这个分类还是空的</div>`}
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
- if(listen)wireTopicListen("naval");if(id=="dictation")dqGoalMount();
- V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id}});
+ if(listen)wireTopicListen("naval");if(id=="dictation")dqGoalMount();if(id=="dictation")dqMountList(++DQLIST);
+ V.querySelectorAll(".li[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id}});
  if(id=="flash")srsEntry(document.getElementById("srsent"));
  document.getElementById("imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;await idbPut({id:"m"+Date.now(),cat:id,name:f.name.replace(/\.[^.]+$/,""),blob:f});showCat(id)}}
 const ZOOMS=[["小",.9],["标准",1.1],["大",1.25],["特大",1.4],["超大",1.6]];
@@ -1145,6 +1180,8 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
 // day's pinned sentences. A 整句对了 id in done is kept. Logged out or offline,
 // the bar still only uses this device.
 // Not the removed Naval % bar, not 复述, and not part of ☀ sync or the N1 code.
+// Picking the five sentences is the 「选句」 grid under each Topic on
+// #/c/dictation and #/c/luca_dictation. #/dq does not pick, deselect, or open 听写.
 // Opening 听写 directly (#/c/dictation, or a 夏日 topic, then #/i/…) hits the
 // same 检查 as a sentence opened from the daily list. A correct check counts
 // once: it fills a free slot among the five, or, once five selected sentences
@@ -1439,7 +1476,8 @@ function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
    if(wasFalling&&fall&&day){day.dataset.falling="1";day.appendChild(fall)}
    else if(day)dqStarfallSync(day,prevLevel,false)}
   else{el.innerHTML=inn.html;const g=el.querySelector(".fp-goals");if(g)dqGoalHome(g)}
-  if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
+  if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}});
+ if(document.getElementById("dqstart")&&typeof dqMarkChosen=="function")dqMarkChosen()}
 let DQDAY="",DQSTICK="";
 function dqDayWatch(){const day=typeof dqDay=="function"?dqDay():dKey(),sd=dqStickerDay();if(DQDAY===day&&DQSTICK===sd)return;const prev=DQDAY;DQDAY=day;DQSTICK=sd;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
 let DQSEQ=0,DQTOPICS=null;
@@ -1456,7 +1494,7 @@ function dqFind(topics,key){const m=/^(.*):(\d+)$/.exec(key||"");if(!m)return nu
 function dqFoldOn(id){try{return localStorage.getItem("nova_dqf_"+id)==="1"}catch(e){return false}}
 function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(st.done);
  const cap=st.sel.length>=DQ_FLOOR;
- document.querySelectorAll(".dayb").forEach(b=>{const on=sel.has(b.dataset.k),did=on&&done.has(b.dataset.k);
+ document.querySelectorAll(".dayb").forEach(b=>{const key=b.dataset.dqk||b.dataset.k,on=!!key&&sel.has(key),did=on&&done.has(key);
   b.classList.toggle("on",on);b.classList.toggle("did",did);b.classList.toggle("cap",cap&&!on);
   const lab=b.dataset.lab||"";b.setAttribute("aria-label",lab+(on?"，已选":"")+(did?"，今天已写对":""))});
  const box=document.getElementById("daynow");if(!box)return;const v=dqView(st);
@@ -1464,10 +1502,10 @@ function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(s
   return `<span class="daychip${ok?" did":""}"><span class="daygo">${esc(lab)}${ok?" ✓":""}</span></span>`}).join("");
  box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.n?" · 写对 "+v.n:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`}
 function dqPick(st,key){if(!st||typeof key!=="string"||!key)return {st,blocked:false};
- if(st.sel.includes(key))return {st,blocked:true};
- if(st.sel.length<DQ_FLOOR)return {st:dqToggle(st,key),blocked:false};return {st,blocked:true}}
+ if(st.sel.includes(key))return {st,blocked:true,why:"keep"};
+ if(st.sel.length<DQ_FLOOR)return {st:dqToggle(st,key),blocked:false};return {st,blocked:true,why:"full"}}
 async function showDQ(){const seq=++DQSEQ;setHeader("今天的目标",true);
- V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;dqGoalMount();
+ V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><p class="tip">这页只显示今天选定的句子，不能在这里改，也不能从这里听写。选句和开始听写在句子听写的 Topic 下。</p><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;dqGoalMount();
  let topics=[];try{topics=await dqTopics()}catch(e){topics=[]}
  if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;
  const body=document.getElementById("daybody");if(!body)return;
