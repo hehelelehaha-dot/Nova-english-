@@ -798,6 +798,15 @@ button.fp-goal{border:0;background:transparent;width:100%;padding:0;cursor:point
 .daybar:not(.fp-home) .fp-strip .fp-score{width:100%;flex:none;align-self:stretch;min-width:0}
 @media(max-width:480px){.fp-strip .fp-ot{font-size:26px;padding:7px 14px 8px}}
 @media(min-width:700px){.fp-strip .fp-ot{font-size:40px;padding:10px 22px 11px}}
+/* 句子听写 Topic 列表上的今天的目标。只有可点的 button.daybar（#/c/dictation
+   和夏日听写列表）。首页流麻是 div.daybar.fp-home，选句页和练习页是 div.daybar，
+   那些尺寸不动。70.7% 是 √½：卡片宽、星图（height:auto，不裁星）、+N 和
+   内边距一起缩小，整卡面积大约一半。 */
+button.daybar.fp{width:70.7%;max-width:100%;min-width:0;margin-left:auto;margin-right:auto;padding:10px 10px 8px}
+button.daybar.fp .fp-strip .fp-score{gap:7px}
+button.daybar.fp .fp-ot{font-size:21px;padding:6px 13px 6px}
+@media(max-width:480px){button.daybar.fp .fp-ot{font-size:18px;padding:5px 10px 6px}}
+@media(min-width:700px){button.daybar.fp .fp-ot{font-size:28px;padding:7px 16px 8px}}
 .daybar.shine .fp-marks i.on{animation:fpwin .7s ease}
 @keyframes fpwin{from{transform:scale(.55);opacity:.4}55%{transform:scale(1.12)}to{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.daybar-f{transition:none}.daybar.shine .fp-marks i.on{animation:none}.fp-goalpop{display:none}}
