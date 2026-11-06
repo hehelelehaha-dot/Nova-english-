@@ -1,0 +1,54 @@
+# Deploy the static site from the repository root. No Jekyll build.
+name: Deploy static content to Pages
+
+on:
+  # Every push to main, including data-only commits.
+  push:
+    branches:
+      - main
+
+  # Manual run from the Actions tab. Publishing is limited to main below.
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job. A manual run publishes only main, which is that branch's current HEAD.
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history is about 14 GB. The site at this commit is the tree we publish.
+          fetch-depth: 1
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Whole static site. There is no .gitignore; tar excludes only .git and .github.
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+        with:
+          # Default 600000 cancelled run 42154427707 while syncing_files was still in progress.
+          timeout: 1800000
