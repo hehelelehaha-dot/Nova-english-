@@ -545,16 +545,16 @@ function showLuca(s){setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
  const bar=s.like=="dictation"?dqHTML():"";
  const listen=s.like=="reading"?topicListenHTML("luca"):"";
- if(!xs.length){V.innerHTML=`${bar}${listen}<p class="tip">夏日友晴天 · ${esc(s.name)}</p><div class="done">这个板块还是空的</div>`;if(listen)wireTopicListen("luca");return}
+ if(!xs.length){V.innerHTML=`${bar}${listen}<p class="tip">夏日友晴天 · ${esc(s.name)}</p><div class="done">这个板块还是空的</div>`;if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();return}
  V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
- if(listen)wireTopicListen("luca");
+ if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
 async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
  V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
  <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
- if(listen)wireTopicListen("naval");
+ if(listen)wireTopicListen("naval");if(id=="dictation")dqGoalMount();
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id}});
  if(id=="flash")srsEntry(document.getElementById("srsent"));
  document.getElementById("imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;await idbPut({id:"m"+Date.now(),cat:id,name:f.name.replace(/\.[^.]+$/,""),blob:f});showCat(id)}}
@@ -1079,7 +1079,7 @@ function dtFeedback(s,typed){const r=dtMark(typed,s.t);const zh=s.zh?`<div class
 function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];const spLab=()=>"速度 "+SP[spi]+"x";
  const sents=(d.sents||[]).map((s,i)=>({s,i})).filter(x=>x.s&&x.s.oa);
  let jump=null;try{jump=sessionStorage.getItem("nova_dt_go");sessionStorage.removeItem("nova_dt_go")}catch(e){}
- if(!sents.length){V.innerHTML=`${dqHTML({go:false})}<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;return}
+ if(!sents.length){V.innerHTML=`${dqHTML({go:false})}<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;dqGoalMount();return}
  const rid=sunTopic(it),key="nova_dt_"+(it&&it.id||"x");let pos=0;
  const saved=()=>{let n=+localStorage.getItem(key)||0;return n>=0&&n<sents.length?n:0};
  const save=()=>{try{localStorage.setItem(key,String(pos))}catch(e){}};
@@ -1112,13 +1112,13 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
   document.getElementById("dtprev").onclick=()=>{if(pos<=0)return;pos--;save();stopAll();render();scrollTo(0,0)};
   document.getElementById("dtnext").onclick=()=>{if(pos>=sents.length-1)return;pos++;save();stopAll();render();scrollTo(0,0)};
   document.getElementById("dtjump").onclick=()=>{save();stopAll();showPick()};
-  playOA(s.oa,playBtn,true)};
+  playOA(s.oa,playBtn,true);dqGoalMount()};
  function showPick(){const last=saved();let spinning=false;
   V.innerHTML=`${dqHTML({go:false})}<div class="card dtcard" id="dtcard"><div class="dtpickh">从第几句开始</div><p class="tip">共 ${sents.length} 句原声</p>
    <button class="wide flip" id="dtgo" type="button">从第 1 句开始</button>
    <button class="wide dtluck" id="dtluck" type="button">🎲 随机抽一句</button>
    ${last>0?`<button class="wide dtresume" id="dtlast" type="button">从上次的第 ${last+1} 句继续</button>`:""}
-   <div class="dtpick" role="group" aria-label="从第几句开始">${sents.map((x,i)=>{const lit=sunHas(rid,x.i);return `<button type="button" class="dtn${i==0?" on":""}${i==last&&last>0?" was":""}${lit?" lit":""}" data-i="${i}" aria-label="第 ${i+1} 句${lit?"，已标重点":""}">${i+1}${lit?`<span class="dtsun" aria-hidden="true">☀</span>`:""}</button>`}).join("")}</div></div>`;
+   <div class="dtpick" role="group" aria-label="从第几句开始">${sents.map((x,i)=>{const lit=sunHas(rid,x.i);return `<button type="button" class="dtn${i==0?" on":""}${i==last&&last>0?" was":""}${lit?" lit":""}" data-i="${i}" aria-label="第 ${i+1} 句${lit?"，已标重点":""}">${i+1}${lit?`<span class="dtsun" aria-hidden="true">☀</span>`:""}</button>`}).join("")}</div></div>`;dqGoalMount();
   const start=i=>{if(spinning||!(i>=0)||i>=sents.length)return;pos=i;save();stopAll();render();scrollTo(0,0)};
   document.getElementById("dtgo").onclick=()=>start(0);
   const b=document.getElementById("dtlast");if(b)b.onclick=()=>start(last);
@@ -1137,16 +1137,19 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
  if(ji>=0){pos=ji;save();render()}else showPick()}
 
 // ---------- daily ④ dictation bar ----------
-// Today lives in localStorage nova_dq. The day key is dKey(), the same local
-// calendar day as 今天时长. Signed-in devices merge nova_dq_log with Firestore
-// users/{uid}.nova_dq (see dqCloudPlan): one day at a time, union of sel, union
-// of done, larger extra. The target stays the selected count. A 整句对了 id in
-// done is kept. Logged out or offline, the bar still only uses this device.
+// Today lives in localStorage nova_dq. The day key is dqDay(): 02:00
+// America/New_York, the same boundary as the overtime sticker, not local
+// midnight (今天时长 still uses dKey()). Signed-in devices merge nova_dq_log
+// with Firestore users/{uid}.nova_dq (see dqCloudPlan): one day at a time,
+// union of sel, union of done, larger extra. 今天的目标 only displays that
+// day's pinned sentences. A 整句对了 id in done is kept. Logged out or offline,
+// the bar still only uses this device.
 // Not the removed Naval % bar, not 复述, and not part of ☀ sync or the N1 code.
-// The picker stops at 5 (dqPick). A cloud merge can still union an older, longer set.
-// A sentence counts only when 检查 already says 整句对了 (dqOnCheck's ok flag).
-// Until every selected sentence is done, anything else is ignored. After that,
-// further correct checks are 超额. star stays 1 on a day once five selected sentences are done.
+// Opening 听写 directly (#/c/dictation, or a 夏日 topic, then #/i/…) hits the
+// same 检查 as a sentence opened from the daily list. A correct check counts
+// once: it fills a free slot among the five, or, once five selected sentences
+// are done, it is overtime. Wrong checks and replays do not count.
+// star stays 1 on a day once five selected sentences are done.
 // DQ_LOGIC_START
 function dqBlank(day){return {day:day||"",sel:[],done:[],extra:0,star:0}}
 function dqClean(a){const o=[],s=new Set();if(!Array.isArray(a))return o;for(const k of a){if(typeof k!=="string"||!k||s.has(k))continue;s.add(k);o.push(k)}return o}
@@ -1155,10 +1158,13 @@ function dqStar(v){return v&&(v.star===1||v.star===true)?1:0}
 function dqNorm(raw,day){if(!raw||typeof raw!=="object"||raw.day!==day)return dqBlank(day);return {day,sel:dqClean(raw.sel),done:dqClean(raw.done),extra:dqExtra(raw.extra),star:dqStar(raw)}}
 function dqFull(st){return st.sel.length>0&&st.sel.every(k=>st.done.includes(k))}
 function dqToggle(st,key){if(typeof key!=="string"||!key)return st;const sel=st.sel.slice(),i=sel.indexOf(key);if(i>=0)sel.splice(i,1);else sel.push(key);return {day:st.day,sel,done:st.done.slice(),extra:st.extra,star:dqStar(st)}}
-function dqNote(st,key){if(typeof key!=="string"||!key)return {st,how:"skip"};const full=dqFull(st),star=dqStar(st);
- if(st.sel.includes(key)){if(!st.done.includes(key))return {st:{day:st.day,sel:st.sel.slice(),done:st.done.concat(key),extra:st.extra,star},how:"advance"};
-  if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1,star},how:"extra"};return {st,how:"skip"}}
- if(full)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.slice(),extra:st.extra+1,star},how:"extra"};return {st,how:"skip"}}
+function dqSelDoneN(st){let n=0;const d=st.done||[];for(const k of st.sel||[])if(d.indexOf(k)>=0)n++;return n}
+function dqBeyond(st){const s=new Set(st.sel||[]);let n=0;for(const k of st.done||[])if(!s.has(k))n++;return n}
+function dqNote(st,key){if(typeof key!=="string"||!key||st.done.includes(key))return {st,how:"skip"};const star=dqStar(st);
+ if(st.sel.includes(key))return {st:{day:st.day,sel:st.sel.slice(),done:st.done.concat(key),extra:st.extra,star},how:"advance"};
+ if(dqSelDoneN(st)>=5)return {st:{day:st.day,sel:st.sel.slice(),done:st.done.concat(key),extra:st.extra,star},how:"extra"};
+ if(st.sel.length<5)return {st:{day:st.day,sel:st.sel.concat(key),done:st.done.concat(key),extra:st.extra,star},how:"advance"};
+ return {st,how:"skip"}}
 function dqOnCheck(st,key,ok){if(!ok)return {st,how:"skip"};return dqNote(st,key)}
 function dqView(st){const tot=st.sel.length,n=st.sel.reduce((a,k)=>a+(st.done.includes(k)?1:0),0),full=tot>0&&n===tot;
  return {n,tot,full,pct:tot?Math.round(100*n/tot):0,extra:st.extra,showExtra:!!(full&&st.extra>0)}}
@@ -1203,12 +1209,13 @@ function dqLog(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"nul
  if(raw&&typeof raw==="object"&&dqDayOk(raw.day)){const packed=dqPack(dqNorm(raw,raw.day));
   if(dqLive(packed))log[raw.day]=dqMergeDay(log[raw.day],packed)}
  return dqDaysFrom(log)}
+function dqDay(now){if(typeof dqStickerDay=="function")return dqStickerDay(now);return typeof dKey=="function"?dKey(now):""}
 function dqLoad(){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
- const day=dKey(),st=dqNorm(raw,day);if(!raw||raw.day!==day){if(raw&&typeof raw==="object"&&raw.day&&raw.day!==day)dqRemember(raw);dqSave(st)}return st}
+ const day=dqDay(),st=dqNorm(raw,day);if(!raw||raw.day!==day){if(raw&&typeof raw==="object"&&raw.day&&raw.day!==day)dqRemember(raw);dqSave(st)}return st}
 function dqSave(st){if(st&&!dqStar(st)&&dqFoot(st).won)st.star=1;
  try{localStorage.setItem(DQK,JSON.stringify(st))}catch(e){}dqRemember(st);if(typeof dqStickSync=="function")dqStickSync(st);if(!dqSave.quiet&&window.novaCloudDirty)window.novaCloudDirty()}
 function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getItem(DQK)||"null")}catch(e){}
- const today=typeof dKey=="function"?dKey():"",plan=dqApplyPlan(raw,dqLogRead(),remote,today);if(!plan.applied)return plan;
+ const today=typeof dqDay=="function"?dqDay():(typeof dKey=="function"?dKey():""),plan=dqApplyPlan(raw,dqLogRead(),remote,today);if(!plan.applied)return plan;
  dqLogWrite(plan.log);
  if(plan.today&&dqDayOk(today)&&!dqSameDay(dqNorm(raw,today),plan.today)){const prev=dqSave.quiet;dqSave.quiet=true;
   try{dqSave(plan.today)}finally{dqSave.quiet=prev}
@@ -1216,17 +1223,18 @@ function dqApplyCloud(remote){let raw=null;try{raw=JSON.parse(localStorage.getIt
   if(typeof document!="undefined"&&document.getElementById&&document.getElementById("daynow")&&typeof DQTOPICS!="undefined"&&DQTOPICS&&typeof dqPaintNow=="function"){
    const seq=DQSEQ;DQTOPICS.then(topics=>{if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;if(document.getElementById("daynow"))dqPaintNow(topics)}).catch(()=>{})}}
  return plan}
-// She picks the sentences. The picker stops at 5 and does not choose them.
-// Five written 整句对了 light the five stars, one each, and never more than five.
-// Past that, further correct checks are +N on the right of the stars.
-// Once a calendar day reaches 5, nova_dq keeps star:1 for that day.
+// The day's sentences stay pinned until 02:00 America/New_York (dqDay).
+// 今天的目标 does not change them and does not open 听写.
+// Five written 整句对了 light the five goal sheets, one each, and never more than five.
+// Past that, each new correct sentence is +N on the home card, the 听写 list,
+// and this page. They share dqFoot and nova_goalshown_.
+// Once a study day reaches 5, nova_dq keeps star:1 for that day.
 // The 流麻 face is Nova's acrylic PNG for this Mon–Sun week (see dqBoardLevel).
 // Stickers stay an overlay on that PNG. They are overtime only.
 const DQ_FLOOR=5;
-function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR;
- return {v,got:v.n,floor:DQ_FLOOR,won,ot:won?(v.n-DQ_FLOOR)+v.extra:0}}
+function dqFoot(st){const v=dqView(st),won=v.n>=DQ_FLOOR,beyond=typeof dqBeyond=="function"?dqBeyond(st):0;
+ return {v,got:v.n,floor:DQ_FLOOR,won,ot:won?(v.n-DQ_FLOOR)+v.extra+beyond:0}}
 function dqBits(){return dqFoot(dqLoad())}
-function dqMarkHTML(got){const svg=`<svg viewBox="0 0 64 60" aria-hidden="true"><polygon points="32,2 40.2,22.4 62,23.2 45,36.6 51.2,57.6 32,45.2 12.8,57.6 19,36.6 2,23.2 23.8,22.4"/></svg>`;let h="";for(let i=0;i<DQ_FLOOR;i++)h+=`<i class="${i<got?"on":""}">${svg}</i>`;return h}
 // Stickers follow Nova's day: 02:00 America/New_York, not local midnight.
 // Overtime above the floor of 5 shows one precomposed sheet on the acrylic face:
 // 1..10 → assets/chongya/overtime-N.png, 11+ → reward-11-xuanfan.png.
@@ -1247,9 +1255,9 @@ function dqU(s){let h=2166136261;s=String(s);for(let i=0;i<s.length;i++)h=Math.i
 const DQSK="nova_dq_stick";
 function dqStickRead(){try{const o=JSON.parse(localStorage.getItem(DQSK)||"null");return o&&typeof o==="object"&&!Array.isArray(o)?o:null}catch(e){return null}}
 function dqStickWrite(o){try{localStorage.setItem(DQSK,JSON.stringify(o))}catch(e){}}
-function dqOtN(st){st=st||{};const done=Array.isArray(st.done)?st.done:[];let n=0;
- if(Array.isArray(st.sel)){for(const k of st.sel)if(done.indexOf(k)>=0)n++}else n=done.length;
- if(n<5)return 0;return (n-5)+dqExtra(st.extra)}
+function dqOtN(st){st=st||{};const done=Array.isArray(st.done)?st.done:[];let n=0,beyond=0;
+ if(Array.isArray(st.sel)){const s=new Set(st.sel);for(const k of st.sel)if(done.indexOf(k)>=0)n++;for(const k of done)if(!s.has(k))beyond++}else n=done.length;
+ if(n<5)return 0;return (n-5)+dqExtra(st.extra)+beyond}
 function dqStickSync(st,now){st=st||{day:"",done:[],extra:0};const sd=dqStickerDay(now);let b=dqStickRead();const fresh=!b||b.day!==sd;
  if(fresh){const base={};if(b&&b.day&&b.day!==sd)base[st.day]=dqOtN(st);b={day:sd,base,n:0}}
  if(!b.base||typeof b.base!=="object"||Array.isArray(b.base))b.base={};
@@ -1303,7 +1311,7 @@ const DQ_GOAL_AT=[[.1871,.7909,.1918],[.3472,.7897,.1934],[.5039,.7903,.1918],[.
 const DQ_GOAL_POP="assets/goal/star-pop.webp";
 let DQGPOP=0,DQGVIS=null,DQ_POP_BYTES=null;
 function dqGoalNow(){try{return Math.max(0,Math.min(5,(typeof dqBits=="function"?dqBits().got:0)|0))}catch(e){return 0}}
-function dqGoalDay(){try{return typeof dKey=="function"?dKey():""}catch(e){return ""}}
+function dqGoalDay(){try{return typeof dqDay=="function"?dqDay():(typeof dKey=="function"?dKey():"")}catch(e){return ""}}
 function dqGoalShown(){try{const v=localStorage.getItem("nova_goalshown_"+dqGoalDay());if(v==null||v==="")return 0;const n=+v;return Number.isFinite(n)?Math.max(0,Math.min(5,n|0)):0}catch(e){return 0}}
 function dqGoalShownSet(n){try{localStorage.setItem("nova_goalshown_"+dqGoalDay(),String(Math.max(0,Math.min(5,n|0))))}catch(e){}}
 function dqGoalPopDebug(){try{const q=location.search||"",h=location.hash||"";return /(?:\?|&|^)goalpop=1(?:&|$)/.test(q)||/goalpop=1/.test(h)}catch(e){return false}}
@@ -1341,7 +1349,8 @@ async function dqGoalDemo(box){const token=++DQGPOP;box.dataset.popdemo="1";
    if(dqGoalReduced()){dqGoalShow(box,n);await dqGoalSleep(900)}else await dqGoalPopOne(box,n)}
   await dqGoalSleep(360)}}
  finally{if(box.isConnected&&token===DQGPOP)delete box.dataset.popdemo}}
-function dqGoalHome(box){box=box||document.querySelector(".daybar.fp-home .fp-goals");if(!box||!box.isConnected)return;dqGoalPopWarm();
+function dqGoalMount(){if(typeof document=="undefined"||!document.querySelectorAll)return;document.querySelectorAll(".daybar .fp-goals").forEach(b=>dqGoalHome(b))}
+function dqGoalHome(box){box=box||document.querySelector(".daybar .fp-goals");if(!box||!box.isConnected)return;dqGoalPopWarm();
  if(dqGoalPopDebug()){if(box.dataset.popdemo==="1")return;dqGoalShow(box,0);if(document.hidden){dqGoalWhenVisible(box);return}dqGoalDemo(box);return}
  if(box.dataset.popping==="1")return;
  const cur=dqGoalNow(),shown=dqGoalShown();
@@ -1352,17 +1361,15 @@ function dqGoalHome(box){box=box||document.querySelector(".daybar.fp-home .fp-go
  dqGoalRun(box,shown,cur)}
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
  const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，+"+f.ot;
- const marks=`<span class="fp-marks" aria-hidden="true">${dqMarkHTML(got)}</span>`;
- // Goal sheet is the only home control that opens the folded daily list. got is the floor count, capped at 5.
- // All six sheets stay stacked in one box. A new star only flips which layer is .on — the img nodes are not swapped.
- // Cream-gold +N stays under the stars, including +0 when overtime is still 0. The pill is not the tap target.
- if(home){let layers="";for(let i=0;i<=5;i++){const on=i===got;const src=on?`assets/goal/goal-${got}.png`:`assets/goal/goal-${i}.png`;
+ // Same six goal sheets as the home card. A new star only flips which layer is .on.
+ // Cream-gold +N stays under the sheets, including +0. The pill is not the tap target.
+ let layers="";for(let i=0;i<=5;i++){const on=i===got;const src=on?`assets/goal/goal-${got}.png`:`assets/goal/goal-${i}.png`;
   layers+=`<img class="fp-goalart${on?" on":""}" data-g="${i}" alt="" decoding="async" src="${src}"${on?"":" aria-hidden=\"true\""}>`}
-  const goal=`<span class="fp-goals">${layers}</span>`,pill=`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`;
-  const score=`<span class="fp-score"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${goal}</button>${pill}</span>`;
+ const goal=`<span class="fp-goals">${layers}</span>`,pill=`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`;
+ if(home){const score=`<span class="fp-score"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${goal}</button>${pill}</span>`;
   return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side">${score}<div class="fp-qslot"></div></div>`}}
- const ot=f.ot?`<span class="fp-ot">+${f.ot}</span>`:"";
- return {lab,html:`<span class="fp-top"><b>今天的目标</b></span><span class="fp-score">${marks}${ot}</span>`}}
+ const score=`<span class="fp-home fp-strip"><span class="fp-score"><span class="fp-goal">${goal}</span>${pill}</span></span>`;
+ return {lab,html:score}}
 function dqHTML(opt){const go=!(opt&&opt.go===false),home=!!(opt&&opt.home),f=dqBits(),inn=dqFootInner(f,home);
  if(home)return `<div class="daybar fp fp-home${f.won?" is-full":""}${f.ot?" has-ot":""}" aria-label="${esc(inn.lab)}">${inn.html}</div>`;
  const tag=go?"button":"div",at=go?' type="button" data-day-go':"";
@@ -1431,10 +1438,10 @@ function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
    if(stick&&freshStk){const next=freshStk.getAttribute("src")||"",prev=stick.getAttribute("src")||"";if(prev!==next)stick.setAttribute("src",next);freshStk.replaceWith(stick)}
    if(wasFalling&&fall&&day){day.dataset.falling="1";day.appendChild(fall)}
    else if(day)dqStarfallSync(day,prevLevel,false)}
-  else el.innerHTML=inn.html;
+  else{el.innerHTML=inn.html;const g=el.querySelector(".fp-goals");if(g)dqGoalHome(g)}
   if(f.won&&!was){el.classList.add("shine");setTimeout(()=>el.classList.remove("shine"),900)}})}
 let DQDAY="",DQSTICK="";
-function dqDayWatch(){const day=dKey(),sd=dqStickerDay();if(DQDAY===day&&DQSTICK===sd)return;const prev=DQDAY;DQDAY=day;DQSTICK=sd;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
+function dqDayWatch(){const day=typeof dqDay=="function"?dqDay():dKey(),sd=dqStickerDay();if(DQDAY===day&&DQSTICK===sd)return;const prev=DQDAY;DQDAY=day;DQSTICK=sd;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
 let DQSEQ=0,DQTOPICS=null;
 function dqItemList(){const out=[];
  if(CAT){const naval=(CAT.categories||[]).find(c=>c.id=="dictation");
@@ -1446,24 +1453,21 @@ function dqTopics(){if(!DQTOPICS)DQTOPICS=(async()=>{const items=dqItemList(),go
   (d.sents||[]).forEach((s,i)=>{if(s&&s.oa)sent.push(i)});if(sent.length)got[n]={fold:row.fold,id:row.it.id,title:ttl(row.it),base:row.it.base||row.it.id,sent}}catch(e){}}));
  return got.filter(Boolean)})();return DQTOPICS}
 function dqFind(topics,key){const m=/^(.*):(\d+)$/.exec(key||"");if(!m)return null;const id=m[1],i=+m[2],t=topics.find(x=>x.id===id);if(!t)return null;const n=t.sent.indexOf(i);if(n<0)return null;return {t,i,n:n+1,key}}
-function dqOpen(topics,key){const f=dqFind(topics,key);if(!f)return;try{sessionStorage.setItem("nova_dt_go",String(f.i))}catch(e){}location.hash="#/i/"+f.t.id}
 function dqFoldOn(id){try{return localStorage.getItem("nova_dqf_"+id)==="1"}catch(e){return false}}
 function dqPaintNow(topics){const st=dqLoad(),sel=new Set(st.sel),done=new Set(st.done);
  const cap=st.sel.length>=DQ_FLOOR;
  document.querySelectorAll(".dayb").forEach(b=>{const on=sel.has(b.dataset.k),did=on&&done.has(b.dataset.k);
-  b.classList.toggle("on",on);b.classList.toggle("did",did);b.classList.toggle("cap",cap&&!on);b.setAttribute("aria-pressed",on?"true":"false");
+  b.classList.toggle("on",on);b.classList.toggle("did",did);b.classList.toggle("cap",cap&&!on);
   const lab=b.dataset.lab||"";b.setAttribute("aria-label",lab+(on?"，已选":"")+(did?"，今天已写对":""))});
  const box=document.getElementById("daynow");if(!box)return;const v=dqView(st);
  const chips=st.sel.map(key=>{const f=dqFind(topics,key),lab=f?f.t.title+" · 第 "+f.n+" 句":"一句",ok=done.has(key);
-  return `<span class="daychip${ok?" did":""}"><button type="button" class="daygo" data-open="${esc(key)}">${esc(lab)}${ok?" ✓":""}</button><span class="dayx" role="button" data-day-x="${esc(key)}" aria-label="取消这句">×</span></span>`}).join("");
- box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.n?" · 写对 "+v.n:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`;
- const anchor=document.getElementById("daybody")||box;
- box.querySelectorAll("[data-day-x]").forEach(b=>b.onclick=ev=>{ev.preventDefault();const cur=dqLoad();if(!cur.sel.includes(b.dataset.dayX))return;dqHoldTap(anchor,()=>{dqSave(dqPick(cur,b.dataset.dayX).st);dqPaint();dqPaintNow(topics)})});
- box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>dqOpen(topics,b.dataset.open))}
+  return `<span class="daychip${ok?" did":""}"><span class="daygo">${esc(lab)}${ok?" ✓":""}</span></span>`}).join("");
+ box.innerHTML=`<div class="daycnt">已选 ${st.sel.length} 句${v.n?" · 写对 "+v.n:""}</div>${st.sel.length?`<div class="daychips">${chips}</div>`:""}`}
 function dqPick(st,key){if(!st||typeof key!=="string"||!key)return {st,blocked:false};
- if(st.sel.includes(key)||st.sel.length<DQ_FLOOR)return {st:dqToggle(st,key),blocked:false};return {st,blocked:true}}
+ if(st.sel.includes(key))return {st,blocked:true};
+ if(st.sel.length<DQ_FLOOR)return {st:dqToggle(st,key),blocked:false};return {st,blocked:true}}
 async function showDQ(){const seq=++DQSEQ;setHeader("今天的目标",true);
- V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;
+ V.innerHTML=`${dqHTML({go:false})}<div class="card daypick"><div id="daynow"></div><div id="daybody"><div class="done">正在读取句子…</div></div></div>`;dqGoalMount();
  let topics=[];try{topics=await dqTopics()}catch(e){topics=[]}
  if(seq!==DQSEQ||(location.hash||"")!=="#/dq")return;
  const body=document.getElementById("daybody");if(!body)return;
@@ -1472,10 +1476,9 @@ async function showDQ(){const seq=++DQSEQ;setHeader("今天的目标",true);
  for(const t of topics){if(t.fold!==fold){fold=t.fold;html+=`<h3 class="dayfold">${esc(fold)}</h3>`}
   const open=dqFoldOn(t.id);
   const cells=t.sent.map((i,n)=>{const k=t.id+":"+i,lit=sunHas(t.base,i),lab="第 "+(n+1)+" 句"+(lit?"，已标重点":"");
-   return `<div class="dayb" role="button" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</div>`}).join("");
+   return `<div class="dayb" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</div>`}).join("");
   html+=`<details class="dqfold" data-dqf="${esc(t.id)}"${open?" open":""}><summary class="dqfh"><span class="dqfar" aria-hidden="true"></span><span class="dqfnm">${esc(t.title)}</span><span class="dqfsub">${t.sent.length}</span></summary><div class="daygrid" role="group" aria-label="${esc(t.fold+" "+t.title)}">${cells}</div></details>`}
  body.innerHTML=html;
- body.querySelectorAll(".dayb").forEach(b=>b.addEventListener("click",ev=>{ev.preventDefault();const hit=dqPick(dqLoad(),b.dataset.k);if(hit.blocked){toast("已经 5 句");return}dqHoldTap(b,()=>{dqSave(hit.st);dqPaint();dqPaintNow(topics)})}));
  dqPaintNow(topics)}
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-day-go]");if(!b)return;e.preventDefault();location.hash="#/dq"});
 
