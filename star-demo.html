@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>今天的目标 · 动画预览</title>
+<style>
+  html,body{margin:0;background:#f6f3ea;color:#1a2330}
+  body{font-family:"PingFang SC","Noto Sans CJK SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  main{box-sizing:border-box;width:min(100%,480px);margin:0 auto;padding:calc(20px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom))}
+  h1{margin:0 0 8px;font-size:22px;line-height:1.35;font-weight:800}
+  .note{margin:0 0 16px;color:#5c5346;font-size:15px;line-height:1.5}
+  .stage{background:#fff;border-radius:20px;padding:12px 12px 10px;box-shadow:0 4px 16px rgba(40,50,30,.08)}
+  .step{margin:8px 0 0;text-align:center;font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;color:#6b5320}
+  button{display:block;width:100%;min-height:48px;margin-top:16px;border:0;border-radius:14px;background:#e2b84a;color:#2b2000;font:inherit;font-size:17px;font-weight:800}
+  button:disabled{opacity:.45}
+  .back{display:inline-block;margin-top:14px;color:#8a6a1f;font-weight:700;font-size:16px}
+  /* Same stack as style.css: goal-0 stays in flow; only .on is visible.
+     A new star fades the next sheet in, with star-pop.webp on that star. */
+  .fp-goalart{display:block;width:100%;height:auto;pointer-events:none}
+  .fp-goals{position:relative;display:block;width:100%;line-height:0}
+  .fp-goals .fp-goalart{opacity:0;transition:none;animation:none}
+  .fp-goals .fp-goalart:not([data-g="0"]){position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+  .fp-goals .fp-goalart.on{opacity:1;z-index:1}
+  .fp-goalpop{position:absolute;z-index:3;height:auto;aspect-ratio:118/128;pointer-events:none;transform:translate(-50%,-50%);transform-origin:center center}
+  @media (prefers-reduced-motion:reduce){.fp-goalpop{display:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>今天的目标 · 动画预览</h1>
+  <p class="note">只播放动画，不会修改学习记录</p>
+  <div class="stage">
+    <div class="fp-goals" id="goals">
+      <img class="fp-goalart on" data-g="0" alt="" decoding="async" src="assets/goal/goal-0.png">
+      <img class="fp-goalart" data-g="1" alt="" decoding="async" src="assets/goal/goal-1.png" aria-hidden="true">
+      <img class="fp-goalart" data-g="2" alt="" decoding="async" src="assets/goal/goal-2.png" aria-hidden="true">
+      <img class="fp-goalart" data-g="3" alt="" decoding="async" src="assets/goal/goal-3.png" aria-hidden="true">
+      <img class="fp-goalart" data-g="4" alt="" decoding="async" src="assets/goal/goal-4.png" aria-hidden="true">
+      <img class="fp-goalart" data-g="5" alt="" decoding="async" src="assets/goal/goal-5.png" aria-hidden="true">
+    </div>
+    <p class="step" id="step" aria-live="polite">0 / 5</p>
+  </div>
+  <button type="button" id="replay" disabled>播放动画</button>
+  <a class="back" href="./">返回应用</a>
+</main>
+<script>
+/* Copied from app.js goal pop. One pass only: goal-0, then one new star at a time, stop on goal-5.
+   DQ_GOAL_AT centers and overlay widths. Each star is 900ms: pop for 680ms, then a 220ms crossfade.
+   This file does not load app.js and does not read or write localStorage. */
+(function(){
+  var AT=[[.1871,.7909,.1918],[.3472,.7897,.1934],[.5039,.7903,.1918],[.6607,.7886,.1934],[.8182,.7897,.1941]];
+  var POP="assets/goal/star-pop.webp";
+  var bytes=null, token=0, playing=false;
+  var box=document.getElementById("goals");
+  var btn=document.getElementById("replay");
+  var step=document.getElementById("step");
+  function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  function reduced(){try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
+  function setStep(n){if(step)step.textContent=n+" / 5"}
+  function show(n){
+    n=Math.max(0,Math.min(5,n|0));
+    box.querySelectorAll(".fp-goalart").forEach(function(im){
+      var on=+im.getAttribute("data-g")===n;
+      im.classList.toggle("on",on);
+      if(on)im.removeAttribute("aria-hidden");
+      else im.setAttribute("aria-hidden","true");
+    });
+  }
+  function cross(n,ms){
+    var next=box.querySelector('.fp-goalart[data-g="'+n+'"]');
+    if(!next){show(n);return Promise.resolve()}
+    var prev=box.querySelector(".fp-goalart.on");
+    if(!prev||prev===next||!next.animate||!(ms>0)){show(n);return Promise.resolve()}
+    next.style.zIndex="2";
+    var anim=next.animate([{opacity:0},{opacity:1}],{duration:ms,easing:"linear",fill:"forwards"});
+    return Promise.resolve(anim.finished).catch(function(){}).then(function(){
+      show(n);
+      try{next.getAnimations().forEach(function(a){a.cancel()})}catch(e){}
+      next.style.zIndex="";
+    });
+  }
+  function popOne(n){
+    var at=AT[n-1];
+    if(!at){show(n);return Promise.resolve()}
+    var img=document.createElement("img");
+    img.className="fp-goalpop";
+    img.alt="";
+    img.setAttribute("aria-hidden","true");
+    img.decoding="sync";
+    var w=at[2],nudge=w/59;
+    img.style.left=((at[0]+nudge)*100)+"%";
+    img.style.top=((at[1]-nudge)*100)+"%";
+    img.style.width=(w*100)+"%";
+    var url=POP;
+    if(bytes){url=URL.createObjectURL(new Blob([bytes],{type:"image/webp"}));img._u=url}
+    img.src=url;
+    box.appendChild(img);
+    var fade=220,total=900;
+    return sleep(total-fade).then(function(){if(box.isConnected)return cross(n,fade)}).finally(function(){
+      var u=img._u;img._u="";
+      if(img.parentNode)img.remove();
+      if(u)URL.revokeObjectURL(u);
+    });
+  }
+  function preload(){
+    var jobs=[];
+    for(var i=0;i<=5;i++){
+      var im=new Image();
+      im.decoding="async";
+      im.src="assets/goal/goal-"+i+".png";
+      jobs.push(im.decode?im.decode().catch(function(){}):Promise.resolve());
+    }
+    var sp=new Image();
+    sp.decoding="async";
+    sp.src=POP;
+    jobs.push(sp.decode?sp.decode().catch(function(){}):Promise.resolve());
+    if(typeof fetch=="function")jobs.push(fetch(POP).then(function(r){return r.ok?r.arrayBuffer():null}).then(function(b){if(b)bytes=b}).catch(function(){}));
+    return Promise.all(jobs);
+  }
+  async function playOnce(){
+    if(playing||!box)return;
+    var mine=++token;
+    playing=true;
+    btn.disabled=true;
+    show(0);
+    setStep(0);
+    try{
+      for(var n=1;n<=5;n++){
+        if(mine!==token||!box.isConnected)return;
+        while(document.hidden&&box.isConnected&&mine===token)await sleep(200);
+        if(mine!==token||!box.isConnected)return;
+        if(reduced()){show(n);setStep(n);await sleep(900)}
+        else{await popOne(n);if(mine===token)setStep(n)}
+      }
+      if(mine!==token||!box.isConnected)return;
+      await sleep(360);
+    }finally{
+      if(mine===token){playing=false;if(box.isConnected)btn.disabled=false}
+    }
+  }
+  btn.addEventListener("click",function(){if(!btn.disabled)playOnce()});
+  Promise.race([preload(),sleep(8000)]).then(function(){playOnce()});
+})();
+</script>
+</body>
+</html>
