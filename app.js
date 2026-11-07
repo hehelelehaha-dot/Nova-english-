@@ -194,7 +194,8 @@ async function loadLuca(){if(LUCA)return LUCA;try{LUCA=await getJSON("luca.json"
 function lucaReading(){return (LUCA&&LUCA.reading)||[]}
 function lucaDict(){return lucaReading().map(it=>({id:"dt_"+it.id,base:it.id,title:it.title,sub:it.sub||"",data:it.data,dictation:1}))}
 // 单词卡 / 英英解释: Day files marked vocab:N in luca.json carry flash + ee blocks (same shape as 飞屋 up_dNN).
-function lucaVocab(part){return lucaReading().filter(it=>it.vocab).map(it=>({id:it.id+"_"+part,base:it.id,title:it.title,sub:it.vocab+" 词",data:it.data,upPart:part}))}
+// 英英解释 with a built long audio (luca.json long: luca_dNN_long.json, Naval ③ format) opens viewLong like Naval; else viewEE TTS.
+function lucaVocab(part){return lucaReading().filter(it=>it.vocab).map(it=>part=="ee"&&it.long?{id:it.id+"_ee",base:it.id,title:it.title,sub:it.vocab+" 词",data:it.long}:({id:it.id+"_"+part,base:it.id,title:it.title,sub:it.vocab+" 词",data:it.data,upPart:part}))}
 function lucaItemsFor(s){return s.like=="reading"?lucaReading():s.like=="dictation"?lucaDict():s.like=="flash"?lucaVocab("flash"):s.like=="ee"?lucaVocab("ee"):[]}
 function lucaHit(id){{const m=/^(luca_d\d+)_(flash|ee)$/.exec(id||"");if(m){const v=lucaVocab(m[2]).find(x=>x.id===id);return v?{it:v,sec:m[2]==="flash"?"luca_flash":"luca_longaudio"}:null}}const r=lucaReading().find(it=>it.id==id);if(r)return{it:r,sec:"luca_reading"};const d=lucaDict().find(it=>it.id==id);if(d)return{it:d,sec:"luca_dictation"};return null}
 const UP_DEF=[
@@ -783,7 +784,7 @@ function fcLinkOrig(d){const C=(d&&d.flash&&d.flash.cards)||[],S=(d&&d.sents)||[
   if(s&&s.oa)c.oa=s.oa}}
 document.addEventListener("click",e=>{const b=e.target.closest(".fcorig");if(!b)return;e.stopPropagation();e.preventDefault();stopAll();LASTBTN=b;playSrc({oa:b.dataset.oa,oab:[0,null]},1,b)},true);
 function lgHTML(c){return c&&c.lg&&c.lg[1]?`<div class="row lgrow"><div class="tx"><span class="lab lg">底层逻辑</span>${c.lg[0]?`<span class="lge">${esc(c.lg[0])}</span> `:""}${esc(c.lg[1])}</div></div>`:""}
-function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t;const hl=full&&src.ft&&src.fhl?src.fhl:(src.hl||[-1,-1]);const[a,b]=hl;const who=src.sp=="Naval"?"Naval":"Chris";
+function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t;const hl=full&&src.ft&&src.fhl?src.fhl:(src.hl||[-1,-1]);const[a,b]=hl;const who=src.sp=="Naval"?"Naval":src.sp=="Luca"?"Luca":"Chris";
  return `<span class="lab yw">原文</span>${dsegHTML(t,[a,b],t==(src.ft||src.t)?src.sg:null)} <span class="ywsp">— ${who}</span>`}
 // 点读 for every 原文/原句 render (②③④⑤⑥🧠): sg=[[charStart,charEnd,clip,t0,t1|null],…] over the displayed text (build/src_orig.py).
 // Each segment is a .dseg span; tap = play just that stretch of the original audio (highlighted while playing). hl=[a,b] stays bold.

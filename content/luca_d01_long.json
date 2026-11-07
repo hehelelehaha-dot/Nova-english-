@@ -1,0 +1,1409 @@
+{
+ "id": "luca_d01_long",
+ "type": "longaudio",
+ "title": "Day 1",
+ "audio": "audio/luca_d01v/long.mp3",
+ "dur": 220.0,
+ "items": [
+  {
+   "n": 1,
+   "w": "glimpse",
+   "pos": "n.",
+   "zh": "一瞥；瞄一眼",
+   "ex": "A glimpse is a very quick look at something. You see it for only a second.",
+   "exs": [
+    "I only caught a glimpse of the sea monster before it swam away."
+   ],
+   "exzh": [
+    "我只瞄到了一眼那个海怪，它就游走了。"
+   ],
+   "t": 0.0,
+   "tt": {
+    "s0": 0.0,
+    "o0": 0.0,
+    "w": 3.66,
+    "pos": 5.25,
+    "ex": [
+     [
+      "A",
+      6.55
+     ],
+     [
+      "glimpse",
+      6.66
+     ],
+     [
+      "is",
+      7.11
+     ],
+     [
+      "a",
+      7.28
+     ],
+     [
+      "very",
+      7.39
+     ],
+     [
+      "quick",
+      7.68
+     ],
+     [
+      "look",
+      8.02
+     ],
+     [
+      "at",
+      8.3
+     ],
+     [
+      "something.",
+      8.47
+     ],
+     [
+      "You",
+      9.09
+     ],
+     [
+      "see",
+      9.31
+     ],
+     [
+      "it",
+      9.54
+     ],
+     [
+      "for",
+      9.71
+     ],
+     [
+      "only",
+      9.93
+     ],
+     [
+      "a",
+      10.21
+     ],
+     [
+      "second.",
+      10.33
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "I",
+       11.53
+      ],
+      [
+       "only",
+       11.64
+      ],
+      [
+       "caught",
+       11.92
+      ],
+      [
+       "a",
+       12.31
+      ],
+      [
+       "glimpse",
+       12.42
+      ],
+      [
+       "of",
+       12.87
+      ],
+      [
+       "the",
+       13.03
+      ],
+      [
+       "sea",
+       13.26
+      ],
+      [
+       "monster",
+       13.48
+      ],
+      [
+       "before",
+       13.93
+      ],
+      [
+       "it",
+       14.32
+      ],
+      [
+       "swam",
+       14.48
+      ],
+      [
+       "away.",
+       14.76
+      ]
+     ]
+    ],
+    "z": [
+     15.58
+    ],
+    "o": 19.12
+   },
+   "src": {
+    "t": "Because if they catch even a glimpse of you...",
+    "zh": "因为就算他们只瞄了你一眼...",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s04.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "w": "come around",
+   "pos": "phr.",
+   "zh": "过来；到这边来",
+   "ex": "Come around means to come to a place, often a place near you.",
+   "exs": [
+    "The fishermen come around the island every morning."
+   ],
+   "exzh": [
+    "渔夫们每天早上都会到这个岛附近来。"
+   ],
+   "t": 23.08,
+   "tt": {
+    "s0": 23.08,
+    "o0": 23.08,
+    "w": 25.42,
+    "pos": 27.43,
+    "ex": [
+     [
+      "Come",
+      28.78
+     ],
+     [
+      "around",
+      29.05
+     ],
+     [
+      "means",
+      29.44
+     ],
+     [
+      "to",
+      29.77
+     ],
+     [
+      "come",
+      29.93
+     ],
+     [
+      "to",
+      30.2
+     ],
+     [
+      "a",
+      30.37
+     ],
+     [
+      "place,",
+      30.48
+     ],
+     [
+      "often",
+      30.86
+     ],
+     [
+      "a",
+      31.19
+     ],
+     [
+      "place",
+      31.3
+     ],
+     [
+      "near",
+      31.63
+     ],
+     [
+      "you.",
+      31.9
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       32.93
+      ],
+      [
+       "fishermen",
+       33.12
+      ],
+      [
+       "come",
+       33.6
+      ],
+      [
+       "around",
+       33.83
+      ],
+      [
+       "the",
+       34.17
+      ],
+      [
+       "island",
+       34.36
+      ],
+      [
+       "every",
+       34.69
+      ],
+      [
+       "morning.",
+       34.98
+      ]
+     ]
+    ],
+    "z": [
+     35.89
+    ],
+    "o": 39.84
+   },
+   "src": {
+    "t": "You think they come around to meet new friends, huh?",
+    "zh": "你觉得他们是出海来结交新朋友的吗",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s05.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "w": "sweaty",
+   "pos": "adj.",
+   "zh": "满身是汗的",
+   "ex": "Sweaty means wet with sweat. Your body gets sweaty when you are hot or work hard.",
+   "exs": [
+    "After rowing the boat all day, he was tired and sweaty."
+   ],
+   "exzh": [
+    "划了一整天船，他又累又满身是汗。"
+   ],
+   "t": 42.48,
+   "tt": {
+    "s0": 42.48,
+    "o0": 42.48,
+    "w": 45.64,
+    "pos": 47.39,
+    "ex": [
+     [
+      "Sweaty",
+      48.95
+     ],
+     [
+      "means",
+      49.37
+     ],
+     [
+      "wet",
+      49.72
+     ],
+     [
+      "with",
+      49.96
+     ],
+     [
+      "sweat.",
+      50.26
+     ],
+     [
+      "Your",
+      50.67
+     ],
+     [
+      "body",
+      50.97
+     ],
+     [
+      "gets",
+      51.27
+     ],
+     [
+      "sweaty",
+      51.57
+     ],
+     [
+      "when",
+      51.98
+     ],
+     [
+      "you",
+      52.28
+     ],
+     [
+      "are",
+      52.52
+     ],
+     [
+      "hot",
+      52.75
+     ],
+     [
+      "or",
+      52.99
+     ],
+     [
+      "work",
+      53.17
+     ],
+     [
+      "hard.",
+      53.47
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "After",
+       54.57
+      ],
+      [
+       "rowing",
+       54.93
+      ],
+      [
+       "the",
+       55.36
+      ],
+      [
+       "boat",
+       55.6
+      ],
+      [
+       "all",
+       55.9
+      ],
+      [
+       "day,",
+       56.14
+      ],
+      [
+       "he",
+       56.44
+      ],
+      [
+       "was",
+       56.62
+      ],
+      [
+       "tired",
+       56.86
+      ],
+      [
+       "and",
+       57.23
+      ],
+      [
+       "sweaty.",
+       57.47
+      ]
+     ]
+    ],
+    "z": [
+     58.43
+    ],
+    "o": 61.85
+   },
+   "src": {
+    "t": "Just a sweaty land monster with a paddle",
+    "zh": "只有一个划着桨 汗流浃背的陆怪",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s14.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "w": "molting",
+   "pos": "v.",
+   "zh": "蜕壳；换毛",
+   "ex": "Molting means an animal is losing its old shell, skin, or feathers so a new one can grow.",
+   "exs": [
+    "The crab is molting, so its new shell is still soft."
+   ],
+   "exzh": [
+    "这只螃蟹正在蜕壳，所以新壳还是软的。"
+   ],
+   "t": 65.31,
+   "tt": {
+    "s0": 65.31,
+    "o0": 65.31,
+    "w": 67.32,
+    "pos": 69.29,
+    "ex": [
+     [
+      "Molting",
+      70.48
+     ],
+     [
+      "means",
+      71.02
+     ],
+     [
+      "an",
+      71.42
+     ],
+     [
+      "animal",
+      71.63
+     ],
+     [
+      "is",
+      72.1
+     ],
+     [
+      "losing",
+      72.3
+     ],
+     [
+      "its",
+      72.77
+     ],
+     [
+      "old",
+      73.04
+     ],
+     [
+      "shell,",
+      73.31
+     ],
+     [
+      "skin,",
+      73.78
+     ],
+     [
+      "or",
+      74.19
+     ],
+     [
+      "feathers",
+      74.39
+     ],
+     [
+      "so",
+      75.0
+     ],
+     [
+      "a",
+      75.2
+     ],
+     [
+      "new",
+      75.33
+     ],
+     [
+      "one",
+      75.6
+     ],
+     [
+      "can",
+      75.87
+     ],
+     [
+      "grow.",
+      76.14
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       77.3
+      ],
+      [
+       "crab",
+       77.53
+      ],
+      [
+       "is",
+       77.82
+      ],
+      [
+       "molting,",
+       78.0
+      ],
+      [
+       "so",
+       78.52
+      ],
+      [
+       "its",
+       78.7
+      ],
+      [
+       "new",
+       78.93
+      ],
+      [
+       "shell",
+       79.17
+      ],
+      [
+       "is",
+       79.52
+      ],
+      [
+       "still",
+       79.69
+      ],
+      [
+       "soft.",
+       80.04
+      ]
+     ]
+    ],
+    "z": [
+     80.88
+    ],
+    "o": 84.95
+   },
+   "src": {
+    "t": "She's molting",
+    "zh": "她在换壳",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s19.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 5,
+   "w": "magnificent",
+   "pos": "adj.",
+   "zh": "壮丽的；了不起的",
+   "ex": "Magnificent means very beautiful or very great. It makes you say “wow!”",
+   "exs": [
+    "The sunset over the sea was magnificent."
+   ],
+   "exzh": [
+    "海上的日落太壮观了。"
+   ],
+   "t": 87.26,
+   "tt": {
+    "s0": 87.26,
+    "o0": 87.26,
+    "w": 89.4,
+    "pos": 91.52,
+    "ex": [
+     [
+      "Magnificent",
+      93.08
+     ],
+     [
+      "means",
+      93.84
+     ],
+     [
+      "very",
+      94.22
+     ],
+     [
+      "beautiful",
+      94.54
+     ],
+     [
+      "or",
+      95.18
+     ],
+     [
+      "very",
+      95.37
+     ],
+     [
+      "great.",
+      95.68
+     ],
+     [
+      "It",
+      96.13
+     ],
+     [
+      "makes",
+      96.32
+     ],
+     [
+      "you",
+      96.7
+     ],
+     [
+      "say",
+      96.95
+     ],
+     [
+      "“wow!”",
+      97.21
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       98.4
+      ],
+      [
+       "sunset",
+       98.61
+      ],
+      [
+       "over",
+       98.99
+      ],
+      [
+       "the",
+       99.25
+      ],
+      [
+       "sea",
+       99.47
+      ],
+      [
+       "was",
+       99.68
+      ],
+      [
+       "magnificent.",
+       99.89
+      ]
+     ]
+    ],
+    "z": [
+     101.06
+    ],
+    "o": 103.65
+   },
+   "src": {
+    "t": "Oh, it's magnificent",
+    "zh": "真是太神奇了",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s20.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 6,
+   "w": "ever",
+   "pos": "adv.",
+   "zh": "曾经；任何时候",
+   "ex": "Ever means at any time. We often use it in questions and in “if I ever …”.",
+   "exs": [
+    "Have you ever seen a crab this big?"
+   ],
+   "exzh": [
+    "你见过这么大的螃蟹吗？"
+   ],
+   "t": 106.09,
+   "tt": {
+    "s0": 106.09,
+    "o0": 106.09,
+    "w": 109.75,
+    "pos": 111.44,
+    "ex": [
+     [
+      "Ever",
+      112.89
+     ],
+     [
+      "means",
+      113.22
+     ],
+     [
+      "at",
+      113.61
+     ],
+     [
+      "any",
+      113.8
+     ],
+     [
+      "time.",
+      114.06
+     ],
+     [
+      "We",
+      114.45
+     ],
+     [
+      "often",
+      114.65
+     ],
+     [
+      "use",
+      115.04
+     ],
+     [
+      "it",
+      115.3
+     ],
+     [
+      "in",
+      115.49
+     ],
+     [
+      "questions",
+      115.68
+     ],
+     [
+      "and",
+      116.33
+     ],
+     [
+      "in",
+      116.59
+     ],
+     [
+      "“if",
+      116.79
+     ],
+     [
+      "I",
+      117.05
+     ],
+     [
+      "ever",
+      117.18
+     ],
+     [
+      "…”.",
+      117.5
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Have",
+       118.51
+      ],
+      [
+       "you",
+       118.78
+      ],
+      [
+       "ever",
+       119.0
+      ],
+      [
+       "seen",
+       119.27
+      ],
+      [
+       "a",
+       119.54
+      ],
+      [
+       "crab",
+       119.65
+      ],
+      [
+       "this",
+       119.92
+      ],
+      [
+       "big?",
+       120.19
+      ]
+     ]
+    ],
+    "z": [
+     120.94
+    ],
+    "o": 123.33
+   },
+   "src": {
+    "t": "here's a champion show crab if I ever saw one",
+    "zh": "这是我见过的最顶级的赛级蟹了",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s22.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 7,
+   "w": "champion",
+   "pos": "n.",
+   "zh": "冠军；第一名",
+   "ex": "A champion is the winner of a contest. A champion is the best one.",
+   "exs": [
+    "Her crab won first prize. It is the champion of the show."
+   ],
+   "exzh": [
+    "她的螃蟹得了一等奖，是这次比赛的冠军。"
+   ],
+   "t": 127.29,
+   "tt": {
+    "s0": 127.29,
+    "o0": 127.29,
+    "w": 130.95,
+    "pos": 132.71,
+    "ex": [
+     [
+      "A",
+      134.01
+     ],
+     [
+      "champion",
+      134.14
+     ],
+     [
+      "is",
+      134.73
+     ],
+     [
+      "the",
+      134.93
+     ],
+     [
+      "winner",
+      135.19
+     ],
+     [
+      "of",
+      135.65
+     ],
+     [
+      "a",
+      135.85
+     ],
+     [
+      "contest.",
+      135.98
+     ],
+     [
+      "A",
+      136.57
+     ],
+     [
+      "champion",
+      136.7
+     ],
+     [
+      "is",
+      137.3
+     ],
+     [
+      "the",
+      137.49
+     ],
+     [
+      "best",
+      137.76
+     ],
+     [
+      "one.",
+      138.08
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Her",
+       139.16
+      ],
+      [
+       "crab",
+       139.41
+      ],
+      [
+       "won",
+       139.73
+      ],
+      [
+       "first",
+       139.98
+      ],
+      [
+       "prize.",
+       140.36
+      ],
+      [
+       "It",
+       140.8
+      ],
+      [
+       "is",
+       140.99
+      ],
+      [
+       "the",
+       141.18
+      ],
+      [
+       "champion",
+       141.43
+      ],
+      [
+       "of",
+       142.0
+      ],
+      [
+       "the",
+       142.19
+      ],
+      [
+       "show.",
+       142.44
+      ]
+     ]
+    ],
+    "z": [
+     143.3
+    ],
+    "o": 147.35
+   },
+   "src": {
+    "t": "here's a champion show crab if I ever saw one",
+    "zh": "这是我见过的最顶级的赛级蟹了",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s22.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 8,
+   "w": "apologize",
+   "pos": "v.",
+   "zh": "道歉",
+   "ex": "Apologize means to say “I’m sorry” because you did something wrong.",
+   "exs": [
+    "Luca was late, so he apologized to his mom."
+   ],
+   "exzh": [
+    "Luca 迟到了，所以他向妈妈道了歉。"
+   ],
+   "t": 151.31,
+   "tt": {
+    "s0": 151.31,
+    "o0": 151.31,
+    "w": 153.27,
+    "pos": 155.41,
+    "ex": [
+     [
+      "Apologize",
+      156.61
+     ],
+     [
+      "means",
+      157.23
+     ],
+     [
+      "to",
+      157.61
+     ],
+     [
+      "say",
+      157.8
+     ],
+     [
+      "“I’m",
+      158.05
+     ],
+     [
+      "sorry”",
+      158.36
+     ],
+     [
+      "because",
+      158.8
+     ],
+     [
+      "you",
+      159.3
+     ],
+     [
+      "did",
+      159.55
+     ],
+     [
+      "something",
+      159.8
+     ],
+     [
+      "wrong.",
+      160.42
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Luca",
+       161.61
+      ],
+      [
+       "was",
+       161.96
+      ],
+      [
+       "late,",
+       162.24
+      ],
+      [
+       "so",
+       162.65
+      ],
+      [
+       "he",
+       162.86
+      ],
+      [
+       "apologized",
+       163.07
+      ],
+      [
+       "to",
+       163.83
+      ],
+      [
+       "his",
+       164.04
+      ],
+      [
+       "mom.",
+       164.32
+      ]
+     ]
+    ],
+    "z": [
+     165.15
+    ],
+    "o": 168.37
+   },
+   "src": {
+    "t": "But don't apologize",
+    "zh": "但也别道歉啊",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s26.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 9,
+   "w": "beat",
+   "pos": "v.",
+   "zh": "打败；赢过",
+   "ex": "Beat means to win against someone in a game or contest.",
+   "exs": [
+    "Our team wants to beat the other team this year."
+   ],
+   "exzh": [
+    "我们队今年想打败另一队。"
+   ],
+   "t": 170.63,
+   "tt": {
+    "s0": 170.63,
+    "o0": 170.63,
+    "w": 174.15,
+    "pos": 175.82,
+    "ex": [
+     [
+      "Beat",
+      177.02
+     ],
+     [
+      "means",
+      177.32
+     ],
+     [
+      "to",
+      177.69
+     ],
+     [
+      "win",
+      177.87
+     ],
+     [
+      "against",
+      178.11
+     ],
+     [
+      "someone",
+      178.6
+     ],
+     [
+      "in",
+      179.08
+     ],
+     [
+      "a",
+      179.26
+     ],
+     [
+      "game",
+      179.38
+     ],
+     [
+      "or",
+      179.69
+     ],
+     [
+      "contest.",
+      179.87
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Our",
+       181.17
+      ],
+      [
+       "team",
+       181.37
+      ],
+      [
+       "wants",
+       181.62
+      ],
+      [
+       "to",
+       181.92
+      ],
+      [
+       "beat",
+       182.07
+      ],
+      [
+       "the",
+       182.32
+      ],
+      [
+       "other",
+       182.52
+      ],
+      [
+       "team",
+       182.82
+      ],
+      [
+       "this",
+       183.07
+      ],
+      [
+       "year.",
+       183.32
+      ]
+     ]
+    ],
+    "z": [
+     184.11
+    ],
+    "o": 187.03
+   },
+   "src": {
+    "t": "We better beat those Branzinos at the crab show this year",
+    "zh": "我们最好在今年的螃蟹秀上打败那帮布兰奇鲈",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s29.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 10,
+   "w": "impression",
+   "pos": "n.",
+   "zh": "模仿（某人/动物）；印象",
+   "ex": "An impression is when you copy the sound or the way a person or animal acts, often to be funny.",
+   "exs": [
+    "She does a great dolphin impression. She sounds just like a real dolphin!"
+   ],
+   "exzh": [
+    "她模仿海豚模仿得特别像，听起来就像真海豚！"
+   ],
+   "t": 190.85,
+   "tt": {
+    "s0": 190.85,
+    "o0": 190.85,
+    "w": 195.27,
+    "pos": 197.31,
+    "ex": [
+     [
+      "An",
+      198.61
+     ],
+     [
+      "impression",
+      198.8
+     ],
+     [
+      "is",
+      199.5
+     ],
+     [
+      "when",
+      199.69
+     ],
+     [
+      "you",
+      200.01
+     ],
+     [
+      "copy",
+      200.26
+     ],
+     [
+      "the",
+      200.58
+     ],
+     [
+      "sound",
+      200.83
+     ],
+     [
+      "or",
+      201.22
+     ],
+     [
+      "the",
+      201.41
+     ],
+     [
+      "way",
+      201.66
+     ],
+     [
+      "a",
+      201.92
+     ],
+     [
+      "person",
+      202.04
+     ],
+     [
+      "or",
+      202.49
+     ],
+     [
+      "animal",
+      202.68
+     ],
+     [
+      "acts,",
+      203.12
+     ],
+     [
+      "often",
+      203.51
+     ],
+     [
+      "to",
+      203.89
+     ],
+     [
+      "be",
+      204.08
+     ],
+     [
+      "funny.",
+      204.27
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "She",
+       205.46
+      ],
+      [
+       "does",
+       205.71
+      ],
+      [
+       "a",
+       206.02
+      ],
+      [
+       "great",
+       206.14
+      ],
+      [
+       "dolphin",
+       206.51
+      ],
+      [
+       "impression.",
+       207.01
+      ],
+      [
+       "She",
+       207.75
+      ],
+      [
+       "sounds",
+       208.0
+      ],
+      [
+       "just",
+       208.43
+      ],
+      [
+       "like",
+       208.74
+      ],
+      [
+       "a",
+       209.05
+      ],
+      [
+       "real",
+       209.17
+      ],
+      [
+       "dolphin!",
+       209.48
+      ]
+     ]
+    ],
+    "z": [
+     210.52
+    ],
+    "o": 215.25
+   },
+   "src": {
+    "t": "with her prize-winning crabs and amazing dolphin impression",
+    "zh": "因为她有只奖杯收割机螃蟹 还很会模仿海豚",
+    "sp": "Luca",
+    "oa": "audio/luca_d01o/s31.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  }
+ ]
+}

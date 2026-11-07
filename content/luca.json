@@ -5,7 +5,8 @@
       "title": "Day 1",
       "sub": "33 句",
       "data": "luca_d01.json",
-      "vocab": 10
+      "vocab": 10,
+      "long": "luca_d01_long.json"
     },
     {
       "id": "luca_d03",
