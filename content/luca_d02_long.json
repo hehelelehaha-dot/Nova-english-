@@ -1,0 +1,1105 @@
+{
+ "id": "luca_d02_long",
+ "type": "longaudio",
+ "title": "Day 2",
+ "audio": "audio/luca_d02v/long.mp3",
+ "dur": 156.9,
+ "items": [
+  {
+   "n": 1,
+   "w": "even",
+   "pos": "adv.",
+   "zh": "甚至；到底（加强语气）",
+   "ex": "Even adds emphasis to something surprising. Here, it shows that the speaker finds the sound strange.",
+   "exs": [
+    "Why do dolphins even make that sound?"
+   ],
+   "exzh": [
+    "海豚到底为什么会发出那种声音？"
+   ],
+   "t": 0.0,
+   "tt": {
+    "s0": 0.0,
+    "o0": 0.0,
+    "w": 2.96,
+    "pos": 4.5,
+    "ex": [
+     [
+      "Even",
+      5.96
+     ],
+     [
+      "adds",
+      6.28
+     ],
+     [
+      "emphasis",
+      6.6
+     ],
+     [
+      "to",
+      7.18
+     ],
+     [
+      "something",
+      7.38
+     ],
+     [
+      "surprising.",
+      8.03
+     ],
+     [
+      "Here,",
+      8.8
+     ],
+     [
+      "it",
+      9.19
+     ],
+     [
+      "shows",
+      9.38
+     ],
+     [
+      "that",
+      9.77
+     ],
+     [
+      "the",
+      10.1
+     ],
+     [
+      "speaker",
+      10.35
+     ],
+     [
+      "finds",
+      10.87
+     ],
+     [
+      "the",
+      11.26
+     ],
+     [
+      "sound",
+      11.52
+     ],
+     [
+      "strange.",
+      11.91
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Why",
+       13.24
+      ],
+      [
+       "do",
+       13.48
+      ],
+      [
+       "dolphins",
+       13.66
+      ],
+      [
+       "even",
+       14.19
+      ],
+      [
+       "make",
+       14.49
+      ],
+      [
+       "that",
+       14.79
+      ],
+      [
+       "sound?",
+       15.09
+      ]
+     ]
+    ],
+    "z": [
+     15.99
+    ],
+    "o": 19.38
+   },
+   "src": {
+    "t": "I don't know why dolphins even sound like that.",
+    "zh": "我真不明白海豚怎么会发出那样的声音。",
+    "sp": "Luca",
+    "oa": "audio/luca_d02o/s01.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "w": "mind",
+   "pos": "n.",
+   "zh": "心思；脑海",
+   "ex": "Your mind is the part of you that thinks and feels. “What is on your mind?” asks what you are thinking about.",
+   "exs": [
+    "You look quiet. What is on your mind?"
+   ],
+   "exzh": [
+    "你看起来没怎么说话。你在想什么呢？"
+   ],
+   "t": 22.64,
+   "tt": {
+    "s0": 22.64,
+    "o0": 22.64,
+    "w": 24.46,
+    "pos": 26.24,
+    "ex": [
+     [
+      "Your",
+      27.54
+     ],
+     [
+      "mind",
+      27.83
+     ],
+     [
+      "is",
+      28.12
+     ],
+     [
+      "the",
+      28.29
+     ],
+     [
+      "part",
+      28.52
+     ],
+     [
+      "of",
+      28.81
+     ],
+     [
+      "you",
+      28.98
+     ],
+     [
+      "that",
+      29.21
+     ],
+     [
+      "thinks",
+      29.5
+     ],
+     [
+      "and",
+      29.91
+     ],
+     [
+      "feels.",
+      30.14
+     ],
+     [
+      "“What",
+      30.54
+     ],
+     [
+      "is",
+      30.89
+     ],
+     [
+      "on",
+      31.06
+     ],
+     [
+      "your",
+      31.23
+     ],
+     [
+      "mind?”",
+      31.52
+     ],
+     [
+      "asks",
+      31.92
+     ],
+     [
+      "what",
+      32.21
+     ],
+     [
+      "you",
+      32.5
+     ],
+     [
+      "are",
+      32.73
+     ],
+     [
+      "thinking",
+      32.96
+     ],
+     [
+      "about.",
+      33.48
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "You",
+       34.63
+      ],
+      [
+       "look",
+       34.87
+      ],
+      [
+       "quiet.",
+       35.17
+      ],
+      [
+       "What",
+       35.59
+      ],
+      [
+       "is",
+       35.89
+      ],
+      [
+       "on",
+       36.07
+      ],
+      [
+       "your",
+       36.24
+      ],
+      [
+       "mind?",
+       36.54
+      ]
+     ]
+    ],
+    "z": [
+     37.38
+    ],
+    "o": 41.03
+   },
+   "src": {
+    "t": "What's on your mind?",
+    "zh": "你在想什么呢？",
+    "sp": "Luca",
+    "oa": "audio/luca_d02o/s02.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "w": "where do",
+   "pos": "phr.",
+   "zh": "在哪里；从哪里（用于提问）",
+   "ex": "“Where do” begins a question about a place. Use it with I, you, we, they, or a plural noun, followed by the base form of a verb.",
+   "exs": [
+    "Where do these boats go at night?"
+   ],
+   "exzh": [
+    "这些船晚上去哪里？"
+   ],
+   "t": 43.15,
+   "tt": {
+    "s0": 43.15,
+    "o0": 43.15,
+    "w": 45.38,
+    "pos": 47.08,
+    "ex": [
+     [
+      "“Where",
+      48.42
+     ],
+     [
+      "do”",
+      48.88
+     ],
+     [
+      "begins",
+      49.15
+     ],
+     [
+      "a",
+      49.61
+     ],
+     [
+      "question",
+      49.75
+     ],
+     [
+      "about",
+      50.34
+     ],
+     [
+      "a",
+      50.74
+     ],
+     [
+      "place.",
+      50.88
+     ],
+     [
+      "Use",
+      51.34
+     ],
+     [
+      "it",
+      51.61
+     ],
+     [
+      "with",
+      51.8
+     ],
+     [
+      "I,",
+      52.14
+     ],
+     [
+      "you,",
+      52.34
+     ],
+     [
+      "we,",
+      52.67
+     ],
+     [
+      "they,",
+      52.93
+     ],
+     [
+      "or",
+      53.33
+     ],
+     [
+      "a",
+      53.53
+     ],
+     [
+      "plural",
+      53.66
+     ],
+     [
+      "noun,",
+      54.13
+     ],
+     [
+      "followed",
+      54.53
+     ],
+     [
+      "by",
+      55.12
+     ],
+     [
+      "the",
+      55.32
+     ],
+     [
+      "base",
+      55.59
+     ],
+     [
+      "form",
+      55.92
+     ],
+     [
+      "of",
+      56.25
+     ],
+     [
+      "a",
+      56.45
+     ],
+     [
+      "verb.",
+      56.58
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Where",
+       57.73
+      ],
+      [
+       "do",
+       58.02
+      ],
+      [
+       "these",
+       58.16
+      ],
+      [
+       "boats",
+       58.45
+      ],
+      [
+       "go",
+       58.74
+      ],
+      [
+       "at",
+       58.88
+      ],
+      [
+       "night?",
+       59.02
+      ]
+     ]
+    ],
+    "z": [
+     59.84
+    ],
+    "o": 62.29
+   },
+   "src": {
+    "t": "Where do boats come from?",
+    "zh": "那些船是从哪里来的？",
+    "sp": "Luca",
+    "oa": "audio/luca_d02o/s03.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "w": "above",
+   "pos": "prep.",
+   "zh": "在……上方",
+   "ex": "Above means in a higher place than something else. Above the surface means higher than the top of the water.",
+   "exs": [
+    "A small boat floated above the sea monsters."
+   ],
+   "exzh": [
+    "一条小船漂在海怪们上方。"
+   ],
+   "t": 64.82,
+   "tt": {
+    "s0": 64.82,
+    "o0": 64.82,
+    "w": 66.71,
+    "pos": 68.51,
+    "ex": [
+     [
+      "Above",
+      70.03
+     ],
+     [
+      "means",
+      70.37
+     ],
+     [
+      "in",
+      70.7
+     ],
+     [
+      "a",
+      70.87
+     ],
+     [
+      "higher",
+      70.99
+     ],
+     [
+      "place",
+      71.38
+     ],
+     [
+      "than",
+      71.72
+     ],
+     [
+      "something",
+      72.0
+     ],
+     [
+      "else.",
+      72.56
+     ],
+     [
+      "Above",
+      72.9
+     ],
+     [
+      "the",
+      73.23
+     ],
+     [
+      "surface",
+      73.46
+     ],
+     [
+      "means",
+      73.91
+     ],
+     [
+      "higher",
+      74.25
+     ],
+     [
+      "than",
+      74.64
+     ],
+     [
+      "the",
+      74.92
+     ],
+     [
+      "top",
+      75.15
+     ],
+     [
+      "of",
+      75.37
+     ],
+     [
+      "the",
+      75.54
+     ],
+     [
+      "water.",
+      75.76
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "A",
+       76.91
+      ],
+      [
+       "small",
+       77.02
+      ],
+      [
+       "boat",
+       77.34
+      ],
+      [
+       "floated",
+       77.61
+      ],
+      [
+       "above",
+       78.04
+      ],
+      [
+       "the",
+       78.36
+      ],
+      [
+       "sea",
+       78.57
+      ],
+      [
+       "monsters.",
+       78.79
+      ]
+     ]
+    ],
+    "z": [
+     79.8
+    ],
+    "o": 82.92
+   },
+   "src": {
+    "t": "Just above the surface.",
+    "zh": "就在水面上方。",
+    "sp": "Luca",
+    "oa": "audio/luca_d02o/s04.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 5,
+   "w": "cards",
+   "pos": "n.",
+   "zh": "扑克牌（复数）；纸牌",
+   "ex": "Cards are small pieces of thick paper used to play games. To beat someone at cards means to win a card game against them.",
+   "exs": [
+    "Grandma likes playing cards with her friends."
+   ],
+   "exzh": [
+    "外婆喜欢和朋友们一起打牌。"
+   ],
+   "t": 85.11,
+   "tt": {
+    "s0": 85.11,
+    "o0": 85.11,
+    "w": 87.99,
+    "pos": 89.83,
+    "ex": [
+     [
+      "Cards",
+      91.14
+     ],
+     [
+      "are",
+      91.53
+     ],
+     [
+      "small",
+      91.79
+     ],
+     [
+      "pieces",
+      92.19
+     ],
+     [
+      "of",
+      92.65
+     ],
+     [
+      "thick",
+      92.85
+     ],
+     [
+      "paper",
+      93.24
+     ],
+     [
+      "used",
+      93.64
+     ],
+     [
+      "to",
+      93.97
+     ],
+     [
+      "play",
+      94.16
+     ],
+     [
+      "games.",
+      94.49
+     ],
+     [
+      "To",
+      94.95
+     ],
+     [
+      "beat",
+      95.15
+     ],
+     [
+      "someone",
+      95.48
+     ],
+     [
+      "at",
+      96.01
+     ],
+     [
+      "cards",
+      96.2
+     ],
+     [
+      "means",
+      96.6
+     ],
+     [
+      "to",
+      96.99
+     ],
+     [
+      "win",
+      97.19
+     ],
+     [
+      "a",
+      97.45
+     ],
+     [
+      "card",
+      97.58
+     ],
+     [
+      "game",
+      97.91
+     ],
+     [
+      "against",
+      98.24
+     ],
+     [
+      "them.",
+      98.77
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Grandma",
+       99.91
+      ],
+      [
+       "likes",
+       100.33
+      ],
+      [
+       "playing",
+       100.65
+      ],
+      [
+       "cards",
+       101.07
+      ],
+      [
+       "with",
+       101.39
+      ],
+      [
+       "her",
+       101.65
+      ],
+      [
+       "friends.",
+       101.86
+      ]
+     ]
+    ],
+    "z": [
+     102.81
+    ],
+    "o": 105.97
+   },
+   "src": {
+    "t": "I beat a guy at cards there once.",
+    "zh": "我以前在那里跟一个人打牌，还赢了他。",
+    "sp": "Luca",
+    "oa": "audio/luca_d02o/s05.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 6,
+   "w": "change",
+   "pos": "n.",
+   "zh": "变化；变身",
+   "ex": "A change is when something becomes different. In this story, the change is turning from a sea monster into a human.",
+   "exs": [
+    "Luca was surprised by the change in his body."
+   ],
+   "exzh": [
+    "卢卡对自己身体的变化感到惊讶。"
+   ],
+   "t": 109.15,
+   "tt": {
+    "s0": 109.15,
+    "o0": 109.15,
+    "w": 112.6,
+    "pos": 114.38,
+    "ex": [
+     [
+      "A",
+      115.68
+     ],
+     [
+      "change",
+      115.81
+     ],
+     [
+      "is",
+      116.25
+     ],
+     [
+      "when",
+      116.44
+     ],
+     [
+      "something",
+      116.75
+     ],
+     [
+      "becomes",
+      117.38
+     ],
+     [
+      "different.",
+      117.88
+     ],
+     [
+      "In",
+      118.58
+     ],
+     [
+      "this",
+      118.77
+     ],
+     [
+      "story,",
+      119.08
+     ],
+     [
+      "the",
+      119.52
+     ],
+     [
+      "change",
+      119.77
+     ],
+     [
+      "is",
+      120.21
+     ],
+     [
+      "turning",
+      120.4
+     ],
+     [
+      "from",
+      120.91
+     ],
+     [
+      "a",
+      121.22
+     ],
+     [
+      "sea",
+      121.35
+     ],
+     [
+      "monster",
+      121.6
+     ],
+     [
+      "into",
+      122.1
+     ],
+     [
+      "a",
+      122.42
+     ],
+     [
+      "human.",
+      122.54
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Luca",
+       123.73
+      ],
+      [
+       "was",
+       124.03
+      ],
+      [
+       "surprised",
+       124.27
+      ],
+      [
+       "by",
+       124.86
+      ],
+      [
+       "the",
+       125.04
+      ],
+      [
+       "change",
+       125.28
+      ],
+      [
+       "in",
+       125.7
+      ],
+      [
+       "his",
+       125.88
+      ],
+      [
+       "body.",
+       126.11
+      ]
+     ]
+    ],
+    "z": [
+     126.95
+    ],
+    "o": 130.52
+   },
+   "src": {
+    "t": "You've been to the surface and done the change?",
+    "zh": "你去过水面上，还变过身？",
+    "sp": "Luca",
+    "oa": "audio/luca_d02o/s06.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 7,
+   "w": "curious",
+   "pos": "adj.",
+   "zh": "好奇的",
+   "ex": "Curious means wanting to know or learn more about something. A curious person asks questions and explores new things.",
+   "exs": [
+    "Luca is curious about the world above the water."
+   ],
+   "exzh": [
+    "卢卡对水面上的世界很好奇。"
+   ],
+   "t": 134.27,
+   "tt": {
+    "s0": 134.27,
+    "o0": 134.27,
+    "w": 136.26,
+    "pos": 138.01,
+    "ex": [
+     [
+      "Curious",
+      139.57
+     ],
+     [
+      "means",
+      140.08
+     ],
+     [
+      "wanting",
+      140.46
+     ],
+     [
+      "to",
+      140.97
+     ],
+     [
+      "know",
+      141.16
+     ],
+     [
+      "or",
+      141.48
+     ],
+     [
+      "learn",
+      141.67
+     ],
+     [
+      "more",
+      142.05
+     ],
+     [
+      "about",
+      142.37
+     ],
+     [
+      "something.",
+      142.75
+     ],
+     [
+      "A",
+      143.44
+     ],
+     [
+      "curious",
+      143.57
+     ],
+     [
+      "person",
+      144.08
+     ],
+     [
+      "asks",
+      144.52
+     ],
+     [
+      "questions",
+      144.84
+     ],
+     [
+      "and",
+      145.48
+     ],
+     [
+      "explores",
+      145.73
+     ],
+     [
+      "new",
+      146.3
+     ],
+     [
+      "things.",
+      146.56
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Luca",
+       147.81
+      ],
+      [
+       "is",
+       148.13
+      ],
+      [
+       "curious",
+       148.31
+      ],
+      [
+       "about",
+       148.81
+      ],
+      [
+       "the",
+       149.19
+      ],
+      [
+       "world",
+       149.44
+      ],
+      [
+       "above",
+       149.81
+      ],
+      [
+       "the",
+       150.19
+      ],
+      [
+       "water.",
+       150.43
+      ]
+     ]
+    ],
+    "z": [
+     151.35
+    ],
+    "o": 154.6
+   },
+   "src": {
+    "t": "I was just curious.",
+    "zh": "我只是好奇而已。",
+    "sp": "Luca",
+    "oa": "audio/luca_d02o/s07.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  }
+ ]
+}
