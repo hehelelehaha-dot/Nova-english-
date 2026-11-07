@@ -1,0 +1,638 @@
+{
+  "id": "luca_d02",
+  "type": "reading",
+  "title": "Day 2",
+  "sents": [
+    {
+      "sp": "",
+      "t": "I don't know why dolphins even sound like that.",
+      "zh": "我真不明白海豚怎么会发出那样的声音。",
+      "a": "audio/luca_d02o/s01.mp3",
+      "oa": "audio/luca_d02o/s01.mp3",
+      "d": 2.42,
+      "bkw": [
+        [
+          "even",
+          "adv.",
+          "甚至；到底（加强语气）"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "What's on your mind?",
+      "zh": "你在想什么呢？",
+      "a": "audio/luca_d02o/s02.mp3",
+      "oa": "audio/luca_d02o/s02.mp3",
+      "d": 1.27,
+      "bkw": [
+        [
+          "mind",
+          "n.",
+          "心思；脑海"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Where do boats come from?",
+      "zh": "那些船是从哪里来的？",
+      "a": "audio/luca_d02o/s03.mp3",
+      "oa": "audio/luca_d02o/s03.mp3",
+      "d": 1.68,
+      "bkw": [
+        [
+          "where do",
+          "phr.",
+          "在哪里；从哪里（用于提问）"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Just above the surface.",
+      "zh": "就在水面上方。",
+      "a": "audio/luca_d02o/s04.mp3",
+      "oa": "audio/luca_d02o/s04.mp3",
+      "d": 1.34,
+      "bkw": [
+        [
+          "above",
+          "prep.",
+          "在……上方"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "I beat a guy at cards there once.",
+      "zh": "我以前在那里跟一个人打牌，还赢了他。",
+      "a": "audio/luca_d02o/s05.mp3",
+      "oa": "audio/luca_d02o/s05.mp3",
+      "d": 2.33,
+      "bkw": [
+        [
+          "cards",
+          "n.",
+          "扑克牌（复数）；纸牌"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "You've been to the surface and done the change?",
+      "zh": "你去过水面上，还变过身？",
+      "a": "audio/luca_d02o/s06.mp3",
+      "oa": "audio/luca_d02o/s06.mp3",
+      "d": 2.9,
+      "bkw": [
+        [
+          "change",
+          "n.",
+          "变化；变身"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "I was just curious.",
+      "zh": "我只是好奇而已。",
+      "a": "audio/luca_d02o/s07.mp3",
+      "oa": "audio/luca_d02o/s07.mp3",
+      "d": 1.44,
+      "bkw": [
+        [
+          "curious",
+          "adj.",
+          "好奇的"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Yeah? Well, the curious fish gets caught.",
+      "zh": "是吗？好奇的鱼可是会被抓住的。",
+      "a": "audio/luca_d02o/s08.mp3",
+      "oa": "audio/luca_d02o/s08.mp3",
+      "d": 2.76,
+      "bkw": [
+        [
+          "curious",
+          "adj.",
+          "好奇的"
+        ]
+      ]
+    }
+  ],
+  "flash": {
+    "type": "flash",
+    "cards": [
+      {
+        "w": "even",
+        "pos": "adv.",
+        "zh": "甚至；到底（加强语气）",
+        "ipa": "/ˈiːvən/",
+        "ex": "Even adds emphasis to something surprising. Here, it shows that the speaker finds the sound strange.",
+        "exs": [
+          "Why do dolphins even make that sound?"
+        ],
+        "note": "Day 2 原句：“I don't know why dolphins even sound like that.”（我真不明白海豚怎么会发出那样的声音。）",
+        "si": 0
+      },
+      {
+        "w": "mind",
+        "pos": "n.",
+        "zh": "心思；脑海",
+        "ipa": "/maɪnd/",
+        "ex": "Your mind is the part of you that thinks and feels. “What is on your mind?” asks what you are thinking about.",
+        "exs": [
+          "You look quiet. What is on your mind?"
+        ],
+        "note": "Day 2 原句：“What's on your mind?”（你在想什么呢？）",
+        "si": 1
+      },
+      {
+        "w": "where do",
+        "pos": "phr.",
+        "zh": "在哪里；从哪里（用于提问）",
+        "ipa": "/wer də/",
+        "ex": "“Where do” begins a question about a place. Use it with I, you, we, they, or a plural noun, followed by the base form of a verb.",
+        "exs": [
+          "Where do these boats go at night?"
+        ],
+        "note": "Day 2 原句：“Where do boats come from?”（那些船是从哪里来的？）",
+        "si": 2
+      },
+      {
+        "w": "above",
+        "pos": "prep.",
+        "zh": "在……上方",
+        "ipa": "/əˈbʌv/",
+        "ex": "Above means in a higher place than something else. Above the surface means higher than the top of the water.",
+        "exs": [
+          "A small boat floated above the sea monsters."
+        ],
+        "note": "Day 2 原句：“Just above the surface.”（就在水面上方。） 上一句 The land monster town 指“陆怪的城镇”。",
+        "si": 3
+      },
+      {
+        "w": "cards",
+        "pos": "n.",
+        "zh": "扑克牌（复数）；纸牌",
+        "ipa": "/kɑːrdz/",
+        "ex": "Cards are small pieces of thick paper used to play games. To beat someone at cards means to win a card game against them.",
+        "exs": [
+          "Grandma likes playing cards with her friends."
+        ],
+        "note": "Day 2 原句：“I beat a guy at cards there once.”（我以前在那里跟一个人打牌，还赢了他。）",
+        "si": 4
+      },
+      {
+        "w": "change",
+        "pos": "n.",
+        "zh": "变化；变身",
+        "ipa": "/tʃeɪndʒ/",
+        "ex": "A change is when something becomes different. In this story, the change is turning from a sea monster into a human.",
+        "exs": [
+          "Luca was surprised by the change in his body."
+        ],
+        "note": "Day 2 原句：“You've been to the surface and done the change?”（你去过水面上，还变过身？）",
+        "si": 5
+      },
+      {
+        "w": "curious",
+        "pos": "adj.",
+        "zh": "好奇的",
+        "ipa": "/ˈkjʊriəs/",
+        "ex": "Curious means wanting to know or learn more about something. A curious person asks questions and explores new things.",
+        "exs": [
+          "Luca is curious about the world above the water."
+        ],
+        "note": "Day 2 原句：“I was just curious.”（我只是好奇而已。） 另一原句：“Yeah? Well, the curious fish gets caught.”（是吗？好奇的鱼可是会被抓住的。）",
+        "si": 6
+      }
+    ]
+  },
+  "ee": {
+    "type": "ee",
+    "items": [
+      {
+        "n": 1,
+        "w": "even",
+        "pos": "adv.",
+        "zh": "甚至；到底（加强语气）",
+        "ex": "Even adds emphasis to something surprising. Here, it shows that the speaker finds the sound strange.",
+        "exs": [
+          "Why do dolphins even make that sound?"
+        ],
+        "exzh": [
+          "海豚到底为什么会发出那种声音？"
+        ]
+      },
+      {
+        "n": 2,
+        "w": "mind",
+        "pos": "n.",
+        "zh": "心思；脑海",
+        "ex": "Your mind is the part of you that thinks and feels. “What is on your mind?” asks what you are thinking about.",
+        "exs": [
+          "You look quiet. What is on your mind?"
+        ],
+        "exzh": [
+          "你看起来没怎么说话。你在想什么呢？"
+        ]
+      },
+      {
+        "n": 3,
+        "w": "where do",
+        "pos": "phr.",
+        "zh": "在哪里；从哪里（用于提问）",
+        "ex": "“Where do” begins a question about a place. Use it with I, you, we, they, or a plural noun, followed by the base form of a verb.",
+        "exs": [
+          "Where do these boats go at night?"
+        ],
+        "exzh": [
+          "这些船晚上去哪里？"
+        ]
+      },
+      {
+        "n": 4,
+        "w": "above",
+        "pos": "prep.",
+        "zh": "在……上方",
+        "ex": "Above means in a higher place than something else. Above the surface means higher than the top of the water.",
+        "exs": [
+          "A small boat floated above the sea monsters."
+        ],
+        "exzh": [
+          "一条小船漂在海怪们上方。"
+        ]
+      },
+      {
+        "n": 5,
+        "w": "cards",
+        "pos": "n.",
+        "zh": "扑克牌（复数）；纸牌",
+        "ex": "Cards are small pieces of thick paper used to play games. To beat someone at cards means to win a card game against them.",
+        "exs": [
+          "Grandma likes playing cards with her friends."
+        ],
+        "exzh": [
+          "外婆喜欢和朋友们一起打牌。"
+        ]
+      },
+      {
+        "n": 6,
+        "w": "change",
+        "pos": "n.",
+        "zh": "变化；变身",
+        "ex": "A change is when something becomes different. In this story, the change is turning from a sea monster into a human.",
+        "exs": [
+          "Luca was surprised by the change in his body."
+        ],
+        "exzh": [
+          "卢卡对自己身体的变化感到惊讶。"
+        ]
+      },
+      {
+        "n": 7,
+        "w": "curious",
+        "pos": "adj.",
+        "zh": "好奇的",
+        "ex": "Curious means wanting to know or learn more about something. A curious person asks questions and explores new things.",
+        "exs": [
+          "Luca is curious about the world above the water."
+        ],
+        "exzh": [
+          "卢卡对水面上的世界很好奇。"
+        ]
+      }
+    ]
+  },
+  "wf": {
+    "set": {
+      "id": "luca_d02",
+      "title": "Day 2",
+      "items": [
+        {
+          "l": "原文",
+          "s": "I don't know why dolphins ___ sound like that.",
+          "o": [
+            "even",
+            "evenly",
+            "evenness",
+            "event"
+          ],
+          "a": "even",
+          "p": "adv.",
+          "vb": [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              6
+            ]
+          ],
+          "why": "even 在这里加强语气，表示觉得海豚的声音很奇怪；不是形容词“平坦的”。",
+          "f": "even",
+          "ft": "I don't know why dolphins even sound like that.",
+          "fhl": [
+            26,
+            30
+          ],
+          "oas": [
+            "audio/luca_d02o/s01.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "What's on your ___?",
+          "o": [
+            "mind",
+            "minds",
+            "minded",
+            "mindful"
+          ],
+          "a": "mind",
+          "p": "n.",
+          "vb": [
+            [
+              0
+            ]
+          ],
+          "why": "on your mind 表示“在你心里、让你惦记着”，这里 mind 是名词。",
+          "f": "mind",
+          "ft": "What's on your mind?",
+          "fhl": [
+            15,
+            19
+          ],
+          "oas": [
+            "audio/luca_d02o/s02.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "___ boats come from?",
+          "o": [
+            "Where do",
+            "Where does",
+            "Where is",
+            "Where are"
+          ],
+          "a": "Where do",
+          "p": "phr.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "boats 是复数，后面 come 是实义动词，问地点时用 Where do；单数主语通常用 Where does。",
+          "f": "where do",
+          "ft": "Where do boats come from?",
+          "fhl": [
+            0,
+            8
+          ],
+          "oas": [
+            "audio/luca_d02o/s03.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "Just ___ the surface.",
+          "o": [
+            "above",
+            "below",
+            "between",
+            "through"
+          ],
+          "a": "above",
+          "p": "prep.",
+          "vb": [],
+          "why": "above 是介词，后面接 the surface，表示“在水面上方”。本题练方位词，不是强行变词形。",
+          "f": "above",
+          "ft": "Just above the surface.",
+          "fhl": [
+            5,
+            10
+          ],
+          "oas": [
+            "audio/luca_d02o/s04.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "I beat a guy at ___ there once.",
+          "o": [
+            "cards",
+            "card",
+            "carded",
+            "carding"
+          ],
+          "a": "cards",
+          "p": "n.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "at cards 是“打牌”这个活动的固定说法。cards 是复数，不是一张牌。",
+          "f": "cards",
+          "ft": "I beat a guy at cards there once.",
+          "fhl": [
+            16,
+            21
+          ],
+          "oas": [
+            "audio/luca_d02o/s05.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "You've been to the surface and done the ___?",
+          "o": [
+            "change",
+            "changes",
+            "changed",
+            "changing"
+          ],
+          "a": "change",
+          "p": "n.",
+          "vb": [
+            [
+              0,
+              1
+            ],
+            [
+              6
+            ]
+          ],
+          "why": "the 后面用名词 change。done the change 在电影里指完成从海怪到人类的变身，不是“找零钱”。",
+          "f": "change",
+          "ft": "You've been to the surface and done the change?",
+          "fhl": [
+            40,
+            46
+          ],
+          "oas": [
+            "audio/luca_d02o/s06.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "I was just ___.",
+          "o": [
+            "curious",
+            "curiously",
+            "curiosity",
+            "curiosities"
+          ],
+          "a": "curious",
+          "p": "adj.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "was 后面用形容词 curious 描述“我”当时的状态。just 是“只是”，修饰 curious。",
+          "f": "curious",
+          "ft": "I was just curious.",
+          "fhl": [
+            11,
+            18
+          ],
+          "oas": [
+            "audio/luca_d02o/s07.mp3"
+          ],
+          "sp": "Luca"
+        }
+      ]
+    },
+    "fams": {
+      "even": [
+        [
+          "even",
+          "adv.",
+          "甚至；到底（加强语气）"
+        ],
+        [
+          "even",
+          "adj.",
+          "平坦的；均匀的"
+        ],
+        [
+          "evenly",
+          "adv.",
+          "均匀地"
+        ]
+      ],
+      "mind": [
+        [
+          "mind",
+          "n.",
+          "心思；头脑"
+        ],
+        [
+          "mind",
+          "v.",
+          "介意"
+        ],
+        [
+          "mindful",
+          "adj.",
+          "留意的；注意的"
+        ]
+      ],
+      "where do": [
+        [
+          "where do",
+          "phr.",
+          "问地点；搭配复数主语等"
+        ],
+        [
+          "where does",
+          "phr.",
+          "问地点；搭配第三人称单数主语"
+        ],
+        [
+          "where did",
+          "phr.",
+          "问过去的地点"
+        ]
+      ],
+      "above": [
+        [
+          "above",
+          "prep.",
+          "在……上方"
+        ],
+        [
+          "above",
+          "adv.",
+          "在上面"
+        ]
+      ],
+      "cards": [
+        [
+          "card",
+          "n.",
+          "一张纸牌；卡片"
+        ],
+        [
+          "cards",
+          "n.",
+          "扑克牌；多张纸牌"
+        ],
+        [
+          "card game",
+          "n.",
+          "纸牌游戏"
+        ]
+      ],
+      "change": [
+        [
+          "change",
+          "n.",
+          "变化；变身"
+        ],
+        [
+          "change",
+          "v.",
+          "改变；变化"
+        ],
+        [
+          "changing",
+          "v.",
+          "正在变化"
+        ]
+      ],
+      "curious": [
+        [
+          "curious",
+          "adj.",
+          "好奇的"
+        ],
+        [
+          "curiously",
+          "adv.",
+          "好奇地"
+        ],
+        [
+          "curiosity",
+          "n.",
+          "好奇心"
+        ]
+      ]
+    }
+  }
+}
