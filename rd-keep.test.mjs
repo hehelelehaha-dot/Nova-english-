@@ -18,6 +18,8 @@ runInContext(fn + "\nthis.rdRows=rdRows;", createContext(g));
 const rows = g.rdRows(day);
 const want = [4, 5, 14, 19, 20, 29, 30, 31];
 assert.deepEqual(rows.map(x => x.i + 1), want);
+assert.deepEqual(rows.map(x => x.n + 1), [1, 2, 3, 4, 5, 6, 7, 8]);
+assert.deepEqual(rows.map(x => x.i), [3, 4, 13, 18, 19, 28, 29, 30]);
 assert.deepEqual(rows.map(x => x.s.t), [
   "Because if they catch even a glimpse of you...",
   "You think they come around to meet new friends, huh?",
@@ -31,6 +33,7 @@ assert.deepEqual(rows.map(x => x.s.t), [
 assert.deepEqual(rows.map(x => x.s.oa), want.map(n => "audio/luca_d01o/s" + String(n).padStart(2, "0") + ".mp3"));
 assert.equal(day.sents.length, 33);
 assert.deepEqual(g.rdRows(day3).map(x => x.i), day3.sents.map((_, i) => i));
+assert.ok(g.rdRows(day3).every(x => x.n === x.i));
 
 for (const c of day.flash.cards) {
   assert.equal(Number.isInteger(c.si), true);
@@ -43,13 +46,19 @@ assert.equal(day.flash.cards.find(c => c.w === "apologize").si, 25);
 
 const rd = app.slice(app.indexOf("function viewReading"), app.indexOf("// 原文 in word cards"));
 assert.match(rd, /rdRows\(d\)/);
-assert.match(rd, /rows\.forEach\(\(\{s,i\}\)/);
+assert.match(rd, /rows\.forEach\(\(\{s,i,n\}\)/);
+assert.match(rd, /aria-label="第\$\{n\+1\}句">\$\{n\+1\}/);
+assert.match(rd, /第 \$\{showN\(i\)\} \/ \$\{rows\.length\} 句/);
+assert.match(rd, /第 \$\{showN\(i\)\} 句 · 请跟读/);
+assert.match(rd, /点读 · 第 \$\{showN\(i\)\} 句/);
 assert.match(rd, /e\.id="s"\+i/);
 assert.match(rd, /sunHas\(rid,i\)/);
 assert.match(rd, /sunToggle\(rid,i\)/);
 assert.equal(rd.includes("hidden"), false);
 const listen = app.slice(app.indexOf("async function playFoldListen"), app.indexOf("function listenStart"));
 assert.match(listen, /rdRows\(d\)/);
+assert.match(listen, /window\._tlCard=c\.i/);
+assert.match(listen, /第 \$\{c\.n\+1\} 张/);
 const dt = app.slice(app.indexOf("function viewDictation"), app.indexOf("// ---------- daily"));
 assert.equal(dt.includes("rdRows"), false);
 assert.match(dt, /\(d\.sents\|\|\[\]\)/);
