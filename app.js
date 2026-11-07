@@ -487,6 +487,12 @@ const RD_KEEP={luca_d01:[4,5,14,19,20,29,30,31]};
 function rdRows(d){const sents=(d&&d.sents)||[],keep=RD_KEEP[(d&&d.id)||""];
  const all=sents.map((s,i)=>({s,i})),set=keep?new Set(keep):null;
  return (set?all.filter(x=>set.has(x.i+1)):all).map((x,n)=>({s:x.s,i:x.i,n}))}
+function dtRows(d){return rdRows(d).filter(x=>x.s&&x.s.oa)}
+// nova_dt_* stores a list position. On a keep-list day the old value was the line index
+// (every line had audio). Resume by that index; a removed line falls back to the first card.
+function dtSavedPos(sents,raw,keep){const n=+raw;if(!Number.isFinite(n)||n<0)return 0;
+ if(keep){const at=sents.findIndex(x=>x&&x.i===n);return at>=0?at:0}
+ return n<sents.length?n:0}
 async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold),word=fold=="luca"?"Day":"Topic",tag=fold=="luca"?"D":"T";
  const me=++RUN,sel=topics.filter(t=>t.n>=a&&t.n<=b);TLACTIVE=a+"-"+b;TLMODE=loop?"loop":"once";listenPaint();
  const st=t=>{const e=document.getElementById("st");if(e)e.textContent=t},chip=tag+a+"–"+tag+b,label=loop?"原声循环":"原声连播";
@@ -1098,12 +1104,12 @@ function dtMark(typed,answer){const A=dtWords(typed),B=dtWords(answer),a=A.map(d
 function dtFeedback(s,typed){const r=dtMark(typed,s.t);const zh=s.zh?`<div class="dtlab">中文</div><div class="dthz">${esc(s.zh)}</div>`:"";
  return {ok:r.ok,html:`<div class="${r.ok?"gok":"gno"}">${esc(r.summary)}</div>${r.ok?"":`<div class="dtlab">你写的</div><div class="dtdiff en">${r.yours}</div><div class="dtleg"><span class="dk">对的</span><span class="dx">多了</span><span class="dm">漏了</span></div>${r.miss.length?`<div class="dtlab">漏掉的词</div><div class="dtdiff en">${r.miss.map(w=>`<span class="dm">${esc(w)}</span>`).join(" ")}</div>`:""}`}<div class="dtlab">正确句子</div><div class="dtans en">${esc(s.t)}</div>${zh}<button class="osb" id="dtre" type="button">▶ 再听原声</button>`}}
 function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];const spLab=()=>"速度 "+SP[spi]+"x";
- const sents=(d.sents||[]).map((s,i)=>({s,i})).filter(x=>x.s&&x.s.oa);
+ const sents=dtRows(d).map(x=>({s:x.s,i:x.i}));
  let jump=null;try{jump=sessionStorage.getItem("nova_dt_go");sessionStorage.removeItem("nova_dt_go")}catch(e){}
  if(!sents.length){V.innerHTML=`${dqHTML({go:false})}<div class="done">这个 Topic 还没有采访原声，没法听写。</div>`;dqGoalMount();return}
- const rid=sunTopic(it),key="nova_dt_"+(it&&it.id||"x");let pos=0;
- const saved=()=>{let n=+localStorage.getItem(key)||0;return n>=0&&n<sents.length?n:0};
- const save=()=>{try{localStorage.setItem(key,String(pos))}catch(e){}};
+ const rid=sunTopic(it),key="nova_dt_"+(it&&it.id||"x"),keep=!!(d&&RD_KEEP[d.id]);let pos=0;
+ const saved=()=>dtSavedPos(sents,localStorage.getItem(key),keep);
+ const save=()=>{try{localStorage.setItem(key,String(keep&&sents[pos]?sents[pos].i:pos))}catch(e){}};
  const render=()=>{const cur=sents[pos],s=cur.s,si=cur.i,lit=sunHas(rid,si);const who=s.sp=="Naval"?"NAVAL":s.sp=="Chris"?"CHRIS":(s.sp||"");
   const segs=dtSegList(s);
   V.innerHTML=`${dqHTML({go:false})}<div class="card dtcard${lit?" sunon":""}"><div class="dtmeta"><span class="sno">${pos+1} / ${sents.length}</span><button type="button" class="sun" id="dtsun" aria-label="标记重点" aria-pressed="${lit}">☀</button>${who?`<span class="dtwho">${esc(who)}</span>`:""}</div>
@@ -1476,7 +1482,7 @@ function dqItemList(){const out=[];
  return out}
 function dqTopics(){if(!DQTOPICS)DQTOPICS=(async()=>{const items=dqItemList(),got=new Array(items.length);
  await Promise.all(items.map(async(row,n)=>{try{const d=await getJSON(row.it.data);const sent=[];
-  (d.sents||[]).forEach((s,i)=>{if(s&&s.oa)sent.push(i)});if(sent.length)got[n]={fold:row.fold,id:row.it.id,title:ttl(row.it),base:row.it.base||row.it.id,sent}}catch(e){}}));
+  dtRows(d).forEach(({s,i})=>{if(s&&s.oa)sent.push(i)});if(sent.length)got[n]={fold:row.fold,id:row.it.id,title:ttl(row.it),base:row.it.base||row.it.id,sent}}catch(e){}}));
  return got.filter(Boolean)})();return DQTOPICS}
 function dqFind(topics,key){const m=/^(.*):(\d+)$/.exec(key||"");if(!m)return null;const id=m[1],i=+m[2],t=topics.find(x=>x.id===id);if(!t)return null;const n=t.sent.indexOf(i);if(n<0)return null;return {t,i,n:n+1,key}}
 function dqFoldOn(id){try{return localStorage.getItem("nova_dqf_"+id)==="1"}catch(e){return false}}
