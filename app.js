@@ -634,6 +634,16 @@ function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if
  setTimeout(()=>{e.classList.toggle("zh");if(e.classList.contains("zh")){const h0=parseFloat(b.style.minHeight);b.style.minHeight="0";const h1=b.scrollHeight;b.style.minHeight=h0+"px";requestAnimationFrame(()=>{b.style.transition="min-height .25s ease";b.style.minHeight=Math.max(h0,h1)+"px";setTimeout(()=>b.style.transition="",300)})}e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function stTop(){const ss=document.getElementById("ss");let b=0;for(const e of document.querySelectorAll("body *")){if(ss&&ss.contains(e))continue;const p=getComputedStyle(e).position;if(p!="sticky"&&p!="fixed")continue;const r=e.getBoundingClientRect();for(const x of [e,...e.querySelectorAll("*")]){const r=x.getBoundingClientRect();if(r.height>0&&r.top<innerHeight*.4&&r.bottom<innerHeight*.6)b=Math.max(b,r.bottom)}}return b}
 function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":(sp||"")}
+// RD_LOOP_START
+// Luca 阅读卡 单句循环: off → forever → ×5 → ×10 → off.
+// played is how many times this visible sentence has finished. next is the next visible row, or -1 to stop.
+function rdLoopCycle(mode){return mode===0?Infinity:mode===Infinity?5:mode===5?10:0}
+function rdLoopLabel(mode){return mode===5?"单句循环×5":mode===10?"单句循环×10":"单句循环"}
+function rdLoopNext(mode,played,pos,total){
+ if(mode===Infinity)return {again:true,next:pos};
+ if(mode===5||mode===10){if(played<mode)return {again:true,next:pos};if(pos+1<total)return {again:false,next:pos+1};return {again:false,next:-1}}
+ return {again:false,next:-1}}
+// RD_LOOP_END
 function viewReading(d,rid){rid=rid||d.id||"";rdOwn=-1;const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
  const rows=rdRows(d),hasDD=rows.some(x=>x.s.seg&&x.s.oa);
  const showN=i=>{const r=rows.find(x=>x.i===i);return (r?r.n:i)+1};
@@ -663,10 +673,19 @@ function viewReading(d,rid){rid=rid||d.id||"";rdOwn=-1;const SP=[1,.85,.75];let 
     const tick=()=>{if(me!=RUN||A.ended||(b!=null&&A.currentTime>=b)){if(me==RUN&&b!=null)A.pause();btn.classList.remove("on");return}requestAnimationFrame(tick)};requestAnimationFrame(tick);window._gs={i,gk,a:st0,b,src:s.oa}}})}
  const mark=i=>{document.querySelectorAll(".cur").forEach(x=>x.classList.remove("cur"));cur=i;const e=document.getElementById("s"+i);e.classList.add("cur");LASTBTN=e.querySelector(".p");follow(e)};
  const setAll=()=>{};
- async function seq(list,orig=false,btn=null){const me=++RUN;for(const i of list){do{if(me!=RUN)return;mark(i);if(btn)LASTBTN=btn;const S_=d.sents[i];st(`${orig?"原声":btn?"AI 朗读":""}${orig||btn?" · ":""}第 ${showN(i)} / ${rows.length} 句`);await playP(orig?S_.oa:S_.a,SP[si],S_.t);if(me!=RUN)return;
-  const dur=orig&&isFinite(A.duration)&&A.duration>0?A.duration:S_.d;if(F.shad){st(`第 ${showN(i)} 句 · 请跟读…`);await wait(dur/SP[si]*1000+600)}else await wait(F.loop?700:350)}while(F.loop&&me==RUN)}if(me==RUN){setAll(false);st("播放完毕")}}
+ const lucaRd=/^luca_/.test(rid);let rep=0;
+ async function seq(list,orig=false,btn=null){const me=++RUN;
+  const playOne=async i=>{mark(i);if(btn)LASTBTN=btn;const S_=d.sents[i];const mode=lucaRd?rep:(F.loop?Infinity:0);const useO=!!(S_&&S_.oa)&&(orig||mode===5||mode===10);
+   st(`${useO?"原声":btn?"AI 朗读":""}${useO||btn?" · ":""}第 ${showN(i)} / ${rows.length} 句`);await playP(useO?S_.oa:S_.a,SP[si],S_.t);if(me!=RUN)return false;
+   const dur=useO&&isFinite(A.duration)&&A.duration>0?A.duration:S_.d;if(F.shad){st(`第 ${showN(i)} 句 · 请跟读…`);await wait(dur/SP[si]*1000+600)}else await wait((lucaRd?rep:F.loop)?700:350);return me==RUN};
+  if(lucaRd){let pos=rows.findIndex(r=>r.i===list[0]);if(pos<0)pos=0;let played=0,hold=rep;
+   while(me==RUN&&pos>=0&&pos<rows.length){if(rep!==hold){played=0;hold=rep}if(!(await playOne(rows[pos].i)))return;played++;if(rep!==hold){played=1;hold=rep}const step=rdLoopNext(rep,played,pos,rows.length);
+    if(step.again)continue;if(step.next<0)break;pos=step.next;played=0;hold=rep}if(me==RUN){setAll(false);st("播放完毕")}return}
+  for(const i of list){do{if(!(await playOne(i)))return}while(F.loop&&me==RUN)}if(me==RUN){setAll(false);st("播放完毕")}}
  const $=id=>document.getElementById(id);
- for(const k of ["loop","hid"])$(k).onclick=()=>{F[k]=!F[k];$(k).classList.toggle("on",F[k]);if(k=="loop")SENTLOOP=F.loop;if(k=="hid"){ss.classList.toggle("hide",F.hid);try{localStorage.setItem("rd_hid",F.hid?"1":"0")}catch(e){}}};
+ $("hid").onclick=()=>{F.hid=!F.hid;$("hid").classList.toggle("on",F.hid);ss.classList.toggle("hide",F.hid);try{localStorage.setItem("rd_hid",F.hid?"1":"0")}catch(e){}};
+ if(lucaRd){const paint=()=>{const b=$("loop");b.classList.toggle("on",rep!==0);b.textContent=rdLoopLabel(rep);F.loop=rep===Infinity;SENTLOOP=F.loop};$("loop").onclick=()=>{rep=rdLoopCycle(rep);paint()}}
+ else $("loop").onclick=()=>{F.loop=!F.loop;$("loop").classList.toggle("on",F.loop);SENTLOOP=F.loop};
  if(F.hid){ss.classList.add("hide");$("hid").classList.add("on")}
  // 👆 点读: tap a phrase (split at Naval's breath pauses) to play just that original-audio segment.
  // The back copies the same English (.zhe, above 中文) and the same segments; 播放原句 stays the single .p control.
