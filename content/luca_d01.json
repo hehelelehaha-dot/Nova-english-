@@ -595,5 +595,458 @@
         ]
       }
     ]
+  },
+  "wf": {
+    "set": {
+      "id": "luca_d01",
+      "title": "Day 1",
+      "items": [
+        {
+          "l": "原文",
+          "s": "Because if they catch even a ___ of you...",
+          "o": [
+            "glimpse",
+            "glimpses",
+            "glimpsed",
+            "glimpsing"
+          ],
+          "a": "glimpse",
+          "p": "n.",
+          "vb": [
+            [
+              3
+            ]
+          ],
+          "why": "a 后面接名词。glimpse 是“匆匆看一眼”，这里用单数。",
+          "f": "glimpse",
+          "ft": "Because if they catch even a glimpse of you...",
+          "fhl": [
+            29,
+            36
+          ],
+          "oas": [
+            "audio/luca_d01o/s04.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "You think they ___ to meet new friends, huh?",
+          "o": [
+            "come around",
+            "comes around",
+            "came around",
+            "coming around"
+          ],
+          "a": "come around",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ],
+            [
+              5
+            ]
+          ],
+          "why": "they 后面用动词原形。come around 是短语动词，表示“到这边来”。",
+          "f": "come around",
+          "ft": "You think they come around to meet new friends, huh?",
+          "fhl": [
+            15,
+            26
+          ],
+          "oas": [
+            "audio/luca_d01o/s05.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "Just a ___ land monster with a paddle",
+          "o": [
+            "sweaty",
+            "sweatier",
+            "sweatiest",
+            "sweat"
+          ],
+          "a": "sweaty",
+          "p": "adj.",
+          "vb": [],
+          "why": "a 和名词中间用形容词。sweaty 形容那个陆怪满身是汗。",
+          "f": "sweaty",
+          "ft": "Just a sweaty land monster with a paddle",
+          "fhl": [
+            7,
+            13
+          ],
+          "oas": [
+            "audio/luca_d01o/s14.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "She's ___",
+          "o": [
+            "molting",
+            "molt",
+            "molts",
+            "molted"
+          ],
+          "a": "molting",
+          "p": "v.（-ing）",
+          "vb": [],
+          "why": "She's = She is，后面用 -ing。molting 是“正在蜕壳”。动词就在空格里。",
+          "f": "molting",
+          "ft": "She's molting",
+          "fhl": [
+            6,
+            13
+          ],
+          "oas": [
+            "audio/luca_d01o/s19.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "Oh, it's ___",
+          "o": [
+            "magnificent",
+            "magnificently",
+            "magnificence",
+            "magnify"
+          ],
+          "a": "magnificent",
+          "p": "adj.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "it's 后面接形容词，说明螃蟹看起来怎么样。magnificent 是“了不起的”。",
+          "f": "magnificent",
+          "ft": "Oh, it's magnificent",
+          "fhl": [
+            9,
+            20
+          ],
+          "oas": [
+            "audio/luca_d01o/s20.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "here's a champion show crab if I ___ saw one",
+          "o": [
+            "ever",
+            "never",
+            "forever",
+            "every"
+          ],
+          "a": "ever",
+          "p": "adv.",
+          "vb": [
+            [
+              0
+            ],
+            [
+              8
+            ]
+          ],
+          "why": "saw 是动词，ever 修饰它，表示“有史以来、任何时候”。",
+          "f": "ever",
+          "ft": "here's a champion show crab if I ever saw one",
+          "fhl": [
+            33,
+            37
+          ],
+          "oas": [
+            "audio/luca_d01o/s22.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "here's a ___ show crab if I ever saw one",
+          "o": [
+            "champion",
+            "champions",
+            "championship",
+            "championed"
+          ],
+          "a": "champion",
+          "p": "n.",
+          "vb": [
+            [
+              0
+            ],
+            [
+              8
+            ]
+          ],
+          "why": "a 后面接名词。a champion show crab 是“一只冠军级赛蟹”。",
+          "f": "champion",
+          "ft": "here's a champion show crab if I ever saw one",
+          "fhl": [
+            9,
+            17
+          ],
+          "oas": [
+            "audio/luca_d01o/s22.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "But don't ___",
+          "o": [
+            "apologize",
+            "apologizes",
+            "apologized",
+            "apologizing"
+          ],
+          "a": "apologize",
+          "p": "v.",
+          "vb": [
+            [
+              1
+            ]
+          ],
+          "why": "don't 后面用动词原形。apologize 是“道歉”。",
+          "f": "apologize",
+          "ft": "But don't apologize",
+          "fhl": [
+            10,
+            19
+          ],
+          "oas": [
+            "audio/luca_d01o/s26.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "We better ___ those Branzinos at the crab show this year",
+          "o": [
+            "beat",
+            "beats",
+            "beating",
+            "beaten"
+          ],
+          "a": "beat",
+          "p": "v.",
+          "vb": [],
+          "why": "had better 后面用动词原形。beat 是“打败”。动词就在空格里。",
+          "f": "beat",
+          "ft": "We better beat those Branzinos at the crab show this year",
+          "fhl": [
+            10,
+            14
+          ],
+          "oas": [
+            "audio/luca_d01o/s29.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "with her prize-winning crabs and amazing dolphin ___",
+          "o": [
+            "impression",
+            "impressions",
+            "impress",
+            "impressive"
+          ],
+          "a": "impression",
+          "p": "n.",
+          "vb": [],
+          "why": "dolphin 后面接名词。impression 这里是“模仿”。",
+          "f": "impression",
+          "ft": "with her prize-winning crabs and amazing dolphin impression",
+          "fhl": [
+            49,
+            59
+          ],
+          "oas": [
+            "audio/luca_d01o/s31.mp3"
+          ],
+          "sp": "Luca"
+        }
+      ]
+    },
+    "fams": {
+      "glimpse": [
+        [
+          "glimpse",
+          "n.",
+          "一瞥；瞄一眼"
+        ],
+        [
+          "glimpses",
+          "n.",
+          "几次一瞥"
+        ],
+        [
+          "glimpsed",
+          "v.",
+          "瞥见了"
+        ]
+      ],
+      "come around": [
+        [
+          "come around",
+          "v.",
+          "过来；到这边来"
+        ],
+        [
+          "came around",
+          "v.",
+          "过来了"
+        ],
+        [
+          "coming around",
+          "v.",
+          "正在过来"
+        ]
+      ],
+      "sweaty": [
+        [
+          "sweaty",
+          "adj.",
+          "满身是汗的"
+        ],
+        [
+          "sweat",
+          "n.",
+          "汗"
+        ],
+        [
+          "sweat",
+          "v.",
+          "出汗"
+        ]
+      ],
+      "molting": [
+        [
+          "molt",
+          "v.",
+          "蜕壳"
+        ],
+        [
+          "molting",
+          "v.",
+          "正在蜕壳"
+        ],
+        [
+          "molted",
+          "v.",
+          "蜕过壳"
+        ]
+      ],
+      "magnificent": [
+        [
+          "magnificent",
+          "adj.",
+          "壮丽的；了不起的"
+        ],
+        [
+          "magnificently",
+          "adv.",
+          "壮丽地"
+        ],
+        [
+          "magnificence",
+          "n.",
+          "壮丽"
+        ]
+      ],
+      "ever": [
+        [
+          "ever",
+          "adv.",
+          "曾经；任何时候"
+        ],
+        [
+          "never",
+          "adv.",
+          "从不"
+        ],
+        [
+          "forever",
+          "adv.",
+          "永远"
+        ]
+      ],
+      "champion": [
+        [
+          "champion",
+          "n.",
+          "冠军；第一名"
+        ],
+        [
+          "champions",
+          "n.",
+          "冠军们"
+        ],
+        [
+          "championship",
+          "n.",
+          "锦标赛"
+        ]
+      ],
+      "apologize": [
+        [
+          "apologize",
+          "v.",
+          "道歉"
+        ],
+        [
+          "apology",
+          "n.",
+          "道歉"
+        ],
+        [
+          "apologetic",
+          "adj.",
+          "带歉意的"
+        ]
+      ],
+      "beat": [
+        [
+          "beat",
+          "v.",
+          "打败；赢过"
+        ],
+        [
+          "beating",
+          "v.",
+          "正在打败"
+        ],
+        [
+          "beaten",
+          "v.",
+          "被打败"
+        ]
+      ],
+      "impression": [
+        [
+          "impression",
+          "n.",
+          "模仿；印象"
+        ],
+        [
+          "impress",
+          "v.",
+          "给……留下印象"
+        ],
+        [
+          "impressive",
+          "adj.",
+          "令人赞叹的"
+        ]
+      ]
+    }
   }
 }

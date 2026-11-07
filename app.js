@@ -167,8 +167,9 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 // Home folds number their own sections from 1. Naval keeps the existing study sections in curriculum order
 // (old 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 → 1–7).
-// 夏日友晴天 (internal id luca): 口语句式 · 阅读卡 · 单词卡 · 英英解释 · 句子听写.
-// 阅读卡 + 句子听写 come from content/luca.json (plaintext until encrypted). 口语句式 and 英英解释 stay empty.
+// 夏日友晴天 (internal id luca): 口语句式 · 阅读卡 · 单词卡 · 英英解释 · 句子听写 · 词形练习 · 小游戏.
+// 阅读卡 + 句子听写 come from content/luca.json. ⑥ 词形练习 and ⑦ 小游戏 use Day 1 words in that file.
+// 口语句式 stays empty.
 // 飞屋环游记 (internal id up) is a Day list like Luca. content/up.json names the days; each day is one file.
 // Only Day 1 / 01 is written (69 words). Days 02–08 are not invented. Sections: 单词卡, 英英解释, 词形练习, 小游戏.
 const CIRC="⓪①②③④⑤⑥⑦⑧⑨";
@@ -178,7 +179,9 @@ const LUCA_DEF=[
  {id:"luca_reading",like:"reading",name:"阅读卡",typeName:"阅读卡"},
  {id:"luca_flash",like:"flash",name:"单词卡",typeName:"单词卡"},
  {id:"luca_longaudio",like:"ee",name:"英英解释",typeName:"英英解释"},
- {id:"luca_dictation",like:"dictation",name:"句子听写",typeName:"句子听写"}];
+ {id:"luca_dictation",like:"dictation",name:"句子听写",typeName:"句子听写"},
+ {id:"luca_wf",like:"wf",name:"词形练习",typeName:"词形练习",desc:"名词 · 动词 · 形容词 · 副词"},
+ {id:"luca_game",like:"game",name:"小游戏",typeName:"小游戏",desc:"拼写 · 拼图 · 填词"}];
 let FOLDN={};
 function navalSectionIds(){if(!CAT)return ["wf","game"];
  const ids=CAT.categories.map(c=>c.id).slice().sort((a,b)=>(NAVAL_RANK[a]??4.5)-(NAVAL_RANK[b]??4.5));
@@ -212,7 +215,9 @@ function syncPaper(){const h=(location.hash||"#/").slice(1).split("/");const a=h
  if((a==="c"||a==="i")&&(b.startsWith("luca")||b.startsWith("dt_luca")))p="luca";
  else if((a==="c"||a==="i")&&b.startsWith("up_"))p="up";
  else if(a==="wf"&&b.startsWith("up_"))p="up";
+ else if(a==="wf"&&b.startsWith("luca_"))p="luca";
  else if(a==="g"&&(b==="up"||b.startsWith("up_")))p="up";
+ else if(a==="g"&&(b==="luca"||b.startsWith("luca_")))p="luca";
  else if(a==="c"&&/^(phrases|reading|flash|longaudio|dictation|chunks|words)$/.test(b))p="naval";
  else if(a==="i"&&b)p="naval";
  else if(a==="wf"||a==="g")p="naval";
@@ -250,7 +255,7 @@ async function route0(){syncPaper();delete document.documentElement.dataset.home
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  // #/dq is the read-only 今天的目标. Picking sentences is only on the 句子听写 topic lists.
- try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]==="up"&&!h[3]?showGames("up"):h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]==="up"&&!h[3]?showGames("up"):h[2]==="luca"&&!h[3]?showGames("luca"):h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
 // Storage model (v2, sync-ready): FIELDS = { key: [value, ts] }, value null = tombstone.
@@ -424,9 +429,10 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
   if(id=="game")return studyTile({id,name:"小游戏",icon:"🎮",desc:"拼写 · 拼图 · 填词",count:"每个单元都能玩",hash:"#/g",gtile:true,iconKey:"g",sec:"g"});
   const c=byId[id];if(!c)return "";
   return studyTile({id,name:c.name,icon:c.icon,desc:c.desc,count:countOf(id),hash:"#/c/"+id})}).join("");
- const lucaIcon={"phrases":"💬","reading":"📖","flash":"🗂️","ee":"🎧","longaudio":"🎧","dictation":"✍️"};
+ const lucaIcon={"phrases":"💬","reading":"📖","flash":"🗂️","ee":"🎧","longaudio":"🎧","dictation":"✍️",wf:"🔤",game:"🎮"};
  const luca=LUCA_DEF.map(s=>{const src=byId[s.like]||{};
-  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like=="ee"?"longaudio":s.like})}).join("");
+  const n=s.like=="wf"||s.like=="game"?lucaReading().filter(it=>it.vocab).length:lucaItemsFor(s).length;
+  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.desc||(s.typeName!==s.name?s.typeName:""),count:n+" 项",hash:s.like=="game"?"#/g/luca":"#/c/"+s.id,iconKey:s.like=="ee"?"longaudio":s.like=="game"?"g":s.like})}).join("");
  const upIcon={flash:"🗂️",ee:"🎧",wf:"🔤",game:"🎮"},upKey={flash:"flash",ee:"longaudio",wf:"wf",game:"g"},upN=upDays().length;
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const mine=cs.filter(c=>!c.builtin);
@@ -558,7 +564,7 @@ function topicGroupsHTML(secId, rows, fold){
  return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
-function showLuca(s){setHeader(secT(s.id,s.name),true);
+function showLuca(s){if(s.like=="game")return showGames("luca");if(s.like=="wf")return showWFs("luca");setHeader(secT(s.id,s.name),true);
  const xs=lucaItemsFor(s);
  const bar=s.like=="dictation"?dqHTML():"";
  const listen=s.like=="reading"?topicListenHTML("luca"):"";
@@ -1543,7 +1549,7 @@ function tActive(now){return !document.hidden&&(now-tAct<T_IDLE||tPlaying())}
 const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)||"{}")||{}}catch(e){TSEC={}}
 const MCAT={};  // imported-audio id → category (filled by itemsIn)
 function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
- if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return "wf";if(h[1]=="d")return "d";if(h[1]=="g")return "g";
+ if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return String(h[2]||"").startsWith("luca_")?"luca_wf":"wf";if(h[1]=="d")return "d";if(h[1]=="g")return h[2]==="luca"||String(h[2]||"").startsWith("luca_")?"luca_game":"g";
  if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const L=lucaHit(h[2]);return L?L.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
 function tsecKeys(sec){return sec=="dictation"||sec=="chunks"?["dictation","chunks"]:[sec]}
 function tsecT(sec,day){const ks=tsecKeys(sec);if(day){const D=TSEC[day]||{};return ks.reduce((n,k)=>n+(+D[k]||0),0)}let s=0;for(const d in TSEC)for(const k of ks)s+=+(TSEC[d][k]||0);return s}
