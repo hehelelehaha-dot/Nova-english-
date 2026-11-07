@@ -167,7 +167,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 // Home folds number their own sections from 1. Naval keeps the existing study sections in curriculum order
 // (old 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 → 1–7).
-// 夏日友晴天 (internal id luca) uses the same section types, skipping 板块二 / 单词卡.
+// 夏日友晴天 (internal id luca): 口语句式 · 阅读卡 · 单词卡 · 英英解释 · 句子听写.
 // 阅读卡 + 句子听写 come from content/luca.json (plaintext until encrypted). 口语句式 and 英英解释 stay empty.
 // 飞屋环游记 (internal id up) is a Day list like Luca. content/up.json names the days; each day is one file.
 // Only Day 1 / 01 is written (69 words). Days 02–08 are not invented. Sections: 单词卡, 英英解释, 词形练习, 小游戏.
@@ -176,7 +176,8 @@ const NAVAL_RANK={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:
 const LUCA_DEF=[
  {id:"luca_phrases",like:"phrases",name:"口语句式",typeName:"口语句式"},
  {id:"luca_reading",like:"reading",name:"阅读卡",typeName:"阅读卡"},
- {id:"luca_longaudio",like:"longaudio",name:"英英解释音频",typeName:"英英解释音频"},
+ {id:"luca_flash",like:"flash",name:"单词卡",typeName:"单词卡"},
+ {id:"luca_longaudio",like:"ee",name:"英英解释",typeName:"英英解释"},
  {id:"luca_dictation",like:"dictation",name:"句子听写",typeName:"句子听写"}];
 let FOLDN={};
 function navalSectionIds(){if(!CAT)return ["wf","game"];
@@ -192,8 +193,10 @@ let LUCA=null;
 async function loadLuca(){if(LUCA)return LUCA;try{LUCA=await getJSON("luca.json")}catch(e){LUCA={reading:[]}}if(!LUCA.reading)LUCA.reading=[];return LUCA}
 function lucaReading(){return (LUCA&&LUCA.reading)||[]}
 function lucaDict(){return lucaReading().map(it=>({id:"dt_"+it.id,base:it.id,title:it.title,sub:it.sub||"",data:it.data,dictation:1}))}
-function lucaItemsFor(s){return s.like=="reading"?lucaReading():s.like=="dictation"?lucaDict():[]}
-function lucaHit(id){const r=lucaReading().find(it=>it.id==id);if(r)return{it:r,sec:"luca_reading"};const d=lucaDict().find(it=>it.id==id);if(d)return{it:d,sec:"luca_dictation"};return null}
+// 单词卡 / 英英解释: Day files marked vocab:N in luca.json carry flash + ee blocks (same shape as 飞屋 up_dNN).
+function lucaVocab(part){return lucaReading().filter(it=>it.vocab).map(it=>({id:it.id+"_"+part,base:it.id,title:it.title,sub:it.vocab+" 词",data:it.data,upPart:part}))}
+function lucaItemsFor(s){return s.like=="reading"?lucaReading():s.like=="dictation"?lucaDict():s.like=="flash"?lucaVocab("flash"):s.like=="ee"?lucaVocab("ee"):[]}
+function lucaHit(id){{const m=/^(luca_d\d+)_(flash|ee)$/.exec(id||"");if(m){const v=lucaVocab(m[2]).find(x=>x.id===id);return v?{it:v,sec:m[2]==="flash"?"luca_flash":"luca_longaudio"}:null}}const r=lucaReading().find(it=>it.id==id);if(r)return{it:r,sec:"luca_reading"};const d=lucaDict().find(it=>it.id==id);if(d)return{it:d,sec:"luca_dictation"};return null}
 const UP_DEF=[
  {id:"up_flash",like:"flash",name:"单词卡",desc:""},
  {id:"up_ee",like:"ee",name:"英英解释",desc:""},
@@ -420,9 +423,9 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
   if(id=="game")return studyTile({id,name:"小游戏",icon:"🎮",desc:"拼写 · 拼图 · 填词",count:"每个单元都能玩",hash:"#/g",gtile:true,iconKey:"g",sec:"g"});
   const c=byId[id];if(!c)return "";
   return studyTile({id,name:c.name,icon:c.icon,desc:c.desc,count:countOf(id),hash:"#/c/"+id})}).join("");
- const lucaIcon={"phrases":"💬","reading":"📖","longaudio":"🎧","dictation":"✍️"};
+ const lucaIcon={"phrases":"💬","reading":"📖","flash":"🗂️","ee":"🎧","longaudio":"🎧","dictation":"✍️"};
  const luca=LUCA_DEF.map(s=>{const src=byId[s.like]||{};
-  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like})}).join("");
+  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.typeName!==s.name?s.typeName:"",count:lucaItemsFor(s).length+" 项",hash:"#/c/"+s.id,iconKey:s.like=="ee"?"longaudio":s.like})}).join("");
  const upIcon={flash:"🗂️",ee:"🎧",wf:"🔤",game:"🎮"},upKey={flash:"flash",ee:"longaudio",wf:"wf",game:"g"},upN=upDays().length;
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const mine=cs.filter(c=>!c.builtin);

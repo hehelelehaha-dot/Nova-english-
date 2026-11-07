@@ -33,7 +33,14 @@
       "zh": "因为就算他们只瞄了你一眼...",
       "a": "audio/luca_d01o/s04.mp3",
       "oa": "audio/luca_d01o/s04.mp3",
-      "d": 3.12
+      "d": 3.12,
+      "bkw": [
+        [
+          "glimpse",
+          "n.",
+          "一瞥；瞄一眼"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -41,7 +48,14 @@
       "zh": "你觉得他们是出海来结交新朋友的吗",
       "a": "audio/luca_d01o/s05.mp3",
       "oa": "audio/luca_d01o/s05.mp3",
-      "d": 1.8
+      "d": 1.8,
+      "bkw": [
+        [
+          "come around",
+          "phr.",
+          "过来；到这边来"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -113,7 +127,14 @@
       "zh": "只有一个划着桨 汗流浃背的陆怪",
       "a": "audio/luca_d01o/s14.mp3",
       "oa": "audio/luca_d01o/s14.mp3",
-      "d": 2.62
+      "d": 2.62,
+      "bkw": [
+        [
+          "sweaty",
+          "adj.",
+          "满身是汗的"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -153,7 +174,14 @@
       "zh": "她在换壳",
       "a": "audio/luca_d01o/s19.mp3",
       "oa": "audio/luca_d01o/s19.mp3",
-      "d": 1.46
+      "d": 1.46,
+      "bkw": [
+        [
+          "molting",
+          "v.",
+          "蜕壳；换毛"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -161,7 +189,14 @@
       "zh": "真是太神奇了",
       "a": "audio/luca_d01o/s20.mp3",
       "oa": "audio/luca_d01o/s20.mp3",
-      "d": 1.61
+      "d": 1.61,
+      "bkw": [
+        [
+          "magnificent",
+          "adj.",
+          "壮丽的；了不起的"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -177,7 +212,19 @@
       "zh": "这是我见过的最顶级的赛级蟹了",
       "a": "audio/luca_d01o/s22.mp3",
       "oa": "audio/luca_d01o/s22.mp3",
-      "d": 3.12
+      "d": 3.12,
+      "bkw": [
+        [
+          "ever",
+          "adv.",
+          "曾经；任何时候"
+        ],
+        [
+          "champion",
+          "n.",
+          "冠军；第一名"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -209,7 +256,14 @@
       "zh": "但也别道歉啊",
       "a": "audio/luca_d01o/s26.mp3",
       "oa": "audio/luca_d01o/s26.mp3",
-      "d": 1.42
+      "d": 1.42,
+      "bkw": [
+        [
+          "apologize",
+          "v.",
+          "道歉"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -233,7 +287,14 @@
       "zh": "我们最好在今年的螃蟹秀上打败那帮布兰奇鲈",
       "a": "audio/luca_d01o/s29.mp3",
       "oa": "audio/luca_d01o/s29.mp3",
-      "d": 2.98
+      "d": 2.98,
+      "bkw": [
+        [
+          "beat",
+          "v.",
+          "打败；赢过"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -249,7 +310,14 @@
       "zh": "因为她有只奖杯收割机螃蟹 还很会模仿海豚",
       "a": "audio/luca_d01o/s31.mp3",
       "oa": "audio/luca_d01o/s31.mp3",
-      "d": 3.89
+      "d": 3.89,
+      "bkw": [
+        [
+          "impression",
+          "n.",
+          "模仿（某人/动物）；印象"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -267,5 +335,255 @@
       "oa": "audio/luca_d01o/s33.mp3",
       "d": 1.56
     }
-  ]
+  ],
+  "flash": {
+    "type": "flash",
+    "cards": [
+      {
+        "w": "glimpse",
+        "pos": "n.",
+        "zh": "一瞥；瞄一眼",
+        "ipa": "/ɡlɪmps/",
+        "ex": "A glimpse is a very quick look at something. You see it for only a second.",
+        "exs": [
+          "I only caught a glimpse of the sea monster before it swam away."
+        ],
+        "note": "Day 1 原句：“Because if they catch even a glimpse of you...”（因为就算他们只瞄了你一眼...）"
+      },
+      {
+        "w": "come around",
+        "pos": "phr.",
+        "zh": "过来；到这边来",
+        "ipa": "/kʌm əˈraʊnd/",
+        "ex": "Come around means to come to a place, often a place near you.",
+        "exs": [
+          "The fishermen come around the island every morning."
+        ],
+        "note": "Day 1 原句：“You think they come around to meet new friends, huh?”（你觉得他们是出海来结交新朋友的吗）"
+      },
+      {
+        "w": "sweaty",
+        "pos": "adj.",
+        "zh": "满身是汗的",
+        "ipa": "/ˈswɛti/",
+        "ex": "Sweaty means wet with sweat. Your body gets sweaty when you are hot or work hard.",
+        "exs": [
+          "After rowing the boat all day, he was tired and sweaty."
+        ],
+        "note": "Day 1 原句：“Just a sweaty land monster with a paddle”（只有一个划着桨 汗流浃背的陆怪）"
+      },
+      {
+        "w": "molting",
+        "pos": "v.",
+        "zh": "蜕壳；换毛",
+        "ipa": "/ˈmoʊltɪŋ/",
+        "ex": "Molting means an animal is losing its old shell, skin, or feathers so a new one can grow.",
+        "exs": [
+          "The crab is molting, so its new shell is still soft."
+        ],
+        "note": "Day 1 原句：“She's molting”（她在换壳）"
+      },
+      {
+        "w": "magnificent",
+        "pos": "adj.",
+        "zh": "壮丽的；了不起的",
+        "ipa": "/mæɡˈnɪfəsənt/",
+        "ex": "Magnificent means very beautiful or very great. It makes you say “wow!”",
+        "exs": [
+          "The sunset over the sea was magnificent."
+        ],
+        "note": "Day 1 原句：“Oh, it's magnificent”（真是太神奇了）"
+      },
+      {
+        "w": "ever",
+        "pos": "adv.",
+        "zh": "曾经；任何时候",
+        "ipa": "/ˈɛvər/",
+        "ex": "Ever means at any time. We often use it in questions and in “if I ever …”.",
+        "exs": [
+          "Have you ever seen a crab this big?"
+        ],
+        "note": "Day 1 原句：“here's a champion show crab if I ever saw one”（这是我见过的最顶级的赛级蟹了）"
+      },
+      {
+        "w": "champion",
+        "pos": "n.",
+        "zh": "冠军；第一名",
+        "ipa": "/ˈtʃæmpiən/",
+        "ex": "A champion is the winner of a contest. A champion is the best one.",
+        "exs": [
+          "Her crab won first prize. It is the champion of the show."
+        ],
+        "note": "Day 1 原句：“here's a champion show crab if I ever saw one”（这是我见过的最顶级的赛级蟹了）"
+      },
+      {
+        "w": "apologize",
+        "pos": "v.",
+        "zh": "道歉",
+        "ipa": "/əˈpɑːlədʒaɪz/",
+        "ex": "Apologize means to say “I’m sorry” because you did something wrong.",
+        "exs": [
+          "Luca was late, so he apologized to his mom."
+        ],
+        "note": "Day 1 原句：“But don't apologize”（但也别道歉啊）"
+      },
+      {
+        "w": "beat",
+        "pos": "v.",
+        "zh": "打败；赢过",
+        "ipa": "/biːt/",
+        "ex": "Beat means to win against someone in a game or contest.",
+        "exs": [
+          "Our team wants to beat the other team this year."
+        ],
+        "note": "Day 1 原句：“We better beat those Branzinos at the crab show this year”（我们最好在今年的螃蟹秀上打败那帮布兰奇鲈）"
+      },
+      {
+        "w": "impression",
+        "pos": "n.",
+        "zh": "模仿（某人/动物）；印象",
+        "ipa": "/ɪmˈprɛʃən/",
+        "ex": "An impression is when you copy the sound or the way a person or animal acts, often to be funny.",
+        "exs": [
+          "She does a great dolphin impression. She sounds just like a real dolphin!"
+        ],
+        "note": "Day 1 原句：“with her prize-winning crabs and amazing dolphin impression”（因为她有只奖杯收割机螃蟹 还很会模仿海豚）"
+      }
+    ]
+  },
+  "ee": {
+    "type": "ee",
+    "items": [
+      {
+        "n": 1,
+        "w": "glimpse",
+        "pos": "n.",
+        "zh": "一瞥；瞄一眼",
+        "ex": "A glimpse is a very quick look at something. You see it for only a second.",
+        "exs": [
+          "I only caught a glimpse of the sea monster before it swam away."
+        ],
+        "exzh": [
+          "我只瞄到了一眼那个海怪，它就游走了。"
+        ]
+      },
+      {
+        "n": 2,
+        "w": "come around",
+        "pos": "phr.",
+        "zh": "过来；到这边来",
+        "ex": "Come around means to come to a place, often a place near you.",
+        "exs": [
+          "The fishermen come around the island every morning."
+        ],
+        "exzh": [
+          "渔夫们每天早上都会到这个岛附近来。"
+        ]
+      },
+      {
+        "n": 3,
+        "w": "sweaty",
+        "pos": "adj.",
+        "zh": "满身是汗的",
+        "ex": "Sweaty means wet with sweat. Your body gets sweaty when you are hot or work hard.",
+        "exs": [
+          "After rowing the boat all day, he was tired and sweaty."
+        ],
+        "exzh": [
+          "划了一整天船，他又累又满身是汗。"
+        ]
+      },
+      {
+        "n": 4,
+        "w": "molting",
+        "pos": "v.",
+        "zh": "蜕壳；换毛",
+        "ex": "Molting means an animal is losing its old shell, skin, or feathers so a new one can grow.",
+        "exs": [
+          "The crab is molting, so its new shell is still soft."
+        ],
+        "exzh": [
+          "这只螃蟹正在蜕壳，所以新壳还是软的。"
+        ]
+      },
+      {
+        "n": 5,
+        "w": "magnificent",
+        "pos": "adj.",
+        "zh": "壮丽的；了不起的",
+        "ex": "Magnificent means very beautiful or very great. It makes you say “wow!”",
+        "exs": [
+          "The sunset over the sea was magnificent."
+        ],
+        "exzh": [
+          "海上的日落太壮观了。"
+        ]
+      },
+      {
+        "n": 6,
+        "w": "ever",
+        "pos": "adv.",
+        "zh": "曾经；任何时候",
+        "ex": "Ever means at any time. We often use it in questions and in “if I ever …”.",
+        "exs": [
+          "Have you ever seen a crab this big?"
+        ],
+        "exzh": [
+          "你见过这么大的螃蟹吗？"
+        ]
+      },
+      {
+        "n": 7,
+        "w": "champion",
+        "pos": "n.",
+        "zh": "冠军；第一名",
+        "ex": "A champion is the winner of a contest. A champion is the best one.",
+        "exs": [
+          "Her crab won first prize. It is the champion of the show."
+        ],
+        "exzh": [
+          "她的螃蟹得了一等奖，是这次比赛的冠军。"
+        ]
+      },
+      {
+        "n": 8,
+        "w": "apologize",
+        "pos": "v.",
+        "zh": "道歉",
+        "ex": "Apologize means to say “I’m sorry” because you did something wrong.",
+        "exs": [
+          "Luca was late, so he apologized to his mom."
+        ],
+        "exzh": [
+          "Luca 迟到了，所以他向妈妈道了歉。"
+        ]
+      },
+      {
+        "n": 9,
+        "w": "beat",
+        "pos": "v.",
+        "zh": "打败；赢过",
+        "ex": "Beat means to win against someone in a game or contest.",
+        "exs": [
+          "Our team wants to beat the other team this year."
+        ],
+        "exzh": [
+          "我们队今年想打败另一队。"
+        ]
+      },
+      {
+        "n": 10,
+        "w": "impression",
+        "pos": "n.",
+        "zh": "模仿（某人/动物）；印象",
+        "ex": "An impression is when you copy the sound or the way a person or animal acts, often to be funny.",
+        "exs": [
+          "She does a great dolphin impression. She sounds just like a real dolphin!"
+        ],
+        "exzh": [
+          "她模仿海豚模仿得特别像，听起来就像真海豚！"
+        ]
+      }
+    ]
+  }
 }
