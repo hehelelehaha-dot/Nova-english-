@@ -222,6 +222,7 @@ html[data-theme^=t] .tfar::before,html[data-theme^=t] .tfsub{color:var(--ct)}
 .tlbar{margin:0 0 4px}
 .bar.rdbar{display:flex;flex-wrap:wrap;align-items:stretch}
 .bar.rdbar>button{flex:1 1 96px;min-width:0;white-space:nowrap}
+#lgap{flex:1 1 108px}
 #rnggo{display:flex;align-items:center;justify-content:center;gap:5px}
 #rnggo::before{content:"";width:26px;height:26px;flex:none;background:url("icons/sunflower-play.png") center/contain no-repeat}
 #rnggo.on::before{background-image:url("icons/sunflower-pause.png")}

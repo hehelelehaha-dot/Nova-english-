@@ -6,7 +6,7 @@ import {createContext, runInContext} from "node:vm";
 const app = readFileSync(new URL("./app.js", import.meta.url), "utf8");
 const fn = app.slice(app.indexOf("// RD_LOOP_START"), app.indexOf("// RD_LOOP_END"));
 const g = {};
-runInContext(fn + "\nthis.rdLoopCycle=rdLoopCycle;this.rdLoopLabel=rdLoopLabel;this.rdLoopNext=rdLoopNext;", createContext(g));
+runInContext(fn + "\nthis.rdLoopCycle=rdLoopCycle;this.rdLoopLabel=rdLoopLabel;this.rdLoopNext=rdLoopNext;this.rdGapCycle=rdGapCycle;this.rdGapLabel=rdGapLabel;this.rdGapWait=rdGapWait;", createContext(Object.assign(g, {setTimeout, clearTimeout, Date, Promise})));
 
 assert.equal(g.rdLoopCycle(0), Infinity);
 assert.equal(g.rdLoopCycle(Infinity), 5);
@@ -40,12 +40,34 @@ assert.equal(walk(10, 0, 8, 100).length, 80);
 assert.deepEqual([...new Set(walk(5, 0, 8, 100))], [0,1,2,3,4,5,6,7]);
 
 const rd = app.slice(app.indexOf("function viewReading"), app.indexOf("// 原文 in word cards"));
-assert.match(rd, /const lucaRd=\/\^luca_\/\.test\(rid\)/);
+assert.match(rd, /lucaRd=\/\^luca_\/\.test\(rid\)/);
 assert.match(rd, /rdLoopCycle\(rep\)/);
 assert.match(rd, /rdLoopLabel\(rep\)/);
 assert.match(rd, /rdLoopNext\(rep,played,pos,rows\.length\)/);
 assert.match(rd, /playP\(useO\?S_\.oa:S_\.a,SP\[si\],S_\.t\)/);
 assert.match(rd, /else \$\("loop"\)\.onclick=\(\)=>\{F\.loop=!F\.loop/);
 assert.equal(rd.includes("单句循环×5"), false);
+assert.equal(g.rdGapCycle(0), 3);
+assert.equal(g.rdGapCycle(3), 5);
+assert.equal(g.rdGapCycle(5), 10);
+assert.equal(g.rdGapCycle(10), 0);
+assert.equal(g.rdGapLabel(0), "停顿 0秒");
+assert.equal(g.rdGapLabel(3), "停顿 3秒");
+assert.equal(g.rdGapLabel(5), "停顿 5秒");
+assert.equal(g.rdGapLabel(10), "停顿 10秒");
+assert.match(rd, /id="lgap"/);
+assert.match(rd, /localStorage\.setItem\("rd_luca_gap"/);
+assert.match(rd, /rdGapWait\(gap\*1000/);
+assert.match(rd, /lucaRd&&looping&&gap>0/);
+{
+  let live = true;
+  const t0 = Date.now();
+  const pending = g.rdGapWait(8000, () => live);
+  setTimeout(() => { live = false; }, 30);
+  assert.equal(await pending, false);
+  assert.ok(Date.now() - t0 < 1000);
+  assert.equal(await g.rdGapWait(0, () => true), true);
+  assert.equal(await g.rdGapWait(80, () => true), true);
+}
 
 console.log("rd loop ok");
