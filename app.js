@@ -604,7 +604,7 @@ async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dicta
  if(!it)return showHome();
  setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  if(it.dictation||(cat&&cat.id=="dictation")||(cat&&cat.id=="luca_dictation"))return viewDictation(d,it);
- if(it.upPart==="flash")return viewFlash(d.flash,id);
+ if(it.upPart==="flash"){fcLinkOrig(d);return viewFlash(d.flash,id)}
  if(it.upPart==="ee")return viewEE(d.ee,id);
  if(d.type=="chunks"){location.replace("#/c/dictation");return}
  const view=({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong})[d.type];
@@ -729,7 +729,7 @@ function rostExt(c){
  if(c.lg&&c.lg[1])bits.push(`<div class="rln"><span class="lab lg">底层逻辑</span>${c.lg[0]?`<span class="lge">${esc(c.lg[0])}</span> `:""}${esc(c.lg[1])}</div>`);
  else{let e=null;try{const k=typeof expKey=="function"&&EXP&&expKey(c.w);e=k&&EXP.e[k]}catch(err){}
   if(e&&e.img)bits.push(`<div class="rln"><span class="lab lg">底层逻辑</span>${e.em?`<span class="lge">${esc(e.em)}</span> `:""}${esc(e.img)}</div>`)}
- if(c.note)bits.push(`<div class="rln"><span class="lab nt">讲解</span>${esc(c.note)}</div>`);
+ if(c.note)bits.push(`<div class="rln"><span class="lab nt">讲解</span>${esc(c.note)}${fcOrigBtn(c)}</div>`);
  if(c.ex)bits.push(`<div class="rln"><span class="lab">解释</span><span class="en">${esc(c.ex)}</span></div>`);
  for(const x of c.exs||[])if(x)bits.push(`<div class="rln"><span class="lab ex">例句</span><span class="en">${esc(x)}</span></div>`);
  const ch=rostChunks(c);
@@ -772,7 +772,16 @@ function unitRoster(cards,startLabel){const n=cards.length;
  if(n)wireRoster()}
 // ---------- 原文 (original Naval sentence) ----------
 // ② / 🧠 card back: 底层逻辑 row (c.lg=[emoji,text], same text as the ① gloss / 拓展 底层画面; added by build/card_logic.py)
-function noteHTML(c){return c&&c.note?`<div class="row ntrow"><div class="tx"><span class="lab nt">讲解</span>${esc(c.note)}</div></div>`:""}
+function noteHTML(c){return c&&c.note?`<div class="row ntrow"><div class="tx"><span class="lab nt">讲解</span>${esc(c.note)}${fcOrigBtn(c)}</div></div>`:""}
+// 单词卡 整句原声: a card with c.oa (filled by fcLinkOrig from its Day file's sents) gets a 🎬 button that plays that
+// sentence's original movie clip. No clip → no button (never TTS standing in for the original).
+function fcOrigBtn(c){return c&&c.oa?`<button type="button" class="fcorig" data-oa="${esc(c.oa)}">🎬 整句原声</button>`:""}
+function fcLinkOrig(d){const C=(d&&d.flash&&d.flash.cards)||[],S=(d&&d.sents)||[];if(!S.length)return;
+ const nz=x=>String(x||"").toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9' ]/g," ").replace(/\s+/g," ").trim();
+ for(const c of C){if(c.oa)continue;let s=Number.isInteger(c.si)?S[c.si]:null;
+  if(!s){const w=nz(c.w);s=S.find(x=>(" "+nz(x.t)+" ").includes(" "+w+" "))||S.find(x=>nz(x.t).includes(w))}
+  if(s&&s.oa)c.oa=s.oa}}
+document.addEventListener("click",e=>{const b=e.target.closest(".fcorig");if(!b)return;e.stopPropagation();e.preventDefault();stopAll();LASTBTN=b;playSrc({oa:b.dataset.oa,oab:[0,null]},1,b)},true);
 function lgHTML(c){return c&&c.lg&&c.lg[1]?`<div class="row lgrow"><div class="tx"><span class="lab lg">底层逻辑</span>${c.lg[0]?`<span class="lge">${esc(c.lg[0])}</span> `:""}${esc(c.lg[1])}</div></div>`:""}
 function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t;const hl=full&&src.ft&&src.fhl?src.fhl:(src.hl||[-1,-1]);const[a,b]=hl;const who=src.sp=="Naval"?"Naval":"Chris";
  return `<span class="lab yw">原文</span>${dsegHTML(t,[a,b],t==(src.ft||src.t)?src.sg:null)} <span class="ywsp">— ${who}</span>`}

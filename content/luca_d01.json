@@ -348,7 +348,8 @@
         "exs": [
           "I only caught a glimpse of the sea monster before it swam away."
         ],
-        "note": "Day 1 原句：“Because if they catch even a glimpse of you...”（因为就算他们只瞄了你一眼...）"
+        "note": "Day 1 原句：“Because if they catch even a glimpse of you...”（因为就算他们只瞄了你一眼...）",
+        "si": 3
       },
       {
         "w": "come around",
@@ -359,7 +360,8 @@
         "exs": [
           "The fishermen come around the island every morning."
         ],
-        "note": "Day 1 原句：“You think they come around to meet new friends, huh?”（你觉得他们是出海来结交新朋友的吗）"
+        "note": "Day 1 原句：“You think they come around to meet new friends, huh?”（你觉得他们是出海来结交新朋友的吗）",
+        "si": 4
       },
       {
         "w": "sweaty",
@@ -370,7 +372,8 @@
         "exs": [
           "After rowing the boat all day, he was tired and sweaty."
         ],
-        "note": "Day 1 原句：“Just a sweaty land monster with a paddle”（只有一个划着桨 汗流浃背的陆怪）"
+        "note": "Day 1 原句：“Just a sweaty land monster with a paddle”（只有一个划着桨 汗流浃背的陆怪）",
+        "si": 13
       },
       {
         "w": "molting",
@@ -381,7 +384,8 @@
         "exs": [
           "The crab is molting, so its new shell is still soft."
         ],
-        "note": "Day 1 原句：“She's molting”（她在换壳）"
+        "note": "Day 1 原句：“She's molting”（她在换壳）",
+        "si": 18
       },
       {
         "w": "magnificent",
@@ -392,7 +396,8 @@
         "exs": [
           "The sunset over the sea was magnificent."
         ],
-        "note": "Day 1 原句：“Oh, it's magnificent”（真是太神奇了）"
+        "note": "Day 1 原句：“Oh, it's magnificent”（真是太神奇了）",
+        "si": 19
       },
       {
         "w": "ever",
@@ -403,7 +408,8 @@
         "exs": [
           "Have you ever seen a crab this big?"
         ],
-        "note": "Day 1 原句：“here's a champion show crab if I ever saw one”（这是我见过的最顶级的赛级蟹了）"
+        "note": "Day 1 原句：“here's a champion show crab if I ever saw one”（这是我见过的最顶级的赛级蟹了）",
+        "si": 21
       },
       {
         "w": "champion",
@@ -414,7 +420,8 @@
         "exs": [
           "Her crab won first prize. It is the champion of the show."
         ],
-        "note": "Day 1 原句：“here's a champion show crab if I ever saw one”（这是我见过的最顶级的赛级蟹了）"
+        "note": "Day 1 原句：“here's a champion show crab if I ever saw one”（这是我见过的最顶级的赛级蟹了）",
+        "si": 21
       },
       {
         "w": "apologize",
@@ -425,7 +432,8 @@
         "exs": [
           "Luca was late, so he apologized to his mom."
         ],
-        "note": "Day 1 原句：“But don't apologize”（但也别道歉啊）"
+        "note": "Day 1 原句：“But don't apologize”（但也别道歉啊）",
+        "si": 25
       },
       {
         "w": "beat",
@@ -436,7 +444,8 @@
         "exs": [
           "Our team wants to beat the other team this year."
         ],
-        "note": "Day 1 原句：“We better beat those Branzinos at the crab show this year”（我们最好在今年的螃蟹秀上打败那帮布兰奇鲈）"
+        "note": "Day 1 原句：“We better beat those Branzinos at the crab show this year”（我们最好在今年的螃蟹秀上打败那帮布兰奇鲈）",
+        "si": 28
       },
       {
         "w": "impression",
@@ -447,7 +456,8 @@
         "exs": [
           "She does a great dolphin impression. She sounds just like a real dolphin!"
         ],
-        "note": "Day 1 原句：“with her prize-winning crabs and amazing dolphin impression”（因为她有只奖杯收割机螃蟹 还很会模仿海豚）"
+        "note": "Day 1 原句：“with her prize-winning crabs and amazing dolphin impression”（因为她有只奖杯收割机螃蟹 还很会模仿海豚）",
+        "si": 30
       }
     ]
   },
