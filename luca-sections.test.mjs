@@ -126,7 +126,7 @@ for (const c of d4.flash.cards) {
 const d5 = JSON.parse(read("content/luca_d05.json"));
 const words5 = ["dangerous","gravity","definitely","collecting","unfortunately"];
 assert.equal(luca.reading.find(x => x.id === "luca_d05").vocab, 5);
-assert.equal(luca.reading.find(x => x.id === "luca_d05").long, undefined);
+assert.equal(luca.reading.find(x => x.id === "luca_d05").long, "luca_d05_long.json");
 assert.equal(d5.sents.length, 11);
 assert.equal(d5.sents[2].t, "Isn't it dangerous?");
 assert.deepEqual(d5.flash.cards.map(c => c.w), words5);

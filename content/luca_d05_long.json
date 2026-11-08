@@ -1,0 +1,721 @@
+{
+ "id": "luca_d05_long",
+ "type": "longaudio",
+ "title": "Day 5",
+ "audio": "audio/luca_d05v/long.mp3",
+ "dur": 128.6,
+ "items": [
+  {
+   "n": 1,
+   "w": "dangerous",
+   "pos": "adj.",
+   "zh": "危险的",
+   "ex": "Dangerous means something can hurt you. “Isn't it dangerous?” asks if an activity is unsafe.",
+   "exs": [
+    "Swimming near the boats is dangerous."
+   ],
+   "exzh": [
+    "在船附近游泳很危险。"
+   ],
+   "t": 0.0,
+   "tt": {
+    "s0": 0.0,
+    "o0": 0.0,
+    "w": 3.4,
+    "pos": 5.22,
+    "ex": [
+     [
+      "Dangerous",
+      6.78
+     ],
+     [
+      "means",
+      7.42
+     ],
+     [
+      "something",
+      7.8
+     ],
+     [
+      "can",
+      8.44
+     ],
+     [
+      "hurt",
+      8.69
+     ],
+     [
+      "you.",
+      9.01
+     ],
+     [
+      "“Isn't",
+      9.33
+     ],
+     [
+      "it",
+      9.78
+     ],
+     [
+      "dangerous?”",
+      9.97
+     ],
+     [
+      "asks",
+      10.74
+     ],
+     [
+      "if",
+      11.06
+     ],
+     [
+      "an",
+      11.25
+     ],
+     [
+      "activity",
+      11.44
+     ],
+     [
+      "is",
+      12.01
+     ],
+     [
+      "unsafe.",
+      12.21
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Swimming",
+       13.47
+      ],
+      [
+       "near",
+       13.92
+      ],
+      [
+       "the",
+       14.18
+      ],
+      [
+       "boats",
+       14.38
+      ],
+      [
+       "is",
+       14.68
+      ],
+      [
+       "dangerous.",
+       14.83
+      ]
+     ]
+    ],
+    "z": [
+     15.87
+    ],
+    "o": 18.48
+   },
+   "src": {
+    "t": "Isn't it dangerous?",
+    "zh": "这不危险吗",
+    "sp": "Luca",
+    "oa": "audio/luca_d05o/s03.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "w": "gravity",
+   "pos": "n.",
+   "zh": "重力；地心引力",
+   "ex": "Gravity is the force that pulls things down toward the ground. Alberto jokes that gravity is also known as falling.",
+   "exs": [
+    "Gravity pulls the ball down."
+   ],
+   "exzh": [
+    "重力把球往下拉。"
+   ],
+   "t": 22.18,
+   "tt": {
+    "s0": 22.18,
+    "o0": 22.18,
+    "w": 27.08,
+    "pos": 28.98,
+    "ex": [
+     [
+      "Gravity",
+      30.29
+     ],
+     [
+      "is",
+      30.8
+     ],
+     [
+      "the",
+      30.99
+     ],
+     [
+      "force",
+      31.25
+     ],
+     [
+      "that",
+      31.64
+     ],
+     [
+      "pulls",
+      31.96
+     ],
+     [
+      "things",
+      32.35
+     ],
+     [
+      "down",
+      32.8
+     ],
+     [
+      "toward",
+      33.12
+     ],
+     [
+      "the",
+      33.57
+     ],
+     [
+      "ground.",
+      33.83
+     ],
+     [
+      "Alberto",
+      34.34
+     ],
+     [
+      "jokes",
+      34.86
+     ],
+     [
+      "that",
+      35.25
+     ],
+     [
+      "gravity",
+      35.57
+     ],
+     [
+      "is",
+      36.08
+     ],
+     [
+      "also",
+      36.28
+     ],
+     [
+      "known",
+      36.6
+     ],
+     [
+      "as",
+      36.99
+     ],
+     [
+      "falling.",
+      37.18
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Gravity",
+       38.51
+      ],
+      [
+       "pulls",
+       38.96
+      ],
+      [
+       "the",
+       39.3
+      ],
+      [
+       "ball",
+       39.53
+      ],
+      [
+       "down.",
+       39.82
+      ]
+     ]
+    ],
+    "z": [
+     40.64
+    ],
+    "o": 42.84
+   },
+   "src": {
+    "t": "Gravity! Also known as falling!",
+    "zh": "重力！也叫往下掉",
+    "sp": "Luca",
+    "oa": "audio/luca_d05o/s05.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "w": "definitely",
+   "pos": "adv.",
+   "zh": "一定；肯定",
+   "ex": "Definitely means “for sure” or “without doubt.” Alberto says not to look, then says you should definitely look.",
+   "exs": [
+    "You should definitely see the town above the water."
+   ],
+   "exzh": [
+    "你一定要去看看水面上的镇子。"
+   ],
+   "t": 48.04,
+   "tt": {
+    "s0": 48.04,
+    "o0": 48.04,
+    "w": 53.44,
+    "pos": 55.32,
+    "ex": [
+     [
+      "Definitely",
+      56.77
+     ],
+     [
+      "means",
+      57.45
+     ],
+     [
+      "“for",
+      57.82
+     ],
+     [
+      "sure”",
+      58.12
+     ],
+     [
+      "or",
+      58.49
+     ],
+     [
+      "“without",
+      58.68
+     ],
+     [
+      "doubt.”",
+      59.23
+     ],
+     [
+      "Alberto",
+      59.72
+     ],
+     [
+      "says",
+      60.21
+     ],
+     [
+      "not",
+      60.52
+     ],
+     [
+      "to",
+      60.76
+     ],
+     [
+      "look,",
+      60.95
+     ],
+     [
+      "then",
+      61.32
+     ],
+     [
+      "says",
+      61.62
+     ],
+     [
+      "you",
+      61.93
+     ],
+     [
+      "should",
+      62.18
+     ],
+     [
+      "definitely",
+      62.61
+     ],
+     [
+      "look.",
+      63.28
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "You",
+       64.4
+      ],
+      [
+       "should",
+       64.59
+      ],
+      [
+       "definitely",
+       64.91
+      ],
+      [
+       "see",
+       65.42
+      ],
+      [
+       "the",
+       65.61
+      ],
+      [
+       "town",
+       65.79
+      ],
+      [
+       "above",
+       66.03
+      ],
+      [
+       "the",
+       66.3
+      ],
+      [
+       "water.",
+       66.49
+      ]
+     ]
+    ],
+    "z": [
+     67.3
+    ],
+    "o": 70.63
+   },
+   "src": {
+    "t": "Don't look at it. Just kidding. Definitely look at it.",
+    "zh": "别看。开玩笑的。一定要看",
+    "sp": "Luca",
+    "oa": "audio/luca_d05o/s06.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "w": "collecting",
+   "pos": "v.（-ing）",
+   "zh": "收集；一直在收集",
+   "ex": "Collecting means gathering things you want to keep. “I've been collecting” means this started in the past and is still true.",
+   "exs": [
+    "She has been collecting shells since she was small."
+   ],
+   "exzh": [
+    "她从小就一直在收集贝壳。"
+   ],
+   "t": 76.33,
+   "tt": {
+    "s0": 76.33,
+    "o0": 76.33,
+    "w": 81.23,
+    "pos": 83.11,
+    "ex": [
+     [
+      "Collecting",
+      84.31
+     ],
+     [
+      "means",
+      84.92
+     ],
+     [
+      "gathering",
+      85.25
+     ],
+     [
+      "things",
+      85.81
+     ],
+     [
+      "you",
+      86.2
+     ],
+     [
+      "want",
+      86.42
+     ],
+     [
+      "to",
+      86.7
+     ],
+     [
+      "keep.",
+      86.87
+     ],
+     [
+      "“I've",
+      87.2
+     ],
+     [
+      "been",
+      87.54
+     ],
+     [
+      "collecting”",
+      87.82
+     ],
+     [
+      "means",
+      88.48
+     ],
+     [
+      "this",
+      88.82
+     ],
+     [
+      "started",
+      89.1
+     ],
+     [
+      "in",
+      89.54
+     ],
+     [
+      "the",
+      89.71
+     ],
+     [
+      "past",
+      89.93
+     ],
+     [
+      "and",
+      90.21
+     ],
+     [
+      "is",
+      90.43
+     ],
+     [
+      "still",
+      90.6
+     ],
+     [
+      "true.",
+      90.93
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "She",
+       92.02
+      ],
+      [
+       "has",
+       92.21
+      ],
+      [
+       "been",
+       92.4
+      ],
+      [
+       "collecting",
+       92.64
+      ],
+      [
+       "shells",
+       93.17
+      ],
+      [
+       "since",
+       93.51
+      ],
+      [
+       "she",
+       93.8
+      ],
+      [
+       "was",
+       93.99
+      ],
+      [
+       "small.",
+       94.18
+      ]
+     ]
+    ],
+    "z": [
+     95.0
+    ],
+    "o": 98.18
+   },
+   "src": {
+    "t": "As you can see, I've been collecting for a long time, so ask me anything.",
+    "zh": "你看，我收集很久了，随便问",
+    "sp": "Luca",
+    "oa": "audio/luca_d05o/s08.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 5,
+   "w": "unfortunately",
+   "pos": "adv.",
+   "zh": "可惜；不幸的是",
+   "ex": "Unfortunately means “it is sad, but true.” It tells you the next fact is bad news.",
+   "exs": [
+    "The boat is fast. Unfortunately, it is also loud."
+   ],
+   "exzh": [
+    "这艘船很快。可惜，它也很吵。"
+   ],
+   "t": 103.38,
+   "tt": {
+    "s0": 103.38,
+    "o0": 103.38,
+    "w": 107.28,
+    "pos": 109.61,
+    "ex": [
+     [
+      "Unfortunately",
+      111.07
+     ],
+     [
+      "means",
+      112.02
+     ],
+     [
+      "“it",
+      112.43
+     ],
+     [
+      "is",
+      112.7
+     ],
+     [
+      "sad,",
+      112.91
+     ],
+     [
+      "but",
+      113.25
+     ],
+     [
+      "true.”",
+      113.52
+     ],
+     [
+      "It",
+      114.0
+     ],
+     [
+      "tells",
+      114.2
+     ],
+     [
+      "you",
+      114.61
+     ],
+     [
+      "the",
+      114.88
+     ],
+     [
+      "next",
+      115.16
+     ],
+     [
+      "fact",
+      115.5
+     ],
+     [
+      "is",
+      115.84
+     ],
+     [
+      "bad",
+      116.04
+     ],
+     [
+      "news.",
+      116.32
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       117.48
+      ],
+      [
+       "boat",
+       117.74
+      ],
+      [
+       "is",
+       118.07
+      ],
+      [
+       "fast.",
+       118.27
+      ],
+      [
+       "Unfortunately,",
+       118.66
+      ],
+      [
+       "it",
+       119.65
+      ],
+      [
+       "is",
+       119.85
+      ],
+      [
+       "also",
+       120.04
+      ],
+      [
+       "loud.",
+       120.37
+      ]
+     ]
+    ],
+    "z": [
+     121.25
+    ],
+    "o": 124.36
+   },
+   "src": {
+    "t": "It's broken, unfortunately.",
+    "zh": "可惜，它坏了",
+    "sp": "Luca",
+    "oa": "audio/luca_d05o/s10.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  }
+ ]
+}
