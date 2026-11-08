@@ -91,5 +91,399 @@
       "oa": "audio/luca_d05o/s11.mp3",
       "d": 3.84
     }
-  ]
+  ],
+  "flash": {
+    "type": "flash",
+    "cards": [
+      {
+        "w": "dangerous",
+        "pos": "adj.",
+        "zh": "危险的",
+        "ipa": "/ˈdeɪndʒərəs/",
+        "ex": "Dangerous means something can hurt you. “Isn't it dangerous?” asks if an activity is unsafe.",
+        "exs": [
+          "Swimming near the boats is dangerous."
+        ],
+        "note": "Day 5 原句：“Isn't it dangerous?”（这不危险吗）",
+        "si": 2
+      },
+      {
+        "w": "gravity",
+        "pos": "n.",
+        "zh": "重力；地心引力",
+        "ipa": "/ˈɡrævəti/",
+        "ex": "Gravity is the force that pulls things down toward the ground. Alberto jokes that gravity is also known as falling.",
+        "exs": [
+          "Gravity pulls the ball down."
+        ],
+        "note": "Day 5 原句：“Gravity! Also known as falling!”（重力！也叫往下掉）",
+        "si": 4
+      },
+      {
+        "w": "definitely",
+        "pos": "adv.",
+        "zh": "一定；肯定",
+        "ipa": "/ˈdefɪnətli/",
+        "ex": "Definitely means “for sure” or “without doubt.” Alberto says not to look, then says you should definitely look.",
+        "exs": [
+          "You should definitely see the town above the water."
+        ],
+        "note": "Day 5 原句：“Don't look at it. Just kidding. Definitely look at it.”（别看。开玩笑的。一定要看）",
+        "si": 5
+      },
+      {
+        "w": "collecting",
+        "pos": "v.（-ing）",
+        "zh": "收集；一直在收集",
+        "ipa": "/kəˈlektɪŋ/",
+        "ex": "Collecting means gathering things you want to keep. “I've been collecting” means this started in the past and is still true.",
+        "exs": [
+          "She has been collecting shells since she was small."
+        ],
+        "note": "Day 5 原句：“As you can see, I've been collecting for a long time, so ask me anything.”（你看，我收集很久了，随便问）",
+        "si": 7
+      },
+      {
+        "w": "unfortunately",
+        "pos": "adv.",
+        "zh": "可惜；不幸的是",
+        "ipa": "/ʌnˈfɔːrtʃənətli/",
+        "ex": "Unfortunately means “it is sad, but true.” It tells you the next fact is bad news.",
+        "exs": [
+          "The boat is fast. Unfortunately, it is also loud."
+        ],
+        "note": "Day 5 原句：“It's broken, unfortunately.”（可惜，它坏了）",
+        "si": 9
+      }
+    ]
+  },
+  "ee": {
+    "type": "ee",
+    "items": [
+      {
+        "n": 1,
+        "w": "dangerous",
+        "pos": "adj.",
+        "zh": "危险的",
+        "ex": "Dangerous means something can hurt you. “Isn't it dangerous?” asks if an activity is unsafe.",
+        "exs": [
+          "Swimming near the boats is dangerous."
+        ],
+        "exzh": [
+          "在船附近游泳很危险。"
+        ]
+      },
+      {
+        "n": 2,
+        "w": "gravity",
+        "pos": "n.",
+        "zh": "重力；地心引力",
+        "ex": "Gravity is the force that pulls things down toward the ground. Alberto jokes that gravity is also known as falling.",
+        "exs": [
+          "Gravity pulls the ball down."
+        ],
+        "exzh": [
+          "重力把球往下拉。"
+        ]
+      },
+      {
+        "n": 3,
+        "w": "definitely",
+        "pos": "adv.",
+        "zh": "一定；肯定",
+        "ex": "Definitely means “for sure” or “without doubt.” Alberto says not to look, then says you should definitely look.",
+        "exs": [
+          "You should definitely see the town above the water."
+        ],
+        "exzh": [
+          "你一定要去看看水面上的镇子。"
+        ]
+      },
+      {
+        "n": 4,
+        "w": "collecting",
+        "pos": "v.（-ing）",
+        "zh": "收集；一直在收集",
+        "ex": "Collecting means gathering things you want to keep. “I've been collecting” means this started in the past and is still true.",
+        "exs": [
+          "She has been collecting shells since she was small."
+        ],
+        "exzh": [
+          "她从小就一直在收集贝壳。"
+        ]
+      },
+      {
+        "n": 5,
+        "w": "unfortunately",
+        "pos": "adv.",
+        "zh": "可惜；不幸的是",
+        "ex": "Unfortunately means “it is sad, but true.” It tells you the next fact is bad news.",
+        "exs": [
+          "The boat is fast. Unfortunately, it is also loud."
+        ],
+        "exzh": [
+          "这艘船很快。可惜，它也很吵。"
+        ]
+      }
+    ]
+  },
+  "wf": {
+    "set": {
+      "id": "luca_d05",
+      "title": "Day 5",
+      "items": [
+        {
+          "l": "原文",
+          "s": "Isn't it ___?",
+          "o": [
+            "dangerous",
+            "danger",
+            "dangerously",
+            "dangers"
+          ],
+          "a": "dangerous",
+          "p": "adj.",
+          "vb": [
+            [
+              0
+            ]
+          ],
+          "why": "dangerous 形容这件事危不危险。isn't 是动词，空格是形容词。",
+          "f": "dangerous",
+          "ft": "Isn't it dangerous?",
+          "fhl": [
+            9,
+            18
+          ],
+          "oas": [
+            "audio/luca_d05o/s03.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "___! Also known as falling!",
+          "o": [
+            "Gravity",
+            "gravities",
+            "grave",
+            "gravy"
+          ],
+          "a": "Gravity",
+          "p": "n.",
+          "vb": [
+            [
+              2
+            ],
+            [
+              4
+            ]
+          ],
+          "why": "Gravity 是名词，指把人往下拉的力。这句开头要大写。",
+          "f": "Gravity",
+          "ft": "Gravity! Also known as falling!",
+          "fhl": [
+            0,
+            7
+          ],
+          "oas": [
+            "audio/luca_d05o/s05.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "Don't look at it. Just kidding. ___ look at it.",
+          "o": [
+            "Definitely",
+            "definite",
+            "definitely",
+            "definition"
+          ],
+          "a": "Definitely",
+          "p": "adv.",
+          "vb": [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              7
+            ],
+            [
+              5
+            ]
+          ],
+          "why": "Definitely 修饰后面的 look，表示“一定要看”。它是副词，不是动词。",
+          "f": "Definitely",
+          "ft": "Don't look at it. Just kidding. Definitely look at it.",
+          "fhl": [
+            32,
+            42
+          ],
+          "oas": [
+            "audio/luca_d05o/s06.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "As you can see, I've been ___ for a long time, so ask me anything.",
+          "o": [
+            "collecting",
+            "collect",
+            "collects",
+            "collected"
+          ],
+          "a": "collecting",
+          "p": "v.（-ing）",
+          "vb": [
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              12
+            ]
+          ],
+          "why": "have been 后面用 -ing。collecting 是“一直在收集”。原形是 collect。",
+          "f": "collecting",
+          "ft": "As you can see, I've been collecting for a long time, so ask me anything.",
+          "fhl": [
+            26,
+            36
+          ],
+          "oas": [
+            "audio/luca_d05o/s08.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "It's broken, ___.",
+          "o": [
+            "unfortunately",
+            "unfortunate",
+            "fortunately",
+            "fortune"
+          ],
+          "a": "unfortunately",
+          "p": "adv.",
+          "vb": [
+            [
+              0
+            ]
+          ],
+          "why": "unfortunately 放在句尾，表示“可惜”。它修饰整句，是副词。",
+          "f": "unfortunately",
+          "ft": "It's broken, unfortunately.",
+          "fhl": [
+            13,
+            26
+          ],
+          "oas": [
+            "audio/luca_d05o/s10.mp3"
+          ],
+          "sp": "Luca"
+        }
+      ]
+    },
+    "fams": {
+      "dangerous": [
+        [
+          "dangerous",
+          "adj.",
+          "危险的"
+        ],
+        [
+          "danger",
+          "n.",
+          "危险"
+        ],
+        [
+          "dangerously",
+          "adv.",
+          "危险地"
+        ]
+      ],
+      "Gravity": [
+        [
+          "gravity",
+          "n.",
+          "重力"
+        ],
+        [
+          "grave",
+          "adj.",
+          "严重的"
+        ],
+        [
+          "gravities",
+          "n.",
+          "重力（复数，少用）"
+        ]
+      ],
+      "Definitely": [
+        [
+          "definitely",
+          "adv.",
+          "一定；肯定"
+        ],
+        [
+          "definite",
+          "adj.",
+          "明确的"
+        ],
+        [
+          "definition",
+          "n.",
+          "定义"
+        ]
+      ],
+      "collecting": [
+        [
+          "collect",
+          "v.",
+          "收集"
+        ],
+        [
+          "collecting",
+          "v.",
+          "正在收集"
+        ],
+        [
+          "collection",
+          "n.",
+          "收藏"
+        ]
+      ],
+      "unfortunately": [
+        [
+          "unfortunately",
+          "adv.",
+          "可惜；不幸的是"
+        ],
+        [
+          "unfortunate",
+          "adj.",
+          "不幸的"
+        ],
+        [
+          "fortunately",
+          "adv.",
+          "幸好"
+        ]
+      ]
+    }
+  }
 }

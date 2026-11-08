@@ -102,7 +102,7 @@ for (const c of d2.flash.cards) {
 const d4 = JSON.parse(read("content/luca_d04.json"));
 const words4 = ["phantom","used to","basically","invented","stack","pile","fins","otherwise","belly","catch","fall"];
 assert.equal(luca.reading.find(x => x.id === "luca_d04").vocab, 11);
-assert.equal(luca.reading.find(x => x.id === "luca_d04").long, undefined);
+assert.equal(luca.reading.find(x => x.id === "luca_d04").long, "luca_d04_long.json");
 assert.equal(d4.sents.length, 36);
 assert.equal(d4.sents[2].t, "Yeah, that's called phantom tail");
 assert.equal(d4.sents[34].t, "And then you just catch yourself before you fall");
@@ -117,6 +117,28 @@ for (const it of d4.wf.set.items) {
 }
 for (const c of d4.flash.cards) {
   const s = d4.sents[c.si];
+  const srcObj = g.lucaGameSrc(s, c.w);
+  assert.ok(srcObj, c.w);
+  assert.equal(srcObj.t.slice(srcObj.hl[0], srcObj.hl[1]).toLowerCase(), c.w.toLowerCase(), c.w);
+  assert.equal(srcObj.oas[0], s.oa);
+}
+
+const d5 = JSON.parse(read("content/luca_d05.json"));
+const words5 = ["dangerous","gravity","definitely","collecting","unfortunately"];
+assert.equal(luca.reading.find(x => x.id === "luca_d05").vocab, 5);
+assert.equal(luca.reading.find(x => x.id === "luca_d05").long, undefined);
+assert.equal(d5.sents.length, 11);
+assert.equal(d5.sents[2].t, "Isn't it dangerous?");
+assert.deepEqual(d5.flash.cards.map(c => c.w), words5);
+assert.deepEqual(d5.ee.items.map(e => e.w), words5);
+assert.deepEqual(d5.flash.cards.map(c => c.si), [2,4,5,7,9]);
+for (const it of d5.wf.set.items) {
+  assert.equal(it.ft.slice(it.fhl[0], it.fhl[1]), it.a);
+  assert.ok(it.o.includes(it.a));
+  assert.ok(wg.wfPosList(it.p).includes(wg.posBase(it.p)), it.p);
+}
+for (const c of d5.flash.cards) {
+  const s = d5.sents[c.si];
   const srcObj = g.lucaGameSrc(s, c.w);
   assert.ok(srcObj, c.w);
   assert.equal(srcObj.t.slice(srcObj.hl[0], srcObj.hl[1]).toLowerCase(), c.w.toLowerCase(), c.w);
