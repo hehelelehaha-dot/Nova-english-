@@ -291,5 +291,777 @@
       "oa": "audio/luca_d04o/s36.mp3",
       "d": 1.49
     }
-  ]
+  ],
+  "flash": {
+    "type": "flash",
+    "cards": [
+      {
+        "w": "phantom",
+        "pos": "adj.",
+        "zh": "幻觉的；像还在似的",
+        "ipa": "/ˈfæntəm/",
+        "ex": "Phantom describes something you feel or imagine that is not really there. A phantom tail feels attached, but it is not.",
+        "exs": [
+          "After the cast came off, he still felt a phantom itch."
+        ],
+        "note": "Day 4 原句：“Yeah, that's called phantom tail”（对 这种现象叫幻尾）",
+        "si": 2
+      },
+      {
+        "w": "used to",
+        "pos": "phr.",
+        "zh": "习惯于",
+        "ipa": "/juːst tə/",
+        "ex": "Get used to something means it slowly becomes normal for you. “You'll get used to it” means the strange feeling will not bother you later.",
+        "exs": [
+          "New shoes feel odd, but you get used to them."
+        ],
+        "note": "Day 4 原句：“You'll get used to it”（习惯就好了）",
+        "si": 3
+      },
+      {
+        "w": "basically",
+        "pos": "adv.",
+        "zh": "基本上；说白了",
+        "ipa": "/ˈbeɪsɪkli/",
+        "ex": "Basically means “in the most important way” or “to put it simply.” It softens a big claim.",
+        "exs": [
+          "This game is basically just walking."
+        ],
+        "note": "Day 4 原句：“I basically invented it”（这方法是我自创的） 同一句里还有 invented。",
+        "si": 7
+      },
+      {
+        "w": "invented",
+        "pos": "v.（过去式）",
+        "zh": "发明了；自创了",
+        "ipa": "/ɪnˈventɪd/",
+        "ex": "Invented is the past form of invent. It means someone created a new thing or a new way to do something.",
+        "exs": [
+          "She invented a new way to tie her shoes."
+        ],
+        "note": "Day 4 原句：“I basically invented it”（这方法是我自创的） 同一句里还有 basically。",
+        "si": 7
+      },
+      {
+        "w": "stack",
+        "pos": "v.",
+        "zh": "摞起来；叠放",
+        "ipa": "/stæk/",
+        "ex": "Stack means to put things one on top of another. Here Alberto tells Luca to stack the parts of his body.",
+        "exs": [
+          "Stack the books on the desk."
+        ],
+        "note": "Day 4 原句：“stack everything one on top of the other”（把全身摞起来）",
+        "si": 9
+      },
+      {
+        "w": "pile",
+        "pos": "n.",
+        "zh": "一堆；一摞",
+        "ipa": "/paɪl/",
+        "ex": "A pile is a group of things lying one on top of another. A pile of rocks is rocks heaped together.",
+        "exs": [
+          "There is a pile of shells by the boat."
+        ],
+        "note": "Day 4 原句：“Like a pile of rocks”（就像堆石头一样）",
+        "si": 10
+      },
+      {
+        "w": "fins",
+        "pos": "n.（复数）",
+        "zh": "鳍（复数）",
+        "ipa": "/fɪnz/",
+        "ex": "Fins are the flat parts on a fish that help it swim. Without fins, a sea monster on land has no flippers to push with.",
+        "exs": [
+          "The fish moves its fins to swim."
+        ],
+        "note": "Day 4 原句：“But without fins”（只不过不靠鳍）",
+        "si": 14
+      },
+      {
+        "w": "otherwise",
+        "pos": "adv.",
+        "zh": "除此之外；不然",
+        "ipa": "/ˈʌðərwaɪz/",
+        "ex": "Otherwise means “apart from that” or “if not.” Alberto uses it to say walking is the same as swimming, except for the differences he just listed.",
+        "exs": [
+          "Bring a jacket. Otherwise you will be cold."
+        ],
+        "note": "Day 4 原句：“Otherwise”（除此以外）",
+        "si": 17
+      },
+      {
+        "w": "belly",
+        "pos": "n.",
+        "zh": "肚子；腹部",
+        "ipa": "/ˈbeli/",
+        "ex": "Your belly is your stomach, the soft front of your body. “More belly” here means lean forward and lead with your abdomen.",
+        "exs": [
+          "The baby fish has a round belly."
+        ],
+        "note": "Day 4 原句：“No, more belly”（不对 腹部用力）",
+        "si": 23
+      },
+      {
+        "w": "catch",
+        "pos": "v.",
+        "zh": "接住；稳住",
+        "ipa": "/kætʃ/",
+        "ex": "Catch means to stop something that is falling. Catch yourself means you stop your own body before you hit the ground.",
+        "exs": [
+          "If you trip, catch yourself with your hands."
+        ],
+        "note": "Day 4 原句：“And then you just catch yourself before you fall”（在摔倒以前 稳住自己） 同一句里还有 fall。",
+        "si": 34
+      },
+      {
+        "w": "fall",
+        "pos": "v.",
+        "zh": "摔倒；落下",
+        "ipa": "/fɔːl/",
+        "ex": "Fall means to drop down toward the ground. Before you fall means before your body hits the ground.",
+        "exs": [
+          "Hold the rail so you do not fall."
+        ],
+        "note": "Day 4 原句：“And then you just catch yourself before you fall”（在摔倒以前 稳住自己） 同一句里还有 catch。",
+        "si": 34
+      }
+    ]
+  },
+  "ee": {
+    "type": "ee",
+    "items": [
+      {
+        "n": 1,
+        "w": "phantom",
+        "pos": "adj.",
+        "zh": "幻觉的；像还在似的",
+        "ex": "Phantom describes something you feel or imagine that is not really there. A phantom tail feels attached, but it is not.",
+        "exs": [
+          "After the cast came off, he still felt a phantom itch."
+        ],
+        "exzh": [
+          "石膏拆掉以后，他觉得那里还在发痒，其实什么都没有。"
+        ]
+      },
+      {
+        "n": 2,
+        "w": "used to",
+        "pos": "phr.",
+        "zh": "习惯于",
+        "ex": "Get used to something means it slowly becomes normal for you. “You'll get used to it” means the strange feeling will not bother you later.",
+        "exs": [
+          "New shoes feel odd, but you get used to them."
+        ],
+        "exzh": [
+          "新鞋刚穿会别扭，不过你会习惯的。"
+        ]
+      },
+      {
+        "n": 3,
+        "w": "basically",
+        "pos": "adv.",
+        "zh": "基本上；说白了",
+        "ex": "Basically means “in the most important way” or “to put it simply.” It softens a big claim.",
+        "exs": [
+          "This game is basically just walking."
+        ],
+        "exzh": [
+          "这个游戏说白了就是走路。"
+        ]
+      },
+      {
+        "n": 4,
+        "w": "invented",
+        "pos": "v.（过去式）",
+        "zh": "发明了；自创了",
+        "ex": "Invented is the past form of invent. It means someone created a new thing or a new way to do something.",
+        "exs": [
+          "She invented a new way to tie her shoes."
+        ],
+        "exzh": [
+          "她自创了一种系鞋带的方法。"
+        ]
+      },
+      {
+        "n": 5,
+        "w": "stack",
+        "pos": "v.",
+        "zh": "摞起来；叠放",
+        "ex": "Stack means to put things one on top of another. Here Alberto tells Luca to stack the parts of his body.",
+        "exs": [
+          "Stack the books on the desk."
+        ],
+        "exzh": [
+          "把书在桌上摞起来。"
+        ]
+      },
+      {
+        "n": 6,
+        "w": "pile",
+        "pos": "n.",
+        "zh": "一堆；一摞",
+        "ex": "A pile is a group of things lying one on top of another. A pile of rocks is rocks heaped together.",
+        "exs": [
+          "There is a pile of shells by the boat."
+        ],
+        "exzh": [
+          "船边有一堆贝壳。"
+        ]
+      },
+      {
+        "n": 7,
+        "w": "fins",
+        "pos": "n.（复数）",
+        "zh": "鳍（复数）",
+        "ex": "Fins are the flat parts on a fish that help it swim. Without fins, a sea monster on land has no flippers to push with.",
+        "exs": [
+          "The fish moves its fins to swim."
+        ],
+        "exzh": [
+          "鱼摆动鳍才能游。"
+        ]
+      },
+      {
+        "n": 8,
+        "w": "otherwise",
+        "pos": "adv.",
+        "zh": "除此之外；不然",
+        "ex": "Otherwise means “apart from that” or “if not.” Alberto uses it to say walking is the same as swimming, except for the differences he just listed.",
+        "exs": [
+          "Bring a jacket. Otherwise you will be cold."
+        ],
+        "exzh": [
+          "带件外套，不然你会冷。"
+        ]
+      },
+      {
+        "n": 9,
+        "w": "belly",
+        "pos": "n.",
+        "zh": "肚子；腹部",
+        "ex": "Your belly is your stomach, the soft front of your body. “More belly” here means lean forward and lead with your abdomen.",
+        "exs": [
+          "The baby fish has a round belly."
+        ],
+        "exzh": [
+          "那条小鱼肚子圆圆的。"
+        ]
+      },
+      {
+        "n": 10,
+        "w": "catch",
+        "pos": "v.",
+        "zh": "接住；稳住",
+        "ex": "Catch means to stop something that is falling. Catch yourself means you stop your own body before you hit the ground.",
+        "exs": [
+          "If you trip, catch yourself with your hands."
+        ],
+        "exzh": [
+          "如果绊了一下，用手撑住自己。"
+        ]
+      },
+      {
+        "n": 11,
+        "w": "fall",
+        "pos": "v.",
+        "zh": "摔倒；落下",
+        "ex": "Fall means to drop down toward the ground. Before you fall means before your body hits the ground.",
+        "exs": [
+          "Hold the rail so you do not fall."
+        ],
+        "exzh": [
+          "扶着栏杆，免得摔倒。"
+        ]
+      }
+    ]
+  },
+  "wf": {
+    "set": {
+      "id": "luca_d04",
+      "title": "Day 4",
+      "items": [
+        {
+          "l": "原文",
+          "s": "Yeah, that's called ___ tail",
+          "o": [
+            "phantom",
+            "phantoms",
+            "phantomlike",
+            "fantasy"
+          ],
+          "a": "phantom",
+          "p": "adj.",
+          "vb": [
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ],
+          "why": "phantom 修饰 tail，表示“感觉还在、其实没有”。不是动词。",
+          "f": "phantom",
+          "ft": "Yeah, that's called phantom tail",
+          "fhl": [
+            20,
+            27
+          ],
+          "oas": [
+            "audio/luca_d04o/s03.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "You'll get ___ it",
+          "o": [
+            "used to",
+            "use to",
+            "uses to",
+            "using to"
+          ],
+          "a": "used to",
+          "p": "phr.",
+          "vb": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ],
+          "why": "get used to 是固定说法，表示“渐渐习惯”。空格里填 used to，不是动词原形 use。",
+          "f": "used to",
+          "ft": "You'll get used to it",
+          "fhl": [
+            11,
+            18
+          ],
+          "oas": [
+            "audio/luca_d04o/s04.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "I ___ invented it",
+          "o": [
+            "basically",
+            "basic",
+            "basics",
+            "basis"
+          ],
+          "a": "basically",
+          "p": "adv.",
+          "vb": [
+            [
+              2
+            ]
+          ],
+          "why": "basically 修饰 invented，表示“基本上、说白了”。词性是副词。",
+          "f": "basically",
+          "ft": "I basically invented it",
+          "fhl": [
+            2,
+            11
+          ],
+          "oas": [
+            "audio/luca_d04o/s08.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "I basically ___ it",
+          "o": [
+            "invented",
+            "invent",
+            "invents",
+            "inventing"
+          ],
+          "a": "invented",
+          "p": "v.（过去式）",
+          "vb": [],
+          "why": "这件事已经发生，用过去式 invented。原形是 invent。动词就在空格里。",
+          "f": "invented",
+          "ft": "I basically invented it",
+          "fhl": [
+            12,
+            20
+          ],
+          "oas": [
+            "audio/luca_d04o/s08.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "___ everything one on top of the other",
+          "o": [
+            "stack",
+            "stacks",
+            "stacked",
+            "stacking"
+          ],
+          "a": "stack",
+          "p": "v.",
+          "vb": [],
+          "why": "这是祈使句，空格就是动词原形 stack，意思是“一个叠一个地放”。",
+          "f": "stack",
+          "ft": "stack everything one on top of the other",
+          "fhl": [
+            0,
+            5
+          ],
+          "oas": [
+            "audio/luca_d04o/s10.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "Like a ___ of rocks",
+          "o": [
+            "pile",
+            "piles",
+            "piled",
+            "piling"
+          ],
+          "a": "pile",
+          "p": "n.",
+          "vb": [],
+          "why": "a pile of rocks：一堆石头。a 后面接名词 pile。",
+          "f": "pile",
+          "ft": "Like a pile of rocks",
+          "fhl": [
+            7,
+            11
+          ],
+          "oas": [
+            "audio/luca_d04o/s11.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "But without ___",
+          "o": [
+            "fins",
+            "fin",
+            "finned",
+            "finning"
+          ],
+          "a": "fins",
+          "p": "n.（复数）",
+          "vb": [],
+          "why": "without 后面接名词。fins 是 fin 的复数，指鱼鳍。",
+          "f": "fins",
+          "ft": "But without fins",
+          "fhl": [
+            12,
+            16
+          ],
+          "oas": [
+            "audio/luca_d04o/s15.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "___",
+          "o": [
+            "Otherwise",
+            "other",
+            "others",
+            "elsewhere"
+          ],
+          "a": "Otherwise",
+          "p": "adv.",
+          "vb": [],
+          "why": "Otherwise 单独成句，表示“除此之外；不然”。它不是 other 的一种变形。",
+          "f": "Otherwise",
+          "ft": "Otherwise",
+          "fhl": [
+            0,
+            9
+          ],
+          "oas": [
+            "audio/luca_d04o/s18.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "No, more ___",
+          "o": [
+            "belly",
+            "bellies",
+            "bellied",
+            "bellyful"
+          ],
+          "a": "belly",
+          "p": "n.",
+          "vb": [],
+          "why": "more 后面接名词。belly 是腹部。这句没有动词。",
+          "f": "belly",
+          "ft": "No, more belly",
+          "fhl": [
+            9,
+            14
+          ],
+          "oas": [
+            "audio/luca_d04o/s24.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "And then you just ___ yourself before you fall",
+          "o": [
+            "catch",
+            "catches",
+            "caught",
+            "catching"
+          ],
+          "a": "catch",
+          "p": "v.",
+          "vb": [
+            [
+              8
+            ]
+          ],
+          "why": "catch yourself 是“在摔倒前稳住自己”。you 后面用动词原形 catch。",
+          "f": "catch",
+          "ft": "And then you just catch yourself before you fall",
+          "fhl": [
+            18,
+            23
+          ],
+          "oas": [
+            "audio/luca_d04o/s35.mp3"
+          ],
+          "sp": "Luca"
+        },
+        {
+          "l": "原文",
+          "s": "And then you just catch yourself before you ___",
+          "o": [
+            "fall",
+            "falls",
+            "fell",
+            "falling"
+          ],
+          "a": "fall",
+          "p": "v.",
+          "vb": [
+            [
+              4
+            ]
+          ],
+          "why": "before you fall：在你摔倒之前。you 后面用动词原形 fall。",
+          "f": "fall",
+          "ft": "And then you just catch yourself before you fall",
+          "fhl": [
+            44,
+            48
+          ],
+          "oas": [
+            "audio/luca_d04o/s35.mp3"
+          ],
+          "sp": "Luca"
+        }
+      ]
+    },
+    "fams": {
+      "phantom": [
+        [
+          "phantom",
+          "adj.",
+          "幻觉的；像还在似的"
+        ],
+        [
+          "phantom",
+          "n.",
+          "幻影"
+        ],
+        [
+          "phantoms",
+          "n.",
+          "幻影（复数）"
+        ]
+      ],
+      "used to": [
+        [
+          "used to",
+          "phr.",
+          "习惯于"
+        ],
+        [
+          "get used to",
+          "phr.",
+          "渐渐习惯"
+        ],
+        [
+          "be used to",
+          "phr.",
+          "已经习惯"
+        ]
+      ],
+      "basically": [
+        [
+          "basically",
+          "adv.",
+          "基本上；说白了"
+        ],
+        [
+          "basic",
+          "adj.",
+          "基本的"
+        ],
+        [
+          "basics",
+          "n.",
+          "基础知识"
+        ]
+      ],
+      "invented": [
+        [
+          "invent",
+          "v.",
+          "发明"
+        ],
+        [
+          "invented",
+          "v.",
+          "发明了；自创了"
+        ],
+        [
+          "invention",
+          "n.",
+          "发明"
+        ]
+      ],
+      "stack": [
+        [
+          "stack",
+          "v.",
+          "摞起来"
+        ],
+        [
+          "stacked",
+          "v.",
+          "摞好了"
+        ],
+        [
+          "stack",
+          "n.",
+          "一摞"
+        ]
+      ],
+      "pile": [
+        [
+          "pile",
+          "n.",
+          "一堆"
+        ],
+        [
+          "piles",
+          "n.",
+          "好几堆"
+        ],
+        [
+          "pile",
+          "v.",
+          "堆起来"
+        ]
+      ],
+      "fins": [
+        [
+          "fin",
+          "n.",
+          "鳍"
+        ],
+        [
+          "fins",
+          "n.",
+          "鳍（复数）"
+        ],
+        [
+          "finned",
+          "adj.",
+          "有鳍的"
+        ]
+      ],
+      "Otherwise": [
+        [
+          "otherwise",
+          "adv.",
+          "除此之外；不然"
+        ],
+        [
+          "other",
+          "adj.",
+          "别的"
+        ],
+        [
+          "elsewhere",
+          "adv.",
+          "在别处"
+        ]
+      ],
+      "belly": [
+        [
+          "belly",
+          "n.",
+          "肚子；腹部"
+        ],
+        [
+          "bellies",
+          "n.",
+          "肚子（复数）"
+        ],
+        [
+          "bellyful",
+          "n.",
+          "一肚子"
+        ]
+      ],
+      "catch": [
+        [
+          "catch",
+          "v.",
+          "接住；稳住"
+        ],
+        [
+          "caught",
+          "v.",
+          "接住了"
+        ],
+        [
+          "catching",
+          "v.",
+          "正在接住"
+        ]
+      ],
+      "fall": [
+        [
+          "fall",
+          "v.",
+          "摔倒；落下"
+        ],
+        [
+          "fell",
+          "v.",
+          "摔倒了"
+        ],
+        [
+          "falling",
+          "v.",
+          "正在摔倒"
+        ]
+      ]
+    }
+  }
 }

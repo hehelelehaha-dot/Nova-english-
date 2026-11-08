@@ -99,4 +99,28 @@ for (const c of d2.flash.cards) {
   assert.equal(srcObj.oas[0], s.oa);
 }
 
+const d4 = JSON.parse(read("content/luca_d04.json"));
+const words4 = ["phantom","used to","basically","invented","stack","pile","fins","otherwise","belly","catch","fall"];
+assert.equal(luca.reading.find(x => x.id === "luca_d04").vocab, 11);
+assert.equal(luca.reading.find(x => x.id === "luca_d04").long, undefined);
+assert.equal(d4.sents.length, 36);
+assert.equal(d4.sents[2].t, "Yeah, that's called phantom tail");
+assert.equal(d4.sents[34].t, "And then you just catch yourself before you fall");
+assert.deepEqual(d4.flash.cards.map(c => c.w), words4);
+assert.deepEqual(d4.ee.items.map(e => e.w), words4);
+assert.deepEqual(d4.wf.set.items.map(it => it.f), ["phantom","used to","basically","invented","stack","pile","fins","Otherwise","belly","catch","fall"]);
+assert.equal(d4.wf.set.items.find(it => it.f === "used to").p, "phr.");
+for (const it of d4.wf.set.items) {
+  assert.equal(it.ft.slice(it.fhl[0], it.fhl[1]), it.a);
+  assert.ok(it.o.includes(it.a));
+  assert.ok(wg.wfPosList(it.p).includes(wg.posBase(it.p)), it.p);
+}
+for (const c of d4.flash.cards) {
+  const s = d4.sents[c.si];
+  const srcObj = g.lucaGameSrc(s, c.w);
+  assert.ok(srcObj, c.w);
+  assert.equal(srcObj.t.slice(srcObj.hl[0], srcObj.hl[1]).toLowerCase(), c.w.toLowerCase(), c.w);
+  assert.equal(srcObj.oas[0], s.oa);
+}
+
 console.log("luca sections ok");
