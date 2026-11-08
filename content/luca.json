@@ -27,7 +27,8 @@
       "title": "Day 4",
       "sub": "36 句",
       "data": "luca_d04.json",
-      "vocab": 11
+      "vocab": 11,
+      "long": "luca_d04_long.json"
     },
     {
       "id": "luca_d05",

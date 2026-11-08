@@ -1,0 +1,1757 @@
+{
+ "id": "luca_d04_long",
+ "type": "longaudio",
+ "title": "Day 4",
+ "audio": "audio/luca_d04v/long.mp3",
+ "dur": 234.1,
+ "items": [
+  {
+   "n": 1,
+   "w": "phantom",
+   "pos": "adj.",
+   "zh": "幻觉的；像还在似的",
+   "ex": "Phantom describes something you feel or imagine that is not really there. A phantom tail feels attached, but it is not.",
+   "exs": [
+    "After the cast came off, he still felt a phantom itch."
+   ],
+   "exzh": [
+    "石膏拆掉以后，他觉得那里还在发痒，其实什么都没有。"
+   ],
+   "t": 0.0,
+   "tt": {
+    "s0": 0.0,
+    "o0": 0.0,
+    "w": 2.02,
+    "pos": 3.67,
+    "ex": [
+     [
+      "Phantom",
+      5.23
+     ],
+     [
+      "describes",
+      5.73
+     ],
+     [
+      "something",
+      6.36
+     ],
+     [
+      "you",
+      6.99
+     ],
+     [
+      "feel",
+      7.24
+     ],
+     [
+      "or",
+      7.55
+     ],
+     [
+      "imagine",
+      7.74
+     ],
+     [
+      "that",
+      8.24
+     ],
+     [
+      "is",
+      8.56
+     ],
+     [
+      "not",
+      8.75
+     ],
+     [
+      "really",
+      9.0
+     ],
+     [
+      "there.",
+      9.44
+     ],
+     [
+      "A",
+      9.88
+     ],
+     [
+      "phantom",
+      10.0
+     ],
+     [
+      "tail",
+      10.5
+     ],
+     [
+      "feels",
+      10.82
+     ],
+     [
+      "attached,",
+      11.2
+     ],
+     [
+      "but",
+      11.82
+     ],
+     [
+      "it",
+      12.07
+     ],
+     [
+      "is",
+      12.26
+     ],
+     [
+      "not.",
+      12.45
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "After",
+       13.52
+      ],
+      [
+       "the",
+       13.87
+      ],
+      [
+       "cast",
+       14.11
+      ],
+      [
+       "came",
+       14.4
+      ],
+      [
+       "off,",
+       14.7
+      ],
+      [
+       "he",
+       14.99
+      ],
+      [
+       "still",
+       15.17
+      ],
+      [
+       "felt",
+       15.52
+      ],
+      [
+       "a",
+       15.82
+      ],
+      [
+       "phantom",
+       15.94
+      ],
+      [
+       "itch.",
+       16.41
+      ]
+     ]
+    ],
+    "z": [
+     17.24
+    ],
+    "o": 22.15
+   },
+   "src": {
+    "t": "Yeah, that's called phantom tail",
+    "zh": "对 这种现象叫幻尾",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s03.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "w": "used to",
+   "pos": "phr.",
+   "zh": "习惯于",
+   "ex": "Get used to something means it slowly becomes normal for you. “You'll get used to it” means the strange feeling will not bother you later.",
+   "exs": [
+    "New shoes feel odd, but you get used to them."
+   ],
+   "exzh": [
+    "新鞋刚穿会别扭，不过你会习惯的。"
+   ],
+   "t": 24.47,
+   "tt": {
+    "s0": 24.47,
+    "o0": 24.47,
+    "w": 26.27,
+    "pos": 28.2,
+    "ex": [
+     [
+      "Get",
+      29.55
+     ],
+     [
+      "used",
+      29.78
+     ],
+     [
+      "to",
+      30.07
+     ],
+     [
+      "something",
+      30.24
+     ],
+     [
+      "means",
+      30.83
+     ],
+     [
+      "it",
+      31.18
+     ],
+     [
+      "slowly",
+      31.35
+     ],
+     [
+      "becomes",
+      31.76
+     ],
+     [
+      "normal",
+      32.22
+     ],
+     [
+      "for",
+      32.63
+     ],
+     [
+      "you.",
+      32.86
+     ],
+     [
+      "“You'll",
+      33.16
+     ],
+     [
+      "get",
+      33.62
+     ],
+     [
+      "used",
+      33.85
+     ],
+     [
+      "to",
+      34.14
+     ],
+     [
+      "it”",
+      34.32
+     ],
+     [
+      "means",
+      34.55
+     ],
+     [
+      "the",
+      34.9
+     ],
+     [
+      "strange",
+      35.13
+     ],
+     [
+      "feeling",
+      35.6
+     ],
+     [
+      "will",
+      36.07
+     ],
+     [
+      "not",
+      36.36
+     ],
+     [
+      "bother",
+      36.59
+     ],
+     [
+      "you",
+      37.0
+     ],
+     [
+      "later.",
+      37.23
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "New",
+       38.39
+      ],
+      [
+       "shoes",
+       38.61
+      ],
+      [
+       "feel",
+       38.94
+      ],
+      [
+       "odd,",
+       39.22
+      ],
+      [
+       "but",
+       39.49
+      ],
+      [
+       "you",
+       39.71
+      ],
+      [
+       "get",
+       39.94
+      ],
+      [
+       "used",
+       40.16
+      ],
+      [
+       "to",
+       40.43
+      ],
+      [
+       "them.",
+       40.6
+      ]
+     ]
+    ],
+    "z": [
+     41.41
+    ],
+    "o": 45.04
+   },
+   "src": {
+    "t": "You'll get used to it",
+    "zh": "习惯就好了",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s04.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "w": "basically",
+   "pos": "adv.",
+   "zh": "基本上；说白了",
+   "ex": "Basically means “in the most important way” or “to put it simply.” It softens a big claim.",
+   "exs": [
+    "This game is basically just walking."
+   ],
+   "exzh": [
+    "这个游戏说白了就是走路。"
+   ],
+   "t": 47.14,
+   "tt": {
+    "s0": 47.14,
+    "o0": 47.14,
+    "w": 49.16,
+    "pos": 51.11,
+    "ex": [
+     [
+      "Basically",
+      52.56
+     ],
+     [
+      "means",
+      53.22
+     ],
+     [
+      "“in",
+      53.62
+     ],
+     [
+      "the",
+      53.88
+     ],
+     [
+      "most",
+      54.14
+     ],
+     [
+      "important",
+      54.47
+     ],
+     [
+      "way”",
+      55.13
+     ],
+     [
+      "or",
+      55.46
+     ],
+     [
+      "“to",
+      55.66
+     ],
+     [
+      "put",
+      55.93
+     ],
+     [
+      "it",
+      56.19
+     ],
+     [
+      "simply.”",
+      56.39
+     ],
+     [
+      "It",
+      56.98
+     ],
+     [
+      "softens",
+      57.18
+     ],
+     [
+      "a",
+      57.71
+     ],
+     [
+      "big",
+      57.84
+     ],
+     [
+      "claim.",
+      58.1
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "This",
+       59.31
+      ],
+      [
+       "game",
+       59.58
+      ],
+      [
+       "is",
+       59.86
+      ],
+      [
+       "basically",
+       60.02
+      ],
+      [
+       "just",
+       60.56
+      ],
+      [
+       "walking.",
+       60.83
+      ]
+     ]
+    ],
+    "z": [
+     61.8
+    ],
+    "o": 64.67
+   },
+   "src": {
+    "t": "I basically invented it",
+    "zh": "这方法是我自创的",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s08.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "w": "invented",
+   "pos": "v.（过去式）",
+   "zh": "发明了；自创了",
+   "ex": "Invented is the past form of invent. It means someone created a new thing or a new way to do something.",
+   "exs": [
+    "She invented a new way to tie her shoes."
+   ],
+   "exzh": [
+    "她自创了一种系鞋带的方法。"
+   ],
+   "t": 66.99,
+   "tt": {
+    "s0": 66.99,
+    "o0": 66.99,
+    "w": 69.01,
+    "pos": 70.98,
+    "ex": [
+     [
+      "Invented",
+      72.17
+     ],
+     [
+      "is",
+      72.75
+     ],
+     [
+      "the",
+      72.94
+     ],
+     [
+      "past",
+      73.19
+     ],
+     [
+      "form",
+      73.51
+     ],
+     [
+      "of",
+      73.83
+     ],
+     [
+      "invent.",
+      74.02
+     ],
+     [
+      "It",
+      74.53
+     ],
+     [
+      "means",
+      74.73
+     ],
+     [
+      "someone",
+      75.11
+     ],
+     [
+      "created",
+      75.62
+     ],
+     [
+      "a",
+      76.13
+     ],
+     [
+      "new",
+      76.26
+     ],
+     [
+      "thing",
+      76.51
+     ],
+     [
+      "or",
+      76.9
+     ],
+     [
+      "a",
+      77.09
+     ],
+     [
+      "new",
+      77.22
+     ],
+     [
+      "way",
+      77.47
+     ],
+     [
+      "to",
+      77.73
+     ],
+     [
+      "do",
+      77.92
+     ],
+     [
+      "something.",
+      78.11
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "She",
+       79.56
+      ],
+      [
+       "invented",
+       79.77
+      ],
+      [
+       "a",
+       80.25
+      ],
+      [
+       "new",
+       80.36
+      ],
+      [
+       "way",
+       80.57
+      ],
+      [
+       "to",
+       80.79
+      ],
+      [
+       "tie",
+       80.95
+      ],
+      [
+       "her",
+       81.16
+      ],
+      [
+       "shoes.",
+       81.37
+      ]
+     ]
+    ],
+    "z": [
+     82.22
+    ],
+    "o": 85.21
+   },
+   "src": {
+    "t": "I basically invented it",
+    "zh": "这方法是我自创的",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s08.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 5,
+   "w": "stack",
+   "pos": "v.",
+   "zh": "摞起来；叠放",
+   "ex": "Stack means to put things one on top of another. Here Alberto tells Luca to stack the parts of his body.",
+   "exs": [
+    "Stack the books on the desk."
+   ],
+   "exzh": [
+    "把书在桌上摞起来。"
+   ],
+   "t": 87.53,
+   "tt": {
+    "s0": 87.53,
+    "o0": 87.53,
+    "w": 90.11,
+    "pos": 91.85,
+    "ex": [
+     [
+      "Stack",
+      93.04
+     ],
+     [
+      "means",
+      93.41
+     ],
+     [
+      "to",
+      93.77
+     ],
+     [
+      "put",
+      93.95
+     ],
+     [
+      "things",
+      94.2
+     ],
+     [
+      "one",
+      94.62
+     ],
+     [
+      "on",
+      94.86
+     ],
+     [
+      "top",
+      95.04
+     ],
+     [
+      "of",
+      95.29
+     ],
+     [
+      "another.",
+      95.47
+     ],
+     [
+      "Here",
+      96.01
+     ],
+     [
+      "Alberto",
+      96.32
+     ],
+     [
+      "tells",
+      96.8
+     ],
+     [
+      "Luca",
+      97.17
+     ],
+     [
+      "to",
+      97.47
+     ],
+     [
+      "stack",
+      97.65
+     ],
+     [
+      "the",
+      98.01
+     ],
+     [
+      "parts",
+      98.26
+     ],
+     [
+      "of",
+      98.62
+     ],
+     [
+      "his",
+      98.8
+     ],
+     [
+      "body.",
+      99.04
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Stack",
+       100.16
+      ],
+      [
+       "the",
+       100.46
+      ],
+      [
+       "books",
+       100.67
+      ],
+      [
+       "on",
+       100.97
+      ],
+      [
+       "the",
+       101.13
+      ],
+      [
+       "desk.",
+       101.33
+      ]
+     ]
+    ],
+    "z": [
+     102.12
+    ],
+    "o": 104.53
+   },
+   "src": {
+    "t": "stack everything one on top of the other",
+    "zh": "把全身摞起来",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s10.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 6,
+   "w": "pile",
+   "pos": "n.",
+   "zh": "一堆；一摞",
+   "ex": "A pile is a group of things lying one on top of another. A pile of rocks is rocks heaped together.",
+   "exs": [
+    "There is a pile of shells by the boat."
+   ],
+   "exzh": [
+    "船边有一堆贝壳。"
+   ],
+   "t": 107.41,
+   "tt": {
+    "s0": 107.41,
+    "o0": 107.41,
+    "w": 109.19,
+    "pos": 110.93,
+    "ex": [
+     [
+      "A",
+      112.23
+     ],
+     [
+      "pile",
+      112.35
+     ],
+     [
+      "is",
+      112.65
+     ],
+     [
+      "a",
+      112.83
+     ],
+     [
+      "group",
+      112.95
+     ],
+     [
+      "of",
+      113.31
+     ],
+     [
+      "things",
+      113.49
+     ],
+     [
+      "lying",
+      113.91
+     ],
+     [
+      "one",
+      114.27
+     ],
+     [
+      "on",
+      114.51
+     ],
+     [
+      "top",
+      114.69
+     ],
+     [
+      "of",
+      114.94
+     ],
+     [
+      "another.",
+      115.12
+     ],
+     [
+      "A",
+      115.66
+     ],
+     [
+      "pile",
+      115.78
+     ],
+     [
+      "of",
+      116.08
+     ],
+     [
+      "rocks",
+      116.26
+     ],
+     [
+      "is",
+      116.62
+     ],
+     [
+      "rocks",
+      116.8
+     ],
+     [
+      "heaped",
+      117.16
+     ],
+     [
+      "together.",
+      117.58
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "There",
+       118.94
+      ],
+      [
+       "is",
+       119.23
+      ],
+      [
+       "a",
+       119.38
+      ],
+      [
+       "pile",
+       119.48
+      ],
+      [
+       "of",
+       119.73
+      ],
+      [
+       "shells",
+       119.88
+      ],
+      [
+       "by",
+       120.23
+      ],
+      [
+       "the",
+       120.38
+      ],
+      [
+       "boat.",
+       120.58
+      ]
+     ]
+    ],
+    "z": [
+     121.36
+    ],
+    "o": 123.65
+   },
+   "src": {
+    "t": "Like a pile of rocks",
+    "zh": "就像堆石头一样",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s11.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 7,
+   "w": "fins",
+   "pos": "n.（复数）",
+   "zh": "鳍（复数）",
+   "ex": "Fins are the flat parts on a fish that help it swim. Without fins, a sea monster on land has no flippers to push with.",
+   "exs": [
+    "The fish moves its fins to swim."
+   ],
+   "exzh": [
+    "鱼摆动鳍才能游。"
+   ],
+   "t": 125.73,
+   "tt": {
+    "s0": 125.73,
+    "o0": 125.73,
+    "w": 127.51,
+    "pos": 129.2,
+    "ex": [
+     [
+      "Fins",
+      130.5
+     ],
+     [
+      "are",
+      130.83
+     ],
+     [
+      "the",
+      131.1
+     ],
+     [
+      "flat",
+      131.36
+     ],
+     [
+      "parts",
+      131.69
+     ],
+     [
+      "on",
+      132.09
+     ],
+     [
+      "a",
+      132.29
+     ],
+     [
+      "fish",
+      132.42
+     ],
+     [
+      "that",
+      132.75
+     ],
+     [
+      "help",
+      133.09
+     ],
+     [
+      "it",
+      133.42
+     ],
+     [
+      "swim.",
+      133.61
+     ],
+     [
+      "Without",
+      134.01
+     ],
+     [
+      "fins,",
+      134.54
+     ],
+     [
+      "a",
+      134.94
+     ],
+     [
+      "sea",
+      135.07
+     ],
+     [
+      "monster",
+      135.34
+     ],
+     [
+      "on",
+      135.87
+     ],
+     [
+      "land",
+      136.06
+     ],
+     [
+      "has",
+      136.4
+     ],
+     [
+      "no",
+      136.66
+     ],
+     [
+      "flippers",
+      136.86
+     ],
+     [
+      "to",
+      137.45
+     ],
+     [
+      "push",
+      137.65
+     ],
+     [
+      "with.",
+      137.98
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       139.13
+      ],
+      [
+       "fish",
+       139.35
+      ],
+      [
+       "moves",
+       139.62
+      ],
+      [
+       "its",
+       139.95
+      ],
+      [
+       "fins",
+       140.17
+      ],
+      [
+       "to",
+       140.44
+      ],
+      [
+       "swim.",
+       140.6
+      ]
+     ]
+    ],
+    "z": [
+     141.41
+    ],
+    "o": 143.72
+   },
+   "src": {
+    "t": "But without fins",
+    "zh": "只不过不靠鳍",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s15.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 8,
+   "w": "otherwise",
+   "pos": "adv.",
+   "zh": "除此之外；不然",
+   "ex": "Otherwise means “apart from that” or “if not.” Alberto uses it to say walking is the same as swimming, except for the differences he just listed.",
+   "exs": [
+    "Bring a jacket. Otherwise you will be cold."
+   ],
+   "exzh": [
+    "带件外套，不然你会冷。"
+   ],
+   "t": 145.8,
+   "tt": {
+    "s0": 145.8,
+    "o0": 145.8,
+    "w": 146.94,
+    "pos": 148.86,
+    "ex": [
+     [
+      "Otherwise",
+      150.32
+     ],
+     [
+      "means",
+      150.98
+     ],
+     [
+      "“apart",
+      151.39
+     ],
+     [
+      "from",
+      151.86
+     ],
+     [
+      "that”",
+      152.19
+     ],
+     [
+      "or",
+      152.59
+     ],
+     [
+      "“if",
+      152.79
+     ],
+     [
+      "not.”",
+      153.06
+     ],
+     [
+      "Alberto",
+      153.46
+     ],
+     [
+      "uses",
+      154.0
+     ],
+     [
+      "it",
+      154.33
+     ],
+     [
+      "to",
+      154.53
+     ],
+     [
+      "say",
+      154.73
+     ],
+     [
+      "walking",
+      155.0
+     ],
+     [
+      "is",
+      155.54
+     ],
+     [
+      "the",
+      155.74
+     ],
+     [
+      "same",
+      156.01
+     ],
+     [
+      "as",
+      156.34
+     ],
+     [
+      "swimming,",
+      156.54
+     ],
+     [
+      "except",
+      157.21
+     ],
+     [
+      "for",
+      157.68
+     ],
+     [
+      "the",
+      157.95
+     ],
+     [
+      "differences",
+      158.22
+     ],
+     [
+      "he",
+      159.02
+     ],
+     [
+      "just",
+      159.22
+     ],
+     [
+      "listed.",
+      159.56
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Bring",
+       160.84
+      ],
+      [
+       "a",
+       161.18
+      ],
+      [
+       "jacket.",
+       161.29
+      ],
+      [
+       "Otherwise",
+       161.74
+      ],
+      [
+       "you",
+       162.3
+      ],
+      [
+       "will",
+       162.52
+      ],
+      [
+       "be",
+       162.8
+      ],
+      [
+       "cold.",
+       162.97
+      ]
+     ]
+    ],
+    "z": [
+     163.78
+    ],
+    "o": 166.32
+   },
+   "src": {
+    "t": "Otherwise",
+    "zh": "除此以外",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s18.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 9,
+   "w": "belly",
+   "pos": "n.",
+   "zh": "肚子；腹部",
+   "ex": "Your belly is your stomach, the soft front of your body. “More belly” here means lean forward and lead with your abdomen.",
+   "exs": [
+    "The baby fish has a round belly."
+   ],
+   "exzh": [
+    "那条小鱼肚子圆圆的。"
+   ],
+   "t": 167.76,
+   "tt": {
+    "s0": 167.76,
+    "o0": 167.76,
+    "w": 169.86,
+    "pos": 171.64,
+    "ex": [
+     [
+      "Your",
+      172.94
+     ],
+     [
+      "belly",
+      173.23
+     ],
+     [
+      "is",
+      173.57
+     ],
+     [
+      "your",
+      173.74
+     ],
+     [
+      "stomach,",
+      174.03
+     ],
+     [
+      "the",
+      174.55
+     ],
+     [
+      "soft",
+      174.77
+     ],
+     [
+      "front",
+      175.06
+     ],
+     [
+      "of",
+      175.4
+     ],
+     [
+      "your",
+      175.58
+     ],
+     [
+      "body.",
+      175.86
+     ],
+     [
+      "“More",
+      176.21
+     ],
+     [
+      "belly”",
+      176.55
+     ],
+     [
+      "here",
+      176.95
+     ],
+     [
+      "means",
+      177.24
+     ],
+     [
+      "lean",
+      177.58
+     ],
+     [
+      "forward",
+      177.87
+     ],
+     [
+      "and",
+      178.32
+     ],
+     [
+      "lead",
+      178.55
+     ],
+     [
+      "with",
+      178.84
+     ],
+     [
+      "your",
+      179.12
+     ],
+     [
+      "abdomen.",
+      179.41
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       180.68
+      ],
+      [
+       "baby",
+       180.91
+      ],
+      [
+       "fish",
+       181.21
+      ],
+      [
+       "has",
+       181.5
+      ],
+      [
+       "a",
+       181.74
+      ],
+      [
+       "round",
+       181.86
+      ],
+      [
+       "belly.",
+       182.21
+      ]
+     ]
+    ],
+    "z": [
+     183.1
+    ],
+    "o": 185.71
+   },
+   "src": {
+    "t": "No, more belly",
+    "zh": "不对 腹部用力",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s24.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 10,
+   "w": "catch",
+   "pos": "v.",
+   "zh": "接住；稳住",
+   "ex": "Catch means to stop something that is falling. Catch yourself means you stop your own body before you hit the ground.",
+   "exs": [
+    "If you trip, catch yourself with your hands."
+   ],
+   "exzh": [
+    "如果绊了一下，用手撑住自己。"
+   ],
+   "t": 188.11,
+   "tt": {
+    "s0": 188.11,
+    "o0": 188.11,
+    "w": 191.78,
+    "pos": 193.49,
+    "ex": [
+     [
+      "Catch",
+      194.69
+     ],
+     [
+      "means",
+      195.04
+     ],
+     [
+      "to",
+      195.4
+     ],
+     [
+      "stop",
+      195.58
+     ],
+     [
+      "something",
+      195.87
+     ],
+     [
+      "that",
+      196.46
+     ],
+     [
+      "is",
+      196.76
+     ],
+     [
+      "falling.",
+      196.94
+     ],
+     [
+      "Catch",
+      197.47
+     ],
+     [
+      "yourself",
+      197.82
+     ],
+     [
+      "means",
+      198.36
+     ],
+     [
+      "you",
+      198.71
+     ],
+     [
+      "stop",
+      198.95
+     ],
+     [
+      "your",
+      199.24
+     ],
+     [
+      "own",
+      199.54
+     ],
+     [
+      "body",
+      199.78
+     ],
+     [
+      "before",
+      200.07
+     ],
+     [
+      "you",
+      200.49
+     ],
+     [
+      "hit",
+      200.72
+     ],
+     [
+      "the",
+      200.96
+     ],
+     [
+      "ground.",
+      201.2
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "If",
+       202.42
+      ],
+      [
+       "you",
+       202.56
+      ],
+      [
+       "trip,",
+       202.75
+      ],
+      [
+       "catch",
+       203.04
+      ],
+      [
+       "yourself",
+       203.32
+      ],
+      [
+       "with",
+       203.75
+      ],
+      [
+       "your",
+       203.99
+      ],
+      [
+       "hands.",
+       204.23
+      ]
+     ]
+    ],
+    "z": [
+     205.04
+    ],
+    "o": 208.09
+   },
+   "src": {
+    "t": "And then you just catch yourself before you fall",
+    "zh": "在摔倒以前 稳住自己",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s35.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 11,
+   "w": "fall",
+   "pos": "v.",
+   "zh": "摔倒；落下",
+   "ex": "Fall means to drop down toward the ground. Before you fall means before your body hits the ground.",
+   "exs": [
+    "Hold the rail so you do not fall."
+   ],
+   "exzh": [
+    "扶着栏杆，免得摔倒。"
+   ],
+   "t": 212.06,
+   "tt": {
+    "s0": 212.06,
+    "o0": 212.06,
+    "w": 215.73,
+    "pos": 217.62,
+    "ex": [
+     [
+      "Fall",
+      218.81
+     ],
+     [
+      "means",
+      219.11
+     ],
+     [
+      "to",
+      219.47
+     ],
+     [
+      "drop",
+      219.65
+     ],
+     [
+      "down",
+      219.94
+     ],
+     [
+      "toward",
+      220.24
+     ],
+     [
+      "the",
+      220.66
+     ],
+     [
+      "ground.",
+      220.9
+     ],
+     [
+      "Before",
+      221.37
+     ],
+     [
+      "you",
+      221.79
+     ],
+     [
+      "fall",
+      222.03
+     ],
+     [
+      "means",
+      222.33
+     ],
+     [
+      "before",
+      222.68
+     ],
+     [
+      "your",
+      223.1
+     ],
+     [
+      "body",
+      223.4
+     ],
+     [
+      "hits",
+      223.7
+     ],
+     [
+      "the",
+      223.99
+     ],
+     [
+      "ground.",
+      224.23
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Hold",
+       225.46
+      ],
+      [
+       "the",
+       225.73
+      ],
+      [
+       "rail",
+       225.95
+      ],
+      [
+       "so",
+       226.22
+      ],
+      [
+       "you",
+       226.39
+      ],
+      [
+       "do",
+       226.61
+      ],
+      [
+       "not",
+       226.77
+      ],
+      [
+       "fall.",
+       226.99
+      ]
+     ]
+    ],
+    "z": [
+     227.8
+    ],
+    "o": 230.11
+   },
+   "src": {
+    "t": "And then you just catch yourself before you fall",
+    "zh": "在摔倒以前 稳住自己",
+    "sp": "Luca",
+    "oa": "audio/luca_d04o/s35.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  }
+ ]
+}
