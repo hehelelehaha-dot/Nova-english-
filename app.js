@@ -1571,6 +1571,7 @@ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest
 // ---------- study timer (home hero: 今天 / 累计时长) ----------
 // Counts only while visible AND active: interaction within 2 min, or audio/speech playing.
 // Log: localStorage nova_time {YYYY-MM-DD: seconds}. Every stored day stays. 累计时长 is the sum of all of them.
+// The sheet lists only the America/New_York calendar day and the six days before it (same YYYY-MM-DD keys). Older days stay in the total and are not rendered.
 const TK="nova_time",T_IDLE=120e3;let TLOG={};try{TLOG=JSON.parse(localStorage.getItem(TK)||"{}")||{}}catch(e){TLOG={}}
 let tAct=Date.now(),tLast=Date.now();
 const dKey=d=>{d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
@@ -1594,10 +1595,13 @@ function fmtT(sec){const m=Math.floor((sec||0)/60);const h=Math.floor(m/60);retu
 function tTotal(){return Object.values(TLOG).reduce((a,b)=>a+(+b||0),0)}
 function sttHTML(){return `<span class="sls"><span class="sl">今天 <b>${fmtT(TLOG[dKey()])}</b></span><span class="sl">累计时长 <b>${fmtT(tTotal())}</b></span></span><span class="yleft">${yearLeft()}</span>`}
 function tMerge(R,dry){if(!R||typeof R!="object")return 0;const m=tApply(TLOG,R);if(!dry){if(m.n)TLOG=m.log;tSave();tTick()}return m.n}
-function tDayRows(){const keys=new Set(Object.keys(TLOG).filter(k=>/^\d{4}-\d\d-\d\d$/.test(k)));keys.add(dKey());const W="日一二三四五六",now=new Date();
- return [...keys].sort().reverse().map(k=>{const [y,m,d]=k.split("-").map(Number),dt=new Date(y,m-1,d),today=k===dKey();
-  const lab=today?"今天":(y===now.getFullYear()?`${m}/${d} 周${W[dt.getDay()]}`:`${y}/${m}/${d}`);
-  return {lab,v:+TLOG[k]||0,today}})}
+function tNyKey(d){const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(d||new Date());
+ const o={};for(const p of parts)if(p.type!=="literal")o[p.type]=p.value;return o.year+"-"+o.month+"-"+o.day}
+function tDayRows(){const now=new Date(),today=tNyKey(now),W="日一二三四五六",[y,m,d]=today.split("-").map(Number),rows=[];
+ for(let i=0;i<7;i++){const u=new Date(Date.UTC(y,m-1,d-i)),yy=u.getUTCFullYear(),mm=u.getUTCMonth()+1,dd=u.getUTCDate();
+  const k=yy+"-"+String(mm).padStart(2,"0")+"-"+String(dd).padStart(2,"0"),dt=new Date(yy,mm-1,dd);
+  rows.push({lab:k===today?"今天":(yy===now.getFullYear()?`${mm}/${dd} 周${W[dt.getDay()]}`:`${yy}/${mm}/${dd}`),v:+TLOG[k]||0,today:k===today})}
+ return rows}
 function showTimeLog(){const o=document.createElement("div");o.className="ov";const rows=tDayRows(),tot=tTotal();
  const mx=Math.max(60,...rows.map(x=>x.v));
  o.innerHTML=`<div class="sh tlog"><div class="sht">⏱ 累计时长</div><div class="ttot"><b>${fmtT(tot)}</b></div><div class="tleft">${yearLeft()}</div><div class="tlogdays">${rows.map(r=>`<div class="tr${r.today?" td":""}"><span class="tdw">${r.lab}</span><span class="tb"><i style="width:${Math.round(r.v/mx*100)}%"></i></span><span class="tv">${fmtT(r.v)}</span></div>`).join("")}</div>
