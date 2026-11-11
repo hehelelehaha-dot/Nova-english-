@@ -295,7 +295,7 @@ function prepLinesCSS(){return `<style>
 .prep-play>.bar{position:static;top:auto;margin-bottom:6px;background:transparent}
 .prep-lines{display:flex;flex-direction:column;gap:10px}.prep-lines>h3.sec{color:var(--pgtx,#444);margin:16px 2px 8px}.prep-lines>h3.sec:first-child{margin-top:2px}
 .prep-line{cursor:pointer;text-align:left}.prep-lines>.prep-line{align-self:stretch;width:100%;max-width:none;margin:0;box-sizing:border-box}.prep-top{display:flex;align-items:center;gap:8px}.prep-movie{font-size:12px;font-weight:700;line-height:1.3;color:inherit}
-.prep-line .lab{flex:none}.prep-line .fcorig{margin:0 0 0 auto;flex:none;min-height:36px;padding:6px 12px}
+.prep-line .lab{flex:none}.prep-line .pjump{margin:0 0 0 auto;flex:none;border:0;background:#2a6f97;color:#fff;border-radius:10px;min-height:36px;padding:6px 10px;font-size:14px;font-family:inherit;cursor:pointer}.prep-line .pjump+.fcorig{margin-left:0}.prep-line .fcorig{margin:0 0 0 auto;flex:none;min-height:36px;padding:6px 12px}
 .prep-body{display:flex;flex-direction:column;margin-top:8px}.prep-face{font-size:18px;line-height:1.5;color:inherit;text-align:left;font-weight:500}.prep-en{font-family:Georgia,"Noto Serif",serif}
 .prep-ans{order:3;margin-top:8px;font-size:13px;font-weight:700;color:inherit}
 .prep-lines[data-mode=ce] .prep-zh{order:1}.prep-lines[data-mode=ce] .prep-en{order:2}
@@ -307,7 +307,7 @@ function prepLinesCSS(){return `<style>
 .prep-line.cur{outline:3px solid #f5c518;outline-offset:2px}
 </style>`}
 function prepLineCard(r){const form=String(r.form||"").trim(),tag=form?`<span class="lab">${esc(form)}</span>`:"";
- return `<div class="card prep-line" aria-expanded="false"><div class="prep-top"><span class="prep-movie">${esc(r.movie||"")}</span>${tag}<button type="button" class="fcorig" data-oa="${esc(prepClip(r))}" aria-label="播放原声">🎬 原声</button></div><div class="prep-body"><div class="prep-face prep-zh">${esc(r.zh||"")}</div><div class="prep-face prep-en">${esc(r.en||"")}</div><div class="prep-ans">看答案</div></div></div>`}
+ return `<div class="card prep-line" aria-expanded="false"><div class="prep-top"><span class="prep-movie">${esc(r.movie||"")}</span>${tag}<button type="button" class="pjump" aria-label="从这句开始连播">▶ 从这里听</button><button type="button" class="fcorig" data-oa="${esc(prepClip(r))}" aria-label="播放原声">🎬 原声</button></div><div class="prep-body"><div class="prep-face prep-zh">${esc(r.zh||"")}</div><div class="prep-face prep-en">${esc(r.en||"")}</div><div class="prep-ans">看答案</div></div></div>`}
 function prepLinesPage(rows){const list=Array.isArray(rows)?rows:[];const senses=[];
  for(const r of list){const s=+r.sense;if(s>0&&senses.indexOf(s)<0)senses.push(s)}
  senses.sort((a,b)=>a-b);let body="";const used=new Set();
@@ -319,7 +319,7 @@ function prepLinesPage(rows){const list=Array.isArray(rows)?rows:[];const senses
 function wirePrepLines(){const box=V.querySelector(".prep-lines");if(!box)return;
  const set=mode=>{box.dataset.mode=mode;const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.classList.toggle("on",mode==="ce");if(ec)ec.classList.toggle("on",mode==="ec");const bo=document.getElementById("pBO");if(bo)bo.classList.toggle("on",mode==="bo")};
  const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.onclick=()=>set("ce");if(ec)ec.onclick=()=>set("ec");{const bo=document.getElementById("pBO");if(bo)bo.onclick=()=>set("bo")}
- box.querySelectorAll(".prep-line").forEach(card=>{card.onclick=ev=>{if(ev.target.closest(".fcorig"))return;card.classList.toggle("show");card.setAttribute("aria-expanded",card.classList.contains("show")?"true":"false")}});
+ box.querySelectorAll(".prep-line").forEach(card=>{card.onclick=ev=>{if(ev.target.closest(".fcorig")||ev.target.closest(".pjump"))return;card.classList.toggle("show");card.setAttribute("aria-expanded",card.classList.contains("show")?"true":"false")}});
  const go=document.getElementById("rnggo"),lp=document.getElementById("loop"),gp=document.getElementById("lgap");if(!go||!lp||!gp)return;
  let rep=0,gap=0,paused=false,playing=false,gen=0;
  try{const n=+localStorage.getItem("prep_out_gap");if(RD_GAPS.includes(n))gap=n}catch(e){}
@@ -339,8 +339,8 @@ function wirePrepLines(){const box=V.querySelector(".prep-lines");if(!box)return
  async function prepGap(me){let left=gap>0?gap*1000:0;if(!(left>0))return me==RUN;
   while(left>0&&me==RUN){while(paused&&me==RUN)await wait(80);if(me!=RUN)return false;const slice=Math.min(200,left),t0=Date.now();
    const ok=await rdGapWait(slice,()=>me==RUN&&!paused);if(me!=RUN)return false;left-=Date.now()-t0;if(!ok)continue}return me==RUN}
- async function run(){stopAll();const me=RUN,g=++gen;paused=false;playing=true;LASTBTN=null;paint();
-  const list=cards();let pos=0,played=0,hold=rep;
+ async function run(start){stopAll();const me=RUN,g=++gen;paused=false;playing=true;LASTBTN=null;paint();
+  const list=cards();let pos=start>0&&start<list.length?start:0,played=0,hold=rep;
   const own=()=>g==gen;const abort=()=>{if(!own())return;playing=false;paused=false;if(box.isConnected){clearCur();paint()}};
   try{while(me==RUN&&own()&&pos>=0&&pos<list.length){if(rep!==hold){played=0;hold=rep}const card=list[pos];mark(card);
     const btn=card.querySelector(".fcorig"),oa=btn&&btn.dataset.oa;if(!oa){pos++;played=0;hold=rep;continue}
@@ -350,7 +350,8 @@ function wirePrepLines(){const box=V.querySelector(".prep-lines");if(!box)return
     if(step.again||step.next>=0){if(!(await prepGap(me))){if(!own())return;return abort()}}
     if(!own())return;if(me!=RUN)return abort();if(step.again)continue;if(step.next<0)break;pos=step.next;played=0;hold=rep}
    if(me==RUN&&own()){playing=false;paused=false;paint()}}catch(e){abort()}}
- go.onclick=()=>{if(playing&&!paused){paused=true;try{A.pause()}catch(e){}paint();return}if(playing&&paused){paused=false;paint();if(!A.ended&&A.paused){const q=A.play();if(q&&q.catch)q.catch(()=>{})}return}if(!cards().length)return;run()};
+ go.onclick=()=>{if(playing&&!paused){paused=true;try{A.pause()}catch(e){}paint();return}if(playing&&paused){paused=false;paint();if(!A.ended&&A.paused){const q=A.play();if(q&&q.catch)q.catch(()=>{})}return}if(!cards().length)return;run(0)};
+ box.querySelectorAll(".pjump").forEach(b=>{b.onclick=ev=>{ev.stopPropagation();const i=cards().indexOf(b.closest(".prep-line"));if(i>=0)run(i)}});
  lp.onclick=()=>{rep=rdLoopCycle(rep);paint()};
  gp.onclick=()=>{gap=rdGapCycle(gap);try{localStorage.setItem("prep_out_gap",String(gap))}catch(e){}paint()};
  paint()}
