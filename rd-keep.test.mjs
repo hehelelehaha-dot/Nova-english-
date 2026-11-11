@@ -71,6 +71,17 @@ const listen = app.slice(app.indexOf("async function playFoldListen"), app.index
 assert.match(listen, /rdRows\(d\)/);
 assert.match(listen, /window\._tlCard=c\.i/);
 assert.match(listen, /第 \$\{c\.n\+1\} 张/);
+assert.match(listen, /window\._rdRid==id/);
+assert.match(listen, /follow\(el\)/);
+assert.match(rd, /window\._rdRid=rid/);
+const fol = app.slice(app.indexOf("function follow("), app.indexOf("const endS"));
+assert.equal(fol.includes("LASTUSER"), false);
+assert.equal(fol.includes("scrollIntoView"), false);
+assert.match(fol, /el===FOLLOW_EL/);
+assert.match(fol, /stickBottom\(\)\+8/);
+assert.match(fol, /pageTo\(/);
+assert.match(app, /entChanged&&!au\.paused&&k>=0/);
+assert.match(app, /follow\(sn\);followed=true/);
 const dt = app.slice(app.indexOf("function viewDictation"), app.indexOf("// ---------- daily"));
 assert.match(dt, /dtRows\(d\)/);
 assert.match(dt, /dtSavedPos\(sents,localStorage\.getItem\(key\),keep\)/);

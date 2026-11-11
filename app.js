@@ -247,7 +247,7 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
  const seq=++SCRSEQ;await route0();if(seq!=SCRSEQ)return;
  const y=back?SCR[h]||0:0;if(!y)return;const t0=Date.now();
  const tryR=()=>{if(seq!=SCRSEQ)return;const maxY=document.documentElement.scrollHeight-innerHeight;if(maxY>=y-2){window.scrollTo(0,y);if(Math.abs(window.scrollY-y)<3)return}if(Date.now()-t0<2500)setTimeout(tryR,60);else window.scrollTo(0,Math.min(y,maxY))};tryR()}
-async function route0(){syncPaper();delete document.documentElement.dataset.home;ROST++;stopAll();document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
+async function route0(){syncPaper();delete document.documentElement.dataset.home;ROST++;stopAll();followStop();window._rdRid="";document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  // Boot leaves enc:false when meta.json fails, which used to skip the lock and open as plaintext.
  if(!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
@@ -503,8 +503,9 @@ async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold
  const me=++RUN,sel=topics.filter(t=>t.n>=a&&t.n<=b);TLACTIVE=a+"-"+b;TLMODE=loop?"loop":"once";listenPaint();
  const st=t=>{const e=document.getElementById("st");if(e)e.textContent=t},chip=tag+a+"–"+tag+b,label=loop?"原声循环":"原声连播";
  window._tl={fold,a,b,loop:!!loop,ids:sel.map(t=>t.id)};st(label+" · "+chip);
- const markTopic=id=>{document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));if(!id)return;const e=document.querySelector('.li[data-tid="'+CSS.escape(id)+'"]');if(e){e.classList.add("cur");const fold=e.closest("details.tfold");if(fold&&!fold.open)fold.open=true}
-  if(window._rdRid==id){const card=window._tlCard;if(card!=null){const el=document.getElementById("s"+card);if(el){document.querySelectorAll("#ss .cur").forEach(x=>x.classList.remove("cur"));el.classList.add("cur");follow(el)}}}};
+ const markTopic=id=>{document.querySelectorAll(".li.cur").forEach(x=>x.classList.remove("cur"));if(!id)return;const e=document.querySelector('.li[data-tid="'+CSS.escape(id)+'"]');if(e){e.classList.add("cur");const fold=e.closest("details.tfold");if(fold&&!fold.open)fold.open=true;if(window._rdRid!=id)follow(e)}
+  if(window._rdRid==id){const card=window._tlCard;if(card!=null){const el=document.getElementById("s"+card);if(el){document.querySelectorAll("#ss .cur").forEach(x=>x.classList.remove("cur"));el.classList.add("cur");follow(el)}}}
+  else if(window._rdRid)document.querySelectorAll("#ss .cur").forEach(x=>x.classList.remove("cur"))};
  do{let played=0;for(const t of sel){if(me!=RUN)return;let d;try{d=await getJSON(t.data)}catch(e){continue}
   const cards=rdRows(d).filter(x=>x.s&&x.s.oa);
   for(const c of cards){if(me!=RUN)return;window._tlCard=c.i;markTopic(t.id);listenCaption(c.s);LASTBTN=document.getElementById(loop?"rloop":"rnggo");st(`${label} · ${word} ${t.n} · 第 ${c.n+1} 张 · ${chip}`);
@@ -652,7 +653,7 @@ function rdGapWait(ms,alive){if(!(ms>0))return Promise.resolve(alive());
   const t0=Date.now();const tick=()=>{if(!alive())return finish(false);const left=ms-(Date.now()-t0);if(left<=0)return finish(true);timer=setTimeout(tick,Math.min(200,left))};
   timer=setTimeout(tick,Math.min(200,ms))})}
 // RD_LOOP_END
-function viewReading(d,rid){rid=rid||d.id||"";rdOwn=-1;const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
+function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
  const rows=rdRows(d),hasDD=rows.some(x=>x.s.seg&&x.s.oa),lucaRd=/^luca_/.test(rid);
  const showN=i=>{const r=rows.find(x=>x.i===i);return (r?r.n:i)+1};
  let gap=0;try{const n=+localStorage.getItem("rd_luca_gap");if(RD_GAPS.includes(n))gap=n}catch(e){}
@@ -661,7 +662,7 @@ function viewReading(d,rid){rid=rid||d.id||"";rdOwn=-1;const SP=[1,.85,.75];let 
  rows.forEach(({s,i,n})=>{const e=document.createElement("div");e.className="s "+String(s.sp||"").toLowerCase();e.id="s"+i;
   e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${n+1}句">${n+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${esc(rdWho(s.sp))}</div><div class="fr"><div class="t"></div>${s.oa&&s.a!==s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
   e.querySelector(".t").textContent=s.t;const ze=e.querySelector(".zhe");if(ze)ze.textContent=s.t;{const sb=e.querySelector(".sun");const stop=ev=>ev.stopPropagation();sb.addEventListener("pointerdown",stop);sb.addEventListener("touchstart",stop,{passive:true});sb.onclick=ev=>{ev.stopPropagation();ev.preventDefault();const on=sunToggle(rid,i);e.classList.toggle("lit",on);sb.setAttribute("aria-pressed",on)}}if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();sayEN(b.dataset.w.replace(/…/g," "),b)});glossSrc(e,s,i);e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();const btn=ev.currentTarget,now=performance.now(),how=rdSunTap({at:+btn._tap||0,now,own:rdOwn===i,ended:!!A.ended,t:A.currentTime||0,paused:!!A.paused});
-  btn._tap=how==="restart"?0:now;if(how==="pause"){try{A.pause()}catch(err){}return}if(how==="resume"){LASTBTN=btn;const q=A.play();if(q&&q.catch)q.catch(()=>{});return}stopAll();setAll(false);rdOwn=i;seq([i],!!s.oa)};if(s.oa&&s.a!==s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});{const LK="nova_last_"+rid;const L=+localStorage.getItem(LK)||0;if(L>0){const t=document.getElementById("s"+L);if(t){const go=()=>{if(!document.body.contains(t))return;const off=stTop()+8;scrollTo(0,t.getBoundingClientRect().top+scrollY-off)};setTimeout(go,350);setTimeout(go,1100)}}
+  btn._tap=how==="restart"?0:now;if(how==="pause"){try{A.pause()}catch(err){}return}if(how==="resume"){LASTBTN=btn;const q=A.play();if(q&&q.catch)q.catch(()=>{});return}stopAll();setAll(false);rdOwn=i;seq([i],!!s.oa)};if(s.oa&&s.a!==s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});{const LK="nova_last_"+rid;const L=+localStorage.getItem(LK)||0;if(L>0){const t=document.getElementById("s"+L);if(t){const go=()=>{if(!document.body.contains(t)||FOLLOW_EL)return;const off=stTop()+8;scrollTo(0,t.getBoundingClientRect().top+scrollY-off)};setTimeout(go,350);setTimeout(go,1100)}}
  let lt=0;const sv=()=>{if(!document.body.contains(ss)){removeEventListener("scroll",sv);return}clearTimeout(lt);lt=setTimeout(()=>{const y=stTop()+10;const c=[...ss.children].find(x=>x.getBoundingClientRect().bottom>y);if(c)localStorage.setItem(LK,c.id.slice(1))},250)};addEventListener("scroll",sv,{passive:true})}
  // gloss line 3: where the word appears (点读 phrase or sentence) + ▶ plays the original segment containing it
  function glossSrc(e,s,i){const W=s.t.split(/\s+/),nz=x=>x.toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9']/g,"");
@@ -947,9 +948,51 @@ function viewWords(d){let rate=1;
  document.getElementById("spd").onclick=e=>{rate=rate==1?.75:1;A.playbackRate=rate;e.target.textContent="速度 "+rate+"x"}}
 // ---------- long audio with item jump ----------
 // ---------- follow-along helpers ----------
-let LASTUSER=0;for(const ev of["touchstart","touchmove","wheel"])window.addEventListener(ev,()=>LASTUSER=Date.now(),{passive:true});
-window.addEventListener("keydown",e=>{if(["ArrowUp","ArrowDown","PageUp","PageDown"," "].includes(e.key))LASTUSER=Date.now()});
-function follow(el){if(el&&Date.now()-LASTUSER>4000)el.scrollIntoView({block:"center",behavior:"smooth"})}
+// The playing card is pinned just under the sticky bar. The same card does not
+// yank the page back (a drag, wheel, or arrow aborts). iOS drops
+// scrollIntoView({behavior:"smooth"}) after await, and a tap used to block
+// follow() for 4s via touchstart, so auto-advance never moved.
+let FOLLOW_EL=null,FOLLOW_GEN=0;
+function followStop(){FOLLOW_GEN++;FOLLOW_EL=null}
+function pageY(){const sc=document.scrollingElement||document.documentElement;return sc.scrollTop||window.scrollY||0}
+function pageTo(y){const sc=document.scrollingElement||document.documentElement;sc.scrollTop=y;window.scrollTo(0,y)}
+// Sticky bars report a taller bottom while they are still in normal flow (the
+// header is taller than their top offset). The card has to clear the stuck edge.
+function stickBottom(){let b=0;const ss=document.getElementById("ss");
+ for(const e of document.querySelectorAll("body *")){if(ss&&ss.contains(e))continue;const cs=getComputedStyle(e);
+  if(cs.position!="sticky"&&cs.position!="fixed")continue;const top=parseFloat(cs.top);if(!Number.isFinite(top)||top>innerHeight*.45)continue;
+  b=Math.max(b,top+e.getBoundingClientRect().height)}return b}
+function follow(el){
+ if(!el||!el.isConnected||el===FOLLOW_EL)return;
+ FOLLOW_EL=el;const gen=++FOLLOW_GEN;
+ try{const ae=document.activeElement;if(ae&&ae!==document.body&&el.contains(ae))ae.blur()}catch(e){}
+ const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+ let kill=false;const tStart=performance.now();
+ const moved=()=>{if(performance.now()-tStart>80)kill=true};
+ const keys=e=>{if(e.key=="ArrowUp"||e.key=="ArrowDown"||e.key=="PageUp"||e.key=="PageDown"||e.key==" ")kill=true};
+ const wheeled=()=>{kill=true};
+ window.addEventListener("touchmove",moved,{passive:true});
+ window.addEventListener("wheel",wheeled,{passive:true});
+ window.addEventListener("keydown",keys);
+ const drop=()=>{window.removeEventListener("touchmove",moved);window.removeEventListener("wheel",wheeled);window.removeEventListener("keydown",keys)};
+ const place=()=>{if(!el.isConnected)return null;const r=el.getBoundingClientRect();return Math.max(0,pageY()+r.top-(stickBottom()+8))};
+ const y0=place(),from=pageY();
+ // A tap focuses the play button, and the browser's own focus scroll keeps
+ // going after ours. Hold the pin briefly unless a new drag or wheel starts.
+ const settle=()=>{const until=performance.now()+400;const fix=()=>{
+  if(kill||gen!==FOLLOW_GEN||!el.isConnected){drop();return}
+  const y=place();if(y!=null&&Math.abs(pageY()-y)>=4)pageTo(y);
+  if(performance.now()<until)requestAnimationFrame(fix);else drop()};requestAnimationFrame(fix)};
+ if(y0==null){drop();return}
+ if(reduce){if(Math.abs(y0-from)>=4)pageTo(y0);settle();return}
+ if(Math.abs(y0-from)<12){settle();return}
+ const t0=performance.now(),dur=320;
+ const step=now=>{
+  if(kill||gen!==FOLLOW_GEN||!el.isConnected){drop();return}
+  const p=Math.min(1,(now-t0)/dur),eased=1-Math.pow(1-p,3);
+  pageTo(from+(y0-from)*eased);
+  if(p<1)requestAnimationFrame(step);else settle()};
+ requestAnimationFrame(step)}
 const endS=tk=>/[.?!…]["”’)]*$/.test(tk);
 function spans(toks){let h="",open=false;for(const [tk,t] of toks){if(!open){h+='<span class="sn">';open=true}h+=`<span class="wd" data-t="${t}">${esc(tk)}</span> `;if(endS(tk)){h+="</span>";open=false}}if(open)h+="</span>";return h}
 // ---------- long audio with item jump + follow-along ----------
@@ -963,7 +1006,7 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
  const play=t=>{au.currentTime=Math.max(0,t-0.05);au.playbackRate=R[ri];au.play().catch(()=>{})};
  V.querySelectorAll(".jump").forEach(b=>b.onclick=()=>play(+b.dataset.j));
  V.querySelectorAll("[data-src]").forEach(b=>b.onclick=()=>{au.pause();stopAll();const e=d.items[+b.dataset.src];playFull(e.src,b,R[ri])});
- V.querySelectorAll(".wd").forEach(w=>w.onclick=()=>{LASTUSER=0;const sn=w.closest(".sn");const f=sn?sn.querySelector(".wd"):w;play(+(f.dataset.p||f.dataset.t))});
+ V.querySelectorAll(".wd").forEach(w=>w.onclick=()=>{const sn=w.closest(".sn");const f=sn?sn.querySelector(".wd"):w;play(+(f.dataset.p||f.dataset.t))});
  document.getElementById("bk").onclick=()=>au.seekTo(au.currentTime-10);document.getElementById("fw").onclick=()=>au.seekTo(au.currentTime+10);
  document.getElementById("sp").onclick=e=>{ri=(ri+1)%3;au.playbackRate=R[ri];e.target.textContent="速度 "+R[ri]+"x"};
  const WD=[...V.querySelectorAll(".wd")].map(el=>({el,t:+el.dataset.t}));
@@ -1006,10 +1049,12 @@ async function viewLong(d){const url=await audioURL(d.audio);await loadEXP();awa
   if(k>=0&&isSk(k)&&k!=MANK&&!au.paused){let n=k+1;while(n<ts.length&&(ts[n]==null||isSk(n)))n++;
    if(n<ts.length){au.currentTime=ts[n];ct=ts[n]+0.05;k=n}else{au.pause();au.currentTime=(isFinite(au.duration)?au.duration:d.dur)||au.currentTime}}
   if(SH&&k>=0&&k==lastE&&!au.paused){const nw=document.getElementById("nw"),tx=`正在播放：${d.items[k].n}. ${d.items[k].w}（乱序 ${PL.size}/${ORD.filter(i=>!isSk(i)).length}）`;if(nw.textContent!=tx)nw.textContent=tx}
-  if(k!=lastE){lastE=k;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));if(k>=0){document.getElementById("e"+k).classList.add("cur");document.getElementById("nw").textContent=`正在播放：${d.items[k].n}. ${d.items[k].w}`+(SH?`（乱序 ${PL.size}/${ORD.filter(i=>!isSk(i)).length}）`:"")}}
+  const entChanged=k!=lastE;
+  if(entChanged){lastE=k;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));if(k>=0){const ent=document.getElementById("e"+k);if(ent)ent.classList.add("cur");document.getElementById("nw").textContent=`正在播放：${d.items[k].n}. ${d.items[k].w}`+(SH?`（乱序 ${PL.size}/${ORD.filter(i=>!isSk(i)).length}）`:"")}}
   let lo=0,hi=WD.length-1,j=-1;while(lo<=hi){const m=(lo+hi)>>1;if(WD[m].t<=ct){j=m;lo=m+1}else hi=m-1}
-  const w=j>=0?WD[j].el:null;if(w!==lastW){lastW&&lastW.classList.remove("on");w&&w.classList.add("on");lastW=w;
-   const sn=w?(w.closest(".sn")||w):null;if(sn!==lastS){lastS&&lastS.classList.remove("now");sn&&sn.classList.add("now");lastS=sn;if(!au.paused)follow(sn)}}
+  const w=j>=0?WD[j].el:null;let followed=false;if(w!==lastW){lastW&&lastW.classList.remove("on");w&&w.classList.add("on");lastW=w;
+   const sn=w?(w.closest(".sn")||w):null;if(sn!==lastS){lastS&&lastS.classList.remove("now");sn&&sn.classList.add("now");lastS=sn;if(!au.paused){follow(sn);followed=true}}}
+  if(!followed&&entChanged&&!au.paused&&k>=0){const ent=document.getElementById("e"+k);if(ent)follow(ent)}
   if(!au.paused)raf=requestAnimationFrame(tick)}
  au.addEventListener("play",()=>{try{A.pause()}catch(e){}cancelAnimationFrame(raf);tick()});au.addEventListener("seeked",tick);au.addEventListener("timeupdate",()=>{if(au.paused)tick()});
  window._stopLong=()=>au.pause()}
