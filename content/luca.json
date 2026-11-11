@@ -53,6 +53,30 @@
       "data": "luca_d07.json",
       "vocab": 4,
       "long": "luca_d07_long.json"
+    },
+    {
+      "id": "luca_d08",
+      "title": "Day 8",
+      "sub": "11 句",
+      "data": "luca_d08.json",
+      "vocab": 3,
+      "long": "luca_d08_long.json"
+    },
+    {
+      "id": "luca_d09",
+      "title": "Day 9",
+      "sub": "9 句",
+      "data": "luca_d09.json",
+      "vocab": 2,
+      "long": "luca_d09_long.json"
+    },
+    {
+      "id": "luca_d10",
+      "title": "Day 10",
+      "sub": "15 句",
+      "data": "luca_d10.json",
+      "vocab": 5,
+      "long": "luca_d10_long.json"
     }
   ],
   "wfMap": [

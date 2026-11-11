@@ -1,0 +1,845 @@
+{
+ "id": "luca_d10_long",
+ "type": "longaudio",
+ "title": "Day 10",
+ "audio": "audio/luca_d10v/long.mp3",
+ "dur": 139.2,
+ "items": [
+  {
+   "n": 1,
+   "w": "oxygen",
+   "pos": "n.",
+   "zh": "氧气",
+   "ex": "Oxygen is the gas in the air that we need to breathe. Uncle Ugo lives deep in the sea, so the air up here has too much oxygen for him.",
+   "exs": [
+    "Fish get oxygen from the water."
+   ],
+   "exzh": [
+    "鱼从水里获取氧气。"
+   ],
+   "t": 0.0,
+   "tt": {
+    "s0": 0.0,
+    "o0": 0.0,
+    "w": 5.1,
+    "pos": 6.99,
+    "ex": [
+     [
+      "Oxygen",
+      8.29
+     ],
+     [
+      "is",
+      8.75
+     ],
+     [
+      "the",
+      8.95
+     ],
+     [
+      "gas",
+      9.22
+     ],
+     [
+      "in",
+      9.49
+     ],
+     [
+      "the",
+      9.69
+     ],
+     [
+      "air",
+      9.96
+     ],
+     [
+      "that",
+      10.22
+     ],
+     [
+      "we",
+      10.56
+     ],
+     [
+      "need",
+      10.76
+     ],
+     [
+      "to",
+      11.09
+     ],
+     [
+      "breathe.",
+      11.29
+     ],
+     [
+      "Uncle",
+      11.89
+     ],
+     [
+      "Ugo",
+      12.29
+     ],
+     [
+      "lives",
+      12.56
+     ],
+     [
+      "deep",
+      12.96
+     ],
+     [
+      "in",
+      13.29
+     ],
+     [
+      "the",
+      13.49
+     ],
+     [
+      "sea,",
+      13.76
+     ],
+     [
+      "so",
+      14.09
+     ],
+     [
+      "the",
+      14.29
+     ],
+     [
+      "air",
+      14.56
+     ],
+     [
+      "up",
+      14.83
+     ],
+     [
+      "here",
+      15.03
+     ],
+     [
+      "has",
+      15.36
+     ],
+     [
+      "too",
+      15.63
+     ],
+     [
+      "much",
+      15.89
+     ],
+     [
+      "oxygen",
+      16.23
+     ],
+     [
+      "for",
+      16.7
+     ],
+     [
+      "him.",
+      16.96
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Fish",
+       18.05
+      ],
+      [
+       "get",
+       18.35
+      ],
+      [
+       "oxygen",
+       18.59
+      ],
+      [
+       "from",
+       19.02
+      ],
+      [
+       "the",
+       19.32
+      ],
+      [
+       "water.",
+       19.57
+      ]
+     ]
+    ],
+    "z": [
+     20.47
+    ],
+    "o": 23.04
+   },
+   "src": {
+    "t": "Thanks for that. Too much oxygen up here.",
+    "zh": "谢了。上面的氧气太多了",
+    "sp": "Luca",
+    "oa": "audio/luca_d10o/s03.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "w": "whale carcass",
+   "pos": "n.",
+   "zh": "鲸鱼尸体",
+   "ex": "A carcass is the dead body of an animal. A whale carcass is a dead whale. Deep in the sea, many animals eat it for food.",
+   "exs": [
+    "Many sea animals can live on one whale carcass for years."
+   ],
+   "exzh": [
+    "很多海洋动物能靠一具鲸鱼尸体生活好几年。"
+   ],
+   "t": 28.44,
+   "tt": {
+    "s0": 28.44,
+    "o0": 28.44,
+    "w": 36.69,
+    "pos": 38.76,
+    "ex": [
+     [
+      "A",
+      40.07
+     ],
+     [
+      "carcass",
+      40.2
+     ],
+     [
+      "is",
+      40.75
+     ],
+     [
+      "the",
+      40.96
+     ],
+     [
+      "dead",
+      41.24
+     ],
+     [
+      "body",
+      41.58
+     ],
+     [
+      "of",
+      41.92
+     ],
+     [
+      "an",
+      42.13
+     ],
+     [
+      "animal.",
+      42.34
+     ],
+     [
+      "A",
+      42.89
+     ],
+     [
+      "whale",
+      43.02
+     ],
+     [
+      "carcass",
+      43.44
+     ],
+     [
+      "is",
+      43.99
+     ],
+     [
+      "a",
+      44.19
+     ],
+     [
+      "dead",
+      44.33
+     ],
+     [
+      "whale.",
+      44.68
+     ],
+     [
+      "Deep",
+      45.16
+     ],
+     [
+      "in",
+      45.5
+     ],
+     [
+      "the",
+      45.71
+     ],
+     [
+      "sea,",
+      45.98
+     ],
+     [
+      "many",
+      46.33
+     ],
+     [
+      "animals",
+      46.67
+     ],
+     [
+      "eat",
+      47.22
+     ],
+     [
+      "it",
+      47.5
+     ],
+     [
+      "for",
+      47.7
+     ],
+     [
+      "food.",
+      47.98
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Many",
+       49.14
+      ],
+      [
+       "sea",
+       49.45
+      ],
+      [
+       "animals",
+       49.69
+      ],
+      [
+       "can",
+       50.17
+      ],
+      [
+       "live",
+       50.42
+      ],
+      [
+       "on",
+       50.72
+      ],
+      [
+       "one",
+       50.9
+      ],
+      [
+       "whale",
+       51.15
+      ],
+      [
+       "carcass",
+       51.51
+      ],
+      [
+       "for",
+       52.0
+      ],
+      [
+       "years.",
+       52.24
+      ]
+     ]
+    ],
+    "z": [
+     53.15
+    ],
+    "o": 57.63
+   },
+   "src": {
+    "t": "Or do. It's just you and your thoughts, and all the whale carcass you can eat.",
+    "zh": "也没什么可做的。就只有你和你的思绪，还有吃不完的鲸鱼尸体",
+    "sp": "Luca",
+    "oa": "audio/luca_d10o/s06.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "w": "float",
+   "pos": "v.",
+   "zh": "漂浮；飘",
+   "ex": "Float means to move slowly on water or in the air, without sinking or falling.",
+   "exs": [
+    "The leaf floated on the water."
+   ],
+   "exzh": [
+    "那片叶子漂在水面上。"
+   ],
+   "t": 66.18,
+   "tt": {
+    "s0": 66.18,
+    "o0": 66.18,
+    "w": 69.93,
+    "pos": 71.58,
+    "ex": [
+     [
+      "Float",
+      72.78
+     ],
+     [
+      "means",
+      73.15
+     ],
+     [
+      "to",
+      73.52
+     ],
+     [
+      "move",
+      73.71
+     ],
+     [
+      "slowly",
+      74.02
+     ],
+     [
+      "on",
+      74.46
+     ],
+     [
+      "water",
+      74.64
+     ],
+     [
+      "or",
+      75.01
+     ],
+     [
+      "in",
+      75.2
+     ],
+     [
+      "the",
+      75.39
+     ],
+     [
+      "air,",
+      75.64
+     ],
+     [
+      "without",
+      75.95
+     ],
+     [
+      "sinking",
+      76.44
+     ],
+     [
+      "or",
+      76.94
+     ],
+     [
+      "falling.",
+      77.13
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       78.44
+      ],
+      [
+       "leaf",
+       78.64
+      ],
+      [
+       "floated",
+       78.89
+      ],
+      [
+       "on",
+       79.28
+      ],
+      [
+       "the",
+       79.43
+      ],
+      [
+       "water.",
+       79.63
+      ]
+     ]
+    ],
+    "z": [
+     80.46
+    ],
+    "o": 83.15
+   },
+   "src": {
+    "t": "Little bits of it just float into your mouth.",
+    "zh": "一小块一小块的，就飘进你嘴里",
+    "sp": "Luca",
+    "oa": "audio/luca_d10o/s07.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "w": "rest of the season",
+   "pos": "phr.",
+   "zh": "这一季剩下的时间",
+   "ex": "The rest of the season means all the time that is left in this season, until it ends.",
+   "exs": [
+    "Our team will play without him for the rest of the season."
+   ],
+   "exzh": [
+    "这一季剩下的比赛，我们队都得在没有他的情况下打了。"
+   ],
+   "t": 87.2,
+   "tt": {
+    "s0": 87.2,
+    "o0": 87.2,
+    "w": 91.05,
+    "pos": 93.38,
+    "ex": [
+     [
+      "The",
+      94.73
+     ],
+     [
+      "rest",
+      94.95
+     ],
+     [
+      "of",
+      95.24
+     ],
+     [
+      "the",
+      95.41
+     ],
+     [
+      "season",
+      95.63
+     ],
+     [
+      "means",
+      96.03
+     ],
+     [
+      "all",
+      96.36
+     ],
+     [
+      "the",
+      96.59
+     ],
+     [
+      "time",
+      96.82
+     ],
+     [
+      "that",
+      97.1
+     ],
+     [
+      "is",
+      97.38
+     ],
+     [
+      "left",
+      97.55
+     ],
+     [
+      "in",
+      97.83
+     ],
+     [
+      "this",
+      98.0
+     ],
+     [
+      "season,",
+      98.28
+     ],
+     [
+      "until",
+      98.73
+     ],
+     [
+      "it",
+      99.07
+     ],
+     [
+      "ends.",
+      99.24
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Our",
+       100.33
+      ],
+      [
+       "team",
+       100.53
+      ],
+      [
+       "will",
+       100.79
+      ],
+      [
+       "play",
+       101.04
+      ],
+      [
+       "without",
+       101.3
+      ],
+      [
+       "him",
+       101.71
+      ],
+      [
+       "for",
+       101.91
+      ],
+      [
+       "the",
+       102.12
+      ],
+      [
+       "rest",
+       102.32
+      ],
+      [
+       "of",
+       102.58
+      ],
+      [
+       "the",
+       102.73
+      ],
+      [
+       "season.",
+       102.93
+      ]
+     ]
+    ],
+    "z": [
+     103.82
+    ],
+    "o": 108.6
+   },
+   "src": {
+    "t": "You're going to stay with Uncle Ugo for the rest of the season.",
+    "zh": "你要去乌戈舅舅那里住，一直住到这一季结束",
+    "sp": "Luca",
+    "oa": "audio/luca_d10o/s10.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 5,
+   "w": "so be it",
+   "pos": "phr.",
+   "zh": "那就这样吧；就这么办",
+   "ex": "So be it means “then that is how it will be.” You say it when you accept something, even if it is hard.",
+   "exs": [
+    "If we have to walk home in the rain, so be it."
+   ],
+   "exzh": [
+    "如果我们得冒雨走回家，那就这样吧。"
+   ],
+   "t": 112.75,
+   "tt": {
+    "s0": 112.75,
+    "o0": 112.75,
+    "w": 117.57,
+    "pos": 119.52,
+    "ex": [
+     [
+      "So",
+      120.87
+     ],
+     [
+      "be",
+      121.04
+     ],
+     [
+      "it",
+      121.22
+     ],
+     [
+      "means",
+      121.39
+     ],
+     [
+      "“then",
+      121.75
+     ],
+     [
+      "that",
+      122.1
+     ],
+     [
+      "is",
+      122.39
+     ],
+     [
+      "how",
+      122.56
+     ],
+     [
+      "it",
+      122.8
+     ],
+     [
+      "will",
+      122.97
+     ],
+     [
+      "be.”",
+      123.27
+     ],
+     [
+      "You",
+      123.56
+     ],
+     [
+      "say",
+      123.79
+     ],
+     [
+      "it",
+      124.03
+     ],
+     [
+      "when",
+      124.2
+     ],
+     [
+      "you",
+      124.5
+     ],
+     [
+      "accept",
+      124.73
+     ],
+     [
+      "something,",
+      125.14
+     ],
+     [
+      "even",
+      125.78
+     ],
+     [
+      "if",
+      126.08
+     ],
+     [
+      "it",
+      126.25
+     ],
+     [
+      "is",
+      126.43
+     ],
+     [
+      "hard.",
+      126.6
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "If",
+       127.7
+      ],
+      [
+       "we",
+       127.87
+      ],
+      [
+       "have",
+       128.03
+      ],
+      [
+       "to",
+       128.3
+      ],
+      [
+       "walk",
+       128.46
+      ],
+      [
+       "home",
+       128.73
+      ],
+      [
+       "in",
+       129.0
+      ],
+      [
+       "the",
+       129.17
+      ],
+      [
+       "rain,",
+       129.38
+      ],
+      [
+       "so",
+       129.71
+      ],
+      [
+       "be",
+       129.87
+      ],
+      [
+       "it.",
+       130.03
+      ]
+     ]
+    ],
+    "z": [
+     130.73
+    ],
+    "o": 134.12
+   },
+   "src": {
+    "t": "And if I have to send you to the bottom of the ocean to keep you safe, so be it.",
+    "zh": "如果我必须把你送到海底才能保证你的安全，那就这么办",
+    "sp": "Luca",
+    "oa": "audio/luca_d10o/s13.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  }
+ ]
+}

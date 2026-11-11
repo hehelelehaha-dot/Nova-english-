@@ -1,0 +1,341 @@
+{
+ "id": "luca_d09_long",
+ "type": "longaudio",
+ "title": "Day 9",
+ "audio": "audio/luca_d09v/long.mp3",
+ "dur": 55.2,
+ "items": [
+  {
+   "n": 1,
+   "w": "sneak",
+   "pos": "v.",
+   "zh": "偷偷地走；溜（sneak off 偷偷溜走）",
+   "ex": "Sneak means to go somewhere quietly so that no one sees you. Sneak off means to leave secretly.",
+   "exs": [
+    "The cat sneaks into the kitchen when no one is looking."
+   ],
+   "exzh": [
+    "没人注意的时候，那只猫就偷偷溜进厨房。"
+   ],
+   "t": 0.0,
+   "tt": {
+    "s0": 0.0,
+    "o0": 0.0,
+    "w": 5.6,
+    "pos": 7.17,
+    "ex": [
+     [
+      "Sneak",
+      8.36
+     ],
+     [
+      "means",
+      8.73
+     ],
+     [
+      "to",
+      9.1
+     ],
+     [
+      "go",
+      9.29
+     ],
+     [
+      "somewhere",
+      9.47
+     ],
+     [
+      "quietly",
+      10.09
+     ],
+     [
+      "so",
+      10.59
+     ],
+     [
+      "that",
+      10.77
+     ],
+     [
+      "no",
+      11.08
+     ],
+     [
+      "one",
+      11.27
+     ],
+     [
+      "sees",
+      11.51
+     ],
+     [
+      "you.",
+      11.82
+     ],
+     [
+      "Sneak",
+      12.13
+     ],
+     [
+      "off",
+      12.5
+     ],
+     [
+      "means",
+      12.75
+     ],
+     [
+      "to",
+      13.12
+     ],
+     [
+      "leave",
+      13.31
+     ],
+     [
+      "secretly.",
+      13.68
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       15.05
+      ],
+      [
+       "cat",
+       15.27
+      ],
+      [
+       "sneaks",
+       15.49
+      ],
+      [
+       "into",
+       15.88
+      ],
+      [
+       "the",
+       16.15
+      ],
+      [
+       "kitchen",
+       16.38
+      ],
+      [
+       "when",
+       16.82
+      ],
+      [
+       "no",
+       17.1
+      ],
+      [
+       "one",
+       17.26
+      ],
+      [
+       "is",
+       17.48
+      ],
+      [
+       "looking.",
+       17.65
+      ]
+     ]
+    ],
+    "z": [
+     18.63
+    ],
+    "o": 22.75
+   },
+   "src": {
+    "t": "You need to promise us that you'll never sneak off to the surface again.",
+    "zh": "你得向我们保证，再也不偷偷溜到水面上去了",
+    "sp": "Luca",
+    "oa": "audio/luca_d09o/s02.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "w": "influence",
+   "pos": "n.",
+   "zh": "影响；（a bad influence）带坏别人的人",
+   "ex": "An influence is a person or thing that changes how you think or act. A bad influence makes you do things you should not do.",
+   "exs": [
+    "Her big sister is a good influence on her."
+   ],
+   "exzh": [
+    "她姐姐对她有很好的影响。"
+   ],
+   "t": 28.65,
+   "tt": {
+    "s0": 28.65,
+    "o0": 28.65,
+    "w": 32.72,
+    "pos": 34.67,
+    "ex": [
+     [
+      "An",
+      35.97
+     ],
+     [
+      "influence",
+      36.16
+     ],
+     [
+      "is",
+      36.82
+     ],
+     [
+      "a",
+      37.01
+     ],
+     [
+      "person",
+      37.15
+     ],
+     [
+      "or",
+      37.6
+     ],
+     [
+      "thing",
+      37.8
+     ],
+     [
+      "that",
+      38.19
+     ],
+     [
+      "changes",
+      38.52
+     ],
+     [
+      "how",
+      39.04
+     ],
+     [
+      "you",
+      39.3
+     ],
+     [
+      "think",
+      39.57
+     ],
+     [
+      "or",
+      39.96
+     ],
+     [
+      "act.",
+      40.16
+     ],
+     [
+      "A",
+      40.48
+     ],
+     [
+      "bad",
+      40.61
+     ],
+     [
+      "influence",
+      40.87
+     ],
+     [
+      "makes",
+      41.53
+     ],
+     [
+      "you",
+      41.92
+     ],
+     [
+      "do",
+      42.18
+     ],
+     [
+      "things",
+      42.38
+     ],
+     [
+      "you",
+      42.84
+     ],
+     [
+      "should",
+      43.1
+     ],
+     [
+      "not",
+      43.56
+     ],
+     [
+      "do.",
+      43.82
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Her",
+       44.83
+      ],
+      [
+       "big",
+       45.07
+      ],
+      [
+       "sister",
+       45.3
+      ],
+      [
+       "is",
+       45.72
+      ],
+      [
+       "a",
+       45.9
+      ],
+      [
+       "good",
+       46.01
+      ],
+      [
+       "influence",
+       46.31
+      ],
+      [
+       "on",
+       46.9
+      ],
+      [
+       "her.",
+       47.08
+      ]
+     ]
+    ],
+    "z": [
+     47.86
+    ],
+    "o": 50.78
+   },
+   "src": {
+    "t": "Ah, yes. There's usually a bad influence.",
+    "zh": "啊，果然。通常都会有个带坏他的人",
+    "sp": "Luca",
+    "oa": "audio/luca_d09o/s06.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  }
+ ]
+}
