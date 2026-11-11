@@ -211,7 +211,8 @@ let UP=null;
 async function loadUp(){if(UP)return UP;try{UP=await getJSON("up.json")}catch(e){UP={days:[],wfMap:[]}}if(!UP.days)UP.days=[];if(!UP.wfMap)UP.wfMap=[];return UP}
 // 介词 (internal id prep) is the top fold, above Naval. content/prepositions.json is a
 // list of 小板块 ({id, title, items:[{id, title, data}]}). A data file is markdown
-// (uploads/out-essence-full.md for 介词的本质). Another 小板块 is another list entry.
+// (uploads/out-essence-full.md for 介词的本质) or a json line list
+// (content/prep_out_lines.json for 原声例句). Another 小板块 is another list entry.
 let PREP=null;
 async function loadPrep(){if(PREP)return PREP;try{PREP=await getJSON("prepositions.json")}catch(e){PREP=[]}if(!Array.isArray(PREP))PREP=[];return PREP}
 function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
@@ -276,10 +277,40 @@ function prepPageHTML(md){const tokens=prepTokenize(md);let i=0,head="",pre=[];
  for(;i<tokens.length;i++){const tok=tokens[i];if(tok.type==="line"&&/^##\s+/.test(tok.text)){cur={title:tok.text.replace(/^##\s+/,"").trim(),tokens:[]};sections.push(cur);continue}if(cur)cur.tokens.push(tok);else pre.push(tok)}
  const body=sections.map(sec=>`<h3 class="sec">${prepInline(sec.title)}</h3>${/互动闪卡/.test(sec.title)?prepCards(sec.tokens):prepFlow(sec.tokens)}`).join("");
  return `${prepCSS()}<div class="card prep-page">${head}${prepFlow(pre)}${body}</div>`}
+// 原声例句: grouped by the out senses that already have a line. Sense 1 has none yet.
+// 中→英 shows 中文 and hides English until the card is tapped; 英→中 is the reverse. Default 中→英.
+// 🎬 plays the plain mp3 (same .fcorig path as Luca 整句原声), never TTS.
+const PREP_OUT_SENSE={2:"2. 脱离可用的资源范围",3:"3. 脱离控制范围",4:"4. 脱离隐藏状态",5:"5. 从未知变成已知"};
+function prepClip(row){const a=String(row&&row.audio||"");if(a.startsWith("content/"))return a.slice("content/".length);if(row&&row.slug)return "audio/prep/out/"+row.slug+".mp3";return a}
+function prepLinesCSS(){return `<style>
+.prep-lines{display:flex;flex-direction:column;gap:10px}.prep-lines>h3.sec{color:var(--pgtx,#444);margin:16px 2px 8px}.prep-lines>h3.sec:first-child{margin-top:2px}
+.prep-line{cursor:pointer;text-align:left}.prep-top{display:flex;align-items:center;gap:8px}.prep-movie{font-size:12px;font-weight:700;line-height:1.3;color:inherit}
+.prep-line .lab{flex:none}.prep-line .fcorig{margin:0 0 0 auto;flex:none;min-height:36px;padding:6px 12px}
+.prep-body{display:flex;flex-direction:column;margin-top:8px}.prep-face{font-size:18px;line-height:1.5;color:inherit;text-align:left;font-weight:500}.prep-en{font-family:Georgia,"Noto Serif",serif}
+.prep-ans{order:3;margin-top:8px;font-size:13px;font-weight:700;color:inherit}
+.prep-lines[data-mode=ce] .prep-zh{order:1}.prep-lines[data-mode=ce] .prep-en{order:2}
+.prep-lines[data-mode=ec] .prep-en{order:1}.prep-lines[data-mode=ec] .prep-zh{order:2}
+.prep-lines[data-mode=ce] .prep-line:not(.show) .prep-en{display:none}
+.prep-lines[data-mode=ec] .prep-line:not(.show) .prep-zh{display:none}
+.prep-line.show .prep-ans{display:none}
+</style>`}
+function prepLinesPage(rows){const list=Array.isArray(rows)?rows:[];let body="";
+ for(const s of [2,3,4,5]){const items=list.filter(r=>+r.sense===s);if(!items.length)continue;
+  body+=`<h3 class="sec">${esc(PREP_OUT_SENSE[s])}</h3>`+items.map(r=>{const form=String(r.form||"").trim(),tag=form?`<span class="lab">${esc(form)}</span>`:"";
+   return `<div class="card prep-line" aria-expanded="false"><div class="prep-top"><span class="prep-movie">${esc(r.movie||"")}</span>${tag}<button type="button" class="fcorig" data-oa="${esc(prepClip(r))}" aria-label="播放原声">🎬 原声</button></div><div class="prep-body"><div class="prep-face prep-zh">${esc(r.zh||"")}</div><div class="prep-face prep-en">${esc(r.en||"")}</div><div class="prep-ans">看答案</div></div></div>`}).join("")}
+ if(!body)body=`<div class="done">这一页还没准备好</div>`;
+ return `${prepLinesCSS()}<div class="bar fcdir"><button type="button" id="pCE" class="on">中→英</button><button type="button" id="pEC">英→中</button></div><div class="prep-lines" data-mode="ce">${body}</div>`}
+function wirePrepLines(){const box=V.querySelector(".prep-lines");if(!box)return;
+ const set=mode=>{box.dataset.mode=mode;const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.classList.toggle("on",mode==="ce");if(ec)ec.classList.toggle("on",mode==="ec")};
+ const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.onclick=()=>set("ce");if(ec)ec.onclick=()=>set("ec");
+ V.querySelectorAll(".prep-line").forEach(card=>{card.onclick=ev=>{if(ev.target.closest(".fcorig"))return;card.classList.toggle("show");card.setAttribute("aria-expanded",card.classList.contains("show")?"true":"false")}})}
+async function showPrepLines(it){let rows;try{rows=await getJSON(String(it.data||"").replace(/^content\//,""))}catch(e){V.innerHTML=`<div class="done">这一页还没准备好</div>`;return}
+ if(rows&&!Array.isArray(rows)&&Array.isArray(rows.lines))rows=rows.lines;if(!Array.isArray(rows))rows=[];V.innerHTML=prepLinesPage(rows);wirePrepLines()}
 async function showPrep(sid,iid){const sec=prepSections().find(s=>String(s.id)===String(sid||""));if(!sec)return showHome();
  const items=Array.isArray(sec.items)?sec.items:[];const it=items.find(x=>String(x.id)===String(iid||""));if(!it)return showHome();
  setHeader(it.title||sec.title||"介词",true);
  if(!it.data){V.innerHTML=`<p class="tip">${esc(it.title||"")}</p><div class="done">内容即将添加</div>`;return}
+ if(/\.json$/i.test(it.data))return showPrepLines(it);
  let md;try{md=await getText(it.data)}catch(e){V.innerHTML=`<div class="done">这一页还没准备好</div>`;return}
  V.innerHTML=prepPageHTML(md);
  V.querySelectorAll("[data-say]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();ev.preventDefault();stopAll();V.querySelectorAll(".spk.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");speak(b.dataset.say,1).then(()=>{if(b.isConnected)b.classList.remove("on")})});

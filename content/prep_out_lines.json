@@ -1,0 +1,112 @@
+[
+ {
+  "slug": "cars-outta-gas",
+  "sense": 2,
+  "form": "out of",
+  "en": "No, no, no, no, no. Outta gas? How can I be outta gas?",
+  "zh": "不不不……没油了？我怎么会没油了？",
+  "movie": "Cars (2006)",
+  "speaker": "Lightning McQueen",
+  "audio": "content/audio/prep/out/cars-outta-gas.mp3"
+ },
+ {
+  "slug": "coco-running-out-of-time",
+  "sense": 2,
+  "form": "out of",
+  "en": "I'm running out of time. It's Coco.",
+  "zh": "我快没时间了。是可可（她正在忘记我）。",
+  "movie": "Coco (2017)",
+  "speaker": "Héctor",
+  "audio": "content/audio/prep/out/coco-running-out-of-time.mp3"
+ },
+ {
+  "slug": "coco-both-out-of-time",
+  "sense": 2,
+  "form": "out of",
+  "en": "We're both out of time, mijo.",
+  "zh": "我们俩都没时间了，孩子。",
+  "movie": "Coco (2017)",
+  "speaker": "Héctor",
+  "audio": "content/audio/prep/out/coco-both-out-of-time.mp3"
+ },
+ {
+  "slug": "elemental-running-out-of-air",
+  "sense": 2,
+  "form": "out of",
+  "en": "You're running out of air.",
+  "zh": "你快没空气了。",
+  "movie": "Elemental (2023)",
+  "speaker": "Wade Ripple",
+  "audio": "content/audio/prep/out/elemental-running-out-of-air.mp3"
+ },
+ {
+  "slug": "frozen-out-of-hand",
+  "sense": 3,
+  "form": "out of",
+  "en": "This is getting out of hand.",
+  "zh": "这已经越来越失控了。",
+  "movie": "Frozen (2013)",
+  "speaker": "King Agnarr",
+  "audio": "content/audio/prep/out/frozen-out-of-hand.mp3"
+ },
+ {
+  "slug": "encanto-isabela-out-of-control",
+  "sense": 3,
+  "form": "out of",
+  "en": "Luisa's losing her powers. Isabela's out of control.",
+  "zh": "路易莎的能力正在消失。伊莎贝拉已经失控了。",
+  "movie": "Encanto (2021)",
+  "speaker": "Abuela Alma",
+  "audio": "content/audio/prep/out/encanto-isabela-out-of-control.mp3"
+ },
+ {
+  "slug": "frozen2-out-of-control",
+  "sense": 3,
+  "form": "out of",
+  "en": "We're calling this ‘controlling what you can when things feel out of control.’",
+  "zh": "我们把这叫作：当事情让人觉得失控时，只去掌控你能掌控的。",
+  "movie": "Frozen II (2019)",
+  "speaker": "Olaf",
+  "audio": "content/audio/prep/out/frozen2-out-of-control.mp3"
+ },
+ {
+  "slug": "emperors-new-groove-out-of-control",
+  "sense": 3,
+  "form": "out of",
+  "en": "I had a dream that Dad was tied to a log and was careening out of control down a raging river of death!",
+  "zh": "我梦见爸爸被绑在一根木头上，失控地冲进一条要命的急流里！",
+  "movie": "The Emperor's New Groove (2000)",
+  "speaker": "Chicha (Pacha's wife) — family/home scene, recounting a nightmare",
+  "audio": "content/audio/prep/out/emperors-new-groove-out-of-control.mp3"
+ },
+ {
+  "slug": "incredibles-come-out-of-hiding",
+  "sense": 4,
+  "form": "out of",
+  "en": "Does this mean we can come out of hiding?",
+  "zh": "这是不是说，我们可以不用再躲起来了？",
+  "movie": "The Incredibles (2004)",
+  "speaker": "Bob Parr / Mr. Incredible",
+  "audio": "content/audio/prep/out/incredibles-come-out-of-hiding.mp3"
+ },
+ {
+  "slug": "encanto-let-it-out",
+  "sense": 4,
+  "form": "out",
+  "en": "Let it in, let it out, let it rain, let it snow, let it go.",
+  "zh": "让它进来，让它出去，让它下雨，让它下雪，让它去吧。",
+  "movie": "Encanto (2021)",
+  "speaker": "Family ensemble in “We Don't Talk About Bruno” (Pepa / Félix / chorus)",
+  "audio": "content/audio/prep/out/encanto-let-it-out.mp3"
+ },
+ {
+  "slug": "frozen-figure-this-out",
+  "sense": 5,
+  "form": "out",
+  "en": "No, I know we can figure this out together.",
+  "zh": "不，我知道我们能一起把这件事弄明白。",
+  "movie": "Frozen (2013)",
+  "speaker": "Anna",
+  "audio": "content/audio/prep/out/frozen-figure-this-out.mp3"
+ }
+]
