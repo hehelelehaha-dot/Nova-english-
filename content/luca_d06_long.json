@@ -1,0 +1,521 @@
+{
+ "id": "luca_d06_long",
+ "type": "longaudio",
+ "title": "Day 6",
+ "audio": "audio/luca_d06v/long.mp3",
+ "dur": 88.5,
+ "items": [
+  {
+   "n": 1,
+   "w": "ever",
+   "pos": "adv.",
+   "zh": "曾经；（跟最高级连用）有史以来",
+   "ex": "Ever means at any time. After words like “the greatest,” it means “of all time.”",
+   "exs": [
+    "This is the best pizza I have ever eaten."
+   ],
+   "exzh": [
+    "这是我吃过的最好吃的披萨。"
+   ],
+   "t": 0.0,
+   "tt": {
+    "s0": 0.0,
+    "o0": 0.0,
+    "w": 4.95,
+    "pos": 6.56,
+    "ex": [
+     [
+      "Ever",
+      8.01
+     ],
+     [
+      "means",
+      8.33
+     ],
+     [
+      "at",
+      8.72
+     ],
+     [
+      "any",
+      8.91
+     ],
+     [
+      "time.",
+      9.17
+     ],
+     [
+      "After",
+      9.55
+     ],
+     [
+      "words",
+      9.94
+     ],
+     [
+      "like",
+      10.33
+     ],
+     [
+      "“the",
+      10.65
+     ],
+     [
+      "greatest,”",
+      10.97
+     ],
+     [
+      "it",
+      11.68
+     ],
+     [
+      "means",
+      11.87
+     ],
+     [
+      "“of",
+      12.26
+     ],
+     [
+      "all",
+      12.51
+     ],
+     [
+      "time.”",
+      12.77
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "This",
+       13.97
+      ],
+      [
+       "is",
+       14.26
+      ],
+      [
+       "the",
+       14.44
+      ],
+      [
+       "best",
+       14.67
+      ],
+      [
+       "pizza",
+       14.96
+      ],
+      [
+       "I",
+       15.31
+      ],
+      [
+       "have",
+       15.42
+      ],
+      [
+       "ever",
+       15.71
+      ],
+      [
+       "eaten.",
+       16.0
+      ]
+     ]
+    ],
+    "z": [
+     16.89
+    ],
+    "o": 19.84
+   },
+   "src": {
+    "t": "Oh, it's just the greatest thing that humans ever made. The Vespa.",
+    "zh": "哦，那可是人类有史以来造出的最棒的东西。韦士柏",
+    "sp": "Luca",
+    "oa": "audio/luca_d06o/s02.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "w": "stinkin'",
+   "pos": "adj.",
+   "zh": "（口语）该死的；用来加强语气",
+   "ex": "Stinkin' is a casual way to say stinking. People use it to make a word stronger. “The whole stinkin' world” means the whole big world.",
+   "exs": [
+    "I looked in every stinkin' drawer, but I still couldn't find my keys."
+   ],
+   "exzh": [
+    "我把每个该死的抽屉都翻遍了，还是没找到钥匙。"
+   ],
+   "t": 25.09,
+   "tt": {
+    "s0": 25.09,
+    "o0": 25.09,
+    "w": 30.54,
+    "pos": 32.25,
+    "ex": [
+     [
+      "Stinkin'",
+      33.81
+     ],
+     [
+      "is",
+      34.37
+     ],
+     [
+      "a",
+      34.56
+     ],
+     [
+      "casual",
+      34.69
+     ],
+     [
+      "way",
+      35.13
+     ],
+     [
+      "to",
+      35.38
+     ],
+     [
+      "say",
+      35.57
+     ],
+     [
+      "stinking.",
+      35.82
+     ],
+     [
+      "People",
+      36.45
+     ],
+     [
+      "use",
+      36.89
+     ],
+     [
+      "it",
+      37.14
+     ],
+     [
+      "to",
+      37.33
+     ],
+     [
+      "make",
+      37.52
+     ],
+     [
+      "a",
+      37.84
+     ],
+     [
+      "word",
+      37.96
+     ],
+     [
+      "stronger.",
+      38.28
+     ],
+     [
+      "“The",
+      38.91
+     ],
+     [
+      "whole",
+      39.22
+     ],
+     [
+      "stinkin'",
+      39.6
+     ],
+     [
+      "world”",
+      40.16
+     ],
+     [
+      "means",
+      40.61
+     ],
+     [
+      "the",
+      40.98
+     ],
+     [
+      "whole",
+      41.23
+     ],
+     [
+      "big",
+      41.61
+     ],
+     [
+      "world.",
+      41.86
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "I",
+       43.05
+      ],
+      [
+       "looked",
+       43.17
+      ],
+      [
+       "in",
+       43.56
+      ],
+      [
+       "every",
+       43.72
+      ],
+      [
+       "stinkin'",
+       44.06
+      ],
+      [
+       "drawer,",
+       44.56
+      ],
+      [
+       "but",
+       45.01
+      ],
+      [
+       "I",
+       45.23
+      ],
+      [
+       "still",
+       45.34
+      ],
+      [
+       "couldn't",
+       45.68
+      ],
+      [
+       "find",
+       46.18
+      ],
+      [
+       "my",
+       46.46
+      ],
+      [
+       "keys.",
+       46.63
+      ]
+     ]
+    ],
+    "z": [
+     47.44
+    ],
+    "o": 52.16
+   },
+   "src": {
+    "t": "You just sit on it and it takes you anywhere you want to go in the whole stinkin' world!",
+    "zh": "你只要坐上去，它就能带你去这整个世界上任何你想去的地方！",
+    "sp": "Luca",
+    "oa": "audio/luca_d06o/s03.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "w": "found out",
+   "pos": "phr.",
+   "zh": "发现；得知（find out 的过去式）",
+   "ex": "Found out is the past form of find out. It means you learned something that was hidden or that you did not know before.",
+   "exs": [
+    "When Mom found out about the broken window, she was not happy."
+   ],
+   "exzh": [
+    "妈妈发现窗户被打破时，很不高兴。"
+   ],
+   "t": 57.91,
+   "tt": {
+    "s0": 57.91,
+    "o0": 57.91,
+    "w": 63.56,
+    "pos": 65.49,
+    "ex": [
+     [
+      "Found",
+      66.83
+     ],
+     [
+      "out",
+      67.19
+     ],
+     [
+      "is",
+      67.43
+     ],
+     [
+      "the",
+      67.6
+     ],
+     [
+      "past",
+      67.84
+     ],
+     [
+      "form",
+      68.13
+     ],
+     [
+      "of",
+      68.43
+     ],
+     [
+      "find",
+      68.61
+     ],
+     [
+      "out.",
+      68.9
+     ],
+     [
+      "It",
+      69.2
+     ],
+     [
+      "means",
+      69.37
+     ],
+     [
+      "you",
+      69.73
+     ],
+     [
+      "learned",
+      69.97
+     ],
+     [
+      "something",
+      70.44
+     ],
+     [
+      "that",
+      71.03
+     ],
+     [
+      "was",
+      71.32
+     ],
+     [
+      "hidden",
+      71.56
+     ],
+     [
+      "or",
+      71.97
+     ],
+     [
+      "that",
+      72.15
+     ],
+     [
+      "you",
+      72.45
+     ],
+     [
+      "did",
+      72.68
+     ],
+     [
+      "not",
+      72.92
+     ],
+     [
+      "know",
+      73.16
+     ],
+     [
+      "before.",
+      73.45
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "When",
+       74.67
+      ],
+      [
+       "Mom",
+       74.97
+      ],
+      [
+       "found",
+       75.21
+      ],
+      [
+       "out",
+       75.56
+      ],
+      [
+       "about",
+       75.8
+      ],
+      [
+       "the",
+       76.16
+      ],
+      [
+       "broken",
+       76.39
+      ],
+      [
+       "window,",
+       76.81
+      ],
+      [
+       "she",
+       77.28
+      ],
+      [
+       "was",
+       77.52
+      ],
+      [
+       "not",
+       77.76
+      ],
+      [
+       "happy.",
+       78.0
+      ]
+     ]
+    ],
+    "z": [
+     78.89
+    ],
+    "o": 82.54
+   },
+   "src": {
+    "t": "Yeah. If my parents found out I was up here... it would be bad.",
+    "zh": "对。要是我爸妈发现我上来了……就糟了",
+    "sp": "Luca",
+    "oa": "audio/luca_d06o/s10.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  }
+ ]
+}
