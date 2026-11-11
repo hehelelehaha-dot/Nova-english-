@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="里面 out 外面">
+  <path d="M48 64 H258 V112"/>
+  <path d="M258 172 V196 H48 V64"/>
+  <circle cx="118" cy="140" r="9" fill="currentColor" stroke="none"/>
+  <path d="M138 140 H560"/>
+  <path d="M528 116 L572 140 L528 164"/>
+  <text x="56" y="48" fill="currentColor" stroke="none" font-size="22" font-family="PingFang SC,Noto Sans CJK SC,sans-serif">里面</text>
+  <text x="520" y="48" fill="currentColor" stroke="none" font-size="22" font-family="PingFang SC,Noto Sans CJK SC,sans-serif">外面</text>
+  <text x="330" y="124" fill="currentColor" stroke="none" font-size="24" font-family="Georgia,serif">out</text>
+</svg>
