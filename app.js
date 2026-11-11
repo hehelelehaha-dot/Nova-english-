@@ -284,7 +284,7 @@ const PREP_OUT_SENSE={2:"2. 脱离可用的资源范围",3:"3. 脱离控制范�
 function prepClip(row){const a=String(row&&row.audio||"");if(a.startsWith("content/"))return a.slice("content/".length);if(row&&row.slug)return "audio/prep/out/"+row.slug+".mp3";return a}
 function prepLinesCSS(){return `<style>
 .prep-lines{display:flex;flex-direction:column;gap:10px}.prep-lines>h3.sec{color:var(--pgtx,#444);margin:16px 2px 8px}.prep-lines>h3.sec:first-child{margin-top:2px}
-.prep-line{cursor:pointer;text-align:left}.prep-top{display:flex;align-items:center;gap:8px}.prep-movie{font-size:12px;font-weight:700;line-height:1.3;color:inherit}
+.prep-line{cursor:pointer;text-align:left}.prep-lines>.prep-line{align-self:stretch;width:100%;max-width:none;margin:0;box-sizing:border-box}.prep-top{display:flex;align-items:center;gap:8px}.prep-movie{font-size:12px;font-weight:700;line-height:1.3;color:inherit}
 .prep-line .lab{flex:none}.prep-line .fcorig{margin:0 0 0 auto;flex:none;min-height:36px;padding:6px 12px}
 .prep-body{display:flex;flex-direction:column;margin-top:8px}.prep-face{font-size:18px;line-height:1.5;color:inherit;text-align:left;font-weight:500}.prep-en{font-family:Georgia,"Noto Serif",serif}
 .prep-ans{order:3;margin-top:8px;font-size:13px;font-weight:700;color:inherit}
