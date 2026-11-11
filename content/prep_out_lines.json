@@ -1,5 +1,55 @@
 [
  {
+  "slug": "emperors-new-groove-get-out-of-my-way",
+  "sense": 1,
+  "form": "out of",
+  "en": "Get out of my way!",
+  "zh": "别挡我的路！",
+  "movie": "The Emperor's New Groove (2000)",
+  "speaker": "Yzma",
+  "audio": "content/audio/prep/out/emperors-new-groove-get-out-of-my-way.mp3"
+ },
+ {
+  "slug": "incredibles-come-on-out",
+  "sense": 1,
+  "form": "out",
+  "en": "Come on. Come on out.",
+  "zh": "快点，出来吧。",
+  "movie": "The Incredibles (2004)",
+  "speaker": "Bob Parr / Mr. Incredible",
+  "audio": "content/audio/prep/out/incredibles-come-on-out.mp3"
+ },
+ {
+  "slug": "big-hero-6-get-out-of-here",
+  "sense": 1,
+  "form": "out of",
+  "en": "We should get out of here.",
+  "zh": "我们该离开这儿了。",
+  "movie": "Big Hero 6 (2014)",
+  "speaker": "Hiro Hamada",
+  "audio": "content/audio/prep/out/big-hero-6-get-out-of-here.mp3"
+ },
+ {
+  "slug": "toy-story-4-lets-get-out-of-here",
+  "sense": 1,
+  "form": "out of",
+  "en": "Great. Let's get out of here.",
+  "zh": "太好了。我们走吧。",
+  "movie": "Toy Story 4 (2019)",
+  "speaker": "Bonnie’s dad",
+  "audio": "content/audio/prep/out/toy-story-4-lets-get-out-of-here.mp3"
+ },
+ {
+  "slug": "moana-let-me-out",
+  "sense": 1,
+  "form": "out",
+  "en": "Let me out!",
+  "zh": "放我出去！",
+  "movie": "Moana (2016)",
+  "speaker": "Moana",
+  "audio": "content/audio/prep/out/moana-let-me-out.mp3"
+ },
+ {
   "slug": "cars-outta-gas",
   "sense": 2,
   "form": "out of",
@@ -38,6 +88,66 @@
   "movie": "Elemental (2023)",
   "speaker": "Wade Ripple",
   "audio": "content/audio/prep/out/elemental-running-out-of-air.mp3"
+ },
+ {
+  "slug": "mulan-out-of-ideas",
+  "sense": 2,
+  "form": "out of",
+  "en": "It looks like you're out of ideas.",
+  "zh": "看起来你已经没招了。",
+  "movie": "Mulan (1998)",
+  "speaker": "Shan Yu",
+  "audio": "content/audio/prep/out/mulan-out-of-ideas.mp3"
+ },
+ {
+  "slug": "wish-run-out-of-land",
+  "sense": 2,
+  "form": "out of",
+  "en": "We've run out of land.",
+  "zh": "陆地已经走完了。",
+  "movie": "Wish (2023)",
+  "speaker": "Valentino",
+  "audio": "content/audio/prep/out/wish-run-out-of-land.mp3"
+ },
+ {
+  "slug": "soul-running-out-of-time",
+  "sense": 2,
+  "form": "out of",
+  "en": "We're running out of time.",
+  "zh": "我们快没时间了。",
+  "movie": "Soul (2020)",
+  "speaker": "Joe Gardner",
+  "audio": "content/audio/prep/out/soul-running-out-of-time.mp3"
+ },
+ {
+  "slug": "ratatouille-out-of-wine",
+  "sense": 2,
+  "form": "out of",
+  "en": "Regrettably, we are all out of wine.",
+  "zh": "很遗憾，酒已经没有了。",
+  "movie": "Ratatouille (2007)",
+  "speaker": "Chef Skinner",
+  "audio": "content/audio/prep/out/ratatouille-out-of-wine.mp3"
+ },
+ {
+  "slug": "dalmatians-running-out-of-time",
+  "sense": 2,
+  "form": "out of",
+  "en": "No, but we're running out of time.",
+  "zh": "不是，但我们快没时间了。",
+  "movie": "One Hundred and One Dalmatians (1961)",
+  "speaker": "Pongo or Perdita",
+  "audio": "content/audio/prep/out/dalmatians-running-out-of-time.mp3"
+ },
+ {
+  "slug": "tangled-running-out-of-time",
+  "sense": 2,
+  "form": "out of",
+  "en": "She was running out of time.",
+  "zh": "她快没时间了。",
+  "movie": "Tangled (2010)",
+  "speaker": "Narrator (opening)",
+  "audio": "content/audio/prep/out/tangled-running-out-of-time.mp3"
  },
  {
   "slug": "frozen-out-of-hand",
@@ -80,6 +190,36 @@
   "audio": "content/audio/prep/out/emperors-new-groove-out-of-control.mp3"
  },
  {
+  "slug": "mulan2-shes-out-of-control",
+  "sense": 3,
+  "form": "out of",
+  "en": "She's out of control. She's out of control.",
+  "zh": "她失控了。她失控了。",
+  "movie": "Mulan II (2004)",
+  "speaker": "Li Shang (the line is spoken twice)",
+  "audio": "content/audio/prep/out/mulan2-shes-out-of-control.mp3"
+ },
+ {
+  "slug": "turning-red-out-of-control",
+  "sense": 3,
+  "form": "out of",
+  "en": "She's out of control!",
+  "zh": "她失控了！",
+  "movie": "Turning Red (2022)",
+  "speaker": "Ming Lee",
+  "audio": "content/audio/prep/out/turning-red-out-of-control.mp3"
+ },
+ {
+  "slug": "inside-out-out-of-hand",
+  "sense": 3,
+  "form": "out of",
+  "en": "So, things got a little out of hand downstairs.",
+  "zh": "楼下刚才有点失控了。",
+  "movie": "Inside Out (2015)",
+  "speaker": "Riley’s dad",
+  "audio": "content/audio/prep/out/inside-out-out-of-hand.mp3"
+ },
+ {
   "slug": "incredibles-come-out-of-hiding",
   "sense": 4,
   "form": "out of",
@@ -100,6 +240,36 @@
   "audio": "content/audio/prep/out/encanto-let-it-out.mp3"
  },
  {
+  "slug": "wish-come-out-now",
+  "sense": 4,
+  "form": "out",
+  "en": "You can come out now.",
+  "zh": "你可以出来了。",
+  "movie": "Wish (2023)",
+  "speaker": "Asha",
+  "audio": "content/audio/prep/out/wish-come-out-now.mp3"
+ },
+ {
+  "slug": "turning-red-never-let-it-out",
+  "sense": 4,
+  "form": "out",
+  "en": "And a lot of us never let it out.",
+  "zh": "而且我们很多人从来都没把它释放出来。",
+  "movie": "Turning Red (2022)",
+  "speaker": "Grandma Wu",
+  "audio": "content/audio/prep/out/turning-red-never-let-it-out.mp3"
+ },
+ {
+  "slug": "turning-red-let-it-out",
+  "sense": 4,
+  "form": "out",
+  "en": "It feels so good to let it out. So free.",
+  "zh": "把它释放出来的感觉真好。好自由。",
+  "movie": "Turning Red (2022)",
+  "speaker": "Grandma Wu",
+  "audio": "content/audio/prep/out/turning-red-let-it-out.mp3"
+ },
+ {
   "slug": "frozen-figure-this-out",
   "sense": 5,
   "form": "out",
@@ -108,5 +278,55 @@
   "movie": "Frozen (2013)",
   "speaker": "Anna",
   "audio": "content/audio/prep/out/frozen-figure-this-out.mp3"
+ },
+ {
+  "slug": "moana-figured-it-out",
+  "sense": 5,
+  "form": "out",
+  "en": "What? I figured it out.",
+  "zh": "什么？我想出来了。",
+  "movie": "Moana (2016)",
+  "speaker": "Moana (“What?”) and Maui (“I figured it out.”)",
+  "audio": "content/audio/prep/out/moana-figured-it-out.mp3"
+ },
+ {
+  "slug": "encanto-gonna-find-out",
+  "sense": 5,
+  "form": "out",
+  "en": "We're gonna find out!",
+  "zh": "我们会弄清楚的！",
+  "movie": "Encanto (2021)",
+  "speaker": "Mirabel",
+  "audio": "content/audio/prep/out/encanto-gonna-find-out.mp3"
+ },
+ {
+  "slug": "beauty-figured-it-out",
+  "sense": 5,
+  "form": "out",
+  "en": "I figured it out for myself.",
+  "zh": "我自己想出来的。",
+  "movie": "Beauty and the Beast (1991)",
+  "speaker": "Belle",
+  "audio": "content/audio/prep/out/beauty-figured-it-out.mp3"
+ },
+ {
+  "slug": "wreck-it-ralph-lets-find-out",
+  "sense": 5,
+  "form": "out",
+  "en": "You ready, rookie? Let's find out.",
+  "zh": "准备好了吗，新手？我们来弄清楚。",
+  "movie": "Wreck-It Ralph (2012)",
+  "speaker": "Fix-It Felix Jr.",
+  "audio": "content/audio/prep/out/wreck-it-ralph-lets-find-out.mp3"
+ },
+ {
+  "slug": "emperors-new-groove-figure-this-out",
+  "sense": 5,
+  "form": "out",
+  "en": "We can figure this out.",
+  "zh": "我们能想出办法的。",
+  "movie": "The Emperor's New Groove (2000)",
+  "speaker": "Pacha",
+  "audio": "content/audio/prep/out/emperors-new-groove-figure-this-out.mp3"
  }
 ]
