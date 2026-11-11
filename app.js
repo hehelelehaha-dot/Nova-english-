@@ -281,7 +281,7 @@ function prepPageHTML(md){const tokens=prepTokenize(md);let i=0,head="",pre=[];
 // here with no other change. 中→英 hides English until the card is tapped; 英→中 is the reverse.
 // 🎬 plays that card's mp3 only (same .fcorig path as Luca 整句原声), never TTS.
 // The top bar reuses Luca 阅读卡: 原声连播, 单句循环 (rdLoopCycle), 停顿 (rdGapCycle), follow().
-const PREP_OUT_SENSE={2:"2. 脱离可用的资源范围",3:"3. 脱离控制范围",4:"4. 脱离隐藏状态",5:"5. 从未知变成已知"};
+const PREP_OUT_SENSE={1:"1. 脱离物理空间",2:"2. 脱离可用的资源范围",3:"3. 脱离控制范围",4:"4. 脱离隐藏状态",5:"5. 从未知变成已知"};
 function prepClip(row){const a=String(row&&row.audio||"");if(a.startsWith("content/"))return a.slice("content/".length);if(row&&row.slug)return "audio/prep/out/"+row.slug+".mp3";return a}
 // PREP_PLAY_START
 // 连播 walks every card. 单句循环 off plays each line once, then the next.
