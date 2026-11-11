@@ -302,6 +302,7 @@ function prepLinesCSS(){return `<style>
 .prep-lines[data-mode=ec] .prep-en{order:1}.prep-lines[data-mode=ec] .prep-zh{order:2}
 .prep-lines[data-mode=ce] .prep-line:not(.show) .prep-en{display:none}
 .prep-lines[data-mode=ec] .prep-line:not(.show) .prep-zh{display:none}
+.prep-lines[data-mode=bo] .prep-en{order:1}.prep-lines[data-mode=bo] .prep-zh{order:2;margin-top:4px}.prep-lines[data-mode=bo] .prep-ans{display:none}
 .prep-line.show .prep-ans{display:none}
 .prep-line.cur{outline:3px solid #f5c518;outline-offset:2px}
 </style>`}
@@ -314,10 +315,10 @@ function prepLinesPage(rows){const list=Array.isArray(rows)?rows:[];const senses
   body+=`<h3 class="sec">${esc(PREP_OUT_SENSE[s]||String(s))}</h3>`+items.map(prepLineCard).join("")}
  const rest=list.filter(r=>!used.has(r));if(rest.length)body+=rest.map(prepLineCard).join("");
  if(!body)body=`<div class="done">这一页还没准备好</div>`;
- return `${prepLinesCSS()}<div class="prep-play"><div class="bar rdbar"><button type="button" id="rnggo" class="org">原声连播</button><button type="button" id="loop">单句循环</button><button type="button" id="lgap">停顿 0秒</button></div><div class="bar fcdir"><button type="button" id="pCE" class="on">中→英</button><button type="button" id="pEC">英→中</button></div></div><div class="prep-lines" data-mode="ce">${body}</div>`}
+ return `${prepLinesCSS()}<div class="prep-play"><div class="bar rdbar"><button type="button" id="rnggo" class="org">原声连播</button><button type="button" id="loop">单句循环</button><button type="button" id="lgap">停顿 0秒</button></div><div class="bar fcdir"><button type="button" id="pCE" class="on">中→英</button><button type="button" id="pEC">英→中</button><button type="button" id="pBO">中英</button></div></div><div class="prep-lines" data-mode="ce">${body}</div>`}
 function wirePrepLines(){const box=V.querySelector(".prep-lines");if(!box)return;
- const set=mode=>{box.dataset.mode=mode;const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.classList.toggle("on",mode==="ce");if(ec)ec.classList.toggle("on",mode==="ec")};
- const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.onclick=()=>set("ce");if(ec)ec.onclick=()=>set("ec");
+ const set=mode=>{box.dataset.mode=mode;const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.classList.toggle("on",mode==="ce");if(ec)ec.classList.toggle("on",mode==="ec");const bo=document.getElementById("pBO");if(bo)bo.classList.toggle("on",mode==="bo")};
+ const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.onclick=()=>set("ce");if(ec)ec.onclick=()=>set("ec");{const bo=document.getElementById("pBO");if(bo)bo.onclick=()=>set("bo")}
  box.querySelectorAll(".prep-line").forEach(card=>{card.onclick=ev=>{if(ev.target.closest(".fcorig"))return;card.classList.toggle("show");card.setAttribute("aria-expanded",card.classList.contains("show")?"true":"false")}});
  const go=document.getElementById("rnggo"),lp=document.getElementById("loop"),gp=document.getElementById("lgap");if(!go||!lp||!gp)return;
  let rep=0,gap=0,paused=false,playing=false,gen=0;
