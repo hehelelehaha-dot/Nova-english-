@@ -83,6 +83,7 @@ function breathFix(d){if(!d||!Array.isArray(d.sents))return d;
   s.seg=seg.map(z=>z.slice())}
  return d}
 async function getJSON(p){const d=JSON.parse(new TextDecoder().decode(await getBuf("content/"+p)));return breathFix(moneyFix(d))}
+async function getText(p){const path=/^(uploads|content)\//.test(p)?p:"content/"+p;return new TextDecoder().decode(await getBuf(path))}
 async function audioURL(p){if(!META.enc)return "content/"+p;if(!blobCache[p])blobCache[p]=URL.createObjectURL(new Blob([await getBuf("content/"+p)],{type:"audio/mpeg"}));return blobCache[p]}
 // UNLOCK_START
 // App unlock is not the website login. autocomplete=current-password made iOS
@@ -208,6 +209,82 @@ const UP_DEF=[
  {id:"up_game",like:"game",name:"小游戏",desc:"拼写 · 拼图 · 填词"}];
 let UP=null;
 async function loadUp(){if(UP)return UP;try{UP=await getJSON("up.json")}catch(e){UP={days:[],wfMap:[]}}if(!UP.days)UP.days=[];if(!UP.wfMap)UP.wfMap=[];return UP}
+// 介词 (internal id prep) is the top fold, above Naval. content/prepositions.json is a
+// list of 小板块 ({id, title, items:[{id, title, data}]}). A data file is markdown
+// (uploads/out-essence-full.md for 介词的本质). Another 小板块 is another list entry.
+let PREP=null;
+async function loadPrep(){if(PREP)return PREP;try{PREP=await getJSON("prepositions.json")}catch(e){PREP=[]}if(!Array.isArray(PREP))PREP=[];return PREP}
+function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
+function prepHomeHTML(list){const inner=list.length?list.map(s=>{const id=String(s.id||""),title=String(s.title!=null?s.title:id),key="prep:"+id;
+ const items=Array.isArray(s.items)?s.items:[];
+ const body=items.length?`<div class="list">${items.map(it=>{const iid=String(it&&it.id||""),t=String(it&&(it.title!=null?it.title:iid));
+  const go=it&&it.data?` data-go="#/prep/${encodeURIComponent(id)}/${encodeURIComponent(iid)}"`:"";
+  return `<div class="lw"><button type="button" class="li"${go}><span class="tt">${esc(t)}</span></button></div>`}).join("")}</div>`:"";
+ return `<details class="tfold" data-tf="${esc(key)}"${tfOpen(key,false)?" open":""}><summary class="tfh"><span class="tfar" aria-hidden="true"></span><span class="tfnm">${esc(title)}</span></summary>${body}</details>`}).join(""):`<p class="tip">内容即将添加</p>`;
+ return `<details class="fold" data-fold="prep"${foldOpen("prep")?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">介词</span><span class="foldsub">${list.length} 个板块</span></summary><div class="tiles tfolds">${inner}</div></details>`}
+function prepPlain(s){return String(s||"").replace(/[*_`]/g,"").trim()}
+function prepInline(s){let t=esc(s);t=t.replace(/\*\*\*(.+?)\*\*\*/g,"<b><i>$1</i></b>");t=t.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");t=t.replace(/\*([^*\n]+)\*/g,"<i>$1</i>");return t}
+function prepIsEn(s){const t=prepPlain(s);if(/[\u4e00-\u9fff]/.test(t))return false;const n=(t.match(/[A-Za-z]/g)||[]).length;return n>=10&&/\s/.test(t)&&/[.!?]$/.test(t)}
+function prepSayBtn(s){return `<button type="button" class="spk" data-say="${esc(prepPlain(s))}" aria-label="播放">▶</button>`}
+function prepEnRow(s){return `<div class="prep-ex">${prepSayBtn(s)}<span class="en">${prepInline(s)}</span></div>`}
+function prepLineHTML(s,afterEn){if(prepIsEn(s))return prepEnRow(s);return `<p class="${afterEn?"exz":""}">${prepInline(s)}</p>`}
+function prepSplitRow(line){return line.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(s=>s.trim())}
+function prepIsSep(line){const c=prepSplitRow(line);return c.length>1&&c.every(x=>/^:?-+:?$/.test(x))}
+function prepCell(c){return prepIsEn(c)?`<span class="en">${prepSayBtn(c)}${prepInline(c)}</span>`:prepInline(c)}
+function prepTable(rows){if(!rows.length)return "";const th=rows[0].map(c=>`<th>${prepCell(c)}</th>`).join("");
+ const tb=rows.slice(1).map(r=>`<tr>${r.map(c=>`<td>${prepCell(c)}</td>`).join("")}</tr>`).join("");
+ return `<table class="prep-table"><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table>`}
+function prepFlow(tokens){let html="",i=0,prevEn=false;
+ while(i<tokens.length){const tok=tokens[i];
+  if(tok.type==="svg"){html+=`<div class="prep-box">${tok.svg}</div>`;prevEn=false;i++;continue}
+  const line=tok.text;if(!line.trim()){i++;continue}
+  if(/^\|/.test(line.trim())){const rows=[];while(i<tokens.length&&tokens[i].type==="line"&&/^\|/.test(tokens[i].text.trim())){if(!prepIsSep(tokens[i].text))rows.push(prepSplitRow(tokens[i].text));i++}html+=prepTable(rows);prevEn=false;continue}
+  if(/^\d+\.\s/.test(line.trim())){const items=[];
+   while(i<tokens.length&&tokens[i].type==="line"&&/^\d+\.\s/.test(tokens[i].text.trim())){const lines=[tokens[i].text.trim().replace(/^\d+\.\s/,"")];i++;
+    while(i<tokens.length&&tokens[i].type==="line"&&tokens[i].text.trim()&&!/^\d+\.\s/.test(tokens[i].text.trim())&&!/^\|/.test(tokens[i].text.trim())){lines.push(tokens[i].text.trim());i++}
+    items.push(lines);while(i<tokens.length&&tokens[i].type==="line"&&!tokens[i].text.trim())i++}
+   html+=`<ol class="prep-ol">${items.map(lines=>{let h="",en=false;for(const s of lines){h+=prepLineHTML(s,en);en=prepIsEn(s)}return `<li>${h}</li>`}).join("")}</ol>`;
+   prevEn=false;continue}
+  html+=prepLineHTML(line.trim(),prevEn);prevEn=prepIsEn(line);i++}
+ return html}
+function prepCards(tokens){const cards=[];let cur=null,side="";
+ for(const tok of tokens){if(tok.type!=="line")continue;const raw=tok.text.trim();if(!raw)continue;const plain=prepPlain(raw);
+  if(plain==="正面 · English"){cur={front:[],back:[]};cards.push(cur);side="front";continue}
+  if(plain==="背面 · 中文"){if(cur)side="back";continue}
+  if(cur&&side)cur[side].push(raw)}
+ return `<div class="prep-grid">${cards.map(c=>{const front=c.front.map(s=>prepIsEn(s)?prepEnRow(s):`<p>${prepInline(s)}</p>`).join("");
+  const back=c.back.map(s=>`<p>${prepInline(s)}</p>`).join("");
+  return `<div class="prep-flip" role="button" tabindex="0" aria-pressed="false"><div class="inner"><div class="face front"><span class="prep-lab">正面 · English</span>${front}</div><div class="face back"><span class="prep-lab">背面 · 中文</span>${back}</div></div></div>`}).join("")}</div>`}
+function prepTokenize(md){const lines=String(md||"").replace(/\r\n/g,"\n").split("\n"),tokens=[];
+ for(let i=0;i<lines.length;i++){if(lines[i].trim().startsWith("<svg")){let svg=lines[i];while(i<lines.length-1&&!svg.includes("</svg>")){i++;svg+="\n"+lines[i]}tokens.push({type:"svg",svg:svg.replace(/<script[\s\S]*?<\/script>/gi,"")});continue}tokens.push({type:"line",text:lines[i]})}
+ return tokens}
+function prepCSS(){return `<style>
+.prep-page{color:inherit}.prep-page :is(h3.sec,.pos,.exz,.prep-lab){color:color-mix(in srgb,currentColor 78%,transparent)}.prep-box{border:1.5px solid currentColor;border-radius:16px;padding:8px 10px;margin:8px 0 12px;color:inherit;background:transparent}
+.prep-box svg{width:100%;height:auto;display:block;color:inherit}.prep-ex{display:flex;align-items:flex-start;gap:4px;margin:8px 0 2px}.prep-ex .en{font-size:18px;line-height:1.45}
+.prep-ol{margin:6px 0 8px;padding-left:1.3em}.prep-ol li{margin:8px 0}.prep-table{width:100%;border-collapse:collapse;margin:8px 0 12px}
+.prep-table th,.prep-table td{border-bottom:1px solid color-mix(in srgb,currentColor 28%,transparent);padding:8px 6px;text-align:left;vertical-align:top}
+.prep-table th{font-size:13px;font-weight:700}.prep-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
+.prep-flip{cursor:pointer;perspective:800px}.prep-flip .inner{position:relative;min-height:168px;transform-style:preserve-3d;transition:transform .45s}
+.prep-flip.on .inner{transform:rotateY(180deg)}.prep-flip .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:12px 12px 10px;background:var(--sf,#fff);border:1px solid color-mix(in srgb,currentColor 30%,transparent)}
+.prep-flip .back{transform:rotateY(180deg);pointer-events:none}.prep-flip.on .front{pointer-events:none}.prep-flip.on .back{pointer-events:auto}
+.prep-lab{display:block;font-size:12px;font-weight:700;opacity:.75;margin-bottom:6px}.prep-flip .spk{position:relative;z-index:1}
+</style>`}
+function prepPageHTML(md){const tokens=prepTokenize(md);let i=0,head="",pre=[];
+ if(tokens[0]&&tokens[0].type==="line"&&/^#\s+/.test(tokens[0].text)){const raw=tokens[0].text.replace(/^#\s+/,"").trim();const m=/^(\S+)\s+(\/[^/]+\/)\s*(.*)$/.exec(raw);
+  head=m?`<p class="word en">${esc(m[1])} <span class="pos">${esc(m[2])}</span></p>${m[3]?`<p class="pos">${esc(m[3])}</p>`:""}`:`<p class="word en">${prepInline(raw)}</p>`;i=1}
+ const sections=[];let cur=null;
+ for(;i<tokens.length;i++){const tok=tokens[i];if(tok.type==="line"&&/^##\s+/.test(tok.text)){cur={title:tok.text.replace(/^##\s+/,"").trim(),tokens:[]};sections.push(cur);continue}if(cur)cur.tokens.push(tok);else pre.push(tok)}
+ const body=sections.map(sec=>`<h3 class="sec">${prepInline(sec.title)}</h3>${/互动闪卡/.test(sec.title)?prepCards(sec.tokens):prepFlow(sec.tokens)}`).join("");
+ return `${prepCSS()}<div class="card prep-page">${head}${prepFlow(pre)}${body}</div>`}
+async function showPrep(sid,iid){const sec=prepSections().find(s=>String(s.id)===String(sid||""));if(!sec)return showHome();
+ const items=Array.isArray(sec.items)?sec.items:[];const it=items.find(x=>String(x.id)===String(iid||""));if(!it)return showHome();
+ setHeader(it.title||sec.title||"介词",true);
+ if(!it.data){V.innerHTML=`<p class="tip">${esc(it.title||"")}</p><div class="done">内容即将添加</div>`;return}
+ let md;try{md=await getText(it.data)}catch(e){V.innerHTML=`<div class="done">这一页还没准备好</div>`;return}
+ V.innerHTML=prepPageHTML(md);
+ V.querySelectorAll("[data-say]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();ev.preventDefault();stopAll();V.querySelectorAll(".spk.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");speak(b.dataset.say,1).then(()=>{if(b.isConnected)b.classList.remove("on")})});
+ V.querySelectorAll(".prep-flip").forEach(card=>{const flip=()=>{card.classList.toggle("on");card.setAttribute("aria-pressed",card.classList.contains("on")?"true":"false")};
+  card.onclick=ev=>{if(ev.target.closest(".spk"))return;flip()};card.onkeydown=ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();flip()}}})}
 const upSec=id=>UP_DEF.find(s=>s.id==id);
 function upDays(){return (UP&&UP.days)||[]}
 function upHit(id){const m=/^(up_d\d+)_(flash|ee)$/.exec(id||"");if(!m)return null;const day=upDays().find(d=>d.id===m[1]);if(!day)return null;return {it:{id,title:day.title,sub:day.sub||"",data:day.data,upPart:m[2]},sec:m[2]==="flash"?"up_flash":"up_ee"}}
@@ -251,11 +328,11 @@ async function route0(){syncPaper();delete document.documentElement.dataset.home
  // Boot leaves enc:false when meta.json fails, which used to skip the lock and open as plaintext.
  if(!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}applyDictation(CAT);refreshFoldNumbers();
+ await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}try{await loadPrep()}catch(e){PREP=[]}applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  // #/dq is the read-only 今天的目标. Picking sentences is only on the 句子听写 topic lists.
- try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]==="up"&&!h[3]?showGames("up"):h[2]==="luca"&&!h[3]?showGames("luca"):h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="dq")return showDQ();if(h[1]=="prep")return showPrep(h[2],h[3]);if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]==="up"&&!h[3]?showGames("up"):h[2]==="luca"&&!h[3]?showGames("luca"):h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
 // Storage model (v2, sync-ready): FIELDS = { key: [value, ts] }, value null = tombstone.
@@ -437,7 +514,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${prepHomeHTML(prepSections())}${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();if(typeof dqGoalHome=="function")dqGoalHome();
  const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playStarRain()};preloadStarRain();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
