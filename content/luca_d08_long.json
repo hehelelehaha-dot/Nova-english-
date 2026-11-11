@@ -1,0 +1,525 @@
+{
+ "id": "luca_d08_long",
+ "type": "longaudio",
+ "title": "Day 8",
+ "audio": "audio/luca_d08v/long.mp3",
+ "dur": 72.3,
+ "items": [
+  {
+   "n": 1,
+   "w": "otherwise",
+   "pos": "adv.",
+   "zh": "否则；不然的话",
+   "ex": "Otherwise means “if not” or “if that did not happen.” Luca means that without Alberto, he never would have seen any of this.",
+   "exs": [
+    "Wear a coat. Otherwise, you will get cold."
+   ],
+   "exzh": [
+    "穿上外套，不然你会着凉的。"
+   ],
+   "t": 0.0,
+   "tt": {
+    "s0": 0.0,
+    "o0": 0.0,
+    "w": 3.25,
+    "pos": 4.99,
+    "ex": [
+     [
+      "Otherwise",
+      6.44
+     ],
+     [
+      "means",
+      7.07
+     ],
+     [
+      "“if",
+      7.44
+     ],
+     [
+      "not”",
+      7.69
+     ],
+     [
+      "or",
+      8.01
+     ],
+     [
+      "“if",
+      8.2
+     ],
+     [
+      "that",
+      8.45
+     ],
+     [
+      "did",
+      8.76
+     ],
+     [
+      "not",
+      9.01
+     ],
+     [
+      "happen.”",
+      9.27
+     ],
+     [
+      "Luca",
+      9.83
+     ],
+     [
+      "means",
+      10.15
+     ],
+     [
+      "that",
+      10.52
+     ],
+     [
+      "without",
+      10.84
+     ],
+     [
+      "Alberto,",
+      11.34
+     ],
+     [
+      "he",
+      11.91
+     ],
+     [
+      "never",
+      12.09
+     ],
+     [
+      "would",
+      12.47
+     ],
+     [
+      "have",
+      12.85
+     ],
+     [
+      "seen",
+      13.16
+     ],
+     [
+      "any",
+      13.48
+     ],
+     [
+      "of",
+      13.73
+     ],
+     [
+      "this.",
+      13.92
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "Wear",
+       15.04
+      ],
+      [
+       "a",
+       15.33
+      ],
+      [
+       "coat.",
+       15.44
+      ],
+      [
+       "Otherwise,",
+       15.77
+      ],
+      [
+       "you",
+       16.39
+      ],
+      [
+       "will",
+       16.62
+      ],
+      [
+       "get",
+       16.9
+      ],
+      [
+       "cold.",
+       17.12
+      ]
+     ]
+    ],
+    "z": [
+     17.94
+    ],
+    "o": 20.99
+   },
+   "src": {
+    "t": "Otherwise, I never would've seen any of this.",
+    "zh": "不然的话，这些我根本不可能看到",
+    "sp": "Luca",
+    "oa": "audio/luca_d08o/s04.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "w": "expert",
+   "pos": "n.",
+   "zh": "专家；行家",
+   "ex": "An expert is a person who knows a lot about something. Alberto says he is pretty much an expert on the human town, but he has never been there.",
+   "exs": [
+    "My grandma is an expert at making pasta."
+   ],
+   "exzh": [
+    "我奶奶做意大利面是个行家。"
+   ],
+   "t": 24.54,
+   "tt": {
+    "s0": 24.54,
+    "o0": 24.54,
+    "w": 27.09,
+    "pos": 28.92,
+    "ex": [
+     [
+      "An",
+      30.22
+     ],
+     [
+      "expert",
+      30.4
+     ],
+     [
+      "is",
+      30.84
+     ],
+     [
+      "a",
+      31.02
+     ],
+     [
+      "person",
+      31.14
+     ],
+     [
+      "who",
+      31.58
+     ],
+     [
+      "knows",
+      31.82
+     ],
+     [
+      "a",
+      32.2
+     ],
+     [
+      "lot",
+      32.32
+     ],
+     [
+      "about",
+      32.57
+     ],
+     [
+      "something.",
+      32.94
+     ],
+     [
+      "Alberto",
+      33.62
+     ],
+     [
+      "says",
+      34.11
+     ],
+     [
+      "he",
+      34.42
+     ],
+     [
+      "is",
+      34.61
+     ],
+     [
+      "pretty",
+      34.79
+     ],
+     [
+      "much",
+      35.22
+     ],
+     [
+      "an",
+      35.53
+     ],
+     [
+      "expert",
+      35.72
+     ],
+     [
+      "on",
+      36.15
+     ],
+     [
+      "the",
+      36.34
+     ],
+     [
+      "human",
+      36.58
+     ],
+     [
+      "town,",
+      36.96
+     ],
+     [
+      "but",
+      37.33
+     ],
+     [
+      "he",
+      37.57
+     ],
+     [
+      "has",
+      37.76
+     ],
+     [
+      "never",
+      38.01
+     ],
+     [
+      "been",
+      38.38
+     ],
+     [
+      "there.",
+      38.69
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "My",
+       39.87
+      ],
+      [
+       "grandma",
+       40.07
+      ],
+      [
+       "is",
+       40.62
+      ],
+      [
+       "an",
+       40.83
+      ],
+      [
+       "expert",
+       41.03
+      ],
+      [
+       "at",
+       41.51
+      ],
+      [
+       "making",
+       41.71
+      ],
+      [
+       "pasta.",
+       42.19
+      ]
+     ]
+    ],
+    "z": [
+     43.15
+    ],
+    "o": 46.08
+   },
+   "src": {
+    "t": "So, I'm pretty much an expert.",
+    "zh": "所以，我差不多算是个专家了",
+    "sp": "Luca",
+    "oa": "audio/luca_d08o/s07.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "w": "rock",
+   "pos": "n.",
+   "zh": "岩石；大石头",
+   "ex": "A rock is a big, hard piece of stone. Luca and Alberto almost hit a rock when they rode their Vespa.",
+   "exs": [
+    "The boat almost hit a big rock near the beach."
+   ],
+   "exzh": [
+    "船差点撞上海滩边的一块大石头。"
+   ],
+   "t": 48.93,
+   "tt": {
+    "s0": 48.93,
+    "o0": 48.93,
+    "w": 52.03,
+    "pos": 53.65,
+    "ex": [
+     [
+      "A",
+      54.96
+     ],
+     [
+      "rock",
+      55.09
+     ],
+     [
+      "is",
+      55.43
+     ],
+     [
+      "a",
+      55.63
+     ],
+     [
+      "big,",
+      55.76
+     ],
+     [
+      "hard",
+      56.1
+     ],
+     [
+      "piece",
+      56.43
+     ],
+     [
+      "of",
+      56.83
+     ],
+     [
+      "stone.",
+      57.03
+     ],
+     [
+      "Luca",
+      57.5
+     ],
+     [
+      "and",
+      57.84
+     ],
+     [
+      "Alberto",
+      58.11
+     ],
+     [
+      "almost",
+      58.64
+     ],
+     [
+      "hit",
+      59.11
+     ],
+     [
+      "a",
+      59.38
+     ],
+     [
+      "rock",
+      59.51
+     ],
+     [
+      "when",
+      59.85
+     ],
+     [
+      "they",
+      60.18
+     ],
+     [
+      "rode",
+      60.52
+     ],
+     [
+      "their",
+      60.85
+     ],
+     [
+      "Vespa.",
+      61.26
+     ]
+    ],
+    "exs": [
+     [
+      [
+       "The",
+       62.48
+      ],
+      [
+       "boat",
+       62.68
+      ],
+      [
+       "almost",
+       62.93
+      ],
+      [
+       "hit",
+       63.28
+      ],
+      [
+       "a",
+       63.49
+      ],
+      [
+       "big",
+       63.59
+      ],
+      [
+       "rock",
+       63.79
+      ],
+      [
+       "near",
+       64.04
+      ],
+      [
+       "the",
+       64.29
+      ],
+      [
+       "beach.",
+       64.5
+      ]
+     ]
+    ],
+    "z": [
+     65.33
+    ],
+    "o": 68.92
+   },
+   "src": {
+    "t": "Hey, you remember that time we almost hit that rock?",
+    "zh": "嘿，还记得那次我们差点撞上那块石头吗",
+    "sp": "Luca",
+    "oa": "audio/luca_d08o/s09.mp3",
+    "oab": [
+     0,
+     null
+    ]
+   }
+  }
+ ]
+}

@@ -100,6 +100,16 @@
   "audio": "content/audio/prep/out/wreck-it-ralph-please-let-me-out.mp3"
  },
  {
+  "slug": "luca-pushed-it-out-the-back-window",
+  "sense": 1,
+  "form": "out",
+  "en": "I didn't. But I pushed it out the back window.",
+  "zh": "我没有。不过我把它从后窗推出去了",
+  "movie": "Luca (2021)",
+  "speaker": "Alberto",
+  "audio": "content/audio/prep/out/luca-pushed-it-out-the-back-window.mp3"
+ },
+ {
   "slug": "cars-outta-gas",
   "sense": 2,
   "form": "out of",
@@ -498,5 +508,15 @@
   "movie": "Aladdin (1992)",
   "speaker": "Aladdin",
   "audio": "content/audio/prep/out/aladdin-jasmine-finds-out.mp3"
+ },
+ {
+  "slug": "luca-if-my-parents-found-out",
+  "sense": 5,
+  "form": "out",
+  "en": "Yeah. If my parents found out I was up here... it would be bad.",
+  "zh": "对。要是我爸妈发现我上来了……就糟了",
+  "movie": "Luca (2021)",
+  "speaker": "Luca",
+  "audio": "content/audio/prep/out/luca-if-my-parents-found-out.mp3"
  }
 ]
