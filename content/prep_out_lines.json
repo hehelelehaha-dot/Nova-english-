@@ -50,6 +50,56 @@
   "audio": "content/audio/prep/out/moana-let-me-out.mp3"
  },
  {
+  "slug": "frozen-stay-out-of-sight-olaf",
+  "sense": 1,
+  "form": "out of",
+  "en": "Stay out of sight, Olaf.",
+  "zh": "奥拉夫，躲好，别让人看见。",
+  "movie": "Frozen (2013)",
+  "speaker": "Kristoff",
+  "audio": "content/audio/prep/out/frozen-stay-out-of-sight-olaf.mp3"
+ },
+ {
+  "slug": "princess-frog-get-me-out-of-this-box",
+  "sense": 1,
+  "form": "out of",
+  "en": "Ray! Get me out of this box!",
+  "zh": "雷！把我从这个盒子里救出来！",
+  "movie": "The Princess and the Frog (2009)",
+  "speaker": "Prince Naveen",
+  "audio": "content/audio/prep/out/princess-frog-get-me-out-of-this-box.mp3"
+ },
+ {
+  "slug": "toy-story-3-stay-out-of-my-room",
+  "sense": 1,
+  "form": "out of",
+  "en": "Molly, stay out of my room!",
+  "zh": "莫莉，别进我的房间！",
+  "movie": "Toy Story 3 (2010)",
+  "speaker": "Andy",
+  "audio": "content/audio/prep/out/toy-story-3-stay-out-of-my-room.mp3"
+ },
+ {
+  "slug": "toy-story-3-out-of-the-box",
+  "sense": 1,
+  "form": "out of",
+  "en": "Okay. Out of the box. Everyone, right now!",
+  "zh": "好了。都从盒子里出来。所有人，马上！",
+  "movie": "Toy Story 3 (2010)",
+  "speaker": "Woody",
+  "audio": "content/audio/prep/out/toy-story-3-out-of-the-box.mp3"
+ },
+ {
+  "slug": "wreck-it-ralph-please-let-me-out",
+  "sense": 1,
+  "form": "out",
+  "en": "Somebody! Anybody! Please let me out!",
+  "zh": "来人啊！谁都行！请放我出去！",
+  "movie": "Wreck-It Ralph (2012)",
+  "speaker": "Fix-It Felix Jr.",
+  "audio": "content/audio/prep/out/wreck-it-ralph-please-let-me-out.mp3"
+ },
+ {
   "slug": "cars-outta-gas",
   "sense": 2,
   "form": "out of",
@@ -220,6 +270,36 @@
   "audio": "content/audio/prep/out/inside-out-out-of-hand.mp3"
  },
  {
+  "slug": "incredibles-2-spiraled-out-of-control",
+  "sense": 3,
+  "form": "out of",
+  "en": "So, things haven't spiraled out of control the moment I left?",
+  "zh": "事情并没有在我一离开就失控吧？",
+  "movie": "Incredibles 2 (2018)",
+  "speaker": "Helen Parr / Elastigirl (phone call home)",
+  "audio": "content/audio/prep/out/incredibles-2-spiraled-out-of-control.mp3"
+ },
+ {
+  "slug": "freaky-friday-getting-out-of-hand",
+  "sense": 3,
+  "form": "out of",
+  "en": "Charles, this is getting out of hand.",
+  "zh": "查尔斯，这已经越来越失控了。",
+  "movie": "Freaky Friday (1976)",
+  "speaker": "Annabel Andrews (in her mother Ellen’s body), to Principal Charles Dilk — live-action Disney",
+  "audio": "content/audio/prep/out/freaky-friday-getting-out-of-hand.mp3"
+ },
+ {
+  "slug": "hunchback-out-of-all-control",
+  "sense": 3,
+  "form": "out of",
+  "en": "Is blazing in me out of all control",
+  "zh": "在我心里燃烧，完全失控了。",
+  "movie": "The Hunchback of Notre Dame (1996)",
+  "speaker": "Quasimodo, in the song “Heaven’s Light” (sung line; faster-whisper clearly heard “out of all control”)",
+  "audio": "content/audio/prep/out/hunchback-out-of-all-control.mp3"
+ },
+ {
   "slug": "incredibles-come-out-of-hiding",
   "sense": 4,
   "form": "out of",
@@ -268,6 +348,56 @@
   "movie": "Turning Red (2022)",
   "speaker": "Grandma Wu",
   "audio": "content/audio/prep/out/turning-red-let-it-out.mp3"
+ },
+ {
+  "slug": "monsters-inc-truth-comes-out",
+  "sense": 4,
+  "form": "out",
+  "en": "So now the truth comes out, doesn't it?",
+  "zh": "这么说，真相终于出来了，对不对？",
+  "movie": "Monsters, Inc. (2001)",
+  "speaker": "Mike Wazowski",
+  "audio": "content/audio/prep/out/monsters-inc-truth-comes-out.mp3"
+ },
+ {
+  "slug": "dalmatians-come-out-wherever",
+  "sense": 4,
+  "form": "out",
+  "en": "Puppies, come on out. Come out wherever you are.",
+  "zh": "小狗们，出来吧。不管你们躲在哪儿，都出来吧。",
+  "movie": "One Hundred and One Dalmatians (1961)",
+  "speaker": "Jasper Badun",
+  "audio": "content/audio/prep/out/dalmatians-come-out-wherever.mp3"
+ },
+ {
+  "slug": "toy-story-4-come-on-out-okay",
+  "sense": 4,
+  "form": "out",
+  "en": "Come on out. It's okay.",
+  "zh": "出来吧。没关系的。",
+  "movie": "Toy Story 4 (2019)",
+  "speaker": "Jessie",
+  "audio": "content/audio/prep/out/toy-story-4-come-on-out-okay.mp3"
+ },
+ {
+  "slug": "good-dinosaur-come-on-out",
+  "sense": 4,
+  "form": "out",
+  "en": "Come on out!",
+  "zh": "出来吧！",
+  "movie": "The Good Dinosaur (2015)",
+  "speaker": "Poppa Henry",
+  "audio": "content/audio/prep/out/good-dinosaur-come-on-out.mp3"
+ },
+ {
+  "slug": "bambi-come-on-out",
+  "sense": 4,
+  "form": "out",
+  "en": "Come on out, Bambi.",
+  "zh": "出来吧，小鹿斑比。",
+  "movie": "Bambi (1942)",
+  "speaker": "Bambi’s mother",
+  "audio": "content/audio/prep/out/bambi-come-on-out.mp3"
  },
  {
   "slug": "frozen-figure-this-out",
@@ -328,5 +458,45 @@
   "movie": "The Emperor's New Groove (2000)",
   "speaker": "Pacha",
   "audio": "content/audio/prep/out/emperors-new-groove-figure-this-out.mp3"
+ },
+ {
+  "slug": "tangled-we-can-work-this-out",
+  "sense": 5,
+  "form": "out",
+  "en": "We can work this out.",
+  "zh": "我们能把这件事解决的。",
+  "movie": "Tangled (2010)",
+  "speaker": "Flynn Rider / Eugene",
+  "audio": "content/audio/prep/out/tangled-we-can-work-this-out.mp3"
+ },
+ {
+  "slug": "zootopia-found-out",
+  "sense": 5,
+  "form": "out",
+  "en": "I found out what's happening.",
+  "zh": "我查清楚是怎么回事了。",
+  "movie": "Zootopia (2016)",
+  "speaker": "Judy Hopps",
+  "audio": "content/audio/prep/out/zootopia-found-out.mp3"
+ },
+ {
+  "slug": "princess-frog-figured-out-whats-wrong",
+  "sense": 5,
+  "form": "out",
+  "en": "I have finally figured out what is wrong with you.",
+  "zh": "我终于弄明白你的问题出在哪儿了。",
+  "movie": "The Princess and the Frog (2009)",
+  "speaker": "Prince Naveen (to Tiana)",
+  "audio": "content/audio/prep/out/princess-frog-figured-out-whats-wrong.mp3"
+ },
+ {
+  "slug": "aladdin-jasmine-finds-out",
+  "sense": 5,
+  "form": "out",
+  "en": "What if Jasmine finds out? I'd lose her.",
+  "zh": "要是茉莉发现了怎么办？我会失去她的。",
+  "movie": "Aladdin (1992)",
+  "speaker": "Aladdin",
+  "audio": "content/audio/prep/out/aladdin-jasmine-finds-out.mp3"
  }
 ]
