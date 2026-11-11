@@ -265,8 +265,8 @@ function prepCSS(){return `<style>
 .prep-ol{margin:6px 0 8px;padding-left:1.3em}.prep-ol li{margin:8px 0}.prep-table{width:100%;border-collapse:collapse;margin:8px 0 12px}
 .prep-table th,.prep-table td{border-bottom:1px solid color-mix(in srgb,currentColor 28%,transparent);padding:8px 6px;text-align:left;vertical-align:top}
 .prep-table th{font-size:13px;font-weight:700}.prep-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
-.prep-flip{cursor:pointer;perspective:800px}.prep-flip .inner{position:relative;min-height:168px;transform-style:preserve-3d;transition:transform .45s}
-.prep-flip.on .inner{transform:rotateY(180deg)}.prep-flip .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:12px 12px 10px;background:var(--sf,#fff);border:1px solid color-mix(in srgb,currentColor 30%,transparent)}
+.prep-flip{cursor:pointer;perspective:800px}.prep-flip .inner{position:relative;display:grid;min-height:168px;transform-style:preserve-3d;transition:transform .45s}
+.prep-flip.on .inner{transform:rotateY(180deg)}.prep-flip .face{position:relative;grid-area:1/1;backface-visibility:hidden;border-radius:16px;padding:12px 12px 10px;background:var(--sf,#fff);border:1px solid color-mix(in srgb,currentColor 30%,transparent)}
 .prep-flip .back{transform:rotateY(180deg);pointer-events:none}.prep-flip.on .front{pointer-events:none}.prep-flip.on .back{pointer-events:auto}
 .prep-lab{display:block;font-size:12px;font-weight:700;opacity:.75;margin-bottom:6px}.prep-flip .spk{position:relative;z-index:1}
 </style>`}
