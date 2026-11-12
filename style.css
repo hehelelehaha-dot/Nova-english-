@@ -1062,6 +1062,7 @@ html[data-theme=t6][data-paper] main .card.gend:has([onclick*="#/g/"]){
 html[data-theme=t6][data-paper] main :is(.wc.wc,.ent.ent){padding:14px 16px}
 html[data-theme=t6][data-paper] main :is(.wc .w,.wc .z,#fc .word,#fc .cez,.ent .w,.ent .z,.ent p,.gcard:not(:has(.wfx)) .word,.gcard:not(:has(.wfx)) .zh,.gcard:not(:has(.wfx)) .czs,.fcsz){color:#1a2330}
 html[data-theme=t6][data-paper] main :is(.wc .ps,.ent .n,.ent .exz,.player .status,.player .skbar,.gu:has([onclick*="#/g/"]) .sb,.gcard:not(:has(.wfx)) :is(.ghint,.pos,.sb,.ywsp),#fc .card :is(.pos,.mine,.ywsp,.tip)){color:#6b4e12!important}
+html[data-theme=t6][data-paper] main .gcard:not(:has(.wfx)) :is(.gpos,.mine){color:#6b4e12!important}html[data-theme=t6][data-paper] main .gcard:not(:has(.wfx)) .mine b{color:#1a2330}
 html[data-theme=t6][data-paper] main #fc .card .zh{color:#1a2330}
 html[data-theme=t6][data-paper] main .ent ol{color:#3a2c00}
 html[data-theme=t6][data-paper] main .card.dtcard{
