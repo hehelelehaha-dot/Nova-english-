@@ -40,7 +40,7 @@ assert.equal(walk(10, 0, 8, 100).length, 80);
 assert.deepEqual([...new Set(walk(5, 0, 8, 100))], [0,1,2,3,4,5,6,7]);
 
 const rd = app.slice(app.indexOf("function viewReading"), app.indexOf("// 原文 in word cards"));
-assert.match(rd, /lucaRd=\/\^luca_\/\.test\(rid\)/);
+assert.match(rd, /lucaRd=\/\^\(luca_\|elio_\)\/\.test\(rid\)/);
 assert.match(rd, /rdLoopCycle\(rep\)/);
 assert.match(rd, /rdLoopLabel\(rep\)/);
 assert.match(rd, /rdLoopNext\(rep,played,pos,rows\.length\)/);

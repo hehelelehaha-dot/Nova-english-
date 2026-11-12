@@ -1,0 +1,381 @@
+{
+  "id": "elio_words",
+  "type": "reading",
+  "title": "高频生词",
+  "sents": [
+    {
+      "sp": "",
+      "t": "A toast to our new candidate, Elio Solís of UhEarth.",
+      "zh": "敬我们的新候选人，地球的埃利奥·索利斯。",
+      "bkw": [
+        [
+          "candidate",
+          "n.",
+          "候选人"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Candidate Solís, you continue to surprise.",
+      "zh": "候选人索利斯，你总能带来惊喜。",
+      "bkw": [
+        [
+          "candidate",
+          "n.",
+          "候选人"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Because there's 500 million habitable planets out there and one of them's got to want me!",
+      "zh": "因为外面有五亿颗宜居行星，总有一颗会想要我！",
+      "bkw": [
+        [
+          "planet",
+          "n.",
+          "行星"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "We can send spacecraft to nearby planets.",
+      "zh": "我们可以把探测器送到邻近的行星。",
+      "a": "audio/elio_mo/s05.mp3",
+      "oa": "audio/elio_mo/s05.mp3",
+      "d": 2.8,
+      "bkw": [
+        [
+          "planet",
+          "n.",
+          "行星"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Are we alone?",
+      "zh": "我们是孤独的吗？",
+      "a": "audio/elio_mo/s08.mp3",
+      "oa": "audio/elio_mo/s08.mp3",
+      "d": 2.09,
+      "bkw": [
+        [
+          "alone",
+          "adj.",
+          "孤独的"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "I just feel so alone.",
+      "zh": "我只是觉得好孤独。",
+      "bkw": [
+        [
+          "alone",
+          "adj.",
+          "孤独的"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "You put flyers up for a Ham Radio Club?",
+      "zh": "你贴了业余无线电社的传单？",
+      "bkw": [
+        [
+          "radio",
+          "n.",
+          "无线电"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "We can use large radio telescopes to see if there is any message being sent to us lately.",
+      "zh": "我们可以用大型射电望远镜，看看最近有没有人在给我们发消息。",
+      "a": "audio/elio_mo/s06.mp3",
+      "oa": "audio/elio_mo/s06.mp3",
+      "d": 5.2,
+      "bkw": [
+        [
+          "radio",
+          "n.",
+          "无线电"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Aliens are not coming for you.",
+      "zh": "外星人不会来接你的。",
+      "bkw": [
+        [
+          "alien",
+          "n.",
+          "外星人"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "I knew aliens were looking for me.",
+      "zh": "我就知道外星人在找我。",
+      "bkw": [
+        [
+          "alien",
+          "n.",
+          "外星人"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "We track space debris, not rogue UFO signals.",
+      "zh": "我们跟踪的是太空碎片，不是那些乱来的不明飞行物信号。",
+      "bkw": [
+        [
+          "debris",
+          "n.",
+          "碎片；残骸"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "We're in a debris field.",
+      "zh": "我们在碎片带里。",
+      "bkw": [
+        [
+          "debris",
+          "n.",
+          "碎片；残骸"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "I've never been a bargaining chip before.",
+      "zh": "我还从来没当过谈判筹码。",
+      "bkw": [
+        [
+          "bargaining chip",
+          "phr.",
+          "谈判筹码"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "I'll take care of the bargaining chip.",
+      "zh": "筹码交给我来处理。",
+      "bkw": [
+        [
+          "bargaining chip",
+          "phr.",
+          "谈判筹码"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Are you an expert on conflict negotiation?",
+      "zh": "你是冲突谈判方面的专家吗？",
+      "bkw": [
+        [
+          "negotiate",
+          "v.",
+          "谈判；协商"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "While you negotiate with the warlord, you'll need a temporary replacement.",
+      "zh": "你去和那个军阀谈判的时候，需要一个临时替身。",
+      "bkw": [
+        [
+          "negotiate",
+          "v.",
+          "谈判；协商"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Would a clone really fool my dad?",
+      "zh": "一个克隆体真能骗过我爸爸吗？",
+      "bkw": [
+        [
+          "clone",
+          "n.",
+          "克隆；克隆体"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Can I check on my clone?",
+      "zh": "我能看看我的克隆体吗？",
+      "bkw": [
+        [
+          "clone",
+          "n.",
+          "克隆；克隆体"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Or should I say, Ambassador Solís.",
+      "zh": "或者我该叫你，索利斯大使。",
+      "bkw": [
+        [
+          "ambassador",
+          "n.",
+          "大使"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Congratulations, Ambassador Solís!",
+      "zh": "恭喜你，索利斯大使！",
+      "bkw": [
+        [
+          "ambassador",
+          "n.",
+          "大使"
+        ]
+      ]
+    }
+  ],
+  "flash": {
+    "type": "flash",
+    "cards": [
+      {
+        "w": "candidate",
+        "pos": "n.",
+        "zh": "候选人",
+        "ipa": "/ˈkændɪdət/",
+        "ex": "A candidate is a person who wants to be chosen for a job or a role.",
+        "exs": [
+          "She is a candidate for class president."
+        ],
+        "note": "原句：“A toast to our new candidate, Elio Solís of UhEarth.”（敬我们的新候选人，地球的埃利奥·索利斯。）",
+        "si": 0
+      },
+      {
+        "w": "planet",
+        "pos": "n.",
+        "zh": "行星",
+        "ipa": "/ˈplænɪt/",
+        "ex": "A planet is a large world that moves around a star, like Earth around the Sun.",
+        "exs": [
+          "Mars is the planet next to us."
+        ],
+        "note": "原句：“We can send spacecraft to nearby planets.”（我们可以把探测器送到邻近的行星。）",
+        "si": 3
+      },
+      {
+        "w": "alone",
+        "pos": "adj.",
+        "zh": "孤独的；独自的",
+        "ipa": "/əˈloʊn/",
+        "ex": "Alone means by yourself, with no one else. It can also mean you feel lonely.",
+        "exs": [
+          "She sat alone by the window."
+        ],
+        "note": "原句：“Are we alone?”（我们是孤独的吗？）",
+        "si": 4
+      },
+      {
+        "w": "radio",
+        "pos": "n.",
+        "zh": "无线电；收音机",
+        "ipa": "/ˈreɪdioʊ/",
+        "ex": "Radio is a way to send sound through the air, or the device you use to listen to it. A ham radio is a radio that people use to talk to others far away.",
+        "exs": [
+          "He talked to a friend in another city on the radio."
+        ],
+        "note": "原句：“We can use large radio telescopes to see if there is any message being sent to us lately.”（我们可以用大型射电望远镜，看看最近有没有人在给我们发消息。）",
+        "si": 7
+      },
+      {
+        "w": "alien",
+        "pos": "n.",
+        "zh": "外星人",
+        "ipa": "/ˈeɪliən/",
+        "ex": "An alien is a living being from another planet, not from Earth.",
+        "exs": [
+          "The movie is about a boy who wants to meet aliens."
+        ],
+        "note": "原句：“Aliens are not coming for you.”（外星人不会来接你的。）",
+        "si": 8
+      },
+      {
+        "w": "debris",
+        "pos": "n.",
+        "zh": "碎片；残骸",
+        "ipa": "/dəˈbri/",
+        "ex": "Debris is the broken pieces left after something is destroyed, or trash floating in space.",
+        "exs": [
+          "Old satellites become space debris."
+        ],
+        "note": "原句：“We're in a debris field.”（我们在碎片带里。）",
+        "si": 11
+      },
+      {
+        "w": "bargaining chip",
+        "pos": "phr.",
+        "zh": "谈判筹码",
+        "ipa": "/ˈbɑrgənɪŋ tʃɪp/",
+        "ex": "A bargaining chip is something you can use in a deal, so the other side will give you what you want.",
+        "exs": [
+          "The extra ticket became a bargaining chip in the trade."
+        ],
+        "note": "原句：“I've never been a bargaining chip before.”（我还从来没当过谈判筹码。）",
+        "si": 12
+      },
+      {
+        "w": "negotiate",
+        "pos": "v.",
+        "zh": "谈判；协商",
+        "ipa": "/nəˈgoʊʃiˌeɪt/",
+        "ex": "Negotiate means to talk with someone and try to reach an agreement. Negotiation is that talk.",
+        "exs": [
+          "We need to negotiate a fair price."
+        ],
+        "note": "原句：“While you negotiate with the warlord, you'll need a temporary replacement.”（你去和那个军阀谈判的时候，需要一个临时替身。）",
+        "si": 15
+      },
+      {
+        "w": "clone",
+        "pos": "n.",
+        "zh": "克隆；克隆体",
+        "ipa": "/kloʊn/",
+        "ex": "A clone is a copy of a living thing that is made to look and act just like the original.",
+        "exs": [
+          "The clone looked exactly like him."
+        ],
+        "note": "原句：“Would a clone really fool my dad?”（一个克隆体真能骗过我爸爸吗？）",
+        "si": 16
+      },
+      {
+        "w": "ambassador",
+        "pos": "n.",
+        "zh": "大使",
+        "ipa": "/æmˈbæsədər/",
+        "ex": "An ambassador is a person chosen to speak and act for a country, or for a group, in another place.",
+        "exs": [
+          "She was named ambassador to France."
+        ],
+        "note": "原句：“Or should I say, Ambassador Solís.”（或者我该叫你，索利斯大使。）",
+        "si": 18
+      }
+    ]
+  }
+}
