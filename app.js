@@ -168,19 +168,17 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 // Home folds number their own sections from 1. Naval keeps the existing study sections in curriculum order
 // (old 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 → 1–7).
-// 夏日友晴天 (internal id luca): 口语句式 · 阅读卡 · 单词卡 · 英英解释 · 句子听写 · 词形练习 · 小游戏.
+// 夏日友晴天 (internal id luca): 句子听写 · 阅读卡 · 单词卡 · 英英解释 · 词形练习 · 小游戏 (口语句式 removed 2026-11).
 // 阅读卡 + 句子听写 come from content/luca.json. ⑥ 词形练习 and ⑦ 小游戏 use Day 1 words in that file.
-// 口语句式 stays empty.
 // 飞屋环游记 (internal id up) is a Day list like Luca. content/up.json names the days; each day is one file.
 // Only Day 1 / 01 is written (69 words). Days 02–08 are not invented. Sections: 单词卡, 英英解释, 词形练习, 小游戏.
 const CIRC="⓪①②③④⑤⑥⑦⑧⑨";
 const NAVAL_RANK={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6};
 const LUCA_DEF=[
- {id:"luca_phrases",like:"phrases",name:"口语句式",typeName:"口语句式"},
+ {id:"luca_dictation",like:"dictation",name:"句子听写",typeName:"句子听写"},
  {id:"luca_reading",like:"reading",name:"阅读卡",typeName:"阅读卡"},
  {id:"luca_flash",like:"flash",name:"单词卡",typeName:"单词卡"},
  {id:"luca_longaudio",like:"ee",name:"英英解释",typeName:"英英解释"},
- {id:"luca_dictation",like:"dictation",name:"句子听写",typeName:"句子听写"},
  {id:"luca_wf",like:"wf",name:"词形练习",typeName:"词形练习",desc:"名词 · 动词 · 形容词 · 副词"},
  {id:"luca_game",like:"game",name:"小游戏",typeName:"小游戏",desc:"拼写 · 拼图 · 填词"}];
 let FOLDN={};

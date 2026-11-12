@@ -25,7 +25,14 @@
       "zh": "这不危险吗",
       "a": "audio/luca_d05o/s03.mp3",
       "oa": "audio/luca_d05o/s03.mp3",
-      "d": 2.85
+      "d": 2.85,
+      "bkw": [
+        [
+          "dangerous",
+          "adj.",
+          "危险的"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -41,7 +48,14 @@
       "zh": "重力！也叫往下掉",
       "a": "audio/luca_d05o/s05.mp3",
       "oa": "audio/luca_d05o/s05.mp3",
-      "d": 4.34
+      "d": 4.34,
+      "bkw": [
+        [
+          "gravity",
+          "n.",
+          "重力；地心引力"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -49,7 +63,14 @@
       "zh": "别看。开玩笑的。一定要看",
       "a": "audio/luca_d05o/s06.mp3",
       "oa": "audio/luca_d05o/s06.mp3",
-      "d": 4.83
+      "d": 4.83,
+      "bkw": [
+        [
+          "definitely",
+          "adv.",
+          "一定；肯定"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -65,7 +86,14 @@
       "zh": "你看，我收集很久了，随便问",
       "a": "audio/luca_d05o/s08.mp3",
       "oa": "audio/luca_d05o/s08.mp3",
-      "d": 4.34
+      "d": 4.34,
+      "bkw": [
+        [
+          "collecting",
+          "v.（-ing）",
+          "收集；一直在收集"
+        ]
+      ]
     },
     {
       "sp": "",
@@ -81,7 +109,14 @@
       "zh": "可惜，它坏了",
       "a": "audio/luca_d05o/s10.mp3",
       "oa": "audio/luca_d05o/s10.mp3",
-      "d": 3.34
+      "d": 3.34,
+      "bkw": [
+        [
+          "unfortunately",
+          "adv.",
+          "可惜；不幸的是"
+        ]
+      ]
     },
     {
       "sp": "",
