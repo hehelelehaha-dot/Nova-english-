@@ -5,7 +5,7 @@
   "sents": [
     {
       "sp": "",
-      "t": "A toast to our new candidate, Elio Solís of UhEarth.",
+      "t": "A toast to our new candidate, Elio Solís of Earth.",
       "zh": "敬我们的新候选人，地球的埃利奥·索利斯。",
       "bkw": [
         [
@@ -13,7 +13,10 @@
           "n.",
           "候选人"
         ]
-      ]
+      ],
+      "a": "audio/elio_w/s01.mp3",
+      "oa": "audio/elio_w/s01.mp3",
+      "d": 4.18
     },
     {
       "sp": "",
@@ -29,15 +32,18 @@
     },
     {
       "sp": "",
-      "t": "Because there's 500 million habitable planets out there and one of them's got to want me!",
-      "zh": "因为外面有五亿颗宜居行星，总有一颗会想要我！",
+      "t": "But yes, I run the planet.",
+      "zh": "没错，这个星球是我管的。",
       "bkw": [
         [
           "planet",
           "n.",
           "行星"
         ]
-      ]
+      ],
+      "a": "audio/elio_w/s03.mp3",
+      "oa": "audio/elio_w/s03.mp3",
+      "d": 1.78
     },
     {
       "sp": "",
@@ -110,15 +116,18 @@
     },
     {
       "sp": "",
-      "t": "Aliens are not coming for you.",
-      "zh": "外星人不会来接你的。",
+      "t": "I'm trying to get abducted by aliens.",
+      "zh": "我正想办法被外星人绑走。",
       "bkw": [
         [
           "alien",
           "n.",
           "外星人"
         ]
-      ]
+      ],
+      "a": "audio/elio_w/s09.mp3",
+      "oa": "audio/elio_w/s09.mp3",
+      "d": 2.64
     },
     {
       "sp": "",
@@ -130,7 +139,10 @@
           "n.",
           "外星人"
         ]
-      ]
+      ],
+      "a": "audio/elio_w/s10.mp3",
+      "oa": "audio/elio_w/s10.mp3",
+      "d": 2.09
     },
     {
       "sp": "",
@@ -166,19 +178,25 @@
           "phr.",
           "谈判筹码"
         ]
-      ]
+      ],
+      "a": "audio/elio_w/s13.mp3",
+      "oa": "audio/elio_w/s13.mp3",
+      "d": 2.25
     },
     {
       "sp": "",
-      "t": "I'll take care of the bargaining chip.",
-      "zh": "筹码交给我来处理。",
+      "t": "Hi, Dad! I'm a bargaining chip.",
+      "zh": "嗨，爸爸！我是谈判筹码。",
       "bkw": [
         [
           "bargaining chip",
           "phr.",
           "谈判筹码"
         ]
-      ]
+      ],
+      "a": "audio/elio_w/s14.mp3",
+      "oa": "audio/elio_w/s14.mp3",
+      "d": 2.14
     },
     {
       "sp": "",
@@ -194,15 +212,18 @@
     },
     {
       "sp": "",
-      "t": "While you negotiate with the warlord, you'll need a temporary replacement.",
-      "zh": "你去和那个军阀谈判的时候，需要一个临时替身。",
+      "t": "And the negotiation is not over, because now I've got this!",
+      "zh": "谈判还没结束，因为现在我有这个了！",
       "bkw": [
         [
           "negotiate",
           "v.",
           "谈判；协商"
         ]
-      ]
+      ],
+      "a": "audio/elio_w/s16.mp3",
+      "oa": "audio/elio_w/s16.mp3",
+      "d": 5.33
     },
     {
       "sp": "",
@@ -230,15 +251,18 @@
     },
     {
       "sp": "",
-      "t": "Or should I say, Ambassador Solís.",
-      "zh": "或者我该叫你，索利斯大使。",
+      "t": "Greetings, Ambassador.",
+      "zh": "你好，大使。",
       "bkw": [
         [
           "ambassador",
           "n.",
           "大使"
         ]
-      ]
+      ],
+      "a": "audio/elio_w/s19.mp3",
+      "oa": "audio/elio_w/s19.mp3",
+      "d": 1.59
     },
     {
       "sp": "",
@@ -265,7 +289,7 @@
         "exs": [
           "She is a candidate for class president."
         ],
-        "note": "原句：“A toast to our new candidate, Elio Solís of UhEarth.”（敬我们的新候选人，地球的埃利奥·索利斯。）",
+        "note": "原句：“A toast to our new candidate, Elio Solís of Earth.”（敬我们的新候选人，地球的埃利奥·索利斯。）",
         "si": 0
       },
       {
@@ -313,7 +337,7 @@
         "exs": [
           "The movie is about a boy who wants to meet aliens."
         ],
-        "note": "原句：“Aliens are not coming for you.”（外星人不会来接你的。）",
+        "note": "原句：“I'm trying to get abducted by aliens.”（我正想办法被外星人绑走。）",
         "si": 8
       },
       {
@@ -349,7 +373,7 @@
         "exs": [
           "We need to negotiate a fair price."
         ],
-        "note": "原句：“While you negotiate with the warlord, you'll need a temporary replacement.”（你去和那个军阀谈判的时候，需要一个临时替身。）",
+        "note": "原句：“And the negotiation is not over, because now I've got this!”（谈判还没结束，因为现在我有这个了！）",
         "si": 15
       },
       {
@@ -373,7 +397,7 @@
         "exs": [
           "She was named ambassador to France."
         ],
-        "note": "原句：“Or should I say, Ambassador Solís.”（或者我该叫你，索利斯大使。）",
+        "note": "原句：“Greetings, Ambassador.”（你好，大使。）",
         "si": 18
       }
     ]

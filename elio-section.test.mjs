@@ -38,7 +38,16 @@ assert.deepEqual(words.flash.cards.map(c => c.w), [
 ]);
 assert.equal(words.sents.length, 20);
 const withAudio = words.sents.filter(s => s.oa);
-assert.ok(withAudio.length >= 3);
+assert.ok(withAudio.length >= 11);
 for (const s of withAudio) assert.equal(existsSync(new URL("./content/" + s.oa, root)), true, s.oa);
 const planet = words.flash.cards.find(c => c.w === "planet");
 assert.equal(words.sents[planet.si].oa, "audio/elio_mo/s05.mp3");
+assert.equal(words.sents[0].t, "A toast to our new candidate, Elio Solís of Earth.");
+assert.equal(words.sents[0].oa, "audio/elio_w/s01.mp3");
+assert.equal(words.sents[2].t, "But yes, I run the planet.");
+assert.equal(words.sents[8].t, "I'm trying to get abducted by aliens.");
+assert.equal(words.sents[9].t, "I knew aliens were looking for me.");
+assert.equal(words.sents[12].oa, "audio/elio_w/s13.mp3");
+assert.equal(words.sents[13].t, "Hi, Dad! I'm a bargaining chip.");
+assert.equal(words.sents[15].t, "And the negotiation is not over, because now I've got this!");
+assert.equal(words.sents[18].t, "Greetings, Ambassador.");
