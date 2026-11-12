@@ -1,0 +1,19 @@
+{
+  "boards": [
+    {
+      "id": "elio_monologue",
+      "title": "结尾独白",
+      "sub": "8 句",
+      "data": "elio_monologue.json",
+      "kind": "reading"
+    },
+    {
+      "id": "elio_words",
+      "title": "高频生词",
+      "sub": "10 词",
+      "data": "elio_words.json",
+      "kind": "flash",
+      "vocab": 10
+    }
+  ]
+}

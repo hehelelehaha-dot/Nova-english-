@@ -1,0 +1,92 @@
+{
+  "id": "elio_monologue",
+  "type": "reading",
+  "title": "结尾独白",
+  "sents": [
+    {
+      "sp": "",
+      "t": "It's an ancient human theme.",
+      "zh": "这是人类一个古老的主题。",
+      "a": "audio/elio_mo/s01.mp3",
+      "oa": "audio/elio_mo/s01.mp3",
+      "d": 2.09
+    },
+    {
+      "sp": "",
+      "t": "You can find it in virtually every culture.",
+      "zh": "几乎在每一种文化里都能找到它。",
+      "a": "audio/elio_mo/s02.mp3",
+      "oa": "audio/elio_mo/s02.mp3",
+      "d": 2.06
+    },
+    {
+      "sp": "",
+      "t": "In, uh, religion, folklore, superstition, and, now, in science.",
+      "zh": "在宗教、民间传说、迷信里，而现在，也在科学里。",
+      "a": "audio/elio_mo/s03.mp3",
+      "oa": "audio/elio_mo/s03.mp3",
+      "d": 3.79
+    },
+    {
+      "sp": "",
+      "t": "The search for life elsewhere is remarkable in our age because this is the first time that we can actually do something besides speculation.",
+      "zh": "在我们这个时代，寻找地球以外的生命之所以了不起，是因为这是我们第一次真正能做些什么，而不只是空想。",
+      "a": "audio/elio_mo/s04.mp3",
+      "oa": "audio/elio_mo/s04.mp3",
+      "d": 9.35
+    },
+    {
+      "sp": "",
+      "t": "We can send spacecraft to nearby planets.",
+      "zh": "我们可以把探测器送到邻近的行星。",
+      "a": "audio/elio_mo/s05.mp3",
+      "oa": "audio/elio_mo/s05.mp3",
+      "d": 2.8,
+      "bkw": [
+        [
+          "planet",
+          "n.",
+          "行星"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "We can use large radio telescopes to see if there is any message being sent to us lately.",
+      "zh": "我们可以用大型射电望远镜，看看最近有没有人在给我们发消息。",
+      "a": "audio/elio_mo/s06.mp3",
+      "oa": "audio/elio_mo/s06.mp3",
+      "d": 5.2,
+      "bkw": [
+        [
+          "radio",
+          "n.",
+          "无线电"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "And it touches to the deepest of human concerns.",
+      "zh": "它触及人类最深的关切。",
+      "a": "audio/elio_mo/s07.mp3",
+      "oa": "audio/elio_mo/s07.mp3",
+      "d": 3.34
+    },
+    {
+      "sp": "",
+      "t": "Are we alone?",
+      "zh": "我们是孤独的吗？",
+      "a": "audio/elio_mo/s08.mp3",
+      "oa": "audio/elio_mo/s08.mp3",
+      "d": 2.09,
+      "bkw": [
+        [
+          "alone",
+          "adj.",
+          "孤独的"
+        ]
+      ]
+    }
+  ]
+}
