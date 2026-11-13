@@ -18,13 +18,14 @@
           "🤝",
           "先拉钩答应，再缩回去，就不算数了。"
         ],
-        "note": "电影里 Ellie 说 No backing out：去 Paradise Falls 这件事不许反悔。",
+        "note": "电影里 Ellie 说 No backing out：去 Paradise Falls 这件事不许反悔。 原句：“Cross it! Cross your heart! Good, you promised. No backing out.”（画呀！画十字发誓！好，你答应了。不许反悔。）",
         "chunks": [
           [
             "back out of",
             "退出（某承诺）"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s34.mp3"
       },
       {
         "w": "cross",
@@ -39,13 +40,14 @@
           "❌",
           "手指在胸口画一个小叉，表示这句话当真。"
         ],
-        "note": "这里不是人名。Ellie 说的是 Cross your heart：在胸口画十字，表示发誓。",
+        "note": "这里不是人名。Ellie 说的是 Cross your heart：在胸口画十字，表示发誓。 原句：“Cross your heart. Do it!”（在胸口画十字发誓。快！）",
         "chunks": [
           [
             "cross your heart",
             "在胸口画十字发誓"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s30.mp3"
       },
       {
         "w": "blimp",
@@ -60,13 +62,14 @@
           "🎈",
           "一个鼓鼓的大气囊，下面吊着小舱，能在天上慢慢飞。"
         ],
-        "note": "Ellie 口中的 blimp，就是新闻片里 Muntz 的那种飞艇。更正式的说法是 dirigible。",
+        "note": "Ellie 口中的 blimp，就是新闻片里 Muntz 的那种飞艇。更正式的说法是 dirigible。 原句：“That's it! You can take us there in a blimp!”（有了！你可以开飞艇带我们去！）",
         "chunks": [
           [
             "in a blimp",
             "坐飞艇"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s33.mp3"
       },
       {
         "w": "clubhouse",
@@ -86,7 +89,9 @@
             "move a clubhouse",
             "把小屋搬过去"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s32.mp3",
+        "note": "原句：“I'm gonna move my clubhouse there and park it right next to the falls.”（我要把我的俱乐部小屋搬到那儿，就放在瀑布旁边。）"
       },
       {
         "w": "out of",
@@ -101,7 +106,7 @@
           "📤",
           "东西原来在里面，被拿到外面来。风从东边来，也说 out of the east。"
         ],
-        "note": "两个电影里的用法：winds out of the east（风从东边来）；ripped it out of a book（从书里撕下来）。",
+        "note": "两个电影里的用法：winds out of the east（风从东边来）；ripped it out of a book（从书里撕下来）。 原句：“It's a beautiful day. Winds out of the east at 10 knots.”（天气真好。东风，风速 10 节。）",
         "chunks": [
           [
             "out of the east",
@@ -111,7 +116,8 @@
             "rip out of",
             "从……里撕下"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s22.mp3"
       },
       {
         "w": "ripped",
@@ -126,13 +132,14 @@
           "📄",
           "用手一扯，纸离开了书。"
         ],
-        "note": "这是 rip 的过去式。事情已经发生，所以用 ripped。",
+        "note": "这是 rip 的过去式。事情已经发生，所以用 ripped。 原句：“I ripped this right out of a library book.”（这是我从图书馆的书上直接撕下来的。）",
         "chunks": [
           [
             "rip out of",
             "从……撕下"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s31.mp3"
       },
       {
         "w": "swear",
@@ -152,7 +159,9 @@
             "swear you will",
             "发誓你会"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s29.mp3",
+        "note": "原句：“You'll have to swear you will not tell anyone.”（你得发誓不告诉任何人。）"
       },
       {
         "w": "cheer up",
@@ -167,13 +176,14 @@
           "🌤️",
           "人闷着，你过去把气氛托起来。"
         ],
-        "note": "电影里 Ellie 说 cheerin' up，就是 cheer up 的口语说法。",
+        "note": "电影里 Ellie 说 cheerin' up，就是 cheer up 的口语说法。 原句：“Thought you might need a little cheering up.”（我想你可能需要一点安慰，让你开心点。）",
         "chunks": [
           [
             "cheer someone up",
             "把某人哄高兴"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s28.mp3"
       },
       {
         "w": "aboard",
@@ -193,7 +203,9 @@
             "welcome aboard",
             "欢迎加入"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s27.mp3",
+        "note": "原句：“All right, you're in. Welcome aboard.”（好吧，你入会了。欢迎加入。）"
       },
       {
         "w": "goggles",
@@ -208,13 +220,14 @@
           "🥽",
           "两只圆镜片用皮带勒在眼睛上，飞行时挡风。"
         ],
-        "note": "通常用复数 goggles，因为是一副。",
+        "note": "通常用复数 goggles，因为是一副。 原句：“Only explorers get in here, not just any kid off the street with a helmet and a pair of goggles.”（只有探险家才能进来，不是随便哪个戴着头盔和护目镜的街头小孩都行。）",
         "chunks": [
           [
             "flight goggles",
             "飞行护目镜"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s26.mp3"
       },
       {
         "w": "helmet",
@@ -234,7 +247,9 @@
             "flight helmet",
             "飞行头盔"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s26.mp3",
+        "note": "原句：“Only explorers get in here, not just any kid off the street with a helmet and a pair of goggles.”（只有探险家才能进来，不是随便哪个戴着头盔和护目镜的街头小孩都行。）"
       },
       {
         "w": "exclusive",
@@ -254,7 +269,9 @@
             "exclusive club",
             "专属俱乐部"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s25.mp3",
+        "note": "原句：“Don't you know this is an exclusive club?”（你不知道这是个专属俱乐部吗？）"
       },
       {
         "w": "hail",
@@ -269,13 +286,14 @@
           "🧊",
           "天上掉下来的小冰球，砸在船上噼啪响。"
         ],
-        "note": "这里是天气里的冰雹，不是 hail a taxi（招手叫车），也不是 hail someone as a hero（把某人称赞为英雄）。",
+        "note": "这里是天气里的冰雹，不是 hail a taxi（招手叫车），也不是 hail someone as a hero（把某人称赞为英雄）。 原句：“Aw! It's a puppy! Ah! No time! A storm! Lightning. Hail.”（哇！是只小狗！啊！没时间了！暴风雨！闪电。冰雹。）",
         "chunks": [
           [
             "lightning and hail",
             "闪电和冰雹"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s24.mp3"
       },
       {
         "w": "storm",
@@ -290,13 +308,14 @@
           "⛈️",
           "风、雨、雷一起压过来。"
         ],
-        "note": "名词是暴风雨。storm 也可以作动词，表示气冲冲地走，但这部电影里先记天气。",
+        "note": "名词是暴风雨。storm 也可以作动词，表示气冲冲地走，但这部电影里先记天气。 原句：“Aw! It's a puppy! Ah! No time! A storm! Lightning. Hail.”（哇！是只小狗！啊！没时间了！暴风雨！闪电。冰雹。）",
         "chunks": [
           [
             "a storm is coming",
             "暴风雨要来了"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s24.mp3"
       },
       {
         "w": "weather",
@@ -316,7 +335,9 @@
             "enter the weather",
             "把天气记下来"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s23.mp3",
+        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）"
       },
       {
         "w": "unlimited",
@@ -336,7 +357,9 @@
             "unlimited visibility",
             "能见度极好"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s23.mp3",
+        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）"
       },
       {
         "w": "visibility",
@@ -356,7 +379,9 @@
             "good visibility",
             "能见度好"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s23.mp3",
+        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）"
       },
       {
         "w": "rudder",
@@ -376,7 +401,9 @@
             "move the rudder",
             "扳方向舵"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s21.mp3",
+        "note": "原句：“Rudders 18 degrees towards the south.”（方向舵向南转 18 度。）"
       },
       {
         "w": "starboard",
@@ -391,13 +418,14 @@
           "➡️",
           "脸朝船头时，你的右手边就是 starboard。"
         ],
-        "note": "和 port（左舷）相对。记的时候可以想：starboard 里有 star，右手边。",
+        "note": "和 port（左舷）相对。记的时候可以想：starboard 里有 star，右手边。 原句：“Mount Rushmore! Hard to starboard!”（拉什莫尔山！右满舵！）",
         "chunks": [
           [
             "hard to starboard",
             "右满舵"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s20.mp3"
       },
       {
         "w": "hurdle",
@@ -412,13 +440,14 @@
           "⛰️",
           "不从旁边绕，而是从障碍上翻过去。"
         ],
-        "note": "也可以作名词，指跨栏那个栏架。新闻片里是动词：He hurdles Pike's Peak.",
+        "note": "也可以作名词，指跨栏那个栏架。新闻片里是动词：He hurdles Pike's Peak. 原句：“He hurdles Pikes Peak.”（他飞越了派克斯峰。）",
         "chunks": [
           [
             "hurdle a mountain",
             "跃过一座山"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s19.mp3"
       },
       {
         "w": "dirigible",
@@ -433,13 +462,14 @@
           "🛸",
           "比 blimp 更正式的名字：一艘能转向的大气艇。"
         ],
-        "note": "Ellie 说 blimp，新闻片说 dirigible，指的是同一类飞艇。",
+        "note": "Ellie 说 blimp，新闻片说 dirigible，指的是同一类飞艇。 原句：“Here's Charles Muntz piloting his famous dirigible.”（这是查尔斯·蒙兹在驾驶他那艘著名的飞艇。）",
         "chunks": [
           [
             "land a dirigible",
             "降落飞艇"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s18.mp3"
       },
       {
         "w": "famous",
@@ -459,7 +489,9 @@
             "famous explorer",
             "著名探险家"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s18.mp3",
+        "note": "原句：“Here's Charles Muntz piloting his famous dirigible.”（这是查尔斯·蒙兹在驾驶他那艘著名的飞艇。）"
       },
       {
         "w": "piloting",
@@ -474,13 +506,14 @@
           "🎛️",
           "手在舵轮上，人负责让这艘船往哪飞。"
         ],
-        "note": "词表里是 piloting，不是 pilot。pilot 可以是名词“飞行员”，也可以是动词“驾驶”。",
+        "note": "词表里是 piloting，不是 pilot。pilot 可以是名词“飞行员”，也可以是动词“驾驶”。 原句：“Here's Charles Muntz piloting his famous dirigible.”（这是查尔斯·蒙兹在驾驶他那艘著名的飞艇。）",
         "chunks": [
           [
             "pilot a dirigible",
             "驾驶飞艇"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s18.mp3"
       },
       {
         "w": "beast",
@@ -500,7 +533,9 @@
             "capture the beast",
             "活捉巨兽"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s17.mp3",
+        "note": "原句：“Humiliated, Muntz vows a return to Paradise Falls and promises to capture the beast alive!”（蒙兹受了羞辱，发誓要重返天堂瀑布，并承诺要活捉那头怪兽！）"
       },
       {
         "w": "capture",
@@ -520,7 +555,9 @@
             "capture alive",
             "活捉"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s17.mp3",
+        "note": "原句：“Humiliated, Muntz vows a return to Paradise Falls and promises to capture the beast alive!”（蒙兹受了羞辱，发誓要重返天堂瀑布，并承诺要活捉那头怪兽！）"
       },
       {
         "w": "vow",
@@ -535,13 +572,14 @@
           "🕯️",
           "比普通的 promise 更重，像当众立下的誓。"
         ],
-        "note": "也可以作名词：a vow。新闻片里是动词 vows。",
+        "note": "也可以作名词：a vow。新闻片里是动词 vows。 原句：“Humiliated, Muntz vows a return to Paradise Falls and promises to capture the beast alive!”（蒙兹受了羞辱，发誓要重返天堂瀑布，并承诺要活捉那头怪兽！）",
         "chunks": [
           [
             "vow to return",
             "发誓要回去"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s17.mp3"
       },
       {
         "w": "strip",
@@ -556,13 +594,14 @@
           "🎖️",
           "把别人身上的头衔摘掉，人还在，资格没了。"
         ],
-        "note": "电影里不是脱衣服，也不是一条窄地。记 strip someone of something：剥夺某人的某样东西。",
+        "note": "电影里不是脱衣服，也不是一条窄地。记 strip someone of something：剥夺某人的某样东西。 原句：“The organization strips Muntz of his membership.”（该组织取消了蒙兹的会员资格。）",
         "chunks": [
           [
             "strip someone of",
             "剥夺某人的"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s16.mp3"
       },
       {
         "w": "organization",
@@ -582,7 +621,9 @@
             "join an organization",
             "加入一个组织"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s16.mp3",
+        "note": "原句：“The organization strips Muntz of his membership.”（该组织取消了蒙兹的会员资格。）"
       },
       {
         "w": "skeleton",
@@ -602,7 +643,9 @@
             "a bird skeleton",
             "一具鸟的骨架"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s15.mp3",
+        "note": "原句：“The National Explorers Society accuses Muntz of fabricating the skeleton.”（国家探险家协会指控蒙兹伪造了这副骨架。）"
       },
       {
         "w": "fabricate",
@@ -617,13 +660,14 @@
           "🛠️",
           "本来没有，却做出一个看起来像真的东西。"
         ],
-        "note": "也可以表示“制造”。电影里是贬义：伪造骨头。",
+        "note": "也可以表示“制造”。电影里是贬义：伪造骨头。 原句：“The National Explorers Society accuses Muntz of fabricating the skeleton.”（国家探险家协会指控蒙兹伪造了这副骨架。）",
         "chunks": [
           [
             "fabricate a skeleton",
             "伪造一具骨架"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s15.mp3"
       },
       {
         "w": "accuse",
@@ -643,7 +687,9 @@
             "accuse someone of",
             "指控某人做了"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s15.mp3",
+        "note": "原句：“The National Explorers Society accuses Muntz of fabricating the skeleton.”（国家探险家协会指控蒙兹伪造了这副骨架。）"
       },
       {
         "w": "foul",
@@ -658,13 +704,14 @@
           "🚩",
           "比赛里举手说“这球犯规了”。这里是科学家觉得发现不老实。"
         ],
-        "note": "不是臭味，也不是鸟类的 foul。记 cry foul：喊一声“这不公平”。",
+        "note": "不是臭味，也不是鸟类的 foul。记 cry foul：喊一声“这不公平”。 原句：“But what's this? Scientists cry foul.”（可这是怎么回事？科学家们大喊不公。）",
         "chunks": [
           [
             "cry foul",
             "高喊不公 / 犯规"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s14.mp3"
       },
       {
         "w": "scientist",
@@ -684,7 +731,9 @@
             "a scientist asks for proof",
             "科学家要证据"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s14.mp3",
+        "note": "原句：“But what's this? Scientists cry foul.”（可这是怎么回事？科学家们大喊不公。）"
       },
       {
         "w": "swell",
@@ -699,13 +748,14 @@
           "👍",
           "1930 年代的人竖起大拇指说：这可真不错。"
         ],
-        "note": "现代英语里 swell 更常是动词“肿胀、增大”。新闻片用的是当年的形容词：很棒。",
+        "note": "现代英语里 swell 更常是动词“肿胀、增大”。新闻片用的是当年的形容词：很棒。 原句：“And, golly, what a swell monster this is!”（哎呀，这怪物可真了不起！）",
         "chunks": [
           [
             "a swell monster",
             "一只很棒的怪物"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s13.mp3"
       },
       {
         "w": "golly",
@@ -720,13 +770,14 @@
           "😮",
           "吃惊，但不是骂人，像轻轻拍一下桌子。"
         ],
-        "note": "它不变形。口语里单独放在句前。不要用它的词形去套名词或动词。",
+        "note": "它不变形。口语里单独放在句前。不要用它的词形去套名词或动词。 原句：“And, golly, what a swell monster this is!”（哎呀，这怪物可真了不起！）",
         "chunks": [
           [
             "golly",
             "天哪"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s13.mp3"
       },
       {
         "w": "bee's knees",
@@ -741,13 +792,14 @@
           "🐝",
           "老电影里的最高夸奖，相当于今天说 the best。"
         ],
-        "note": "整段一起记，不要拆开理解成蜜蜂的膝盖。现在很少有人认真这么说，听到会觉得很复古。",
+        "note": "整段一起记，不要拆开理解成蜜蜂的膝盖。现在很少有人认真这么说，听到会觉得很复古。 原句：“And, Jiminy Cricket, do the locals consider Muntz the bee's knees!”（天哪，当地人可真觉得蒙兹棒极了！）",
         "chunks": [
           [
             "the bee's knees",
             "最棒的"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s12.mp3"
       },
       {
         "w": "consider",
@@ -767,7 +819,9 @@
             "consider someone a hero",
             "把某人看作英雄"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s12.mp3",
+        "note": "原句：“And, Jiminy Cricket, do the locals consider Muntz the bee's knees!”（天哪，当地人可真觉得蒙兹棒极了！）"
       },
       {
         "w": "walker",
@@ -782,7 +836,7 @@
           "🐕",
           "电影里是给狗跑步的机器。美国生活里，walker 也常指老人用的助行架。"
         ],
-        "note": "两个意思都值得记。这一课先记飞艇上的 mechanical canine walker，再记住生活里的助行器。",
+        "note": "两个意思都值得记。这一课先记飞艇上的 mechanical canine walker，再记住生活里的助行器。 原句：“complete with doggy bath and mechanical canine walker.”（还配有狗狗浴池和机械遛狗机。）",
         "chunks": [
           [
             "mechanical walker",
@@ -792,7 +846,8 @@
             "use a walker",
             "用助行器"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s11.mp3"
       },
       {
         "w": "canine",
@@ -807,13 +862,14 @@
           "🐶",
           "不说 dog，而用一个更正式的词，新闻片听起来更气派。"
         ],
-        "note": "canine 也可以作名词，指狗，或犬齿。这里修饰 comfort 和 walker，是形容词。",
+        "note": "canine 也可以作名词，指狗，或犬齿。这里修饰 comfort 和 walker，是形容词。 原句：“complete with doggy bath and mechanical canine walker.”（还配有狗狗浴池和机械遛狗机。）",
         "chunks": [
           [
             "canine comfort",
             "让狗舒服"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s11.mp3"
       },
       {
         "w": "mechanical",
@@ -833,7 +889,9 @@
             "mechanical walker",
             "机械步道"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s11.mp3",
+        "note": "原句：“complete with doggy bath and mechanical canine walker.”（还配有狗狗浴池和机械遛狗机。）"
       },
       {
         "w": "bath",
@@ -848,7 +906,7 @@
           "🛁",
           "美国口语里 bath 常指在浴缸里洗。电影里是给狗准备的。"
         ],
-        "note": "动词“给……洗澡”是 bathe /beɪð/。名词洗澡是 bath /bæθ/。",
+        "note": "动词“给……洗澡”是 bathe /beɪð/。名词洗澡是 bath /bæθ/。 原句：“complete with doggy bath and mechanical canine walker.”（还配有狗狗浴池和机械遛狗机。）",
         "chunks": [
           [
             "doggie bath",
@@ -858,7 +916,8 @@
             "take a bath",
             "洗个澡"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s11.mp3"
       },
       {
         "w": "complete with",
@@ -873,13 +932,14 @@
           "➕",
           "主物已经很豪华，后面还附带列出里面有什么。"
         ],
-        "note": "和动词 complete（完成）不是一个意思。complete with 贴在名词后面，表示“还配了……”。",
+        "note": "和动词 complete（完成）不是一个意思。complete with 贴在名词后面，表示“还配了……”。 原句：“complete with doggy bath and mechanical canine walker.”（还配有狗狗浴池和机械遛狗机。）",
         "chunks": [
           [
             "complete with",
             "配有"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s11.mp3"
       },
       {
         "w": "palace",
@@ -899,7 +959,9 @@
             "a floating palace",
             "一座浮动的宫殿"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s10.mp3",
+        "note": "原句：“It's a veritable floating palace in the sky,”（它简直就是一座空中漂浮的宫殿，）"
       },
       {
         "w": "floating",
@@ -919,7 +981,9 @@
             "floating palace",
             "浮动宫殿"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s10.mp3",
+        "note": "原句：“It's a veritable floating palace in the sky,”（它简直就是一座空中漂浮的宫殿，）"
       },
       {
         "w": "veritable",
@@ -934,13 +998,14 @@
           "✨",
           "不是比喻过头。它真的豪华到配得上这个名字。"
         ],
-        "note": "多放在名词前面加强语气，口语里不算最常见，但新闻片很爱用。",
+        "note": "多放在名词前面加强语气，口语里不算最常见，但新闻片很爱用。 原句：“It's a veritable floating palace in the sky,”（它简直就是一座空中漂浮的宫殿，）",
         "chunks": [
           [
             "a veritable palace",
             "一座名副其实的宫殿"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s10.mp3"
       },
       {
         "w": "comfort",
@@ -955,7 +1020,7 @@
           "🛋️",
           "身体放松，不挤、不冷、不疼。"
         ],
-        "note": "形容词是 comfortable。这里 Muntz conceived the craft for canine comfort，comfort 是名词。",
+        "note": "形容词是 comfortable。这里 Muntz conceived the craft for canine comfort，comfort 是名词。 原句：“Muntz conceived the craft for canine comfort.”（蒙兹设计这艘飞艇时，就考虑到了狗狗的舒适。）",
         "chunks": [
           [
             "in comfort",
@@ -965,7 +1030,8 @@
             "canine comfort",
             "狗的舒适"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s09.mp3"
       },
       {
         "w": "craft",
@@ -980,13 +1046,14 @@
           "✈️",
           "能载人移动的一台船或飞行器。"
         ],
-        "note": "做美甲、手作时听到的 craft 是“手艺、工艺”。这部电影里是船或飞机。两个意思都真实，别混在同一句里。",
+        "note": "做美甲、手作时听到的 craft 是“手艺、工艺”。这部电影里是船或飞机。两个意思都真实，别混在同一句里。 原句：“Muntz conceived the craft for canine comfort.”（蒙兹设计这艘飞艇时，就考虑到了狗狗的舒适。）",
         "chunks": [
           [
             "lighter-than-air craft",
             "轻于空气的飞船"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s09.mp3"
       },
       {
         "w": "conceive",
@@ -1001,13 +1068,14 @@
           "💡",
           "想法先在脑子里成形，然后才变成一艘真的船。"
         ],
-        "note": "conceive 也可以表示怀孕。电影里是“构想、设计”。",
+        "note": "conceive 也可以表示怀孕。电影里是“构想、设计”。 原句：“Muntz conceived the craft for canine comfort.”（蒙兹设计这艘飞艇时，就考虑到了狗狗的舒适。）",
         "chunks": [
           [
             "conceive a craft",
             "构想一艘飞船"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s09.mp3"
       },
       {
         "w": "faithful",
@@ -1027,7 +1095,9 @@
             "faithful dogs",
             "忠诚的狗"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s08.mp3",
+        "note": "原句：“Never apart from his faithful dogs,”（他从不离开他忠诚的狗狗们，）"
       },
       {
         "w": "apart from",
@@ -1042,7 +1112,7 @@
           "🔗",
           "两个人或人和狗之间拉开距离。电影里是“从不离开”。"
         ],
-        "note": "另一个日常意思是“除了”。He is apart from the group 是分开；Apart from coffee, I drank nothing 是除了咖啡。",
+        "note": "另一个日常意思是“除了”。He is apart from the group 是分开；Apart from coffee, I drank nothing 是除了咖啡。 原句：“Never apart from his faithful dogs,”（他从不离开他忠诚的狗狗们，）",
         "chunks": [
           [
             "never apart from",
@@ -1052,7 +1122,8 @@
             "apart from",
             "除了"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s08.mp3"
       },
       {
         "w": "wagon",
@@ -1067,13 +1138,14 @@
           "🚃",
           "四个轮子的厢式车，用来装人或装货。"
         ],
-        "note": "美国也把儿童拉的小车叫 wagon。电影里用来比较长度的是 paddy wagon。",
+        "note": "美国也把儿童拉的小车叫 wagon。电影里用来比较长度的是 paddy wagon。 原句：“and is longer than 22 Prohibition paddy wagons placed end to end.”（比 22 辆禁酒令时期的警车首尾相连还要长。）",
         "chunks": [
           [
             "line up wagons",
             "把货车排成一排"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s07.mp3"
       },
       {
         "w": "paddy",
@@ -1088,13 +1160,14 @@
           "🚓",
           "只记整词 paddy wagon：运人的警车。不要用 paddy 叫人。"
         ],
-        "note": "paddy 单独用来叫人，是对爱尔兰人的侮辱。学习时只说 paddy wagon，指那种老式警车。",
+        "note": "paddy 单独用来叫人，是对爱尔兰人的侮辱。学习时只说 paddy wagon，指那种老式警车。 原句：“and is longer than 22 Prohibition paddy wagons placed end to end.”（比 22 辆禁酒令时期的警车首尾相连还要长。）",
         "chunks": [
           [
             "paddy wagon",
             "警车（旧称）"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s07.mp3"
       },
       {
         "w": "prohibition",
@@ -1109,13 +1182,14 @@
           "🚫",
           "法律把酒按下暂停键的那些年。飞艇比那个年代的警车还长。"
         ],
-        "note": "动词 prohibit 是“禁止”。大写的 Prohibition 常特指美国这段历史。",
+        "note": "动词 prohibit 是“禁止”。大写的 Prohibition 常特指美国这段历史。 原句：“and is longer than 22 Prohibition paddy wagons placed end to end.”（比 22 辆禁酒令时期的警车首尾相连还要长。）",
         "chunks": [
           [
             "during Prohibition",
             "在禁酒令时期"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s07.mp3"
       },
       {
         "w": "expedition",
@@ -1135,7 +1209,9 @@
             "a year-long expedition",
             "为期一年的远征"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s06.mp3",
+        "note": "原句：“completing a year-long expedition to the lost world.”（完成了前往失落世界、为期一年的探险。）"
       },
       {
         "w": "complete",
@@ -1150,13 +1226,14 @@
           "✅",
           "行程走到最后一步，可以画上句号。"
         ],
-        "note": "这是动词“完成”。前面的 complete with 是另一个短语，表示“配有”。",
+        "note": "这是动词“完成”。前面的 complete with 是另一个短语，表示“配有”。 原句：“completing a year-long expedition to the lost world.”（完成了前往失落世界、为期一年的探险。）",
         "chunks": [
           [
             "complete an expedition",
             "完成一次远征"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s06.mp3"
       },
       {
         "w": "spirit",
@@ -1180,7 +1257,9 @@
             "in high spirits",
             "情绪高"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s05.mp3",
+        "note": "原句：“The beloved explorer lands his dirigible, the Spirit of Adventure,”（这位深受爱戴的探险家驾着他的飞艇“冒险精神号”降落，）"
       },
       {
         "w": "beloved",
@@ -1200,7 +1279,9 @@
             "beloved explorer",
             "深受喜爱的探险家"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s05.mp3",
+        "note": "原句：“The beloved explorer lands his dirigible, the Spirit of Adventure,”（这位深受爱戴的探险家驾着他的飞艇“冒险精神号”降落，）"
       },
       {
         "w": "summit",
@@ -1215,13 +1296,14 @@
           "🏔️",
           "山的最高一点，再往上就没有路了。"
         ],
-        "note": "summit 也可以指峰会。这里是地理上的山顶。",
+        "note": "summit 也可以指峰会。这里是地理上的山顶。 原句：“Who would dare set foot on this inhospitable summit?”（谁敢踏上这座荒凉险恶的山顶？）",
         "chunks": [
           [
             "mountain summit",
             "山顶"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s04.mp3"
       },
       {
         "w": "inhospitable",
@@ -1236,13 +1318,14 @@
           "🌬️",
           "地方本身在赶人：太冷、太陡、没有遮风的地方。"
         ],
-        "note": "反义词是 hospitable，指人或地方好客。in- 把意思反过来。",
+        "note": "反义词是 hospitable，指人或地方好客。in- 把意思反过来。 原句：“Who would dare set foot on this inhospitable summit?”（谁敢踏上这座荒凉险恶的山顶？）",
         "chunks": [
           [
             "an inhospitable summit",
             "不宜停留的山顶"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s04.mp3"
       },
       {
         "w": "dare",
@@ -1266,7 +1349,9 @@
             "how dare you",
             "你竟敢"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s04.mp3",
+        "note": "原句：“Who would dare set foot on this inhospitable summit?”（谁敢踏上这座荒凉险恶的山顶？）"
       },
       {
         "w": "sport",
@@ -1281,13 +1366,14 @@
           "🌿",
           "一个地方把少见的东西“穿”在外面，让你看见。"
         ],
-        "note": "这里不是名词“体育运动”。新闻片说 it sports plants and animals：它有这些植物和动物。",
+        "note": "这里不是名词“体育运动”。新闻片说 it sports plants and animals：它有这些植物和动物。 原句：“Lurking in the shadow of majestic Paradise Falls, it sports plants and animals undiscovered by science.”（它隐藏在雄伟的天堂瀑布的阴影里，拥有科学尚未发现的植物和动物。）",
         "chunks": [
           [
             "sport plants and animals",
             "长着各种动植物"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s03.mp3"
       },
       {
         "w": "lurking",
@@ -1302,13 +1388,14 @@
           "🌑",
           "你看见阴影，还没看见里面的东西。它在等。"
         ],
-        "note": "词表给的是 lurking。原形是 lurk。",
+        "note": "词表给的是 lurking。原形是 lurk。 原句：“Lurking in the shadow of majestic Paradise Falls, it sports plants and animals undiscovered by science.”（它隐藏在雄伟的天堂瀑布的阴影里，拥有科学尚未发现的植物和动物。）",
         "chunks": [
           [
             "lurk in the shadow",
             "潜伏在阴影里"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s03.mp3"
       },
       {
         "w": "majestic",
@@ -1328,7 +1415,9 @@
             "majestic falls",
             "壮丽的瀑布"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s03.mp3",
+        "note": "原句：“Lurking in the shadow of majestic Paradise Falls, it sports plants and animals undiscovered by science.”（它隐藏在雄伟的天堂瀑布的阴影里，拥有科学尚未发现的植物和动物。）"
       },
       {
         "w": "humanity",
@@ -1343,13 +1432,14 @@
           "🌍",
           "不是一个人，是所有人算在一起。"
         ],
-        "note": "另一个意思是“人道、人性”。这里是“全人类”。",
+        "note": "另一个意思是“人道、人性”。这里是“全人类”。 原句：“What you are now witnessing is footage never before seen by civilized humanity,”（您现在看到的，是文明人类从未见过的影像，）",
         "chunks": [
           [
             "all of humanity",
             "全人类"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s02.mp3"
       },
       {
         "w": "civilized",
@@ -1364,13 +1454,14 @@
           "🎬",
           "1930 年代新闻片的口气，把“我们这边的人”叫做 civilized。"
         ],
-        "note": "拿 civilized 评价现在的真实人群，听起来会傲慢。这里只学新闻片里的用法，不要拿它说别人落后。",
+        "note": "拿 civilized 评价现在的真实人群，听起来会傲慢。这里只学新闻片里的用法，不要拿它说别人落后。 原句：“What you are now witnessing is footage never before seen by civilized humanity,”（您现在看到的，是文明人类从未见过的影像，）",
         "chunks": [
           [
             "civilized humanity",
             "文明社会的人类"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s02.mp3"
       },
       {
         "w": "footage",
@@ -1385,13 +1476,14 @@
           "🎥",
           "已经拍下来的画面，可以在新闻片里播。"
         ],
-        "note": "footage 通常不可数，不说 footages。",
+        "note": "footage 通常不可数，不说 footages。 原句：“What you are now witnessing is footage never before seen by civilized humanity,”（您现在看到的，是文明人类从未见过的影像，）",
         "chunks": [
           [
             "newsreel footage",
             "新闻片画面"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s02.mp3"
       },
       {
         "w": "witness",
@@ -1406,13 +1498,14 @@
           "👁️",
           "不是听说，是自己的眼睛正在看着它发生。"
         ],
-        "note": "witness 也可以是名词：目击者。新闻片里是动词 witnessing。",
+        "note": "witness 也可以是名词：目击者。新闻片里是动词 witnessing。 原句：“What you are now witnessing is footage never before seen by civilized humanity,”（您现在看到的，是文明人类从未见过的影像，）",
         "chunks": [
           [
             "witness something",
             "亲眼看见某事"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s02.mp3"
       },
       {
         "w": "spotlight",
@@ -1436,7 +1529,9 @@
             "Spotlight on Adventure",
             "探险专题"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s01.mp3",
+        "note": "原句：“Movietown News presents: Spotlight on Adventure.”（《电影城新闻》为您呈现：冒险聚光灯。）"
       },
       {
         "w": "present",
@@ -1451,13 +1546,14 @@
           "📺",
           "片头把节目交到观众面前：现在开始播这个。"
         ],
-        "note": "动词 present 重音在第二音节 /prɪˈzent/：播出、介绍、颁发。名词“礼物”和形容词“在场的”是 /ˈpreznt/，重音在第一音节。",
+        "note": "动词 present 重音在第二音节 /prɪˈzent/：播出、介绍、颁发。名词“礼物”和形容词“在场的”是 /ˈpreznt/，重音在第一音节。 原句：“Movietown News presents: Spotlight on Adventure.”（《电影城新闻》为您呈现：冒险聚光灯。）",
         "chunks": [
           [
             "present a show",
             "播出一档节目"
           ]
-        ]
+        ],
+        "oa": "audio/up_d01o/s01.mp3"
       }
     ]
   },

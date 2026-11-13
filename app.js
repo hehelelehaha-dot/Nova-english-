@@ -206,7 +206,8 @@ const UP_DEF=[
  {id:"up_flash",like:"flash",name:"单词卡",desc:""},
  {id:"up_ee",like:"ee",name:"英英解释",desc:""},
  {id:"up_wf",like:"wf",name:"词形练习",desc:"名词 · 动词 · 形容词 · 副词"},
- {id:"up_game",like:"game",name:"小游戏",desc:"拼写 · 拼图 · 填词"}];
+ {id:"up_game",like:"game",name:"小游戏",desc:"拼写 · 拼图 · 填词"},
+ {id:"up_dictation",like:"dictation",name:"句子听写",desc:""}];
 let UP=null;
 async function loadUp(){if(UP)return UP;try{UP=await getJSON("up.json")}catch(e){UP={days:[],wfMap:[]}}if(!UP.days)UP.days=[];if(!UP.wfMap)UP.wfMap=[];return UP}
 // 介词 (internal id prep) is the top fold, above Naval. content/prepositions.json is a
@@ -397,7 +398,7 @@ async function showPrep(sid,iid){const sec=prepSections().find(s=>String(s.id)==
   card.onclick=ev=>{if(ev.target.closest(".spk"))return;flip()};card.onkeydown=ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();flip()}}})}
 const upSec=id=>UP_DEF.find(s=>s.id==id);
 function upDays(){return (UP&&UP.days)||[]}
-function upHit(id){const m=/^(up_d\d+)_(flash|ee)$/.exec(id||"");if(!m)return null;const day=upDays().find(d=>d.id===m[1]);if(!day)return null;return {it:{id,title:day.title,sub:day.sub||"",data:day.data,upPart:m[2]},sec:m[2]==="flash"?"up_flash":"up_ee"}}
+function upHit(id){const m=/^(up_d\d+)_(flash|ee|dt)$/.exec(id||"");if(!m)return null;const day=upDays().find(d=>d.id===m[1]);if(!day)return null;if(m[2]==="dt")return day.dt?{it:{id,base:id,title:day.title,sub:day.sub||"",data:day.dt,dictation:1},sec:"up_dictation"}:null;return {it:{id,title:day.title,sub:day.sub||"",data:day.data,upPart:m[2]},sec:m[2]==="flash"?"up_flash":"up_ee"}}
 function syncPaper(){const h=(location.hash||"#/").slice(1).split("/");const a=h[1]||"",b=h[2]||"";let p="";
  if((a==="c"||a==="i")&&(b.startsWith("luca")||b.startsWith("dt_luca")))p="luca";
  else if((a==="c"||a==="i")&&b.startsWith("up_"))p="up";
@@ -409,10 +410,10 @@ function syncPaper(){const h=(location.hash||"#/").slice(1).split("/");const a=h
  else if(a==="i"&&b)p="naval";
  else if(a==="wf"||a==="g")p="naval";
  if(p)document.documentElement.dataset.paper=p;else delete document.documentElement.dataset.paper}
-async function showUp(s){if(s.like=="game")return showGames("up");if(s.like=="wf")return showWFs("up");setHeader(secT(s.id,s.name),true);const days=upDays();
+async function showUp(s){if(s.like=="game")return showGames("up");if(s.like=="wf")return showWFs("up");setHeader(secT(s.id,s.name),true);const days=upDays().filter(d=>s.like!="dictation"||d.dt);
  if(!days.length){V.innerHTML=`<p class="tip">飞屋环游记 · ${esc(s.name)}</p><div class="done">这一集还没写好</div>`;return}
- V.innerHTML=`<div class="list">${days.map((d,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(d.title)}<span class="sb">${esc(d.sub||"")}</span></span></button></div>`).join("")}</div>`;
- V.querySelectorAll("[data-k]").forEach(b=>{const d=days[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+d.id+"_"+(s.like=="flash"?"flash":"ee")}})}
+ V.innerHTML=`<div class="list">${days.map((d,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(d.title)}<span class="sb">${esc(s.like=="dictation"&&d.dtSub||d.sub||"")}</span></span></button></div>`).join("")}</div>`;
+ V.querySelectorAll("[data-k]").forEach(b=>{const d=days[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+d.id+"_"+(s.like=="flash"?"flash":s.like=="dictation"?"dt":"ee")}})}
 function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
@@ -620,7 +621,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const luca=LUCA_DEF.map(s=>{const src=byId[s.like]||{};
   const n=s.like=="wf"||s.like=="game"?lucaReading().filter(it=>it.vocab).length:lucaItemsFor(s).length;
   return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.desc||(s.typeName!==s.name?s.typeName:""),count:n+" 项",hash:s.like=="game"?"#/g/luca":"#/c/"+s.id,iconKey:s.like=="ee"?"longaudio":s.like=="game"?"g":s.like})}).join("");
- const upIcon={flash:"🗂️",ee:"🎧",wf:"🔤",game:"🎮"},upKey={flash:"flash",ee:"longaudio",wf:"wf",game:"g"},upN=upDays().length;
+ const upIcon={flash:"🗂️",ee:"🎧",wf:"🔤",game:"🎮",dictation:"✍️"},upKey={flash:"flash",ee:"longaudio",wf:"wf",game:"g",dictation:"dictation"},upN=upDays().length;
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const elioIcon={reading:"📖",flash:"🗂️",dictation:"✍️"};
  const elio=ELIO_DEF.map(s=>{const it=elioItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:elioIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
