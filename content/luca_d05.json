@@ -140,7 +140,10 @@
           "Swimming near the boats is dangerous."
         ],
         "note": "Day 5 原句：“Isn't it dangerous?”（这不危险吗）",
-        "si": 2
+        "si": 2,
+        "a": [
+          "audio/luca_wv/d05_w01.mp3"
+        ]
       },
       {
         "w": "gravity",
@@ -152,7 +155,10 @@
           "Gravity pulls the ball down."
         ],
         "note": "Day 5 原句：“Gravity! Also known as falling!”（重力！也叫往下掉）",
-        "si": 4
+        "si": 4,
+        "a": [
+          "audio/luca_wv/d05_w02.mp3"
+        ]
       },
       {
         "w": "definitely",
@@ -164,7 +170,10 @@
           "You should definitely see the town above the water."
         ],
         "note": "Day 5 原句：“Don't look at it. Just kidding. Definitely look at it.”（别看。开玩笑的。一定要看）",
-        "si": 5
+        "si": 5,
+        "a": [
+          "audio/luca_wv/d05_w03.mp3"
+        ]
       },
       {
         "w": "collecting",
@@ -176,7 +185,10 @@
           "She has been collecting shells since she was small."
         ],
         "note": "Day 5 原句：“As you can see, I've been collecting for a long time, so ask me anything.”（你看，我收集很久了，随便问）",
-        "si": 7
+        "si": 7,
+        "a": [
+          "audio/luca_wv/d05_w04.mp3"
+        ]
       },
       {
         "w": "unfortunately",
@@ -188,7 +200,10 @@
           "The boat is fast. Unfortunately, it is also loud."
         ],
         "note": "Day 5 原句：“It's broken, unfortunately.”（可惜，它坏了）",
-        "si": 9
+        "si": 9,
+        "a": [
+          "audio/luca_wv/d05_w05.mp3"
+        ]
       }
     ]
   },

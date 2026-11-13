@@ -25,7 +25,10 @@
             "退出（某承诺）"
           ]
         ],
-        "oa": "audio/up_d01o/s34.mp3"
+        "oa": "audio/up_d01o/s34.mp3",
+        "a": [
+          "audio/up_wv/w01.mp3"
+        ]
       },
       {
         "w": "cross",
@@ -47,7 +50,10 @@
             "在胸口画十字发誓"
           ]
         ],
-        "oa": "audio/up_d01o/s30.mp3"
+        "oa": "audio/up_d01o/s30.mp3",
+        "a": [
+          "audio/up_wv/w02.mp3"
+        ]
       },
       {
         "w": "blimp",
@@ -69,7 +75,10 @@
             "坐飞艇"
           ]
         ],
-        "oa": "audio/up_d01o/s33.mp3"
+        "oa": "audio/up_d01o/s33.mp3",
+        "a": [
+          "audio/up_wv/w03.mp3"
+        ]
       },
       {
         "w": "clubhouse",
@@ -91,7 +100,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s32.mp3",
-        "note": "原句：“I'm gonna move my clubhouse there and park it right next to the falls.”（我要把我的俱乐部小屋搬到那儿，就放在瀑布旁边。）"
+        "note": "原句：“I'm gonna move my clubhouse there and park it right next to the falls.”（我要把我的俱乐部小屋搬到那儿，就放在瀑布旁边。）",
+        "a": [
+          "audio/up_wv/w04.mp3"
+        ]
       },
       {
         "w": "out of",
@@ -117,7 +129,10 @@
             "从……里撕下"
           ]
         ],
-        "oa": "audio/up_d01o/s22.mp3"
+        "oa": "audio/up_d01o/s22.mp3",
+        "a": [
+          "audio/up_wv/w05.mp3"
+        ]
       },
       {
         "w": "ripped",
@@ -139,7 +154,10 @@
             "从……撕下"
           ]
         ],
-        "oa": "audio/up_d01o/s31.mp3"
+        "oa": "audio/up_d01o/s31.mp3",
+        "a": [
+          "audio/up_wv/w06.mp3"
+        ]
       },
       {
         "w": "swear",
@@ -161,7 +179,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s29.mp3",
-        "note": "原句：“You'll have to swear you will not tell anyone.”（你得发誓不告诉任何人。）"
+        "note": "原句：“You'll have to swear you will not tell anyone.”（你得发誓不告诉任何人。）",
+        "a": [
+          "audio/up_wv/w07.mp3"
+        ]
       },
       {
         "w": "cheer up",
@@ -183,7 +204,10 @@
             "把某人哄高兴"
           ]
         ],
-        "oa": "audio/up_d01o/s28.mp3"
+        "oa": "audio/up_d01o/s28.mp3",
+        "a": [
+          "audio/up_wv/w08.mp3"
+        ]
       },
       {
         "w": "aboard",
@@ -205,7 +229,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s27.mp3",
-        "note": "原句：“All right, you're in. Welcome aboard.”（好吧，你入会了。欢迎加入。）"
+        "note": "原句：“All right, you're in. Welcome aboard.”（好吧，你入会了。欢迎加入。）",
+        "a": [
+          "audio/up_wv/w09.mp3"
+        ]
       },
       {
         "w": "goggles",
@@ -227,7 +254,10 @@
             "飞行护目镜"
           ]
         ],
-        "oa": "audio/up_d01o/s26.mp3"
+        "oa": "audio/up_d01o/s26.mp3",
+        "a": [
+          "audio/up_wv/w10.mp3"
+        ]
       },
       {
         "w": "helmet",
@@ -249,7 +279,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s26.mp3",
-        "note": "原句：“Only explorers get in here, not just any kid off the street with a helmet and a pair of goggles.”（只有探险家才能进来，不是随便哪个戴着头盔和护目镜的街头小孩都行。）"
+        "note": "原句：“Only explorers get in here, not just any kid off the street with a helmet and a pair of goggles.”（只有探险家才能进来，不是随便哪个戴着头盔和护目镜的街头小孩都行。）",
+        "a": [
+          "audio/up_wv/w11.mp3"
+        ]
       },
       {
         "w": "exclusive",
@@ -271,7 +304,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s25.mp3",
-        "note": "原句：“Don't you know this is an exclusive club?”（你不知道这是个专属俱乐部吗？）"
+        "note": "原句：“Don't you know this is an exclusive club?”（你不知道这是个专属俱乐部吗？）",
+        "a": [
+          "audio/up_wv/w12.mp3"
+        ]
       },
       {
         "w": "hail",
@@ -293,7 +329,10 @@
             "闪电和冰雹"
           ]
         ],
-        "oa": "audio/up_d01o/s24.mp3"
+        "oa": "audio/up_d01o/s24.mp3",
+        "a": [
+          "audio/up_wv/w13.mp3"
+        ]
       },
       {
         "w": "storm",
@@ -315,7 +354,10 @@
             "暴风雨要来了"
           ]
         ],
-        "oa": "audio/up_d01o/s24.mp3"
+        "oa": "audio/up_d01o/s24.mp3",
+        "a": [
+          "audio/up_wv/w14.mp3"
+        ]
       },
       {
         "w": "weather",
@@ -337,7 +379,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s23.mp3",
-        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）"
+        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）",
+        "a": [
+          "audio/up_wv/w15.mp3"
+        ]
       },
       {
         "w": "unlimited",
@@ -359,7 +404,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s23.mp3",
-        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）"
+        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）",
+        "a": [
+          "audio/up_wv/w16.mp3"
+        ]
       },
       {
         "w": "visibility",
@@ -381,7 +429,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s23.mp3",
-        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）"
+        "note": "原句：“Visibility unlimited. Enter the weather in the logbook.”（能见度无限。把天气记进航海日志。）",
+        "a": [
+          "audio/up_wv/w17.mp3"
+        ]
       },
       {
         "w": "rudder",
@@ -403,7 +454,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s21.mp3",
-        "note": "原句：“Rudders 18 degrees towards the south.”（方向舵向南转 18 度。）"
+        "note": "原句：“Rudders 18 degrees towards the south.”（方向舵向南转 18 度。）",
+        "a": [
+          "audio/up_wv/w18.mp3"
+        ]
       },
       {
         "w": "starboard",
@@ -425,7 +479,10 @@
             "右满舵"
           ]
         ],
-        "oa": "audio/up_d01o/s20.mp3"
+        "oa": "audio/up_d01o/s20.mp3",
+        "a": [
+          "audio/up_wv/w19.mp3"
+        ]
       },
       {
         "w": "hurdle",
@@ -447,7 +504,10 @@
             "跃过一座山"
           ]
         ],
-        "oa": "audio/up_d01o/s19.mp3"
+        "oa": "audio/up_d01o/s19.mp3",
+        "a": [
+          "audio/up_wv/w20.mp3"
+        ]
       },
       {
         "w": "dirigible",
@@ -469,7 +529,10 @@
             "降落飞艇"
           ]
         ],
-        "oa": "audio/up_d01o/s18.mp3"
+        "oa": "audio/up_d01o/s18.mp3",
+        "a": [
+          "audio/up_wv/w21.mp3"
+        ]
       },
       {
         "w": "famous",
@@ -491,7 +554,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s18.mp3",
-        "note": "原句：“Here's Charles Muntz piloting his famous dirigible.”（这是查尔斯·蒙兹在驾驶他那艘著名的飞艇。）"
+        "note": "原句：“Here's Charles Muntz piloting his famous dirigible.”（这是查尔斯·蒙兹在驾驶他那艘著名的飞艇。）",
+        "a": [
+          "audio/up_wv/w22.mp3"
+        ]
       },
       {
         "w": "piloting",
@@ -513,7 +579,10 @@
             "驾驶飞艇"
           ]
         ],
-        "oa": "audio/up_d01o/s18.mp3"
+        "oa": "audio/up_d01o/s18.mp3",
+        "a": [
+          "audio/up_wv/w23.mp3"
+        ]
       },
       {
         "w": "beast",
@@ -535,7 +604,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s17.mp3",
-        "note": "原句：“Humiliated, Muntz vows a return to Paradise Falls and promises to capture the beast alive!”（蒙兹受了羞辱，发誓要重返天堂瀑布，并承诺要活捉那头怪兽！）"
+        "note": "原句：“Humiliated, Muntz vows a return to Paradise Falls and promises to capture the beast alive!”（蒙兹受了羞辱，发誓要重返天堂瀑布，并承诺要活捉那头怪兽！）",
+        "a": [
+          "audio/up_wv/w24.mp3"
+        ]
       },
       {
         "w": "capture",
@@ -557,7 +629,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s17.mp3",
-        "note": "原句：“Humiliated, Muntz vows a return to Paradise Falls and promises to capture the beast alive!”（蒙兹受了羞辱，发誓要重返天堂瀑布，并承诺要活捉那头怪兽！）"
+        "note": "原句：“Humiliated, Muntz vows a return to Paradise Falls and promises to capture the beast alive!”（蒙兹受了羞辱，发誓要重返天堂瀑布，并承诺要活捉那头怪兽！）",
+        "a": [
+          "audio/up_wv/w25.mp3"
+        ]
       },
       {
         "w": "vow",
@@ -579,7 +654,10 @@
             "发誓要回去"
           ]
         ],
-        "oa": "audio/up_d01o/s17.mp3"
+        "oa": "audio/up_d01o/s17.mp3",
+        "a": [
+          "audio/up_wv/w26.mp3"
+        ]
       },
       {
         "w": "strip",
@@ -601,7 +679,10 @@
             "剥夺某人的"
           ]
         ],
-        "oa": "audio/up_d01o/s16.mp3"
+        "oa": "audio/up_d01o/s16.mp3",
+        "a": [
+          "audio/up_wv/w27.mp3"
+        ]
       },
       {
         "w": "organization",
@@ -623,7 +704,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s16.mp3",
-        "note": "原句：“The organization strips Muntz of his membership.”（该组织取消了蒙兹的会员资格。）"
+        "note": "原句：“The organization strips Muntz of his membership.”（该组织取消了蒙兹的会员资格。）",
+        "a": [
+          "audio/up_wv/w28.mp3"
+        ]
       },
       {
         "w": "skeleton",
@@ -645,7 +729,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s15.mp3",
-        "note": "原句：“The National Explorers Society accuses Muntz of fabricating the skeleton.”（国家探险家协会指控蒙兹伪造了这副骨架。）"
+        "note": "原句：“The National Explorers Society accuses Muntz of fabricating the skeleton.”（国家探险家协会指控蒙兹伪造了这副骨架。）",
+        "a": [
+          "audio/up_wv/w29.mp3"
+        ]
       },
       {
         "w": "fabricate",
@@ -667,7 +754,10 @@
             "伪造一具骨架"
           ]
         ],
-        "oa": "audio/up_d01o/s15.mp3"
+        "oa": "audio/up_d01o/s15.mp3",
+        "a": [
+          "audio/up_wv/w30.mp3"
+        ]
       },
       {
         "w": "accuse",
@@ -689,7 +779,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s15.mp3",
-        "note": "原句：“The National Explorers Society accuses Muntz of fabricating the skeleton.”（国家探险家协会指控蒙兹伪造了这副骨架。）"
+        "note": "原句：“The National Explorers Society accuses Muntz of fabricating the skeleton.”（国家探险家协会指控蒙兹伪造了这副骨架。）",
+        "a": [
+          "audio/up_wv/w31.mp3"
+        ]
       },
       {
         "w": "foul",
@@ -711,7 +804,10 @@
             "高喊不公 / 犯规"
           ]
         ],
-        "oa": "audio/up_d01o/s14.mp3"
+        "oa": "audio/up_d01o/s14.mp3",
+        "a": [
+          "audio/up_wv/w32.mp3"
+        ]
       },
       {
         "w": "scientist",
@@ -733,7 +829,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s14.mp3",
-        "note": "原句：“But what's this? Scientists cry foul.”（可这是怎么回事？科学家们大喊不公。）"
+        "note": "原句：“But what's this? Scientists cry foul.”（可这是怎么回事？科学家们大喊不公。）",
+        "a": [
+          "audio/up_wv/w33.mp3"
+        ]
       },
       {
         "w": "swell",
@@ -755,7 +854,10 @@
             "一只很棒的怪物"
           ]
         ],
-        "oa": "audio/up_d01o/s13.mp3"
+        "oa": "audio/up_d01o/s13.mp3",
+        "a": [
+          "audio/up_wv/w34.mp3"
+        ]
       },
       {
         "w": "golly",
@@ -777,7 +879,10 @@
             "天哪"
           ]
         ],
-        "oa": "audio/up_d01o/s13.mp3"
+        "oa": "audio/up_d01o/s13.mp3",
+        "a": [
+          "audio/up_wv/w35.mp3"
+        ]
       },
       {
         "w": "bee's knees",
@@ -799,7 +904,10 @@
             "最棒的"
           ]
         ],
-        "oa": "audio/up_d01o/s12.mp3"
+        "oa": "audio/up_d01o/s12.mp3",
+        "a": [
+          "audio/up_wv/w36.mp3"
+        ]
       },
       {
         "w": "consider",
@@ -821,7 +929,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s12.mp3",
-        "note": "原句：“And, Jiminy Cricket, do the locals consider Muntz the bee's knees!”（天哪，当地人可真觉得蒙兹棒极了！）"
+        "note": "原句：“And, Jiminy Cricket, do the locals consider Muntz the bee's knees!”（天哪，当地人可真觉得蒙兹棒极了！）",
+        "a": [
+          "audio/up_wv/w37.mp3"
+        ]
       },
       {
         "w": "walker",
@@ -847,7 +958,10 @@
             "用助行器"
           ]
         ],
-        "oa": "audio/up_d01o/s11.mp3"
+        "oa": "audio/up_d01o/s11.mp3",
+        "a": [
+          "audio/up_wv/w38.mp3"
+        ]
       },
       {
         "w": "canine",
@@ -869,7 +983,10 @@
             "让狗舒服"
           ]
         ],
-        "oa": "audio/up_d01o/s11.mp3"
+        "oa": "audio/up_d01o/s11.mp3",
+        "a": [
+          "audio/up_wv/w39.mp3"
+        ]
       },
       {
         "w": "mechanical",
@@ -891,7 +1008,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s11.mp3",
-        "note": "原句：“complete with doggy bath and mechanical canine walker.”（还配有狗狗浴池和机械遛狗机。）"
+        "note": "原句：“complete with doggy bath and mechanical canine walker.”（还配有狗狗浴池和机械遛狗机。）",
+        "a": [
+          "audio/up_wv/w40.mp3"
+        ]
       },
       {
         "w": "bath",
@@ -917,7 +1037,10 @@
             "洗个澡"
           ]
         ],
-        "oa": "audio/up_d01o/s11.mp3"
+        "oa": "audio/up_d01o/s11.mp3",
+        "a": [
+          "audio/up_wv/w41.mp3"
+        ]
       },
       {
         "w": "complete with",
@@ -939,7 +1062,10 @@
             "配有"
           ]
         ],
-        "oa": "audio/up_d01o/s11.mp3"
+        "oa": "audio/up_d01o/s11.mp3",
+        "a": [
+          "audio/up_wv/w42.mp3"
+        ]
       },
       {
         "w": "palace",
@@ -961,7 +1087,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s10.mp3",
-        "note": "原句：“It's a veritable floating palace in the sky,”（它简直就是一座空中漂浮的宫殿，）"
+        "note": "原句：“It's a veritable floating palace in the sky,”（它简直就是一座空中漂浮的宫殿，）",
+        "a": [
+          "audio/up_wv/w43.mp3"
+        ]
       },
       {
         "w": "floating",
@@ -983,7 +1112,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s10.mp3",
-        "note": "原句：“It's a veritable floating palace in the sky,”（它简直就是一座空中漂浮的宫殿，）"
+        "note": "原句：“It's a veritable floating palace in the sky,”（它简直就是一座空中漂浮的宫殿，）",
+        "a": [
+          "audio/up_wv/w44.mp3"
+        ]
       },
       {
         "w": "veritable",
@@ -1005,7 +1137,10 @@
             "一座名副其实的宫殿"
           ]
         ],
-        "oa": "audio/up_d01o/s10.mp3"
+        "oa": "audio/up_d01o/s10.mp3",
+        "a": [
+          "audio/up_wv/w45.mp3"
+        ]
       },
       {
         "w": "comfort",
@@ -1031,7 +1166,10 @@
             "狗的舒适"
           ]
         ],
-        "oa": "audio/up_d01o/s09.mp3"
+        "oa": "audio/up_d01o/s09.mp3",
+        "a": [
+          "audio/up_wv/w46.mp3"
+        ]
       },
       {
         "w": "craft",
@@ -1053,7 +1191,10 @@
             "轻于空气的飞船"
           ]
         ],
-        "oa": "audio/up_d01o/s09.mp3"
+        "oa": "audio/up_d01o/s09.mp3",
+        "a": [
+          "audio/up_wv/w47.mp3"
+        ]
       },
       {
         "w": "conceive",
@@ -1075,7 +1216,10 @@
             "构想一艘飞船"
           ]
         ],
-        "oa": "audio/up_d01o/s09.mp3"
+        "oa": "audio/up_d01o/s09.mp3",
+        "a": [
+          "audio/up_wv/w48.mp3"
+        ]
       },
       {
         "w": "faithful",
@@ -1097,7 +1241,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s08.mp3",
-        "note": "原句：“Never apart from his faithful dogs,”（他从不离开他忠诚的狗狗们，）"
+        "note": "原句：“Never apart from his faithful dogs,”（他从不离开他忠诚的狗狗们，）",
+        "a": [
+          "audio/up_wv/w49.mp3"
+        ]
       },
       {
         "w": "apart from",
@@ -1123,7 +1270,10 @@
             "除了"
           ]
         ],
-        "oa": "audio/up_d01o/s08.mp3"
+        "oa": "audio/up_d01o/s08.mp3",
+        "a": [
+          "audio/up_wv/w50.mp3"
+        ]
       },
       {
         "w": "wagon",
@@ -1145,7 +1295,10 @@
             "把货车排成一排"
           ]
         ],
-        "oa": "audio/up_d01o/s07.mp3"
+        "oa": "audio/up_d01o/s07.mp3",
+        "a": [
+          "audio/up_wv/w51.mp3"
+        ]
       },
       {
         "w": "paddy",
@@ -1167,7 +1320,10 @@
             "警车（旧称）"
           ]
         ],
-        "oa": "audio/up_d01o/s07.mp3"
+        "oa": "audio/up_d01o/s07.mp3",
+        "a": [
+          "audio/up_wv/w52.mp3"
+        ]
       },
       {
         "w": "prohibition",
@@ -1189,7 +1345,10 @@
             "在禁酒令时期"
           ]
         ],
-        "oa": "audio/up_d01o/s07.mp3"
+        "oa": "audio/up_d01o/s07.mp3",
+        "a": [
+          "audio/up_wv/w53.mp3"
+        ]
       },
       {
         "w": "expedition",
@@ -1211,7 +1370,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s06.mp3",
-        "note": "原句：“completing a year-long expedition to the lost world.”（完成了前往失落世界、为期一年的探险。）"
+        "note": "原句：“completing a year-long expedition to the lost world.”（完成了前往失落世界、为期一年的探险。）",
+        "a": [
+          "audio/up_wv/w54.mp3"
+        ]
       },
       {
         "w": "complete",
@@ -1233,7 +1395,10 @@
             "完成一次远征"
           ]
         ],
-        "oa": "audio/up_d01o/s06.mp3"
+        "oa": "audio/up_d01o/s06.mp3",
+        "a": [
+          "audio/up_wv/w55.mp3"
+        ]
       },
       {
         "w": "spirit",
@@ -1259,7 +1424,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s05.mp3",
-        "note": "原句：“The beloved explorer lands his dirigible, the Spirit of Adventure,”（这位深受爱戴的探险家驾着他的飞艇“冒险精神号”降落，）"
+        "note": "原句：“The beloved explorer lands his dirigible, the Spirit of Adventure,”（这位深受爱戴的探险家驾着他的飞艇“冒险精神号”降落，）",
+        "a": [
+          "audio/up_wv/w56.mp3"
+        ]
       },
       {
         "w": "beloved",
@@ -1281,7 +1449,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s05.mp3",
-        "note": "原句：“The beloved explorer lands his dirigible, the Spirit of Adventure,”（这位深受爱戴的探险家驾着他的飞艇“冒险精神号”降落，）"
+        "note": "原句：“The beloved explorer lands his dirigible, the Spirit of Adventure,”（这位深受爱戴的探险家驾着他的飞艇“冒险精神号”降落，）",
+        "a": [
+          "audio/up_wv/w57.mp3"
+        ]
       },
       {
         "w": "summit",
@@ -1303,7 +1474,10 @@
             "山顶"
           ]
         ],
-        "oa": "audio/up_d01o/s04.mp3"
+        "oa": "audio/up_d01o/s04.mp3",
+        "a": [
+          "audio/up_wv/w58.mp3"
+        ]
       },
       {
         "w": "inhospitable",
@@ -1325,7 +1499,10 @@
             "不宜停留的山顶"
           ]
         ],
-        "oa": "audio/up_d01o/s04.mp3"
+        "oa": "audio/up_d01o/s04.mp3",
+        "a": [
+          "audio/up_wv/w59.mp3"
+        ]
       },
       {
         "w": "dare",
@@ -1351,7 +1528,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s04.mp3",
-        "note": "原句：“Who would dare set foot on this inhospitable summit?”（谁敢踏上这座荒凉险恶的山顶？）"
+        "note": "原句：“Who would dare set foot on this inhospitable summit?”（谁敢踏上这座荒凉险恶的山顶？）",
+        "a": [
+          "audio/up_wv/w60.mp3"
+        ]
       },
       {
         "w": "sport",
@@ -1373,7 +1553,10 @@
             "长着各种动植物"
           ]
         ],
-        "oa": "audio/up_d01o/s03.mp3"
+        "oa": "audio/up_d01o/s03.mp3",
+        "a": [
+          "audio/up_wv/w61.mp3"
+        ]
       },
       {
         "w": "lurking",
@@ -1395,7 +1578,10 @@
             "潜伏在阴影里"
           ]
         ],
-        "oa": "audio/up_d01o/s03.mp3"
+        "oa": "audio/up_d01o/s03.mp3",
+        "a": [
+          "audio/up_wv/w62.mp3"
+        ]
       },
       {
         "w": "majestic",
@@ -1417,7 +1603,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s03.mp3",
-        "note": "原句：“Lurking in the shadow of majestic Paradise Falls, it sports plants and animals undiscovered by science.”（它隐藏在雄伟的天堂瀑布的阴影里，拥有科学尚未发现的植物和动物。）"
+        "note": "原句：“Lurking in the shadow of majestic Paradise Falls, it sports plants and animals undiscovered by science.”（它隐藏在雄伟的天堂瀑布的阴影里，拥有科学尚未发现的植物和动物。）",
+        "a": [
+          "audio/up_wv/w63.mp3"
+        ]
       },
       {
         "w": "humanity",
@@ -1439,7 +1628,10 @@
             "全人类"
           ]
         ],
-        "oa": "audio/up_d01o/s02.mp3"
+        "oa": "audio/up_d01o/s02.mp3",
+        "a": [
+          "audio/up_wv/w64.mp3"
+        ]
       },
       {
         "w": "civilized",
@@ -1461,7 +1653,10 @@
             "文明社会的人类"
           ]
         ],
-        "oa": "audio/up_d01o/s02.mp3"
+        "oa": "audio/up_d01o/s02.mp3",
+        "a": [
+          "audio/up_wv/w65.mp3"
+        ]
       },
       {
         "w": "footage",
@@ -1483,7 +1678,10 @@
             "新闻片画面"
           ]
         ],
-        "oa": "audio/up_d01o/s02.mp3"
+        "oa": "audio/up_d01o/s02.mp3",
+        "a": [
+          "audio/up_wv/w66.mp3"
+        ]
       },
       {
         "w": "witness",
@@ -1505,7 +1703,10 @@
             "亲眼看见某事"
           ]
         ],
-        "oa": "audio/up_d01o/s02.mp3"
+        "oa": "audio/up_d01o/s02.mp3",
+        "a": [
+          "audio/up_wv/w67.mp3"
+        ]
       },
       {
         "w": "spotlight",
@@ -1531,7 +1732,10 @@
           ]
         ],
         "oa": "audio/up_d01o/s01.mp3",
-        "note": "原句：“Movietown News presents: Spotlight on Adventure.”（《电影城新闻》为您呈现：冒险聚光灯。）"
+        "note": "原句：“Movietown News presents: Spotlight on Adventure.”（《电影城新闻》为您呈现：冒险聚光灯。）",
+        "a": [
+          "audio/up_wv/w68.mp3"
+        ]
       },
       {
         "w": "present",
@@ -1553,7 +1757,10 @@
             "播出一档节目"
           ]
         ],
-        "oa": "audio/up_d01o/s01.mp3"
+        "oa": "audio/up_d01o/s01.mp3",
+        "a": [
+          "audio/up_wv/w69.mp3"
+        ]
       }
     ]
   },
