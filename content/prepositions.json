@@ -14,5 +14,21 @@
         "data": "prep_out_lines.json"
       }
     ]
+  },
+  {
+    "id": "as",
+    "title": "as",
+    "items": [
+      {
+        "id": "essence",
+        "title": "介词的本质",
+        "data": "uploads/as-essence-full.md"
+      },
+      {
+        "id": "lines",
+        "title": "原声例句",
+        "data": "prep_as_lines.json"
+      }
+    ]
   }
 ]

@@ -213,6 +213,7 @@ async function loadUp(){if(UP)return UP;try{UP=await getJSON("up.json")}catch(e)
 // list of 小板块 ({id, title, items:[{id, title, data}]}). A data file is markdown
 // (uploads/out-essence-full.md for 介词的本质) or a json line list
 // (content/prep_out_lines.json for 原声例句). Another 小板块 is another list entry.
+// A line file may be {senses:{"1":"heading"}, lines:[...]} so a 小板块 like as brings its own sense headings.
 let PREP=null;
 async function loadPrep(){if(PREP)return PREP;try{PREP=await getJSON("prepositions.json")}catch(e){PREP=[]}if(!Array.isArray(PREP))PREP=[];return PREP}
 // Elio (internal id elio): a home fold next to 夏日友晴天, with two boards.
@@ -329,19 +330,22 @@ function prepLinesCSS(){return `<style>
 .prep-line.cur{outline:3px solid #f5c518;outline-offset:2px}
 </style>`}
 function prepLineCard(r){const form=String(r.form||"").trim(),tag=form?`<span class="lab">${esc(form)}</span>`:"";
- return `<div class="card prep-line" aria-expanded="false"><div class="prep-top"><span class="prep-movie">${esc(r.movie||"")}</span>${tag}<button type="button" class="pjump" aria-label="从这句开始连播">▶ 从这里听</button><button type="button" class="fcorig" data-oa="${esc(prepClip(r))}" aria-label="播放原声">🎬 原声</button></div><div class="prep-body"><div class="prep-face prep-zh">${esc(r.zh||"")}</div><div class="prep-face prep-en">${esc(r.en||"")}</div><div class="prep-ans">看答案</div></div></div>`}
-function prepLinesPage(rows){const list=Array.isArray(rows)?rows:[];const senses=[];
+ // A line with no original clip (no audio, no slug) gets an English TTS ▶ instead of 🎬, and 连播 skips it.
+ const oa=prepClip(r),btns=oa?`<button type="button" class="pjump" aria-label="从这句开始连播">▶ 从这里听</button><button type="button" class="fcorig" data-oa="${esc(oa)}" aria-label="播放原声">🎬 原声</button>`:`<button type="button" class="spk" data-say="${esc(r.en||"")}" aria-label="朗读" style="margin-left:auto">▶</button>`;
+ return `<div class="card prep-line" aria-expanded="false"><div class="prep-top"><span class="prep-movie">${esc(r.movie||"")}</span>${tag}${btns}</div><div class="prep-body"><div class="prep-face prep-zh">${esc(r.zh||"")}</div><div class="prep-face prep-en">${esc(r.en||"")}</div><div class="prep-ans">看答案</div></div></div>`}
+function prepLinesPage(rows,names){const list=Array.isArray(rows)?rows:[];const senses=[];const sname=s=>(names&&typeof names=="object"&&names[s])||PREP_OUT_SENSE[s]||String(s);
  for(const r of list){const s=+r.sense;if(s>0&&senses.indexOf(s)<0)senses.push(s)}
  senses.sort((a,b)=>a-b);let body="";const used=new Set();
  for(const s of senses){const items=list.filter(r=>+r.sense===s);if(!items.length)continue;items.forEach(r=>used.add(r));
-  body+=`<h3 class="sec">${esc(PREP_OUT_SENSE[s]||String(s))}</h3>`+items.map(prepLineCard).join("")}
+  body+=`<h3 class="sec">${esc(sname(s))}</h3>`+items.map(prepLineCard).join("")}
  const rest=list.filter(r=>!used.has(r));if(rest.length)body+=rest.map(prepLineCard).join("");
  if(!body)body=`<div class="done">这一页还没准备好</div>`;
  return `${prepLinesCSS()}<div class="prep-play"><div class="bar rdbar"><button type="button" id="rnggo" class="org">原声连播</button><button type="button" id="loop">单句循环</button><button type="button" id="lgap">停顿 0秒</button></div><div class="bar fcdir"><button type="button" id="pCE" class="on">中→英</button><button type="button" id="pEC">英→中</button><button type="button" id="pBO">中英</button></div></div><div class="prep-lines" data-mode="ce">${body}</div>`}
 function wirePrepLines(){const box=V.querySelector(".prep-lines");if(!box)return;
  const set=mode=>{box.dataset.mode=mode;const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.classList.toggle("on",mode==="ce");if(ec)ec.classList.toggle("on",mode==="ec");const bo=document.getElementById("pBO");if(bo)bo.classList.toggle("on",mode==="bo")};
  const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.onclick=()=>set("ce");if(ec)ec.onclick=()=>set("ec");{const bo=document.getElementById("pBO");if(bo)bo.onclick=()=>set("bo")}
- box.querySelectorAll(".prep-line").forEach(card=>{card.onclick=ev=>{if(ev.target.closest(".fcorig")||ev.target.closest(".pjump"))return;card.classList.toggle("show");card.setAttribute("aria-expanded",card.classList.contains("show")?"true":"false")}});
+ box.querySelectorAll(".prep-line .spk[data-say]").forEach(b=>{b.onclick=ev=>{ev.stopPropagation();stopAll();box.querySelectorAll(".spk.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");speak(b.dataset.say,1).then(()=>{if(b.isConnected)b.classList.remove("on")})}});
+ box.querySelectorAll(".prep-line").forEach(card=>{card.onclick=ev=>{if(ev.target.closest(".fcorig")||ev.target.closest(".pjump")||ev.target.closest(".spk"))return;card.classList.toggle("show");card.setAttribute("aria-expanded",card.classList.contains("show")?"true":"false")}});
  const go=document.getElementById("rnggo"),lp=document.getElementById("loop"),gp=document.getElementById("lgap");if(!go||!lp||!gp)return;
  let rep=0,gap=0,paused=false,playing=false,gen=0;
  try{const n=+localStorage.getItem("prep_out_gap");if(RD_GAPS.includes(n))gap=n}catch(e){}
@@ -378,7 +382,7 @@ function wirePrepLines(){const box=V.querySelector(".prep-lines");if(!box)return
  gp.onclick=()=>{gap=rdGapCycle(gap);try{localStorage.setItem("prep_out_gap",String(gap))}catch(e){}paint()};
  paint()}
 async function showPrepLines(it){let rows;try{rows=await getJSON(String(it.data||"").replace(/^content\//,""))}catch(e){V.innerHTML=`<div class="done">这一页还没准备好</div>`;return}
- if(rows&&!Array.isArray(rows)&&Array.isArray(rows.lines))rows=rows.lines;if(!Array.isArray(rows))rows=[];V.innerHTML=prepLinesPage(rows);wirePrepLines()}
+ let names=null;if(rows&&!Array.isArray(rows)){names=rows.senses||null;if(Array.isArray(rows.lines))rows=rows.lines}if(!Array.isArray(rows))rows=[];V.innerHTML=prepLinesPage(rows,names);wirePrepLines()}
 async function showPrep(sid,iid){const sec=prepSections().find(s=>String(s.id)===String(sid||""));if(!sec)return showHome();
  const items=Array.isArray(sec.items)?sec.items:[];const it=items.find(x=>String(x.id)===String(iid||""));if(!it)return showHome();
  setHeader(it.title||sec.title||"介词",true);
