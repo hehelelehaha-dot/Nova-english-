@@ -51,3 +51,12 @@ assert.equal(words.sents[12].oa, "audio/elio_w/s13.mp3");
 assert.equal(words.sents[13].t, "Hi, Dad! I'm a bargaining chip.");
 assert.equal(words.sents[15].t, "And the negotiation is not over, because now I've got this!");
 assert.equal(words.sents[18].t, "Greetings, Ambassador.");
+
+// 👆 点读 on 结尾独白: every line has seg [wordStart, wordEnd, t0, t1] covering all words.
+for (const s of mono.sents) {
+  const n = s.t.split(/\s+/).length;
+  assert.ok(Array.isArray(s.seg) && s.seg.length > 0, s.t);
+  assert.equal(s.seg[0][0], 0, s.t);
+  assert.equal(s.seg[s.seg.length - 1][1], n - 1, s.t);
+  s.seg.forEach((z, k) => { assert.ok(z[0] <= z[1] && z[2] < z[3], s.t); if (k) assert.equal(z[0], s.seg[k - 1][1] + 1, s.t); });
+}
