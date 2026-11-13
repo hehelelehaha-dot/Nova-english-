@@ -378,7 +378,10 @@
           "After the cast came off, he still felt a phantom itch."
         ],
         "note": "Day 4 原句：“Yeah, that's called phantom tail”（对 这种现象叫幻尾）",
-        "si": 2
+        "si": 2,
+        "a": [
+          "audio/luca_wv/d04_w01.mp3"
+        ]
       },
       {
         "w": "used to",
@@ -390,7 +393,10 @@
           "New shoes feel odd, but you get used to them."
         ],
         "note": "Day 4 原句：“You'll get used to it”（习惯就好了）",
-        "si": 3
+        "si": 3,
+        "a": [
+          "audio/luca_wv/d04_w02.mp3"
+        ]
       },
       {
         "w": "basically",
@@ -402,7 +408,10 @@
           "This game is basically just walking."
         ],
         "note": "Day 4 原句：“I basically invented it”（这方法是我自创的） 同一句里还有 invented。",
-        "si": 7
+        "si": 7,
+        "a": [
+          "audio/luca_wv/d04_w03.mp3"
+        ]
       },
       {
         "w": "invented",
@@ -414,7 +423,10 @@
           "She invented a new way to tie her shoes."
         ],
         "note": "Day 4 原句：“I basically invented it”（这方法是我自创的） 同一句里还有 basically。",
-        "si": 7
+        "si": 7,
+        "a": [
+          "audio/luca_wv/d04_w04.mp3"
+        ]
       },
       {
         "w": "stack",
@@ -426,7 +438,10 @@
           "Stack the books on the desk."
         ],
         "note": "Day 4 原句：“stack everything one on top of the other”（把全身摞起来）",
-        "si": 9
+        "si": 9,
+        "a": [
+          "audio/luca_wv/d04_w05.mp3"
+        ]
       },
       {
         "w": "pile",
@@ -438,7 +453,10 @@
           "There is a pile of shells by the boat."
         ],
         "note": "Day 4 原句：“Like a pile of rocks”（就像堆石头一样）",
-        "si": 10
+        "si": 10,
+        "a": [
+          "audio/luca_wv/d04_w06.mp3"
+        ]
       },
       {
         "w": "fins",
@@ -450,7 +468,10 @@
           "The fish moves its fins to swim."
         ],
         "note": "Day 4 原句：“But without fins”（只不过不靠鳍）",
-        "si": 14
+        "si": 14,
+        "a": [
+          "audio/luca_wv/d04_w07.mp3"
+        ]
       },
       {
         "w": "otherwise",
@@ -462,7 +483,10 @@
           "Bring a jacket. Otherwise you will be cold."
         ],
         "note": "Day 4 原句：“Otherwise”（除此以外）",
-        "si": 17
+        "si": 17,
+        "a": [
+          "audio/luca_wv/d04_w08.mp3"
+        ]
       },
       {
         "w": "belly",
@@ -474,7 +498,10 @@
           "The baby fish has a round belly."
         ],
         "note": "Day 4 原句：“No, more belly”（不对 腹部用力）",
-        "si": 23
+        "si": 23,
+        "a": [
+          "audio/luca_wv/d04_w09.mp3"
+        ]
       },
       {
         "w": "catch",
@@ -486,7 +513,10 @@
           "If you trip, catch yourself with your hands."
         ],
         "note": "Day 4 原句：“And then you just catch yourself before you fall”（在摔倒以前 稳住自己） 同一句里还有 fall。",
-        "si": 34
+        "si": 34,
+        "a": [
+          "audio/luca_wv/d04_w10.mp3"
+        ]
       },
       {
         "w": "fall",
@@ -498,7 +528,10 @@
           "Hold the rail so you do not fall."
         ],
         "note": "Day 4 原句：“And then you just catch yourself before you fall”（在摔倒以前 稳住自己） 同一句里还有 catch。",
-        "si": 34
+        "si": 34,
+        "a": [
+          "audio/luca_wv/d04_w11.mp3"
+        ]
       }
     ]
   },

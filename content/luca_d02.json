@@ -137,7 +137,10 @@
      "Why do dolphins even make that sound?"
     ],
     "note": "Day 2 原句：“I don't know why dolphins even sound like that.”（我真不明白海豚怎么会发出那样的声音。）",
-    "si": 0
+    "si": 0,
+    "a": [
+     "audio/luca_wv/d02_w01.mp3"
+    ]
    },
    {
     "w": "mind",
@@ -149,7 +152,10 @@
      "You look quiet. What is on your mind?"
     ],
     "note": "Day 2 原句：“What's on your mind?”（你在想什么呢？）",
-    "si": 1
+    "si": 1,
+    "a": [
+     "audio/luca_wv/d02_w02.mp3"
+    ]
    },
    {
     "w": "where do",
@@ -161,7 +167,10 @@
      "Where do these boats go at night?"
     ],
     "note": "Day 2 原句：“Where do boats come from?”（那些船是从哪里来的？）",
-    "si": 2
+    "si": 2,
+    "a": [
+     "audio/luca_wv/d02_w03.mp3"
+    ]
    },
    {
     "w": "above",
@@ -173,7 +182,10 @@
      "A small boat floated above the sea monsters."
     ],
     "note": "Day 2 原句：“Just above the surface.”（就在水面上方。） 上一句 The land monster town 指“陆怪的城镇”。",
-    "si": 3
+    "si": 3,
+    "a": [
+     "audio/luca_wv/d02_w04.mp3"
+    ]
    },
    {
     "w": "cards",
@@ -185,7 +197,10 @@
      "Grandma likes playing cards with her friends."
     ],
     "note": "Day 2 原句：“I beat a guy at cards there once.”（我以前在那里跟一个人打牌，还赢了他。）",
-    "si": 4
+    "si": 4,
+    "a": [
+     "audio/luca_wv/d02_w05.mp3"
+    ]
    },
    {
     "w": "change",
@@ -197,7 +212,10 @@
      "Luca was surprised by the change in his body."
     ],
     "note": "Day 2 原句：“You've been to the surface and done the change?”（你去过水面上，还变过身？）",
-    "si": 5
+    "si": 5,
+    "a": [
+     "audio/luca_wv/d02_w06.mp3"
+    ]
    },
    {
     "w": "curious",
@@ -209,7 +227,10 @@
      "Luca is curious about the world above the water."
     ],
     "note": "Day 2 原句：“I was just curious.”（我只是好奇而已。） 另一原句：“Yeah? Well, the curious fish gets caught.”（是吗？好奇的鱼可是会被抓住的。）",
-    "si": 6
+    "si": 6,
+    "a": [
+     "audio/luca_wv/d02_w07.mp3"
+    ]
    }
   ]
  },
