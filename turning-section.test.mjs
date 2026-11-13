@@ -17,7 +17,7 @@ assert.match(app, /turningHit\(/);
 assert.match(app, /\/\^\(luca_\|elio_\|turning_\)\//);
 assert.match(app, /fold=="turning"/);
 
-assert.deepEqual(turning.boards.map(b => b.id), ["turning_words"]);
+assert.deepEqual(turning.boards.map(b => b.id), ["turning_words", "turning_dict"]);
 assert.equal(turning.boards[0].title, "高频生词");
 assert.equal(turning.boards[0].kind, "flash");
 assert.equal(turning.boards[0].vocab, 10);

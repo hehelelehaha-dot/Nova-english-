@@ -278,7 +278,10 @@
           "The red panda has a long, fluffy tail."
         ],
         "note": "原句：“Any strong emotion will release the panda.”（任何强烈的情绪都会把熊猫放出来。）",
-        "si": 0
+        "si": 0,
+        "a": [
+          "audio/turning_wv/w01.mp3"
+        ]
       },
       {
         "w": "ritual",
@@ -290,7 +293,10 @@
           "The family held a ritual on the night of the red moon."
         ],
         "note": "原句：“On the next red moon, you'll undergo a ritual that will seal your red panda spirit into one of these.”（下一个红月亮那天，你要做一个仪式，把你的红熊猫灵封进这样的东西里。）",
-        "si": 2
+        "si": 2,
+        "a": [
+          "audio/turning_wv/w02.mp3"
+        ]
       },
       {
         "w": "concert",
@@ -302,7 +308,10 @@
           "They saved money to buy tickets to the concert."
         ],
         "note": "原句：“Mei-Mei, it's one thing to stay calm at home or school, but a concert?”（美美，在家或学校保持冷静是一回事，但去演唱会呢？）",
-        "si": 4
+        "si": 4,
+        "a": [
+          "audio/turning_wv/w03.mp3"
+        ]
       },
       {
         "w": "ticket",
@@ -314,7 +323,10 @@
           "We need four tickets to get in."
         ],
         "note": "原句：“Yeah, but tickets to 4-Town are, like, a bajillion dollars, and Devon's right here.”（是啊，可 4-Town 的票贵得要命，而且 Devon 就在这儿。）",
-        "si": 6
+        "si": 6,
+        "a": [
+          "audio/turning_wv/w04.mp3"
+        ]
       },
       {
         "w": "temple",
@@ -326,7 +338,10 @@
           "Her family takes care of an old temple in the city."
         ],
         "note": "原句：“Our family runs one of the oldest temples in Toronto. And the most unique.”（我们家经营着多伦多最古老的寺庙之一，也是最特别的一座。）",
-        "si": 8
+        "si": 8,
+        "a": [
+          "audio/turning_wv/w05.mp3"
+        ]
       },
       {
         "w": "honor",
@@ -338,7 +353,10 @@
           "She wants to honor her parents, but also honor herself."
         ],
         "note": "原句：“Honor your parents.”（要孝敬父母。）",
-        "si": 10
+        "si": 10,
+        "a": [
+          "audio/turning_wv/w06.mp3"
+        ]
       },
       {
         "w": "calm",
@@ -350,7 +368,10 @@
           "Take a deep breath and stay calm."
         ],
         "note": "原句：“I'm calm.”（我很冷静。）",
-        "si": 12
+        "si": 12,
+        "a": [
+          "audio/turning_wv/w07.mp3"
+        ]
       },
       {
         "w": "ancestor",
@@ -362,7 +383,10 @@
           "They honor their ancestors at the temple."
         ],
         "note": "原句：“Our ancestors had a mystical connection with red pandas.”（我们的祖先和红熊猫有一种神奇的缘分。）",
-        "si": 14
+        "si": 14,
+        "a": [
+          "audio/turning_wv/w08.mp3"
+        ]
       },
       {
         "w": "perfect",
@@ -374,7 +398,10 @@
           "She was tired of trying to be the perfect daughter."
         ],
         "note": "原句：“I'm just so sick of being perfect.”（我实在受够了要做一个完美的人。）",
-        "si": 16
+        "si": 16,
+        "a": [
+          "audio/turning_wv/w09.mp3"
+        ]
       },
       {
         "w": "control",
@@ -386,7 +413,10 @@
           "She learned how to control the panda."
         ],
         "note": "原句：“I got so angry, and I lost control.”（我气坏了，然后就失控了。）",
-        "si": 18
+        "si": 18,
+        "a": [
+          "audio/turning_wv/w10.mp3"
+        ]
       }
     ]
   }

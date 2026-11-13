@@ -290,7 +290,10 @@
           "She is a candidate for class president."
         ],
         "note": "原句：“A toast to our new candidate, Elio Solís of Earth.”（敬我们的新候选人，地球的埃利奥·索利斯。）",
-        "si": 0
+        "si": 0,
+        "a": [
+          "audio/elio_wv/w01.mp3"
+        ]
       },
       {
         "w": "planet",
@@ -302,7 +305,10 @@
           "Mars is the planet next to us."
         ],
         "note": "原句：“We can send spacecraft to nearby planets.”（我们可以把探测器送到邻近的行星。）",
-        "si": 3
+        "si": 3,
+        "a": [
+          "audio/elio_wv/w02.mp3"
+        ]
       },
       {
         "w": "alone",
@@ -314,7 +320,10 @@
           "She sat alone by the window."
         ],
         "note": "原句：“Are we alone?”（我们是孤独的吗？）",
-        "si": 4
+        "si": 4,
+        "a": [
+          "audio/elio_wv/w03.mp3"
+        ]
       },
       {
         "w": "radio",
@@ -326,7 +335,10 @@
           "He talked to a friend in another city on the radio."
         ],
         "note": "原句：“We can use large radio telescopes to see if there is any message being sent to us lately.”（我们可以用大型射电望远镜，看看最近有没有人在给我们发消息。）",
-        "si": 7
+        "si": 7,
+        "a": [
+          "audio/elio_wv/w04.mp3"
+        ]
       },
       {
         "w": "alien",
@@ -338,7 +350,10 @@
           "The movie is about a boy who wants to meet aliens."
         ],
         "note": "原句：“I'm trying to get abducted by aliens.”（我正想办法被外星人绑走。）",
-        "si": 8
+        "si": 8,
+        "a": [
+          "audio/elio_wv/w05.mp3"
+        ]
       },
       {
         "w": "debris",
@@ -350,7 +365,10 @@
           "Old satellites become space debris."
         ],
         "note": "原句：“We're in a debris field.”（我们在碎片带里。）",
-        "si": 11
+        "si": 11,
+        "a": [
+          "audio/elio_wv/w06.mp3"
+        ]
       },
       {
         "w": "bargaining chip",
@@ -362,7 +380,10 @@
           "The extra ticket became a bargaining chip in the trade."
         ],
         "note": "原句：“I've never been a bargaining chip before.”（我还从来没当过谈判筹码。）",
-        "si": 12
+        "si": 12,
+        "a": [
+          "audio/elio_wv/w07.mp3"
+        ]
       },
       {
         "w": "negotiate",
@@ -374,7 +395,10 @@
           "We need to negotiate a fair price."
         ],
         "note": "原句：“And the negotiation is not over, because now I've got this!”（谈判还没结束，因为现在我有这个了！）",
-        "si": 15
+        "si": 15,
+        "a": [
+          "audio/elio_wv/w08.mp3"
+        ]
       },
       {
         "w": "clone",
@@ -386,7 +410,10 @@
           "The clone looked exactly like him."
         ],
         "note": "原句：“Would a clone really fool my dad?”（一个克隆体真能骗过我爸爸吗？）",
-        "si": 16
+        "si": 16,
+        "a": [
+          "audio/elio_wv/w09.mp3"
+        ]
       },
       {
         "w": "ambassador",
@@ -398,7 +425,10 @@
           "She was named ambassador to France."
         ],
         "note": "原句：“Greetings, Ambassador.”（你好，大使。）",
-        "si": 18
+        "si": 18,
+        "a": [
+          "audio/elio_wv/w10.mp3"
+        ]
       }
     ]
   }

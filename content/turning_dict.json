@@ -1,0 +1,63 @@
+{
+  "id": "turning_dict",
+  "type": "reading",
+  "title": "句子听写",
+  "sents": [
+    {
+      "sp": "",
+      "t": "Any strong emotion will release the panda.",
+      "zh": "任何强烈的情绪都会把熊猫放出来。",
+      "a": "audio/turning_w/s01.mp3",
+      "oa": "audio/turning_w/s01.mp3",
+      "d": 2.74
+    },
+    {
+      "sp": "",
+      "t": "Mei-Mei is keeping the panda?",
+      "zh": "美美要把熊猫留下来？",
+      "a": "audio/turning_w/s02.mp3",
+      "oa": "audio/turning_w/s02.mp3",
+      "d": 1.75
+    },
+    {
+      "sp": "",
+      "t": "I'm calm.",
+      "zh": "我很冷静。",
+      "a": "audio/turning_w/s13.mp3",
+      "oa": "audio/turning_w/s13.mp3",
+      "d": 2.04
+    },
+    {
+      "sp": "",
+      "t": "Our ancestors had a mystical connection with red pandas.",
+      "zh": "我们的祖先和红熊猫有一种神奇的缘分。",
+      "a": "audio/turning_w/s15.mp3",
+      "oa": "audio/turning_w/s15.mp3",
+      "d": 4.05
+    },
+    {
+      "sp": "",
+      "t": "I'm just so sick of being perfect.",
+      "zh": "我实在受够了要做一个完美的人。",
+      "a": "audio/turning_w/s17.mp3",
+      "oa": "audio/turning_w/s17.mp3",
+      "d": 2.53
+    },
+    {
+      "sp": "",
+      "t": "My whole life I've been perfect little Mei-Mei.",
+      "zh": "我这辈子一直都是她那个完美的小美美。",
+      "a": "audio/turning_w/s18.mp3",
+      "oa": "audio/turning_w/s18.mp3",
+      "d": 3.11
+    },
+    {
+      "sp": "",
+      "t": "I got so angry, and I lost control.",
+      "zh": "我气坏了，然后就失控了。",
+      "a": "audio/turning_w/s19.mp3",
+      "oa": "audio/turning_w/s19.mp3",
+      "d": 3.42
+    }
+  ]
+}

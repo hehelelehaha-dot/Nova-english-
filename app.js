@@ -221,22 +221,24 @@ async function loadPrep(){if(PREP)return PREP;try{PREP=await getJSON("prepositio
 // content/elio.json lists the boards; each data file is plaintext like Luca Day files.
 const ELIO_DEF=[
  {id:"elio_reading",like:"reading",name:"结尾独白",typeName:"阅读卡",item:"elio_monologue"},
- {id:"elio_flash",like:"flash",name:"高频生词",typeName:"单词卡",item:"elio_words"}];
+ {id:"elio_flash",like:"flash",name:"高频生词",typeName:"单词卡",item:"elio_words"},
+ {id:"elio_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",item:"elio_dict"}];
 let ELIO=null;
 async function loadElio(){if(ELIO)return ELIO;try{ELIO=await getJSON("elio.json")}catch(e){ELIO={boards:[]}}if(!ELIO.boards)ELIO.boards=[];return ELIO}
 function elioBoards(){return (ELIO&&ELIO.boards)||[]}
 function elioItem(id){return elioBoards().find(it=>it&&it.id==id)||null}
-function elioHit(id){const it=elioItem(id);if(!it)return null;const flash=it.kind=="flash"||it.id=="elio_words";return{it:Object.assign({},it,{upPart:flash?"flash":undefined}),sec:flash?"elio_flash":"elio_reading"}}
+function elioHit(id){const it=elioItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"elio_dictation"};const flash=it.kind=="flash"||it.id=="elio_words";return{it:Object.assign({},it,{upPart:flash?"flash":undefined}),sec:flash?"elio_flash":"elio_reading"}}
 const elioSec=id=>ELIO_DEF.find(s=>s.id==id);
 // Turning Red (internal id turning): a home fold next to Elio, 高频生词 only.
 // content/turning.json lists the boards; data files are plaintext like Elio/Luca.
 const TURNING_DEF=[
- {id:"turning_flash",like:"flash",name:"高频生词",typeName:"单词卡",item:"turning_words"}];
+ {id:"turning_flash",like:"flash",name:"高频生词",typeName:"单词卡",item:"turning_words"},
+ {id:"turning_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",item:"turning_dict"}];
 let TURNING=null;
 async function loadTurning(){if(TURNING)return TURNING;try{TURNING=await getJSON("turning.json")}catch(e){TURNING={boards:[]}}if(!TURNING.boards)TURNING.boards=[];return TURNING}
 function turningBoards(){return (TURNING&&TURNING.boards)||[]}
 function turningItem(id){return turningBoards().find(it=>it&&it.id==id)||null}
-function turningHit(id){const it=turningItem(id);if(!it)return null;return{it:Object.assign({},it,{upPart:"flash"}),sec:"turning_flash"}}
+function turningHit(id){const it=turningItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"turning_dictation"};return{it:Object.assign({},it,{upPart:"flash"}),sec:"turning_flash"}}
 const turningSec=id=>TURNING_DEF.find(s=>s.id==id);
 function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
 function prepHomeHTML(list){const inner=list.length?list.map(s=>{const id=String(s.id||""),title=String(s.title!=null?s.title:id),key="prep:"+id;
@@ -620,9 +622,9 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
   return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.desc||(s.typeName!==s.name?s.typeName:""),count:n+" 项",hash:s.like=="game"?"#/g/luca":"#/c/"+s.id,iconKey:s.like=="ee"?"longaudio":s.like=="game"?"g":s.like})}).join("");
  const upIcon={flash:"🗂️",ee:"🎧",wf:"🔤",game:"🎮"},upKey={flash:"flash",ee:"longaudio",wf:"wf",game:"g"},upN=upDays().length;
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
- const elioIcon={reading:"📖",flash:"🗂️"};
+ const elioIcon={reading:"📖",flash:"🗂️",dictation:"✍️"};
  const elio=ELIO_DEF.map(s=>{const it=elioItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:elioIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
- const turningIcon={reading:"📖",flash:"🗂️"};
+ const turningIcon={reading:"📖",flash:"🗂️",dictation:"✍️"};
  const turning=TURNING_DEF.map(s=>{const it=turningItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:turningIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");

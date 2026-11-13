@@ -1,0 +1,95 @@
+{
+  "id": "elio_dict",
+  "type": "reading",
+  "title": "句子听写",
+  "sents": [
+    {
+      "sp": "",
+      "t": "A toast to our new candidate, Elio Solís of Earth.",
+      "zh": "敬我们的新候选人，地球的埃利奥·索利斯。",
+      "a": "audio/elio_w/s01.mp3",
+      "oa": "audio/elio_w/s01.mp3",
+      "d": 4.18
+    },
+    {
+      "sp": "",
+      "t": "But yes, I run the planet.",
+      "zh": "没错，这个星球是我管的。",
+      "a": "audio/elio_w/s03.mp3",
+      "oa": "audio/elio_w/s03.mp3",
+      "d": 1.78
+    },
+    {
+      "sp": "",
+      "t": "We can send spacecraft to nearby planets.",
+      "zh": "我们可以把探测器送到邻近的行星。",
+      "a": "audio/elio_mo/s05.mp3",
+      "oa": "audio/elio_mo/s05.mp3",
+      "d": 2.8
+    },
+    {
+      "sp": "",
+      "t": "Are we alone?",
+      "zh": "我们是孤独的吗？",
+      "a": "audio/elio_mo/s08.mp3",
+      "oa": "audio/elio_mo/s08.mp3",
+      "d": 2.09
+    },
+    {
+      "sp": "",
+      "t": "We can use large radio telescopes to see if there is any message being sent to us lately.",
+      "zh": "我们可以用大型射电望远镜，看看最近有没有人在给我们发消息。",
+      "a": "audio/elio_mo/s06.mp3",
+      "oa": "audio/elio_mo/s06.mp3",
+      "d": 5.2
+    },
+    {
+      "sp": "",
+      "t": "I'm trying to get abducted by aliens.",
+      "zh": "我正想办法被外星人绑走。",
+      "a": "audio/elio_w/s09.mp3",
+      "oa": "audio/elio_w/s09.mp3",
+      "d": 2.64
+    },
+    {
+      "sp": "",
+      "t": "I knew aliens were looking for me.",
+      "zh": "我就知道外星人在找我。",
+      "a": "audio/elio_w/s10.mp3",
+      "oa": "audio/elio_w/s10.mp3",
+      "d": 2.09
+    },
+    {
+      "sp": "",
+      "t": "I've never been a bargaining chip before.",
+      "zh": "我还从来没当过谈判筹码。",
+      "a": "audio/elio_w/s13.mp3",
+      "oa": "audio/elio_w/s13.mp3",
+      "d": 2.25
+    },
+    {
+      "sp": "",
+      "t": "Hi, Dad! I'm a bargaining chip.",
+      "zh": "嗨，爸爸！我是谈判筹码。",
+      "a": "audio/elio_w/s14.mp3",
+      "oa": "audio/elio_w/s14.mp3",
+      "d": 2.14
+    },
+    {
+      "sp": "",
+      "t": "And the negotiation is not over, because now I've got this!",
+      "zh": "谈判还没结束，因为现在我有这个了！",
+      "a": "audio/elio_w/s16.mp3",
+      "oa": "audio/elio_w/s16.mp3",
+      "d": 5.33
+    },
+    {
+      "sp": "",
+      "t": "Greetings, Ambassador.",
+      "zh": "你好，大使。",
+      "a": "audio/elio_w/s19.mp3",
+      "oa": "audio/elio_w/s19.mp3",
+      "d": 1.59
+    }
+  ]
+}
