@@ -189,7 +189,8 @@ function refreshFoldNumbers(){FOLDN={};navalSectionIds().forEach((id,i)=>{FOLDN[
  if(FOLDN.dictation)FOLDN.chunks=FOLDN.dictation;if(FOLDN.game)FOLDN.g=FOLDN.game;
  LUCA_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
  UP_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
- ELIO_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
+ ELIO_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
+ TURNING_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
 const secT=(id,t)=>{const n=FOLDN[id];return n?CIRC[n]+" "+t:t};
 const lucaSec=id=>LUCA_DEF.find(s=>s.id==id);
 let LUCA=null;
@@ -226,6 +227,16 @@ function elioBoards(){return (ELIO&&ELIO.boards)||[]}
 function elioItem(id){return elioBoards().find(it=>it&&it.id==id)||null}
 function elioHit(id){const it=elioItem(id);if(!it)return null;const flash=it.kind=="flash"||it.id=="elio_words";return{it:Object.assign({},it,{upPart:flash?"flash":undefined}),sec:flash?"elio_flash":"elio_reading"}}
 const elioSec=id=>ELIO_DEF.find(s=>s.id==id);
+// Turning Red (internal id turning): a home fold next to Elio, 高频生词 only.
+// content/turning.json lists the boards; data files are plaintext like Elio/Luca.
+const TURNING_DEF=[
+ {id:"turning_flash",like:"flash",name:"高频生词",typeName:"单词卡",item:"turning_words"}];
+let TURNING=null;
+async function loadTurning(){if(TURNING)return TURNING;try{TURNING=await getJSON("turning.json")}catch(e){TURNING={boards:[]}}if(!TURNING.boards)TURNING.boards=[];return TURNING}
+function turningBoards(){return (TURNING&&TURNING.boards)||[]}
+function turningItem(id){return turningBoards().find(it=>it&&it.id==id)||null}
+function turningHit(id){const it=turningItem(id);if(!it)return null;return{it:Object.assign({},it,{upPart:"flash"}),sec:"turning_flash"}}
+const turningSec=id=>TURNING_DEF.find(s=>s.id==id);
 function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
 function prepHomeHTML(list){const inner=list.length?list.map(s=>{const id=String(s.id||""),title=String(s.title!=null?s.title:id),key="prep:"+id;
  const items=Array.isArray(s.items)?s.items:[];
@@ -421,7 +432,7 @@ async function route0(){syncPaper();delete document.documentElement.dataset.home
  // Boot leaves enc:false when meta.json fails, which used to skip the lock and open as plaintext.
  if(!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}try{await loadPrep()}catch(e){PREP=[]}try{await loadElio()}catch(e){ELIO={boards:[]}}applyDictation(CAT);refreshFoldNumbers();
+ await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}try{await loadPrep()}catch(e){PREP=[]}try{await loadElio()}catch(e){ELIO={boards:[]}}try{await loadTurning()}catch(e){TURNING={boards:[]}}applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  // #/dq is the read-only 今天的目标. Picking sentences is only on the 句子听写 topic lists.
@@ -607,9 +618,11 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
  const elioIcon={reading:"📖",flash:"🗂️"};
  const elio=ELIO_DEF.map(s=>{const it=elioItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:elioIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
+ const turningIcon={reading:"📖",flash:"🗂️"};
+ const turning=TURNING_DEF.map(s=>{const it=turningItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:turningIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${prepHomeHTML(prepSections())}${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("elio","Elio",ELIO_DEF.length,elio)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${prepHomeHTML(prepSections())}${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("elio","Elio",ELIO_DEF.length,elio)}${foldHTML("turning","青春变形记",TURNING_DEF.length,turning)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();if(typeof dqGoalHome=="function")dqGoalHome();
  const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playStarRain()};preloadStarRain();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
@@ -622,6 +635,7 @@ function foldReadingTopics(fold){
  const row=(it,n)=>n==null||ORG.hidden[it.id]?null:{id:it.id,n,data:it.data,title:ttl(it)};
  if(fold=="luca")return lucaReading().map(it=>{const m=/d(\d+)/.exec(it.id||"");return row(it,m?+m[1]:null)}).filter(Boolean).sort((a,b)=>a.n-b.n);
  if(fold=="elio")return elioBoards().filter(it=>it&&(it.kind=="reading"||it.id=="elio_monologue")).map((it,i)=>row(it,i+1)).filter(Boolean);
+ if(fold=="turning")return turningBoards().filter(it=>it&&it.kind=="reading").map((it,i)=>row(it,i+1)).filter(Boolean);
  const rd=CAT&&CAT.categories&&CAT.categories.find(c=>c.id=="reading");
  return ((rd&&rd.items)||[]).filter(it=>/naval_t\d+/.test(it.id)).map(it=>row(it,topicNo(it))).filter(Boolean).sort((a,b)=>a.n-b.n)}
 function dropOldCardRanges(){const wipe=(store)=>{try{const drop=[];for(let i=0;i<store.length;i++){const k=store.key(i);if(k&&k.indexOf("nova_rd_rng_")==0)drop.push(k)}drop.forEach(k=>store.removeItem(k))}catch(e){}};wipe(localStorage);wipe(sessionStorage)}
@@ -746,7 +760,7 @@ function showLuca(s){if(s.like=="game")return showGames("luca");if(s.like=="wf")
  V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
-async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
+async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const turning=turningSec(id);if(turning){const it=turningItem(turning.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
  V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
@@ -794,7 +808,7 @@ async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dicta
  let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}
  if(!it){const L=lucaHit(id);if(L){it=L.it;cat={id:L.sec}}}
  if(!it){const U=upHit(id);if(U){it=U.it;cat={id:U.sec}}}
- if(!it){const E=elioHit(id);if(E){it=E.it;cat={id:E.sec}}}
+ if(!it){const E=elioHit(id);if(E){it=E.it;cat={id:E.sec}}}if(!it){const T=turningHit(id);if(T){it=T.it;cat={id:T.sec}}}
  if(!it)return showHome();
  setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  if(it.dictation||(cat&&cat.id=="dictation")||(cat&&cat.id=="luca_dictation"))return viewDictation(d,it);
@@ -828,7 +842,7 @@ function rdGapWait(ms,alive){if(!(ms>0))return Promise.resolve(alive());
   timer=setTimeout(tick,Math.min(200,ms))})}
 // RD_LOOP_END
 function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
- const rows=rdRows(d),hasDD=rows.some(x=>x.s.seg&&x.s.oa),lucaRd=/^(luca_|elio_)/.test(rid);
+ const rows=rdRows(d),hasDD=rows.some(x=>x.s.seg&&x.s.oa),lucaRd=/^(luca_|elio_|turning_)/.test(rid);
  const showN=i=>{const r=rows.find(x=>x.i===i);return (r?r.n:i)+1};
  let gap=0;try{const n=+localStorage.getItem("rd_luca_gap");if(RD_GAPS.includes(n))gap=n}catch(e){}
  V.innerHTML=`<div class="bar rdbar"><button id="stp">■ 停止</button><button id="bk5" type="button">倒退5秒</button><button id="rnggo" type="button" class="org">原声连播</button><button id="rloop" type="button" class="org">🔁 原声循环</button><button id="spd">速度 1x</button><button id="loop">单句循环</button>${lucaRd?'<button type="button" id="lgap">停顿 0秒</button>':""}<button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
@@ -889,7 +903,7 @@ function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const S
   $("dd").onclick=()=>{DD=!DD;try{localStorage.setItem("rd_dd",DD?"1":"0")}catch(e){}ren();st("")};ren()}
  $("spd").onclick=()=>{si=(si+1)%3;TLSI=si;A.playbackRate=SP[si];A.defaultPlaybackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
- const fold=/^elio_/.test(rid)?"elio":/^luca_/.test(rid)?"luca":"naval";
+ const fold=/^turning_/.test(rid)?"turning":/^elio_/.test(rid)?"elio":/^luca_/.test(rid)?"luca":"naval";
  $("bk5").onclick=listenRewind;
  $("rnggo").onclick=()=>listenStart(fold,false);
  $("rloop").onclick=()=>listenStart(fold,true);
@@ -1803,7 +1817,7 @@ const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)|
 const MCAT={};  // imported-audio id → category (filled by itemsIn)
 function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
  if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return String(h[2]||"").startsWith("luca_")?"luca_wf":"wf";if(h[1]=="d")return "d";if(h[1]=="g")return h[2]==="luca"||String(h[2]||"").startsWith("luca_")?"luca_game":"g";
- if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const L=lucaHit(h[2]);if(L)return L.sec;const E=elioHit(h[2]);return E?E.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
+ if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const L=lucaHit(h[2]);if(L)return L.sec;const E=elioHit(h[2]);if(E)return E.sec;const T=turningHit(h[2]);return T?T.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
 function tsecKeys(sec){return sec=="dictation"||sec=="chunks"?["dictation","chunks"]:[sec]}
 function tsecT(sec,day){const ks=tsecKeys(sec);if(day){const D=TSEC[day]||{};return ks.reduce((n,k)=>n+(+D[k]||0),0)}let s=0;for(const d in TSEC)for(const k of ks)s+=+(TSEC[d][k]||0);return s}
 const secHTML=sec=>`今天 ${fmtT(tsecT(sec,dKey()))} · 累计 ${fmtT(tsecT(sec))}`;

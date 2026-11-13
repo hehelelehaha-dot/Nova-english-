@@ -1,0 +1,12 @@
+{
+  "boards": [
+    {
+      "id": "turning_words",
+      "title": "高频生词",
+      "sub": "10 词",
+      "data": "turning_words.json",
+      "kind": "flash",
+      "vocab": 10
+    }
+  ]
+}
