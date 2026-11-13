@@ -1,0 +1,393 @@
+{
+  "id": "turning_words",
+  "type": "reading",
+  "title": "高频生词",
+  "sents": [
+    {
+      "sp": "",
+      "t": "Any strong emotion will release the panda.",
+      "zh": "任何强烈的情绪都会把熊猫放出来。",
+      "bkw": [
+        [
+          "panda",
+          "n.",
+          "熊猫"
+        ]
+      ],
+      "a": "audio/turning_w/s01.mp3",
+      "oa": "audio/turning_w/s01.mp3",
+      "d": 2.74
+    },
+    {
+      "sp": "",
+      "t": "Mei-Mei is keeping the panda?",
+      "zh": "美美要把熊猫留下来？",
+      "bkw": [
+        [
+          "panda",
+          "n.",
+          "熊猫"
+        ]
+      ],
+      "a": "audio/turning_w/s02.mp3",
+      "oa": "audio/turning_w/s02.mp3",
+      "d": 1.75
+    },
+    {
+      "sp": "",
+      "t": "On the next red moon, you'll undergo a ritual that will seal your red panda spirit into one of these.",
+      "zh": "下一个红月亮那天，你要做一个仪式，把你的红熊猫灵封进这样的东西里。",
+      "bkw": [
+        [
+          "ritual",
+          "n.",
+          "仪式"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "And the more you release it, the more difficult the ritual will be.",
+      "zh": "你越是把它放出来，仪式就会越难。",
+      "bkw": [
+        [
+          "ritual",
+          "n.",
+          "仪式"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Mei-Mei, it's one thing to stay calm at home or school, but a concert?",
+      "zh": "美美，在家或学校保持冷静是一回事，但去演唱会呢？",
+      "bkw": [
+        [
+          "concert",
+          "n.",
+          "演唱会"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "We need to see this concert.",
+      "zh": "我们一定要去看这场演唱会。",
+      "bkw": [
+        [
+          "concert",
+          "n.",
+          "演唱会"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Yeah, but tickets to 4-Town are, like, a bajillion dollars, and Devon's right here.",
+      "zh": "是啊，可 4-Town 的票贵得要命，而且 Devon 就在这儿。",
+      "bkw": [
+        [
+          "ticket",
+          "n.",
+          "票；门票"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Our goal, four tickets. That's 800 bucks!",
+      "zh": "我们的目标是四张票。一共八百块！",
+      "bkw": [
+        [
+          "ticket",
+          "n.",
+          "票；门票"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Our family runs one of the oldest temples in Toronto. And the most unique.",
+      "zh": "我们家经营着多伦多最古老的寺庙之一，也是最特别的一座。",
+      "bkw": [
+        [
+          "temple",
+          "n.",
+          "寺庙"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "She almost took out half the temple.",
+      "zh": "她差点把寺庙拆掉一半。",
+      "bkw": [
+        [
+          "temple",
+          "n.",
+          "寺庙"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Honor your parents.",
+      "zh": "要孝敬父母。",
+      "bkw": [
+        [
+          "honor",
+          "v.",
+          "尊敬；孝敬"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Honoring your parents sounds great, but if you take it too far, well, you might forget to honor yourself.",
+      "zh": "孝敬父母听起来很好，但如果做过了头，你可能就忘了尊重自己。",
+      "bkw": [
+        [
+          "honor",
+          "v.",
+          "尊敬；孝敬"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "I'm calm.",
+      "zh": "我很冷静。",
+      "bkw": [
+        [
+          "calm",
+          "adj.",
+          "冷静的；平静的"
+        ]
+      ],
+      "a": "audio/turning_w/s13.mp3",
+      "oa": "audio/turning_w/s13.mp3",
+      "d": 2.04
+    },
+    {
+      "sp": "",
+      "t": "I stayed calm.",
+      "zh": "我保持住冷静了。",
+      "bkw": [
+        [
+          "calm",
+          "adj.",
+          "冷静的；平静的"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "Our ancestors had a mystical connection with red pandas.",
+      "zh": "我们的祖先和红熊猫有一种神奇的缘分。",
+      "bkw": [
+        [
+          "ancestor",
+          "n.",
+          "祖先"
+        ]
+      ],
+      "a": "audio/turning_w/s15.mp3",
+      "oa": "audio/turning_w/s15.mp3",
+      "d": 4.05
+    },
+    {
+      "sp": "",
+      "t": "The ancestors would be so proud.",
+      "zh": "祖先们一定会感到骄傲。",
+      "bkw": [
+        [
+          "ancestor",
+          "n.",
+          "祖先"
+        ]
+      ]
+    },
+    {
+      "sp": "",
+      "t": "I'm just so sick of being perfect.",
+      "zh": "我实在受够了要做一个完美的人。",
+      "bkw": [
+        [
+          "perfect",
+          "adj.",
+          "完美的"
+        ]
+      ],
+      "a": "audio/turning_w/s17.mp3",
+      "oa": "audio/turning_w/s17.mp3",
+      "d": 2.53
+    },
+    {
+      "sp": "",
+      "t": "My whole life I've been perfect little Mei-Mei.",
+      "zh": "我这辈子一直都是她那个完美的小美美。",
+      "bkw": [
+        [
+          "perfect",
+          "adj.",
+          "完美的"
+        ]
+      ],
+      "a": "audio/turning_w/s18.mp3",
+      "oa": "audio/turning_w/s18.mp3",
+      "d": 3.11
+    },
+    {
+      "sp": "",
+      "t": "I got so angry, and I lost control.",
+      "zh": "我气坏了，然后就失控了。",
+      "bkw": [
+        [
+          "control",
+          "v.",
+          "控制；克制"
+        ]
+      ],
+      "a": "audio/turning_w/s19.mp3",
+      "oa": "audio/turning_w/s19.mp3",
+      "d": 3.42
+    },
+    {
+      "sp": "",
+      "t": "And now you can control it!",
+      "zh": "而且现在你可以控制它了！",
+      "bkw": [
+        [
+          "control",
+          "v.",
+          "控制；克制"
+        ]
+      ]
+    }
+  ],
+  "flash": {
+    "type": "flash",
+    "cards": [
+      {
+        "w": "panda",
+        "pos": "n.",
+        "zh": "熊猫；（片中的）红熊猫",
+        "ipa": "/ˈpændə/",
+        "ex": "A panda is a bear-like animal. In this movie, Mei turns into a giant red panda when she gets too excited.",
+        "exs": [
+          "The red panda has a long, fluffy tail."
+        ],
+        "note": "原句：“Any strong emotion will release the panda.”（任何强烈的情绪都会把熊猫放出来。）",
+        "si": 0
+      },
+      {
+        "w": "ritual",
+        "pos": "n.",
+        "zh": "仪式",
+        "ipa": "/ˈrɪtʃuəl/",
+        "ex": "A ritual is a special set of actions people do for a ceremony, often in a traditional or spiritual way.",
+        "exs": [
+          "The family held a ritual on the night of the red moon."
+        ],
+        "note": "原句：“On the next red moon, you'll undergo a ritual that will seal your red panda spirit into one of these.”（下一个红月亮那天，你要做一个仪式，把你的红熊猫灵封进这样的东西里。）",
+        "si": 2
+      },
+      {
+        "w": "concert",
+        "pos": "n.",
+        "zh": "音乐会；演唱会",
+        "ipa": "/ˈkɑnsərt/",
+        "ex": "A concert is a live show where musicians or a band perform for an audience.",
+        "exs": [
+          "They saved money to buy tickets to the concert."
+        ],
+        "note": "原句：“Mei-Mei, it's one thing to stay calm at home or school, but a concert?”（美美，在家或学校保持冷静是一回事，但去演唱会呢？）",
+        "si": 4
+      },
+      {
+        "w": "ticket",
+        "pos": "n.",
+        "zh": "票；门票",
+        "ipa": "/ˈtɪkɪt/",
+        "ex": "A ticket is a piece of paper or a pass that lets you go into a show, a concert, or a trip.",
+        "exs": [
+          "We need four tickets to get in."
+        ],
+        "note": "原句：“Yeah, but tickets to 4-Town are, like, a bajillion dollars, and Devon's right here.”（是啊，可 4-Town 的票贵得要命，而且 Devon 就在这儿。）",
+        "si": 6
+      },
+      {
+        "w": "temple",
+        "pos": "n.",
+        "zh": "寺庙",
+        "ipa": "/ˈtɛmpəl/",
+        "ex": "A temple is a building where people go to honor gods or ancestors, and to pray or hold ceremonies.",
+        "exs": [
+          "Her family takes care of an old temple in the city."
+        ],
+        "note": "原句：“Our family runs one of the oldest temples in Toronto. And the most unique.”（我们家经营着多伦多最古老的寺庙之一，也是最特别的一座。）",
+        "si": 8
+      },
+      {
+        "w": "honor",
+        "pos": "v.",
+        "zh": "尊敬；孝敬",
+        "ipa": "/ˈɑnər/",
+        "ex": "Honor means to show respect to someone, and to treat them as important.",
+        "exs": [
+          "She wants to honor her parents, but also honor herself."
+        ],
+        "note": "原句：“Honor your parents.”（要孝敬父母。）",
+        "si": 10
+      },
+      {
+        "w": "calm",
+        "pos": "adj.",
+        "zh": "冷静的；平静的",
+        "ipa": "/kɑm/",
+        "ex": "Calm means quiet and not excited or angry. If you stay calm, you keep your feelings under control.",
+        "exs": [
+          "Take a deep breath and stay calm."
+        ],
+        "note": "原句：“I'm calm.”（我很冷静。）",
+        "si": 12
+      },
+      {
+        "w": "ancestor",
+        "pos": "n.",
+        "zh": "祖先",
+        "ipa": "/ˈænsɛstər/",
+        "ex": "An ancestor is a family member from a long time ago, like a great-grandparent or someone even earlier.",
+        "exs": [
+          "They honor their ancestors at the temple."
+        ],
+        "note": "原句：“Our ancestors had a mystical connection with red pandas.”（我们的祖先和红熊猫有一种神奇的缘分。）",
+        "si": 14
+      },
+      {
+        "w": "perfect",
+        "pos": "adj.",
+        "zh": "完美的",
+        "ipa": "/ˈpɜrfɪkt/",
+        "ex": "Perfect means without any mistakes or flaws. It can also describe someone who feels they must always do everything right.",
+        "exs": [
+          "She was tired of trying to be the perfect daughter."
+        ],
+        "note": "原句：“I'm just so sick of being perfect.”（我实在受够了要做一个完美的人。）",
+        "si": 16
+      },
+      {
+        "w": "control",
+        "pos": "v.",
+        "zh": "控制；克制",
+        "ipa": "/kənˈtroʊl/",
+        "ex": "Control means to keep something in hand, or to stop it from getting too strong. If you lose control, you can no longer hold it back.",
+        "exs": [
+          "She learned how to control the panda."
+        ],
+        "note": "原句：“I got so angry, and I lost control.”（我气坏了，然后就失控了。）",
+        "si": 18
+      }
+    ]
+  }
+}

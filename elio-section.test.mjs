@@ -15,7 +15,7 @@ assert.ok(app.indexOf('foldHTML("elio"') > app.indexOf('foldHTML("luca"'));
 assert.ok(app.indexOf('foldHTML("elio"') < app.indexOf('foldHTML("up"'));
 assert.match(app, /loadElio\(\)/);
 assert.match(app, /elioHit\(/);
-assert.match(app, /\/\^\(luca_\|elio_\)\//);
+assert.match(app, /\/\^\(luca_\|elio_\|turning_\)\//);
 assert.match(app, /fold=="elio"/);
 
 assert.deepEqual(elio.boards.map(b => b.id), ["elio_monologue", "elio_words"]);
