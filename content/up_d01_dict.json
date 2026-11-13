@@ -1,0 +1,279 @@
+{
+  "id": "up_d01_dict",
+  "type": "reading",
+  "title": "Day 1",
+  "sents": [
+    {
+      "sp": "",
+      "t": "Movietown News presents: Spotlight on Adventure.",
+      "zh": "《电影城新闻》为您呈现：冒险聚光灯。",
+      "a": "audio/up_d01o/s01.mp3",
+      "oa": "audio/up_d01o/s01.mp3",
+      "d": 4.96
+    },
+    {
+      "sp": "",
+      "t": "What you are now witnessing is footage never before seen by civilized humanity,",
+      "zh": "您现在看到的，是文明人类从未见过的影像，",
+      "a": "audio/up_d01o/s02.mp3",
+      "oa": "audio/up_d01o/s02.mp3",
+      "d": 3.66
+    },
+    {
+      "sp": "",
+      "t": "Lurking in the shadow of majestic Paradise Falls, it sports plants and animals undiscovered by science.",
+      "zh": "它隐藏在雄伟的天堂瀑布的阴影里，拥有科学尚未发现的植物和动物。",
+      "a": "audio/up_d01o/s03.mp3",
+      "oa": "audio/up_d01o/s03.mp3",
+      "d": 5.17
+    },
+    {
+      "sp": "",
+      "t": "Who would dare set foot on this inhospitable summit?",
+      "zh": "谁敢踏上这座荒凉险恶的山顶？",
+      "a": "audio/up_d01o/s04.mp3",
+      "oa": "audio/up_d01o/s04.mp3",
+      "d": 2.95
+    },
+    {
+      "sp": "",
+      "t": "The beloved explorer lands his dirigible, the Spirit of Adventure,",
+      "zh": "这位深受爱戴的探险家驾着他的飞艇“冒险精神号”降落，",
+      "a": "audio/up_d01o/s05.mp3",
+      "oa": "audio/up_d01o/s05.mp3",
+      "d": 2.72
+    },
+    {
+      "sp": "",
+      "t": "completing a year-long expedition to the lost world.",
+      "zh": "完成了前往失落世界、为期一年的探险。",
+      "a": "audio/up_d01o/s06.mp3",
+      "oa": "audio/up_d01o/s06.mp3",
+      "d": 3.08
+    },
+    {
+      "sp": "",
+      "t": "and is longer than 22 Prohibition paddy wagons placed end to end.",
+      "zh": "比 22 辆禁酒令时期的警车首尾相连还要长。",
+      "a": "audio/up_d01o/s07.mp3",
+      "oa": "audio/up_d01o/s07.mp3",
+      "d": 3.97
+    },
+    {
+      "sp": "",
+      "t": "Never apart from his faithful dogs,",
+      "zh": "他从不离开他忠诚的狗狗们，",
+      "a": "audio/up_d01o/s08.mp3",
+      "oa": "audio/up_d01o/s08.mp3",
+      "d": 1.8
+    },
+    {
+      "sp": "",
+      "t": "Muntz conceived the craft for canine comfort.",
+      "zh": "蒙兹设计这艘飞艇时，就考虑到了狗狗的舒适。",
+      "a": "audio/up_d01o/s09.mp3",
+      "oa": "audio/up_d01o/s09.mp3",
+      "d": 2.38
+    },
+    {
+      "sp": "",
+      "t": "It's a veritable floating palace in the sky,",
+      "zh": "它简直就是一座空中漂浮的宫殿，",
+      "a": "audio/up_d01o/s10.mp3",
+      "oa": "audio/up_d01o/s10.mp3",
+      "d": 2.04
+    },
+    {
+      "sp": "",
+      "t": "complete with doggy bath and mechanical canine walker.",
+      "zh": "还配有狗狗浴池和机械遛狗机。",
+      "a": "audio/up_d01o/s11.mp3",
+      "oa": "audio/up_d01o/s11.mp3",
+      "d": 3.53
+    },
+    {
+      "sp": "",
+      "t": "And, Jiminy Cricket, do the locals consider Muntz the bee's knees!",
+      "zh": "天哪，当地人可真觉得蒙兹棒极了！",
+      "a": "audio/up_d01o/s12.mp3",
+      "oa": "audio/up_d01o/s12.mp3",
+      "d": 3.55
+    },
+    {
+      "sp": "",
+      "t": "And, golly, what a swell monster this is!",
+      "zh": "哎呀，这怪物可真了不起！",
+      "a": "audio/up_d01o/s13.mp3",
+      "oa": "audio/up_d01o/s13.mp3",
+      "d": 3.55
+    },
+    {
+      "sp": "",
+      "t": "But what's this? Scientists cry foul.",
+      "zh": "可这是怎么回事？科学家们大喊不公。",
+      "a": "audio/up_d01o/s14.mp3",
+      "oa": "audio/up_d01o/s14.mp3",
+      "d": 2.38
+    },
+    {
+      "sp": "",
+      "t": "The National Explorers Society accuses Muntz of fabricating the skeleton.",
+      "zh": "国家探险家协会指控蒙兹伪造了这副骨架。",
+      "a": "audio/up_d01o/s15.mp3",
+      "oa": "audio/up_d01o/s15.mp3",
+      "d": 4.0
+    },
+    {
+      "sp": "",
+      "t": "The organization strips Muntz of his membership.",
+      "zh": "该组织取消了蒙兹的会员资格。",
+      "a": "audio/up_d01o/s16.mp3",
+      "oa": "audio/up_d01o/s16.mp3",
+      "d": 2.72
+    },
+    {
+      "sp": "",
+      "t": "Humiliated, Muntz vows a return to Paradise Falls and promises to capture the beast alive!",
+      "zh": "蒙兹受了羞辱，发誓要重返天堂瀑布，并承诺要活捉那头怪兽！",
+      "a": "audio/up_d01o/s17.mp3",
+      "oa": "audio/up_d01o/s17.mp3",
+      "d": 5.8
+    },
+    {
+      "sp": "",
+      "t": "Here's Charles Muntz piloting his famous dirigible.",
+      "zh": "这是查尔斯·蒙兹在驾驶他那艘著名的飞艇。",
+      "a": "audio/up_d01o/s18.mp3",
+      "oa": "audio/up_d01o/s18.mp3",
+      "d": 3.55
+    },
+    {
+      "sp": "",
+      "t": "He hurdles Pikes Peak.",
+      "zh": "他飞越了派克斯峰。",
+      "a": "audio/up_d01o/s19.mp3",
+      "oa": "audio/up_d01o/s19.mp3",
+      "d": 2.09
+    },
+    {
+      "sp": "",
+      "t": "Mount Rushmore! Hard to starboard!",
+      "zh": "拉什莫尔山！右满舵！",
+      "a": "audio/up_d01o/s20.mp3",
+      "oa": "audio/up_d01o/s20.mp3",
+      "d": 2.93
+    },
+    {
+      "sp": "",
+      "t": "Rudders 18 degrees towards the south.",
+      "zh": "方向舵向南转 18 度。",
+      "a": "audio/up_d01o/s21.mp3",
+      "oa": "audio/up_d01o/s21.mp3",
+      "d": 2.69
+    },
+    {
+      "sp": "",
+      "t": "It's a beautiful day. Winds out of the east at 10 knots.",
+      "zh": "天气真好。东风，风速 10 节。",
+      "a": "audio/up_d01o/s22.mp3",
+      "oa": "audio/up_d01o/s22.mp3",
+      "d": 3.79
+    },
+    {
+      "sp": "",
+      "t": "Visibility unlimited. Enter the weather in the logbook.",
+      "zh": "能见度无限。把天气记进航海日志。",
+      "a": "audio/up_d01o/s23.mp3",
+      "oa": "audio/up_d01o/s23.mp3",
+      "d": 4.57
+    },
+    {
+      "sp": "",
+      "t": "Aw! It's a puppy! Ah! No time! A storm! Lightning. Hail.",
+      "zh": "哇！是只小狗！啊！没时间了！暴风雨！闪电。冰雹。",
+      "a": "audio/up_d01o/s24.mp3",
+      "oa": "audio/up_d01o/s24.mp3",
+      "d": 6.66
+    },
+    {
+      "sp": "",
+      "t": "Don't you know this is an exclusive club?",
+      "zh": "你不知道这是个专属俱乐部吗？",
+      "a": "audio/up_d01o/s25.mp3",
+      "oa": "audio/up_d01o/s25.mp3",
+      "d": 2.35
+    },
+    {
+      "sp": "",
+      "t": "Only explorers get in here, not just any kid off the street with a helmet and a pair of goggles.",
+      "zh": "只有探险家才能进来，不是随便哪个戴着头盔和护目镜的街头小孩都行。",
+      "a": "audio/up_d01o/s26.mp3",
+      "oa": "audio/up_d01o/s26.mp3",
+      "d": 5.93
+    },
+    {
+      "sp": "",
+      "t": "All right, you're in. Welcome aboard.",
+      "zh": "好吧，你入会了。欢迎加入。",
+      "a": "audio/up_d01o/s27.mp3",
+      "oa": "audio/up_d01o/s27.mp3",
+      "d": 2.3
+    },
+    {
+      "sp": "",
+      "t": "Thought you might need a little cheering up.",
+      "zh": "我想你可能需要一点安慰，让你开心点。",
+      "a": "audio/up_d01o/s28.mp3",
+      "oa": "audio/up_d01o/s28.mp3",
+      "d": 1.8
+    },
+    {
+      "sp": "",
+      "t": "You'll have to swear you will not tell anyone.",
+      "zh": "你得发誓不告诉任何人。",
+      "a": "audio/up_d01o/s29.mp3",
+      "oa": "audio/up_d01o/s29.mp3",
+      "d": 3.34
+    },
+    {
+      "sp": "",
+      "t": "Cross your heart. Do it!",
+      "zh": "在胸口画十字发誓。快！",
+      "a": "audio/up_d01o/s30.mp3",
+      "oa": "audio/up_d01o/s30.mp3",
+      "d": 2.17
+    },
+    {
+      "sp": "",
+      "t": "I ripped this right out of a library book.",
+      "zh": "这是我从图书馆的书上直接撕下来的。",
+      "a": "audio/up_d01o/s31.mp3",
+      "oa": "audio/up_d01o/s31.mp3",
+      "d": 3.21
+    },
+    {
+      "sp": "",
+      "t": "I'm gonna move my clubhouse there and park it right next to the falls.",
+      "zh": "我要把我的俱乐部小屋搬到那儿，就放在瀑布旁边。",
+      "a": "audio/up_d01o/s32.mp3",
+      "oa": "audio/up_d01o/s32.mp3",
+      "d": 3.6
+    },
+    {
+      "sp": "",
+      "t": "That's it! You can take us there in a blimp!",
+      "zh": "有了！你可以开飞艇带我们去！",
+      "a": "audio/up_d01o/s33.mp3",
+      "oa": "audio/up_d01o/s33.mp3",
+      "d": 2.82
+    },
+    {
+      "sp": "",
+      "t": "Cross it! Cross your heart! Good, you promised. No backing out.",
+      "zh": "画呀！画十字发誓！好，你答应了。不许反悔。",
+      "a": "audio/up_d01o/s34.mp3",
+      "oa": "audio/up_d01o/s34.mp3",
+      "d": 4.7
+    }
+  ]
+}

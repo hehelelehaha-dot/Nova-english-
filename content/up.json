@@ -6,7 +6,9 @@
       "id": "up_d01",
       "title": "Day 1",
       "sub": "01 · 69 词",
-      "data": "up_d01.json"
+      "data": "up_d01.json",
+      "dt": "up_d01_dict.json",
+      "dtSub": "34 句"
     }
   ],
   "wfMap": [
