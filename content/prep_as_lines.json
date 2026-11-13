@@ -1,0 +1,452 @@
+{
+ "senses": {
+  "1": "1. 介词：作为／以……身份",
+  "2": "2. 介词：当作／看作／被叫作",
+  "3": "3. 连词：当……时／随着",
+  "4": "4. 连词：正如／按照",
+  "5": "5. 连词：as long as 只要",
+  "6": "6. as … as：和……一样"
+ },
+ "lines": [
+  {
+   "slug": "turning-red-experience-as-a-shaman",
+   "sense": 1,
+   "form": "介词",
+   "en": "I've got 50 years' experience as a shaman.",
+   "zh": "我当萨满已经有50年经验了。",
+   "movie": "Turning Red (2022)",
+   "speaker": "Mr. Gao",
+   "audio": "content/audio/prep/as/turning-red-experience-as-a-shaman.mp3"
+  },
+  {
+   "slug": "cars-3-as-your-sponsor",
+   "sense": 1,
+   "form": "介词",
+   "en": "As your sponsor, yes, but also as your friend.",
+   "zh": "作为你的赞助商，没错；但也作为你的朋友。",
+   "movie": "Cars 3 (2017)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/cars-3-as-your-sponsor.mp3"
+  },
+  {
+   "slug": "monsters-university-as-a-student",
+   "sense": 1,
+   "form": "介词",
+   "en": "As a student, I created these games as a friendly competition.",
+   "zh": "我当学生的时候，创办了这些比赛，当作一种友谊赛。",
+   "movie": "Monsters University (2013)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/monsters-university-as-a-student.mp3"
+  },
+  {
+   "slug": "lion-king-as-the-kings-brother",
+   "sense": 1,
+   "form": "介词",
+   "en": "As the king's brother, …",
+   "zh": "作为国王的弟弟，……",
+   "movie": "The Lion King",
+   "speaker": "Zazu",
+   "audio": "content/audio/prep/as/lion-king-as-the-kings-brother.mp3"
+  },
+  {
+   "slug": "mulan-2-as-a-father",
+   "sense": 1,
+   "form": "介词",
+   "en": "As a father, …",
+   "zh": "作为一个父亲，……",
+   "movie": "Mulan II (2004)",
+   "speaker": "Fa Zhou",
+   "audio": "content/audio/prep/as/mulan-2-as-a-father.mp3"
+  },
+  {
+   "slug": "toy-story-5-duty-as-a-space-ranger",
+   "sense": 1,
+   "form": "介词",
+   "en": "It is my sworn duty as a space ranger.",
+   "zh": "作为一名太空骑警，这是我发过誓的职责。",
+   "movie": "Toy Story 5 (2026)",
+   "speaker": "Buzz Lightyear",
+   "audio": "content/audio/prep/as/toy-story-5-duty-as-a-space-ranger.mp3"
+  },
+  {
+   "slug": "emperors-new-groove-me-as-a-baby",
+   "sense": 1,
+   "form": "介词",
+   "en": "That's me as a baby!",
+   "zh": "那是婴儿时期的我！",
+   "movie": "The Emperor's New Groove (2000)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/emperors-new-groove-me-as-a-baby.mp3"
+  },
+  {
+   "slug": "little-mermaid-2-time-as-a-mermaid",
+   "sense": 1,
+   "form": "介词",
+   "en": "Your time as a mermaid has just about expired.",
+   "zh": "你当美人鱼的时间差不多到了。",
+   "movie": "The Little Mermaid II: Return to the Sea (2000)",
+   "speaker": "Morgana",
+   "audio": "content/audio/prep/as/little-mermaid-2-time-as-a-mermaid.mp3"
+  },
+  {
+   "slug": "luca-also-known-as-falling",
+   "sense": 2,
+   "form": "介词",
+   "en": "Gravity! Also known as falling!",
+   "zh": "重力！也叫往下掉！",
+   "movie": "Luca (2021)",
+   "speaker": "Alberto",
+   "audio": "content/audio/prep/as/luca-also-known-as-falling.mp3"
+  },
+  {
+   "slug": "elio-as-a-reply",
+   "sense": 2,
+   "form": "介词",
+   "en": "I think someone, in interstellar space, found our message and is sending it back to us, as a reply!",
+   "zh": "我觉得星际空间里有人收到了我们的信息，正把它发回来，当作回复！",
+   "movie": "Elio (2025)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/elio-as-a-reply.mp3"
+  },
+  {
+   "slug": "lightyear-greeted-as-a-hero",
+   "sense": 2,
+   "form": "介词",
+   "en": "But I wasn't greeted as a hero.",
+   "zh": "但我并没有被当成英雄来迎接。",
+   "movie": "Lightyear (2022)",
+   "speaker": "Buzz Lightyear",
+   "audio": "content/audio/prep/as/lightyear-greeted-as-a-hero.mp3"
+  },
+  {
+   "slug": "hunchback-revile-you-as-a-monster",
+   "sense": 2,
+   "form": "介词",
+   "en": "Out there they'll revile you as a monster!",
+   "zh": "到了外面，他们会把你当成怪物来唾骂！",
+   "movie": "The Hunchback of Notre Dame (1996)",
+   "speaker": "Frollo",
+   "audio": "content/audio/prep/as/hunchback-revile-you-as-a-monster.mp3"
+  },
+  {
+   "slug": "little-mermaid-treated-you-as-one-of-their-own",
+   "sense": 2,
+   "form": "介词",
+   "en": "…and treated you as one of their own.",
+   "zh": "……还把你当成自己人一样对待。",
+   "movie": "The Little Mermaid",
+   "speaker": "",
+   "audio": "content/audio/prep/as/little-mermaid-treated-you-as-one-of-their-own.mp3"
+  },
+  {
+   "slug": "cinderella-remember-me-as-a-hero",
+   "sense": 2,
+   "form": "介词",
+   "en": "Remember me as a hero!",
+   "zh": "记住我是个英雄！",
+   "movie": "Cinderella",
+   "speaker": "",
+   "audio": "content/audio/prep/as/cinderella-remember-me-as-a-hero.mp3"
+  },
+  {
+   "slug": "beauty-and-the-beast-1991-as-the-years-passed",
+   "sense": 3,
+   "form": "连词",
+   "en": "As the years passed, …",
+   "zh": "随着岁月流逝，……",
+   "movie": "Beauty and the Beast (1991)",
+   "speaker": "Narrator",
+   "audio": "content/audio/prep/as/beauty-and-the-beast-1991-as-the-years-passed.mp3"
+  },
+  {
+   "slug": "beauty-and-the-beast-as-days-bled-into-years",
+   "sense": 3,
+   "form": "连词",
+   "en": "As days bled into years…",
+   "zh": "随着一天天变成一年年……",
+   "movie": "Beauty and the Beast",
+   "speaker": "Narrator",
+   "audio": "content/audio/prep/as/beauty-and-the-beast-as-days-bled-into-years.mp3"
+  },
+  {
+   "slug": "frozen-2-as-i-feel-my-power-grow",
+   "sense": 3,
+   "form": "连词",
+   "en": "As I feel my power grow",
+   "zh": "随着我感到自己的力量在变强",
+   "movie": "Frozen II (2019)",
+   "speaker": "Elsa (song)",
+   "audio": "content/audio/prep/as/frozen-2-as-i-feel-my-power-grow.mp3"
+  },
+  {
+   "slug": "toy-story-2-as-the-years-go-by",
+   "sense": 3,
+   "form": "连词",
+   "en": "And as the years go by",
+   "zh": "随着岁月一年年过去",
+   "movie": "Toy Story 2 (1999)",
+   "speaker": "Jessie (song)",
+   "audio": "content/audio/prep/as/toy-story-2-as-the-years-go-by.mp3"
+  },
+  {
+   "slug": "great-mouse-detective-even-as-we-speak",
+   "sense": 3,
+   "form": "连词",
+   "en": "…even as we speak.",
+   "zh": "……就在我们说话的这会儿。",
+   "movie": "The Great Mouse Detective (1986)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/great-mouse-detective-even-as-we-speak.mp3"
+  },
+  {
+   "slug": "luca-as-you-can-see",
+   "sense": 4,
+   "form": "连词",
+   "en": "As you can see, I've been collecting for a long time, so ask me anything.",
+   "zh": "你看，我收集很久了，随便问。",
+   "movie": "Luca (2021)",
+   "speaker": "Alberto",
+   "audio": "content/audio/prep/as/luca-as-you-can-see.mp3"
+  },
+  {
+   "slug": "luca-as-youll-learn",
+   "sense": 4,
+   "form": "连词",
+   "en": "Not like the deep. As you'll learn.",
+   "zh": "不像深海。你以后就知道了。",
+   "movie": "Luca (2021)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/luca-as-youll-learn.mp3"
+  },
+  {
+   "slug": "turning-red-as-you-know",
+   "sense": 4,
+   "form": "连词",
+   "en": "As you know, our ancestor, Sun Yee, …",
+   "zh": "你们都知道，我们的祖先孙仪……",
+   "movie": "Turning Red (2022)",
+   "speaker": "Ming",
+   "audio": "content/audio/prep/as/turning-red-as-you-know.mp3"
+  },
+  {
+   "slug": "elio-as-you-say-on-earth",
+   "sense": 4,
+   "form": "连词",
+   "en": "Until then, as you say on… Earth… okay, bye!",
+   "zh": "那就到时候见——就像你们地球上说的……好啦，拜拜！",
+   "movie": "Elio (2025)",
+   "speaker": "Ambassador Helix",
+   "audio": "content/audio/prep/as/elio-as-you-say-on-earth.mp3"
+  },
+  {
+   "slug": "cinderella-2015-as-you-wish",
+   "sense": 4,
+   "form": "连词",
+   "en": "As you wish.",
+   "zh": "如你所愿。",
+   "movie": "Cinderella (2015)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/cinderella-2015-as-you-wish.mp3"
+  },
+  {
+   "slug": "mufasa-as-mufasa-once-told-your-father",
+   "sense": 4,
+   "form": "连词",
+   "en": "As Mufasa once told your father, …",
+   "zh": "就像木法沙曾经对你爸爸说过的那样，……",
+   "movie": "Mufasa: The Lion King (2024)",
+   "speaker": "Rafiki",
+   "audio": "content/audio/prep/as/mufasa-as-mufasa-once-told-your-father.mp3"
+  },
+  {
+   "slug": "hunchback-do-as-i-say",
+   "sense": 4,
+   "form": "连词",
+   "en": "Do as I say",
+   "zh": "照我说的做",
+   "movie": "The Hunchback of Notre Dame",
+   "speaker": "Frollo",
+   "audio": "content/audio/prep/as/hunchback-do-as-i-say.mp3"
+  },
+  {
+   "slug": "wreck-it-ralph-as-you-were-saying",
+   "sense": 4,
+   "form": "连词",
+   "en": "Okay. As you were saying.",
+   "zh": "好，你接着说。",
+   "movie": "Wreck-It Ralph (2012)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/wreck-it-ralph-as-you-were-saying.mp3"
+  },
+  {
+   "slug": "turning-red-for-as-long-as-the-red-moon-shines",
+   "sense": 5,
+   "form": "连词",
+   "en": "For as long as the red moon shines, …",
+   "zh": "只要红月还亮着，……",
+   "movie": "Turning Red (2022)",
+   "speaker": "Mr. Gao",
+   "audio": "content/audio/prep/as/turning-red-for-as-long-as-the-red-moon-shines.mp3"
+  },
+  {
+   "slug": "mufasa-as-long-as-i-am-king",
+   "sense": 5,
+   "form": "连词",
+   "en": "As long as I'm king, …",
+   "zh": "只要我还是国王，……",
+   "movie": "Mufasa: The Lion King (2024)",
+   "speaker": "Mufasa",
+   "audio": "content/audio/prep/as/mufasa-as-long-as-i-am-king.mp3"
+  },
+  {
+   "slug": "little-mermaid-as-long-as-the-king-never-finds-out",
+   "sense": 5,
+   "form": "连词",
+   "en": "As long as the King never finds out, …",
+   "zh": "只要国王永远不知道，……",
+   "movie": "The Little Mermaid",
+   "speaker": "",
+   "audio": "content/audio/prep/as/little-mermaid-as-long-as-the-king-never-finds-out.mp3"
+  },
+  {
+   "slug": "little-mermaid-as-long-as-you-live-in-my-ocean",
+   "sense": 5,
+   "form": "连词",
+   "en": "But as long as you live in my ocean, you'll…",
+   "zh": "但只要你还住在我的海洋里，你就得……",
+   "movie": "The Little Mermaid",
+   "speaker": "King Triton",
+   "audio": "content/audio/prep/as/little-mermaid-as-long-as-you-live-in-my-ocean.mp3"
+  },
+  {
+   "slug": "little-mermaid-1989-as-long-as-you-both-shall-live",
+   "sense": 5,
+   "form": "连词",
+   "en": "…for as long as you both shall live?",
+   "zh": "……直到你们俩生命的尽头？",
+   "movie": "The Little Mermaid (1989)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/little-mermaid-1989-as-long-as-you-both-shall-live.mp3"
+  },
+  {
+   "slug": "little-mermaid-for-as-long-as-you-like",
+   "sense": 5,
+   "form": "连词",
+   "en": "For as long as you like.",
+   "zh": "你想待多久就待多久。",
+   "movie": "The Little Mermaid",
+   "speaker": "",
+   "audio": "content/audio/prep/as/little-mermaid-for-as-long-as-you-like.mp3"
+  },
+  {
+   "slug": "luca-just-as-bad-as-i-do",
+   "sense": 6,
+   "form": "as…as",
+   "en": "You guys want it just as bad as I do.",
+   "zh": "你们跟我一样想要它。",
+   "movie": "Luca (2021)",
+   "speaker": "Giulia",
+   "audio": "content/audio/prep/as/luca-just-as-bad-as-i-do.mp3"
+  },
+  {
+   "slug": "luca-as-safe-as-possible",
+   "sense": 6,
+   "form": "as…as",
+   "en": "And be as safe as possible, and I mean safer than safe!",
+   "zh": "还要尽可能安全，我是说比安全还要安全！",
+   "movie": "Luca (2021)",
+   "speaker": "Daniela",
+   "audio": "content/audio/prep/as/luca-as-safe-as-possible.mp3"
+  },
+  {
+   "slug": "encanto-just-as-special-as-you",
+   "sense": 6,
+   "form": "as…as",
+   "en": "A Gift just as special as you.",
+   "zh": "一份和你一样特别的天赋。",
+   "movie": "Encanto (2021)",
+   "speaker": "Abuela",
+   "audio": "content/audio/prep/as/encanto-just-as-special-as-you.mp3"
+  },
+  {
+   "slug": "coco-as-mysterious-as-powerful",
+   "sense": 6,
+   "form": "as…as",
+   "en": "They are as mysterious as they are powerful.",
+   "zh": "它们有多强大，就有多神秘。",
+   "movie": "Coco (2017)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/coco-as-mysterious-as-powerful.mp3"
+  },
+  {
+   "slug": "incredibles-as-fast-as-you-can",
+   "sense": 6,
+   "form": "as…as",
+   "en": "As fast as I can? As fast as you can!",
+   "zh": "用我最快的速度？——用你最快的速度！",
+   "movie": "The Incredibles (2004)",
+   "speaker": "Dash / Helen",
+   "audio": "content/audio/prep/as/incredibles-as-fast-as-you-can.mp3"
+  },
+  {
+   "slug": "monsters-university-as-scary-as-you",
+   "sense": 6,
+   "form": "as…as",
+   "en": "I'm as scary as you! I'm as scary as anyone!",
+   "zh": "我跟你一样吓人！我跟谁比都一样吓人！",
+   "movie": "Monsters University (2013)",
+   "speaker": "Mike Wazowski",
+   "audio": "content/audio/prep/as/monsters-university-as-scary-as-you.mp3"
+  },
+  {
+   "slug": "aristocats-as-beautiful-as-your-mother",
+   "sense": 6,
+   "form": "as…as",
+   "en": "You're going to be as beautiful as your mother.",
+   "zh": "你会长得和你妈妈一样漂亮。",
+   "movie": "The AristoCats (1970)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/aristocats-as-beautiful-as-your-mother.mp3"
+  },
+  {
+   "slug": "turning-red-simple-as-that",
+   "sense": 6,
+   "form": "as…as",
+   "en": "Simple as that.",
+   "zh": "就这么简单。",
+   "movie": "Turning Red (2022)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/turning-red-simple-as-that.mp3"
+  },
+  {
+   "slug": "turning-red-same-night-as-the-ritual",
+   "sense": 6,
+   "form": "as…as",
+   "en": "4-Town's the same night as the ritual?",
+   "zh": "4-Town 演唱会和仪式是同一个晚上？",
+   "movie": "Turning Red (2022)",
+   "speaker": "Mei",
+   "audio": "content/audio/prep/as/turning-red-same-night-as-the-ritual.mp3"
+  },
+  {
+   "slug": "toy-story-4-as-wonderful-as-it-sounds",
+   "sense": 6,
+   "form": "as…as",
+   "en": "Was it as wonderful as it sounds?",
+   "zh": "它真的像听起来那么美好吗？",
+   "movie": "Toy Story 4 (2019)",
+   "speaker": "",
+   "audio": "content/audio/prep/as/toy-story-4-as-wonderful-as-it-sounds.mp3"
+  },
+  {
+   "slug": "little-mermaid-1989-as-soon-as-possible",
+   "sense": 6,
+   "form": "as…as",
+   "en": "We wish to be married as soon as possible.",
+   "zh": "我们希望尽快结婚。",
+   "movie": "The Little Mermaid (1989)",
+   "speaker": "Prince Eric",
+   "audio": "content/audio/prep/as/little-mermaid-1989-as-soon-as-possible.mp3"
+  }
+ ]
+}
