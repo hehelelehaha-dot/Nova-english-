@@ -1,0 +1,19 @@
+{
+  "boards": [
+    {
+      "id": "podcast_gg",
+      "title": "金门大桥 · 整句",
+      "sub": "24 句",
+      "data": "podcast_gg.json",
+      "kind": "reading",
+      "src": "VOA Learning English Podcast · 2025-03-11 · The Golden Gate Bridge"
+    },
+    {
+      "id": "podcast_gg_dict",
+      "title": "金门大桥 · 句子听写",
+      "sub": "21 句",
+      "data": "podcast_gg_dict.json",
+      "kind": "dictation"
+    }
+  ]
+}

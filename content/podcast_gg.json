@@ -1,0 +1,556 @@
+{
+  "id": "podcast_gg",
+  "type": "reading",
+  "title": "金门大桥 · 整句",
+  "sents": [
+    {
+      "sp": "",
+      "h": "桥的名字与位置",
+      "t": "Every day, more than 110,000 automobiles cross a historic and beautiful bridge in northern California.",
+      "zh": "每天有超过 11 万辆汽车驶过北加州一座历史悠久又美丽的大桥。",
+      "bkw": [
+        [
+          "automobiles",
+          "n.",
+          "汽车（automobile 的复数）"
+        ],
+        [
+          "historic",
+          "adj.",
+          "有历史意义的；历史悠久的"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w01.mp3",
+        "audio/podcast_gg_wv/w02.mp3"
+      ],
+      "a": "audio/podcast_gg/s01.mp3",
+      "oa": "audio/podcast_gg/s01.mp3",
+      "d": 12.15
+    },
+    {
+      "sp": "",
+      "h": "桥的名字与位置",
+      "t": "The span is called the Golden Gate Bridge.",
+      "zh": "这座桥叫金门大桥。",
+      "bkw": [
+        [
+          "span",
+          "n.",
+          "（桥的）跨度；这里指这座桥"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w03.mp3"
+      ],
+      "a": "audio/podcast_gg/s02.mp3",
+      "oa": "audio/podcast_gg/s02.mp3",
+      "d": 4.47
+    },
+    {
+      "sp": "",
+      "h": "桥的名字与位置",
+      "t": "It is named after the body of water below it.",
+      "zh": "它是以桥下的那片水域命名的。",
+      "bkw": [
+        [
+          "is named after",
+          "phr.",
+          "以……命名"
+        ],
+        [
+          "the body of water",
+          "phr.",
+          "一片水域"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w04.mp3",
+        "audio/podcast_gg_wv/w05.mp3"
+      ],
+      "a": "audio/podcast_gg/s03.mp3",
+      "oa": "audio/podcast_gg/s03.mp3",
+      "d": 4.99
+    },
+    {
+      "sp": "",
+      "h": "桥的名字与位置",
+      "t": "The Golden Gate Strait connects the Pacific Ocean with San Francisco Bay.",
+      "zh": "金门海峡把太平洋和旧金山湾连在一起。",
+      "bkw": [
+        [
+          "Strait",
+          "n.",
+          "海峡"
+        ],
+        [
+          "Pacific Ocean",
+          "n.",
+          "太平洋"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w06.mp3",
+        "audio/podcast_gg_wv/w07.mp3"
+      ],
+      "a": "audio/podcast_gg/s04.mp3",
+      "oa": "audio/podcast_gg/s04.mp3",
+      "d": 7.39
+    },
+    {
+      "sp": "",
+      "h": "桥的结构与长度",
+      "t": "The distance between the main towers is almost 1,300 meters long.",
+      "zh": "两座主塔之间的距离将近 1300 米。",
+      "bkw": [
+        [
+          "distance",
+          "n.",
+          "距离"
+        ],
+        [
+          "main towers",
+          "n.",
+          "主塔"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w08.mp3",
+        "audio/podcast_gg_wv/w09.mp3"
+      ],
+      "a": "audio/podcast_gg/s05.mp3",
+      "oa": "audio/podcast_gg/s05.mp3",
+      "d": 8.31
+    },
+    {
+      "sp": "",
+      "h": "桥的结构与长度",
+      "t": "That was the longest suspension bridge span in the world for almost thirty years.",
+      "zh": "近三十年里，这都是世界上跨度最长的悬索桥。",
+      "bkw": [
+        [
+          "suspension bridge",
+          "n.",
+          "悬索桥（吊桥）"
+        ],
+        [
+          "span",
+          "n.",
+          "跨度"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w10.mp3",
+        "audio/podcast_gg_wv/w03.mp3"
+      ],
+      "a": "audio/podcast_gg/s06.mp3",
+      "oa": "audio/podcast_gg/s06.mp3",
+      "d": 9.85
+    },
+    {
+      "sp": "",
+      "h": "桥的结构与长度",
+      "t": "Then, in 1964, the larger Verrazano Narrows bridge opened in New York City.",
+      "zh": "后来在 1964 年，更大的韦拉扎诺海峡大桥在纽约市通车。",
+      "bkw": [
+        [
+          "larger",
+          "adj.",
+          "更大的（large 的比较级）"
+        ],
+        [
+          "opened in New York City",
+          "phr.",
+          "在纽约市开通"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w11.mp3",
+        "audio/podcast_gg_wv/w12.mp3"
+      ],
+      "a": "audio/podcast_gg/s07.mp3",
+      "oa": "audio/podcast_gg/s07.mp3",
+      "d": 9.98
+    },
+    {
+      "sp": "",
+      "h": "历史与建造",
+      "t": "Strauss used newly developed protective equipment for the men who worked on the bridge.",
+      "zh": "施特劳斯为建桥工人使用了新研发的防护装备。",
+      "bkw": [
+        [
+          "newly developed",
+          "phr.",
+          "新研发的"
+        ],
+        [
+          "protective equipment",
+          "n.",
+          "防护装备"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w13.mp3",
+        "audio/podcast_gg_wv/w14.mp3"
+      ],
+      "a": "audio/podcast_gg/s08.mp3",
+      "oa": "audio/podcast_gg/s08.mp3",
+      "d": 8.54
+    },
+    {
+      "sp": "",
+      "h": "历史与建造",
+      "t": "These included a special safety net under the bridge.",
+      "zh": "其中包括桥下一张特制的安全网。",
+      "bkw": [
+        [
+          "safety net",
+          "n.",
+          "安全网"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w15.mp3"
+      ],
+      "a": "audio/podcast_gg/s09.mp3",
+      "oa": "audio/podcast_gg/s09.mp3",
+      "d": 5.38
+    },
+    {
+      "sp": "",
+      "h": "历史与建造",
+      "t": "But still, 11 workers fell to their deaths during the building project.",
+      "zh": "尽管如此，施工期间还是有 11 名工人坠落身亡。",
+      "bkw": [
+        [
+          "fell to their deaths",
+          "phr.",
+          "坠落身亡"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w16.mp3"
+      ],
+      "a": "audio/podcast_gg/s10.mp3",
+      "oa": "audio/podcast_gg/s10.mp3",
+      "d": 7.16
+    },
+    {
+      "sp": "",
+      "h": "颜色与外观",
+      "t": "The color of the bridge, international orange, is very important.",
+      "zh": "大桥的颜色——国际橙——非常重要。",
+      "bkw": [
+        [
+          "international orange",
+          "n.",
+          "国际橙（金门大桥的专用橙红色）"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w17.mp3"
+      ],
+      "a": "audio/podcast_gg/s11.mp3",
+      "oa": "audio/podcast_gg/s11.mp3",
+      "d": 6.69
+    },
+    {
+      "sp": "",
+      "h": "颜色与外观",
+      "t": "It was chosen partly because it is easier to see through the heavy fog that often covers San Francisco.",
+      "zh": "选它的部分原因是：在常常笼罩旧金山的浓雾里，这个颜色更容易看清。",
+      "bkw": [
+        [
+          "chosen partly",
+          "phr.",
+          "部分是因为……而被选中"
+        ],
+        [
+          "covers",
+          "v.",
+          "覆盖；笼罩"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w18.mp3",
+        "audio/podcast_gg_wv/w19.mp3"
+      ],
+      "a": "audio/podcast_gg/s12.mp3",
+      "oa": "audio/podcast_gg/s12.mp3",
+      "d": 11.49
+    },
+    {
+      "sp": "",
+      "h": "颜色与外观",
+      "t": "Many people consider the Golden Gate Bridge the most beautiful bridge of its kind in the world.",
+      "zh": "很多人认为金门大桥是世界上同类桥中最美的一座。",
+      "bkw": [
+        [
+          "consider",
+          "v.",
+          "认为；把……看作"
+        ],
+        [
+          "the most beautiful",
+          "phr.",
+          "最美的"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w20.mp3",
+        "audio/podcast_gg_wv/w21.mp3"
+      ],
+      "a": "audio/podcast_gg/s13.mp3",
+      "oa": "audio/podcast_gg/s13.mp3",
+      "d": 9.06
+    },
+    {
+      "sp": "",
+      "h": "过桥与风景",
+      "t": "More than 2 billion vehicles have crossed the bridge since its opening.",
+      "zh": "自通车以来，已有超过 20 亿辆车驶过这座桥。",
+      "bkw": [
+        [
+          "vehicles",
+          "n.",
+          "车辆"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w22.mp3"
+      ],
+      "a": "audio/podcast_gg/s14.mp3",
+      "oa": "audio/podcast_gg/s14.mp3",
+      "d": 7.18
+    },
+    {
+      "sp": "",
+      "h": "过桥与风景",
+      "t": "But wheels are not the only way to cross the bridge.",
+      "zh": "不过，轮子（坐车）并不是过桥的唯一方式。",
+      "bkw": [
+        [
+          "wheels",
+          "n.",
+          "轮子；车轮"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w23.mp3"
+      ],
+      "a": "audio/podcast_gg/s15.mp3",
+      "oa": "audio/podcast_gg/s15.mp3",
+      "d": 5.54
+    },
+    {
+      "sp": "",
+      "h": "过桥与风景",
+      "t": "Many people walk across each year and there is no cost to do so.",
+      "zh": "每年很多人步行过桥，而且这样做不花钱。",
+      "bkw": [
+        [
+          "no cost to do so",
+          "phr.",
+          "这样做不用花钱"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w24.mp3"
+      ],
+      "a": "audio/podcast_gg/s16.mp3",
+      "oa": "audio/podcast_gg/s16.mp3",
+      "d": 7.37
+    },
+    {
+      "sp": "",
+      "h": "过桥与风景",
+      "t": "On clear days, the bridge provides excellent views of San Francisco, ships down below and birds all around.",
+      "zh": "天气晴朗时，在桥上能看到旧金山、桥下的船和四周的飞鸟，景色极好。",
+      "bkw": [
+        [
+          "on clear days",
+          "phr.",
+          "在晴朗的日子"
+        ],
+        [
+          "provides excellent views",
+          "phr.",
+          "提供绝佳的景色"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w25.mp3",
+        "audio/podcast_gg_wv/w26.mp3"
+      ],
+      "a": "audio/podcast_gg/s17.mp3",
+      "oa": "audio/podcast_gg/s17.mp3",
+      "d": 11.78
+    },
+    {
+      "sp": "",
+      "h": "诗句 The Mighty Task is Done",
+      "t": "At last the mighty task is done; resplendent in the western sun",
+      "zh": "这项宏伟的工程终于完成；在西边的阳光里熠熠生辉",
+      "bkw": [
+        [
+          "mighty",
+          "adj.",
+          "巨大的；宏伟的"
+        ],
+        [
+          "resplendent",
+          "adj.",
+          "灿烂的；光彩夺目的"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w27.mp3",
+        "audio/podcast_gg_wv/w28.mp3"
+      ],
+      "a": "audio/podcast_gg/s18.mp3",
+      "oa": "audio/podcast_gg/s18.mp3",
+      "d": 7.37
+    },
+    {
+      "sp": "",
+      "h": "诗句 The Mighty Task is Done",
+      "t": "The Bridge looms mountain high; its titan piers grip ocean floor,",
+      "zh": "大桥像山一样高高耸现；巨大的桥墩紧紧抓住海底，",
+      "bkw": [
+        [
+          "looms",
+          "v.",
+          "（高大地）隐约耸现"
+        ],
+        [
+          "titan piers",
+          "n.",
+          "巨大的桥墩"
+        ],
+        [
+          "grip",
+          "v.",
+          "紧抓"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w29.mp3",
+        "audio/podcast_gg_wv/w30.mp3",
+        "audio/podcast_gg_wv/w31.mp3"
+      ],
+      "a": "audio/podcast_gg/s19.mp3",
+      "oa": "audio/podcast_gg/s19.mp3",
+      "d": 7.76
+    },
+    {
+      "sp": "",
+      "h": "诗句 The Mighty Task is Done",
+      "t": "Its great steel arms link shore with shore,",
+      "zh": "它巨大的钢铁臂膀把两岸连在一起，",
+      "bkw": [
+        [
+          "steel",
+          "n.",
+          "钢；钢铁"
+        ],
+        [
+          "shore",
+          "n.",
+          "岸；海岸"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w32.mp3",
+        "audio/podcast_gg_wv/w33.mp3"
+      ],
+      "a": "audio/podcast_gg/s20.mp3",
+      "oa": "audio/podcast_gg/s20.mp3",
+      "d": 5.2
+    },
+    {
+      "sp": "",
+      "h": "诗句 The Mighty Task is Done",
+      "t": "Its towers pierce the sky.",
+      "zh": "它的高塔直插云霄。",
+      "bkw": [
+        [
+          "pierce",
+          "v.",
+          "刺穿；直插"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w34.mp3"
+      ],
+      "a": "audio/podcast_gg/s21.mp3",
+      "oa": "audio/podcast_gg/s21.mp3",
+      "d": 3.76
+    },
+    {
+      "sp": "",
+      "h": "词汇解释 Words in this Story",
+      "t": "This report was written by VOA Learning English.",
+      "zh": "这篇报道由 VOA 慢速英语撰写。",
+      "bkw": [
+        [
+          "written by",
+          "phr.",
+          "由……撰写"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w35.mp3"
+      ],
+      "a": "audio/podcast_gg/a22.mp3",
+      "d": 3.62
+    },
+    {
+      "sp": "",
+      "h": "词汇解释 Words in this Story",
+      "t": "tower – a structure that is much taller than it is wide",
+      "zh": "塔：高度远大于宽度的建筑结构",
+      "bkw": [
+        [
+          "structure",
+          "n.",
+          "结构；建筑物"
+        ],
+        [
+          "wide",
+          "adj.",
+          "宽的"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w36.mp3",
+        "audio/podcast_gg_wv/w37.mp3"
+      ],
+      "a": "audio/podcast_gg/a23.mp3",
+      "d": 3.7
+    },
+    {
+      "sp": "",
+      "h": "词汇解释 Words in this Story",
+      "t": "span – the distance between supports in a structure, especially in bridges",
+      "zh": "跨度：结构中两个支撑之间的距离，尤其指桥梁",
+      "bkw": [
+        [
+          "supports",
+          "n.",
+          "支撑物；支柱"
+        ],
+        [
+          "structure",
+          "n.",
+          "结构"
+        ]
+      ],
+      "bkwa": [
+        "audio/podcast_gg_wv/w38.mp3",
+        "audio/podcast_gg_wv/w36.mp3"
+      ],
+      "a": "audio/podcast_gg/a24.mp3",
+      "d": 5.3
+    }
+  ]
+}

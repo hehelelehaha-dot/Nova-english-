@@ -190,7 +190,8 @@ function refreshFoldNumbers(){FOLDN={};navalSectionIds().forEach((id,i)=>{FOLDN[
  LUCA_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
  UP_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
  ELIO_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
- TURNING_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
+ TURNING_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
+ PODCAST_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
 const secT=(id,t)=>{const n=FOLDN[id];return n?CIRC[n]+" "+t:t};
 const lucaSec=id=>LUCA_DEF.find(s=>s.id==id);
 let LUCA=null;
@@ -241,6 +242,17 @@ function turningBoards(){return (TURNING&&TURNING.boards)||[]}
 function turningItem(id){return turningBoards().find(it=>it&&it.id==id)||null}
 function turningHit(id){const it=turningItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"turning_dictation"};return{it:Object.assign({},it,{upPart:"flash"}),sec:"turning_flash"}}
 const turningSec=id=>TURNING_DEF.find(s=>s.id==id);
+// 播客 (internal id podcast): a standalone home fold after 飞屋环游记. content/podcast.json lists the boards
+// (整句 = reading card with category headings h, 生词 bkw + Michael word mp3 bkwa; 句子听写 = dictation).
+const PODCAST_DEF=[
+ {id:"podcast_reading",like:"reading",name:"整句",typeName:"阅读卡",desc:"VOA · 金门大桥",item:"podcast_gg"},
+ {id:"podcast_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",desc:"VOA · 金门大桥",item:"podcast_gg_dict"}];
+let PODCAST=null;
+async function loadPodcast(){if(PODCAST)return PODCAST;try{PODCAST=await getJSON("podcast.json")}catch(e){PODCAST={boards:[]}}if(!PODCAST.boards)PODCAST.boards=[];return PODCAST}
+function podcastBoards(){return (PODCAST&&PODCAST.boards)||[]}
+function podcastItem(id){return podcastBoards().find(it=>it&&it.id==id)||null}
+function podcastHit(id){const it=podcastItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"podcast_dictation"};return{it:Object.assign({},it),sec:"podcast_reading"}}
+const podcastSec=id=>PODCAST_DEF.find(s=>s.id==id);
 function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
 function prepHomeHTML(list){const inner=list.length?list.map(s=>{const id=String(s.id||""),title=String(s.title!=null?s.title:id),key="prep:"+id;
  const items=Array.isArray(s.items)?s.items:[];
@@ -439,7 +451,7 @@ async function route0(){syncPaper();delete document.documentElement.dataset.home
  // Boot leaves enc:false when meta.json fails, which used to skip the lock and open as plaintext.
  if(!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}try{await loadPrep()}catch(e){PREP=[]}try{await loadElio()}catch(e){ELIO={boards:[]}}try{await loadTurning()}catch(e){TURNING={boards:[]}}applyDictation(CAT);refreshFoldNumbers();
+ await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}try{await loadPrep()}catch(e){PREP=[]}try{await loadElio()}catch(e){ELIO={boards:[]}}try{await loadTurning()}catch(e){TURNING={boards:[]}}try{await loadPodcast()}catch(e){PODCAST={boards:[]}}applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  // #/dq is the read-only 今天的目标. Picking sentences is only on the 句子听写 topic lists.
@@ -627,9 +639,11 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const elio=ELIO_DEF.map(s=>{const it=elioItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:elioIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
  const turningIcon={reading:"📖",flash:"🗂️",dictation:"✍️"};
  const turning=TURNING_DEF.map(s=>{const it=turningItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:turningIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
+ const podcastIcon={reading:"📖",dictation:"✍️"};
+ const podcast=PODCAST_DEF.map(s=>{const it=podcastItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:podcastIcon[s.like]||"📁",desc:s.desc||"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${prepHomeHTML(prepSections())}${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("elio","Elio",ELIO_DEF.length,elio)}${foldHTML("turning","青春变形记",TURNING_DEF.length,turning)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${prepHomeHTML(prepSections())}${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("elio","Elio",ELIO_DEF.length,elio)}${foldHTML("turning","青春变形记",TURNING_DEF.length,turning)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}${foldHTML("podcast","播客",PODCAST_DEF.length,podcast)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();if(typeof dqGoalHome=="function")dqGoalHome();
  const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playStarRain()};preloadStarRain();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
@@ -642,6 +656,7 @@ function foldReadingTopics(fold){
  const row=(it,n)=>n==null||ORG.hidden[it.id]?null:{id:it.id,n,data:it.data,title:ttl(it)};
  if(fold=="luca")return lucaReading().map(it=>{const m=/d(\d+)/.exec(it.id||"");return row(it,m?+m[1]:null)}).filter(Boolean).sort((a,b)=>a.n-b.n);
  if(fold=="elio")return elioBoards().filter(it=>it&&(it.kind=="reading"||it.id=="elio_monologue")).map((it,i)=>row(it,i+1)).filter(Boolean);
+ if(fold=="podcast")return podcastBoards().filter(it=>it&&it.kind=="reading").map((it,i)=>row(it,i+1)).filter(Boolean);
  if(fold=="turning")return turningBoards().filter(it=>it&&it.kind=="reading").map((it,i)=>row(it,i+1)).filter(Boolean);
  const rd=CAT&&CAT.categories&&CAT.categories.find(c=>c.id=="reading");
  return ((rd&&rd.items)||[]).filter(it=>/naval_t\d+/.test(it.id)).map(it=>row(it,topicNo(it))).filter(Boolean).sort((a,b)=>a.n-b.n)}
@@ -767,7 +782,7 @@ function showLuca(s){if(s.like=="game")return showGames("luca");if(s.like=="wf")
  V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
-async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const turning=turningSec(id);if(turning){const it=turningItem(turning.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
+async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const turning=turningSec(id);if(turning){const it=turningItem(turning.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
  V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
@@ -815,7 +830,7 @@ async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dicta
  let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}
  if(!it){const L=lucaHit(id);if(L){it=L.it;cat={id:L.sec}}}
  if(!it){const U=upHit(id);if(U){it=U.it;cat={id:U.sec}}}
- if(!it){const E=elioHit(id);if(E){it=E.it;cat={id:E.sec}}}if(!it){const T=turningHit(id);if(T){it=T.it;cat={id:T.sec}}}
+ if(!it){const E=elioHit(id);if(E){it=E.it;cat={id:E.sec}}}if(!it){const T=turningHit(id);if(T){it=T.it;cat={id:T.sec}}}if(!it){const P=podcastHit(id);if(P){it=P.it;cat={id:P.sec}}}
  if(!it)return showHome();
  setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  if(it.dictation||(cat&&cat.id=="dictation")||(cat&&cat.id=="luca_dictation"))return viewDictation(d,it);
@@ -848,17 +863,20 @@ function rdGapWait(ms,alive){if(!(ms>0))return Promise.resolve(alive());
   const t0=Date.now();const tick=()=>{if(!alive())return finish(false);const left=ms-(Date.now()-t0);if(left<=0)return finish(true);timer=setTimeout(tick,Math.min(200,left))};
   timer=setTimeout(tick,Math.min(200,ms))})}
 // RD_LOOP_END
+// 播客 整句: wrap each marked word/phrase (bkw) in the sentence with <b class="pkw">.
+function podHL(t,ws){const R=[];ws.forEach(w=>{const q=String(w||"").trim();if(!q)return;const re=new RegExp("\\b"+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+")+"\\b","i");const m=re.exec(t);if(m&&!R.some(r=>m.index<r[1]&&r[0]<m.index+m[0].length))R.push([m.index,m.index+m[0].length])});
+ R.sort((a,b)=>a[0]-b[0]);let out="",at=0;R.forEach(([a,b])=>{out+=esc(t.slice(at,a))+'<b class="pkw">'+esc(t.slice(a,b))+"</b>";at=b});return out+esc(t.slice(at))}
 function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
- const rows=rdRows(d),hasDD=rows.some(x=>x.s.seg&&x.s.oa),lucaRd=/^(luca_|elio_|turning_)/.test(rid);
+ const rows=rdRows(d),hasDD=rows.some(x=>x.s.seg&&x.s.oa),lucaRd=/^(luca_|elio_|turning_)/.test(rid)||/^podcast_/.test(rid),podRd=/^podcast_/.test(rid);
  const showN=i=>{const r=rows.find(x=>x.i===i);return (r?r.n:i)+1};
  let gap=0;try{const n=+localStorage.getItem("rd_luca_gap");if(RD_GAPS.includes(n))gap=n}catch(e){}
  V.innerHTML=`<div class="bar rdbar"><button id="stp">■ 停止</button><button id="bk5" type="button">倒退5秒</button><button id="rnggo" type="button" class="org">原声连播</button><button id="rloop" type="button" class="org">🔁 原声循环</button><button id="spd">速度 1x</button><button id="loop">单句循环</button>${lucaRd?'<button type="button" id="lgap">停顿 0秒</button>':""}<button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
  const ss=document.getElementById("ss"),st=x=>document.getElementById("st").textContent=x;
- rows.forEach(({s,i,n})=>{const e=document.createElement("div");e.className="s "+String(s.sp||"").toLowerCase();e.id="s"+i;
-  e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${n+1}句">${n+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${esc(rdWho(s.sp))}</div><div class="fr"><div class="t"></div>${s.oa&&s.a!==s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map(g=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}">🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
-  e.querySelector(".t").textContent=s.t;const ze=e.querySelector(".zhe");if(ze)ze.textContent=s.t;{const sb=e.querySelector(".sun");const stop=ev=>ev.stopPropagation();sb.addEventListener("pointerdown",stop);sb.addEventListener("touchstart",stop,{passive:true});sb.onclick=ev=>{ev.stopPropagation();ev.preventDefault();const on=sunToggle(rid,i);e.classList.toggle("lit",on);sb.setAttribute("aria-pressed",on)}}if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();sayEN(b.dataset.w.replace(/…/g," "),b)});glossSrc(e,s,i);e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();const btn=ev.currentTarget,now=performance.now(),how=rdSunTap({at:+btn._tap||0,now,own:rdOwn===i,ended:!!A.ended,t:A.currentTime||0,paused:!!A.paused});
+ let lastH="";rows.forEach(({s,i,n})=>{const e=document.createElement("div");e.className="s "+String(s.sp||"").toLowerCase();e.id="s"+i;if(podRd&&s.h&&s.h!==lastH){const hh=document.createElement("h3");hh.className="pcat";hh.textContent=s.h;ss.appendChild(hh)}if(podRd)lastH=s.h||"";
+  e.classList.toggle("lit",sunHas(rid,i));e.innerHTML=`<div class="body"><div class="who"><span class="sno" aria-label="第${n+1}句">${n+1}</span><button class="sun" aria-label="标记重点" aria-pressed="${sunHas(rid,i)}">☀</button>${esc(rdWho(s.sp))}</div><div class="fr"><div class="t"></div>${s.oa&&s.a!==s.oa?'<button class="osb ai" aria-label="AI 朗读">🤖 AI</button>':""}</div>${s.zh?'<div class="zhb"><div class="zhe"></div><div class="zht"></div>'+((s.bkw||s.gloss||[]).length||(s.bkc||[]).length?'<div class="gl">'+((s.bkw||s.gloss||[]).length?'<div class="glh">生词</div>':'')+(s.bkw||s.gloss||[]).map((g,gk)=>`<div class="gli"><button class="gls" data-w="${esc(g[0])}"${s.bkwa&&s.bkwa[gk]?` data-a="${esc(s.bkwa[gk])}"`:""}>🔊</button><b>${esc(g[0])}</b> · <i>${esc(g[1])} ${({"n.":"名词","v.":"动词","adj.":"形容词","adv.":"副词","phr.":"短语","conj.":"连词","int.":"感叹词"})[g[1]]||""}</i> · ${esc(g[2])}${g[4]?`<div class="glg">${esc(g[3])} 底层逻辑：${esc(g[4])}</div>`:""}</div>`).join("")+((s.bkc||[]).length?'<div class="glh">搭配 · Chunks</div>'+s.bkc.map(c=>`<div class="gli glc"><button class="gls" data-w="${esc(c[0])}">🔊</button><b>${esc(c[0])}</b> · ${esc(c[1])}</div>`).join(""):'')+'</div>':"")+'</div>':""}</div><button class="p">▶</button>`;
+  e.querySelector(".t").textContent=s.t;const ze=e.querySelector(".zhe");if(ze)ze.textContent=s.t;if(podRd&&(s.bkw||[]).length){const h=podHL(s.t,s.bkw.map(g=>g[0]));e.querySelector(".t").innerHTML=h;if(ze)ze.innerHTML=h}{const sb=e.querySelector(".sun");const stop=ev=>ev.stopPropagation();sb.addEventListener("pointerdown",stop);sb.addEventListener("touchstart",stop,{passive:true});sb.onclick=ev=>{ev.stopPropagation();ev.preventDefault();const on=sunToggle(rid,i);e.classList.toggle("lit",on);sb.setAttribute("aria-pressed",on)}}if(s.zh){e.querySelector(".zht").textContent=s.zh;e.querySelectorAll(".gls").forEach(b=>b.onclick=ev=>{ev.stopPropagation();if(b.dataset.a){stopAll();LASTBTN=b;const q=playP(b.dataset.a,1,b.dataset.w);if(q&&q.catch)q.catch(()=>{});return}sayEN(b.dataset.w.replace(/…/g," "),b)});glossSrc(e,s,i);e.onclick=()=>flipCard(e)}e.querySelector(".p").onclick=ev=>{ev.stopPropagation();const btn=ev.currentTarget,now=performance.now(),how=rdSunTap({at:+btn._tap||0,now,own:rdOwn===i,ended:!!A.ended,t:A.currentTime||0,paused:!!A.paused});
   btn._tap=how==="restart"?0:now;if(how==="pause"){try{A.pause()}catch(err){}return}if(how==="resume"){LASTBTN=btn;const q=A.play();if(q&&q.catch)q.catch(()=>{});return}stopAll();setAll(false);rdOwn=i;seq([i],!!s.oa)};if(s.oa&&s.a!==s.oa)e.querySelector(".osb").onclick=ev=>{ev.stopPropagation();stopAll();setAll(false);seq([i],false,ev.currentTarget)};ss.appendChild(e)});{const LK="nova_last_"+rid;const L=+localStorage.getItem(LK)||0;if(L>0){const t=document.getElementById("s"+L);if(t){const go=()=>{if(!document.body.contains(t)||FOLLOW_EL)return;const off=stTop()+8;scrollTo(0,t.getBoundingClientRect().top+scrollY-off)};setTimeout(go,350);setTimeout(go,1100)}}
- let lt=0;const sv=()=>{if(!document.body.contains(ss)){removeEventListener("scroll",sv);return}clearTimeout(lt);lt=setTimeout(()=>{const y=stTop()+10;const c=[...ss.children].find(x=>x.getBoundingClientRect().bottom>y);if(c)localStorage.setItem(LK,c.id.slice(1))},250)};addEventListener("scroll",sv,{passive:true})}
+ let lt=0;const sv=()=>{if(!document.body.contains(ss)){removeEventListener("scroll",sv);return}clearTimeout(lt);lt=setTimeout(()=>{const y=stTop()+10;const c=[...ss.children].filter(x=>x.classList.contains("s")).find(x=>x.getBoundingClientRect().bottom>y);if(c)localStorage.setItem(LK,c.id.slice(1))},250)};addEventListener("scroll",sv,{passive:true})}
  // gloss line 3: where the word appears (点读 phrase or sentence) + ▶ plays the original segment containing it
  function glossSrc(e,s,i){const W=s.t.split(/\s+/),nz=x=>x.toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9']/g,"");
   e.querySelectorAll(".gli:not(.glc)").forEach((li,gk)=>{const g=(s.bkw||s.gloss)[gk];if(!g)return;const q=g[0].replace(/…/g," ").split(/\s+/).map(nz).filter(Boolean);let at=-1;
@@ -910,7 +928,7 @@ function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const S
   $("dd").onclick=()=>{DD=!DD;try{localStorage.setItem("rd_dd",DD?"1":"0")}catch(e){}ren();st("")};ren()}
  $("spd").onclick=()=>{si=(si+1)%3;TLSI=si;A.playbackRate=SP[si];A.defaultPlaybackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
- const fold=/^turning_/.test(rid)?"turning":/^elio_/.test(rid)?"elio":/^luca_/.test(rid)?"luca":"naval";
+ const fold=/^podcast_/.test(rid)?"podcast":/^turning_/.test(rid)?"turning":/^elio_/.test(rid)?"elio":/^luca_/.test(rid)?"luca":"naval";
  $("bk5").onclick=listenRewind;
  $("rnggo").onclick=()=>listenStart(fold,false);
  $("rloop").onclick=()=>listenStart(fold,true);
@@ -1824,7 +1842,7 @@ const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)|
 const MCAT={};  // imported-audio id → category (filled by itemsIn)
 function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
  if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return String(h[2]||"").startsWith("luca_")?"luca_wf":"wf";if(h[1]=="d")return "d";if(h[1]=="g")return h[2]==="luca"||String(h[2]||"").startsWith("luca_")?"luca_game":"g";
- if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const L=lucaHit(h[2]);if(L)return L.sec;const E=elioHit(h[2]);if(E)return E.sec;const T=turningHit(h[2]);return T?T.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
+ if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const L=lucaHit(h[2]);if(L)return L.sec;const E=elioHit(h[2]);if(E)return E.sec;const T=turningHit(h[2]);if(T)return T.sec;const P=podcastHit(h[2]);return P?P.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
 function tsecKeys(sec){return sec=="dictation"||sec=="chunks"?["dictation","chunks"]:[sec]}
 function tsecT(sec,day){const ks=tsecKeys(sec);if(day){const D=TSEC[day]||{};return ks.reduce((n,k)=>n+(+D[k]||0),0)}let s=0;for(const d in TSEC)for(const k of ks)s+=+(TSEC[d][k]||0);return s}
 const secHTML=sec=>`今天 ${fmtT(tsecT(sec,dKey()))} · 累计 ${fmtT(tsecT(sec))}`;
