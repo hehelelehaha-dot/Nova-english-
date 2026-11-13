@@ -18,7 +18,7 @@ assert.match(app, /elioHit\(/);
 assert.match(app, /\/\^\(luca_\|elio_\|turning_\)\//);
 assert.match(app, /fold=="elio"/);
 
-assert.deepEqual(elio.boards.map(b => b.id), ["elio_monologue", "elio_words"]);
+assert.deepEqual(elio.boards.map(b => b.id), ["elio_monologue", "elio_words", "elio_dict"]);
 assert.equal(mono.type, "reading");
 assert.equal(mono.sents.length, 8);
 assert.equal(mono.sents[0].t, "It's an ancient human theme.");
@@ -60,3 +60,20 @@ for (const s of mono.sents) {
   assert.equal(s.seg[s.seg.length - 1][1], n - 1, s.t);
   s.seg.forEach((z, k) => { assert.ok(z[0] <= z[1] && z[2] < z[3], s.t); if (k) assert.equal(z[0], s.seg[k - 1][1] + 1, s.t); });
 }
+
+// 🔊 word pronunciation: every 高频生词 card carries its own word mp3 (iOS mutes speechSynthesis on silent).
+for (const f of ["elio_words", "turning_words"]) {
+  const W = JSON.parse(read(`content/${f}.json`));
+  for (const c of W.flash.cards) {
+    assert.ok(Array.isArray(c.a) && c.a[0], c.w);
+    assert.equal(existsSync(new URL("./content/" + c.a[0], root)), true, c.a[0]);
+  }
+}
+// 句子听写 boards: only lines with original audio.
+for (const f of ["elio_dict", "turning_dict"]) {
+  const D = JSON.parse(read(`content/${f}.json`));
+  assert.ok(D.sents.length > 0);
+  for (const s of D.sents) { assert.ok(s.oa && s.zh, s.t); assert.equal(existsSync(new URL("./content/" + s.oa, root)), true, s.oa); }
+}
+assert.match(app, /id:"elio_dictation",like:"dictation"/);
+assert.match(app, /id:"turning_dictation",like:"dictation"/);
