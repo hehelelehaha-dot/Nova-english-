@@ -1,0 +1,19 @@
+{
+  "boards": [
+    {
+      "id": "talk_ep1",
+      "title": "Open Talk – The Desire Contract",
+      "sub": "整集 · 11 分 18 秒",
+      "data": "talk_ep1.json",
+      "kind": "episode",
+      "src": "Open Talk · Episode 1"
+    },
+    {
+      "id": "talk_ep1_dict",
+      "title": "The Desire Contract · 句子听写",
+      "sub": "13 句",
+      "data": "talk_ep1_dict.json",
+      "kind": "dictation"
+    }
+  ]
+}

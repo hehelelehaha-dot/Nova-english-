@@ -1,0 +1,111 @@
+{
+  "id": "talk_ep1_dict",
+  "type": "reading",
+  "title": "The Desire Contract · 句子听写",
+  "sents": [
+    {
+      "sp": "Lily",
+      "t": "Ugh, I spent all night looking at new phones. I want the latest one so badly.",
+      "zh": "唉，我整晚都在看新手机。我特别想要最新的那一款。",
+      "a": "audio/talk_ep1/F_8d3816dcff80.mp3",
+      "oa": "audio/talk_ep1/F_8d3816dcff80.mp3",
+      "d": 5.303
+    },
+    {
+      "sp": "Mark",
+      "t": "Didn't you just get a new phone last year?",
+      "zh": "你去年不是刚买了一部新手机吗？",
+      "a": "audio/talk_ep1/M_434ad9fc15cc.mp3",
+      "oa": "audio/talk_ep1/M_434ad9fc15cc.mp3",
+      "d": 2.038
+    },
+    {
+      "sp": "Lily",
+      "t": "Yeah, but this one is better. And I also want to rent a bigger studio. And maybe start selling my own lash products.",
+      "zh": "是啊，但这一款更好。而且我还想租一间更大的工作室。也许再开始卖我自己的睫毛产品。",
+      "a": "audio/talk_ep1/F_18ce1b9314a5.mp3",
+      "oa": "audio/talk_ep1/F_18ce1b9314a5.mp3",
+      "d": 7.053
+    },
+    {
+      "sp": "Mark",
+      "t": "Lily, that's a lot of wants at the same time.",
+      "zh": "Lily，你同时想要的东西太多了。",
+      "a": "audio/talk_ep1/M_1739c4ff760a.mp3",
+      "oa": "audio/talk_ep1/M_1739c4ff760a.mp3",
+      "d": 2.821
+    },
+    {
+      "sp": "Lily",
+      "t": "I know. I just feel like I can't be happy until I get all of it.",
+      "zh": "我知道。我就是觉得，得不到这些，我就开心不起来。",
+      "a": "audio/talk_ep1/F_b8414b33b8b7.mp3",
+      "oa": "audio/talk_ep1/F_b8414b33b8b7.mp3",
+      "d": 4.545
+    },
+    {
+      "sp": "Mark",
+      "t": "I heard an interesting idea about that. People say a desire is a contract you make with yourself to be unhappy until you get what you want. Every new desire is one more desire contract you sign.",
+      "zh": "我听过一个挺有意思的说法。有人说，欲望是你和自己签的一份合同：得不到想要的东西，就不允许自己开心。每多一个欲望，你就多签一份欲望契约。",
+      "a": "audio/talk_ep1/M_bdd0ac2bb6d4.mp3",
+      "oa": "audio/talk_ep1/M_bdd0ac2bb6d4.mp3",
+      "d": 11.102
+    },
+    {
+      "sp": "Lily",
+      "t": "A contract with myself? So I'm making myself unhappy on purpose?",
+      "zh": "和自己签的合同？所以我是在故意让自己不快乐？",
+      "a": "audio/talk_ep1/F_12b9531d38c6.mp3",
+      "oa": "audio/talk_ep1/F_12b9531d38c6.mp3",
+      "d": 4.963
+    },
+    {
+      "sp": "Mark",
+      "t": "Not on purpose. But we pick up a lot of unnecessary desires everywhere — ads, videos, other people's lives.",
+      "zh": "不是故意的。但我们会在各处不知不觉沾上很多没必要的欲望——广告、视频、别人的生活。",
+      "a": "audio/talk_ep1/M_108b82716386.mp3",
+      "oa": "audio/talk_ep1/M_108b82716386.mp3",
+      "d": 7.471
+    },
+    {
+      "sp": "Lily",
+      "t": "That's true. I pick them up without even thinking.",
+      "zh": "没错。我连想都没想，就沾上了。",
+      "a": "audio/talk_ep1/F_700320180e7c.mp3",
+      "oa": "audio/talk_ep1/F_700320180e7c.mp3",
+      "d": 4.127
+    },
+    {
+      "sp": "Mark",
+      "t": "If you want to be really good at your work, you have to be choosy about your desires. You have to focus.",
+      "zh": "如果你想把工作真正做好，就必须认真挑选自己的欲望。你得专注。",
+      "a": "audio/talk_ep1/M_c5f9691a34cf.mp3",
+      "oa": "audio/talk_ep1/M_c5f9691a34cf.mp3",
+      "d": 5.616
+    },
+    {
+      "sp": "Lily",
+      "t": "Frankly, I can't be great at everything. I'll just waste my energy.",
+      "zh": "说实话，我不可能样样都精通。那样只会浪费精力。",
+      "a": "audio/talk_ep1/F_8487376775af.mp3",
+      "oa": "audio/talk_ep1/F_8487376775af.mp3",
+      "d": 4.545
+    },
+    {
+      "sp": "Mark",
+      "t": "Exactly. Maybe keep one desire, and let the others go for now.",
+      "zh": "没错。也许先留下一个欲望，其余的暂时放下。",
+      "a": "audio/talk_ep1/M_43a3d707577a.mp3",
+      "oa": "audio/talk_ep1/M_43a3d707577a.mp3",
+      "d": 4.258
+    },
+    {
+      "sp": "Lily",
+      "t": "Okay. The studio can wait. The phone can wait. I'll focus on my clients this year.",
+      "zh": "好。工作室可以再等等。手机也可以再等等。今年我会把精力放在客人身上。",
+      "a": "audio/talk_ep1/F_2cfa0aa2d3ff.mp3",
+      "oa": "audio/talk_ep1/F_2cfa0aa2d3ff.mp3",
+      "d": 6.165
+    }
+  ]
+}
