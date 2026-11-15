@@ -258,12 +258,13 @@ const podcastSec=id=>PODCAST_DEF.find(s=>s.id==id);
 // ① 整集 = full-episode player with a line-by-line transcript; ② 句子听写 = the dialogue lines.
 const TALK_DEF=[
  {id:"talk_reading",like:"episode",name:"整集",typeName:"整集",desc:"Open Talk · Ep 1",item:"talk_ep1"},
- {id:"talk_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",desc:"Open Talk · Ep 1",item:"talk_ep1_dict"}];
+ {id:"talk_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",desc:"Open Talk · Ep 1",item:"talk_ep1_dict"},
+ {id:"talk_original",like:"reading",name:"原声",typeName:"原声",desc:"Open Talk · Ep 1",item:"talk_ep1_oa"}];
 let TALK=null;
 async function loadTalk(){if(TALK)return TALK;try{TALK=await getJSON("talk.json")}catch(e){TALK={boards:[]}}if(!TALK.boards)TALK.boards=[];return TALK}
 function talkBoards(){return (TALK&&TALK.boards)||[]}
 function talkItem(id){return talkBoards().find(it=>it&&it.id==id)||null}
-function talkHit(id){const it=talkItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"talk_dictation"};return{it:Object.assign({},it),sec:"talk_reading"}}
+function talkHit(id){const it=talkItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"talk_dictation"};if(it.kind=="original")return{it:Object.assign({},it),sec:"talk_original"};return{it:Object.assign({},it),sec:"talk_reading"}}
 const talkSec=id=>TALK_DEF.find(s=>s.id==id);
 function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
 function prepHomeHTML(list){const inner=list.length?list.map(s=>{const id=String(s.id||""),title=String(s.title!=null?s.title:id),key="prep:"+id;
@@ -653,7 +654,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const turning=TURNING_DEF.map(s=>{const it=turningItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:turningIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
  const podcastIcon={reading:"📖",dictation:"✍️"};
  const podcast=PODCAST_DEF.map(s=>{const it=podcastItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:podcastIcon[s.like]||"📁",desc:s.desc||"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
- const talkIcon={episode:"🎧",dictation:"✍️"};
+ const talkIcon={episode:"🎧",dictation:"✍️",reading:"🎤"};
  const talk=TALK_DEF.map(s=>{const it=talkItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:talkIcon[s.like]||"📁",desc:s.desc||"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like=="episode"?"longaudio":s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");

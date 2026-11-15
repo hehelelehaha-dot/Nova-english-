@@ -3,7 +3,7 @@
   "type": "episode",
   "title": "Open Talk – The Desire Contract",
   "audio": "audio/talk_ep1/full.mp3",
-  "dur": 678.034,
+  "dur": 719.256,
   "sents": [
     {
       "sp": "Ethan",
@@ -461,23 +461,96 @@
     },
     {
       "sp": "Ethan",
-      "t": "Yeah. And that idea — a desire contract — is really interesting. We'll talk more about that later, but first...",
-      "a": "audio/talk_ep1/M_b7af1ad7a2ef.mp3",
-      "oa": "audio/talk_ep1/M_b7af1ad7a2ef.mp3",
-      "d": 7.706,
-      "start": 219.951,
-      "end": 227.657,
-      "segment": "takeaway"
+      "t": "Yeah. And that idea — a desire contract — is really interesting. We'll talk more about that later. But first, let's hear how Naval himself said it.",
+      "a": "audio/talk_ep1/M_bd302ddcbc18.mp3",
+      "oa": "audio/talk_ep1/M_bd302ddcbc18.mp3",
+      "d": 9.273,
+      "start": 220.108,
+      "end": 229.381,
+      "segment": "original",
+      "h": "The original interview"
     },
     {
       "sp": "Paula",
-      "t": "It's time for \"language takeaway\".",
-      "a": "audio/talk_ep1/F_f2aca112f7f3.mp3",
-      "oa": "audio/talk_ep1/F_f2aca112f7f3.mp3",
-      "d": 2.038,
-      "start": 228.127,
-      "end": 230.165,
-      "segment": "takeaway"
+      "t": "This is from the original interview. First you'll hear a question from Chris, then Naval's own words.",
+      "a": "audio/talk_ep1/F_08c59e65ab71.mp3",
+      "oa": "audio/talk_ep1/F_08c59e65ab71.mp3",
+      "d": 5.669,
+      "start": 229.851,
+      "end": 235.52,
+      "segment": "original"
+    },
+    {
+      "sp": "Chris (original)",
+      "t": "How do you shortcut that desire contract?",
+      "a": "audio/talk_ep1/C_b7fd385ef579.mp3",
+      "oa": "audio/talk_ep1/C_b7fd385ef579.mp3",
+      "d": 2.691,
+      "start": 236.121,
+      "end": 238.811,
+      "segment": "original",
+      "h": "Naval (original)"
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "You could focus, you could decide that I don’t want most things.",
+      "a": "audio/talk_ep1/N_c7ab3342d612.mp3",
+      "oa": "audio/talk_ep1/N_c7ab3342d612.mp3",
+      "d": 3.892,
+      "start": 239.177,
+      "end": 243.069,
+      "segment": "original"
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "I think we have a lot of unnecessary desires that we just pick up everywhere, have opinions on everything, judgments on everything,",
+      "a": "audio/talk_ep1/N_f6ccaafc42f7.mp3",
+      "oa": "audio/talk_ep1/N_f6ccaafc42f7.mp3",
+      "d": 6.583,
+      "start": 243.435,
+      "end": 250.018,
+      "segment": "original"
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "so I think just knowing that those are the source of unhappiness will make you be choosy about your desires.",
+      "a": "audio/talk_ep1/N_135e8ccc4679.mp3",
+      "oa": "audio/talk_ep1/N_135e8ccc4679.mp3",
+      "d": 7.079,
+      "start": 250.384,
+      "end": 257.463,
+      "segment": "original"
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "And frankly if you want to be successful, you have to be choosy about your desires, you have to focus.",
+      "a": "audio/talk_ep1/N_f4e8659f0e99.mp3",
+      "oa": "audio/talk_ep1/N_f4e8659f0e99.mp3",
+      "d": 5.094,
+      "start": 257.829,
+      "end": 262.922,
+      "segment": "original"
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "You can’t be great at everything. You’re just going to waste your energy and waste your time.",
+      "a": "audio/talk_ep1/N_019e10116a36.mp3",
+      "oa": "audio/talk_ep1/N_019e10116a36.mp3",
+      "d": 3.396,
+      "start": 263.288,
+      "end": 266.684,
+      "segment": "original"
+    },
+    {
+      "sp": "Ethan",
+      "t": "That's Naval in his own voice. Now it's time for \"language takeaway\".",
+      "a": "audio/talk_ep1/M_579c88c9a934.mp3",
+      "oa": "audio/talk_ep1/M_579c88c9a934.mp3",
+      "d": 4.362,
+      "start": 267.285,
+      "end": 271.647,
+      "segment": "original",
+      "h": "The original interview"
     },
     {
       "sp": "Paula",
@@ -485,9 +558,10 @@
       "a": "audio/talk_ep1/F_3223f206fb2b.mp3",
       "oa": "audio/talk_ep1/F_3223f206fb2b.mp3",
       "d": 5.747,
-      "start": 230.504,
-      "end": 236.251,
-      "segment": "takeaway"
+      "start": 272.274,
+      "end": 278.021,
+      "segment": "takeaway",
+      "h": "Language Takeaway"
     },
     {
       "sp": "Ethan",
@@ -495,8 +569,8 @@
       "a": "audio/talk_ep1/M_d31d102dc904.mp3",
       "oa": "audio/talk_ep1/M_d31d102dc904.mp3",
       "d": 0.836,
-      "start": 236.565,
-      "end": 237.401,
+      "start": 278.335,
+      "end": 279.171,
       "segment": "takeaway"
     },
     {
@@ -505,8 +579,8 @@
       "a": "audio/talk_ep1/F_eb00213786ef.mp3",
       "oa": "audio/talk_ep1/F_eb00213786ef.mp3",
       "d": 0.914,
-      "start": 237.636,
-      "end": 238.55,
+      "start": 279.406,
+      "end": 280.32,
       "segment": "takeaway"
     },
     {
@@ -515,8 +589,8 @@
       "a": "audio/talk_ep1/M_d31d102dc904.mp3",
       "oa": "audio/talk_ep1/M_d31d102dc904.mp3",
       "d": 0.836,
-      "start": 238.785,
-      "end": 239.621,
+      "start": 280.555,
+      "end": 281.391,
       "segment": "takeaway"
     },
     {
@@ -525,8 +599,8 @@
       "a": "audio/talk_ep1/F_43ddacacb63f.mp3",
       "oa": "audio/talk_ep1/F_43ddacacb63f.mp3",
       "d": 4.911,
-      "start": 240.091,
-      "end": 245.002,
+      "start": 281.861,
+      "end": 286.772,
       "segment": "takeaway"
     },
     {
@@ -535,8 +609,8 @@
       "a": "audio/talk_ep1/M_1a3a29a131b5.mp3",
       "oa": "audio/talk_ep1/M_1a3a29a131b5.mp3",
       "d": 6.635,
-      "start": 245.473,
-      "end": 252.108,
+      "start": 287.242,
+      "end": 293.878,
       "segment": "takeaway"
     },
     {
@@ -545,8 +619,8 @@
       "a": "audio/talk_ep1/F_d33a96bca39c.mp3",
       "oa": "audio/talk_ep1/F_d33a96bca39c.mp3",
       "d": 4.075,
-      "start": 252.578,
-      "end": 256.653,
+      "start": 294.348,
+      "end": 298.423,
       "segment": "takeaway"
     },
     {
@@ -555,8 +629,8 @@
       "a": "audio/talk_ep1/M_a814928571c9.mp3",
       "oa": "audio/talk_ep1/M_a814928571c9.mp3",
       "d": 2.743,
-      "start": 257.123,
-      "end": 259.866,
+      "start": 298.893,
+      "end": 301.636,
       "segment": "takeaway"
     },
     {
@@ -565,8 +639,8 @@
       "a": "audio/talk_ep1/F_e966a4421917.mp3",
       "oa": "audio/talk_ep1/F_e966a4421917.mp3",
       "d": 0.784,
-      "start": 260.18,
-      "end": 260.963,
+      "start": 301.949,
+      "end": 302.733,
       "segment": "takeaway"
     },
     {
@@ -575,8 +649,8 @@
       "a": "audio/talk_ep1/M_ad42ecc0891d.mp3",
       "oa": "audio/talk_ep1/M_ad42ecc0891d.mp3",
       "d": 0.653,
-      "start": 261.198,
-      "end": 261.851,
+      "start": 302.968,
+      "end": 303.621,
       "segment": "takeaway"
     },
     {
@@ -585,8 +659,8 @@
       "a": "audio/talk_ep1/F_e966a4421917.mp3",
       "oa": "audio/talk_ep1/F_e966a4421917.mp3",
       "d": 0.784,
-      "start": 262.087,
-      "end": 262.87,
+      "start": 303.856,
+      "end": 304.64,
       "segment": "takeaway"
     },
     {
@@ -595,8 +669,8 @@
       "a": "audio/talk_ep1/M_a0975365b10e.mp3",
       "oa": "audio/talk_ep1/M_a0975365b10e.mp3",
       "d": 5.381,
-      "start": 263.34,
-      "end": 268.722,
+      "start": 305.11,
+      "end": 310.491,
       "segment": "takeaway"
     },
     {
@@ -605,8 +679,8 @@
       "a": "audio/talk_ep1/F_6e0a1e50de87.mp3",
       "oa": "audio/talk_ep1/F_6e0a1e50de87.mp3",
       "d": 8.02,
-      "start": 269.192,
-      "end": 277.211,
+      "start": 310.962,
+      "end": 318.981,
       "segment": "takeaway"
     },
     {
@@ -615,8 +689,8 @@
       "a": "audio/talk_ep1/M_d44417cd0412.mp3",
       "oa": "audio/talk_ep1/M_d44417cd0412.mp3",
       "d": 2.456,
-      "start": 277.682,
-      "end": 280.137,
+      "start": 319.451,
+      "end": 321.907,
       "segment": "takeaway"
     },
     {
@@ -625,8 +699,8 @@
       "a": "audio/talk_ep1/M_51de88d5658f.mp3",
       "oa": "audio/talk_ep1/M_51de88d5658f.mp3",
       "d": 1.071,
-      "start": 280.451,
-      "end": 281.522,
+      "start": 322.22,
+      "end": 323.291,
       "segment": "takeaway"
     },
     {
@@ -635,8 +709,8 @@
       "a": "audio/talk_ep1/F_c35c4088714f.mp3",
       "oa": "audio/talk_ep1/F_c35c4088714f.mp3",
       "d": 2.142,
-      "start": 281.835,
-      "end": 283.977,
+      "start": 323.605,
+      "end": 325.747,
       "segment": "takeaway"
     },
     {
@@ -645,8 +719,8 @@
       "a": "audio/talk_ep1/M_8796104f7e71.mp3",
       "oa": "audio/talk_ep1/M_8796104f7e71.mp3",
       "d": 1.123,
-      "start": 284.291,
-      "end": 285.414,
+      "start": 326.06,
+      "end": 327.184,
       "segment": "takeaway"
     },
     {
@@ -655,8 +729,8 @@
       "a": "audio/talk_ep1/M_0de2a6191b48.mp3",
       "oa": "audio/talk_ep1/M_0de2a6191b48.mp3",
       "d": 2.273,
-      "start": 285.727,
-      "end": 288.0,
+      "start": 327.497,
+      "end": 329.77,
       "segment": "takeaway"
     },
     {
@@ -665,8 +739,8 @@
       "a": "audio/talk_ep1/F_81f68e1c6e10.mp3",
       "oa": "audio/talk_ep1/F_81f68e1c6e10.mp3",
       "d": 1.254,
-      "start": 288.313,
-      "end": 289.567,
+      "start": 330.083,
+      "end": 331.337,
       "segment": "takeaway"
     },
     {
@@ -675,8 +749,8 @@
       "a": "audio/talk_ep1/F_cbdc6b36f2c6.mp3",
       "oa": "audio/talk_ep1/F_cbdc6b36f2c6.mp3",
       "d": 3.657,
-      "start": 289.881,
-      "end": 293.538,
+      "start": 331.651,
+      "end": 335.308,
       "segment": "takeaway"
     },
     {
@@ -685,8 +759,8 @@
       "a": "audio/talk_ep1/M_32cbf2221e8f.mp3",
       "oa": "audio/talk_ep1/M_32cbf2221e8f.mp3",
       "d": 3.344,
-      "start": 294.008,
-      "end": 297.352,
+      "start": 335.778,
+      "end": 339.122,
       "segment": "takeaway"
     },
     {
@@ -695,8 +769,8 @@
       "a": "audio/talk_ep1/F_12805424faad.mp3",
       "oa": "audio/talk_ep1/F_12805424faad.mp3",
       "d": 3.213,
-      "start": 297.822,
-      "end": 301.035,
+      "start": 339.592,
+      "end": 342.805,
       "segment": "takeaway"
     },
     {
@@ -705,8 +779,8 @@
       "a": "audio/talk_ep1/M_0ebd4b86c61f.mp3",
       "oa": "audio/talk_ep1/M_0ebd4b86c61f.mp3",
       "d": 0.731,
-      "start": 301.349,
-      "end": 302.08,
+      "start": 343.118,
+      "end": 343.85,
       "segment": "takeaway"
     },
     {
@@ -715,8 +789,8 @@
       "a": "audio/talk_ep1/F_ea7be4645973.mp3",
       "oa": "audio/talk_ep1/F_ea7be4645973.mp3",
       "d": 1.202,
-      "start": 302.315,
-      "end": 303.517,
+      "start": 344.085,
+      "end": 345.287,
       "segment": "takeaway"
     },
     {
@@ -725,8 +799,8 @@
       "a": "audio/talk_ep1/M_0ebd4b86c61f.mp3",
       "oa": "audio/talk_ep1/M_0ebd4b86c61f.mp3",
       "d": 0.731,
-      "start": 303.752,
-      "end": 304.483,
+      "start": 345.522,
+      "end": 346.253,
       "segment": "takeaway"
     },
     {
@@ -735,8 +809,8 @@
       "a": "audio/talk_ep1/F_88b5924ee826.mp3",
       "oa": "audio/talk_ep1/F_88b5924ee826.mp3",
       "d": 5.433,
-      "start": 304.953,
-      "end": 310.387,
+      "start": 346.723,
+      "end": 352.157,
       "segment": "takeaway"
     },
     {
@@ -745,8 +819,8 @@
       "a": "audio/talk_ep1/M_3a297e6fd662.mp3",
       "oa": "audio/talk_ep1/M_3a297e6fd662.mp3",
       "d": 5.198,
-      "start": 310.857,
-      "end": 316.055,
+      "start": 352.627,
+      "end": 357.825,
       "segment": "takeaway"
     },
     {
@@ -755,8 +829,8 @@
       "a": "audio/talk_ep1/F_35e87f82e621.mp3",
       "oa": "audio/talk_ep1/F_35e87f82e621.mp3",
       "d": 5.904,
-      "start": 316.526,
-      "end": 322.429,
+      "start": 358.295,
+      "end": 364.199,
       "segment": "takeaway"
     },
     {
@@ -765,8 +839,8 @@
       "a": "audio/talk_ep1/M_57eeda46a316.mp3",
       "oa": "audio/talk_ep1/M_57eeda46a316.mp3",
       "d": 2.56,
-      "start": 322.9,
-      "end": 325.46,
+      "start": 364.669,
+      "end": 367.229,
       "segment": "takeaway"
     },
     {
@@ -775,8 +849,8 @@
       "a": "audio/talk_ep1/F_5c1115e5a18b.mp3",
       "oa": "audio/talk_ep1/F_5c1115e5a18b.mp3",
       "d": 0.967,
-      "start": 325.773,
-      "end": 326.74,
+      "start": 367.543,
+      "end": 368.509,
       "segment": "takeaway"
     },
     {
@@ -785,8 +859,8 @@
       "a": "audio/talk_ep1/M_1672a903462a.mp3",
       "oa": "audio/talk_ep1/M_1672a903462a.mp3",
       "d": 0.731,
-      "start": 326.975,
-      "end": 327.706,
+      "start": 368.744,
+      "end": 369.476,
       "segment": "takeaway"
     },
     {
@@ -795,8 +869,8 @@
       "a": "audio/talk_ep1/F_5c1115e5a18b.mp3",
       "oa": "audio/talk_ep1/F_5c1115e5a18b.mp3",
       "d": 0.967,
-      "start": 327.941,
-      "end": 328.908,
+      "start": 369.711,
+      "end": 370.678,
       "segment": "takeaway"
     },
     {
@@ -805,8 +879,8 @@
       "a": "audio/talk_ep1/M_72c5d86f3ff8.mp3",
       "oa": "audio/talk_ep1/M_72c5d86f3ff8.mp3",
       "d": 3.814,
-      "start": 329.378,
-      "end": 333.192,
+      "start": 371.148,
+      "end": 374.962,
       "segment": "takeaway"
     },
     {
@@ -815,8 +889,8 @@
       "a": "audio/talk_ep1/F_0cdeba1082b1.mp3",
       "oa": "audio/talk_ep1/F_0cdeba1082b1.mp3",
       "d": 2.038,
-      "start": 333.662,
-      "end": 335.7,
+      "start": 375.432,
+      "end": 377.469,
       "segment": "takeaway"
     },
     {
@@ -825,8 +899,8 @@
       "a": "audio/talk_ep1/M_3bcdf1bf2d0d.mp3",
       "oa": "audio/talk_ep1/M_3bcdf1bf2d0d.mp3",
       "d": 2.456,
-      "start": 336.17,
-      "end": 338.625,
+      "start": 377.94,
+      "end": 380.395,
       "segment": "takeaway"
     },
     {
@@ -835,8 +909,8 @@
       "a": "audio/talk_ep1/F_e5db3b380a3e.mp3",
       "oa": "audio/talk_ep1/F_e5db3b380a3e.mp3",
       "d": 3.344,
-      "start": 339.095,
-      "end": 342.439,
+      "start": 380.865,
+      "end": 384.209,
       "segment": "takeaway"
     },
     {
@@ -845,8 +919,8 @@
       "a": "audio/talk_ep1/M_ab3e5fcfa7a6.mp3",
       "oa": "audio/talk_ep1/M_ab3e5fcfa7a6.mp3",
       "d": 3.291,
-      "start": 342.909,
-      "end": 346.201,
+      "start": 384.679,
+      "end": 387.971,
       "segment": "takeaway"
     },
     {
@@ -855,8 +929,8 @@
       "a": "audio/talk_ep1/F_ab4d7a03a525.mp3",
       "oa": "audio/talk_ep1/F_ab4d7a03a525.mp3",
       "d": 1.959,
-      "start": 346.671,
-      "end": 348.63,
+      "start": 388.441,
+      "end": 390.4,
       "segment": "takeaway"
     },
     {
@@ -865,8 +939,8 @@
       "a": "audio/talk_ep1/M_8f97169d2dae.mp3",
       "oa": "audio/talk_ep1/M_8f97169d2dae.mp3",
       "d": 1.724,
-      "start": 349.1,
-      "end": 350.824,
+      "start": 390.87,
+      "end": 392.594,
       "segment": "takeaway"
     },
     {
@@ -875,8 +949,8 @@
       "a": "audio/talk_ep1/F_0cae59bbb069.mp3",
       "oa": "audio/talk_ep1/F_0cae59bbb069.mp3",
       "d": 6.4,
-      "start": 351.295,
-      "end": 357.695,
+      "start": 393.064,
+      "end": 399.464,
       "segment": "takeaway"
     },
     {
@@ -885,8 +959,8 @@
       "a": "audio/talk_ep1/M_1277dab2ae32.mp3",
       "oa": "audio/talk_ep1/M_1277dab2ae32.mp3",
       "d": 7.706,
-      "start": 358.165,
-      "end": 365.871,
+      "start": 399.935,
+      "end": 407.641,
       "segment": "takeaway"
     },
     {
@@ -895,8 +969,8 @@
       "a": "audio/talk_ep1/F_9f64a32488f9.mp3",
       "oa": "audio/talk_ep1/F_9f64a32488f9.mp3",
       "d": 1.802,
-      "start": 366.341,
-      "end": 368.144,
+      "start": 408.111,
+      "end": 409.913,
       "segment": "takeaway"
     },
     {
@@ -905,8 +979,8 @@
       "a": "audio/talk_ep1/M_a41181f6cf89.mp3",
       "oa": "audio/talk_ep1/M_a41181f6cf89.mp3",
       "d": 4.676,
-      "start": 368.614,
-      "end": 373.29,
+      "start": 410.384,
+      "end": 415.06,
       "segment": "takeaway"
     },
     {
@@ -915,8 +989,8 @@
       "a": "audio/talk_ep1/F_17ad25061826.mp3",
       "oa": "audio/talk_ep1/F_17ad25061826.mp3",
       "d": 8.777,
-      "start": 373.917,
-      "end": 382.694,
+      "start": 415.687,
+      "end": 424.464,
       "segment": "putting_it_together",
       "h": "Putting It Together"
     },
@@ -926,8 +1000,8 @@
       "a": "audio/talk_ep1/M_51138daf98ad.mp3",
       "oa": "audio/talk_ep1/M_51138daf98ad.mp3",
       "d": 6.348,
-      "start": 383.164,
-      "end": 389.512,
+      "start": 424.934,
+      "end": 431.282,
       "segment": "putting_it_together"
     },
     {
@@ -936,8 +1010,8 @@
       "a": "audio/talk_ep1/F_70d0b913d5ba.mp3",
       "oa": "audio/talk_ep1/F_70d0b913d5ba.mp3",
       "d": 5.851,
-      "start": 389.982,
-      "end": 395.833,
+      "start": 431.752,
+      "end": 437.603,
       "segment": "putting_it_together"
     },
     {
@@ -946,8 +1020,8 @@
       "a": "audio/talk_ep1/M_6255c112952b.mp3",
       "oa": "audio/talk_ep1/M_6255c112952b.mp3",
       "d": 5.094,
-      "start": 396.304,
-      "end": 401.398,
+      "start": 438.073,
+      "end": 443.167,
       "segment": "putting_it_together"
     },
     {
@@ -956,8 +1030,8 @@
       "a": "audio/talk_ep1/F_4e2738a036b7.mp3",
       "oa": "audio/talk_ep1/F_4e2738a036b7.mp3",
       "d": 2.691,
-      "start": 401.868,
-      "end": 404.558,
+      "start": 443.638,
+      "end": 446.328,
       "segment": "putting_it_together"
     },
     {
@@ -966,8 +1040,8 @@
       "a": "audio/talk_ep1/M_51de88d5658f.mp3",
       "oa": "audio/talk_ep1/M_51de88d5658f.mp3",
       "d": 1.071,
-      "start": 404.872,
-      "end": 405.943,
+      "start": 446.642,
+      "end": 447.713,
       "segment": "putting_it_together"
     },
     {
@@ -976,8 +1050,8 @@
       "a": "audio/talk_ep1/F_b8baba7c1e43.mp3",
       "oa": "audio/talk_ep1/F_b8baba7c1e43.mp3",
       "d": 5.93,
-      "start": 406.256,
-      "end": 412.186,
+      "start": 448.026,
+      "end": 453.956,
       "segment": "putting_it_together"
     },
     {
@@ -986,8 +1060,8 @@
       "a": "audio/talk_ep1/M_8796104f7e71.mp3",
       "oa": "audio/talk_ep1/M_8796104f7e71.mp3",
       "d": 1.123,
-      "start": 412.5,
-      "end": 413.623,
+      "start": 454.269,
+      "end": 455.393,
       "segment": "putting_it_together"
     },
     {
@@ -996,8 +1070,8 @@
       "a": "audio/talk_ep1/M_42901160e9c9.mp3",
       "oa": "audio/talk_ep1/M_42901160e9c9.mp3",
       "d": 5.198,
-      "start": 413.936,
-      "end": 419.135,
+      "start": 455.706,
+      "end": 460.904,
       "segment": "putting_it_together"
     },
     {
@@ -1006,8 +1080,8 @@
       "a": "audio/talk_ep1/F_81f68e1c6e10.mp3",
       "oa": "audio/talk_ep1/F_81f68e1c6e10.mp3",
       "d": 1.254,
-      "start": 419.448,
-      "end": 420.702,
+      "start": 461.218,
+      "end": 462.472,
       "segment": "putting_it_together"
     },
     {
@@ -1016,8 +1090,8 @@
       "a": "audio/talk_ep1/F_a5448a6f7e59.mp3",
       "oa": "audio/talk_ep1/F_a5448a6f7e59.mp3",
       "d": 5.251,
-      "start": 421.015,
-      "end": 426.266,
+      "start": 462.785,
+      "end": 468.036,
       "segment": "putting_it_together"
     },
     {
@@ -1026,8 +1100,8 @@
       "a": "audio/talk_ep1/M_02e31caab575.mp3",
       "oa": "audio/talk_ep1/M_02e31caab575.mp3",
       "d": 5.303,
-      "start": 426.736,
-      "end": 432.039,
+      "start": 468.506,
+      "end": 473.809,
       "segment": "putting_it_together"
     },
     {
@@ -1036,8 +1110,8 @@
       "a": "audio/talk_ep1/F_b68f0838cbf5.mp3",
       "oa": "audio/talk_ep1/F_b68f0838cbf5.mp3",
       "d": 6.818,
-      "start": 432.509,
-      "end": 439.327,
+      "start": 474.279,
+      "end": 481.097,
       "segment": "putting_it_together"
     },
     {
@@ -1046,8 +1120,8 @@
       "a": "audio/talk_ep1/M_6af216d73ada.mp3",
       "oa": "audio/talk_ep1/M_6af216d73ada.mp3",
       "d": 6.922,
-      "start": 439.798,
-      "end": 446.72,
+      "start": 481.567,
+      "end": 488.49,
       "segment": "putting_it_together"
     },
     {
@@ -1056,8 +1130,8 @@
       "a": "audio/talk_ep1/F_f702046df55d.mp3",
       "oa": "audio/talk_ep1/F_f702046df55d.mp3",
       "d": 6.269,
-      "start": 447.347,
-      "end": 453.616,
+      "start": 489.117,
+      "end": 495.386,
       "segment": "fluency",
       "h": "Fluency Builder"
     },
@@ -1067,8 +1141,8 @@
       "a": "audio/talk_ep1/M_508a58d7d148.mp3",
       "oa": "audio/talk_ep1/M_508a58d7d148.mp3",
       "d": 3.422,
-      "start": 454.087,
-      "end": 457.509,
+      "start": 495.856,
+      "end": 499.278,
       "segment": "fluency"
     },
     {
@@ -1077,8 +1151,8 @@
       "a": "audio/talk_ep1/F_328b9a1d9e8e.mp3",
       "oa": "audio/talk_ep1/F_328b9a1d9e8e.mp3",
       "d": 6.74,
-      "start": 457.979,
-      "end": 464.718,
+      "start": 499.749,
+      "end": 506.488,
       "segment": "fluency"
     },
     {
@@ -1087,8 +1161,8 @@
       "a": "audio/talk_ep1/M_82c1bb3c5074.mp3",
       "oa": "audio/talk_ep1/M_82c1bb3c5074.mp3",
       "d": 4.833,
-      "start": 465.032,
-      "end": 469.864,
+      "start": 506.802,
+      "end": 511.634,
       "segment": "fluency"
     },
     {
@@ -1097,8 +1171,8 @@
       "a": "audio/talk_ep1/F_048e13072c3c.mp3",
       "oa": "audio/talk_ep1/F_048e13072c3c.mp3",
       "d": 6.74,
-      "start": 470.335,
-      "end": 477.074,
+      "start": 512.104,
+      "end": 518.844,
       "segment": "fluency"
     },
     {
@@ -1107,8 +1181,8 @@
       "a": "audio/talk_ep1/M_32fbc98ed9b2.mp3",
       "oa": "audio/talk_ep1/M_32fbc98ed9b2.mp3",
       "d": 5.721,
-      "start": 477.544,
-      "end": 483.265,
+      "start": 519.314,
+      "end": 525.035,
       "segment": "fluency"
     },
     {
@@ -1117,8 +1191,8 @@
       "a": "audio/talk_ep1/F_2acb0889d83b.mp3",
       "oa": "audio/talk_ep1/F_2acb0889d83b.mp3",
       "d": 2.038,
-      "start": 483.579,
-      "end": 485.616,
+      "start": 525.349,
+      "end": 527.386,
       "segment": "fluency"
     },
     {
@@ -1127,8 +1201,8 @@
       "a": "audio/talk_ep1/M_3d1ee6b25d09.mp3",
       "oa": "audio/talk_ep1/M_3d1ee6b25d09.mp3",
       "d": 5.433,
-      "start": 486.087,
-      "end": 491.52,
+      "start": 527.856,
+      "end": 533.29,
       "segment": "fluency"
     },
     {
@@ -1137,8 +1211,8 @@
       "a": "audio/talk_ep1/F_ce9830028d19.mp3",
       "oa": "audio/talk_ep1/F_ce9830028d19.mp3",
       "d": 4.545,
-      "start": 491.833,
-      "end": 496.379,
+      "start": 533.603,
+      "end": 538.149,
       "segment": "fluency"
     },
     {
@@ -1147,8 +1221,8 @@
       "a": "audio/talk_ep1/M_1bd95d3f8c60.mp3",
       "oa": "audio/talk_ep1/M_1bd95d3f8c60.mp3",
       "d": 4.232,
-      "start": 496.849,
-      "end": 501.081,
+      "start": 538.619,
+      "end": 542.851,
       "segment": "fluency"
     },
     {
@@ -1157,8 +1231,8 @@
       "a": "audio/talk_ep1/F_6f0ee7875a51.mp3",
       "oa": "audio/talk_ep1/F_6f0ee7875a51.mp3",
       "d": 2.56,
-      "start": 501.551,
-      "end": 504.111,
+      "start": 543.321,
+      "end": 545.881,
       "segment": "fluency"
     },
     {
@@ -1167,8 +1241,8 @@
       "a": "audio/talk_ep1/M_e106e2cf64ff.mp3",
       "oa": "audio/talk_ep1/M_e106e2cf64ff.mp3",
       "d": 3.657,
-      "start": 504.581,
-      "end": 508.238,
+      "start": 546.351,
+      "end": 550.008,
       "segment": "fluency"
     },
     {
@@ -1177,8 +1251,8 @@
       "a": "audio/talk_ep1/F_f995523982ec.mp3",
       "oa": "audio/talk_ep1/F_f995523982ec.mp3",
       "d": 5.747,
-      "start": 508.709,
-      "end": 514.455,
+      "start": 550.478,
+      "end": 556.225,
       "segment": "fluency"
     },
     {
@@ -1187,8 +1261,8 @@
       "a": "audio/talk_ep1/M_55129f00f8a0.mp3",
       "oa": "audio/talk_ep1/M_55129f00f8a0.mp3",
       "d": 5.747,
-      "start": 514.769,
-      "end": 520.516,
+      "start": 556.539,
+      "end": 562.286,
       "segment": "fluency"
     },
     {
@@ -1197,8 +1271,8 @@
       "a": "audio/talk_ep1/F_4f1a80aabfd4.mp3",
       "oa": "audio/talk_ep1/F_4f1a80aabfd4.mp3",
       "d": 4.127,
-      "start": 520.986,
-      "end": 525.113,
+      "start": 562.756,
+      "end": 566.883,
       "segment": "fluency"
     },
     {
@@ -1207,8 +1281,8 @@
       "a": "audio/talk_ep1/M_5935a0ff7ac0.mp3",
       "oa": "audio/talk_ep1/M_5935a0ff7ac0.mp3",
       "d": 3.997,
-      "start": 525.584,
-      "end": 529.58,
+      "start": 567.353,
+      "end": 571.35,
       "segment": "fluency"
     },
     {
@@ -1217,8 +1291,8 @@
       "a": "audio/talk_ep1/F_879549fa0c2b.mp3",
       "oa": "audio/talk_ep1/F_879549fa0c2b.mp3",
       "d": 6.922,
-      "start": 530.051,
-      "end": 536.973,
+      "start": 571.82,
+      "end": 578.743,
       "segment": "fluency"
     },
     {
@@ -1227,8 +1301,8 @@
       "a": "audio/talk_ep1/F_8d3816dcff80.mp3",
       "oa": "audio/talk_ep1/F_8d3816dcff80.mp3",
       "d": 5.303,
-      "start": 537.6,
-      "end": 542.903,
+      "start": 579.37,
+      "end": 584.673,
       "segment": "dialogue_repeat",
       "h": "Dialogue (second time)"
     },
@@ -1238,8 +1312,8 @@
       "a": "audio/talk_ep1/M_434ad9fc15cc.mp3",
       "oa": "audio/talk_ep1/M_434ad9fc15cc.mp3",
       "d": 2.038,
-      "start": 543.373,
-      "end": 545.411,
+      "start": 585.143,
+      "end": 587.18,
       "segment": "dialogue_repeat"
     },
     {
@@ -1248,8 +1322,8 @@
       "a": "audio/talk_ep1/F_18ce1b9314a5.mp3",
       "oa": "audio/talk_ep1/F_18ce1b9314a5.mp3",
       "d": 7.053,
-      "start": 545.881,
-      "end": 552.934,
+      "start": 587.651,
+      "end": 594.704,
       "segment": "dialogue_repeat"
     },
     {
@@ -1258,8 +1332,8 @@
       "a": "audio/talk_ep1/M_1739c4ff760a.mp3",
       "oa": "audio/talk_ep1/M_1739c4ff760a.mp3",
       "d": 2.821,
-      "start": 553.404,
-      "end": 556.225,
+      "start": 595.174,
+      "end": 597.995,
       "segment": "dialogue_repeat"
     },
     {
@@ -1268,8 +1342,8 @@
       "a": "audio/talk_ep1/F_b8414b33b8b7.mp3",
       "oa": "audio/talk_ep1/F_b8414b33b8b7.mp3",
       "d": 4.545,
-      "start": 556.695,
-      "end": 561.241,
+      "start": 598.465,
+      "end": 603.011,
       "segment": "dialogue_repeat"
     },
     {
@@ -1278,8 +1352,8 @@
       "a": "audio/talk_ep1/M_bdd0ac2bb6d4.mp3",
       "oa": "audio/talk_ep1/M_bdd0ac2bb6d4.mp3",
       "d": 11.102,
-      "start": 561.711,
-      "end": 572.813,
+      "start": 603.481,
+      "end": 614.583,
       "segment": "dialogue_repeat"
     },
     {
@@ -1288,8 +1362,8 @@
       "a": "audio/talk_ep1/F_12b9531d38c6.mp3",
       "oa": "audio/talk_ep1/F_12b9531d38c6.mp3",
       "d": 4.963,
-      "start": 573.283,
-      "end": 578.247,
+      "start": 615.053,
+      "end": 620.016,
       "segment": "dialogue_repeat"
     },
     {
@@ -1298,8 +1372,8 @@
       "a": "audio/talk_ep1/M_108b82716386.mp3",
       "oa": "audio/talk_ep1/M_108b82716386.mp3",
       "d": 7.471,
-      "start": 578.717,
-      "end": 586.188,
+      "start": 620.487,
+      "end": 627.958,
       "segment": "dialogue_repeat"
     },
     {
@@ -1308,8 +1382,8 @@
       "a": "audio/talk_ep1/F_700320180e7c.mp3",
       "oa": "audio/talk_ep1/F_700320180e7c.mp3",
       "d": 4.127,
-      "start": 586.658,
-      "end": 590.785,
+      "start": 628.428,
+      "end": 632.555,
       "segment": "dialogue_repeat"
     },
     {
@@ -1318,8 +1392,8 @@
       "a": "audio/talk_ep1/M_c5f9691a34cf.mp3",
       "oa": "audio/talk_ep1/M_c5f9691a34cf.mp3",
       "d": 5.616,
-      "start": 591.255,
-      "end": 596.872,
+      "start": 633.025,
+      "end": 638.642,
       "segment": "dialogue_repeat"
     },
     {
@@ -1328,8 +1402,8 @@
       "a": "audio/talk_ep1/F_8487376775af.mp3",
       "oa": "audio/talk_ep1/F_8487376775af.mp3",
       "d": 4.545,
-      "start": 597.342,
-      "end": 601.887,
+      "start": 639.112,
+      "end": 643.657,
       "segment": "dialogue_repeat"
     },
     {
@@ -1338,8 +1412,8 @@
       "a": "audio/talk_ep1/M_43a3d707577a.mp3",
       "oa": "audio/talk_ep1/M_43a3d707577a.mp3",
       "d": 4.258,
-      "start": 602.358,
-      "end": 606.615,
+      "start": 644.127,
+      "end": 648.385,
       "segment": "dialogue_repeat"
     },
     {
@@ -1348,8 +1422,8 @@
       "a": "audio/talk_ep1/F_2cfa0aa2d3ff.mp3",
       "oa": "audio/talk_ep1/F_2cfa0aa2d3ff.mp3",
       "d": 6.165,
-      "start": 607.086,
-      "end": 613.251,
+      "start": 648.855,
+      "end": 655.02,
       "segment": "dialogue_repeat"
     },
     {
@@ -1358,8 +1432,8 @@
       "a": "audio/talk_ep1/M_79fdcb108753.mp3",
       "oa": "audio/talk_ep1/M_79fdcb108753.mp3",
       "d": 4.31,
-      "start": 613.878,
-      "end": 618.188,
+      "start": 655.647,
+      "end": 659.958,
       "segment": "outro",
       "h": "Outro"
     },
@@ -1369,8 +1443,8 @@
       "a": "audio/talk_ep1/F_8d6ff20e47e3.mp3",
       "oa": "audio/talk_ep1/F_8d6ff20e47e3.mp3",
       "d": 3.239,
-      "start": 618.658,
-      "end": 621.897,
+      "start": 660.428,
+      "end": 663.667,
       "segment": "outro"
     },
     {
@@ -1379,8 +1453,8 @@
       "a": "audio/talk_ep1/M_4903d731daa9.mp3",
       "oa": "audio/talk_ep1/M_4903d731daa9.mp3",
       "d": 0.967,
-      "start": 622.211,
-      "end": 623.177,
+      "start": 663.98,
+      "end": 664.947,
       "segment": "outro"
     },
     {
@@ -1389,8 +1463,8 @@
       "a": "audio/talk_ep1/F_fe68d76a36e9.mp3",
       "oa": "audio/talk_ep1/F_fe68d76a36e9.mp3",
       "d": 9.326,
-      "start": 623.647,
-      "end": 632.973,
+      "start": 665.417,
+      "end": 674.743,
       "segment": "outro"
     },
     {
@@ -1399,8 +1473,8 @@
       "a": "audio/talk_ep1/M_2b103eb023f8.mp3",
       "oa": "audio/talk_ep1/M_2b103eb023f8.mp3",
       "d": 6.165,
-      "start": 633.443,
-      "end": 639.608,
+      "start": 675.213,
+      "end": 681.378,
       "segment": "outro"
     },
     {
@@ -1409,8 +1483,8 @@
       "a": "audio/talk_ep1/F_a561d1325e85.mp3",
       "oa": "audio/talk_ep1/F_a561d1325e85.mp3",
       "d": 6.087,
-      "start": 640.078,
-      "end": 646.165,
+      "start": 681.848,
+      "end": 687.935,
       "segment": "outro"
     },
     {
@@ -1419,8 +1493,8 @@
       "a": "audio/talk_ep1/M_65f1d88a6ee3.mp3",
       "oa": "audio/talk_ep1/M_65f1d88a6ee3.mp3",
       "d": 7.889,
-      "start": 646.635,
-      "end": 654.524,
+      "start": 688.405,
+      "end": 696.294,
       "segment": "outro"
     },
     {
@@ -1429,8 +1503,8 @@
       "a": "audio/talk_ep1/F_be37b7c06bb9.mp3",
       "oa": "audio/talk_ep1/F_be37b7c06bb9.mp3",
       "d": 3.579,
-      "start": 654.994,
-      "end": 658.573,
+      "start": 696.764,
+      "end": 700.343,
       "segment": "outro"
     },
     {
@@ -1439,8 +1513,8 @@
       "a": "audio/talk_ep1/M_46f3712d0164.mp3",
       "oa": "audio/talk_ep1/M_46f3712d0164.mp3",
       "d": 2.377,
-      "start": 659.043,
-      "end": 661.42,
+      "start": 700.813,
+      "end": 703.19,
       "segment": "outro"
     },
     {
@@ -1449,8 +1523,8 @@
       "a": "audio/talk_ep1/F_6bec962c2461.mp3",
       "oa": "audio/talk_ep1/F_6bec962c2461.mp3",
       "d": 8.124,
-      "start": 661.891,
-      "end": 670.015,
+      "start": 703.66,
+      "end": 711.784,
       "segment": "outro"
     },
     {
@@ -1459,8 +1533,8 @@
       "a": "audio/talk_ep1/M_c59762adc16a.mp3",
       "oa": "audio/talk_ep1/M_c59762adc16a.mp3",
       "d": 4.362,
-      "start": 670.485,
-      "end": 674.847,
+      "start": 712.255,
+      "end": 716.617,
       "segment": "outro"
     },
     {
@@ -1469,8 +1543,8 @@
       "a": "audio/talk_ep1/F_bf536dcaee14.mp3",
       "oa": "audio/talk_ep1/F_bf536dcaee14.mp3",
       "d": 4.31,
-      "start": 675.318,
-      "end": 679.628,
+      "start": 717.087,
+      "end": 721.398,
       "segment": "outro"
     },
     {
@@ -1479,8 +1553,8 @@
       "a": "audio/talk_ep1/M_658b2bbd4441.mp3",
       "oa": "audio/talk_ep1/M_658b2bbd4441.mp3",
       "d": 4.415,
-      "start": 680.098,
-      "end": 684.513,
+      "start": 721.868,
+      "end": 726.282,
       "segment": "outro"
     },
     {
@@ -1489,8 +1563,8 @@
       "a": "audio/talk_ep1/F_f126294d6185.mp3",
       "oa": "audio/talk_ep1/F_f126294d6185.mp3",
       "d": 2.508,
-      "start": 684.983,
-      "end": 687.491,
+      "start": 726.753,
+      "end": 729.26,
       "segment": "outro"
     },
     {
@@ -1499,8 +1573,8 @@
       "a": "audio/talk_ep1/M_3ef3951420b9.mp3",
       "oa": "audio/talk_ep1/M_3ef3951420b9.mp3",
       "d": 0.731,
-      "start": 687.804,
-      "end": 688.535,
+      "start": 729.574,
+      "end": 730.305,
       "segment": "outro"
     }
   ]
