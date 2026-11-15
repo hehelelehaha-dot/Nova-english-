@@ -1,0 +1,56 @@
+{
+  "id": "talk_ep1_oa",
+  "type": "reading",
+  "title": "The Desire Contract · 原声",
+  "sents": [
+    {
+      "sp": "Chris (original)",
+      "t": "How do you shortcut that desire contract?",
+      "zh": "怎样才能绕过这种“欲望契约”——也就是“得不到就不允许自己快乐”的约定？",
+      "a": "audio/talk_ep1/C_b7fd385ef579.mp3",
+      "oa": "audio/talk_ep1/C_b7fd385ef579.mp3",
+      "d": 2.691,
+      "h": "Topic 7 · Managing Desires"
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "You could focus, you could decide that I don’t want most things.",
+      "zh": "你可以专注，你可以决定：大多数东西我都不想要。",
+      "a": "audio/talk_ep1/N_c7ab3342d612.mp3",
+      "oa": "audio/talk_ep1/N_c7ab3342d612.mp3",
+      "d": 3.892
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "I think we have a lot of unnecessary desires that we just pick up everywhere, have opinions on everything, judgments on everything,",
+      "zh": "我觉得，我们有很多其实没必要的欲望，是在生活中不知不觉沾染来的；我们对什么都想发表意见，对什么都想评头论足。",
+      "a": "audio/talk_ep1/N_f6ccaafc42f7.mp3",
+      "oa": "audio/talk_ep1/N_f6ccaafc42f7.mp3",
+      "d": 6.583
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "so I think just knowing that those are the source of unhappiness will make you be choosy about your desires.",
+      "zh": "只要意识到这些欲望正是不幸福的来源，你就会更谨慎地选择自己究竟要追求什么。",
+      "a": "audio/talk_ep1/N_135e8ccc4679.mp3",
+      "oa": "audio/talk_ep1/N_135e8ccc4679.mp3",
+      "d": 7.079
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "And frankly if you want to be successful, you have to be choosy about your desires, you have to focus.",
+      "zh": "而且说真的，如果你想有所成就，就必须有所取舍，认真选择自己的欲望，把精力集中在重要的事情上。",
+      "a": "audio/talk_ep1/N_f4e8659f0e99.mp3",
+      "oa": "audio/talk_ep1/N_f4e8659f0e99.mp3",
+      "d": 5.094
+    },
+    {
+      "sp": "Naval (original)",
+      "t": "You can’t be great at everything. You’re just going to waste your energy and waste your time.",
+      "zh": "你不可能样样都做得很好。那样你只会浪费精力，浪费时间。",
+      "a": "audio/talk_ep1/N_019e10116a36.mp3",
+      "oa": "audio/talk_ep1/N_019e10116a36.mp3",
+      "d": 3.396
+    }
+  ]
+}

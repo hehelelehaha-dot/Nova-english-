@@ -3,7 +3,7 @@
     {
       "id": "talk_ep1",
       "title": "Open Talk – The Desire Contract",
-      "sub": "整集 · 11 分 18 秒",
+      "sub": "整集 · 11 分 59 秒",
       "data": "talk_ep1.json",
       "kind": "episode",
       "src": "Open Talk · Episode 1"
@@ -14,6 +14,13 @@
       "sub": "13 句",
       "data": "talk_ep1_dict.json",
       "kind": "dictation"
+    },
+    {
+      "id": "talk_ep1_oa",
+      "title": "The Desire Contract · 原声",
+      "sub": "6 句 · Naval 原声",
+      "data": "talk_ep1_oa.json",
+      "kind": "original"
     }
   ]
 }
