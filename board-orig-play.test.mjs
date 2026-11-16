@@ -17,24 +17,25 @@ assert.match(rd, /\$\{s\.oa\?`<button class="fhere"/, "only lines with 原声 ge
 
 // rdRows (RD_KEEP) is the same row builder viewReading uses.
 const keepSrc = app.slice(app.indexOf("const RD_KEEP="), app.indexOf("function dtRows"));
-const g = {}; runInContext(keepSrc + "\nthis.rdRows=rdRows;", createContext(g));
+const odSrc = app.slice(app.indexOf("function oaDur"), app.indexOf("function listenClip"));
+const g = {}; runInContext(keepSrc + odSrc + "\nthis.rdRows=rdRows;this.oaDur=oaDur;", createContext(g));
 
 async function board(rid, d, {btn = "rnggo", from = null, stopAfter = Infinity} = {}) {
-  const rows = g.rdRows(d), played = [], status = [], btns = {}, fh = [];
+  const rows = g.rdRows(d), played = [], durs = [], status = [], btns = {}, fh = [];
   const ss = {querySelectorAll: () => fh};
   rows.forEach(r => { if (r.s.oa) fh.push({dataset: {f: String(r.i)}}); });
   let ctl, n = 0;
-  const env = new Function("rid", "rows", "F", "$", "st", "mark", "audioURL", "listenClip", "listenPaint", "stopAll", "setAll", "ss", `
+  const env = new Function("rid", "rows", "F", "$", "st", "mark", "audioURL", "listenClip", "listenPaint", "stopAll", "setAll", "ss", "oaDur", `
     var RUN=0,TLACTIVE=null,TLMODE=null,LASTBTN=null,window={};
     stopAll=((f)=>()=>{RUN++})(stopAll);
     ${block}
     return {bump:()=>{RUN++}};`);
-  const listenClip = async url => { played.push(url); if (++n >= stopAfter) ctl.bump(); return true; };
-  ctl = env(rid, rows, {loop: false}, id => (btns[id] ||= {id}), t => status.push(t), () => {}, async u => u, listenClip, () => {}, () => {}, () => {}, ss);
+  const listenClip = async (url, me, dur) => { played.push(url); durs.push(dur); if (++n >= stopAfter) ctl.bump(); return true; };
+  ctl = env(rid, rows, {loop: false}, id => (btns[id] ||= {id}), t => status.push(t), () => {}, async u => u, listenClip, () => {}, () => {}, () => {}, ss, g.oaDur);
   const ev = {stopPropagation() {}, preventDefault() {}};
   if (from != null) await fh.find(b => b.dataset.f == String(from)).onclick(ev); else await btns[btn].onclick();
   await new Promise(r => setTimeout(r, 20));
-  return {played, status, rows};
+  return {played, durs, status, rows};
 }
 
 const naval = {id: "naval_t03", sents: [
@@ -68,6 +69,17 @@ for (const [rid, d, name] of cases) {
 assert.deepEqual((await board("naval_t03", naval)).played, ["audio/t03/s01.mp3", "audio/t03/s02.mp3", "audio/t03/s04.mp3"]);
 const none = await board("naval_t09", {id: "naval_t09", sents: [{t: "x", a: "y"}]});
 assert.deepEqual(none.played, []); assert.equal(none.status.at(-1), "这一段没有原声");
+
+// 原声 clip length: Naval s.d is the AI read-aloud length, never a cap on Naval's original clip (Topic 1 #1 lost
+// "Is success worth it then?"). Boards whose s.a is the 原声 clip keep s.d.
+const nv = {id: "naval_t01", sents: [{t: "Happiness is being satisfied with what you have. Success comes from dissatisfaction. Is success worth it then?", a: "audio/t01/s01.mp3", d: 6.22, oa: "audio/t01o/s01.mp3", oe: 7.9}]};
+assert.deepEqual((await board("naval_t01", nv)).durs, [0], "Naval original clip plays to its end");
+const lu = J("luca_d05.json"), lw = g.rdRows(lu).filter(x => x.s.oa).map(x => +x.s.d || 0);
+assert.deepEqual((await board("luca_d05", lu)).durs, lw, "Luca clip length unchanged");
+for (const [, d, name] of cases) for (const x of g.rdRows(d)) if (x.s.oa && x.s.a && x.s.a !== x.s.oa) assert.equal(g.oaDur(x.s), 0, name);
+const fl = app.slice(app.indexOf("async function playFoldListen"), app.indexOf("async function playFoldListen") + 3000);
+assert.match(fl, /listenClip\(url,me,oaDur\(c\.s\)\)/, "section 连听 uses the same clip length rule");
+assert.ok(!/listenClip\([^)]*s\.d/.test(app), "no caller caps 原声 with s.d");
 
 // Section 连听 page keeps its own range playlist.
 const wt = app.slice(app.indexOf("function wireTopicListen"), app.indexOf("function catItemRow"));

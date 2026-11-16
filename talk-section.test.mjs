@@ -52,6 +52,7 @@ for (const s of dict.sents) {
   const run = async loop => {
     const played = [], status = [], btns = {};
     const env = new Function("rid", "rows", "F", "$", "st", "mark", "audioURL", "listenClip", "listenPaint", "stopAll", "setAll", "ss", `
+      const oaDur=s=>s&&s.oa&&s.a===s.oa?(+s.d||0):0;
       var RUN=0,TLACTIVE=null,TLMODE=null,LASTBTN=null,window={};
       const S=()=>({RUN,TLMODE,TLACTIVE,window});const bump=()=>{RUN++};
       stopAll=((f)=>()=>{RUN++;TLMODE=null})(stopAll);
