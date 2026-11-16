@@ -846,7 +846,7 @@ async function viewEpisode(d){const url=await audioURL(d.audio);const sents=d.se
  V.innerHTML=`<div class="player"><audio id="au" preload="metadata" src="${url}"></audio><div class="skb"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="${d.dur||1}" step="0.1" value="0" aria-label="进度"><span id="td">--:--</span></div><div class="pb"><button class="p" id="pp" aria-label="播放/暂停">▶</button><button class="btn" id="bk">⟲ 10秒</button><button class="btn" id="sp">速度 1x</button><button class="btn" id="fw">10秒 ⟳</button></div></div><div id="ss"></div>`;
  const au=document.getElementById("au"),ss=document.getElementById("ss");wirePP(au);seekBar(au,d.dur);
  let lastH="";sents.forEach((s,i)=>{if(s.h&&s.h!==lastH){const hh=document.createElement("h3");hh.className="pcat";hh.textContent=s.h;ss.appendChild(hh);lastH=s.h}const e=document.createElement("div");e.className="s";e.id="s"+i;
-  e.innerHTML=`<button class="p sm" type="button" data-i="${i}" aria-label="播放这一句">▶</button><div class="body"><div class="who">${esc(s.sp||"")}</div><div class="t">${esc(s.t)}</div>${s.start!=null?`<button class="fhere" type="button" data-f="${i}" aria-label="从这里开始听整集">从这里开始听 ▸</button>`:""}</div>`;ss.appendChild(e)});
+  e.innerHTML=`<button class="p sm" type="button" data-i="${i}" aria-label="播放这一句">▶</button><div class="body"><div class="who">${esc(s.sp||"")}</div><div class="fr"><div class="t">${esc(s.t)}</div></div>${s.zh?`<div class="zhb"><div class="zhe">${esc(s.t)}</div><div class="zht">${esc(s.zh)}</div></div>`:""}${s.start!=null?`<button class="fhere" type="button" data-f="${i}" aria-label="从这里开始听整集">从这里开始听 ▸</button>`:""}</div>`;ss.appendChild(e)});
  const paint=i=>{ss.querySelectorAll(".s.cur").forEach(x=>x.classList.remove("cur"));if(i>=0){const el=document.getElementById("s"+i);if(el){el.classList.add("cur");if(!au.paused)follow(el)}}};
  const at=t=>{let k=-1;for(let i=0;i<sents.length;i++)if(sents[i].start!=null&&t>=sents[i].start)k=i;return k};
  au.addEventListener("play",()=>stopAll());
@@ -859,7 +859,8 @@ async function viewEpisode(d){const url=await audioURL(d.audio);const sents=d.se
  // 从这里开始听: seek the full-episode audio to this line's start and keep playing to the end (highlight/follow via timeupdate).
  const playFrom=i=>{const s=sents[i];if(!s||s.start==null)return;stopAll();cur=-1;const go=()=>{au.seekTo(s.start);au.playbackRate=R[ri];au.play().catch(()=>{})};if(au.readyState>=1)go();else{au.addEventListener("loadedmetadata",go,{once:true});au.load()}};
  ss.querySelectorAll(".fhere[data-f]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();playFrom(+b.dataset.f)});
- ss.querySelectorAll(".s").forEach((e,i)=>{e.querySelector(".body").onclick=()=>playLine(i)})}
+ // Lines with 中文 flip like the Naval ② reading cards (tap → English + 中文, tap again → back); ▶ still plays the line.
+ ss.querySelectorAll(".s").forEach((e,i)=>{if(sents[i]&&sents[i].zh)e.onclick=()=>flipCard(e);else e.querySelector(".body").onclick=()=>playLine(i)})}
 
 async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dictation");return}
  let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}
