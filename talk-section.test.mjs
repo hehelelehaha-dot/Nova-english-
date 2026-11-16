@@ -79,6 +79,17 @@ for (const s of dict.sents) {
   const body = app.slice(s, e);
   assert.ok(!/listenStart|playFoldListen|rnggo/.test(body));
 }
+
+// ① Open Talk 整集: every line has 中文, shown like the Naval ② reading cards (.fr front, .zhb back with .zhe + .zht, tap → flipCard).
+{
+  const ep = JSON.parse(fs.readFileSync(new URL("content/talk_ep1.json", import.meta.url), "utf8"));
+  assert.ok(ep.sents.length > 100 && ep.sents.every(s => typeof s.zh == "string" && /[\u4e00-\u9fff]/.test(s.zh)), "every 整集 line has 中文");
+  for (const o of oa.sents) { const m = ep.sents.find(s => s.t === o.t); assert.ok(m, o.t); assert.equal(m.zh, o.zh, "Naval original lines reuse the 原声 board 中文"); }
+  const s0 = app.indexOf("async function viewEpisode"), e0 = app.indexOf("\nasync function showItem", s0), ve = app.slice(s0, e0);
+  assert.match(ve, /<div class="fr"><div class="t">/);
+  assert.match(ve, /<div class="zhb"><div class="zhe">\$\{esc\(s\.t\)\}<\/div><div class="zht">\$\{esc\(s\.zh\)\}<\/div><\/div>/);
+  assert.match(ve, /e\.onclick=\(\)=>flipCard\(e\)/);
+}
 console.log("talk-section ok");
 
 // ① 整集 (viewEpisode): each transcript line gets a small 从这里开始听 button that plays the full episode from that line to the end.
