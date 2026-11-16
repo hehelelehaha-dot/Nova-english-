@@ -1,0 +1,143 @@
+{
+  "id": "talk_ep2_dict",
+  "type": "reading",
+  "title": "The Five Second Rule · 句子听写",
+  "sents": [
+    {
+      "sp": "Lily",
+      "t": "Mark, did you just eat that french fry off the floor?",
+      "zh": "Mark，你刚才是不是把地上那根薯条吃了？",
+      "a": "audio/talk_ep2/F_4875ab0e3f08.mp3",
+      "oa": "audio/talk_ep2/F_4875ab0e3f08.mp3",
+      "d": 3.631
+    },
+    {
+      "sp": "Mark",
+      "t": "Five second rule! I picked it up lightning quick.",
+      "zh": "五秒规则！我闪电般就捡起来了。",
+      "a": "audio/talk_ep2/M_71cba7f0e014.mp3",
+      "oa": "audio/talk_ep2/M_71cba7f0e014.mp3",
+      "d": 3.344
+    },
+    {
+      "sp": "Lily",
+      "t": "You picked it up and just stuffed it in your mouth. That's so gross.",
+      "zh": "你捡起来就直接塞进嘴里了。太恶心了。",
+      "a": "audio/talk_ep2/F_f9506bae1c0a.mp3",
+      "oa": "audio/talk_ep2/F_f9506bae1c0a.mp3",
+      "d": 4.31
+    },
+    {
+      "sp": "Mark",
+      "t": "Come on, it was only on the floor for like two seconds. Is there any truth to the five second rule, or not?",
+      "zh": "拜托，它在地上也就待了两秒左右。五秒规则到底有没有道理啊？",
+      "a": "audio/talk_ep2/M_ffe50c23e4cd.mp3",
+      "oa": "audio/talk_ep2/M_ffe50c23e4cd.mp3",
+      "d": 6.583
+    },
+    {
+      "sp": "Lily",
+      "t": "Well, believe it or not, scientists actually studied it, to see if there's anything to it.",
+      "zh": "嗯，信不信由你，科学家还真研究过这个，想看看它到底有没有点道理。",
+      "a": "audio/talk_ep2/F_b65f075cec04.mp3",
+      "oa": "audio/talk_ep2/F_b65f075cec04.mp3",
+      "d": 5.251
+    },
+    {
+      "sp": "Mark",
+      "t": "Really? And what did they find?",
+      "zh": "真的吗？那他们发现了什么？",
+      "a": "audio/talk_ep2/M_28f189aacff8.mp3",
+      "oa": "audio/talk_ep2/M_28f189aacff8.mp3",
+      "d": 2.22
+    },
+    {
+      "sp": "Lily",
+      "t": "The answer is, well, complicated. Most bacteria attaches itself to food almost instantly.",
+      "zh": "答案嘛，有点复杂。大多数细菌几乎是一瞬间就会附着到食物上。",
+      "a": "audio/talk_ep2/F_d77c4e64ca8a.mp3",
+      "oa": "audio/talk_ep2/F_d77c4e64ca8a.mp3",
+      "d": 5.851
+    },
+    {
+      "sp": "Mark",
+      "t": "Instantly? So even if I'm super fast, there are still germs on it?",
+      "zh": "一瞬间？所以就算我手超快，上面还是有细菌？",
+      "a": "audio/talk_ep2/M_811078d023b8.mp3",
+      "oa": "audio/talk_ep2/M_811078d023b8.mp3",
+      "d": 4.31
+    },
+    {
+      "sp": "Lily",
+      "t": "Probably, yeah. And this is the front of the studio. Clients walk here all day. It's bound to be dirty.",
+      "zh": "多半是的。而且这里是工作室的前厅，客人一整天都在这儿走来走去。肯定很脏。",
+      "a": "audio/talk_ep2/F_0da3d7b12136.mp3",
+      "oa": "audio/talk_ep2/F_0da3d7b12136.mp3",
+      "d": 6.87
+    },
+    {
+      "sp": "Mark",
+      "t": "But the floor looks clean. We mopped it this morning.",
+      "zh": "可是地板看起来很干净啊。我们今天早上才拖过。",
+      "a": "audio/talk_ep2/M_b9801b470c46.mp3",
+      "oa": "audio/talk_ep2/M_b9801b470c46.mp3",
+      "d": 3.291
+    },
+    {
+      "sp": "Lily",
+      "t": "Just because a floor looks clean doesn't mean it's bacteria free. Some bacteria is super resistant.",
+      "zh": "地板看起来干净，不代表上面就没有细菌。有些细菌的抵抗力超强。",
+      "a": "audio/talk_ep2/F_ebbef8fd88cd.mp3",
+      "oa": "audio/talk_ep2/F_ebbef8fd88cd.mp3",
+      "d": 6.87
+    },
+    {
+      "sp": "Mark",
+      "t": "Okay, but most germs are harmless, right?",
+      "zh": "好吧，但大多数细菌都是无害的，对吧？",
+      "a": "audio/talk_ep2/M_dd4321300d51.mp3",
+      "oa": "audio/talk_ep2/M_dd4321300d51.mp3",
+      "d": 2.586
+    },
+    {
+      "sp": "Lily",
+      "t": "A lot of them are. But some can make you sick, ranging from a bad cold to something downright dangerous. You can never be sure.",
+      "zh": "很多是无害的。但有些会让你生病，轻的是重感冒，重的可能真的很危险。你永远没法确定。",
+      "a": "audio/talk_ep2/F_1ce865641f2c.mp3",
+      "oa": "audio/talk_ep2/F_1ce865641f2c.mp3",
+      "d": 7.889
+    },
+    {
+      "sp": "Mark",
+      "t": "Fine. But two seconds is still way better than twenty seconds.",
+      "zh": "行吧。不过两秒总比二十秒好得多吧。",
+      "a": "audio/talk_ep2/M_3665d1a87185.mp3",
+      "oa": "audio/talk_ep2/M_3665d1a87185.mp3",
+      "d": 3.997
+    },
+    {
+      "sp": "Lily",
+      "t": "Sure. But it turns out the five second rule is just a myth. Next time, you're better off throwing it out.",
+      "zh": "那当然。但事实证明，五秒规则只是个谣言。下次你最好还是直接扔掉。",
+      "a": "audio/talk_ep2/F_1f5f43eae5c5.mp3",
+      "oa": "audio/talk_ep2/F_1f5f43eae5c5.mp3",
+      "d": 7.706
+    },
+    {
+      "sp": "Mark",
+      "t": "You're right. One french fry isn't worth getting sick. Can I have one of yours?",
+      "zh": "你说得对。为了一根薯条生病不值得。能给我一根你的吗？",
+      "a": "audio/talk_ep2/M_9844f53c1bd0.mp3",
+      "oa": "audio/talk_ep2/M_9844f53c1bd0.mp3",
+      "d": 4.78
+    },
+    {
+      "sp": "Lily",
+      "t": "Ha! Only if you wash your hands first.",
+      "zh": "哈！先去洗手才行。",
+      "a": "audio/talk_ep2/F_0c8623905237.mp3",
+      "oa": "audio/talk_ep2/F_0c8623905237.mp3",
+      "d": 3.213
+    }
+  ]
+}

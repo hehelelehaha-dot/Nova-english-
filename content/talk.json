@@ -9,10 +9,25 @@
       "src": "Open Talk · Episode 1"
     },
     {
+      "id": "talk_ep2",
+      "title": "Open Talk – The Five Second Rule",
+      "sub": "整集 · 20 分 38 秒",
+      "data": "talk_ep2.json",
+      "kind": "episode",
+      "src": "Open Talk · Episode 2"
+    },
+    {
       "id": "talk_ep1_dict",
       "title": "The Desire Contract · 句子听写",
       "sub": "13 句",
       "data": "talk_ep1_dict.json",
+      "kind": "dictation"
+    },
+    {
+      "id": "talk_ep2_dict",
+      "title": "The Five Second Rule · 句子听写",
+      "sub": "17 句",
+      "data": "talk_ep2_dict.json",
       "kind": "dictation"
     },
     {
