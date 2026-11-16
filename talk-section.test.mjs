@@ -9,10 +9,13 @@ assert.ok(app.includes('foldHTML("talk","播客对话"'));
 assert.ok(app.indexOf('foldHTML("talk"') > app.indexOf('foldHTML("podcast"'));
 assert.match(app, /talkHit\(/);
 assert.match(app, /function viewEpisode/);
-assert.deepEqual(talk.boards.map(b => b.id), ["talk_ep1", "talk_ep1_dict", "talk_ep1_oa"]);
-assert.equal(talk.boards[0].kind, "episode");
-assert.equal(talk.boards[1].kind, "dictation");
-assert.equal(talk.boards[2].kind, "original");
+assert.deepEqual(talk.boards.map(b => b.id), ["talk_ep1", "talk_ep2", "talk_ep1_dict", "talk_ep2_dict", "talk_ep1_oa"]);
+const kindOf = id => talk.boards.find(b => b.id === id).kind;
+assert.equal(kindOf("talk_ep1"), "episode");
+assert.equal(kindOf("talk_ep2"), "episode");
+assert.equal(kindOf("talk_ep1_dict"), "dictation");
+assert.equal(kindOf("talk_ep2_dict"), "dictation");
+assert.equal(kindOf("talk_ep1_oa"), "original");
 const oa = JSON.parse(read("content/talk_ep1_oa.json"));
 assert.equal(oa.type, "reading");
 assert.equal(oa.sents.length, 6);
@@ -118,3 +121,47 @@ console.log("talk-section ok");
   // Generic: lives in viewEpisode, used for every type:"episode" item (talk_*).
   assert.ok(app.includes('if(d.type=="episode")return viewEpisode(d,id);'));
 }
+
+// Open Talk Ep 2 (The Five Second Rule): ① 整集 and ② 句子听写 list Ep 1 and Ep 2 (2 项); ③ 原声 stays Ep 1 only (Ep 2 has no third-party audio).
+{
+  assert.ok(app.includes('items:["talk_ep1","talk_ep2"]'));
+  assert.ok(app.includes('items:["talk_ep1_dict","talk_ep2_dict"]'));
+  assert.match(app, /function talkItemsFor\(s\)/);
+  assert.match(app, /function showTalk\(s\)/);
+  assert.ok(app.includes("const talk=talkSec(id);if(talk)return showTalk(talk);"));
+  assert.ok(app.includes('const talk=TALK_DEF.map(s=>{const xs=talkItemsFor(s),n=xs.length;'), "home tile counts every episode");
+  // Run talkItemsFor against talk.json.
+  const src = app.slice(app.indexOf("function talkItemsFor"), app.indexOf("\nfunction showTalk"));
+  const env = new Function("talkItem", src + ";return talkItemsFor;");
+  const items = env(id => talk.boards.find(b => b.id === id) || null);
+  const DEF = Function("return " + app.slice(app.indexOf("const TALK_DEF=") + 15, app.indexOf("];", app.indexOf("const TALK_DEF=")) + 1))();
+  assert.deepEqual(DEF.map(s => items(s).length), [2, 2, 1]);
+  const ep2 = JSON.parse(read("content/talk_ep2.json"));
+  const d2 = JSON.parse(read("content/talk_ep2_dict.json"));
+  assert.equal(ep2.type, "episode");
+  assert.equal(ep2.sents.length, 237);
+  assert.ok(Math.abs(ep2.dur - 1238.4) < 1);
+  assert.ok(fs.existsSync(new URL("content/" + ep2.audio, import.meta.url)));
+  let last = -1;
+  for (const s of ep2.sents) {
+    assert.ok(s.sp && s.t && s.a && s.oa === s.a && s.d > 0 && s.start != null && s.end > s.start);
+    assert.ok(s.start >= last); last = s.start;
+    assert.ok(s.end <= ep2.dur + 0.05);
+    assert.ok(/[\u4e00-\u9fff]/.test(s.zh), "中文: " + s.t);
+    assert.ok(fs.existsSync(new URL("content/" + s.a, import.meta.url)), s.a);
+  }
+  assert.ok(ep2.sents.every(s => ["Ethan", "Paula", "Lily", "Mark"].includes(s.sp)), "no invented original speakers");
+  assert.ok(!ep2.sents.some(s => /\(original\)/.test(s.sp)));
+  const dlg = ep2.sents.filter(s => s.segment === "dialogue");
+  assert.equal(dlg.length, 17);
+  assert.ok(dlg.every(s => s.sp === "Lily" || s.sp === "Mark"));
+  assert.equal(ep2.sents.filter(s => s.segment === "dialogue_repeat").length, 17);
+  assert.ok(ep2.sents.find(s => s.segment === "original").h.includes("read by Ethan & Paula"));
+  assert.deepEqual(d2.sents.map(s => s.t), dlg.map(s => s.t));
+  assert.ok(d2.sents.every(s => s.oa && s.t && s.zh && s.sp));
+  // Single-word drill lines show their meaning.
+  const drill = ep2.sents.find(s => s.t === "Lightning quick.");
+  assert.ok(drill.zh.includes("闪电"));
+  assert.ok(!talk.boards.some(b => b.id === "talk_ep2_oa"), "no 原声 board for Ep 2");
+}
+console.log("talk-section ep2 ok");

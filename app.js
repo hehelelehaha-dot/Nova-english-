@@ -257,8 +257,8 @@ const podcastSec=id=>PODCAST_DEF.find(s=>s.id==id);
 // 播客对话 (internal id talk): homemade Open Talk episodes, a standalone home fold right after 播客.
 // ① 整集 = full-episode player with a line-by-line transcript; ② 句子听写 = the dialogue lines.
 const TALK_DEF=[
- {id:"talk_reading",like:"episode",name:"整集",typeName:"整集",desc:"Open Talk · Ep 1",item:"talk_ep1"},
- {id:"talk_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",desc:"Open Talk · Ep 1",item:"talk_ep1_dict"},
+ {id:"talk_reading",like:"episode",name:"整集",typeName:"整集",desc:"Open Talk · Ep 1–2",items:["talk_ep1","talk_ep2"]},
+ {id:"talk_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",desc:"Open Talk · Ep 1–2",items:["talk_ep1_dict","talk_ep2_dict"]},
  {id:"talk_original",like:"reading",name:"原声",typeName:"原声",desc:"Open Talk · Ep 1",item:"talk_ep1_oa"}];
 let TALK=null;
 async function loadTalk(){if(TALK)return TALK;try{TALK=await getJSON("talk.json")}catch(e){TALK={boards:[]}}if(!TALK.boards)TALK.boards=[];return TALK}
@@ -266,6 +266,13 @@ function talkBoards(){return (TALK&&TALK.boards)||[]}
 function talkItem(id){return talkBoards().find(it=>it&&it.id==id)||null}
 function talkHit(id){const it=talkItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"talk_dictation"};if(it.kind=="original")return{it:Object.assign({},it),sec:"talk_original"};return{it:Object.assign({},it),sec:"talk_reading"}}
 const talkSec=id=>TALK_DEF.find(s=>s.id==id);
+// A 播客对话 board lists one item per episode (items:[...]); a single item opens directly, two or more get a list.
+function talkItemsFor(s){return (s.items||(s.item?[s.item]:[])).map(talkItem).filter(Boolean)}
+function showTalk(s){const xs=talkItemsFor(s);if(xs.length==1){location.replace("#/i/"+xs[0].id);return}if(!xs.length)return showHome();setHeader(secT(s.id,s.name),true);
+ const bar=s.like=="dictation"?dqHTML():"";
+ V.innerHTML=`${bar}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(x.title||x.id)}<span class="sb">${esc([x.src,x.sub].filter(Boolean).join(" · "))}</span></span></button></div>`).join("")}</div>`;
+ if(s.like=="dictation")dqGoalMount();
+ V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
 function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
 function prepHomeHTML(list){const inner=list.length?list.map(s=>{const id=String(s.id||""),title=String(s.title!=null?s.title:id),key="prep:"+id;
  const items=Array.isArray(s.items)?s.items:[];
@@ -655,7 +662,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const podcastIcon={reading:"📖",dictation:"✍️"};
  const podcast=PODCAST_DEF.map(s=>{const it=podcastItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:podcastIcon[s.like]||"📁",desc:s.desc||"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
  const talkIcon={episode:"🎧",dictation:"✍️",reading:"🎤"};
- const talk=TALK_DEF.map(s=>{const it=talkItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:talkIcon[s.like]||"📁",desc:s.desc||"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like=="episode"?"longaudio":s.like})}).join("");
+ const talk=TALK_DEF.map(s=>{const xs=talkItemsFor(s),n=xs.length;return studyTile({id:s.id,name:s.name,icon:talkIcon[s.like]||"📁",desc:s.desc||"",count:n+" 项",hash:n==1?"#/i/"+xs[0].id:"#/c/"+s.id,iconKey:s.like=="episode"?"longaudio":s.like})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
  V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${prepHomeHTML(prepSections())}${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("elio","Elio",ELIO_DEF.length,elio)}${foldHTML("turning","青春变形记",TURNING_DEF.length,turning)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}${foldHTML("podcast","播客",PODCAST_DEF.length,podcast)}${foldHTML("talk","播客对话",TALK_DEF.length,talk)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
@@ -801,7 +808,7 @@ function showLuca(s){if(s.like=="game")return showGames("luca");if(s.like=="wf")
  V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
-async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const turning=turningSec(id);if(turning){const it=turningItem(turning.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const talk=talkSec(id);if(talk){const it=talkItem(talk.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
+async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const turning=turningSec(id);if(turning){const it=turningItem(turning.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const talk=talkSec(id);if(talk)return showTalk(talk);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
  V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
