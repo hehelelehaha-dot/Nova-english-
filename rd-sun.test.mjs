@@ -17,8 +17,8 @@ assert.equal(tap({at:1000, now:2000, own:false, ended:false, t:3, paused:true}),
 assert.equal(tap({at:1000, now:2000, own:true, ended:false, t:0.01, paused:true}), "play");
 const rd = app.slice(app.indexOf("function viewReading"), app.indexOf("// 原文 in word cards"));
 assert.match(rd, /rdSunTap\(/);
-assert.match(rd, /\$\("rnggo"\)\.onclick=\(\)=>listenStart\(fold,false\)/);
+assert.match(rd, /\$\("rnggo"\)\.onclick=\(\)=>start\(false\)/);
 assert.match(rd, /playSeg\(i,k,p\)/);
-assert.match(rd, /\$\("rloop"\)\.onclick=\(\)=>listenStart\(fold,true\)/);
+assert.match(rd, /\$\("rloop"\)\.onclick=\(\)=>start\(true\)/);
 assert.match(app, /function stopAll\(\)\{RUN\+\+;rdOwn=-1/);
 console.log("rd sun ok");

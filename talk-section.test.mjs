@@ -43,25 +43,24 @@ for (const s of dict.sents) {
 
 // Board ③ 原声 (talk_ep1_oa): 原声连播 / 原声循环 play only this board's 6 lines, not the Naval topic 连听 playlist.
 {
-  const at = app.indexOf("if(/^talk_/.test(rid)){");
+  const at = app.indexOf("{const cards=rows.filter(x=>x.s&&x.s.oa)");
   assert.ok(at > 0, "talk boards get their own 原声连播 branch");
-  const end = app.indexOf("return}", app.indexOf('$("rloop").onclick=()=>start(true)', at)) + "return}".length;
-  const branch = app.slice(at, end);
+  const end = app.indexOf("\n// 原文 in word cards", at);
+  const branch = app.slice(at, app.lastIndexOf("}", end));
   assert.ok(!branch.includes("listenStart") && !branch.includes("playFoldListen"));
-  assert.ok(branch.indexOf("talk_") < app.indexOf('$("rnggo").onclick=()=>listenStart(fold,false)', at), "talk branch runs before the fold fallback");
   const rows = oa.sents.map((s, i) => ({ s, i, n: i }));
   const run = async loop => {
     const played = [], status = [], btns = {};
-    const env = new Function("rid", "rows", "F", "$", "st", "mark", "audioURL", "listenClip", "listenPaint", "stopAll", `
+    const env = new Function("rid", "rows", "F", "$", "st", "mark", "audioURL", "listenClip", "listenPaint", "stopAll", "setAll", "ss", `
       var RUN=0,TLACTIVE=null,TLMODE=null,LASTBTN=null,window={};
       const S=()=>({RUN,TLMODE,TLACTIVE,window});const bump=()=>{RUN++};
       stopAll=((f)=>()=>{RUN++;TLMODE=null})(stopAll);
-      ${branch.replace(/return}$/, "}")}
+      ${branch}
       return {S,bump};`);
     let stopAfter = loop ? 9 : Infinity, n = 0, ctl;
     const listenClip = async (url) => { played.push(url); if (++n >= stopAfter) ctl.bump(); return true; };
     const $ = id => (btns[id] ||= { id });
-    ctl = env("talk_ep1_oa", rows, { loop: false }, $, t => status.push(t), () => {}, async u => u, listenClip, () => {}, () => {});
+    ctl = env("talk_ep1_oa", rows, { loop: false }, $, t => status.push(t), () => {}, async u => u, listenClip, () => {}, () => {}, () => {}, {querySelectorAll: () => []});
     await btns[loop ? "rloop" : "rnggo"].onclick();
     await new Promise(r => setTimeout(r, 20));
     return { played, status };
