@@ -40,4 +40,44 @@ assert.ok(dict.sents.every(s => s.oa && s.t && s.zh && s.sp));
 for (const s of dict.sents) {
   assert.ok(fs.existsSync(new URL("content/" + s.oa, import.meta.url)), s.oa);
 }
+
+// Board ③ 原声 (talk_ep1_oa): 原声连播 / 原声循环 play only this board's 6 lines, not the Naval topic 连听 playlist.
+{
+  const at = app.indexOf("if(/^talk_/.test(rid)){");
+  assert.ok(at > 0, "talk boards get their own 原声连播 branch");
+  const end = app.indexOf("return}", app.indexOf('$("rloop").onclick=()=>start(true)', at)) + "return}".length;
+  const branch = app.slice(at, end);
+  assert.ok(!branch.includes("listenStart") && !branch.includes("playFoldListen"));
+  assert.ok(branch.indexOf("talk_") < app.indexOf('$("rnggo").onclick=()=>listenStart(fold,false)', at), "talk branch runs before the fold fallback");
+  const rows = oa.sents.map((s, i) => ({ s, i, n: i }));
+  const run = async loop => {
+    const played = [], status = [], btns = {};
+    const env = new Function("rid", "rows", "F", "$", "st", "mark", "audioURL", "listenClip", "listenPaint", "stopAll", `
+      var RUN=0,TLACTIVE=null,TLMODE=null,LASTBTN=null,window={};
+      const S=()=>({RUN,TLMODE,TLACTIVE,window});const bump=()=>{RUN++};
+      stopAll=((f)=>()=>{RUN++;TLMODE=null})(stopAll);
+      ${branch.replace(/return}$/, "}")}
+      return {S,bump};`);
+    let stopAfter = loop ? 9 : Infinity, n = 0, ctl;
+    const listenClip = async (url) => { played.push(url); if (++n >= stopAfter) ctl.bump(); return true; };
+    const $ = id => (btns[id] ||= { id });
+    ctl = env("talk_ep1_oa", rows, { loop: false }, $, t => status.push(t), () => {}, async u => u, listenClip, () => {}, () => {});
+    await btns[loop ? "rloop" : "rnggo"].onclick();
+    await new Promise(r => setTimeout(r, 20));
+    return { played, status };
+  };
+  const once = await run(false);
+  assert.deepEqual(once.played, oa.sents.map(s => s.oa), "原声连播 plays exactly this board's 6 lines in order");
+  assert.ok(once.status[0].startsWith("原声连播 · 6 句"), once.status[0]);
+  assert.ok(once.status.every(t => !/Topic|T1/.test(t)));
+  const looped = await run(true);
+  assert.deepEqual(looped.played, [...oa.sents, ...oa.sents].map(s => s.oa).slice(0, 9), "原声循环 loops the same 6 lines");
+  assert.ok(looped.status[0].startsWith("原声循环 · 6 句"));
+}
+// ② 句子听写 (viewDictation) has no 原声连播 / topic 连听 hook, so it can't jump to the Naval playlist.
+{
+  const s = app.indexOf("function viewDictation"), e = app.indexOf("\nfunction ", s + 10);
+  const body = app.slice(s, e);
+  assert.ok(!/listenStart|playFoldListen|rnggo/.test(body));
+}
 console.log("talk-section ok");
