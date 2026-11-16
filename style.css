@@ -1102,3 +1102,6 @@ html #nova-starrain.out{opacity:0}
 #ss>h3.pcat{margin:18px 4px 8px;font-size:15px;font-weight:700;color:var(--pgtx,#6b4f2e);letter-spacing:.02em}#ss>h3.pcat:first-child{margin-top:4px}
 .s .t b.pkw,.s .zhe b.pkw{font-weight:700;color:inherit;background:linear-gradient(transparent 60%,rgba(232,168,76,.45) 0);border-radius:2px;padding:0 1px}
 #ss.hide .t b.pkw{background:transparent!important}
+/* 播客对话 整集: small 从这里开始听 link under each transcript line */
+#ss .fhere{display:inline-block;margin-top:6px;padding:3px 10px;min-height:0;font-size:12px;font-family:inherit;line-height:1.5;border:1px solid #c9dcec;border-radius:999px;background:transparent;color:#2f5a8a;cursor:pointer}
+#ss .fhere:active{background:#e4eef8}

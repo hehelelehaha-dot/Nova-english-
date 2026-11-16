@@ -81,3 +81,29 @@ for (const s of dict.sents) {
   assert.ok(!/listenStart|playFoldListen|rnggo/.test(body));
 }
 console.log("talk-section ok");
+
+// ① 整集 (viewEpisode): each transcript line gets a small 从这里开始听 button that plays the full episode from that line to the end.
+{
+  const s = app.indexOf("async function viewEpisode"), e = app.indexOf("\nasync function showItem", s);
+  const body = app.slice(s, e);
+  assert.ok(body.includes('class="fhere"') && body.includes("从这里开始听"), "line cards render 从这里开始听");
+  assert.ok(body.includes("s.start!=null?"), "only lines with a start time get the button");
+  // Single-line ▶ is unchanged.
+  assert.ok(body.includes('aria-label="播放这一句">▶</button>'));
+  assert.ok(body.includes("playOA(s.a,ss.querySelector('.p[data-i=\"'+i+'\"]'))"));
+  // Run playFrom against a fake audio element.
+  const src = body.slice(body.indexOf("const playFrom="), body.indexOf('ss.querySelectorAll(".fhere[data-f]")'));
+  const calls = [];
+  const au = { readyState: 4, currentTime: 0, playbackRate: 1, paused: true,
+    seekTo(t) { calls.push(["seek", t]); this.currentTime = t; },
+    play() { calls.push(["play"]); this.paused = false; return Promise.resolve(); } };
+  const make = new Function("sents", "au", "R", "ri", "stopAll", `let cur=5;${src};return {playFrom, cur:()=>cur};`);
+  const k = 7, env = make(ep.sents, au, [1, .85, .75], 1, () => calls.push(["stop"]));
+  env.playFrom(k);
+  assert.deepEqual(calls, [["stop"], ["seek", ep.sents[k].start], ["play"]], "seeks the full episode to the line start and plays on");
+  assert.equal(au.playbackRate, .85, "keeps the chosen speed");
+  assert.equal(env.cur(), -1, "resets cur so timeupdate repaints and follows the highlight");
+  assert.ok(body.includes('ss.querySelectorAll(".fhere[data-f]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();playFrom(+b.dataset.f)})'));
+  // Generic: lives in viewEpisode, used for every type:"episode" item (talk_*).
+  assert.ok(app.includes('if(d.type=="episode")return viewEpisode(d,id);'));
+}
