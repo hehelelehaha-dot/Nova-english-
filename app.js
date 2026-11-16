@@ -1127,15 +1127,31 @@ const EEPOS={"n.":"noun","v.":"verb","adj.":"adjective","adv.":"adverb","phr.":"
 function eeParts(e,ent){const pos=EEPOS[String(e.pos||"").replace(/（.*/,"").trim()]||"word";
  const out=[{t:e.w,lang:"en-US",ent},{t:pos,lang:"en-US",ent},{t:e.ex||"",lang:"en-US",ent}];
  (e.exs||[]).forEach((x,j)=>{out.push({t:x,lang:"en-US",ent});const z=e.exzh&&e.exzh[j];if(z)out.push({t:z,lang:"zh-CN",ent});out.push({t:x,lang:"en-US",ent})});return out}
+// 全部连播 / 从这里听 (Nova 2026-11-16 "连读 doesn't play smoothly"): iOS WebKit stutters, drops lines and stalls when the
+// whole day (414 utterances for 飞屋 Day 1, en/zh alternating, some empty) is queued at once. Feed the engine one line
+// ahead instead: the current line plus the next one stay queued (no gap between lines), every utterance stays referenced
+// (WebKit loses onend on collected ones), each line advances exactly once, empty lines are left out, and a watchdog
+// restarts the current line if speech goes silent without onend. RUN (stopAll) still stops everything.
+const EE_AHEAD=2,EE_STALL=1500,EE_WD=500;let ZHV=null;
+function pickZhVoice(){const vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];const zh=vs.filter(v=>/^zh[-_](CN|Hans)/i.test(v.lang));ZHV=zh.find(v=>v.localService)||zh[0]||null}
 function eeSpeak(list,btn){if(!window.speechSynthesis){toast("这台设备不支持朗读");return}stopAll();speechSynthesis.cancel();
  const all=document.getElementById("all");if(all&&all!==btn){all.classList.remove("on");all.textContent="▶ 全部连播"}
- if(typeof pickVoice=="function"){try{if(!ENV)pickVoice()}catch(e){}}
- if(btn){LASTBTN=btn;btn.classList.add("playing")}const me=RUN;
- list.forEach((p,i)=>{const u=new SpeechSynthesisUtterance(p.t);u.lang=p.lang;u.rate=eeRate;
-  if(String(p.lang).startsWith("en")&&typeof ENV!=="undefined"&&ENV)u.voice=ENV;
-  u.onstart=()=>{if(me!==RUN||p.ent==null)return;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));const el=document.getElementById("e"+p.ent);if(el){el.classList.add("cur");follow(el)}};
-  if(i===list.length-1)u.onend=()=>{if(me!==RUN)return;if(btn){btn.classList.remove("playing");if(btn.id==="all"){btn.classList.remove("on");btn.textContent="▶ 全部连播"}}};
-  speechSynthesis.speak(u)})}
+ if(typeof pickVoice=="function"){try{if(!ENV)pickVoice()}catch(e){}}if(!ZHV)try{pickZhVoice()}catch(e){}
+ if(btn){LASTBTN=btn;btn.classList.add("playing")}const me=RUN,S=speechSynthesis;
+ list=list.filter(p=>p&&String(p.t||"").trim());const keep=[];let next=0,done=0,gen=0,last=Date.now(),wd=0;
+ const fin=()=>{clearInterval(wd);window._ee=null;if(me!==RUN)return;if(btn){btn.classList.remove("playing");if(btn.id==="all"){btn.classList.remove("on");btn.textContent="▶ 全部连播"}}};
+ const say=i=>{const p=list[i],g=gen,u=new SpeechSynthesisUtterance(p.t);u.lang=p.lang;u.rate=eeRate;
+  if(String(p.lang).startsWith("en")&&typeof ENV!=="undefined"&&ENV)u.voice=ENV;else if(String(p.lang).startsWith("zh")&&ZHV)u.voice=ZHV;
+  let ended=false;
+  u.onstart=()=>{if(me!==RUN||g!==gen)return;last=Date.now();if(p.ent==null)return;document.querySelectorAll(".ent.cur").forEach(x=>x.classList.remove("cur"));const el=document.getElementById("e"+p.ent);if(el){el.classList.add("cur");follow(el)}};
+  u.onend=u.onerror=()=>{if(ended||me!==RUN||g!==gen)return;ended=true;last=Date.now();done=Math.max(done,i+1);feed()};
+  keep[i]=u;S.speak(u)};
+ const feed=()=>{if(me!==RUN)return fin();if(done>=list.length)return fin();while(next<list.length&&next<done+EE_AHEAD)say(next++)};
+ window._ee={me,list,get next(){return next},get done(){return done}};
+ if(!list.length)return fin();feed();
+ wd=setInterval(()=>{if(me!==RUN||done>=list.length)return fin();
+  if(S.paused){try{S.resume()}catch(e){}}
+  if(!S.speaking&&!S.pending&&Date.now()-last>EE_STALL){gen++;last=Date.now();try{S.cancel()}catch(e){}next=done;feed()}},EE_WD)}
 function viewEE(d,id){const items=(d&&d.items)||[];const SKK="nova_skip_"+(id||"up_ee");let SK={};try{SK=JSON.parse(localStorage.getItem(SKK))||{}}catch(e){}
  const isSk=i=>!!SK[items[i].w];
  V.innerHTML=`<div class="bar"><button id="all" class="red">▶ 全部连播</button><button id="spd">速度 ${eeRate}x</button></div><div class="skbar" id="skbar" hidden></div>${items.map((e,i)=>`<div class="ent" id="e${i}"><div class="hd"><span class="n">${e.n||i+1}</span><span class="w en">${esc(e.w)}</span><span style="color:#888;font-style:italic">${esc(e.pos||"")}</span><span class="z">${esc(e.zh||"")}</span><button class="jump" data-i="${i}">▶ 从这里听</button><button class="skb" data-sk="${i}" aria-pressed="false">跳过</button></div><p>${esc(e.ex||"")}</p>${e.exs&&e.exs.length?`<div style="font-weight:700;font-size:13px;color:#555">For example:</div><ol>${e.exs.map((x,j)=>`<li>${esc(x)}${e.exzh&&e.exzh[j]?`<div class="exz">${esc(e.exzh[j])}</div>`:""}</li>`).join("")}</ol>`:""}</div>`).join("")}`;
