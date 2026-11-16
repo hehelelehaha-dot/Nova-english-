@@ -963,6 +963,16 @@ function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const S
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
  const fold=/^podcast_/.test(rid)?"podcast":/^turning_/.test(rid)?"turning":/^elio_/.test(rid)?"elio":/^luca_/.test(rid)?"luca":"naval";
  $("bk5").onclick=listenRewind;
+ // 播客对话 boards (talk_*) are not part of a topic fold: 原声连播 / 原声循环 play only this board's lines.
+ if(/^talk_/.test(rid)){const cards=rows.filter(x=>x.s&&x.s.oa),key="board:"+rid,chip=cards.length+" 句";
+  const run=async loop=>{const me=++RUN,label=loop?"原声循环":"原声连播";TLACTIVE=key;TLMODE=loop?"loop":"once";listenPaint();window._tl={board:rid,loop:!!loop,ids:cards.map(c=>c.i)};st(label+" · "+chip);
+   do{let played=0;for(let k=0;k<cards.length;k++){const c=cards[k];if(me!=RUN)return;mark(c.i);LASTBTN=$(loop?"rloop":"rnggo");st(`${label} · ${chip} · 第 ${k+1} / ${cards.length} 句`);
+     let url;try{url=await audioURL(c.s.oa)}catch(e){url=null}if(me!=RUN)return;if(!url)continue;
+     let ok=false;do{if(me!=RUN)return;ok=await listenClip(url,me,+c.s.d||0)}while(F.loop&&me==RUN);if(me!=RUN)return;if(ok)played++}
+    if(!played){if(me==RUN){TLMODE=null;listenPaint();st("这一段没有原声")}return}}while(loop&&me==RUN);
+   if(me==RUN){TLMODE=null;listenPaint();st("连播完毕 · "+chip)}};
+  const start=loop=>{const same=TLMODE==(loop?"loop":"once")&&TLACTIVE===key;stopAll();TLMODE=null;listenPaint();if(same){st("已暂停");return}run(loop)};
+  $("rnggo").onclick=()=>start(false);$("rloop").onclick=()=>start(true);return}
  $("rnggo").onclick=()=>listenStart(fold,false);
  $("rloop").onclick=()=>listenStart(fold,true);
 }
