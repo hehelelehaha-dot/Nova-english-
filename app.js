@@ -699,6 +699,10 @@ function listenCaption(s){TLCAP=s||null;const cap=document.getElementById("tlcap
 async function listenSeg(s,a,b,p){stopAll();TLMODE=null;listenPaint();const me=++RUN;document.querySelectorAll(".tlcap .ph.play").forEach(x=>x.classList.remove("play"));if(p)p.classList.add("play");
  A.onended=A.onerror=null;A.src=await audioURL(s.oa);listenRate();const go=()=>{try{A.currentTime=a||0}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
  const tick=()=>{if(me!=RUN){if(p)p.classList.remove("play");return}if((b!=null&&A.currentTime>=b)||A.ended){if(me==RUN&&b!=null)A.pause();if(p)p.classList.remove("play");return}requestAnimationFrame(tick)};requestAnimationFrame(tick)}
+// How long 原声连播 lets a line's 原声 clip run. s.d is the length of s.a; it is the clip's own length only when
+// s.a is the 原声 clip (Luca/Elio/播客/Open Talk). Naval ② lines have s.a = AI read-aloud and s.oa = Naval's
+// original clip, which is usually longer, so s.d would cut the original mid-sentence: play that clip to its end.
+function oaDur(s){return s&&s.oa&&s.a===s.oa?(+s.d||0):0}
 function listenClip(url,me,dur){return new Promise(res=>{let done=false,origin=null;const once=v=>{if(done)return;done=true;res(v)};
  try{A.pause()}catch(e){}A.onended=A.onerror=null;A.src=url;
  const seek0=()=>{try{if((A.currentTime||0)>0.05)A.currentTime=0}catch(e){}listenRate()};
@@ -709,7 +713,7 @@ function listenClip(url,me,dur){return new Promise(res=>{let done=false,origin=n
   if(origin==null){if(heard<0.25)origin=heard;else if(wall>2500)return once(false);else return requestAnimationFrame(tick)}
   const played=Math.max(0,heard-origin);
   if(dur>0&&played>=Math.max(0.12,dur-0.08))return once(true);
-  if(A.ended&&played>0.12)return once(true);if(wall>30000)return once(false);requestAnimationFrame(tick)};
+  if(A.ended&&played>0.12)return once(true);if(wall>Math.max(30000,((isFinite(A.duration)?A.duration:0)/(A.playbackRate||1))*1000+5000))return once(false);requestAnimationFrame(tick)};
  requestAnimationFrame(tick)})}
 // Reading-card keep list. Values are the original 1-based line numbers (sents index + 1).
 // Shown cards are numbered 1..n (field n). sents is not reindexed: 单词卡 si, 句子听写, and ☀ nova_sun stay on i.
@@ -734,7 +738,7 @@ async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold
   const cards=rdRows(d).filter(x=>x.s&&x.s.oa);
   for(const c of cards){if(me!=RUN)return;window._tlCard=c.i;markTopic(t.id);listenCaption(c.s);LASTBTN=document.getElementById(loop?"rloop":"rnggo");st(`${label} · ${word} ${t.n} · 第 ${c.n+1} 张 · ${chip}`);
    let url;try{url=await audioURL(c.s.oa)}catch(e){url=null}if(me!=RUN)return;if(!url)continue;
-   let ok=false;do{if(me!=RUN)return;ok=await listenClip(url,me,+c.s.d||0)}while(SENTLOOP&&me==RUN);
+   let ok=false;do{if(me!=RUN)return;ok=await listenClip(url,me,oaDur(c.s))}while(SENTLOOP&&me==RUN);
    if(me!=RUN)return;if(ok)played++}}
   if(!played){if(me==RUN){TLMODE=null;listenPaint();st("这一段没有原声");listenCaption(null)}return}}while(loop&&me==RUN);
  if(me==RUN){TLMODE=null;listenPaint();st("连听完毕 · "+chip)}}
@@ -972,7 +976,7 @@ function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const S
   const run=async(loop,from)=>{const me=++RUN,label=loop?"原声循环":"原声连播";let k0=Math.max(0,cards.findIndex(c=>c.i===from));TLACTIVE=key;TLMODE=loop?"loop":"once";listenPaint();window._tl={board:rid,loop:!!loop,ids:cards.map(c=>c.i)};st(label+" · "+chip);
    do{let played=0;for(let k=k0;k<cards.length;k++){const c=cards[k];if(me!=RUN)return;mark(c.i);LASTBTN=$(loop?"rloop":"rnggo");st(`${label} · ${chip} · 第 ${k+1} / ${cards.length} 句`);
      let url;try{url=await audioURL(c.s.oa)}catch(e){url=null}if(me!=RUN)return;if(!url)continue;
-     let ok=false;do{if(me!=RUN)return;ok=await listenClip(url,me,+c.s.d||0)}while(F.loop&&me==RUN);if(me!=RUN)return;if(ok)played++}
+     let ok=false;do{if(me!=RUN)return;ok=await listenClip(url,me,oaDur(c.s))}while(F.loop&&me==RUN);if(me!=RUN)return;if(ok)played++}
     if(!played&&!k0){if(me==RUN){TLMODE=null;listenPaint();st("这一段没有原声")}return}k0=0}while(loop&&me==RUN);
    if(me==RUN){TLMODE=null;listenPaint();st("连播完毕 · "+chip)}};
   const start=loop=>{const same=TLMODE==(loop?"loop":"once")&&TLACTIVE===key;stopAll();TLMODE=null;listenPaint();if(same){st("已暂停");return}run(loop)};
