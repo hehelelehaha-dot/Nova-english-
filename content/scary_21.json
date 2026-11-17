@@ -1,0 +1,134 @@
+{
+"id": "scary_21",
+"type": "reading",
+"title": "21 Home Alone · 独自在家",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Ryan Hulse writes, \"So I was just sitting at home alone. The parents were out, and I kept hearing the weird sounds again.",
+"zh": "Ryan Hulse 写道：“我一个人坐在家里，爸妈都出去了，我又一直听到那些奇怪的声音。",
+"a": "audio/scary/s21_01.mp3",
+"oa": "audio/scary/s21_01.mp3",
+"d": 8.07,
+"seg": [
+[
+0,
+2,
+0,
+2.16
+],
+[
+3,
+10,
+2.16,
+4.44
+],
+[
+11,
+14,
+4.44,
+5.68
+],
+[
+15,
+22,
+5.68,
+8.07
+]
+]
+},
+{
+"sp": "",
+"t": "But this time, I decided to record for a change, and this is what I caught. Really creepy.\"",
+"zh": "但这次我决定换个做法，把它录下来，这就是我拍到的。真的很吓人。”",
+"a": "audio/scary/s21_02.mp3",
+"oa": "audio/scary/s21_02.mp3",
+"d": 7.42,
+"seg": [
+[
+0,
+2,
+0,
+1.37
+],
+[
+3,
+9,
+1.37,
+3.53
+],
+[
+10,
+15,
+3.53,
+6.06
+],
+[
+16,
+17,
+6.06,
+7.42
+]
+]
+},
+{
+"sp": "Clip",
+"t": "What the f—? This is what I mean. Crazy.",
+"zh": "什么鬼？我说的就是这个。太疯狂了。",
+"a": "audio/scary/s21_03.mp3",
+"oa": "audio/scary/s21_03.mp3",
+"d": 5.41,
+"seg": [
+[
+0,
+2,
+0,
+1.08
+],
+[
+3,
+7,
+1.08,
+4.1
+],
+[
+8,
+8,
+4.1,
+5.41
+]
+]
+},
+{
+"sp": "",
+"t": "Perhaps this might have been a stranger who broke in.",
+"zh": "这也许是一个闯进来的陌生人。",
+"a": "audio/scary/s21_04.mp3",
+"oa": "audio/scary/s21_04.mp3",
+"d": 2.73
+},
+{
+"sp": "",
+"t": "Intruder or ghost, it's unknown as to who or what was inside Ryan's house.",
+"zh": "是入侵者还是鬼？没人知道当时 Ryan 家里的是谁、是什么。",
+"a": "audio/scary/s21_05.mp3",
+"oa": "audio/scary/s21_05.mp3",
+"d": 5.12,
+"seg": [
+[
+0,
+2,
+0,
+1.72
+],
+[
+3,
+13,
+1.72,
+5.12
+]
+]
+}
+]
+}

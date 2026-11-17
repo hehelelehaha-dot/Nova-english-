@@ -1,0 +1,230 @@
+{
+"id": "scary_16",
+"type": "reading",
+"title": "16 Maria's Scared Dog · Maria 发抖的狗",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "The following video was submitted by Maria, who had caught her dog acting very strange.",
+"zh": "下面这段视频是 Maria 投稿的，她拍到自家狗狗的举动非常奇怪。",
+"a": "audio/scary/s16_01.mp3",
+"oa": "audio/scary/s16_01.mp3",
+"d": 8.22,
+"seg": [
+[
+0,
+6,
+0,
+5.71
+],
+[
+7,
+14,
+5.71,
+8.22
+]
+]
+},
+{
+"sp": "",
+"t": "Maria writes, \"It's been several days that my dog's been acting strange.",
+"zh": "Maria 写道：“这几天我的狗一直很反常。",
+"a": "audio/scary/s16_02.mp3",
+"oa": "audio/scary/s16_02.mp3",
+"d": 4.82,
+"seg": [
+[
+0,
+1,
+0,
+1.45
+],
+[
+2,
+11,
+1.45,
+4.82
+]
+]
+},
+{
+"sp": "",
+"t": "She doesn't want to go to her bed, and she seems so scared, to the point she starts shaking.",
+"zh": "她不肯去自己的窝，而且看起来非常害怕，怕到浑身发抖。",
+"a": "audio/scary/s16_03.mp3",
+"oa": "audio/scary/s16_03.mp3",
+"d": 5.62
+},
+{
+"sp": "",
+"t": "So tonight, I decided to record her, and this is what I captured.\"",
+"zh": "所以今晚我决定把她录下来，这就是我拍到的。”",
+"a": "audio/scary/s16_04.mp3",
+"oa": "audio/scary/s16_04.mp3",
+"d": 4.39
+},
+{
+"sp": "",
+"t": "For some reason, Maria's dog can't help but shake whenever she's near a specific room in the house.",
+"zh": "不知为什么，Maria 的狗一靠近家里某个特定的房间，就忍不住发抖。",
+"a": "audio/scary/s16_05.mp3",
+"oa": "audio/scary/s16_05.mp3",
+"d": 6.85,
+"seg": [
+[
+0,
+2,
+0,
+2.66
+],
+[
+3,
+17,
+2.66,
+6.85
+]
+]
+},
+{
+"sp": "",
+"t": "Now, it's obvious that her dog is shaking out of fear, but the real question is why.",
+"zh": "很明显，狗狗是因为害怕才发抖的，但真正的问题是：为什么？",
+"a": "audio/scary/s16_06.mp3",
+"oa": "audio/scary/s16_06.mp3",
+"d": 5.92,
+"seg": [
+[
+0,
+0,
+0,
+0.74
+],
+[
+1,
+10,
+0.74,
+3.62
+],
+[
+11,
+16,
+3.62,
+5.92
+]
+]
+},
+{
+"sp": "",
+"t": "What might be the reason as to why she's behaving like this?",
+"zh": "她这样表现，可能是什么原因呢？",
+"a": "audio/scary/s16_07.mp3",
+"oa": "audio/scary/s16_07.mp3",
+"d": 3.26
+},
+{
+"sp": "",
+"t": "Maria believes that a ghost might be responsible for her dog's strange behavior.",
+"zh": "Maria 认为，狗狗的反常行为可能是鬼魂造成的。",
+"a": "audio/scary/s16_08.mp3",
+"oa": "audio/scary/s16_08.mp3",
+"d": 5.27
+},
+{
+"sp": "",
+"t": "Given the belief that some pets can see things humans can't, could it be that she's actually seeing something?",
+"zh": "既然人们相信有些宠物能看到人看不到的东西，会不会她真的看到了什么？",
+"a": "audio/scary/s16_09.mp3",
+"oa": "audio/scary/s16_09.mp3",
+"d": 5.93,
+"seg": [
+[
+0,
+10,
+0,
+3.52
+],
+[
+11,
+18,
+3.52,
+5.93
+]
+]
+},
+{
+"sp": "",
+"t": "Now, what's even more creepy about this is that Maria claims to have caught the ghost on camera.",
+"zh": "更吓人的是，Maria 声称她拍到了那个鬼。",
+"a": "audio/scary/s16_10.mp3",
+"oa": "audio/scary/s16_10.mp3",
+"d": 5.03,
+"seg": [
+[
+0,
+0,
+0,
+0.4
+],
+[
+1,
+17,
+0.4,
+5.03
+]
+]
+},
+{
+"sp": "",
+"t": "According to her, there appears to be a face by the door.",
+"zh": "据她说，门边好像有一张脸。",
+"a": "audio/scary/s16_11.mp3",
+"oa": "audio/scary/s16_11.mp3",
+"d": 3.49,
+"seg": [
+[
+0,
+2,
+0,
+1.29
+],
+[
+3,
+11,
+1.29,
+3.49
+]
+]
+},
+{
+"sp": "",
+"t": "If you look closely, you'll be able to see it.",
+"zh": "仔细看的话，你就能看到。",
+"a": "audio/scary/s16_12.mp3",
+"oa": "audio/scary/s16_12.mp3",
+"d": 3.11,
+"seg": [
+[
+0,
+3,
+0,
+1.43
+],
+[
+4,
+9,
+1.43,
+3.11
+]
+]
+},
+{
+"sp": "",
+"t": "What exactly was causing Maria's dog to act this way?",
+"zh": "到底是什么让 Maria 的狗变成这样？",
+"a": "audio/scary/s16_13.mp3",
+"oa": "audio/scary/s16_13.mp3",
+"d": 4.01
+}
+]
+}

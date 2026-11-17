@@ -1,0 +1,198 @@
+{
+"id": "scary_27",
+"type": "reading",
+"title": "27 The Old High School · 老高中的夜班",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "\"My husband works nights at a high school that was built in 1877.",
+"zh": "“我丈夫在一所建于 1877 年的高中上夜班。",
+"a": "audio/scary/s27_01.mp3",
+"oa": "audio/scary/s27_01.mp3",
+"d": 4.13
+},
+{
+"sp": "",
+"t": "He's always told me it's been haunted, and he has seen and heard weird stuff.",
+"zh": "他一直跟我说那里闹鬼，他也见过、听过一些怪事。",
+"a": "audio/scary/s27_02.mp3",
+"oa": "audio/scary/s27_02.mp3",
+"d": 4.45,
+"seg": [
+[
+0,
+6,
+0,
+1.86
+],
+[
+7,
+14,
+1.86,
+4.45
+]
+]
+},
+{
+"sp": "",
+"t": "But with the schools being closed since COVID, things have been a little strange recently.",
+"zh": "但自从新冠疫情学校关闭以来，最近情况有点怪。",
+"a": "audio/scary/s27_03.mp3",
+"oa": "audio/scary/s27_03.mp3",
+"d": 4.53,
+"seg": [
+[
+0,
+7,
+0,
+2.08
+],
+[
+8,
+14,
+2.08,
+4.53
+]
+]
+},
+{
+"sp": "",
+"t": "Last night, they had some construction workers in, and one of the guys was freaking out because he said someone kept whispering in his ear.",
+"zh": "昨晚有几个施工工人在学校里，其中一个人吓坏了，因为他说一直有人在他耳边低语。",
+"a": "audio/scary/s27_04.mp3",
+"oa": "audio/scary/s27_04.mp3",
+"d": 7.67,
+"seg": [
+[
+0,
+1,
+0,
+1.14
+],
+[
+2,
+7,
+1.14,
+3.27
+],
+[
+8,
+24,
+3.27,
+7.67
+]
+]
+},
+{
+"sp": "",
+"t": "And he didn't seem to believe my husband when he said that the school was haunted.",
+"zh": "而且我丈夫说学校闹鬼时，他好像还不信。",
+"a": "audio/scary/s27_05.mp3",
+"oa": "audio/scary/s27_05.mp3",
+"d": 4.12
+},
+{
+"sp": "",
+"t": "Later, one of my husband's colleagues saw something in his peripheral vision a couple of times, so he took a picture where he kept seeing it.",
+"zh": "后来，我丈夫的一个同事有好几次用余光瞥见了什么，于是他朝那个一直看到东西的地方拍了张照片。",
+"a": "audio/scary/s27_06.mp3",
+"oa": "audio/scary/s27_06.mp3",
+"d": 7.85,
+"seg": [
+[
+0,
+0,
+0,
+0.72
+],
+[
+1,
+15,
+0.72,
+5.16
+],
+[
+16,
+25,
+5.16,
+7.85
+]
+]
+},
+{
+"sp": "",
+"t": "This is what he caught on camera.\"",
+"zh": "这就是他拍到的。”",
+"a": "audio/scary/s27_07.mp3",
+"oa": "audio/scary/s27_07.mp3",
+"d": 2.37
+},
+{
+"sp": "",
+"t": "This is that one kid who slept in class and nobody woke up.",
+"zh": "这就是那个在课堂上睡着了、却没人叫醒的孩子。",
+"a": "audio/scary/s27_08.mp3",
+"oa": "audio/scary/s27_08.mp3",
+"d": 3.35
+},
+{
+"sp": "",
+"t": "In all seriousness, though, this photo remains a mystery.",
+"zh": "不过说正经的，这张照片至今仍是个谜。",
+"a": "audio/scary/s27_09.mp3",
+"oa": "audio/scary/s27_09.mp3",
+"d": 4.3,
+"seg": [
+[
+0,
+2,
+0,
+1.77
+],
+[
+3,
+3,
+1.77,
+2.5
+],
+[
+4,
+8,
+2.5,
+4.3
+]
+]
+},
+{
+"sp": "",
+"t": "But I can't help but think that the history of the school might give an explanation to this image.",
+"zh": "但我忍不住觉得，这所学校的历史也许能解释这张照片。",
+"a": "audio/scary/s27_10.mp3",
+"oa": "audio/scary/s27_10.mp3",
+"d": 5.01
+},
+{
+"sp": "",
+"t": "All in all, this photo is pretty creepy.",
+"zh": "总之，这张照片挺吓人的。",
+"a": "audio/scary/s27_11.mp3",
+"oa": "audio/scary/s27_11.mp3",
+"d": 2.79,
+"seg": [
+[
+0,
+2,
+0,
+1.05
+],
+[
+3,
+7,
+1.05,
+2.79
+]
+]
+}
+]
+}

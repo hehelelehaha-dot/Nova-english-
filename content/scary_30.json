@@ -1,0 +1,160 @@
+{
+"id": "scary_30",
+"type": "reading",
+"title": "30 The Doll's Head · 自己转头的玩偶",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "If you hate dolls, then you'll probably want to skip this one, as what's captured in it is just terrifying.",
+"zh": "如果你讨厌玩偶，那这一段你最好跳过，因为拍到的东西实在太吓人了。",
+"a": "audio/scary/s30_01.mp3",
+"oa": "audio/scary/s30_01.mp3",
+"d": 6.17,
+"seg": [
+[
+0,
+3,
+0,
+1.36
+],
+[
+4,
+11,
+1.36,
+3.47
+],
+[
+12,
+19,
+3.47,
+6.17
+]
+]
+},
+{
+"sp": "",
+"t": "A girl is playing with her doll when the following happens.",
+"zh": "一个女孩正在玩她的玩偶，接着发生了下面的事。",
+"a": "audio/scary/s30_02.mp3",
+"oa": "audio/scary/s30_02.mp3",
+"d": 3.39
+},
+{
+"sp": "",
+"t": "Be sure to pay close attention to the doll, or you'll miss it.",
+"zh": "一定要仔细盯着玩偶，不然就错过了。",
+"a": "audio/scary/s30_03.mp3",
+"oa": "audio/scary/s30_03.mp3",
+"d": 3.51,
+"seg": [
+[
+0,
+8,
+0,
+2.06
+],
+[
+9,
+12,
+2.06,
+3.51
+]
+]
+},
+{
+"sp": "",
+"t": "As she plays with her toy, the doll moves its head all on its own.",
+"zh": "她玩的时候，玩偶自己转动了头。",
+"a": "audio/scary/s30_04.mp3",
+"oa": "audio/scary/s30_04.mp3",
+"d": 4.13,
+"seg": [
+[
+0,
+5,
+0,
+1.64
+],
+[
+6,
+14,
+1.64,
+4.13
+]
+]
+},
+{
+"sp": "",
+"t": "Now, it could be that the doll has a built-in feature that allows it to move.",
+"zh": "当然，也可能是玩偶本身有能动的功能。",
+"a": "audio/scary/s30_05.mp3",
+"oa": "audio/scary/s30_05.mp3",
+"d": 3.93,
+"seg": [
+[
+0,
+0,
+0,
+0.49
+],
+[
+1,
+15,
+0.49,
+3.93
+]
+]
+},
+{
+"sp": "",
+"t": "But based on how she reacted upon seeing this, it seems like this wasn't a feature built into the doll.",
+"zh": "但从她看到后的反应来看，这似乎不是玩偶自带的功能。",
+"a": "audio/scary/s30_06.mp3",
+"oa": "audio/scary/s30_06.mp3",
+"d": 5.94,
+"seg": [
+[
+0,
+8,
+0,
+3.17
+],
+[
+9,
+19,
+3.17,
+5.94
+]
+]
+},
+{
+"sp": "",
+"t": "Viewers seem to agree and suggest that the doll is haunted, but as always, I'll let you be the judge of that.",
+"zh": "观众似乎也这么认为，说这个玩偶闹鬼，但和往常一样，由你来判断。",
+"a": "audio/scary/s30_07.mp3",
+"oa": "audio/scary/s30_07.mp3",
+"d": 6.69,
+"seg": [
+[
+0,
+10,
+0,
+3.43
+],
+[
+11,
+13,
+3.43,
+4.84
+],
+[
+14,
+21,
+4.84,
+6.69
+]
+]
+}
+]
+}

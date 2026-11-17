@@ -1,0 +1,348 @@
+{
+"id": "scary_33",
+"type": "reading",
+"title": "33 The Gym · 健身房里的拖拽",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "The following footage shows someone who's by himself inside a gym when something terrifying happens.",
+"zh": "下面这段画面里，一个人独自在健身房，这时发生了可怕的事。",
+"a": "audio/scary/s33_01.mp3",
+"oa": "audio/scary/s33_01.mp3",
+"d": 6.99
+},
+{
+"sp": "",
+"t": "Emily Ruiz, who suggested the video, writes, \"Words cannot explain this disturbing footage.\"",
+"zh": "推荐这段视频的 Emily Ruiz 写道：“这段令人不安的画面，简直无法用语言形容。”",
+"a": "audio/scary/s33_02.mp3",
+"oa": "audio/scary/s33_02.mp3",
+"d": 5.79,
+"seg": [
+[
+0,
+1,
+0,
+0.96
+],
+[
+2,
+5,
+0.96,
+2.19
+],
+[
+6,
+6,
+2.19,
+3.01
+],
+[
+7,
+12,
+3.01,
+5.79
+]
+]
+},
+{
+"sp": "",
+"t": "The person in the video had obtained this recording from the gym and sent it to a friend, who we hear speaking in the video.",
+"zh": "视频里的这个人从健身房拿到了这段录像，发给了一个朋友，我们在视频里听到的就是那位朋友在说话。",
+"a": "audio/scary/s33_03.mp3",
+"oa": "audio/scary/s33_03.mp3",
+"d": 5.83,
+"seg": [
+[
+0,
+17,
+0,
+4.18
+],
+[
+18,
+24,
+4.18,
+5.83
+]
+]
+},
+{
+"sp": "",
+"t": "This is what was captured.",
+"zh": "这就是拍到的画面。",
+"a": "audio/scary/s33_04.mp3",
+"oa": "audio/scary/s33_04.mp3",
+"d": 2.66
+},
+{
+"sp": "",
+"t": "Those who've seen the footage were left unsettled by this terrifying encounter.",
+"zh": "看过这段画面的人都被这次可怕的遭遇弄得心神不宁。",
+"a": "audio/scary/s33_05.mp3",
+"oa": "audio/scary/s33_05.mp3",
+"d": 4.33
+},
+{
+"sp": "",
+"t": "At the start of the video, we can see that someone or something is peeking at this person.",
+"zh": "在视频开头，我们能看到有人或某种东西在偷看这个人。",
+"a": "audio/scary/s33_06.mp3",
+"oa": "audio/scary/s33_06.mp3",
+"d": 5.03,
+"seg": [
+[
+0,
+5,
+0,
+1.33
+],
+[
+6,
+17,
+1.33,
+5.03
+]
+]
+},
+{
+"sp": "",
+"t": "This is something you might have missed.",
+"zh": "这一点你可能没注意到。",
+"a": "audio/scary/s33_07.mp3",
+"oa": "audio/scary/s33_07.mp3",
+"d": 2.17
+},
+{
+"sp": "",
+"t": "Now, it's worth mentioning that another camera had recorded this from a different angle.",
+"zh": "值得一提的是，另一台摄像头从另一个角度也拍下了这一幕。",
+"a": "audio/scary/s33_08.mp3",
+"oa": "audio/scary/s33_08.mp3",
+"d": 4.07,
+"seg": [
+[
+0,
+0,
+0,
+0.31
+],
+[
+1,
+13,
+0.31,
+4.07
+]
+]
+},
+{
+"sp": "",
+"t": "By looking at this specific footage, we can see that the facility has open windows.",
+"zh": "从这段画面可以看到，这个场馆的窗户是开着的。",
+"a": "audio/scary/s33_09.mp3",
+"oa": "audio/scary/s33_09.mp3",
+"d": 4.85,
+"seg": [
+[
+0,
+5,
+0,
+2.09
+],
+[
+6,
+14,
+2.09,
+4.85
+]
+]
+},
+{
+"sp": "",
+"t": "It could be that the wind from outside the room was causing the ropes to move on their own.",
+"zh": "可能是外面吹进来的风让绳子自己动了起来。",
+"a": "audio/scary/s33_10.mp3",
+"oa": "audio/scary/s33_10.mp3",
+"d": 4.55
+},
+{
+"sp": "",
+"t": "But if that were the case, then other things in the room should have moved as well, especially the towel on the box, which appears light enough to move just a bit, but it doesn't.",
+"zh": "但如果是这样，房间里的其他东西也应该会动，尤其是箱子上的毛巾，它看起来很轻，应该会动一点，但它没动。",
+"a": "audio/scary/s33_11.mp3",
+"oa": "audio/scary/s33_11.mp3",
+"d": 10.01,
+"seg": [
+[
+0,
+5,
+0,
+1.81
+],
+[
+6,
+16,
+1.81,
+4.32
+],
+[
+17,
+22,
+4.32,
+6.41
+],
+[
+23,
+31,
+6.41,
+8.8
+],
+[
+32,
+34,
+8.8,
+10.01
+]
+]
+},
+{
+"sp": "",
+"t": "The wind could also explain the ball's movement, but mind you, this is a medicine ball.",
+"zh": "风也可以解释球的移动，但请注意，这可是个药球。",
+"a": "audio/scary/s33_12.mp3",
+"oa": "audio/scary/s33_12.mp3",
+"d": 5.29,
+"seg": [
+[
+0,
+7,
+0,
+2.59
+],
+[
+8,
+10,
+2.59,
+3.8
+],
+[
+11,
+15,
+3.8,
+5.29
+]
+]
+},
+{
+"sp": "",
+"t": "It would take more than just a gust of wind to be able to move something this heavy.",
+"zh": "要移动这么重的东西，光靠一阵风是不够的。",
+"a": "audio/scary/s33_13.mp3",
+"oa": "audio/scary/s33_13.mp3",
+"d": 3.89
+},
+{
+"sp": "",
+"t": "But what's even more baffling about this footage is how the person gets dragged across the floor.",
+"zh": "但这段画面更令人费解的是，这个人被拖着划过了地面。",
+"a": "audio/scary/s33_14.mp3",
+"oa": "audio/scary/s33_14.mp3",
+"d": 5.73
+},
+{
+"sp": "",
+"t": "It could be that he was doing this on his own, moving his body in such a way to make it seem as though he were being dragged.",
+"zh": "也可能是他自己在动，用某种方式移动身体，让人看起来像是被拖走的。",
+"a": "audio/scary/s33_15.mp3",
+"oa": "audio/scary/s33_15.mp3",
+"d": 6.07,
+"seg": [
+[
+0,
+10,
+0,
+2.38
+],
+[
+11,
+27,
+2.38,
+6.07
+]
+]
+},
+{
+"sp": "",
+"t": "However, a closer look at the scene shows that he was jerked in a forceful manner, which is almost impossible to do on one's own.",
+"zh": "然而仔细看画面会发现，他是被猛地一拽，这几乎不可能是自己做到的。",
+"a": "audio/scary/s33_16.mp3",
+"oa": "audio/scary/s33_16.mp3",
+"d": 7.51,
+"seg": [
+[
+0,
+0,
+0,
+0.74
+],
+[
+1,
+15,
+0.74,
+4.73
+],
+[
+16,
+24,
+4.73,
+7.51
+]
+]
+},
+{
+"sp": "",
+"t": "Other things in the video remain questionable, such as lights turning off on their own, or whatever this is.",
+"zh": "视频里还有其他可疑之处，比如灯自己熄灭，还有这个不知道是什么的东西。",
+"a": "audio/scary/s33_17.mp3",
+"oa": "audio/scary/s33_17.mp3",
+"d": 6.19,
+"seg": [
+[
+0,
+6,
+0,
+2.2
+],
+[
+7,
+14,
+2.2,
+4.41
+],
+[
+15,
+18,
+4.41,
+6.19
+]
+]
+},
+{
+"sp": "",
+"t": "I'll leave it to you to come up with your own conclusion on this footage.",
+"zh": "对这段画面，就由你自己得出结论吧。",
+"a": "audio/scary/s33_18.mp3",
+"oa": "audio/scary/s33_18.mp3",
+"d": 3.21
+},
+{
+"sp": "",
+"t": "Feel free to let me know what you think.",
+"zh": "欢迎告诉我你的看法。",
+"a": "audio/scary/s33_19.mp3",
+"oa": "audio/scary/s33_19.mp3",
+"d": 1.79
+}
+]
+}

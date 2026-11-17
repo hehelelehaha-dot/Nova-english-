@@ -1,0 +1,182 @@
+{
+"id": "scary_28",
+"type": "reading",
+"title": "28 The Abandoned Hospital · 台湾的废弃医院",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Emax is a ghost hunter on YouTube who explores abandoned places.",
+"zh": "Emax 是 YouTube 上的一名“鬼魂猎人”，专门探索废弃的地方。",
+"a": "audio/scary/s28_01.mp3",
+"oa": "audio/scary/s28_01.mp3",
+"d": 4.26
+},
+{
+"sp": "",
+"t": "Not too long ago, he explored an abandoned hospital in Taiwan, where he encountered strange activity.",
+"zh": "不久前，他探索了台湾的一家废弃医院，在那里遇到了怪事。",
+"a": "audio/scary/s28_02.mp3",
+"oa": "audio/scary/s28_02.mp3",
+"d": 6.57,
+"seg": [
+[
+0,
+3,
+0,
+1.5
+],
+[
+4,
+10,
+1.5,
+4.02
+],
+[
+11,
+15,
+4.02,
+6.57
+]
+]
+},
+{
+"sp": "",
+"t": "He decides to revisit that same hospital in the hopes of capturing more activity, and he actually does, but it may have been more than he expected.",
+"zh": "他决定重访那家医院，希望拍到更多怪事。他确实拍到了，但可能远远超出了他的预期。",
+"a": "audio/scary/s28_03.mp3",
+"oa": "audio/scary/s28_03.mp3",
+"d": 8.73,
+"seg": [
+[
+0,
+13,
+0,
+4.58
+],
+[
+14,
+17,
+4.58,
+6.35
+],
+[
+18,
+26,
+6.35,
+8.73
+]
+]
+},
+{
+"sp": "",
+"t": "There's no doubting that Emax was left feeling spooked.",
+"zh": "毫无疑问，Emax 被吓到了。",
+"a": "audio/scary/s28_04.mp3",
+"oa": "audio/scary/s28_04.mp3",
+"d": 3.19
+},
+{
+"sp": "",
+"t": "But all of this pales in comparison to what happens next.",
+"zh": "但和接下来发生的事相比，这些都不算什么。",
+"a": "audio/scary/s28_05.mp3",
+"oa": "audio/scary/s28_05.mp3",
+"d": 3.45
+},
+{
+"sp": "",
+"t": "Coming back to this place might have upset the ghost that haunts it.",
+"zh": "回到这里，可能惹恼了在这里作祟的鬼。",
+"a": "audio/scary/s28_06.mp3",
+"oa": "audio/scary/s28_06.mp3",
+"d": 2.65
+},
+{
+"sp": "",
+"t": "Slamming the door repeatedly kind of makes it seem like it was irritated by Emax's return.",
+"zh": "一次又一次地摔门，看起来像是它对 Emax 的回来很恼火。",
+"a": "audio/scary/s28_07.mp3",
+"oa": "audio/scary/s28_07.mp3",
+"d": 5.06
+},
+{
+"sp": "",
+"t": "With activity like this, it makes you wonder if a poltergeist was present, or if it was something else.",
+"zh": "发生这样的事，不禁让人怀疑是不是有恶作剧鬼在场，还是别的什么东西。",
+"a": "audio/scary/s28_08.mp3",
+"oa": "audio/scary/s28_08.mp3",
+"d": 7.41,
+"seg": [
+[
+0,
+3,
+0,
+1.7
+],
+[
+4,
+12,
+1.7,
+4.9
+],
+[
+13,
+18,
+4.9,
+7.41
+]
+]
+},
+{
+"sp": "",
+"t": "If you caught something creepy on camera, or if there's any ghost videos you'd like me to check out and include in the next compilation, you can send them over to scaryvideos444@gmail.com.",
+"zh": "如果你拍到了诡异的东西，或者有想让我看看、放进下一期合集的鬼视频，可以发到 scaryvideos444@gmail.com。",
+"a": "audio/scary/s28_09.mp3",
+"oa": "audio/scary/s28_09.mp3",
+"d": 9.52,
+"seg": [
+[
+0,
+6,
+0,
+2.44
+],
+[
+7,
+24,
+2.44,
+6.29
+],
+[
+25,
+31,
+6.29,
+9.52
+]
+]
+},
+{
+"sp": "",
+"t": "That being said, let's get back to the video.",
+"zh": "说完这些，我们回到视频。",
+"a": "audio/scary/s28_10.mp3",
+"oa": "audio/scary/s28_10.mp3",
+"d": 2.71,
+"seg": [
+[
+0,
+2,
+0,
+1.22
+],
+[
+3,
+8,
+1.22,
+2.71
+]
+]
+}
+]
+}

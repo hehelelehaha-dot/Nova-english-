@@ -1,0 +1,188 @@
+{
+"id": "scary_01",
+"type": "reading",
+"title": "01 Doorbell Face · 门铃摄像头里的脸",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "The following footage was posted by Vanessa Berlin, who had caught something disturbing on her doorbell camera.",
+"zh": "下面这段视频是 Vanessa Berlin 发布的，她的门铃摄像头拍到了一些让人不安的东西。",
+"a": "audio/scary/s01_01.mp3",
+"oa": "audio/scary/s01_01.mp3",
+"d": 6.25,
+"seg": [
+[
+0,
+7,
+0,
+3.03
+],
+[
+8,
+16,
+3.03,
+6.25
+]
+]
+},
+{
+"sp": "",
+"t": "Vanessa writes, \"I grew up in a haunted home with paranormal investigators and priests constantly coming to my house, so I don't get that scared easily.",
+"zh": "Vanessa 写道：“我是在一栋闹鬼的房子里长大的，灵异调查员和神父总来我家，所以我没那么容易被吓到。",
+"a": "audio/scary/s01_02.mp3",
+"oa": "audio/scary/s01_02.mp3",
+"d": 9.17,
+"seg": [
+[
+0,
+1,
+0,
+1.24
+],
+[
+2,
+18,
+1.24,
+6.96
+],
+[
+19,
+25,
+6.96,
+9.17
+]
+]
+},
+{
+"sp": "",
+"t": "But last night, I saw this through my Ring camera at 11:30 PM, and it was the only time that I truly felt scared.\"",
+"zh": "但昨晚 11 点半，我在 Ring 门铃摄像头里看到了这个，那是我唯一一次真正感到害怕。”",
+"a": "audio/scary/s01_03.mp3",
+"oa": "audio/scary/s01_03.mp3",
+"d": 7.61,
+"seg": [
+[
+0,
+2,
+0,
+1.23
+],
+[
+3,
+12,
+1.23,
+4.91
+],
+[
+13,
+23,
+4.91,
+7.61
+]
+]
+},
+{
+"sp": "",
+"t": "This is what she'd seen.",
+"zh": "这就是她看到的画面。",
+"a": "audio/scary/s01_04.mp3",
+"oa": "audio/scary/s01_04.mp3",
+"d": 2.19
+},
+{
+"sp": "",
+"t": "Be sure to look closely, or you'll miss it.",
+"zh": "一定要仔细看，不然就错过了。",
+"a": "audio/scary/s01_05.mp3",
+"oa": "audio/scary/s01_05.mp3",
+"d": 3.64,
+"seg": [
+[
+0,
+4,
+0,
+2.03
+],
+[
+5,
+8,
+2.03,
+3.64
+]
+]
+},
+{
+"sp": "",
+"t": "A faint image of what appears to be a face can be seen hiding behind the flowers.",
+"zh": "花丛后面隐约能看到一个像是人脸的影像。",
+"a": "audio/scary/s01_06.mp3",
+"oa": "audio/scary/s01_06.mp3",
+"d": 4.33
+},
+{
+"sp": "",
+"t": "It's hard to make out what this is, but it seems like someone, or something, is looking at the doorbell camera.",
+"zh": "很难看清这是什么，但似乎有人——或者某种东西——正盯着门铃摄像头。",
+"a": "audio/scary/s01_07.mp3",
+"oa": "audio/scary/s01_07.mp3",
+"d": 6.27,
+"seg": [
+[
+0,
+7,
+0,
+1.85
+],
+[
+8,
+12,
+1.85,
+3.48
+],
+[
+13,
+14,
+3.48,
+4.36
+],
+[
+15,
+20,
+4.36,
+6.27
+]
+]
+},
+{
+"sp": "",
+"t": "But as always, I'll let you decide as to what this might be.",
+"zh": "不过和往常一样，这到底是什么，由你来判断。",
+"a": "audio/scary/s01_08.mp3",
+"oa": "audio/scary/s01_08.mp3",
+"d": 3.53,
+"seg": [
+[
+0,
+2,
+0,
+1.15
+],
+[
+3,
+12,
+1.15,
+3.53
+]
+]
+},
+{
+"sp": "",
+"t": "What exactly is being seen on camera?",
+"zh": "镜头里拍到的究竟是什么？",
+"a": "audio/scary/s01_09.mp3",
+"oa": "audio/scary/s01_09.mp3",
+"d": 2.69
+}
+]
+}

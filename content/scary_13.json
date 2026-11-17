@@ -1,0 +1,142 @@
+{
+"id": "scary_13",
+"type": "reading",
+"title": "13 Tubing Through the Canal · 运河漂流",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Morales Debbie and her friends are tubing through a canal when they capture something creepy on camera.",
+"zh": "Morales Debbie 和朋友们坐着游泳圈在运河里漂流时，镜头拍到了诡异的东西。",
+"a": "audio/scary/s13_01.mp3",
+"oa": "audio/scary/s13_01.mp3",
+"d": 5.45
+},
+{
+"sp": "",
+"t": "The video was taken on July 8th of 2018, but prior to this date, about five years ago, someone had drowned in the same canal that Morales is in.",
+"zh": "视频拍摄于 2018 年 7 月 8 日，而大约五年前，就在 Morales 所在的这条运河里，有人溺水身亡。",
+"a": "audio/scary/s13_02.mp3",
+"oa": "audio/scary/s13_02.mp3",
+"d": 9.25,
+"seg": [
+[
+0,
+8,
+0,
+2.8
+],
+[
+9,
+13,
+2.8,
+4.5
+],
+[
+14,
+17,
+4.5,
+6.18
+],
+[
+18,
+28,
+6.18,
+9.25
+]
+]
+},
+{
+"sp": "",
+"t": "Little does she know that she and her friends would capture something disturbing.",
+"zh": "她完全没想到，她和朋友们会拍到让人不安的东西。",
+"a": "audio/scary/s13_03.mp3",
+"oa": "audio/scary/s13_03.mp3",
+"d": 4.27
+},
+{
+"sp": "",
+"t": "Take a look.",
+"zh": "来看看吧。",
+"a": "audio/scary/s13_04.mp3",
+"oa": "audio/scary/s13_04.mp3",
+"d": 1.03
+},
+{
+"sp": "",
+"t": "It was only after posting the video on Facebook and being told by viewers about this that she noticed.",
+"zh": "直到把视频发到 Facebook、观众告诉她之后，她才注意到。",
+"a": "audio/scary/s13_05.mp3",
+"oa": "audio/scary/s13_05.mp3",
+"d": 5.65
+},
+{
+"sp": "",
+"t": "Viewers think that this might have been the ghost of the victim who had drowned.",
+"zh": "观众认为，这可能是那位溺水者的鬼魂。",
+"a": "audio/scary/s13_06.mp3",
+"oa": "audio/scary/s13_06.mp3",
+"d": 3.47
+},
+{
+"sp": "",
+"t": "Others think that this could have been something else, perhaps a creature.",
+"zh": "也有人认为可能是别的东西，也许是某种生物。",
+"a": "audio/scary/s13_07.mp3",
+"oa": "audio/scary/s13_07.mp3",
+"d": 4.05,
+"seg": [
+[
+0,
+8,
+0,
+2.67
+],
+[
+9,
+11,
+2.67,
+4.05
+]
+]
+},
+{
+"sp": "",
+"t": "No one knows for sure, but it seems like more people believe that this might be the spirit of the deceased.",
+"zh": "没人能确定，但似乎更多人相信那是死者的灵魂。",
+"a": "audio/scary/s13_08.mp3",
+"oa": "audio/scary/s13_08.mp3",
+"d": 5.33,
+"seg": [
+[
+0,
+4,
+0,
+1.36
+],
+[
+5,
+20,
+1.36,
+5.33
+]
+]
+},
+{
+"sp": "",
+"t": "But of course, what are your thoughts?",
+"zh": "当然，你怎么想呢？",
+"a": "audio/scary/s13_09.mp3",
+"oa": "audio/scary/s13_09.mp3",
+"d": 2.29
+},
+{
+"sp": "",
+"t": "Ghost or not?",
+"zh": "是鬼还是不是？",
+"a": "audio/scary/s13_10.mp3",
+"oa": "audio/scary/s13_10.mp3",
+"d": 1.91
+}
+]
+}

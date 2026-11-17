@@ -1,0 +1,260 @@
+{
+"id": "scary_07",
+"type": "reading",
+"title": "07 The Thrift Store Doll · 二手店买来的玩偶",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "A family buys a doll from a thrift store, but ever since buying it, there's been nothing but strange occurrences taking place inside their home.",
+"zh": "一家人从二手店买了一个玩偶，可自从买回来，家里就怪事不断。",
+"a": "audio/scary/s07_01.mp3",
+"oa": "audio/scary/s07_01.mp3",
+"d": 8.63,
+"seg": [
+[
+0,
+8,
+0,
+2.62
+],
+[
+9,
+13,
+2.62,
+4.64
+],
+[
+14,
+24,
+4.64,
+8.63
+]
+]
+},
+{
+"sp": "",
+"t": "They believe that the doll is haunted and is therefore responsible for the strange activity that's been happening.",
+"zh": "他们认为这个玩偶闹鬼，所以家里的怪事都是它造成的。",
+"a": "audio/scary/s07_02.mp3",
+"oa": "audio/scary/s07_02.mp3",
+"d": 6.09
+},
+{
+"sp": "",
+"t": "From toys turning on by themselves to things moving on their own, the family is stuck in a house that they believe is haunted.",
+"zh": "从玩具自己启动，到东西自己移动，这家人被困在一栋他们认为闹鬼的房子里。",
+"a": "audio/scary/s07_03.mp3",
+"oa": "audio/scary/s07_03.mp3",
+"d": 8.17,
+"seg": [
+[
+0,
+11,
+0,
+4.6
+],
+[
+12,
+23,
+4.6,
+8.17
+]
+]
+},
+{
+"sp": "",
+"t": "The family has no idea as to how they could stop the strange activity.",
+"zh": "这家人完全不知道该怎么让这些怪事停下来。",
+"a": "audio/scary/s07_04.mp3",
+"oa": "audio/scary/s07_04.mp3",
+"d": 4.09
+},
+{
+"sp": "",
+"t": "But then one day, a friend of the family suggested that they light a white candle by the doll in the hopes that doing so would stop the activity.",
+"zh": "后来有一天，一位朋友建议他们在玩偶旁边点一支白蜡烛，希望这样能让怪事停止。",
+"a": "audio/scary/s07_05.mp3",
+"oa": "audio/scary/s07_05.mp3",
+"d": 8.35,
+"seg": [
+[
+0,
+3,
+0,
+1.4
+],
+[
+4,
+28,
+1.4,
+8.35
+]
+]
+},
+{
+"sp": "",
+"t": "They do just that, but something very strange happens.",
+"zh": "他们照做了，结果发生了一件非常奇怪的事。",
+"a": "audio/scary/s07_06.mp3",
+"oa": "audio/scary/s07_06.mp3",
+"d": 4.56,
+"seg": [
+[
+0,
+3,
+0,
+2.31
+],
+[
+4,
+8,
+2.31,
+4.56
+]
+]
+},
+{
+"sp": "",
+"t": "The family sets up a camera in front of the doll to capture anything unusual that happens.",
+"zh": "他们在玩偶前面架了一台摄像机，想拍下任何不寻常的事。",
+"a": "audio/scary/s07_07.mp3",
+"oa": "audio/scary/s07_07.mp3",
+"d": 4.79
+},
+{
+"sp": "",
+"t": "This is what they caught.",
+"zh": "这就是他们拍到的。",
+"a": "audio/scary/s07_08.mp3",
+"oa": "audio/scary/s07_08.mp3",
+"d": 1.89
+},
+{
+"sp": "",
+"t": "The candlelight mysteriously gets brighter, but unfortunately, this had no effect on the strange activity.",
+"zh": "烛光莫名其妙地变亮了，可惜这对怪事毫无作用。",
+"a": "audio/scary/s07_09.mp3",
+"oa": "audio/scary/s07_09.mp3",
+"d": 6.55,
+"seg": [
+[
+0,
+4,
+0,
+2.62
+],
+[
+5,
+6,
+2.62,
+3.97
+],
+[
+7,
+14,
+3.97,
+6.55
+]
+]
+},
+{
+"sp": "",
+"t": "Things only appear to get worse.",
+"zh": "情况似乎只变得更糟。",
+"a": "audio/scary/s07_10.mp3",
+"oa": "audio/scary/s07_10.mp3",
+"d": 1.99
+},
+{
+"sp": "",
+"t": "But then one day, the strangest incident happens.",
+"zh": "后来有一天，发生了最诡异的一件事。",
+"a": "audio/scary/s07_11.mp3",
+"oa": "audio/scary/s07_11.mp3",
+"d": 3.27,
+"seg": [
+[
+0,
+3,
+0,
+1.4
+],
+[
+4,
+7,
+1.4,
+3.27
+]
+]
+},
+{
+"sp": "",
+"t": "The daughter is playing with the doll when the following is caught on camera.",
+"zh": "女儿正在玩那个玩偶，镜头拍下了下面的画面。",
+"a": "audio/scary/s07_12.mp3",
+"oa": "audio/scary/s07_12.mp3",
+"d": 4.54
+},
+{
+"sp": "",
+"t": "If you listen closely, you can almost hear what sounds like a slap.",
+"zh": "仔细听的话，几乎能听到像是一记耳光的声音。",
+"a": "audio/scary/s07_13.mp3",
+"oa": "audio/scary/s07_13.mp3",
+"d": 3.95,
+"seg": [
+[
+0,
+3,
+0,
+1.47
+],
+[
+4,
+12,
+1.47,
+3.95
+]
+]
+},
+{
+"sp": "",
+"t": "The daughter even says that she was hurt.",
+"zh": "女儿甚至说她被打疼了。",
+"a": "audio/scary/s07_14.mp3",
+"oa": "audio/scary/s07_14.mp3",
+"d": 2.27
+},
+{
+"sp": "",
+"t": "But what do you think?",
+"zh": "你怎么看？",
+"a": "audio/scary/s07_15.mp3",
+"oa": "audio/scary/s07_15.mp3",
+"d": 1.53
+},
+{
+"sp": "",
+"t": "Did the doll actually slap her, or was it something else?",
+"zh": "真是玩偶打了她，还是另有原因？",
+"a": "audio/scary/s07_16.mp3",
+"oa": "audio/scary/s07_16.mp3",
+"d": 4.11,
+"seg": [
+[
+0,
+5,
+0,
+2.23
+],
+[
+6,
+10,
+2.23,
+4.11
+]
+]
+}
+]
+}
