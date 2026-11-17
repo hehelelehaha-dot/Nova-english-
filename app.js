@@ -284,7 +284,7 @@ function scaryBoards(){return (SCARY&&SCARY.boards)||[]}
 function scaryItem(id){return scaryBoards().find(it=>it&&it.id==id)||null}
 function scaryHit(id){const it=scaryItem(id);return it?{it:Object.assign({},it),sec:"scary_reading"}:null}
 const scarySec=id=>SCARY_DEF.find(s=>s.id==id);
-function showScary(s){const xs=scaryBoards();if(!xs.length)return showHome();setHeader(secT(s.id,s.name),true);
+function showScary(s){const xs=scaryBoards();if(!xs.length)return showHome();setHeader(secT(s.id,s.name),true,watchUrlFor("scary"));
  V.innerHTML=`<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-sid="${esc(x.id)}"><span class="tt">${esc(x.title||x.id)}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
 function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
@@ -460,7 +460,30 @@ async function showUp(s){if(s.like=="game")return showGames("up");if(s.like=="wf
  if(!days.length){V.innerHTML=`<p class="tip">飞屋环游记 · ${esc(s.name)}</p><div class="done">这一集还没写好</div>`;return}
  V.innerHTML=`<div class="list">${days.map((d,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(d.title)}<span class="sb">${esc(s.like=="dictation"&&d.dtSub||d.sub||"")}</span></span></button></div>`).join("")}</div>`;
  V.querySelectorAll("[data-k]").forEach(b=>{const d=days[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+d.id+"_"+(s.like=="flash"?"flash":s.like=="dictation"?"dt":"ee")}})}
-function setHeader(t,back){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back)}
+// Source watch links live in unencrypted section metadata (and this map for Naval, whose topic JSON is encrypted).
+// Only real URLs found in the project notes are used; a missing URL means no button.
+const WATCH_NAVAL="https://youtu.be/KyfUysrNaco";
+const WATCH_LUCA="https://www.bilibili.com/video/BV16D42157FC";
+const WATCH_PODCAST="https://www.bilibili.com/video/BV1Exu1zvEbX/?p=11";
+const WATCH_TURNING="https://www.bilibili.com/video/BV1B84y1h7Yy";
+const WATCH_SCARY="https://youtu.be/Qh_VvZCFOcg";
+function lucaDayId(id){const m=/(?:^|_)(luca_d\d+)/.exec(id||"");return m?m[1]:""}
+function watchUrlFor(id){id=String(id||"");
+ const day=lucaDayId(id);if(day){const it=((LUCA&&LUCA.reading)||[]).find(x=>x.id===day);if(it&&it.watch)return it.watch;const n=/luca_d(\d+)/.exec(day);return n?WATCH_LUCA+"?p="+Number(n[1]):""}
+ if(/^luca_/.test(id)||id==="luca")return WATCH_LUCA;
+ const talkIt=((TALK&&TALK.boards)||[]).find(x=>x.id===id);if(talkIt&&talkIt.watch)return talkIt.watch;
+ if(/^talk_ep1/.test(id))return WATCH_NAVAL;
+ if(/^talk_/.test(id))return "";
+ const podIt=((PODCAST&&PODCAST.boards)||[]).find(x=>x.id===id);if(podIt&&podIt.watch)return podIt.watch;
+ if(/^podcast/.test(id))return WATCH_PODCAST;
+ if(/^turning/.test(id))return (TURNING&&TURNING.boards&&TURNING.boards[0]&&TURNING.boards[0].watch)||WATCH_TURNING;
+ if(/^scary/.test(id))return (SCARY&&SCARY.watch)||WATCH_SCARY;
+ if(/^elio/.test(id)||id==="up"||/^up_/.test(id)||/^prep/.test(id))return "";
+ if(/^(reading|flash|longaudio|dictation|chunks|words|phrases|wf|game)$/.test(id))return WATCH_NAVAL;
+ if(/^(naval_|t\d{2}v|ch_t\d|wf_t)/.test(id))return WATCH_NAVAL;
+ return ""}
+function setWatchSrc(url){const a=document.getElementById("watch-src");if(!a)return;url=String(url||"");if(url){a.href=url;a.classList.remove("hidden")}else{a.removeAttribute("href");a.classList.add("hidden")}}
+function setHeader(t,back,watch){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back);setWatchSrc(watch||"")}
 let CAT=null;
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
 const topicNo=x=>{const m=/(?:^|_)t(\d\d)(?:v|_|$)/.exec(x.id||"");return m?+m[1]:null};
@@ -815,7 +838,7 @@ function topicGroupsHTML(secId, rows, fold){
  return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
-function showLuca(s){if(s.like=="game")return showGames("luca");if(s.like=="wf")return showWFs("luca");setHeader(secT(s.id,s.name),true);
+function showLuca(s){if(s.like=="game")return showGames("luca");if(s.like=="wf")return showWFs("luca");setHeader(secT(s.id,s.name),true,watchUrlFor(s.id));
  const xs=lucaItemsFor(s);
  const bar=s.like=="dictation"?dqHTML():"";
  const listen=s.like=="reading"?topicListenHTML("luca"):"";
@@ -823,7 +846,7 @@ function showLuca(s){if(s.like=="game")return showGames("luca");if(s.like=="wf")
  V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
-async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const turning=turningSec(id);if(turning){const it=turningItem(turning.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const talk=talkSec(id);if(talk)return showTalk(talk);const scary=scarySec(id);if(scary)return showScary(scary);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true);
+async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const turning=turningSec(id);if(turning){const it=turningItem(turning.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const talk=talkSec(id);if(talk)return showTalk(talk);const scary=scarySec(id);if(scary)return showScary(scary);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true,watchUrlFor(c.id));
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
  V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
@@ -894,7 +917,7 @@ async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dicta
  if(!it){const U=upHit(id);if(U){it=U.it;cat={id:U.sec}}}
  if(!it){const E=elioHit(id);if(E){it=E.it;cat={id:E.sec}}}if(!it){const T=turningHit(id);if(T){it=T.it;cat={id:T.sec}}}if(!it){const P=podcastHit(id);if(P){it=P.it;cat={id:P.sec}}}if(!it){const K=talkHit(id);if(K){it=K.it;cat={id:K.sec}}}if(!it){const Q=scaryHit(id);if(Q){it=Q.it;cat={id:Q.sec}}}
  if(!it)return showHome();
- setHeader(secT(cat&&cat.id,ttl(it)),true);V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
+ setHeader(secT(cat&&cat.id,ttl(it)),true,it.watch||watchUrlFor(it.id||id));V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  if(it.dictation||(cat&&cat.id=="dictation")||(cat&&cat.id=="luca_dictation"))return viewDictation(d,it);
  if(it.upPart==="flash"){fcLinkOrig(d);return viewFlash(d.flash,id)}
  if(it.upPart==="ee")return viewEE(d.ee,id);

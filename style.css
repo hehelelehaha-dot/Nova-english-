@@ -3,6 +3,7 @@ html,body{margin:0;background:#f4f2ee;color:#222;font-family:"Noto Sans CJK SC",
 .en,.t,.zhe,.word,.w{font-family:Georgia,"Noto Serif",serif}
 header{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;background:#fff;border-bottom:1px solid #ddd;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;min-height:56px}
 header h1{flex:1;font-size:19px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#watch-src.watch-src{flex:0 0 auto;font-size:13px;line-height:1.2;padding:6px 10px;border-radius:10px;text-decoration:none;background:rgba(255,255,255,.85);color:#2f5a8a;white-space:nowrap;font-family:inherit}
 #back{border:0;background:#eef3f6;color:#1d5675;font-size:17px;border-radius:10px;min-height:42px;padding:0 14px;font-family:inherit}
 .hidden{display:none!important}
 main{padding:14px;max-width:1000px;margin:0 auto 60px}
@@ -387,7 +388,7 @@ html[data-theme^=t],html[data-theme^=t] body{background:var(--bg);color:#1d2b38}
 html[data-theme=t2] body{background:transparent}
 html[data-theme^=t] header{background:var(--hd);color:var(--hdtx);border-bottom:var(--hdbd);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
 html[data-theme^=t] header h1{color:var(--hdtx)}
-html[data-theme^=t] :is(#back,#hdr-r button,#hdr-r .hb){background:var(--hbtn);color:var(--hbtx);border:var(--hbbd)}
+html[data-theme^=t] :is(#back,#hdr-r button,#hdr-r .hb,#watch-src){background:var(--hbtn);color:var(--hbtx);border:var(--hbbd)}
 html[data-theme^=t] :where(.tile,.li,.card,.wc,.ent,.s,.player,.dots,.sh,.hero,.gu,.lock,.srsst>span,.fold,.tlisten){background:var(--sf);border:var(--sfbd);border-radius:var(--r);box-shadow:var(--sh)}
 html[data-theme^=t] .foldsub,html[data-theme^=t] .foldar::before{color:var(--ct)}
 html[data-theme=t2] .fold{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
