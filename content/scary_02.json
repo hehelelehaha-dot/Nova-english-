@@ -1,0 +1,134 @@
+{
+"id": "scary_02",
+"type": "reading",
+"title": "02 The Doll That Moved · 自己动了的玩偶",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "It's the middle of the night, and Odjac is on his phone when something downright creepy happens.",
+"zh": "深更半夜，Odjac 正在玩手机，这时发生了一件非常诡异的事。",
+"a": "audio/scary/s02_01.mp3",
+"oa": "audio/scary/s02_01.mp3",
+"d": 5.71,
+"seg": [
+[
+0,
+5,
+0,
+1.56
+],
+[
+6,
+16,
+1.56,
+5.71
+]
+]
+},
+{
+"sp": "",
+"t": "In the corner of his room, there's a doll.",
+"zh": "他房间的角落里放着一个玩偶。",
+"a": "audio/scary/s02_02.mp3",
+"oa": "audio/scary/s02_02.mp3",
+"d": 3.38,
+"seg": [
+[
+0,
+5,
+0,
+2.3
+],
+[
+6,
+8,
+2.3,
+3.38
+]
+]
+},
+{
+"sp": "",
+"t": "Odjac writes, \"I was on my phone in my room when I heard something.\"",
+"zh": "Odjac 写道：“我在房间里玩手机，突然听到了一点动静。”",
+"a": "audio/scary/s02_03.mp3",
+"oa": "audio/scary/s02_03.mp3",
+"d": 5.02,
+"seg": [
+[
+0,
+1,
+0,
+1.44
+],
+[
+2,
+13,
+1.44,
+5.02
+]
+]
+},
+{
+"sp": "",
+"t": "This is what he caught.",
+"zh": "这就是他拍到的画面。",
+"a": "audio/scary/s02_04.mp3",
+"oa": "audio/scary/s02_04.mp3",
+"d": 1.69
+},
+{
+"sp": "",
+"t": "The doll appears to have moved by itself.",
+"zh": "那个玩偶似乎自己动了。",
+"a": "audio/scary/s02_05.mp3",
+"oa": "audio/scary/s02_05.mp3",
+"d": 3.35
+},
+{
+"sp": "",
+"t": "Now, it could be that gravity was responsible for this.",
+"zh": "当然，这也可能只是重力造成的。",
+"a": "audio/scary/s02_06.mp3",
+"oa": "audio/scary/s02_06.mp3",
+"d": 3.53,
+"seg": [
+[
+0,
+0,
+0,
+0.28
+],
+[
+1,
+9,
+0.28,
+3.53
+]
+]
+},
+{
+"sp": "",
+"t": "But whether or not this was something paranormal, the video is still nonetheless pretty creepy.",
+"zh": "但不管这算不算灵异事件，这段视频还是挺吓人的。",
+"a": "audio/scary/s02_07.mp3",
+"oa": "audio/scary/s02_07.mp3",
+"d": 5.47,
+"seg": [
+[
+0,
+7,
+0,
+3.18
+],
+[
+8,
+14,
+3.18,
+5.47
+]
+]
+}
+]
+}

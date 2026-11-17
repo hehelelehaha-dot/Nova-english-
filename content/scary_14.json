@@ -1,0 +1,160 @@
+{
+"id": "scary_14",
+"type": "reading",
+"title": "14 The Imaginary Friend · 看不见的朋友",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "\"My friend Audrey told me her daughter had a friend she played with, thinking just an imaginary friend.",
+"zh": "“我的朋友 Audrey 跟我说，她女儿有个一起玩的朋友，她以为只是想象出来的朋友。",
+"a": "audio/scary/s14_01.mp3",
+"oa": "audio/scary/s14_01.mp3",
+"d": 5.29,
+"seg": [
+[
+0,
+12,
+0,
+3.5
+],
+[
+13,
+17,
+3.5,
+5.29
+]
+]
+},
+{
+"sp": "",
+"t": "Audrey couldn't believe how fast her daughter's room would get messy right after cleaning it.",
+"zh": "Audrey 不敢相信，女儿的房间刚收拾好就那么快又变乱了。",
+"a": "audio/scary/s14_02.mp3",
+"oa": "audio/scary/s14_02.mp3",
+"d": 5.08
+},
+{
+"sp": "",
+"t": "So as her daughter was in the room talking to herself, Audrey decided to take a photo.",
+"zh": "所以趁女儿在房间里自言自语时，Audrey 决定拍张照片。",
+"a": "audio/scary/s14_03.mp3",
+"oa": "audio/scary/s14_03.mp3",
+"d": 5.01,
+"seg": [
+[
+0,
+10,
+0,
+3.03
+],
+[
+11,
+16,
+3.03,
+5.01
+]
+]
+},
+{
+"sp": "",
+"t": "Later that night, Audrey was skimming through the photos, and this is what was in the photo.\"",
+"zh": "那天晚上，Audrey 翻看照片时，照片里出现了这个。”",
+"a": "audio/scary/s14_04.mp3",
+"oa": "audio/scary/s14_04.mp3",
+"d": 5.57,
+"seg": [
+[
+0,
+2,
+0,
+1.33
+],
+[
+3,
+8,
+1.33,
+3.16
+],
+[
+9,
+16,
+3.16,
+5.57
+]
+]
+},
+{
+"sp": "",
+"t": "Audrey also adds that if you look closely, there appears to be a floating head by the closet doorway.",
+"zh": "Audrey 还补充说，仔细看的话，衣柜门口好像有一颗飘浮的头。",
+"a": "audio/scary/s14_05.mp3",
+"oa": "audio/scary/s14_05.mp3",
+"d": 5.87,
+"seg": [
+[
+0,
+7,
+0,
+2.85
+],
+[
+8,
+18,
+2.85,
+5.87
+]
+]
+},
+{
+"sp": "",
+"t": "Now, I know some people are against this, but maybe using a Ouija board might help in finding out if your child is playing with a ghost.",
+"zh": "我知道有些人反对这么做，但也许用通灵板能帮你弄清楚孩子是不是在和鬼玩。",
+"a": "audio/scary/s14_06.mp3",
+"oa": "audio/scary/s14_06.mp3",
+"d": 7.97,
+"seg": [
+[
+0,
+0,
+0,
+1.02
+],
+[
+1,
+7,
+1.02,
+3.17
+],
+[
+8,
+26,
+3.17,
+7.97
+]
+]
+},
+{
+"sp": "",
+"t": "But it's probably best to seek help elsewhere, as reaching out to the dead seems like a bad idea.",
+"zh": "不过最好还是找别的办法求助，因为和死者联系似乎不是个好主意。",
+"a": "audio/scary/s14_07.mp3",
+"oa": "audio/scary/s14_07.mp3",
+"d": 6.23,
+"seg": [
+[
+0,
+7,
+0,
+2.94
+],
+[
+8,
+18,
+2.94,
+6.23
+]
+]
+}
+]
+}

@@ -1,0 +1,148 @@
+{
+"id": "scary_18",
+"type": "reading",
+"title": "18 The Train Station · 火车站的夜班",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Fernando Victor works at a train station.",
+"zh": "Fernando Victor 在一个火车站工作。",
+"a": "audio/scary/s18_01.mp3",
+"oa": "audio/scary/s18_01.mp3",
+"d": 2.31
+},
+{
+"sp": "",
+"t": "What he does there specifically is unknown, but regardless of his task, he always seems to have late-night shifts.",
+"zh": "他具体做什么不清楚，但不管做什么，他似乎总是上深夜班。",
+"a": "audio/scary/s18_02.mp3",
+"oa": "audio/scary/s18_02.mp3",
+"d": 7.73,
+"seg": [
+[
+0,
+6,
+0,
+2.64
+],
+[
+7,
+11,
+2.64,
+5.18
+],
+[
+12,
+18,
+5.18,
+7.73
+]
+]
+},
+{
+"sp": "",
+"t": "However, it was during a late-night shift when Fernando captures something terrifying on camera.",
+"zh": "然而，就是在一次深夜班上，Fernando 拍到了可怕的东西。",
+"a": "audio/scary/s18_03.mp3",
+"oa": "audio/scary/s18_03.mp3",
+"d": 5.83
+},
+{
+"sp": "",
+"t": "Fernando and two other workers are walking beside a train that isn't in operation when, all of a sudden, he captures this without even noticing.",
+"zh": "Fernando 和另外两名工人走在一列停运的火车旁，突然，他在毫无察觉的情况下拍到了这个。",
+"a": "audio/scary/s18_04.mp3",
+"oa": "audio/scary/s18_04.mp3",
+"d": 8.9
+},
+{
+"sp": "",
+"t": "Someone or something appears to be looking at Fernando as he records them.",
+"zh": "在他拍摄时，好像有人或某种东西在看着 Fernando。",
+"a": "audio/scary/s18_05.mp3",
+"oa": "audio/scary/s18_05.mp3",
+"d": 4.73
+},
+{
+"sp": "",
+"t": "What do you think this might have been?",
+"zh": "你觉得这会是什么？",
+"a": "audio/scary/s18_06.mp3",
+"oa": "audio/scary/s18_06.mp3",
+"d": 3.02
+},
+{
+"sp": "",
+"t": "Viewers believe that this may have been the ghost of someone who was involved in a railroad accident.",
+"zh": "观众认为，这可能是某个死于铁路事故的人的鬼魂。",
+"a": "audio/scary/s18_07.mp3",
+"oa": "audio/scary/s18_07.mp3",
+"d": 5.11
+},
+{
+"sp": "",
+"t": "Now, it could be that this was actually a person, but if it were, then how come this supposed person looks so creepy?",
+"zh": "当然，这也可能真是一个人，但如果是人，为什么看起来这么吓人？",
+"a": "audio/scary/s18_08.mp3",
+"oa": "audio/scary/s18_08.mp3",
+"d": 7.55,
+"seg": [
+[
+0,
+0,
+0,
+0.54
+],
+[
+1,
+9,
+0.54,
+3.13
+],
+[
+10,
+13,
+3.13,
+4.52
+],
+[
+14,
+22,
+4.52,
+7.55
+]
+]
+},
+{
+"sp": "",
+"t": "I don't know, but whoever this is looks too dead to be alive.",
+"zh": "我不知道，但不管这是谁，看起来都太像死人，不像活人。",
+"a": "audio/scary/s18_09.mp3",
+"oa": "audio/scary/s18_09.mp3",
+"d": 4.31,
+"seg": [
+[
+0,
+2,
+0,
+0.86
+],
+[
+3,
+12,
+0.86,
+4.31
+]
+]
+},
+{
+"sp": "",
+"t": "Whoever or whatever this is remains a mystery.",
+"zh": "这到底是谁、是什么，仍然是个谜。",
+"a": "audio/scary/s18_10.mp3",
+"oa": "audio/scary/s18_10.mp3",
+"d": 3.41
+}
+]
+}

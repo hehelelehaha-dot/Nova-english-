@@ -1,0 +1,78 @@
+{
+"id": "scary_09",
+"type": "reading",
+"title": "09 The Shadow Figure · 小小的黑影",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Two friends are inside a room recording someone who appears to be yelling at something.",
+"zh": "两个朋友在一个房间里，正在拍一个好像在对着什么东西大喊的人。",
+"a": "audio/scary/s09_01.mp3",
+"oa": "audio/scary/s09_01.mp3",
+"d": 4.89
+},
+{
+"sp": "",
+"t": "It isn't until they decide to approach this person that they see what it is that they're yelling at.",
+"zh": "直到他们走近这个人，才看清他在对着什么喊。",
+"a": "audio/scary/s09_02.mp3",
+"oa": "audio/scary/s09_02.mp3",
+"d": 5.23
+},
+{
+"sp": "",
+"t": "What they saw left them more disturbed than before.",
+"zh": "他们看到的东西让他们比之前更加不安。",
+"a": "audio/scary/s09_03.mp3",
+"oa": "audio/scary/s09_03.mp3",
+"d": 3.21
+},
+{
+"sp": "",
+"t": "This is what they caught.",
+"zh": "这就是他们拍到的。",
+"a": "audio/scary/s09_04.mp3",
+"oa": "audio/scary/s09_04.mp3",
+"d": 2.34
+},
+{
+"sp": "",
+"t": "There appears to be a small, shadowy figure manifesting and disappearing at the same time.",
+"zh": "画面里似乎有一个小小的黑影，忽隐忽现。",
+"a": "audio/scary/s09_05.mp3",
+"oa": "audio/scary/s09_05.mp3",
+"d": 5.77,
+"seg": [
+[
+0,
+5,
+0,
+1.49
+],
+[
+6,
+14,
+1.49,
+5.77
+]
+]
+},
+{
+"sp": "",
+"t": "I'll leave it to you to decide as to whether or not this was something paranormal.",
+"zh": "这是不是灵异现象，就交给你来判断。",
+"a": "audio/scary/s09_06.mp3",
+"oa": "audio/scary/s09_06.mp3",
+"d": 3.57
+},
+{
+"sp": "",
+"t": "As always, what are your thoughts?",
+"zh": "和往常一样，你怎么想？",
+"a": "audio/scary/s09_07.mp3",
+"oa": "audio/scary/s09_07.mp3",
+"d": 2.55
+}
+]
+}

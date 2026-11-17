@@ -1,0 +1,92 @@
+{
+"id": "scary_08",
+"type": "reading",
+"title": "08 Listen to the Dog · 应该听狗狗的",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Amar Kate posted the following video and writes, \"We should have listened to the dog and the knocking downstairs.\"",
+"zh": "Amar Kate 发布了下面这段视频，并写道：“我们早该听狗狗的，也该在意楼下的敲门声。”",
+"a": "audio/scary/s08_01.mp3",
+"oa": "audio/scary/s08_01.mp3",
+"d": 8.28,
+"seg": [
+[
+0,
+7,
+0,
+4.21
+],
+[
+8,
+18,
+4.21,
+8.28
+]
+]
+},
+{
+"sp": "",
+"t": "This is what they caught on camera.",
+"zh": "这就是他们拍到的画面。",
+"a": "audio/scary/s08_02.mp3",
+"oa": "audio/scary/s08_02.mp3",
+"d": 2.25
+},
+{
+"sp": "Clip",
+"t": "All right, come on. We're gonna have to go and check.",
+"zh": "好了，走吧。我们得下去看看。",
+"a": "audio/scary/s08_03.mp3",
+"oa": "audio/scary/s08_03.mp3",
+"d": 2.16
+},
+{
+"sp": "Clip",
+"t": "Leave him up here. Come on.",
+"zh": "把它留在上面。走吧。",
+"a": "audio/scary/s08_04.mp3",
+"oa": "audio/scary/s08_04.mp3",
+"d": 2.49
+},
+{
+"sp": "Clip",
+"t": "My shoes are upstairs.",
+"zh": "我的鞋在楼上。",
+"a": "audio/scary/s08_05.mp3",
+"oa": "audio/scary/s08_05.mp3",
+"d": 1.27
+},
+{
+"sp": "",
+"t": "Forget the keys. It's probably best to just leave.",
+"zh": "别管钥匙了，最好直接离开。",
+"a": "audio/scary/s08_06.mp3",
+"oa": "audio/scary/s08_06.mp3",
+"d": 4.33,
+"seg": [
+[
+0,
+2,
+0,
+1.83
+],
+[
+3,
+8,
+1.83,
+4.33
+]
+]
+},
+{
+"sp": "",
+"t": "And of course, don't forget the dog.",
+"zh": "当然，别忘了带上狗。",
+"a": "audio/scary/s08_07.mp3",
+"oa": "audio/scary/s08_07.mp3",
+"d": 2.47
+}
+]
+}

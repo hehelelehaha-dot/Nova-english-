@@ -1,0 +1,122 @@
+{
+"id": "scary_04",
+"type": "reading",
+"title": "04 Miss Tanaka's Factory · 服装厂里的田中女士",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "A garment factory in Japan has been experiencing strange activity.",
+"zh": "日本的一家服装厂一直在发生怪事。",
+"a": "audio/scary/s04_01.mp3",
+"oa": "audio/scary/s04_01.mp3",
+"d": 4.31
+},
+{
+"sp": "",
+"t": "It was just recently that the factory's surveillance cameras had caught footage of the strange things that have been happening.",
+"zh": "就在最近，工厂的监控摄像头拍下了这些怪事的画面。",
+"a": "audio/scary/s04_02.mp3",
+"oa": "audio/scary/s04_02.mp3",
+"d": 6.25
+},
+{
+"sp": "",
+"t": "When the owner of the factory had seen the footage, he was shocked.",
+"zh": "工厂老板看到这段录像时，非常震惊。",
+"a": "audio/scary/s04_03.mp3",
+"oa": "audio/scary/s04_03.mp3",
+"d": 3.43,
+"seg": [
+[
+0,
+9,
+0,
+2.45
+],
+[
+10,
+12,
+2.45,
+3.43
+]
+]
+},
+{
+"sp": "",
+"t": "But he wasn't shocked for the reason you're probably thinking.",
+"zh": "但他震惊的原因，可能和你想的不一样。",
+"a": "audio/scary/s04_04.mp3",
+"oa": "audio/scary/s04_04.mp3",
+"d": 2.98
+},
+{
+"sp": "",
+"t": "The factory owner himself best explains the footage that was captured.",
+"zh": "拍到的画面，还是由工厂老板本人来解释最清楚。",
+"a": "audio/scary/s04_05.mp3",
+"oa": "audio/scary/s04_05.mp3",
+"d": 3.8
+},
+{
+"sp": "",
+"t": "Take a look.",
+"zh": "来看看吧。",
+"a": "audio/scary/s04_06.mp3",
+"oa": "audio/scary/s04_06.mp3",
+"d": 0.9
+},
+{
+"sp": "",
+"t": "The factory owner believes that if the ghost of Miss Tanaka is behind all these strange occurrences, then it isn't necessarily bad.",
+"zh": "工厂老板认为，如果这些怪事背后真是田中女士的鬼魂，那也不一定是坏事。",
+"a": "audio/scary/s04_07.mp3",
+"oa": "audio/scary/s04_07.mp3",
+"d": 8.63,
+"seg": [
+[
+0,
+16,
+0,
+5.88
+],
+[
+17,
+21,
+5.88,
+8.63
+]
+]
+},
+{
+"sp": "",
+"t": "After all, Miss Tanaka seems to be truly missed by her coworkers.",
+"zh": "毕竟，同事们似乎真的很想念田中女士。",
+"a": "audio/scary/s04_08.mp3",
+"oa": "audio/scary/s04_08.mp3",
+"d": 4.23,
+"seg": [
+[
+0,
+1,
+0,
+1.04
+],
+[
+2,
+11,
+1.04,
+4.23
+]
+]
+},
+{
+"sp": "",
+"t": "These strange occurrences are probably the closest thing to having Miss Tanaka around one more time.",
+"zh": "这些怪事，大概是最接近“田中女士再回来一次”的方式了。",
+"a": "audio/scary/s04_09.mp3",
+"oa": "audio/scary/s04_09.mp3",
+"d": 6.11
+}
+]
+}

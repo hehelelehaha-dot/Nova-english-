@@ -1,0 +1,218 @@
+{
+"id": "scary_20",
+"type": "reading",
+"title": "20 The Abandoned House · 荒野中的废弃房子",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Ali Azlan is inside an abandoned house that's located in the middle of nowhere.",
+"zh": "Ali Azlan 在一栋位于荒郊野外的废弃房子里。",
+"a": "audio/scary/s20_01.mp3",
+"oa": "audio/scary/s20_01.mp3",
+"d": 4.69
+},
+{
+"sp": "",
+"t": "There have only been a couple of people who've checked out this place, but not a single person had caught anything as unusual as Ali had when he paid a visit to this house.",
+"zh": "只有少数几个人来过这里，但没有一个人像 Ali 这次一样，拍到这么不寻常的东西。",
+"a": "audio/scary/s20_02.mp3",
+"oa": "audio/scary/s20_02.mp3",
+"d": 9.85,
+"seg": [
+[
+0,
+12,
+0,
+3.28
+],
+[
+13,
+33,
+3.28,
+9.85
+]
+]
+},
+{
+"sp": "",
+"t": "Ali is exploring the place when, all of a sudden, this happens.",
+"zh": "Ali 正在四处探索，突然发生了这件事。",
+"a": "audio/scary/s20_03.mp3",
+"oa": "audio/scary/s20_03.mp3",
+"d": 4.33,
+"seg": [
+[
+0,
+5,
+0,
+1.98
+],
+[
+6,
+9,
+1.98,
+2.96
+],
+[
+10,
+11,
+2.96,
+4.33
+]
+]
+},
+{
+"sp": "",
+"t": "Now, it's worth mentioning that during the time of this recording, it was raining.",
+"zh": "值得一提的是，拍摄时正在下雨。",
+"a": "audio/scary/s20_04.mp3",
+"oa": "audio/scary/s20_04.mp3",
+"d": 4.37,
+"seg": [
+[
+0,
+0,
+0,
+0.46
+],
+[
+1,
+10,
+0.46,
+3.39
+],
+[
+11,
+13,
+3.39,
+4.37
+]
+]
+},
+{
+"sp": "",
+"t": "It could be that the strange noises were actually caused by the storm outside.",
+"zh": "那些奇怪的声音可能其实是外面的暴风雨造成的。",
+"a": "audio/scary/s20_05.mp3",
+"oa": "audio/scary/s20_05.mp3",
+"d": 4.51
+},
+{
+"sp": "",
+"t": "That could be the case.",
+"zh": "有可能是这样。",
+"a": "audio/scary/s20_06.mp3",
+"oa": "audio/scary/s20_06.mp3",
+"d": 1.39
+},
+{
+"sp": "",
+"t": "But what happens afterward, as Ali exits the house, is beyond explanation.",
+"zh": "但之后 Ali 走出房子时发生的事，就无法解释了。",
+"a": "audio/scary/s20_07.mp3",
+"oa": "audio/scary/s20_07.mp3",
+"d": 5.28,
+"seg": [
+[
+0,
+3,
+0,
+2.05
+],
+[
+4,
+8,
+2.05,
+3.79
+],
+[
+9,
+11,
+3.79,
+5.28
+]
+]
+},
+{
+"sp": "",
+"t": "What he caught on camera is perhaps the creepiest encounter he's had.",
+"zh": "他拍到的，也许是他经历过的最诡异的一次遭遇。",
+"a": "audio/scary/s20_08.mp3",
+"oa": "audio/scary/s20_08.mp3",
+"d": 4.21
+},
+{
+"sp": "",
+"t": "Be sure to pay close attention, or you'll miss it.",
+"zh": "一定要仔细看，不然就错过了。",
+"a": "audio/scary/s20_09.mp3",
+"oa": "audio/scary/s20_09.mp3",
+"d": 3.03,
+"seg": [
+[
+0,
+5,
+0,
+1.42
+],
+[
+6,
+9,
+1.42,
+3.03
+]
+]
+},
+{
+"sp": "",
+"t": "Ali doesn't know what to make of this, but if there's one thing that most viewers can agree on, it's that this person or thing was most likely observing Ali during the time he was inside.",
+"zh": "Ali 不知道该怎么解释，但大多数观众都同意一点：Ali 在屋里时，这个人或东西很可能一直在观察他。",
+"a": "audio/scary/s20_10.mp3",
+"oa": "audio/scary/s20_10.mp3",
+"d": 11.59,
+"seg": [
+[
+0,
+7,
+0,
+2.67
+],
+[
+8,
+18,
+2.67,
+5.62
+],
+[
+19,
+35,
+5.62,
+11.59
+]
+]
+},
+{
+"sp": "",
+"t": "If that's not creepy, then I don't know what is.",
+"zh": "如果这还不算吓人，那我就不知道什么才算了。",
+"a": "audio/scary/s20_11.mp3",
+"oa": "audio/scary/s20_11.mp3",
+"d": 3.11,
+"seg": [
+[
+0,
+3,
+0,
+1.53
+],
+[
+4,
+9,
+1.53,
+3.11
+]
+]
+}
+]
+}

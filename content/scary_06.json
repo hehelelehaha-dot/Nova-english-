@@ -1,0 +1,96 @@
+{
+"id": "scary_06",
+"type": "reading",
+"title": "06 Rooftop Watcher · 屋顶上的“人”",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "General Shim is resting on his rooftop when he sees something that leaves him terrified.",
+"zh": "General Shim 正在自家屋顶上休息，这时他看到了一样让他吓坏了的东西。",
+"a": "audio/scary/s06_01.mp3",
+"oa": "audio/scary/s06_01.mp3",
+"d": 5.25
+},
+{
+"sp": "",
+"t": "General Shim writes, \"I just wanted to loiter on my house's rooftop because the breeze there is soothing and fresh, but little did I know that someone else would be there with me.\"",
+"zh": "General Shim 写道：“我只是想在屋顶上待一会儿，因为那里的风清新又舒服，没想到还有‘别人’和我在一起。”",
+"a": "audio/scary/s06_02.mp3",
+"oa": "audio/scary/s06_02.mp3",
+"d": 9.87,
+"seg": [
+[
+0,
+2,
+0,
+1.28
+],
+[
+3,
+19,
+1.28,
+6.5
+],
+[
+20,
+32,
+6.5,
+9.87
+]
+]
+},
+{
+"sp": "",
+"t": "This is what he saw.",
+"zh": "这就是他看到的。",
+"a": "audio/scary/s06_03.mp3",
+"oa": "audio/scary/s06_03.mp3",
+"d": 2.44
+},
+{
+"sp": "",
+"t": "General Shim hopes that this was just a coconut on a tree, but what do you see?",
+"zh": "General Shim 希望那只是树上的一个椰子，但你看到的是什么？",
+"a": "audio/scary/s06_04.mp3",
+"oa": "audio/scary/s06_04.mp3",
+"d": 4.99,
+"seg": [
+[
+0,
+11,
+0,
+3.26
+],
+[
+12,
+16,
+3.26,
+4.99
+]
+]
+},
+{
+"sp": "",
+"t": "Could this be a case of pareidolia, or an actual sinister-looking entity?",
+"zh": "这是“空想性错视”（把东西看成人脸），还是真有一个阴森的东西？",
+"a": "audio/scary/s06_05.mp3",
+"oa": "audio/scary/s06_05.mp3",
+"d": 5.47,
+"seg": [
+[
+0,
+6,
+0,
+1.68
+],
+[
+7,
+11,
+1.68,
+5.47
+]
+]
+}
+]
+}

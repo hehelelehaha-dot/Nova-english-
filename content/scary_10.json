@@ -1,0 +1,322 @@
+{
+"id": "scary_10",
+"type": "reading",
+"title": "10 The Baby in the Crib · 婴儿床里的孩子",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "A security camera records a child who's inside a crib when something downright creepy is captured.",
+"zh": "一台监控摄像头拍着婴儿床里的孩子，结果拍下了非常诡异的一幕。",
+"a": "audio/scary/s10_01.mp3",
+"oa": "audio/scary/s10_01.mp3",
+"d": 5.91
+},
+{
+"sp": "",
+"t": "The child's mother had posted the following video, as she doesn't know what to make of it.",
+"zh": "孩子的妈妈发布了下面这段视频，因为她也不知道该怎么解释。",
+"a": "audio/scary/s10_02.mp3",
+"oa": "audio/scary/s10_02.mp3",
+"d": 4.57,
+"seg": [
+[
+0,
+7,
+0,
+2.5
+],
+[
+8,
+16,
+2.5,
+4.57
+]
+]
+},
+{
+"sp": "",
+"t": "She was in the same room as her son when, out of nowhere, he began to cry.",
+"zh": "她和儿子在同一个房间里，孩子突然毫无征兆地哭了起来。",
+"a": "audio/scary/s10_03.mp3",
+"oa": "audio/scary/s10_03.mp3",
+"d": 4.67,
+"seg": [
+[
+0,
+9,
+0,
+2.52
+],
+[
+10,
+12,
+2.52,
+3.32
+],
+[
+13,
+16,
+3.32,
+4.67
+]
+]
+},
+{
+"sp": "",
+"t": "It wasn't until watching the footage that she was left disturbed.",
+"zh": "直到看了录像，她才感到不安。",
+"a": "audio/scary/s10_04.mp3",
+"oa": "audio/scary/s10_04.mp3",
+"d": 3.75
+},
+{
+"sp": "",
+"t": "The mother writes, \"I'm still trying to figure out if the camera glitched or something pushed my baby.\"",
+"zh": "妈妈写道：“我还在想，到底是摄像头卡了，还是有什么东西推了我的宝宝。”",
+"a": "audio/scary/s10_05.mp3",
+"oa": "audio/scary/s10_05.mp3",
+"d": 6.01,
+"seg": [
+[
+0,
+2,
+0,
+1.32
+],
+[
+3,
+17,
+1.32,
+6.01
+]
+]
+},
+{
+"sp": "",
+"t": "This is what was caught.",
+"zh": "这就是拍到的画面。",
+"a": "audio/scary/s10_06.mp3",
+"oa": "audio/scary/s10_06.mp3",
+"d": 1.95
+},
+{
+"sp": "",
+"t": "The child all of a sudden disappears from the camera's view.",
+"zh": "孩子突然从镜头里消失了。",
+"a": "audio/scary/s10_07.mp3",
+"oa": "audio/scary/s10_07.mp3",
+"d": 3.15
+},
+{
+"sp": "",
+"t": "It appears that he was pushed over forcefully.",
+"zh": "看起来他是被用力推倒的。",
+"a": "audio/scary/s10_08.mp3",
+"oa": "audio/scary/s10_08.mp3",
+"d": 3.06
+},
+{
+"sp": "",
+"t": "The question is, though, what exactly had pushed him over?",
+"zh": "但问题是，到底是什么推倒了他？",
+"a": "audio/scary/s10_09.mp3",
+"oa": "audio/scary/s10_09.mp3",
+"d": 3.57,
+"seg": [
+[
+0,
+2,
+0,
+0.92
+],
+[
+3,
+3,
+0.92,
+1.43
+],
+[
+4,
+9,
+1.43,
+3.57
+]
+]
+},
+{
+"sp": "",
+"t": "The cradle in the back continues to swing as the child vanishes from the frame, suggesting that this wasn't a glitch.",
+"zh": "孩子从画面中消失时，后面的摇篮还在继续摆动，说明这不是画面卡顿。",
+"a": "audio/scary/s10_10.mp3",
+"oa": "audio/scary/s10_10.mp3",
+"d": 6.65,
+"seg": [
+[
+0,
+14,
+0,
+4.31
+],
+[
+15,
+20,
+4.31,
+6.65
+]
+]
+},
+{
+"sp": "",
+"t": "If it was, then the swing would have skipped a frame, just like the child had.",
+"zh": "如果是卡顿，摇篮也会像孩子一样跳掉一帧。",
+"a": "audio/scary/s10_11.mp3",
+"oa": "audio/scary/s10_11.mp3",
+"d": 4.87,
+"seg": [
+[
+0,
+2,
+0,
+1.42
+],
+[
+3,
+10,
+1.42,
+3.3
+],
+[
+11,
+15,
+3.3,
+4.87
+]
+]
+},
+{
+"sp": "",
+"t": "But as you can see, not a single frame is skipped.",
+"zh": "但正如你看到的，一帧都没有跳。",
+"a": "audio/scary/s10_12.mp3",
+"oa": "audio/scary/s10_12.mp3",
+"d": 3.63,
+"seg": [
+[
+0,
+4,
+0,
+1.8
+],
+[
+5,
+10,
+1.8,
+3.63
+]
+]
+},
+{
+"sp": "",
+"t": "So then, if this wasn't a glitch, then what was it?",
+"zh": "那么，如果不是卡顿，那又是什么？",
+"a": "audio/scary/s10_13.mp3",
+"oa": "audio/scary/s10_13.mp3",
+"d": 3.87,
+"seg": [
+[
+0,
+1,
+0,
+1.03
+],
+[
+2,
+6,
+1.03,
+2.4
+],
+[
+7,
+10,
+2.4,
+3.87
+]
+]
+},
+{
+"sp": "",
+"t": "No one else is seen in the room except the mother and child, and nothing appears to have pushed him over.",
+"zh": "房间里除了妈妈和孩子，没有别人，也看不到有什么东西推了他。",
+"a": "audio/scary/s10_14.mp3",
+"oa": "audio/scary/s10_14.mp3",
+"d": 5.21,
+"seg": [
+[
+0,
+12,
+0,
+3.04
+],
+[
+13,
+20,
+3.04,
+5.21
+]
+]
+},
+{
+"sp": "",
+"t": "As with all videos, it's up to you to decide if this is something paranormal or not.",
+"zh": "和所有视频一样，是不是灵异现象，由你来决定。",
+"a": "audio/scary/s10_15.mp3",
+"oa": "audio/scary/s10_15.mp3",
+"d": 4.77,
+"seg": [
+[
+0,
+3,
+0,
+1.35
+],
+[
+4,
+16,
+1.35,
+4.77
+]
+]
+},
+{
+"sp": "",
+"t": "The child's mother has yet to figure that out.",
+"zh": "孩子的妈妈到现在也没弄明白。",
+"a": "audio/scary/s10_16.mp3",
+"oa": "audio/scary/s10_16.mp3",
+"d": 2.73
+},
+{
+"sp": "",
+"t": "But as always, feel free to share what you think.",
+"zh": "和往常一样，欢迎分享你的看法。",
+"a": "audio/scary/s10_17.mp3",
+"oa": "audio/scary/s10_17.mp3",
+"d": 3.71,
+"seg": [
+[
+0,
+2,
+0,
+1.07
+],
+[
+3,
+9,
+1.07,
+3.71
+]
+]
+}
+]
+}

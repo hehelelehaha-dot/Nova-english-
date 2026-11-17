@@ -1,0 +1,186 @@
+{
+"id": "scary_03",
+"type": "reading",
+"title": "03 Hazel Is Growling · 狗狗 Hazel 一直在低吼",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "A dog and her owner are both home alone when the following happens.",
+"zh": "一只狗和她的主人单独在家，接着发生了下面这件事。",
+"a": "audio/scary/s03_01.mp3",
+"oa": "audio/scary/s03_01.mp3",
+"d": 3.75
+},
+{
+"sp": "",
+"t": "The owner who posted the video writes, \"Hazel has been growling for 10 minutes.",
+"zh": "发布视频的主人写道：“Hazel 已经低吼了 10 分钟。",
+"a": "audio/scary/s03_02.mp3",
+"oa": "audio/scary/s03_02.mp3",
+"d": 5.52,
+"seg": [
+[
+0,
+6,
+0,
+3.2
+],
+[
+7,
+13,
+3.2,
+5.52
+]
+]
+},
+{
+"sp": "",
+"t": "I checked the security cameras to see if someone was outside, but there wasn't.",
+"zh": "我查看了监控，看看外面有没有人，但并没有。",
+"a": "audio/scary/s03_03.mp3",
+"oa": "audio/scary/s03_03.mp3",
+"d": 4.33,
+"seg": [
+[
+0,
+10,
+0,
+2.98
+],
+[
+11,
+13,
+2.98,
+4.33
+]
+]
+},
+{
+"sp": "",
+"t": "So I decided to record her, as this isn't her normal behavior.\"",
+"zh": "所以我决定把她录下来，因为她平时不是这样的。”",
+"a": "audio/scary/s03_04.mp3",
+"oa": "audio/scary/s03_04.mp3",
+"d": 3.78,
+"seg": [
+[
+0,
+5,
+0,
+1.98
+],
+[
+6,
+11,
+1.98,
+3.78
+]
+]
+},
+{
+"sp": "",
+"t": "This is what was caught.",
+"zh": "这就是拍到的画面。",
+"a": "audio/scary/s03_05.mp3",
+"oa": "audio/scary/s03_05.mp3",
+"d": 2.05
+},
+{
+"sp": "Clip",
+"t": "If there are spirits here, I rebuke you in the name of Jesus Christ.",
+"zh": "如果这里有灵体，我奉耶稣基督的名斥责你。",
+"a": "audio/scary/s03_06.mp3",
+"oa": "audio/scary/s03_06.mp3",
+"d": 5.47
+},
+{
+"sp": "Clip",
+"t": "You must leave. You're not welcome here.",
+"zh": "你必须离开，这里不欢迎你。",
+"a": "audio/scary/s03_07.mp3",
+"oa": "audio/scary/s03_07.mp3",
+"d": 3.16
+},
+{
+"sp": "",
+"t": "What is Hazel seeing, and what might be the reason as to why she's growling?",
+"zh": "Hazel 看到了什么？她为什么会低吼？",
+"a": "audio/scary/s03_08.mp3",
+"oa": "audio/scary/s03_08.mp3",
+"d": 4.73,
+"seg": [
+[
+0,
+3,
+0,
+1.46
+],
+[
+4,
+14,
+1.46,
+4.73
+]
+]
+},
+{
+"sp": "",
+"t": "It's believed that dogs can see things, such as entities, that we can't.",
+"zh": "人们相信，狗能看到一些我们看不见的东西，比如某些“存在”。",
+"a": "audio/scary/s03_09.mp3",
+"oa": "audio/scary/s03_09.mp3",
+"d": 5.42,
+"seg": [
+[
+0,
+6,
+0,
+2.8
+],
+[
+7,
+9,
+2.8,
+3.8
+],
+[
+10,
+12,
+3.8,
+5.42
+]
+]
+},
+{
+"sp": "",
+"t": "But I'll let you decide as to whether or not she's actually seeing something.",
+"zh": "但她是否真的看到了什么，由你来判断。",
+"a": "audio/scary/s03_10.mp3",
+"oa": "audio/scary/s03_10.mp3",
+"d": 3.41
+},
+{
+"sp": "",
+"t": "As always, feel free to let me know what you think.",
+"zh": "和往常一样，欢迎告诉我你的看法。",
+"a": "audio/scary/s03_11.mp3",
+"oa": "audio/scary/s03_11.mp3",
+"d": 3.15,
+"seg": [
+[
+0,
+1,
+0,
+1.19
+],
+[
+2,
+10,
+1.19,
+3.15
+]
+]
+}
+]
+}

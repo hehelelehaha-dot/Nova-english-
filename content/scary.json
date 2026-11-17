@@ -1,0 +1,244 @@
+{
+ "title": "Scary Comp. 2021",
+ "src": "BizarreBub · https://youtu.be/Qh_VvZCFOcg",
+ "boards": [
+  {
+   "id": "scary_01",
+   "title": "01 Doorbell Face · 门铃摄像头里的脸",
+   "sub": "9 句",
+   "data": "scary_01.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_02",
+   "title": "02 The Doll That Moved · 自己动了的玩偶",
+   "sub": "7 句",
+   "data": "scary_02.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_03",
+   "title": "03 Hazel Is Growling · 狗狗 Hazel 一直在低吼",
+   "sub": "11 句",
+   "data": "scary_03.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_04",
+   "title": "04 Miss Tanaka's Factory · 服装厂里的田中女士",
+   "sub": "9 句",
+   "data": "scary_04.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_05",
+   "title": "05 The Laundry Room · 洗衣房里的怪事",
+   "sub": "13 句",
+   "data": "scary_05.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_06",
+   "title": "06 Rooftop Watcher · 屋顶上的“人”",
+   "sub": "5 句",
+   "data": "scary_06.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_07",
+   "title": "07 The Thrift Store Doll · 二手店买来的玩偶",
+   "sub": "16 句",
+   "data": "scary_07.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_08",
+   "title": "08 Listen to the Dog · 应该听狗狗的",
+   "sub": "7 句",
+   "data": "scary_08.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_09",
+   "title": "09 The Shadow Figure · 小小的黑影",
+   "sub": "7 句",
+   "data": "scary_09.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_10",
+   "title": "10 The Baby in the Crib · 婴儿床里的孩子",
+   "sub": "17 句",
+   "data": "scary_10.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_11",
+   "title": "11 The Hospital Hallway · 医院走廊里的孩子",
+   "sub": "7 句",
+   "data": "scary_11.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_12",
+   "title": "12 Peeking at the Cat · 偷看猫咪的东西",
+   "sub": "11 句",
+   "data": "scary_12.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_13",
+   "title": "13 Tubing Through the Canal · 运河漂流",
+   "sub": "10 句",
+   "data": "scary_13.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_14",
+   "title": "14 The Imaginary Friend · 看不见的朋友",
+   "sub": "7 句",
+   "data": "scary_14.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_15",
+   "title": "15 The Haunted Theater · 闹鬼的剧院",
+   "sub": "18 句",
+   "data": "scary_15.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_16",
+   "title": "16 Maria's Scared Dog · Maria 发抖的狗",
+   "sub": "13 句",
+   "data": "scary_16.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_17",
+   "title": "17 The Mall Escalator · 商场扶梯上的小女孩",
+   "sub": "11 句",
+   "data": "scary_17.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_18",
+   "title": "18 The Train Station · 火车站的夜班",
+   "sub": "10 句",
+   "data": "scary_18.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_19",
+   "title": "19 The Hand at the Theme Park · 游乐园里的手",
+   "sub": "15 句",
+   "data": "scary_19.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_20",
+   "title": "20 The Abandoned House · 荒野中的废弃房子",
+   "sub": "11 句",
+   "data": "scary_20.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_21",
+   "title": "21 Home Alone · 独自在家",
+   "sub": "5 句",
+   "data": "scary_21.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_22",
+   "title": "22 Shortcut Through the Park · 公园里的捷径",
+   "sub": "9 句",
+   "data": "scary_22.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_23",
+   "title": "23 The Bone · 那根骨头",
+   "sub": "6 句",
+   "data": "scary_23.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_24",
+   "title": "24 Ghost Rider · 自己骑走的三轮车",
+   "sub": "7 句",
+   "data": "scary_24.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_25",
+   "title": "25 Gilbert and the Sun Painting · Gilbert 与太阳壁画",
+   "sub": "51 句",
+   "data": "scary_25.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_26",
+   "title": "26 The Pirate Ship Ride · 海盗船上少了一个人",
+   "sub": "15 句",
+   "data": "scary_26.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_27",
+   "title": "27 The Old High School · 老高中的夜班",
+   "sub": "11 句",
+   "data": "scary_27.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_28",
+   "title": "28 The Abandoned Hospital · 台湾的废弃医院",
+   "sub": "10 句",
+   "data": "scary_28.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_29",
+   "title": "29 Marlene's Bathroom · Marlene 的浴室",
+   "sub": "25 句",
+   "data": "scary_29.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_30",
+   "title": "30 The Doll's Head · 自己转头的玩偶",
+   "sub": "7 句",
+   "data": "scary_30.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_31",
+   "title": "31 The Voice That Copied Andy · 模仿 Andy 声音的东西",
+   "sub": "26 句",
+   "data": "scary_31.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_32",
+   "title": "32 Legs on the Baby Monitor · 婴儿监视器里的腿",
+   "sub": "20 句",
+   "data": "scary_32.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_33",
+   "title": "33 The Gym · 健身房里的拖拽",
+   "sub": "19 句",
+   "data": "scary_33.json",
+   "kind": "reading"
+  },
+  {
+   "id": "scary_34",
+   "title": "34 The Selfie · 自拍里的身影",
+   "sub": "11 句",
+   "data": "scary_34.json",
+   "kind": "reading"
+  }
+ ]
+}

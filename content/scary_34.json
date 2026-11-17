@@ -1,0 +1,234 @@
+{
+"id": "scary_34",
+"type": "reading",
+"title": "34 The Selfie · 自拍里的身影",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Katrina Pariso had taken a photo of herself while being at home with no one else around.",
+"zh": "Katrina Pariso 在家里没有别人时，给自己拍了张照片。",
+"a": "audio/scary/s34_01.mp3",
+"oa": "audio/scary/s34_01.mp3",
+"d": 5.17
+},
+{
+"sp": "",
+"t": "She had the house to herself, or so she thought.",
+"zh": "她以为家里只有她一个人。",
+"a": "audio/scary/s34_02.mp3",
+"oa": "audio/scary/s34_02.mp3",
+"d": 3.37,
+"seg": [
+[
+0,
+5,
+0,
+1.83
+],
+[
+6,
+9,
+1.83,
+3.37
+]
+]
+},
+{
+"sp": "",
+"t": "It was after having taken a selfie that she realized that she wasn't alone.",
+"zh": "拍完自拍后，她才发现自己并不是一个人。",
+"a": "audio/scary/s34_03.mp3",
+"oa": "audio/scary/s34_03.mp3",
+"d": 4.59
+},
+{
+"sp": "",
+"t": "This is the photo she took.",
+"zh": "这就是她拍的照片。",
+"a": "audio/scary/s34_04.mp3",
+"oa": "audio/scary/s34_04.mp3",
+"d": 2.15
+},
+{
+"sp": "",
+"t": "Now, at first glance, nothing unusual stands out, that is, until you brighten up the image and see that someone is behind her.",
+"zh": "乍一看没有什么异常，直到你把照片调亮，才看到她身后有一个人。",
+"a": "audio/scary/s34_05.mp3",
+"oa": "audio/scary/s34_05.mp3",
+"d": 8.43,
+"seg": [
+[
+0,
+0,
+0,
+0.3
+],
+[
+1,
+3,
+0.3,
+1.39
+],
+[
+4,
+7,
+1.39,
+3.29
+],
+[
+8,
+9,
+3.29,
+4.24
+],
+[
+10,
+22,
+4.24,
+8.43
+]
+]
+},
+{
+"sp": "",
+"t": "Katrina swears that she was home alone when she took this, but apparently, she wasn't.",
+"zh": "Katrina 发誓拍照时家里只有她一个人，但显然并不是。",
+"a": "audio/scary/s34_06.mp3",
+"oa": "audio/scary/s34_06.mp3",
+"d": 5.23,
+"seg": [
+[
+0,
+10,
+0,
+2.89
+],
+[
+11,
+12,
+2.89,
+3.97
+],
+[
+13,
+14,
+3.97,
+5.23
+]
+]
+},
+{
+"sp": "",
+"t": "Katrina believes that a ghost had photobombed her picture, and she also thinks that this may have been her brother, who had passed away years ago.",
+"zh": "Katrina 认为是有个鬼闯进了她的照片，她还觉得那可能是她多年前去世的兄弟。",
+"a": "audio/scary/s34_07.mp3",
+"oa": "audio/scary/s34_07.mp3",
+"d": 7.87,
+"seg": [
+[
+0,
+8,
+0,
+3.32
+],
+[
+9,
+19,
+3.32,
+6.08
+],
+[
+20,
+25,
+6.08,
+7.87
+]
+]
+},
+{
+"sp": "",
+"t": "She isn't sure if that's him, though, as it appears to have long hair, which he didn't have.",
+"zh": "不过她不确定是不是他，因为照片里的人好像是长发，而他没有长发。",
+"a": "audio/scary/s34_08.mp3",
+"oa": "audio/scary/s34_08.mp3",
+"d": 5.49,
+"seg": [
+[
+0,
+5,
+0,
+1.48
+],
+[
+6,
+6,
+1.48,
+2.02
+],
+[
+7,
+13,
+2.02,
+3.87
+],
+[
+14,
+17,
+3.87,
+5.49
+]
+]
+},
+{
+"sp": "",
+"t": "She has yet to figure out what this might have been, but one thing's for sure, though: this photo has left Katrina spooked and still keeps her up at night.",
+"zh": "她还没弄清楚这到底是什么，但有一点可以肯定：这张照片把 Katrina 吓坏了，至今还让她夜里睡不着。",
+"a": "audio/scary/s34_09.mp3",
+"oa": "audio/scary/s34_09.mp3",
+"d": 9.49,
+"seg": [
+[
+0,
+10,
+0,
+2.62
+],
+[
+11,
+15,
+2.62,
+3.94
+],
+[
+16,
+16,
+3.94,
+4.5
+],
+[
+17,
+29,
+4.5,
+9.49
+]
+]
+},
+{
+"sp": "",
+"t": "Thanks for watching, and I hope you enjoyed.",
+"zh": "感谢收看，希望你喜欢。",
+"a": "audio/scary/s34_10.mp3",
+"oa": "audio/scary/s34_10.mp3",
+"d": 2.74
+},
+{
+"sp": "",
+"t": "Happy holidays, and take care.",
+"zh": "节日快乐，保重。",
+"a": "audio/scary/s34_11.mp3",
+"oa": "audio/scary/s34_11.mp3",
+"d": 2.35
+}
+]
+}

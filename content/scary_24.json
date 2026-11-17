@@ -1,0 +1,92 @@
+{
+"id": "scary_24",
+"type": "reading",
+"title": "24 Ghost Rider · 自己骑走的三轮车",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Facebook user Yingy Vong writes, \"So something crazy happened tonight.",
+"zh": "Facebook 用户 Yingy Vong 写道：“今晚发生了一件疯狂的事。",
+"a": "audio/scary/s24_01.mp3",
+"oa": "audio/scary/s24_01.mp3",
+"d": 4.79,
+"seg": [
+[
+0,
+4,
+0,
+2.57
+],
+[
+5,
+9,
+2.57,
+4.79
+]
+]
+},
+{
+"sp": "",
+"t": "My motion-activated security camera turned on.",
+"zh": "我的感应式监控摄像头启动了。",
+"a": "audio/scary/s24_02.mp3",
+"oa": "audio/scary/s24_02.mp3",
+"d": 3.1
+},
+{
+"sp": "",
+"t": "I grabbed my phone to see a live feed of what was happening outside.",
+"zh": "我拿起手机看外面的实时画面。",
+"a": "audio/scary/s24_03.mp3",
+"oa": "audio/scary/s24_03.mp3",
+"d": 3.39
+},
+{
+"sp": "",
+"t": "I couldn't believe what I saw.\"",
+"zh": "我简直不敢相信自己看到了什么。”",
+"a": "audio/scary/s24_04.mp3",
+"oa": "audio/scary/s24_04.mp3",
+"d": 1.85
+},
+{
+"sp": "",
+"t": "Talk about Ghost Rider!",
+"zh": "这简直就是“恶灵骑士”！",
+"a": "audio/scary/s24_05.mp3",
+"oa": "audio/scary/s24_05.mp3",
+"d": 1.51
+},
+{
+"sp": "",
+"t": "If the tricycle hadn't stopped and turned, I would have guessed the wind moved it.",
+"zh": "如果那辆三轮车没有停下来再转弯，我会以为是风吹动了它。",
+"a": "audio/scary/s24_06.mp3",
+"oa": "audio/scary/s24_06.mp3",
+"d": 3.73,
+"seg": [
+[
+0,
+6,
+0,
+2.19
+],
+[
+7,
+14,
+2.19,
+3.73
+]
+]
+},
+{
+"sp": "",
+"t": "But as you can see, that doesn't seem to be the case.",
+"zh": "但正如你看到的，似乎并不是这样。",
+"a": "audio/scary/s24_07.mp3",
+"oa": "audio/scary/s24_07.mp3",
+"d": 5.06
+}
+]
+}

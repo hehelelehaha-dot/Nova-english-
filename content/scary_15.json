@@ -1,0 +1,314 @@
+{
+"id": "scary_15",
+"type": "reading",
+"title": "15 The Haunted Theater · 闹鬼的剧院",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Bailey B works at an old theater that is said to be haunted.",
+"zh": "Bailey B 在一家据说闹鬼的老剧院工作。",
+"a": "audio/scary/s15_01.mp3",
+"oa": "audio/scary/s15_01.mp3",
+"d": 3.25
+},
+{
+"sp": "",
+"t": "Although Bailey loves his job, there's something about it he wishes he could change.",
+"zh": "虽然 Bailey 很喜欢这份工作，但有一点他希望能改变。",
+"a": "audio/scary/s15_02.mp3",
+"oa": "audio/scary/s15_02.mp3",
+"d": 4.13,
+"seg": [
+[
+0,
+4,
+0,
+1.67
+],
+[
+5,
+13,
+1.67,
+4.13
+]
+]
+},
+{
+"sp": "",
+"t": "He often works at night, and he doesn't like this.",
+"zh": "他经常上夜班，而他不喜欢这样。",
+"a": "audio/scary/s15_03.mp3",
+"oa": "audio/scary/s15_03.mp3",
+"d": 3.11,
+"seg": [
+[
+0,
+4,
+0,
+1.57
+],
+[
+5,
+9,
+1.57,
+3.11
+]
+]
+},
+{
+"sp": "",
+"t": "For some reason, whenever Bailey's on stage, he can't help but feel like there's someone there.",
+"zh": "不知为什么，每当 Bailey 站在舞台上，他总忍不住觉得那里还有别人。",
+"a": "audio/scary/s15_04.mp3",
+"oa": "audio/scary/s15_04.mp3",
+"d": 4.93,
+"seg": [
+[
+0,
+2,
+0,
+1.06
+],
+[
+3,
+6,
+1.06,
+2.58
+],
+[
+7,
+15,
+2.58,
+4.93
+]
+]
+},
+{
+"sp": "",
+"t": "It almost feels like there's someone watching him.",
+"zh": "几乎就像有人在看着他。",
+"a": "audio/scary/s15_05.mp3",
+"oa": "audio/scary/s15_05.mp3",
+"d": 2.73
+},
+{
+"sp": "",
+"t": "It's for this reason that he often records while working.",
+"zh": "正因如此，他工作时经常开着录像。",
+"a": "audio/scary/s15_06.mp3",
+"oa": "audio/scary/s15_06.mp3",
+"d": 2.97
+},
+{
+"sp": "",
+"t": "But then one night, Bailey receives a notification that a sensor has detected motion inside the theater.",
+"zh": "可有一天晚上，Bailey 收到通知：剧院里的传感器检测到了动静。",
+"a": "audio/scary/s15_07.mp3",
+"oa": "audio/scary/s15_07.mp3",
+"d": 5.99,
+"seg": [
+[
+0,
+3,
+0,
+1.42
+],
+[
+4,
+16,
+1.42,
+5.99
+]
+]
+},
+{
+"sp": "",
+"t": "Bailey writes, \"This is the scariest thing that has ever happened to me.",
+"zh": "Bailey 写道：“这是我遇到过的最可怕的事。",
+"a": "audio/scary/s15_08.mp3",
+"oa": "audio/scary/s15_08.mp3",
+"d": 4.08,
+"seg": [
+[
+0,
+1,
+0,
+1.27
+],
+[
+2,
+12,
+1.27,
+4.08
+]
+]
+},
+{
+"sp": "",
+"t": "I might quit.\"",
+"zh": "我可能要辞职了。”",
+"a": "audio/scary/s15_09.mp3",
+"oa": "audio/scary/s15_09.mp3",
+"d": 1.27
+},
+{
+"sp": "",
+"t": "This is what he captured.",
+"zh": "这就是他拍到的。",
+"a": "audio/scary/s15_10.mp3",
+"oa": "audio/scary/s15_10.mp3",
+"d": 1.83
+},
+{
+"sp": "Clip",
+"t": "It's, uh, 9 p.m. on a Saturday. This is my life.",
+"zh": "现在是，呃，周六晚上 9 点。这就是我的生活。",
+"a": "audio/scary/s15_11.mp3",
+"oa": "audio/scary/s15_11.mp3",
+"d": 7.17,
+"seg": [
+[
+0,
+0,
+0,
+0.96
+],
+[
+1,
+1,
+0.96,
+1.2
+],
+[
+2,
+3,
+1.2,
+2.23
+],
+[
+4,
+6,
+2.23,
+4.74
+],
+[
+7,
+10,
+4.74,
+7.17
+]
+]
+},
+{
+"sp": "Clip",
+"t": "So I'm walking through the main stage here.",
+"zh": "我现在正走过主舞台。",
+"a": "audio/scary/s15_12.mp3",
+"oa": "audio/scary/s15_12.mp3",
+"d": 3.2
+},
+{
+"sp": "Clip",
+"t": "Ghost light is on.",
+"zh": "“幽灵灯”亮着。",
+"a": "audio/scary/s15_13.mp3",
+"oa": "audio/scary/s15_13.mp3",
+"d": 1.33
+},
+{
+"sp": "Clip",
+"t": "No one in here. Hello? Okay.",
+"zh": "这里没人。有人吗？好吧。",
+"a": "audio/scary/s15_14.mp3",
+"oa": "audio/scary/s15_14.mp3",
+"d": 2.49
+},
+{
+"sp": "",
+"t": "Bailey was in total shock and was trying to process what he'd seen.",
+"zh": "Bailey 完全惊呆了，努力想弄明白自己看到了什么。",
+"a": "audio/scary/s15_15.mp3",
+"oa": "audio/scary/s15_15.mp3",
+"d": 3.65
+},
+{
+"sp": "",
+"t": "Now, it could be that someone had broken in and decided to seat themselves on the balcony.",
+"zh": "当然，也可能是有人闯了进来，坐到了楼座上。",
+"a": "audio/scary/s15_16.mp3",
+"oa": "audio/scary/s15_16.mp3",
+"d": 4.59,
+"seg": [
+[
+0,
+0,
+0,
+0.46
+],
+[
+1,
+16,
+0.46,
+4.59
+]
+]
+},
+{
+"sp": "",
+"t": "But given the history of this place, which has had numerous paranormal occurrences, Bailey can't shake the thought of this being a ghostly encounter.",
+"zh": "但考虑到这里的历史——发生过许多灵异事件——Bailey 怎么也甩不掉“这是撞鬼了”的念头。",
+"a": "audio/scary/s15_17.mp3",
+"oa": "audio/scary/s15_17.mp3",
+"d": 7.91,
+"seg": [
+[
+0,
+6,
+0,
+1.85
+],
+[
+7,
+12,
+1.85,
+4.63
+],
+[
+13,
+23,
+4.63,
+7.91
+]
+]
+},
+{
+"sp": "",
+"t": "But if anything, Bailey can rest assured that he isn't losing his mind, as what he captured on camera shows that someone or something was actually watching him.",
+"zh": "但至少 Bailey 可以放心，他没有疯，因为他拍到的画面显示，确实有人或某种东西在看着他。",
+"a": "audio/scary/s15_18.mp3",
+"oa": "audio/scary/s15_18.mp3",
+"d": 9.75,
+"seg": [
+[
+0,
+2,
+0,
+1.97
+],
+[
+3,
+12,
+1.97,
+4.5
+],
+[
+13,
+27,
+4.5,
+9.75
+]
+]
+}
+]
+}

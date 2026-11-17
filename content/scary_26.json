@@ -1,0 +1,292 @@
+{
+"id": "scary_26",
+"type": "reading",
+"title": "26 The Pirate Ship Ride · 海盗船上少了一个人",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "A group of friends are at a fair, riding the pirate ship ride, when one of them captures something disturbing on camera.",
+"zh": "一群朋友在游乐会上坐海盗船，其中一人用镜头拍到了让人不安的东西。",
+"a": "audio/scary/s26_01.mp3",
+"oa": "audio/scary/s26_01.mp3",
+"d": 6.45,
+"seg": [
+[
+0,
+7,
+0,
+1.84
+],
+[
+8,
+12,
+1.84,
+3.22
+],
+[
+13,
+21,
+3.22,
+6.45
+]
+]
+},
+{
+"sp": "",
+"t": "The person who caught this writes, \"Before coming to this fair, I've heard stories of a woman who had tragically died after falling off from one of the rides here.",
+"zh": "拍到这段的人写道：“来这个游乐会之前，我听说过一个女人从这里的游乐设施上摔下来、不幸身亡的故事。",
+"a": "audio/scary/s26_02.mp3",
+"oa": "audio/scary/s26_02.mp3",
+"d": 9.03,
+"seg": [
+[
+0,
+5,
+0,
+2.22
+],
+[
+6,
+10,
+2.22,
+3.88
+],
+[
+11,
+29,
+3.88,
+9.03
+]
+]
+},
+{
+"sp": "",
+"t": "But that was many years ago.",
+"zh": "但那是很多年前的事了。",
+"a": "audio/scary/s26_03.mp3",
+"oa": "audio/scary/s26_03.mp3",
+"d": 1.91
+},
+{
+"sp": "",
+"t": "This video was taken in 2008, at around 10 PM.\"",
+"zh": "这段视频拍摄于 2008 年，大约晚上 10 点。”",
+"a": "audio/scary/s26_04.mp3",
+"oa": "audio/scary/s26_04.mp3",
+"d": 3.71,
+"seg": [
+[
+0,
+5,
+0,
+2.22
+],
+[
+6,
+9,
+2.22,
+3.71
+]
+]
+},
+{
+"sp": "",
+"t": "This is what was captured.",
+"zh": "这就是拍到的画面。",
+"a": "audio/scary/s26_05.mp3",
+"oa": "audio/scary/s26_05.mp3",
+"d": 2.13
+},
+{
+"sp": "",
+"t": "Be sure to pay close attention to the background, or you'll miss it.",
+"zh": "一定要仔细看背景，不然就错过了。",
+"a": "audio/scary/s26_06.mp3",
+"oa": "audio/scary/s26_06.mp3",
+"d": 3.73,
+"seg": [
+[
+0,
+8,
+0,
+2.18
+],
+[
+9,
+12,
+2.18,
+3.73
+]
+]
+},
+{
+"sp": "",
+"t": "At first, there are four people sitting next to each other, but then a few seconds later, there's one less person.",
+"zh": "一开始有四个人并排坐着，但几秒钟后，少了一个人。",
+"a": "audio/scary/s26_07.mp3",
+"oa": "audio/scary/s26_07.mp3",
+"d": 7.09,
+"seg": [
+[
+0,
+1,
+0,
+0.97
+],
+[
+2,
+10,
+0.97,
+3.34
+],
+[
+11,
+16,
+3.34,
+5.43
+],
+[
+17,
+20,
+5.43,
+7.09
+]
+]
+},
+{
+"sp": "",
+"t": "It appears that the passenger on the left has disappeared.",
+"zh": "看起来左边的那位乘客消失了。",
+"a": "audio/scary/s26_08.mp3",
+"oa": "audio/scary/s26_08.mp3",
+"d": 2.89
+},
+{
+"sp": "",
+"t": "The man recording this has no idea as to who she is, and still doesn't know to this day.",
+"zh": "拍摄的人完全不知道她是谁，直到今天也不知道。",
+"a": "audio/scary/s26_09.mp3",
+"oa": "audio/scary/s26_09.mp3",
+"d": 5.39,
+"seg": [
+[
+0,
+11,
+0,
+3.18
+],
+[
+12,
+18,
+3.18,
+5.39
+]
+]
+},
+{
+"sp": "",
+"t": "However, he can't help but think that this might have been the woman who had tragically died at this fair many years ago.",
+"zh": "不过，他忍不住觉得，这可能就是多年前在这个游乐会上不幸身亡的那个女人。",
+"a": "audio/scary/s26_10.mp3",
+"oa": "audio/scary/s26_10.mp3",
+"d": 6.77,
+"seg": [
+[
+0,
+0,
+0,
+0.72
+],
+[
+1,
+22,
+0.72,
+6.77
+]
+]
+},
+{
+"sp": "",
+"t": "Viewers think so too, and have even pointed out that her face looks injured in a couple of frames.",
+"zh": "观众也这么认为，甚至指出在几帧画面里，她的脸看起来是受伤的。",
+"a": "audio/scary/s26_11.mp3",
+"oa": "audio/scary/s26_11.mp3",
+"d": 5.59,
+"seg": [
+[
+0,
+3,
+0,
+1.39
+],
+[
+4,
+18,
+1.39,
+5.59
+]
+]
+},
+{
+"sp": "",
+"t": "Now that's creepy.",
+"zh": "这就很吓人了。",
+"a": "audio/scary/s26_12.mp3",
+"oa": "audio/scary/s26_12.mp3",
+"d": 1.39
+},
+{
+"sp": "",
+"t": "But of course, what do you think?",
+"zh": "当然，你怎么看？",
+"a": "audio/scary/s26_13.mp3",
+"oa": "audio/scary/s26_13.mp3",
+"d": 2.59
+},
+{
+"sp": "",
+"t": "Was a ghost caught on camera, or was this all just an illusion?",
+"zh": "是镜头拍到了鬼，还是这一切只是错觉？",
+"a": "audio/scary/s26_14.mp3",
+"oa": "audio/scary/s26_14.mp3",
+"d": 4.63,
+"seg": [
+[
+0,
+5,
+0,
+2.0
+],
+[
+6,
+12,
+2.0,
+4.63
+]
+]
+},
+{
+"sp": "",
+"t": "As always, feel free to let me know what you think.",
+"zh": "和往常一样，欢迎告诉我你的看法。",
+"a": "audio/scary/s26_15.mp3",
+"oa": "audio/scary/s26_15.mp3",
+"d": 2.93,
+"seg": [
+[
+0,
+1,
+0,
+1.08
+],
+[
+2,
+10,
+1.08,
+2.93
+]
+]
+}
+]
+}

@@ -1,0 +1,136 @@
+{
+"id": "scary_22",
+"type": "reading",
+"title": "22 Shortcut Through the Park · 公园里的捷径",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Ellen Melbergstead is on her way to a doctor's appointment and is taking a shortcut through a park to get there.",
+"zh": "Ellen Melbergstead 正要去看医生，她抄近路穿过一个公园。",
+"a": "audio/scary/s22_01.mp3",
+"oa": "audio/scary/s22_01.mp3",
+"d": 6.07
+},
+{
+"sp": "",
+"t": "The video takes place in Sweden during the wintertime, so it's mostly dark during the day.",
+"zh": "视频拍摄于瑞典的冬天，所以白天大部分时间天都是黑的。",
+"a": "audio/scary/s22_02.mp3",
+"oa": "audio/scary/s22_02.mp3",
+"d": 4.89,
+"seg": [
+[
+0,
+8,
+0,
+2.41
+],
+[
+9,
+15,
+2.41,
+4.89
+]
+]
+},
+{
+"sp": "",
+"t": "As she's on her way to the hospital, Ellen takes out her phone and begins to record.",
+"zh": "在去医院的路上，Ellen 拿出手机开始录像。",
+"a": "audio/scary/s22_03.mp3",
+"oa": "audio/scary/s22_03.mp3",
+"d": 4.89,
+"seg": [
+[
+0,
+7,
+0,
+2.05
+],
+[
+8,
+16,
+2.05,
+4.89
+]
+]
+},
+{
+"sp": "",
+"t": "But little does she know that she's about to capture something downright creepy.",
+"zh": "但她完全没想到，她即将拍到非常诡异的东西。",
+"a": "audio/scary/s22_04.mp3",
+"oa": "audio/scary/s22_04.mp3",
+"d": 4.19
+},
+{
+"sp": "",
+"t": "Check this out.",
+"zh": "来看看。",
+"a": "audio/scary/s22_05.mp3",
+"oa": "audio/scary/s22_05.mp3",
+"d": 1.43
+},
+{
+"sp": "",
+"t": "It was only after viewers had pointed this out that Ellen had noticed it.",
+"zh": "直到观众指出来，Ellen 才注意到。",
+"a": "audio/scary/s22_06.mp3",
+"oa": "audio/scary/s22_06.mp3",
+"d": 4.37
+},
+{
+"sp": "",
+"t": "There appears to be a figure peeking at Ellen from behind a tree.",
+"zh": "好像有一个人影躲在树后偷看 Ellen。",
+"a": "audio/scary/s22_07.mp3",
+"oa": "audio/scary/s22_07.mp3",
+"d": 3.59
+},
+{
+"sp": "",
+"t": "It's unclear as to who or what this might have been, but viewers think that this could have been a ghost.",
+"zh": "不清楚这是谁或是什么，但观众认为这可能是鬼。",
+"a": "audio/scary/s22_08.mp3",
+"oa": "audio/scary/s22_08.mp3",
+"d": 5.53,
+"seg": [
+[
+0,
+10,
+0,
+2.84
+],
+[
+11,
+20,
+2.84,
+5.53
+]
+]
+},
+{
+"sp": "",
+"t": "Whatever it might have been, Ellen will most likely be taking a different route from now on.",
+"zh": "不管是什么，Ellen 以后很可能都会换一条路走了。",
+"a": "audio/scary/s22_09.mp3",
+"oa": "audio/scary/s22_09.mp3",
+"d": 5.99,
+"seg": [
+[
+0,
+4,
+0,
+2.0
+],
+[
+5,
+16,
+2.0,
+5.99
+]
+]
+}
+]
+}

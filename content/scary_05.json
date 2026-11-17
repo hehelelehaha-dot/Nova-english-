@@ -1,0 +1,230 @@
+{
+"id": "scary_05",
+"type": "reading",
+"title": "05 The Laundry Room · 洗衣房里的怪事",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "The following segment features a set of videos of strange occurrences that have taken place inside a home.",
+"zh": "下面这一段是一组视频，记录了发生在一户人家里的怪事。",
+"a": "audio/scary/s05_01.mp3",
+"oa": "audio/scary/s05_01.mp3",
+"d": 5.89
+},
+{
+"sp": "",
+"t": "Very little information is given on these videos, but each one speaks for itself.",
+"zh": "关于这些视频的信息很少，但每一段都不言自明。",
+"a": "audio/scary/s05_02.mp3",
+"oa": "audio/scary/s05_02.mp3",
+"d": 4.53,
+"seg": [
+[
+0,
+7,
+0,
+2.66
+],
+[
+8,
+13,
+2.66,
+4.53
+]
+]
+},
+{
+"sp": "",
+"t": "Each video was shot in a room where most of the activity takes place.",
+"zh": "每段视频都是在怪事最多的那个房间里拍的。",
+"a": "audio/scary/s05_03.mp3",
+"oa": "audio/scary/s05_03.mp3",
+"d": 4.56
+},
+{
+"sp": "",
+"t": "It is for this reason that a camera was placed inside to capture these strange occurrences.",
+"zh": "正因如此，他们才在房间里放了一台摄像机来拍下这些怪事。",
+"a": "audio/scary/s05_04.mp3",
+"oa": "audio/scary/s05_04.mp3",
+"d": 4.55
+},
+{
+"sp": "",
+"t": "However, it seems that with each occurrence, the activity gets worse.",
+"zh": "然而，怪事似乎一次比一次严重。",
+"a": "audio/scary/s05_05.mp3",
+"oa": "audio/scary/s05_05.mp3",
+"d": 4.25,
+"seg": [
+[
+0,
+0,
+0,
+0.71
+],
+[
+1,
+6,
+0.71,
+2.62
+],
+[
+7,
+10,
+2.62,
+4.25
+]
+]
+},
+{
+"sp": "",
+"t": "Out of all incidents, the fifth occurrence is probably the creepiest.",
+"zh": "在所有事件中，第五次大概是最吓人的。",
+"a": "audio/scary/s05_06.mp3",
+"oa": "audio/scary/s05_06.mp3",
+"d": 4.27,
+"seg": [
+[
+0,
+3,
+0,
+1.31
+],
+[
+4,
+10,
+1.31,
+4.27
+]
+]
+},
+{
+"sp": "",
+"t": "This is what was captured.",
+"zh": "这就是拍到的画面。",
+"a": "audio/scary/s05_07.mp3",
+"oa": "audio/scary/s05_07.mp3",
+"d": 1.97
+},
+{
+"sp": "",
+"t": "It's the last occurrence that's hard to explain.",
+"zh": "最难解释的是最后一次。",
+"a": "audio/scary/s05_08.mp3",
+"oa": "audio/scary/s05_08.mp3",
+"d": 2.83
+},
+{
+"sp": "",
+"t": "Somehow, the garment in the basket appears to throw itself into the washer.",
+"zh": "不知怎么的，篮子里的衣服好像自己跳进了洗衣机。",
+"a": "audio/scary/s05_09.mp3",
+"oa": "audio/scary/s05_09.mp3",
+"d": 4.77,
+"seg": [
+[
+0,
+0,
+0,
+0.89
+],
+[
+1,
+12,
+0.89,
+4.77
+]
+]
+},
+{
+"sp": "",
+"t": "It could be that the video is playing in reverse, making it seem as though it threw itself in when it actually fell into the basket.",
+"zh": "也可能是视频在倒放，所以看起来像是衣服自己跳进去，其实是掉进了篮子里。",
+"a": "audio/scary/s05_10.mp3",
+"oa": "audio/scary/s05_10.mp3",
+"d": 7.07,
+"seg": [
+[
+0,
+9,
+0,
+2.52
+],
+[
+10,
+25,
+2.52,
+7.07
+]
+]
+},
+{
+"sp": "",
+"t": "But even if the video wasn't reversed, it doesn't explain how the laundry fell into the basket on its own.",
+"zh": "但就算视频没有倒放，也解释不了衣服是怎么自己掉进篮子里的。",
+"a": "audio/scary/s05_11.mp3",
+"oa": "audio/scary/s05_11.mp3",
+"d": 6.11,
+"seg": [
+[
+0,
+6,
+0,
+2.31
+],
+[
+7,
+19,
+2.31,
+6.11
+]
+]
+},
+{
+"sp": "",
+"t": "Viewers can't seem to explain this final clip, but what do you think?",
+"zh": "观众们似乎也解释不了最后这一段，你怎么看？",
+"a": "audio/scary/s05_12.mp3",
+"oa": "audio/scary/s05_12.mp3",
+"d": 3.87,
+"seg": [
+[
+0,
+7,
+0,
+2.47
+],
+[
+8,
+12,
+2.47,
+3.87
+]
+]
+},
+{
+"sp": "",
+"t": "Had a poltergeist been caught on camera, or was this something else?",
+"zh": "是镜头拍到了恶作剧鬼，还是另有原因？",
+"a": "audio/scary/s05_13.mp3",
+"oa": "audio/scary/s05_13.mp3",
+"d": 4.59,
+"seg": [
+[
+0,
+6,
+0,
+2.28
+],
+[
+7,
+11,
+2.28,
+4.59
+]
+]
+}
+]
+}

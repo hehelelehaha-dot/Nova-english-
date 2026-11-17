@@ -1,0 +1,744 @@
+{
+"id": "scary_25",
+"type": "reading",
+"title": "25 Gilbert and the Sun Painting · Gilbert 与太阳壁画",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Susie Somori lives in a three-story house with lots of stairs and several rooms.",
+"zh": "Susie Somori 住在一栋三层楼的房子里，楼梯很多，房间也不少。",
+"a": "audio/scary/s25_01.mp3",
+"oa": "audio/scary/s25_01.mp3",
+"d": 5.47
+},
+{
+"sp": "",
+"t": "Out of all the rooms, there's one in particular that she stays away from.",
+"zh": "在所有房间里，有一间她特别躲着不去。",
+"a": "audio/scary/s25_02.mp3",
+"oa": "audio/scary/s25_02.mp3",
+"d": 4.19
+},
+{
+"sp": "",
+"t": "On the third floor, there's a large vacant room with the painting of a sun on one of its walls.",
+"zh": "三楼有一间空荡荡的大房间，其中一面墙上画着一个太阳。",
+"a": "audio/scary/s25_03.mp3",
+"oa": "audio/scary/s25_03.mp3",
+"d": 5.55
+},
+{
+"sp": "",
+"t": "She doesn't know why, but there's something about this painting that makes her feel very uneasy.",
+"zh": "她也不知道为什么，但这幅画总让她感到很不安。",
+"a": "audio/scary/s25_04.mp3",
+"oa": "audio/scary/s25_04.mp3",
+"d": 5.35
+},
+{
+"sp": "",
+"t": "It might be the ambience of the room, but she can't help but feel like the painting is responsible for the dreaded feeling she gets whenever she walks in.",
+"zh": "也许是房间的氛围，但她总忍不住觉得，每次走进去时那种恐惧感，都是这幅画造成的。",
+"a": "audio/scary/s25_05.mp3",
+"oa": "audio/scary/s25_05.mp3",
+"d": 8.66,
+"seg": [
+[
+0,
+7,
+0,
+2.12
+],
+[
+8,
+28,
+2.12,
+8.66
+]
+]
+},
+{
+"sp": "",
+"t": "So, thinking it's all in her head, she tries her best to ignore this feeling.",
+"zh": "于是，她觉得这都是自己想多了，尽力不去理会这种感觉。",
+"a": "audio/scary/s25_06.mp3",
+"oa": "audio/scary/s25_06.mp3",
+"d": 4.47,
+"seg": [
+[
+0,
+0,
+0,
+0.32
+],
+[
+1,
+6,
+0.32,
+1.97
+],
+[
+7,
+14,
+1.97,
+4.47
+]
+]
+},
+{
+"sp": "",
+"t": "But then, one night, Susie encounters something that scared the living daylights out of her.",
+"zh": "可有一天晚上，Susie 遇到了一件把她吓得魂飞魄散的事。",
+"a": "audio/scary/s25_07.mp3",
+"oa": "audio/scary/s25_07.mp3",
+"d": 6.09,
+"seg": [
+[
+0,
+1,
+0,
+1.01
+],
+[
+2,
+3,
+1.01,
+2.2
+],
+[
+4,
+14,
+2.2,
+6.09
+]
+]
+},
+{
+"sp": "",
+"t": "Susie is home alone when she captures the following on camera.",
+"zh": "Susie 一个人在家时，拍到了下面的画面。",
+"a": "audio/scary/s25_08.mp3",
+"oa": "audio/scary/s25_08.mp3",
+"d": 3.83
+},
+{
+"sp": "",
+"t": "Susie ends the video there, but little does she know that things were about to get worse.",
+"zh": "Susie 的视频到这里就结束了，但她没想到，事情还会变得更糟。",
+"a": "audio/scary/s25_09.mp3",
+"oa": "audio/scary/s25_09.mp3",
+"d": 4.91,
+"seg": [
+[
+0,
+4,
+0,
+1.84
+],
+[
+5,
+16,
+1.84,
+4.91
+]
+]
+},
+{
+"sp": "",
+"t": "One day, Susie's niece is playing inside the room, and while spying on her, she captures this.",
+"zh": "有一天，Susie 的侄女在那个房间里玩，Susie 偷偷看着她，拍到了这个。",
+"a": "audio/scary/s25_10.mp3",
+"oa": "audio/scary/s25_10.mp3",
+"d": 7.76,
+"seg": [
+[
+0,
+1,
+0,
+1.75
+],
+[
+2,
+8,
+1.75,
+3.89
+],
+[
+9,
+13,
+3.89,
+6.18
+],
+[
+14,
+16,
+6.18,
+7.76
+]
+]
+},
+{
+"sp": "",
+"t": "Her niece appears to be talking to the painting, as though she's having a conversation with it.",
+"zh": "侄女好像在和那幅画说话，就像在和它聊天一样。",
+"a": "audio/scary/s25_11.mp3",
+"oa": "audio/scary/s25_11.mp3",
+"d": 6.25,
+"seg": [
+[
+0,
+8,
+0,
+3.2
+],
+[
+9,
+16,
+3.2,
+6.25
+]
+]
+},
+{
+"sp": "",
+"t": "Susie didn't like this, and so she asked her as to who she was talking to.",
+"zh": "Susie 不喜欢这样，于是问她在和谁说话。",
+"a": "audio/scary/s25_12.mp3",
+"oa": "audio/scary/s25_12.mp3",
+"d": 4.41,
+"seg": [
+[
+0,
+3,
+0,
+1.22
+],
+[
+4,
+15,
+1.22,
+4.41
+]
+]
+},
+{
+"sp": "",
+"t": "This is what she said.",
+"zh": "这是她的回答。",
+"a": "audio/scary/s25_13.mp3",
+"oa": "audio/scary/s25_13.mp3",
+"d": 1.85
+},
+{
+"sp": "Clip",
+"t": "Do you like him?",
+"zh": "你喜欢他吗？",
+"a": "audio/scary/s25_14.mp3",
+"oa": "audio/scary/s25_14.mp3",
+"d": 0.76
+},
+{
+"sp": "Clip",
+"t": "Yes. Gilbert's like one of my best friends.",
+"zh": "喜欢。Gilbert 就像我最好的朋友之一。",
+"a": "audio/scary/s25_15.mp3",
+"oa": "audio/scary/s25_15.mp3",
+"d": 3.55,
+"seg": [
+[
+0,
+0,
+0,
+1.12
+],
+[
+1,
+7,
+1.12,
+3.55
+]
+]
+},
+{
+"sp": "Clip",
+"t": "Where did it come from?",
+"zh": "它是从哪儿来的？",
+"a": "audio/scary/s25_16.mp3",
+"oa": "audio/scary/s25_16.mp3",
+"d": 2.09
+},
+{
+"sp": "Clip",
+"t": "I don't know. I think the man that used to live here painted it.",
+"zh": "我不知道。我想是以前住在这里的那个人画的。",
+"a": "audio/scary/s25_17.mp3",
+"oa": "audio/scary/s25_17.mp3",
+"d": 9.95,
+"seg": [
+[
+0,
+2,
+0,
+2.15
+],
+[
+3,
+13,
+2.15,
+9.95
+]
+]
+},
+{
+"sp": "Clip",
+"t": "Is Gilbert friendly? Does he speak to you?",
+"zh": "Gilbert 友好吗？他会跟你说话吗？",
+"a": "audio/scary/s25_18.mp3",
+"oa": "audio/scary/s25_18.mp3",
+"d": 3.76
+},
+{
+"sp": "Clip",
+"t": "Yeah.",
+"zh": "会。",
+"a": "audio/scary/s25_19.mp3",
+"oa": "audio/scary/s25_19.mp3",
+"d": 0.55
+},
+{
+"sp": "Clip",
+"t": "What does he say?",
+"zh": "他说什么？",
+"a": "audio/scary/s25_20.mp3",
+"oa": "audio/scary/s25_20.mp3",
+"d": 1.05
+},
+{
+"sp": "Clip",
+"t": "Because I don't pray.",
+"zh": "因为我不祈祷。",
+"a": "audio/scary/s25_21.mp3",
+"oa": "audio/scary/s25_21.mp3",
+"d": 1.63
+},
+{
+"sp": "",
+"t": "Susie doesn't know what to make of this.",
+"zh": "Susie 不知道该怎么理解这件事。",
+"a": "audio/scary/s25_22.mp3",
+"oa": "audio/scary/s25_22.mp3",
+"d": 2.11
+},
+{
+"sp": "",
+"t": "It seems that her niece had befriended Gilbert, the painting on the wall.",
+"zh": "看来侄女和墙上那幅画“Gilbert”交上了朋友。",
+"a": "audio/scary/s25_23.mp3",
+"oa": "audio/scary/s25_23.mp3",
+"d": 3.93,
+"seg": [
+[
+0,
+7,
+0,
+2.51
+],
+[
+8,
+12,
+2.51,
+3.93
+]
+]
+},
+{
+"sp": "",
+"t": "She's made an imaginary friend.",
+"zh": "她有了一个想象中的朋友。",
+"a": "audio/scary/s25_24.mp3",
+"oa": "audio/scary/s25_24.mp3",
+"d": 1.99
+},
+{
+"sp": "",
+"t": "But the things said by this so-called friend doesn't sit well with Susie.",
+"zh": "但这个所谓的“朋友”说的话，让 Susie 很不舒服。",
+"a": "audio/scary/s25_25.mp3",
+"oa": "audio/scary/s25_25.mp3",
+"d": 4.33
+},
+{
+"sp": "",
+"t": "And so, she decides to spy on her once more.",
+"zh": "于是，她决定再偷偷观察她一次。",
+"a": "audio/scary/s25_26.mp3",
+"oa": "audio/scary/s25_26.mp3",
+"d": 3.15,
+"seg": [
+[
+0,
+1,
+0,
+0.74
+],
+[
+2,
+9,
+0.74,
+3.15
+]
+]
+},
+{
+"sp": "",
+"t": "But this time, she captures something even more strange.",
+"zh": "但这一次，她拍到了更奇怪的东西。",
+"a": "audio/scary/s25_27.mp3",
+"oa": "audio/scary/s25_27.mp3",
+"d": 3.69,
+"seg": [
+[
+0,
+2,
+0,
+1.12
+],
+[
+3,
+8,
+1.12,
+3.69
+]
+]
+},
+{
+"sp": "",
+"t": "Her niece appears to be looking for something underneath the floorboard.",
+"zh": "侄女好像在地板下面找什么东西。",
+"a": "audio/scary/s25_28.mp3",
+"oa": "audio/scary/s25_28.mp3",
+"d": 3.87
+},
+{
+"sp": "",
+"t": "It was only after her niece had fallen asleep that she decided to investigate the spot.",
+"zh": "等侄女睡着后，她才决定去查看那个地方。",
+"a": "audio/scary/s25_29.mp3",
+"oa": "audio/scary/s25_29.mp3",
+"d": 5.46
+},
+{
+"sp": "",
+"t": "She checks it out and ends up finding something disturbing.",
+"zh": "她去查看，结果发现了让人不安的东西。",
+"a": "audio/scary/s25_30.mp3",
+"oa": "audio/scary/s25_30.mp3",
+"d": 3.41
+},
+{
+"sp": "",
+"t": "Take a look.",
+"zh": "来看看。",
+"a": "audio/scary/s25_31.mp3",
+"oa": "audio/scary/s25_31.mp3",
+"d": 1.1
+},
+{
+"sp": "",
+"t": "Needless to say, Susie was speechless.",
+"zh": "不用说，Susie 惊得说不出话来。",
+"a": "audio/scary/s25_32.mp3",
+"oa": "audio/scary/s25_32.mp3",
+"d": 2.83
+},
+{
+"sp": "",
+"t": "What's more strange about this is the Ouija board itself.",
+"zh": "更奇怪的是那块通灵板本身。",
+"a": "audio/scary/s25_33.mp3",
+"oa": "audio/scary/s25_33.mp3",
+"d": 3.29
+},
+{
+"sp": "",
+"t": "If you look closely, the board appears to have the same painting of the sun that's on the wall.",
+"zh": "仔细看，通灵板上好像画着和墙上一模一样的太阳。",
+"a": "audio/scary/s25_34.mp3",
+"oa": "audio/scary/s25_34.mp3",
+"d": 5.25,
+"seg": [
+[
+0,
+3,
+0,
+1.5
+],
+[
+4,
+18,
+1.5,
+5.25
+]
+]
+},
+{
+"sp": "",
+"t": "This can't be a coincidence.",
+"zh": "这不可能是巧合。",
+"a": "audio/scary/s25_35.mp3",
+"oa": "audio/scary/s25_35.mp3",
+"d": 2.07
+},
+{
+"sp": "",
+"t": "Susie is certain that the board is somehow connected to the painting.",
+"zh": "Susie 确信这块板和那幅画之间有某种联系。",
+"a": "audio/scary/s25_36.mp3",
+"oa": "audio/scary/s25_36.mp3",
+"d": 3.35
+},
+{
+"sp": "",
+"t": "This unsettling discovery has led Susie into researching the history of her home.",
+"zh": "这个令人不安的发现，让 Susie 开始调查这栋房子的历史。",
+"a": "audio/scary/s25_37.mp3",
+"oa": "audio/scary/s25_37.mp3",
+"d": 4.83
+},
+{
+"sp": "",
+"t": "And after much research, she found this.",
+"zh": "经过大量调查，她找到了这个。",
+"a": "audio/scary/s25_38.mp3",
+"oa": "audio/scary/s25_38.mp3",
+"d": 4.11
+},
+{
+"sp": "Clip",
+"t": "Here is a photo of the house from 1916, and it was built in 1902.",
+"zh": "这是这栋房子 1916 年的照片，房子建于 1902 年。",
+"a": "audio/scary/s25_39.mp3",
+"oa": "audio/scary/s25_39.mp3",
+"d": 4.19,
+"seg": [
+[
+0,
+8,
+0,
+2.52
+],
+[
+9,
+14,
+2.52,
+4.19
+]
+]
+},
+{
+"sp": "Clip",
+"t": "So this would be the first, or one of the first, families to live in this house.",
+"zh": "所以这应该是第一户，或者最早的几户住在这里的人家之一。",
+"a": "audio/scary/s25_40.mp3",
+"oa": "audio/scary/s25_40.mp3",
+"d": 3.36
+},
+{
+"sp": "Clip",
+"t": "As you can see, there are six people present in the photo.",
+"zh": "你可以看到，照片里有六个人。",
+"a": "audio/scary/s25_41.mp3",
+"oa": "audio/scary/s25_41.mp3",
+"d": 2.8
+},
+{
+"sp": "Clip",
+"t": "Looking at the English census records, I found that the father would be called John.",
+"zh": "查了英国的人口普查记录后，我发现父亲叫 John。",
+"a": "audio/scary/s25_42.mp3",
+"oa": "audio/scary/s25_42.mp3",
+"d": 3.46,
+"seg": [
+[
+0,
+5,
+0,
+1.8
+],
+[
+6,
+14,
+1.8,
+3.46
+]
+]
+},
+{
+"sp": "Clip",
+"t": "The mother was called Maude. Next, round the balcony, is her daughter, Dorothy.",
+"zh": "母亲叫 Maude。接着，在阳台那边的是她的女儿 Dorothy。",
+"a": "audio/scary/s25_43.mp3",
+"oa": "audio/scary/s25_43.mp3",
+"d": 3.18,
+"seg": [
+[
+0,
+4,
+0,
+1.39
+],
+[
+5,
+5,
+1.39,
+1.67
+],
+[
+6,
+8,
+1.67,
+2.35
+],
+[
+9,
+11,
+2.35,
+2.75
+],
+[
+12,
+12,
+2.75,
+3.18
+]
+]
+},
+{
+"sp": "Clip",
+"t": "The birth of a little boy called Gilbert was also registered here in 1911, so he would be about five or six in this photo.",
+"zh": "1911 年这里还登记过一个叫 Gilbert 的小男孩出生，所以拍这张照片时他应该五六岁。",
+"a": "audio/scary/s25_44.mp3",
+"oa": "audio/scary/s25_44.mp3",
+"d": 7.4
+},
+{
+"sp": "Clip",
+"t": "I'm not sure why he's not with the rest of his family in the photo, or what they did to him.",
+"zh": "我不知道他为什么没和家里其他人一起出现在照片里，也不知道他们对他做了什么。",
+"a": "audio/scary/s25_45.mp3",
+"oa": "audio/scary/s25_45.mp3",
+"d": 3.95
+},
+{
+"sp": "Clip",
+"t": "I just have an overwhelming feeling that something really terrible happened to him at the hands of his own family.",
+"zh": "我就是有一种强烈的感觉：他的家人对他做了非常可怕的事。",
+"a": "audio/scary/s25_46.mp3",
+"oa": "audio/scary/s25_46.mp3",
+"d": 5.28
+},
+{
+"sp": "Clip",
+"t": "The weirdest part is that this is where the sun painting is situated in the house. That's his room.",
+"zh": "最诡异的是，太阳壁画就在房子的这个位置。那是他的房间。",
+"a": "audio/scary/s25_47.mp3",
+"oa": "audio/scary/s25_47.mp3",
+"d": 4.89,
+"seg": [
+[
+0,
+15,
+0,
+3.86
+],
+[
+16,
+18,
+3.86,
+4.89
+]
+]
+},
+{
+"sp": "",
+"t": "Gilbert was the name of a child who used to live in her house, and whose room has the painting of the sun, which seems to have been named after him.",
+"zh": "Gilbert 是一个曾经住在她家里的孩子的名字，那间画着太阳的房间就是他的，而那幅画似乎就是以他命名的。",
+"a": "audio/scary/s25_48.mp3",
+"oa": "audio/scary/s25_48.mp3",
+"d": 7.93,
+"seg": [
+[
+0,
+13,
+0,
+3.3
+],
+[
+14,
+22,
+3.3,
+5.8
+],
+[
+23,
+30,
+5.8,
+7.93
+]
+]
+},
+{
+"sp": "",
+"t": "She has yet to post more info on the history of her home.",
+"zh": "关于房子的历史，她还没有公布更多信息。",
+"a": "audio/scary/s25_49.mp3",
+"oa": "audio/scary/s25_49.mp3",
+"d": 3.37
+},
+{
+"sp": "",
+"t": "For now, she continues researching in the hopes of putting an end to this mystery.",
+"zh": "目前，她还在继续调查，希望能解开这个谜团。",
+"a": "audio/scary/s25_50.mp3",
+"oa": "audio/scary/s25_50.mp3",
+"d": 4.39,
+"seg": [
+[
+0,
+1,
+0,
+0.77
+],
+[
+2,
+14,
+0.77,
+4.39
+]
+]
+},
+{
+"sp": "",
+"t": "Is Gilbert the supposed ghost that talks to her niece, or is it something else?",
+"zh": "Gilbert 就是那个和她侄女说话的鬼吗，还是另有其物？",
+"a": "audio/scary/s25_51.mp3",
+"oa": "audio/scary/s25_51.mp3",
+"d": 5.75,
+"seg": [
+[
+0,
+9,
+0,
+3.35
+],
+[
+10,
+14,
+3.35,
+5.75
+]
+]
+}
+]
+}

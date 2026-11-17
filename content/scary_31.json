@@ -1,0 +1,484 @@
+{
+"id": "scary_31",
+"type": "reading",
+"title": "31 The Voice That Copied Andy · 模仿 Andy 声音的东西",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "The video you're about to see was posted by Andy Winehouse, who, in the follow-up video, recorded this.",
+"zh": "接下来的视频是 Andy Winehouse 发布的，他在后续视频里录了这段话。",
+"a": "audio/scary/s31_01.mp3",
+"oa": "audio/scary/s31_01.mp3",
+"d": 6.55,
+"seg": [
+[
+0,
+10,
+0,
+3.72
+],
+[
+11,
+11,
+3.72,
+4.06
+],
+[
+12,
+15,
+4.06,
+5.1
+],
+[
+16,
+17,
+5.1,
+6.55
+]
+]
+},
+{
+"sp": "Clip",
+"t": "Okay, for anybody asking, this is my family home.",
+"zh": "好，回答一下大家的问题：这是我家的老房子。",
+"a": "audio/scary/s31_02.mp3",
+"oa": "audio/scary/s31_02.mp3",
+"d": 4.71,
+"seg": [
+[
+0,
+0,
+0,
+0.67
+],
+[
+1,
+3,
+0.67,
+2.02
+],
+[
+4,
+8,
+2.02,
+4.71
+]
+]
+},
+{
+"sp": "Clip",
+"t": "I grew up here, and we've never had a single experience like this.",
+"zh": "我在这里长大，我们从来没遇到过这样的事。",
+"a": "audio/scary/s31_03.mp3",
+"oa": "audio/scary/s31_03.mp3",
+"d": 5.21,
+"seg": [
+[
+0,
+3,
+0,
+1.92
+],
+[
+4,
+12,
+1.92,
+5.21
+]
+]
+},
+{
+"sp": "Clip",
+"t": "I don't know what is going on.",
+"zh": "我不知道到底是怎么回事。",
+"a": "audio/scary/s31_04.mp3",
+"oa": "audio/scary/s31_04.mp3",
+"d": 2.25
+},
+{
+"sp": "Clip",
+"t": "I'm getting a lot of comments saying I'm doing it for views and I'm doing it for likes, and I promise you I'm not.",
+"zh": "很多评论说我是为了流量、为了点赞，我向你们保证我不是。",
+"a": "audio/scary/s31_05.mp3",
+"oa": "audio/scary/s31_05.mp3",
+"d": 9.73,
+"seg": [
+[
+0,
+17,
+0,
+5.93
+],
+[
+18,
+23,
+5.93,
+9.73
+]
+]
+},
+{
+"sp": "Clip",
+"t": "Don't like the video. Don't comment if you don't want to.",
+"zh": "不想点赞就别点，不想评论就别评论。",
+"a": "audio/scary/s31_06.mp3",
+"oa": "audio/scary/s31_06.mp3",
+"d": 2.67,
+"seg": [
+[
+0,
+3,
+0,
+1.09
+],
+[
+4,
+10,
+1.09,
+2.67
+]
+]
+},
+{
+"sp": "Clip",
+"t": "I just need somebody who knows what this is. Please reach out.",
+"zh": "我只是需要一个懂这是什么的人。请联系我。",
+"a": "audio/scary/s31_07.mp3",
+"oa": "audio/scary/s31_07.mp3",
+"d": 4.61,
+"seg": [
+[
+0,
+8,
+0,
+2.94
+],
+[
+9,
+11,
+2.94,
+4.61
+]
+]
+},
+{
+"sp": "Clip",
+"t": "I don't care if it's in a comment or privately. Just please reach out, and please just help me.",
+"zh": "评论也好，私信也好，我都不在乎。请联系我，求你们帮帮我。",
+"a": "audio/scary/s31_08.mp3",
+"oa": "audio/scary/s31_08.mp3",
+"d": 7.5,
+"seg": [
+[
+0,
+9,
+0,
+3.03
+],
+[
+10,
+13,
+3.03,
+5.11
+],
+[
+14,
+18,
+5.11,
+7.5
+]
+]
+},
+{
+"sp": "Clip",
+"t": "I don't know what to tell my wife when she gets home.",
+"zh": "我不知道我妻子回家后该怎么跟她说。",
+"a": "audio/scary/s31_09.mp3",
+"oa": "audio/scary/s31_09.mp3",
+"d": 2.37
+},
+{
+"sp": "Clip",
+"t": "I can't afford a hotel for the night.",
+"zh": "我住不起酒店。",
+"a": "audio/scary/s31_10.mp3",
+"oa": "audio/scary/s31_10.mp3",
+"d": 2.07
+},
+{
+"sp": "Clip",
+"t": "We're doing a remodel in the bathroom, and everything's just going in right now.",
+"zh": "我们正在翻修浴室，现在什么都在弄。",
+"a": "audio/scary/s31_11.mp3",
+"oa": "audio/scary/s31_11.mp3",
+"d": 5.99,
+"seg": [
+[
+0,
+6,
+0,
+1.76
+],
+[
+7,
+13,
+1.76,
+5.99
+]
+]
+},
+{
+"sp": "Clip",
+"t": "And I'm not trying to be dramatic about this, but I have no idea what to do.",
+"zh": "我不是故意夸张，但我真的不知道该怎么办。",
+"a": "audio/scary/s31_12.mp3",
+"oa": "audio/scary/s31_12.mp3",
+"d": 4.67,
+"seg": [
+[
+0,
+8,
+0,
+2.31
+],
+[
+9,
+16,
+2.31,
+4.67
+]
+]
+},
+{
+"sp": "Clip",
+"t": "And everybody in the comments all day has just been freaking me out, and I want to think this is just in my head.",
+"zh": "评论区的人一整天都在吓我，我也想相信这只是我自己想多了。",
+"a": "audio/scary/s31_13.mp3",
+"oa": "audio/scary/s31_13.mp3",
+"d": 6.08
+},
+{
+"sp": "Clip",
+"t": "But I keep listening to it over and over and over again.",
+"zh": "但我一遍又一遍地反复听。",
+"a": "audio/scary/s31_14.mp3",
+"oa": "audio/scary/s31_14.mp3",
+"d": 3.25
+},
+{
+"sp": "Clip",
+"t": "Somebody please, somebody please reach out with an answer or some help or something.",
+"zh": "求求谁来给我一个答案，或者帮帮我，什么都行。",
+"a": "audio/scary/s31_15.mp3",
+"oa": "audio/scary/s31_15.mp3",
+"d": 6.19,
+"seg": [
+[
+0,
+1,
+0,
+1.29
+],
+[
+2,
+13,
+1.29,
+6.19
+]
+]
+},
+{
+"sp": "",
+"t": "As you can tell by the video, Andy is in total shock and cannot process the strange incident that took place inside his home.",
+"zh": "从视频可以看出，Andy 完全被吓坏了，无法接受家里发生的这件怪事。",
+"a": "audio/scary/s31_16.mp3",
+"oa": "audio/scary/s31_16.mp3",
+"d": 7.56,
+"seg": [
+[
+0,
+6,
+0,
+1.79
+],
+[
+7,
+23,
+1.79,
+7.56
+]
+]
+},
+{
+"sp": "",
+"t": "Luckily, he was able to record this incident in case no one believed him.",
+"zh": "幸好他把这件事录了下来，以防没人相信他。",
+"a": "audio/scary/s31_17.mp3",
+"oa": "audio/scary/s31_17.mp3",
+"d": 4.35,
+"seg": [
+[
+0,
+0,
+0,
+0.7
+],
+[
+1,
+13,
+0.7,
+4.35
+]
+]
+},
+{
+"sp": "",
+"t": "Andy writes, \"I don't know what to do at this point.",
+"zh": "Andy 写道：“现在我真的不知道该怎么办了。",
+"a": "audio/scary/s31_18.mp3",
+"oa": "audio/scary/s31_18.mp3",
+"d": 3.71,
+"seg": [
+[
+0,
+1,
+0,
+1.35
+],
+[
+2,
+10,
+1.35,
+3.71
+]
+]
+},
+{
+"sp": "",
+"t": "Things got weird last night, and I had to sleep in my car.",
+"zh": "昨晚事情变得很诡异，我只好睡在车里。",
+"a": "audio/scary/s31_19.mp3",
+"oa": "audio/scary/s31_19.mp3",
+"d": 3.33,
+"seg": [
+[
+0,
+4,
+0,
+1.52
+],
+[
+5,
+12,
+1.52,
+3.33
+]
+]
+},
+{
+"sp": "",
+"t": "I am safe, but I am not doing well, and I need help.\"",
+"zh": "我很安全，但状态很差，我需要帮助。”",
+"a": "audio/scary/s31_20.mp3",
+"oa": "audio/scary/s31_20.mp3",
+"d": 5.11,
+"seg": [
+[
+0,
+2,
+0,
+1.09
+],
+[
+3,
+8,
+1.09,
+2.62
+],
+[
+9,
+12,
+2.62,
+5.11
+]
+]
+},
+{
+"sp": "",
+"t": "This is what he caught.",
+"zh": "这就是他拍到的。",
+"a": "audio/scary/s31_21.mp3",
+"oa": "audio/scary/s31_21.mp3",
+"d": 1.44
+},
+{
+"sp": "Clip",
+"t": "Hey, come here. Come here.",
+"zh": "嘿，过来。过来。",
+"a": "audio/scary/s31_22.mp3",
+"oa": "audio/scary/s31_22.mp3",
+"d": 5.34
+},
+{
+"sp": "",
+"t": "Andy can rest assured that he's not losing his mind, as the video shows that someone or something is mimicking his own voice.",
+"zh": "Andy 可以放心，他没有疯，因为视频显示，确实有人或某种东西在模仿他的声音。",
+"a": "audio/scary/s31_23.mp3",
+"oa": "audio/scary/s31_23.mp3",
+"d": 7.25,
+"seg": [
+[
+0,
+9,
+0,
+2.6
+],
+[
+10,
+22,
+2.6,
+7.25
+]
+]
+},
+{
+"sp": "",
+"t": "It's up to you to decide as to whether or not something supernatural was caught on camera.",
+"zh": "镜头是否拍到了超自然的东西，由你来决定。",
+"a": "audio/scary/s31_24.mp3",
+"oa": "audio/scary/s31_24.mp3",
+"d": 4.83
+},
+{
+"sp": "",
+"t": "Andy is certain that he did.",
+"zh": "Andy 确信他拍到了。",
+"a": "audio/scary/s31_25.mp3",
+"oa": "audio/scary/s31_25.mp3",
+"d": 1.71
+},
+{
+"sp": "",
+"t": "But for now, the video remains a mystery and is left open to interpretation.",
+"zh": "但目前，这段视频仍然是个谜，任人解读。",
+"a": "audio/scary/s31_26.mp3",
+"oa": "audio/scary/s31_26.mp3",
+"d": 5.37,
+"seg": [
+[
+0,
+2,
+0,
+1.14
+],
+[
+3,
+13,
+1.14,
+5.37
+]
+]
+}
+]
+}

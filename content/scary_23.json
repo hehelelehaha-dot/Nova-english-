@@ -1,0 +1,124 @@
+{
+"id": "scary_23",
+"type": "reading",
+"title": "23 The Bone · 那根骨头",
+"src": "BizarreBub · Scary Comp. 2021",
+"sents": [
+{
+"sp": "",
+"t": "Grisel Luna is conducting a paranormal investigation at a place where human remains were found.",
+"zh": "Grisel Luna 正在一个发现过人类遗骸的地方做灵异调查。",
+"a": "audio/scary/s23_01.mp3",
+"oa": "audio/scary/s23_01.mp3",
+"d": 6.64
+},
+{
+"sp": "",
+"t": "The site has been abandoned for a while and is known to be a hot spot for paranormal activity.",
+"zh": "这个地方已经荒废了一段时间，以灵异活动频繁而出名。",
+"a": "audio/scary/s23_02.mp3",
+"oa": "audio/scary/s23_02.mp3",
+"d": 5.31
+},
+{
+"sp": "",
+"t": "While checking out one of the rooms inside the building, this happens.",
+"zh": "她在楼里查看其中一个房间时，发生了这件事。",
+"a": "audio/scary/s23_03.mp3",
+"oa": "audio/scary/s23_03.mp3",
+"d": 3.65,
+"seg": [
+[
+0,
+9,
+0,
+2.51
+],
+[
+10,
+11,
+2.51,
+3.65
+]
+]
+},
+{
+"sp": "",
+"t": "Later on, Grisel goes outside and finds something pretty disturbing.",
+"zh": "后来，Grisel 走到外面，发现了相当让人不安的东西。",
+"a": "audio/scary/s23_04.mp3",
+"oa": "audio/scary/s23_04.mp3",
+"d": 5.13,
+"seg": [
+[
+0,
+1,
+0,
+1.8
+],
+[
+2,
+9,
+1.8,
+5.13
+]
+]
+},
+{
+"sp": "",
+"t": "I'm not sure if picking up the bone was a good idea, because what happens next might have been the result of having done so.",
+"zh": "我不确定捡起那根骨头是不是个好主意，因为接下来发生的事，可能就是这么做的后果。",
+"a": "audio/scary/s23_05.mp3",
+"oa": "audio/scary/s23_05.mp3",
+"d": 7.77,
+"seg": [
+[
+0,
+11,
+0,
+3.06
+],
+[
+12,
+24,
+3.06,
+7.77
+]
+]
+},
+{
+"sp": "",
+"t": "It's not clear as to what happened here, but whatever occurred, I'm sure it wasn't good, as given by the history of this place.",
+"zh": "不清楚这里发生了什么，但不管是什么，考虑到这个地方的历史，我敢肯定不是好事。",
+"a": "audio/scary/s23_06.mp3",
+"oa": "audio/scary/s23_06.mp3",
+"d": 7.33,
+"seg": [
+[
+0,
+7,
+0,
+2.24
+],
+[
+8,
+10,
+2.24,
+3.57
+],
+[
+11,
+15,
+3.57,
+5.15
+],
+[
+16,
+23,
+5.15,
+7.33
+]
+]
+}
+]
+}
