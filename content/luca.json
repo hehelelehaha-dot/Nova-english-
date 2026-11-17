@@ -6,7 +6,8 @@
       "sub": "8 句",
       "data": "luca_d01.json",
       "vocab": 10,
-      "long": "luca_d01_long.json"
+      "long": "luca_d01_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=1"
     },
     {
       "id": "luca_d02",
@@ -14,13 +15,15 @@
       "sub": "8 句",
       "data": "luca_d02.json",
       "vocab": 7,
-      "long": "luca_d02_long.json"
+      "long": "luca_d02_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=2"
     },
     {
       "id": "luca_d03",
       "title": "Day 3",
       "sub": "12 句",
-      "data": "luca_d03.json"
+      "data": "luca_d03.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=3"
     },
     {
       "id": "luca_d04",
@@ -28,7 +31,8 @@
       "sub": "36 句",
       "data": "luca_d04.json",
       "vocab": 11,
-      "long": "luca_d04_long.json"
+      "long": "luca_d04_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=4"
     },
     {
       "id": "luca_d05",
@@ -36,7 +40,8 @@
       "sub": "11 句",
       "data": "luca_d05.json",
       "vocab": 5,
-      "long": "luca_d05_long.json"
+      "long": "luca_d05_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=5"
     },
     {
       "id": "luca_d06",
@@ -44,7 +49,8 @@
       "sub": "11 句",
       "data": "luca_d06.json",
       "vocab": 3,
-      "long": "luca_d06_long.json"
+      "long": "luca_d06_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=6"
     },
     {
       "id": "luca_d07",
@@ -52,7 +58,8 @@
       "sub": "12 句",
       "data": "luca_d07.json",
       "vocab": 4,
-      "long": "luca_d07_long.json"
+      "long": "luca_d07_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=7"
     },
     {
       "id": "luca_d08",
@@ -60,7 +67,8 @@
       "sub": "11 句",
       "data": "luca_d08.json",
       "vocab": 3,
-      "long": "luca_d08_long.json"
+      "long": "luca_d08_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=8"
     },
     {
       "id": "luca_d09",
@@ -68,7 +76,8 @@
       "sub": "9 句",
       "data": "luca_d09.json",
       "vocab": 2,
-      "long": "luca_d09_long.json"
+      "long": "luca_d09_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=9"
     },
     {
       "id": "luca_d10",
@@ -76,7 +85,8 @@
       "sub": "15 句",
       "data": "luca_d10.json",
       "vocab": 5,
-      "long": "luca_d10_long.json"
+      "long": "luca_d10_long.json",
+      "watch": "https://www.bilibili.com/video/BV16D42157FC?p=10"
     }
   ],
   "wfMap": [

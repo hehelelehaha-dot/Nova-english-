@@ -6,7 +6,8 @@
       "sub": "整集 · 11 分 59 秒",
       "data": "talk_ep1.json",
       "kind": "episode",
-      "src": "Open Talk · Episode 1"
+      "src": "Open Talk · Episode 1",
+      "watch": "https://youtu.be/KyfUysrNaco"
     },
     {
       "id": "talk_ep2",
@@ -21,7 +22,8 @@
       "title": "The Desire Contract · 句子听写",
       "sub": "13 句",
       "data": "talk_ep1_dict.json",
-      "kind": "dictation"
+      "kind": "dictation",
+      "watch": "https://youtu.be/KyfUysrNaco"
     },
     {
       "id": "talk_ep2_dict",
@@ -35,7 +37,8 @@
       "title": "The Desire Contract · 原声",
       "sub": "6 句 · Naval 原声",
       "data": "talk_ep1_oa.json",
-      "kind": "original"
+      "kind": "original",
+      "watch": "https://youtu.be/KyfUysrNaco"
     }
   ]
 }
