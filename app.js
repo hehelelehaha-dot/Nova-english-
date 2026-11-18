@@ -6,7 +6,7 @@ const b64=u=>btoa(String.fromCharCode(...new Uint8Array(u)));const ub64=s=>Uint8
 async function deriveKey(pw){const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
  return crypto.subtle.deriveKey({name:"PBKDF2",salt:ub64(META.salt),iterations:META.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},true,["decrypt"])}
 async function dec(buf){const u=new Uint8Array(buf);return crypto.subtle.decrypt({name:"AES-GCM",iv:u.slice(0,12)},KEY,u.slice(12))}
-// Encrypted files win. A missing .enc (Luca Day 1, until the bot encrypts it) loads the plaintext sibling.
+// Encrypted files win. A missing .enc loads the plaintext sibling.
 async function getBuf(p){if(!META.enc){const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
  let enc=null;try{const r=await fetch(p+".enc");if(r.ok)enc=await r.arrayBuffer()}catch(e){}
  if(enc)return dec(enc);const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
@@ -168,83 +168,19 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const V=document.getElementById("view");const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 // Home folds number their own sections from 1. Naval keeps the existing study sections in curriculum order
 // (old 0 口语句式 1 阅读卡 2 单词卡 3 英英解释音频 4 句子听写 5 词形练习 6 小游戏 → 1–7).
-// 夏日友晴天 (internal id luca): 句子听写 · 阅读卡 · 单词卡 · 英英解释 · 词形练习 · 小游戏 (口语句式 removed 2026-11).
-// 阅读卡 + 句子听写 come from content/luca.json. ⑥ 词形练习 and ⑦ 小游戏 use Day 1 words in that file.
-// 飞屋环游记 (internal id up) is a Day list like Luca. content/up.json names the days; each day is one file.
-// Only Day 1 / 01 is written (69 words). Days 02–08 are not invented. Sections: 单词卡, 英英解释, 词形练习, 小游戏.
 const CIRC="⓪①②③④⑤⑥⑦⑧⑨";
 const NAVAL_RANK={phrases:0,reading:1,flash:2,longaudio:3,dictation:4,wf:5,game:6};
-const LUCA_DEF=[
- {id:"luca_dictation",like:"dictation",name:"句子听写",typeName:"句子听写"},
- {id:"luca_reading",like:"reading",name:"阅读卡",typeName:"阅读卡"},
- {id:"luca_flash",like:"flash",name:"单词卡",typeName:"单词卡"},
- {id:"luca_longaudio",like:"ee",name:"英英解释",typeName:"英英解释"},
- {id:"luca_wf",like:"wf",name:"词形练习",typeName:"词形练习",desc:"名词 · 动词 · 形容词 · 副词"},
- {id:"luca_game",like:"game",name:"小游戏",typeName:"小游戏",desc:"拼写 · 拼图 · 填词"}];
 let FOLDN={};
 function navalSectionIds(){if(!CAT)return ["wf","game"];
  const ids=CAT.categories.map(c=>c.id).slice().sort((a,b)=>(NAVAL_RANK[a]??4.5)-(NAVAL_RANK[b]??4.5));
  return ids.concat(["wf","game"])}
 function refreshFoldNumbers(){FOLDN={};navalSectionIds().forEach((id,i)=>{FOLDN[id]=i+1});
  if(FOLDN.dictation)FOLDN.chunks=FOLDN.dictation;if(FOLDN.game)FOLDN.g=FOLDN.game;
- LUCA_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
- UP_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
- ELIO_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
- TURNING_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
  PODCAST_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
  TALK_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
  SCARY_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
 const secT=(id,t)=>{const n=FOLDN[id];return n?CIRC[n]+" "+t:t};
-const lucaSec=id=>LUCA_DEF.find(s=>s.id==id);
-let LUCA=null;
-async function loadLuca(){if(LUCA)return LUCA;try{LUCA=await getJSON("luca.json")}catch(e){LUCA={reading:[]}}if(!LUCA.reading)LUCA.reading=[];return LUCA}
-function lucaReading(){return (LUCA&&LUCA.reading)||[]}
-function lucaDict(){return lucaReading().map(it=>({id:"dt_"+it.id,base:it.id,title:it.title,sub:it.sub||"",data:it.data,dictation:1}))}
-// 单词卡 / 英英解释: Day files marked vocab:N in luca.json carry flash + ee blocks (same shape as 飞屋 up_dNN).
-// 英英解释 with a built long audio (luca.json long: luca_dNN_long.json, Naval ③ format) opens viewLong like Naval; else viewEE TTS.
-function lucaVocab(part){return lucaReading().filter(it=>it.vocab).map(it=>part=="ee"&&it.long?{id:it.id+"_ee",base:it.id,title:it.title,sub:it.vocab+" 词",data:it.long}:({id:it.id+"_"+part,base:it.id,title:it.title,sub:it.vocab+" 词",data:it.data,upPart:part}))}
-function lucaItemsFor(s){return s.like=="reading"?lucaReading():s.like=="dictation"?lucaDict():s.like=="flash"?lucaVocab("flash"):s.like=="ee"?lucaVocab("ee"):[]}
-function lucaHit(id){{const m=/^(luca_d\d+)_(flash|ee)$/.exec(id||"");if(m){const v=lucaVocab(m[2]).find(x=>x.id===id);return v?{it:v,sec:m[2]==="flash"?"luca_flash":"luca_longaudio"}:null}}const r=lucaReading().find(it=>it.id==id);if(r)return{it:r,sec:"luca_reading"};const d=lucaDict().find(it=>it.id==id);if(d)return{it:d,sec:"luca_dictation"};return null}
-const UP_DEF=[
- {id:"up_flash",like:"flash",name:"单词卡",desc:""},
- {id:"up_ee",like:"ee",name:"英英解释",desc:""},
- {id:"up_wf",like:"wf",name:"词形练习",desc:"名词 · 动词 · 形容词 · 副词"},
- {id:"up_game",like:"game",name:"小游戏",desc:"拼写 · 拼图 · 填词"},
- {id:"up_dictation",like:"dictation",name:"句子听写",desc:""}];
-let UP=null;
-async function loadUp(){if(UP)return UP;try{UP=await getJSON("up.json")}catch(e){UP={days:[],wfMap:[]}}if(!UP.days)UP.days=[];if(!UP.wfMap)UP.wfMap=[];return UP}
-// 介词 (internal id prep) is the top fold, above Naval. content/prepositions.json is a
-// list of 小板块 ({id, title, items:[{id, title, data}]}). A data file is markdown
-// (uploads/out-essence-full.md for 介词的本质) or a json line list
-// (content/prep_out_lines.json for 原声例句). Another 小板块 is another list entry.
-// A line file may be {senses:{"1":"heading"}, lines:[...]} so a 小板块 like as brings its own sense headings.
-let PREP=null;
-async function loadPrep(){if(PREP)return PREP;try{PREP=await getJSON("prepositions.json")}catch(e){PREP=[]}if(!Array.isArray(PREP))PREP=[];return PREP}
-// Elio (internal id elio): a home fold next to 夏日友晴天, with two boards.
-// 结尾独白 is a Luca-style 阅读卡; 高频生词 is a 单词卡 over the same sentence+flash shape as Luca Days.
-// content/elio.json lists the boards; each data file is plaintext like Luca Day files.
-const ELIO_DEF=[
- {id:"elio_reading",like:"reading",name:"结尾独白",typeName:"阅读卡",item:"elio_monologue"},
- {id:"elio_flash",like:"flash",name:"高频生词",typeName:"单词卡",item:"elio_words"},
- {id:"elio_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",item:"elio_dict"}];
-let ELIO=null;
-async function loadElio(){if(ELIO)return ELIO;try{ELIO=await getJSON("elio.json")}catch(e){ELIO={boards:[]}}if(!ELIO.boards)ELIO.boards=[];return ELIO}
-function elioBoards(){return (ELIO&&ELIO.boards)||[]}
-function elioItem(id){return elioBoards().find(it=>it&&it.id==id)||null}
-function elioHit(id){const it=elioItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"elio_dictation"};const flash=it.kind=="flash"||it.id=="elio_words";return{it:Object.assign({},it,{upPart:flash?"flash":undefined}),sec:flash?"elio_flash":"elio_reading"}}
-const elioSec=id=>ELIO_DEF.find(s=>s.id==id);
-// Turning Red (internal id turning): a home fold next to Elio, 高频生词 only.
-// content/turning.json lists the boards; data files are plaintext like Elio/Luca.
-const TURNING_DEF=[
- {id:"turning_flash",like:"flash",name:"高频生词",typeName:"单词卡",item:"turning_words"},
- {id:"turning_dictation",like:"dictation",name:"句子听写",typeName:"句子听写",item:"turning_dict"}];
-let TURNING=null;
-async function loadTurning(){if(TURNING)return TURNING;try{TURNING=await getJSON("turning.json")}catch(e){TURNING={boards:[]}}if(!TURNING.boards)TURNING.boards=[];return TURNING}
-function turningBoards(){return (TURNING&&TURNING.boards)||[]}
-function turningItem(id){return turningBoards().find(it=>it&&it.id==id)||null}
-function turningHit(id){const it=turningItem(id);if(!it)return null;if(it.kind=="dictation")return{it:Object.assign({},it,{dictation:1}),sec:"turning_dictation"};return{it:Object.assign({},it,{upPart:"flash"}),sec:"turning_flash"}}
-const turningSec=id=>TURNING_DEF.find(s=>s.id==id);
-// 播客 (internal id podcast): a standalone home fold after 飞屋环游记. content/podcast.json lists the boards
+// 播客 (internal id podcast): a standalone home fold after Naval. content/podcast.json lists the boards
 // (整句 = reading card with category headings h, 生词 bkw + Michael word mp3 bkwa; 句子听写 = dictation).
 const PODCAST_DEF=[
  {id:"podcast_reading",like:"reading",name:"整句",typeName:"阅读卡",desc:"VOA · 金门大桥",item:"podcast_gg"},
@@ -287,198 +223,21 @@ const scarySec=id=>SCARY_DEF.find(s=>s.id==id);
 function showScary(s){const xs=scaryBoards();if(!xs.length)return showHome();setHeader(secT(s.id,s.name),true,watchUrlFor("scary"));
  V.innerHTML=`<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-sid="${esc(x.id)}"><span class="tt">${esc(x.title||x.id)}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
-function prepSections(){return (PREP||[]).filter(s=>s&&typeof s=="object")}
-function prepHomeHTML(list){const inner=list.length?list.map(s=>{const id=String(s.id||""),title=String(s.title!=null?s.title:id),key="prep:"+id;
- const items=Array.isArray(s.items)?s.items:[];
- const body=items.length?`<div class="list">${items.map(it=>{const iid=String(it&&it.id||""),t=String(it&&(it.title!=null?it.title:iid));
-  const go=it&&it.data?` data-go="#/prep/${encodeURIComponent(id)}/${encodeURIComponent(iid)}"`:"";
-  return `<div class="lw"><button type="button" class="li"${go}><span class="tt">${esc(t)}</span></button></div>`}).join("")}</div>`:"";
- return `<details class="tfold" data-tf="${esc(key)}"${tfOpen(key,false)?" open":""}><summary class="tfh"><span class="tfar" aria-hidden="true"></span><span class="tfnm">${esc(title)}</span></summary>${body}</details>`}).join(""):`<p class="tip">内容即将添加</p>`;
- return `<details class="fold" data-fold="prep"${foldOpen("prep")?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">介词</span><span class="foldsub">${list.length} 个板块</span></summary><div class="tiles tfolds">${inner}</div></details>`}
-function prepPlain(s){return String(s||"").replace(/[*_`]/g,"").trim()}
-function prepInline(s){let t=esc(s);t=t.replace(/\*\*\*(.+?)\*\*\*/g,"<b><i>$1</i></b>");t=t.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");t=t.replace(/\*([^*\n]+)\*/g,"<i>$1</i>");return t}
-function prepIsEn(s){const t=prepPlain(s);if(/[\u4e00-\u9fff]/.test(t))return false;const n=(t.match(/[A-Za-z]/g)||[]).length;return n>=10&&/\s/.test(t)&&/[.!?]$/.test(t)}
-function prepSayBtn(s){return `<button type="button" class="spk" data-say="${esc(prepPlain(s))}" aria-label="播放">▶</button>`}
-function prepEnRow(s){return `<div class="prep-ex">${prepSayBtn(s)}<span class="en">${prepInline(s)}</span></div>`}
-function prepLineHTML(s,afterEn){if(prepIsEn(s))return prepEnRow(s);return `<p class="${afterEn?"exz":""}">${prepInline(s)}</p>`}
-function prepSplitRow(line){return line.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(s=>s.trim())}
-function prepIsSep(line){const c=prepSplitRow(line);return c.length>1&&c.every(x=>/^:?-+:?$/.test(x))}
-function prepCell(c){return prepIsEn(c)?`<span class="en">${prepSayBtn(c)}${prepInline(c)}</span>`:prepInline(c)}
-function prepTable(rows){if(!rows.length)return "";const th=rows[0].map(c=>`<th>${prepCell(c)}</th>`).join("");
- const tb=rows.slice(1).map(r=>`<tr>${r.map(c=>`<td>${prepCell(c)}</td>`).join("")}</tr>`).join("");
- return `<table class="prep-table"><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table>`}
-function prepFlow(tokens){let html="",i=0,prevEn=false;
- while(i<tokens.length){const tok=tokens[i];
-  if(tok.type==="svg"){html+=`<div class="prep-box">${tok.svg}</div>`;prevEn=false;i++;continue}
-  const line=tok.text;if(!line.trim()){i++;continue}
-  if(/^\|/.test(line.trim())){const rows=[];while(i<tokens.length&&tokens[i].type==="line"&&/^\|/.test(tokens[i].text.trim())){if(!prepIsSep(tokens[i].text))rows.push(prepSplitRow(tokens[i].text));i++}html+=prepTable(rows);prevEn=false;continue}
-  if(/^\d+\.\s/.test(line.trim())){const items=[];
-   while(i<tokens.length&&tokens[i].type==="line"&&/^\d+\.\s/.test(tokens[i].text.trim())){const lines=[tokens[i].text.trim().replace(/^\d+\.\s/,"")];i++;
-    while(i<tokens.length&&tokens[i].type==="line"&&tokens[i].text.trim()&&!/^\d+\.\s/.test(tokens[i].text.trim())&&!/^\|/.test(tokens[i].text.trim())){lines.push(tokens[i].text.trim());i++}
-    items.push(lines);while(i<tokens.length&&tokens[i].type==="line"&&!tokens[i].text.trim())i++}
-   html+=`<ol class="prep-ol">${items.map(lines=>{let h="",en=false;for(const s of lines){h+=prepLineHTML(s,en);en=prepIsEn(s)}return `<li>${h}</li>`}).join("")}</ol>`;
-   prevEn=false;continue}
-  html+=prepLineHTML(line.trim(),prevEn);prevEn=prepIsEn(line);i++}
- return html}
-function prepCards(tokens){const cards=[];let cur=null,side="";
- for(const tok of tokens){if(tok.type!=="line")continue;const raw=tok.text.trim();if(!raw)continue;const plain=prepPlain(raw);
-  if(plain==="正面 · English"){cur={front:[],back:[]};cards.push(cur);side="front";continue}
-  if(plain==="背面 · 中文"){if(cur)side="back";continue}
-  if(cur&&side)cur[side].push(raw)}
- return `<div class="prep-grid">${cards.map(c=>{const front=c.front.map(s=>prepIsEn(s)?prepEnRow(s):`<p>${prepInline(s)}</p>`).join("");
-  const back=c.back.map(s=>`<p>${prepInline(s)}</p>`).join("");
-  return `<div class="prep-flip" role="button" tabindex="0" aria-pressed="false"><div class="inner"><div class="face front"><span class="prep-lab">正面 · English</span>${front}</div><div class="face back"><span class="prep-lab">背面 · 中文</span>${back}</div></div></div>`}).join("")}</div>`}
-function prepTokenize(md){const lines=String(md||"").replace(/\r\n/g,"\n").split("\n"),tokens=[];
- for(let i=0;i<lines.length;i++){if(lines[i].trim().startsWith("<svg")){let svg=lines[i];while(i<lines.length-1&&!svg.includes("</svg>")){i++;svg+="\n"+lines[i]}tokens.push({type:"svg",svg:svg.replace(/<script[\s\S]*?<\/script>/gi,"")});continue}tokens.push({type:"line",text:lines[i]})}
- return tokens}
-function prepCSS(){return `<style>
-.prep-page{color:inherit}.prep-page :is(h3.sec,.pos,.exz,.prep-lab){color:color-mix(in srgb,currentColor 78%,transparent)}.prep-box{border:1.5px solid currentColor;border-radius:16px;padding:8px 10px;margin:8px 0 12px;color:inherit;background:transparent}
-.prep-box svg{width:100%;height:auto;display:block;color:inherit}.prep-ex{display:flex;align-items:flex-start;gap:4px;margin:8px 0 2px}.prep-ex .en{font-size:18px;line-height:1.45}
-.prep-ol{margin:6px 0 8px;padding-left:1.3em}.prep-ol li{margin:8px 0}.prep-table{width:100%;border-collapse:collapse;margin:8px 0 12px}
-.prep-table th,.prep-table td{border-bottom:1px solid color-mix(in srgb,currentColor 28%,transparent);padding:8px 6px;text-align:left;vertical-align:top}
-.prep-table th{font-size:13px;font-weight:700}.prep-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
-.prep-flip{cursor:pointer;perspective:800px}.prep-flip .inner{position:relative;display:grid;min-height:168px;transform-style:preserve-3d;transition:transform .45s}
-.prep-flip.on .inner{transform:rotateY(180deg)}.prep-flip .face{position:relative;grid-area:1/1;backface-visibility:hidden;border-radius:16px;padding:12px 12px 10px;background:var(--sf,#fff);border:1px solid color-mix(in srgb,currentColor 30%,transparent)}
-.prep-flip .back{transform:rotateY(180deg);pointer-events:none}.prep-flip.on .front{pointer-events:none}.prep-flip.on .back{pointer-events:auto}
-.prep-lab{display:block;font-size:12px;font-weight:700;opacity:.75;margin-bottom:6px}.prep-flip .spk{position:relative;z-index:1}
-</style>`}
-function prepPageHTML(md){const tokens=prepTokenize(md);let i=0,head="",pre=[];
- if(tokens[0]&&tokens[0].type==="line"&&/^#\s+/.test(tokens[0].text)){const raw=tokens[0].text.replace(/^#\s+/,"").trim();const m=/^(\S+)\s+(\/[^/]+\/)\s*(.*)$/.exec(raw);
-  head=m?`<p class="word en">${esc(m[1])} <span class="pos">${esc(m[2])}</span></p>${m[3]?`<p class="pos">${esc(m[3])}</p>`:""}`:`<p class="word en">${prepInline(raw)}</p>`;i=1}
- const sections=[];let cur=null;
- for(;i<tokens.length;i++){const tok=tokens[i];if(tok.type==="line"&&/^##\s+/.test(tok.text)){cur={title:tok.text.replace(/^##\s+/,"").trim(),tokens:[]};sections.push(cur);continue}if(cur)cur.tokens.push(tok);else pre.push(tok)}
- const body=sections.map(sec=>`<h3 class="sec">${prepInline(sec.title)}</h3>${/互动闪卡/.test(sec.title)?prepCards(sec.tokens):prepFlow(sec.tokens)}`).join("");
- return `${prepCSS()}<div class="card prep-page">${head}${prepFlow(pre)}${body}</div>`}
-// 原声例句: one card per JSON line, grouped by sense. A line added later shows up
-// here with no other change. 中→英 hides English until the card is tapped; 英→中 is the reverse.
-// 🎬 plays that card's mp3 only (same .fcorig path as Luca 整句原声), never TTS.
-// The top bar reuses Luca 阅读卡: 原声连播, 单句循环 (rdLoopCycle), 停顿 (rdGapCycle), follow().
-const PREP_OUT_SENSE={1:"1. 脱离物理空间",2:"2. 脱离可用的资源范围",3:"3. 脱离控制范围",4:"4. 脱离隐藏状态",5:"5. 从未知变成已知"};
-function prepClip(row){const a=String(row&&row.audio||"");if(a.startsWith("content/"))return a.slice("content/".length);if(row&&row.slug)return "audio/prep/out/"+row.slug+".mp3";return a}
-// PREP_PLAY_START
-// 连播 walks every card. 单句循环 off plays each line once, then the next.
-// Infinity / ×5 / ×10 are Luca's rdLoopNext (×5 and ×10 then advance).
-function prepPlayStep(mode,played,pos,total){
- if(mode===0)return {again:false,next:pos+1<total?pos+1:-1};
- return rdLoopNext(mode,played,pos,total)}
-// PREP_PLAY_END
-function prepLinesCSS(){return `<style>
-.prep-play{position:sticky;top:56px;z-index:6;background:var(--bg,#faf6ee);padding:6px 0 2px;margin-bottom:8px}
-.prep-play>.bar{position:static;top:auto;margin-bottom:6px;background:transparent}
-.prep-lines{display:flex;flex-direction:column;gap:10px}.prep-lines>h3.sec{color:var(--pgtx,#444);margin:16px 2px 8px}.prep-lines>h3.sec:first-child{margin-top:2px}
-.prep-line{cursor:pointer;text-align:left}.prep-lines>.prep-line{align-self:stretch;width:100%;max-width:none;margin:0;box-sizing:border-box}.prep-top{display:flex;align-items:center;gap:8px}.prep-movie{font-size:12px;font-weight:700;line-height:1.3;color:inherit}
-.prep-line .lab{flex:none}.prep-line .pjump{margin:0 0 0 auto;flex:none;border:0;background:#2a6f97;color:#fff;border-radius:10px;min-height:36px;padding:6px 10px;font-size:14px;font-family:inherit;cursor:pointer}.prep-line .pjump+.fcorig{margin-left:0}.prep-line .fcorig{margin:0 0 0 auto;flex:none;min-height:36px;padding:6px 12px}
-.prep-body{display:flex;flex-direction:column;margin-top:8px}.prep-face{font-size:18px;line-height:1.5;color:inherit;text-align:left;font-weight:500}.prep-en{font-family:Georgia,"Noto Serif",serif}
-.prep-ans{order:3;margin-top:8px;font-size:13px;font-weight:700;color:inherit}
-.prep-lines[data-mode=ce] .prep-zh{order:1}.prep-lines[data-mode=ce] .prep-en{order:2}
-.prep-lines[data-mode=ec] .prep-en{order:1}.prep-lines[data-mode=ec] .prep-zh{order:2}
-.prep-lines[data-mode=ce] .prep-line:not(.show) .prep-en{display:none}
-.prep-lines[data-mode=ec] .prep-line:not(.show) .prep-zh{display:none}
-.prep-lines[data-mode=bo] .prep-en{order:1}.prep-lines[data-mode=bo] .prep-zh{order:2;margin-top:4px}.prep-lines[data-mode=bo] .prep-ans{display:none}
-.prep-line.show .prep-ans{display:none}
-.prep-line.cur{outline:3px solid #f5c518;outline-offset:2px}
-</style>`}
-function prepLineCard(r){const form=String(r.form||"").trim(),tag=form?`<span class="lab">${esc(form)}</span>`:"";
- // A line with no original clip (no audio, no slug) gets an English TTS ▶ instead of 🎬, and 连播 skips it.
- const oa=prepClip(r),btns=oa?`<button type="button" class="pjump" aria-label="从这句开始连播">▶ 从这里听</button><button type="button" class="fcorig" data-oa="${esc(oa)}" aria-label="播放原声">🎬 原声</button>`:`<button type="button" class="spk" data-say="${esc(r.en||"")}" aria-label="朗读" style="margin-left:auto">▶</button>`;
- return `<div class="card prep-line" aria-expanded="false"><div class="prep-top"><span class="prep-movie">${esc(r.movie||"")}</span>${tag}${btns}</div><div class="prep-body"><div class="prep-face prep-zh">${esc(r.zh||"")}</div><div class="prep-face prep-en">${esc(r.en||"")}</div><div class="prep-ans">看答案</div></div></div>`}
-function prepLinesPage(rows,names){const list=Array.isArray(rows)?rows:[];const senses=[];const sname=s=>(names&&typeof names=="object"&&names[s])||PREP_OUT_SENSE[s]||String(s);
- for(const r of list){const s=+r.sense;if(s>0&&senses.indexOf(s)<0)senses.push(s)}
- senses.sort((a,b)=>a-b);let body="";const used=new Set();
- for(const s of senses){const items=list.filter(r=>+r.sense===s);if(!items.length)continue;items.forEach(r=>used.add(r));
-  body+=`<h3 class="sec">${esc(sname(s))}</h3>`+items.map(prepLineCard).join("")}
- const rest=list.filter(r=>!used.has(r));if(rest.length)body+=rest.map(prepLineCard).join("");
- if(!body)body=`<div class="done">这一页还没准备好</div>`;
- return `${prepLinesCSS()}<div class="prep-play"><div class="bar rdbar"><button type="button" id="rnggo" class="org">原声连播</button><button type="button" id="loop">单句循环</button><button type="button" id="lgap">停顿 0秒</button></div><div class="bar fcdir"><button type="button" id="pCE" class="on">中→英</button><button type="button" id="pEC">英→中</button><button type="button" id="pBO">中英</button></div></div><div class="prep-lines" data-mode="ce">${body}</div>`}
-function wirePrepLines(){const box=V.querySelector(".prep-lines");if(!box)return;
- const set=mode=>{box.dataset.mode=mode;const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.classList.toggle("on",mode==="ce");if(ec)ec.classList.toggle("on",mode==="ec");const bo=document.getElementById("pBO");if(bo)bo.classList.toggle("on",mode==="bo")};
- const ce=document.getElementById("pCE"),ec=document.getElementById("pEC");if(ce)ce.onclick=()=>set("ce");if(ec)ec.onclick=()=>set("ec");{const bo=document.getElementById("pBO");if(bo)bo.onclick=()=>set("bo")}
- box.querySelectorAll(".prep-line .spk[data-say]").forEach(b=>{b.onclick=ev=>{ev.stopPropagation();stopAll();box.querySelectorAll(".spk.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");speak(b.dataset.say,1).then(()=>{if(b.isConnected)b.classList.remove("on")})}});
- box.querySelectorAll(".prep-line").forEach(card=>{card.onclick=ev=>{if(ev.target.closest(".fcorig")||ev.target.closest(".pjump")||ev.target.closest(".spk"))return;card.classList.toggle("show");card.setAttribute("aria-expanded",card.classList.contains("show")?"true":"false")}});
- const go=document.getElementById("rnggo"),lp=document.getElementById("loop"),gp=document.getElementById("lgap");if(!go||!lp||!gp)return;
- let rep=0,gap=0,paused=false,playing=false,gen=0;
- try{const n=+localStorage.getItem("prep_out_gap");if(RD_GAPS.includes(n))gap=n}catch(e){}
- const paint=()=>{const hot=playing&&!paused;go.classList.toggle("on",hot);go.textContent=hot?"暂停原声":"原声连播";go.setAttribute("aria-pressed",hot?"true":"false");
-  lp.classList.toggle("on",rep!==0);lp.textContent=rdLoopLabel(rep);gp.textContent=rdGapLabel(gap);gp.classList.toggle("on",gap>0)};
- const cards=()=>[...box.querySelectorAll(".prep-line")].filter(c=>{const b=c.querySelector(".fcorig");return b&&b.dataset.oa});
- const mark=el=>{box.querySelectorAll(".prep-line.cur").forEach(x=>{if(x!==el)x.classList.remove("cur")});if(!el)return;el.classList.add("cur");follow(el)};
- const clearCur=()=>box.querySelectorAll(".prep-line.cur").forEach(x=>x.classList.remove("cur"));
- async function playLine(oa,me){if(me!=RUN||!oa)return false;let url;try{url=await audioURL(oa)}catch(e){return false}if(me!=RUN)return false;
-  while(paused&&me==RUN)await wait(80);if(me!=RUN)return false;
-  A.onended=A.onerror=null;A.src=url;A.playbackRate=1;
-  await new Promise(r=>{let done=false;const fin=()=>{if(done)return;done=true;r()};if(A.readyState>=1)return fin();A.addEventListener("loadedmetadata",fin,{once:true});A.addEventListener("error",fin,{once:true});setTimeout(fin,8000)});
-  if(me!=RUN)return false;while(paused&&me==RUN)await wait(80);if(me!=RUN)return false;
-  try{A.currentTime=0}catch(e){}try{await A.play()}catch(e){return false}const t0=Date.now();
-  while(me==RUN){if(A.ended)return true;if(paused){if(!A.paused)try{A.pause()}catch(e){}await wait(80);continue}if(A.paused){try{await A.play()}catch(e){return false}}if(Date.now()-t0>180000)return false;await wait(50)}
-  return false}
- async function prepGap(me){let left=gap>0?gap*1000:0;if(!(left>0))return me==RUN;
-  while(left>0&&me==RUN){while(paused&&me==RUN)await wait(80);if(me!=RUN)return false;const slice=Math.min(200,left),t0=Date.now();
-   const ok=await rdGapWait(slice,()=>me==RUN&&!paused);if(me!=RUN)return false;left-=Date.now()-t0;if(!ok)continue}return me==RUN}
- async function run(start){stopAll();const me=RUN,g=++gen;paused=false;playing=true;LASTBTN=null;paint();
-  const list=cards();let pos=start>0&&start<list.length?start:0,played=0,hold=rep;
-  const own=()=>g==gen;const abort=()=>{if(!own())return;playing=false;paused=false;if(box.isConnected){clearCur();paint()}};
-  try{while(me==RUN&&own()&&pos>=0&&pos<list.length){if(rep!==hold){played=0;hold=rep}const card=list[pos];mark(card);
-    const btn=card.querySelector(".fcorig"),oa=btn&&btn.dataset.oa;if(!oa){pos++;played=0;hold=rep;continue}
-    if(!(await playLine(oa,me))){if(!own())return;if(me!=RUN)return abort();break}
-    if(!own())return;if(me!=RUN)return abort();played++;if(rep!==hold){played=1;hold=rep}
-    const step=prepPlayStep(rep,played,pos,list.length);
-    if(step.again||step.next>=0){if(!(await prepGap(me))){if(!own())return;return abort()}}
-    if(!own())return;if(me!=RUN)return abort();if(step.again)continue;if(step.next<0)break;pos=step.next;played=0;hold=rep}
-   if(me==RUN&&own()){playing=false;paused=false;paint()}}catch(e){abort()}}
- go.onclick=()=>{if(playing&&!paused){paused=true;try{A.pause()}catch(e){}paint();return}if(playing&&paused){paused=false;paint();if(!A.ended&&A.paused){const q=A.play();if(q&&q.catch)q.catch(()=>{})}return}if(!cards().length)return;run(0)};
- box.querySelectorAll(".pjump").forEach(b=>{b.onclick=ev=>{ev.stopPropagation();const i=cards().indexOf(b.closest(".prep-line"));if(i>=0)run(i)}});
- lp.onclick=()=>{rep=rdLoopCycle(rep);paint()};
- gp.onclick=()=>{gap=rdGapCycle(gap);try{localStorage.setItem("prep_out_gap",String(gap))}catch(e){}paint()};
- paint()}
-async function showPrepLines(it){let rows;try{rows=await getJSON(String(it.data||"").replace(/^content\//,""))}catch(e){V.innerHTML=`<div class="done">这一页还没准备好</div>`;return}
- let names=null;if(rows&&!Array.isArray(rows)){names=rows.senses||null;if(Array.isArray(rows.lines))rows=rows.lines}if(!Array.isArray(rows))rows=[];V.innerHTML=prepLinesPage(rows,names);wirePrepLines()}
-async function showPrep(sid,iid){const sec=prepSections().find(s=>String(s.id)===String(sid||""));if(!sec)return showHome();
- const items=Array.isArray(sec.items)?sec.items:[];const it=items.find(x=>String(x.id)===String(iid||""));if(!it)return showHome();
- setHeader(it.title||sec.title||"介词",true);
- if(!it.data){V.innerHTML=`<p class="tip">${esc(it.title||"")}</p><div class="done">内容即将添加</div>`;return}
- if(/\.json$/i.test(it.data))return showPrepLines(it);
- let md;try{md=await getText(it.data)}catch(e){V.innerHTML=`<div class="done">这一页还没准备好</div>`;return}
- V.innerHTML=prepPageHTML(md);
- V.querySelectorAll("[data-say]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();ev.preventDefault();stopAll();V.querySelectorAll(".spk.on").forEach(x=>x.classList.remove("on"));b.classList.add("on");speak(b.dataset.say,1).then(()=>{if(b.isConnected)b.classList.remove("on")})});
- V.querySelectorAll(".prep-flip").forEach(card=>{const flip=()=>{card.classList.toggle("on");card.setAttribute("aria-pressed",card.classList.contains("on")?"true":"false")};
-  card.onclick=ev=>{if(ev.target.closest(".spk"))return;flip()};card.onkeydown=ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();flip()}}})}
-const upSec=id=>UP_DEF.find(s=>s.id==id);
-function upDays(){return (UP&&UP.days)||[]}
-function upHit(id){const m=/^(up_d\d+)_(flash|ee|dt)$/.exec(id||"");if(!m)return null;const day=upDays().find(d=>d.id===m[1]);if(!day)return null;if(m[2]==="dt")return day.dt?{it:{id,base:id,title:day.title,sub:day.sub||"",data:day.dt,dictation:1},sec:"up_dictation"}:null;return {it:{id,title:day.title,sub:day.sub||"",data:day.data,upPart:m[2]},sec:m[2]==="flash"?"up_flash":"up_ee"}}
 function syncPaper(){const h=(location.hash||"#/").slice(1).split("/");const a=h[1]||"",b=h[2]||"";let p="";
- if((a==="c"||a==="i")&&(b.startsWith("luca")||b.startsWith("dt_luca")))p="luca";
- else if((a==="c"||a==="i")&&b.startsWith("up_"))p="up";
- else if(a==="wf"&&b.startsWith("up_"))p="up";
- else if(a==="wf"&&b.startsWith("luca_"))p="luca";
- else if(a==="g"&&(b==="up"||b.startsWith("up_")))p="up";
- else if(a==="g"&&(b==="luca"||b.startsWith("luca_")))p="luca";
- else if(a==="c"&&/^(phrases|reading|flash|longaudio|dictation|chunks|words)$/.test(b))p="naval";
+ if(a==="c"&&/^(phrases|reading|flash|longaudio|dictation|chunks|words)$/.test(b))p="naval";
  else if(a==="i"&&b)p="naval";
  else if(a==="wf"||a==="g")p="naval";
  if(p)document.documentElement.dataset.paper=p;else delete document.documentElement.dataset.paper}
-async function showUp(s){if(s.like=="game")return showGames("up");if(s.like=="wf")return showWFs("up");setHeader(secT(s.id,s.name),true);const days=upDays().filter(d=>s.like!="dictation"||d.dt);
- if(!days.length){V.innerHTML=`<p class="tip">飞屋环游记 · ${esc(s.name)}</p><div class="done">这一集还没写好</div>`;return}
- V.innerHTML=`<div class="list">${days.map((d,k)=>`<div class="lw"><button class="li" data-k="${k}"><span class="tt">${esc(d.title)}<span class="sb">${esc(s.like=="dictation"&&d.dtSub||d.sub||"")}</span></span></button></div>`).join("")}</div>`;
- V.querySelectorAll("[data-k]").forEach(b=>{const d=days[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+d.id+"_"+(s.like=="flash"?"flash":s.like=="dictation"?"dt":"ee")}})}
-// Source watch links live in unencrypted section metadata (and this map for Naval, whose topic JSON is encrypted).
-// Only real URLs found in the project notes are used; a missing URL means no button.
 const WATCH_NAVAL="https://youtu.be/KyfUysrNaco";
-const WATCH_LUCA="https://www.bilibili.com/video/BV16D42157FC";
 const WATCH_PODCAST="https://www.bilibili.com/video/BV1Exu1zvEbX/?p=11";
-const WATCH_TURNING="https://www.bilibili.com/video/BV1B84y1h7Yy";
 const WATCH_SCARY="https://youtu.be/Qh_VvZCFOcg";
-function lucaDayId(id){const m=/(?:^|_)(luca_d\d+)/.exec(id||"");return m?m[1]:""}
 function watchUrlFor(id){id=String(id||"");
- const day=lucaDayId(id);if(day){const it=((LUCA&&LUCA.reading)||[]).find(x=>x.id===day);if(it&&it.watch)return it.watch;const n=/luca_d(\d+)/.exec(day);return n?WATCH_LUCA+"?p="+Number(n[1]):""}
- if(/^luca_/.test(id)||id==="luca")return WATCH_LUCA;
  const talkIt=((TALK&&TALK.boards)||[]).find(x=>x.id===id);if(talkIt&&talkIt.watch)return talkIt.watch;
  if(/^talk_ep1/.test(id))return WATCH_NAVAL;
  if(/^talk_/.test(id))return "";
  const podIt=((PODCAST&&PODCAST.boards)||[]).find(x=>x.id===id);if(podIt&&podIt.watch)return podIt.watch;
  if(/^podcast/.test(id))return WATCH_PODCAST;
- if(/^turning/.test(id))return (TURNING&&TURNING.boards&&TURNING.boards[0]&&TURNING.boards[0].watch)||WATCH_TURNING;
  if(/^scary/.test(id))return (SCARY&&SCARY.watch)||WATCH_SCARY;
- if(/^elio/.test(id)||id==="up"||/^up_/.test(id)||/^prep/.test(id))return "";
  if(/^(reading|flash|longaudio|dictation|chunks|words|phrases|wf|game)$/.test(id))return WATCH_NAVAL;
  if(/^(naval_|t\d{2}v|ch_t\d|wf_t)/.test(id))return WATCH_NAVAL;
  return ""}
@@ -508,11 +267,11 @@ async function route0(){syncPaper();delete document.documentElement.dataset.home
  // Boot leaves enc:false when meta.json fails, which used to skip the lock and open as plaintext.
  if(!KEY){if(!(await unlock()))return lockScreen()}
  if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- await loadLuca();try{await loadUp()}catch(e){UP={days:[],wfMap:[]}}try{await loadPrep()}catch(e){PREP=[]}try{await loadElio()}catch(e){ELIO={boards:[]}}try{await loadTurning()}catch(e){TURNING={boards:[]}}try{await loadPodcast()}catch(e){PODCAST={boards:[]}}try{await loadTalk()}catch(e){TALK={boards:[]}}try{await loadScary()}catch(e){SCARY={boards:[]}}applyDictation(CAT);refreshFoldNumbers();
+ try{await loadPodcast()}catch(e){PODCAST={boards:[]}}try{await loadTalk()}catch(e){TALK={boards:[]}}try{await loadScary()}catch(e){SCARY={boards:[]}}applyDictation(CAT);refreshFoldNumbers();
  const h=location.hash.slice(1).split("/");
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  // #/dq is the read-only 今天的目标. Picking sentences is only on the 句子听写 topic lists.
- try{if(h[1]=="dq")return showDQ();if(h[1]=="prep")return showPrep(h[2],h[3]);if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]==="up"&&!h[3]?showGames("up"):h[2]==="luca"&&!h[3]?showGames("luca"):h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
+ try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
 window.addEventListener("hashchange",route);
 // ---------- on-device organizing (localStorage) ----------
 // Storage model (v2, sync-ready): FIELDS = { key: [value, ts] }, value null = tombstone.
@@ -686,16 +445,6 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
   if(id=="game")return studyTile({id,name:"小游戏",icon:"🎮",desc:"拼写 · 拼图 · 填词",count:"每个单元都能玩",hash:"#/g",gtile:true,iconKey:"g",sec:"g"});
   const c=byId[id];if(!c)return "";
   return studyTile({id,name:c.name,icon:c.icon,desc:c.desc,count:countOf(id),hash:"#/c/"+id})}).join("");
- const lucaIcon={"phrases":"💬","reading":"📖","flash":"🗂️","ee":"🎧","longaudio":"🎧","dictation":"✍️",wf:"🔤",game:"🎮"};
- const luca=LUCA_DEF.map(s=>{const src=byId[s.like]||{};
-  const n=s.like=="wf"||s.like=="game"?lucaReading().filter(it=>it.vocab).length:lucaItemsFor(s).length;
-  return studyTile({id:s.id,name:s.name,icon:src.icon||lucaIcon[s.like]||"📁",desc:s.desc||(s.typeName!==s.name?s.typeName:""),count:n+" 项",hash:s.like=="game"?"#/g/luca":"#/c/"+s.id,iconKey:s.like=="ee"?"longaudio":s.like=="game"?"g":s.like})}).join("");
- const upIcon={flash:"🗂️",ee:"🎧",wf:"🔤",game:"🎮",dictation:"✍️"},upKey={flash:"flash",ee:"longaudio",wf:"wf",game:"g",dictation:"dictation"},upN=upDays().length;
- const up=UP_DEF.map(s=>studyTile({id:s.id,name:s.name,icon:upIcon[s.like]||"📁",desc:s.desc||"",count:upN+" 项",hash:s.like=="game"?"#/g/up":"#/c/"+s.id,iconKey:upKey[s.like]||s.like})).join("");
- const elioIcon={reading:"📖",flash:"🗂️",dictation:"✍️"};
- const elio=ELIO_DEF.map(s=>{const it=elioItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:elioIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
- const turningIcon={reading:"📖",flash:"🗂️",dictation:"✍️"};
- const turning=TURNING_DEF.map(s=>{const it=turningItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:turningIcon[s.like]||"📁",desc:s.typeName&&s.typeName!==s.name?s.typeName:"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
  const podcastIcon={reading:"📖",dictation:"✍️"};
  const podcast=PODCAST_DEF.map(s=>{const it=podcastItem(s.item||"");const n=it?1:0;return studyTile({id:s.id,name:s.name,icon:podcastIcon[s.like]||"📁",desc:s.desc||"",count:n+" 项",hash:it?"#/i/"+it.id:"#/c/"+s.id,iconKey:s.like})}).join("");
  const talkIcon={episode:"🎧",dictation:"✍️",reading:"🎤"};
@@ -703,7 +452,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const scary=SCARY_DEF.map(s=>{const n=scaryBoards().length;return studyTile({id:s.id,name:s.name,icon:"👻",desc:s.desc||"",count:n+" 项",hash:"#/c/"+s.id,iconKey:"reading"})}).join("");
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${prepHomeHTML(prepSections())}${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("luca","夏日友晴天",LUCA_DEF.length,luca)}${foldHTML("elio","Elio",ELIO_DEF.length,elio)}${foldHTML("turning","青春变形记",TURNING_DEF.length,turning)}${foldHTML("up","飞屋环游记",UP_DEF.length,up)}${foldHTML("podcast","播客",PODCAST_DEF.length,podcast)}${foldHTML("talk","播客对话",TALK_DEF.length,talk)}${foldHTML("scary","Scary Comp. 2021",SCARY_DEF.length,scary)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("podcast","播客",PODCAST_DEF.length,podcast)}${foldHTML("talk","播客对话",TALK_DEF.length,talk)}${foldHTML("scary","Scary Comp. 2021",SCARY_DEF.length,scary)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();if(typeof dqGoalHome=="function")dqGoalHome();
  const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playStarRain()};preloadStarRain();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
@@ -711,23 +460,20 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
  mine.forEach(c=>{const b=V.querySelector(`[data-go="#/c/${CSS.escape(c.id)}"]`);if(b)longPress(b,()=>catMenu(c))});
  V.querySelectorAll("[data-m]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();catMenu(cs.find(x=>x.id==b.dataset.m))})}
-// Topics in one 阅读卡 fold, ascending number. Naval: naval_tNN → Tnn. 夏日: luca_dNN → Dnn (Day).
+// Topics in one 阅读卡 fold, ascending number. Naval: naval_tNN → Tnn.
 function foldReadingTopics(fold){
  const row=(it,n)=>n==null||ORG.hidden[it.id]?null:{id:it.id,n,data:it.data,title:ttl(it)};
- if(fold=="luca")return lucaReading().map(it=>{const m=/d(\d+)/.exec(it.id||"");return row(it,m?+m[1]:null)}).filter(Boolean).sort((a,b)=>a.n-b.n);
- if(fold=="elio")return elioBoards().filter(it=>it&&(it.kind=="reading"||it.id=="elio_monologue")).map((it,i)=>row(it,i+1)).filter(Boolean);
  if(fold=="podcast")return podcastBoards().filter(it=>it&&it.kind=="reading").map((it,i)=>row(it,i+1)).filter(Boolean);
- if(fold=="turning")return turningBoards().filter(it=>it&&it.kind=="reading").map((it,i)=>row(it,i+1)).filter(Boolean);
  const rd=CAT&&CAT.categories&&CAT.categories.find(c=>c.id=="reading");
  return ((rd&&rd.items)||[]).filter(it=>/naval_t\d+/.test(it.id)).map(it=>row(it,topicNo(it))).filter(Boolean).sort((a,b)=>a.n-b.n)}
 function dropOldCardRanges(){const wipe=(store)=>{try{const drop=[];for(let i=0;i<store.length;i++){const k=store.key(i);if(k&&k.indexOf("nova_rd_rng_")==0)drop.push(k)}drop.forEach(k=>store.removeItem(k))}catch(e){}};wipe(localStorage);wipe(sessionStorage)}
 function topicListenHTML(fold){const topics=foldReadingTopics(fold);if(!topics.length)return "";
- const word=fold=="luca"?"Day":"Topic",tag=fold=="luca"?"D":"T",key="nova_tl_"+fold;
+ const word="Topic",tag="T",key="nova_tl_"+fold;
  let a=topics[0].n,b=topics[topics.length-1].n;
  try{const sv=JSON.parse(localStorage.getItem(key)||"null");if(sv&&topics.some(t=>t.n==sv.a)&&topics.some(t=>t.n==sv.b)&&sv.a<=sv.b){a=sv.a|0;b=sv.b|0}}catch(e){}
  const open=(()=>{try{return sessionStorage.getItem("nova_tl_open_"+fold)=="1"}catch(e){return false}})();
  const lo=topics[0].n,hi=topics[topics.length-1].n;
- const dd=fold=="luca"?"":'<button type="button" id="dd" class="org">👆 点读</button>';
+ const dd='<button type="button" id="dd" class="org">👆 点读</button>';
  return `<details class="tlisten" id="tlisten"${open?" open":""}><summary class="tlh"><span class="tlar" aria-hidden="true"></span><span class="tlnm">连听 ${word}</span><span class="tlsub" id="tlsub">${tag}${a}–${tag}${b}</span></summary><div class="tlbody"><div class="rngrow"><label>从 ${word}<input id="tla" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${a}" aria-label="从哪个${word}"></label><span class="rngto">到</span><label><input id="tlb" class="rngin" type="number" inputmode="numeric" min="${lo}" max="${hi}" step="1" value="${b}" aria-label="到哪个${word}"></label></div><p class="rngerr" id="tlerr" hidden></p><div class="tlcap" id="tlcap" aria-live="polite"><p class="tlen" id="tlen"></p><p class="tlzh" id="tlzh"></p></div><div class="bar rdbar tlbar"><button type="button" id="stp">■ 停止</button><button type="button" id="bk5">倒退5秒</button><button type="button" id="rnggo" class="org">原声连播</button><button type="button" id="rloop" class="org">🔁 原声循环</button><button type="button" id="spd">速度 1x</button><button type="button" id="loop">单句循环</button><button type="button" id="hid">隐藏文字</button>${dd}</div><div class="status" id="st"></div></div></details>`}
 let TLSI=0,SENTLOOP=false,TLMODE=null,TLACTIVE=null,TLCAP=null,TLDD=false;
 const TLSP=[1,.85,.75];
@@ -745,7 +491,7 @@ async function listenSeg(s,a,b,p){stopAll();TLMODE=null;listenPaint();const me=+
  A.onended=A.onerror=null;A.src=await audioURL(s.oa);listenRate();const go=()=>{try{A.currentTime=a||0}catch(e){}A.play().catch(()=>{})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
  const tick=()=>{if(me!=RUN){if(p)p.classList.remove("play");return}if((b!=null&&A.currentTime>=b)||A.ended){if(me==RUN&&b!=null)A.pause();if(p)p.classList.remove("play");return}requestAnimationFrame(tick)};requestAnimationFrame(tick)}
 // How long 原声连播 lets a line's 原声 clip run. s.d is the length of s.a; it is the clip's own length only when
-// s.a is the 原声 clip (Luca/Elio/播客/Open Talk). Naval ② lines have s.a = AI read-aloud and s.oa = Naval's
+// s.a is the 原声 clip (播客/Open Talk/Scary). Naval ② lines have s.a = AI read-aloud and s.oa = Naval's
 // original clip, which is usually longer, so s.d would cut the original mid-sentence: play that clip to its end.
 function oaDur(s){return s&&s.oa&&s.a===s.oa?(+s.d||0):0}
 function listenClip(url,me,dur){return new Promise(res=>{let done=false,origin=null;const once=v=>{if(done)return;done=true;res(v)};
@@ -762,7 +508,7 @@ function listenClip(url,me,dur){return new Promise(res=>{let done=false,origin=n
  requestAnimationFrame(tick)})}
 // Reading-card keep list. Values are the original 1-based line numbers (sents index + 1).
 // Shown cards are numbered 1..n (field n). sents is not reindexed: 单词卡 si, 句子听写, and ☀ nova_sun stay on i.
-const RD_KEEP={luca_d01:[4,5,14,19,20,29,30,31]};
+const RD_KEEP={};
 function rdRows(d){const sents=(d&&d.sents)||[],keep=RD_KEEP[(d&&d.id)||""];
  const all=sents.map((s,i)=>({s,i})),set=keep?new Set(keep):null;
  return (set?all.filter(x=>set.has(x.i+1)):all).map((x,n)=>({s:x.s,i:x.i,n}))}
@@ -772,7 +518,7 @@ function dtRows(d){return rdRows(d).filter(x=>x.s&&x.s.oa)}
 function dtSavedPos(sents,raw,keep){const n=+raw;if(!Number.isFinite(n)||n<0)return 0;
  if(keep){const at=sents.findIndex(x=>x&&x.i===n);return at>=0?at:0}
  return n<sents.length?n:0}
-async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold),word=fold=="luca"?"Day":"Topic",tag=fold=="luca"?"D":"T";
+async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold),word="Topic",tag="T";
  const me=++RUN,sel=topics.filter(t=>t.n>=a&&t.n<=b);TLACTIVE=a+"-"+b;TLMODE=loop?"loop":"once";listenPaint();
  const st=t=>{const e=document.getElementById("st");if(e)e.textContent=t},chip=tag+a+"–"+tag+b,label=loop?"原声循环":"原声连播";
  window._tl={fold,a,b,loop:!!loop,ids:sel.map(t=>t.id)};st(label+" · "+chip);
@@ -788,7 +534,7 @@ async function playFoldListen(fold,a,b,loop){const topics=foldReadingTopics(fold
   if(!played){if(me==RUN){TLMODE=null;listenPaint();st("这一段没有原声");listenCaption(null)}return}}while(loop&&me==RUN);
  if(me==RUN){TLMODE=null;listenPaint();st("连听完毕 · "+chip)}}
 function listenStart(fold,loop){const topics=foldReadingTopics(fold);if(!topics.length)return;
- const word=fold=="luca"?"Day":"Topic",nums=topics.map(t=>t.n),key="nova_tl_"+fold;
+ const word="Topic",nums=topics.map(t=>t.n),key="nova_tl_"+fold;
  const read=()=>{const ia=document.getElementById("tla"),ib=document.getElementById("tlb");
   if(ia&&ib)return{a:Math.round(+ia.value),b:Math.round(+ib.value)};
   try{const sv=JSON.parse(localStorage.getItem(key)||"null");if(sv)return{a:sv.a|0,b:sv.b|0}}catch(e){}
@@ -798,12 +544,12 @@ function listenStart(fold,loop){const topics=foldReadingTopics(fold);if(!topics.
  if(bad||ord){if(er){er.hidden=false;er.textContent=bad?"请填已有的 "+word+"："+nums.join("、"):"开始不能大于结束"}const pan=document.getElementById("tlisten");if(pan)pan.open=true;return}
  if(er){er.hidden=true;er.textContent=""}
  try{localStorage.setItem(key,JSON.stringify({a:r.a,b:r.b}))}catch(e){}
- const sub=document.getElementById("tlsub");if(sub)sub.textContent=(fold=="luca"?"D":"T")+r.a+"–"+(fold=="luca"?"D":"T")+r.b;
+ const sub=document.getElementById("tlsub");if(sub)sub.textContent=("T")+r.a+"–"+("T")+r.b;
  const same=TLMODE==(loop?"loop":"once")&&TLACTIVE===r.a+"-"+r.b;stopAll();TLMODE=null;listenPaint();
  if(same){const e=document.getElementById("st");if(e)e.textContent="已暂停";listenCaption(null);return}
  playFoldListen(fold,r.a,r.b,loop)}
 function wireTopicListen(fold){if(!document.getElementById("tlisten"))return;dropOldCardRanges();
- const $=id=>document.getElementById(id),topics=foldReadingTopics(fold),word=fold=="luca"?"Day":"Topic",tag=fold=="luca"?"D":"T",nums=topics.map(t=>t.n);
+ const $=id=>document.getElementById(id),topics=foldReadingTopics(fold),word="Topic",tag="T",nums=topics.map(t=>t.n);
  const chip=()=>{$("tlsub").textContent=tag+$("tla").value+"–"+tag+$("tlb").value};
  const vals=()=>{const a=Math.round(+$("tla").value),b=Math.round(+$("tlb").value);
   if(!nums.includes(a)||!nums.includes(b))return{ok:false,msg:"请填已有的 "+word+"："+nums.join("、")};
@@ -822,9 +568,9 @@ function wireTopicListen(fold){if(!document.getElementById("tlisten"))return;dro
  $("hid").onclick=()=>{hid=!hid;cap.classList.toggle("hide",hid);$("hid").classList.toggle("on",hid);try{localStorage.setItem("rd_hid",hid?"1":"0")}catch(e){}};
  if($("dd"))$("dd").onclick=()=>{TLDD=!TLDD;$("dd").classList.toggle("on",TLDD);try{localStorage.setItem("rd_dd",TLDD?"1":"0")}catch(e){}listenCaption(TLCAP)}}
 function catItemRow(x,k){return `<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${x.kind=="m"?"🎵 ":""}${esc(x.title)}<span class="sb">${esc(x.sub)}</span></span></button></div>`}
-function navalGroups(secId){if(!secId||lucaSec(secId)||upSec(secId)||FOLDN[secId]===1)return false;return navalSectionIds().includes(secId)}
+function navalGroups(secId){if(!secId||FOLDN[secId]===1)return false;return navalSectionIds().includes(secId)}
 function tfOpen(id,def){try{const s=localStorage.getItem("nova_tf_"+id);if(s==null)return def;return s==="1"}catch(e){return def}}
-// Naval sections after 板块一: Topics 1–10, 11–20, … Newest range starts open. 板块一 and 夏日友晴天 stay a flat list.
+// Naval sections after 板块一: Topics 1–10, 11–20, … Newest range starts open. 板块一 stays a flat list.
 function topicGroupsHTML(secId, rows, fold){
  const use=fold==null?navalGroups(secId):!!fold;
  const flat=`<div class="list">${rows.map(r=>r.html).join("")}</div>`;
@@ -838,15 +584,7 @@ function topicGroupsHTML(secId, rows, fold){
  return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
-function showLuca(s){if(s.like=="game")return showGames("luca");if(s.like=="wf")return showWFs("luca");setHeader(secT(s.id,s.name),true,watchUrlFor(s.id));
- const xs=lucaItemsFor(s);
- const bar=s.like=="dictation"?dqHTML():"";
- const listen=s.like=="reading"?topicListenHTML("luca"):"";
- if(!xs.length){V.innerHTML=`${bar}${listen}<p class="tip">夏日友晴天 · ${esc(s.name)}</p><div class="done">这个板块还是空的</div>`;if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();return}
- V.innerHTML=`${bar}${listen}<div class="list">${xs.map((x,k)=>`<div class="lw"><button class="li" data-k="${k}" data-tid="${esc(x.id)}"><span class="tt">${esc(ttl(x))}<span class="sb">${esc(x.sub||"")}</span></span></button></div>`).join("")}</div>`;
- if(listen)wireTopicListen("luca");if(s.like=="dictation")dqGoalMount();
- V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash="#/i/"+x.id}})}
-async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const luca=lucaSec(id);if(luca)return showLuca(luca);const up=upSec(id);if(up)return showUp(up);const elio=elioSec(id);if(elio){const it=elioItem(elio.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const turning=turningSec(id);if(turning){const it=turningItem(turning.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const talk=talkSec(id);if(talk)return showTalk(talk);const scary=scarySec(id);if(scary)return showScary(scary);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true,watchUrlFor(c.id));
+async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const talk=talkSec(id);if(talk)return showTalk(talk);const scary=scarySec(id);if(scary)return showScary(scary);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true,watchUrlFor(c.id));
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML("naval"):"";
  V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
@@ -913,14 +651,10 @@ async function viewEpisode(d){const url=await audioURL(d.audio);const sents=d.se
 
 async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dictation");return}
  let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}
- if(!it){const L=lucaHit(id);if(L){it=L.it;cat={id:L.sec}}}
- if(!it){const U=upHit(id);if(U){it=U.it;cat={id:U.sec}}}
- if(!it){const E=elioHit(id);if(E){it=E.it;cat={id:E.sec}}}if(!it){const T=turningHit(id);if(T){it=T.it;cat={id:T.sec}}}if(!it){const P=podcastHit(id);if(P){it=P.it;cat={id:P.sec}}}if(!it){const K=talkHit(id);if(K){it=K.it;cat={id:K.sec}}}if(!it){const Q=scaryHit(id);if(Q){it=Q.it;cat={id:Q.sec}}}
+ if(!it){const P=podcastHit(id);if(P){it=P.it;cat={id:P.sec}}}if(!it){const K=talkHit(id);if(K){it=K.it;cat={id:K.sec}}}if(!it){const Q=scaryHit(id);if(Q){it=Q.it;cat={id:Q.sec}}}
  if(!it)return showHome();
  setHeader(secT(cat&&cat.id,ttl(it)),true,it.watch||watchUrlFor(it.id||id));V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
- if(it.dictation||(cat&&cat.id=="dictation")||(cat&&cat.id=="luca_dictation"))return viewDictation(d,it);
- if(it.upPart==="flash"){fcLinkOrig(d);return viewFlash(d.flash,id)}
- if(it.upPart==="ee")return viewEE(d.ee,id);
+ if(it.dictation||(cat&&cat.id=="dictation"))return viewDictation(d,it);
  if(d.type=="chunks"){location.replace("#/c/dictation");return}
  if(d.type=="episode")return viewEpisode(d,id);
  const view=({reading:viewReading,flash:viewFlash,words:viewWords,longaudio:viewLong})[d.type];
@@ -953,7 +687,7 @@ function rdGapWait(ms,alive){if(!(ms>0))return Promise.resolve(alive());
 function podHL(t,ws){const R=[];ws.forEach(w=>{const q=String(w||"").trim();if(!q)return;const re=new RegExp("\\b"+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/\s+/g,"\\s+")+"\\b","i");const m=re.exec(t);if(m&&!R.some(r=>m.index<r[1]&&r[0]<m.index+m[0].length))R.push([m.index,m.index+m[0].length])});
  R.sort((a,b)=>a[0]-b[0]);let out="",at=0;R.forEach(([a,b])=>{out+=esc(t.slice(at,a))+'<b class="pkw">'+esc(t.slice(a,b))+"</b>";at=b});return out+esc(t.slice(at))}
 function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const SP=[1,.85,.75];let si=0,cur=-1;const F={loop:false,shad:false,hid:localStorage.getItem("rd_hid")=="1"};
- const rows=rdRows(d),hasDD=rows.some(x=>x.s.seg&&x.s.oa),lucaRd=/^(luca_|elio_|turning_)/.test(rid)||/^podcast_/.test(rid)||/^scary_/.test(rid),podRd=/^podcast_/.test(rid);
+ const rows=rdRows(d),hasDD=rows.some(x=>x.s.seg&&x.s.oa),lucaRd=/^(podcast_|scary_)/.test(rid),podRd=/^podcast_/.test(rid);
  const showN=i=>{const r=rows.find(x=>x.i===i);return (r?r.n:i)+1};
  let gap=0;try{const n=+localStorage.getItem("rd_luca_gap");if(RD_GAPS.includes(n))gap=n}catch(e){}
  V.innerHTML=`<div class="bar rdbar"><button id="stp">■ 停止</button><button id="bk5" type="button">倒退5秒</button><button id="rnggo" type="button" class="org">原声连播</button><button id="rloop" type="button" class="org">🔁 原声循环</button><button id="spd">速度 1x</button><button id="loop">单句循环</button>${lucaRd?'<button type="button" id="lgap">停顿 0秒</button>':""}<button id="hid">隐藏文字</button>${hasDD?'<button id="dd" class="org">👆 点读</button>':""}</div><div class="status" id="st"></div><div id="ss"></div>`;
@@ -1015,7 +749,7 @@ function viewReading(d,rid){rid=rid||d.id||"";window._rdRid=rid;rdOwn=-1;const S
  $("spd").onclick=()=>{si=(si+1)%3;TLSI=si;A.playbackRate=SP[si];A.defaultPlaybackRate=SP[si];$("spd").textContent="速度 "+SP[si]+"x"};
  $("stp").onclick=()=>{stopAll();setAll(false);st("")};
  $("bk5").onclick=listenRewind;
- // Every reading board (Naval topic, Luca/Elio day, 播客, 播客对话 …): 原声连播 / 原声循环 play only this board's lines,
+ // Every reading board (Naval topic, 播客, 播客对话, Scary …): 原声连播 / 原声循环 play only this board's lines,
  // in order, never the section 连听 range (that stays on the section page, wireTopicListen). Lines without 原声 are skipped.
  {const cards=rows.filter(x=>x.s&&x.s.oa),key="board:"+rid,chip=cards.length+" 句";
   const run=async(loop,from)=>{const me=++RUN,label=loop?"原声循环":"原声连播";let k0=Math.max(0,cards.findIndex(c=>c.i===from));TLACTIVE=key;TLMODE=loop?"loop":"once";listenPaint();window._tl={board:rid,loop:!!loop,ids:cards.map(c=>c.i)};st(label+" · "+chip);
@@ -1159,14 +893,14 @@ document.addEventListener("click",async ev=>{const s=ev.target.closest&&ev.targe
  document.querySelectorAll("audio").forEach(x=>{try{x.pause()}catch(e){}});stopAll();document.querySelectorAll(".dseg.dplay").forEach(x=>x.classList.remove("dplay"));
  s.classList.add("dplay");window._dseg={c:s.dataset.c,a:+s.dataset.a,b:s.dataset.b===""?null:+s.dataset.b};
  await playSrc({oa:s.dataset.c,oab:[+s.dataset.a,s.dataset.b===""?null:+s.dataset.b]},1);s.classList.remove("dplay")},true);
-// ---------- 飞屋环游记 英英解释: same entry list as Naval 英英, read aloud with speechSynthesis (no long audio file) ----------
+// ---------- 英英解释 (TTS fallback): same entry list as Naval 英英, read aloud with speechSynthesis (no long audio file) ----------
 let eeRate=1;
 const EEPOS={"n.":"noun","v.":"verb","adj.":"adjective","adv.":"adverb","phr.":"phrase"};
 function eeParts(e,ent){const pos=EEPOS[String(e.pos||"").replace(/（.*/,"").trim()]||"word";
  const out=[{t:e.w,lang:"en-US",ent},{t:pos,lang:"en-US",ent},{t:e.ex||"",lang:"en-US",ent}];
  (e.exs||[]).forEach((x,j)=>{out.push({t:x,lang:"en-US",ent});const z=e.exzh&&e.exzh[j];if(z)out.push({t:z,lang:"zh-CN",ent});out.push({t:x,lang:"en-US",ent})});return out}
 // 全部连播 / 从这里听 (Nova 2026-11-16 "连读 doesn't play smoothly"): iOS WebKit stutters, drops lines and stalls when the
-// whole day (414 utterances for 飞屋 Day 1, en/zh alternating, some empty) is queued at once. Feed the engine one line
+// whole day (en/zh alternating, some empty) is queued at once. Feed the engine one line
 // ahead instead: the current line plus the next one stay queued (no gap between lines), every utterance stays referenced
 // (WebKit loses onend on collected ones), each line advances exactly once, empty lines are left out, and a watchdog
 // restarts the current line if speech goes silent without onend. RUN (stopAll) still stops everything.
@@ -1585,8 +1319,8 @@ function viewDictation(d,it){const SP=[1,.85,.75];let spi=0;dtRate=()=>SP[spi];c
 // A pick stays until 02:00 America/New_York and cannot be removed. 「开始今天的听写」
 // runs only at five, and opens the first selected sentence that is not done yet
 // through sessionStorage nova_dt_go. Fewer than five stays on this page.
-// #/c/dictation and #/c/luca_dictation are topic lists only.
-// Opening 听写 directly (#/c/dictation, or a 夏日 topic, then #/i/…) hits the
+// #/c/dictation is a topic list only.
+// Opening 听写 directly (#/c/dictation, then #/i/…) hits the
 // same 检查 as a sentence opened from the daily list. A correct check counts
 // once: it fills a free slot among the five, or, once five selected sentences
 // are done, it is overtime. Wrong checks and replays do not count.
@@ -1887,7 +1621,6 @@ let DQSEQ=0,DQTOPICS=null;
 function dqItemList(){const out=[];
  if(CAT){const naval=(CAT.categories||[]).find(c=>c.id=="dictation");
   for(const it of (naval&&naval.items)||[]){if(ORG.hidden[it.id]||(it.base&&ORG.hidden[it.base]))continue;out.push({fold:"Naval",it})}}
- for(const it of lucaDict()){if(ORG.hidden[it.id]||(it.base&&ORG.hidden[it.base]))continue;out.push({fold:"夏日友晴天",it})}
  return out}
 function dqTopics(){if(!DQTOPICS)DQTOPICS=(async()=>{const items=dqItemList(),got=new Array(items.length);
  await Promise.all(items.map(async(row,n)=>{try{const d=await getJSON(row.it.data);const sent=[];
@@ -1949,12 +1682,12 @@ function tSave(){try{localStorage.setItem(TK,JSON.stringify(TLOG))}catch(e){}if(
 function tPlaying(){try{if(!A.paused&&!A.ended)return true;for(const a of document.querySelectorAll("audio,video"))if(!a.paused&&!a.ended)return true;if(window.speechSynthesis&&speechSynthesis.speaking)return true}catch(e){}return false}
 function tActive(now){return !document.hidden&&(now-tAct<T_IDLE||tPlaying())}
 // Per-section time (Nova 2026-10-20): the SAME active seconds are also credited to the home section that is open
-// (Naval 1–7, 夏日友晴天 sections, and custom categories; home / 设置 / 🧠 今日复习 count only in the global total). localStorage nova_tsec {YYYY-MM-DD:{sec:seconds}}; starts at 0 (no back-fill).
+// (Naval 1–7, kept home sections, and custom categories; home / 设置 / 🧠 今日复习 count only in the global total). localStorage nova_tsec {YYYY-MM-DD:{sec:seconds}}; starts at 0 (no back-fill).
 const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)||"{}")||{}}catch(e){TSEC={}}
 const MCAT={};  // imported-audio id → category (filled by itemsIn)
 function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
- if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return String(h[2]||"").startsWith("luca_")?"luca_wf":"wf";if(h[1]=="d")return "d";if(h[1]=="g")return h[2]==="luca"||String(h[2]||"").startsWith("luca_")?"luca_game":"g";
- if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const L=lucaHit(h[2]);if(L)return L.sec;const E=elioHit(h[2]);if(E)return E.sec;const T=turningHit(h[2]);if(T)return T.sec;const P=podcastHit(h[2]);if(P)return P.sec;const K=talkHit(h[2]);if(K)return K.sec;const Q=scaryHit(h[2]);return Q?Q.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
+ if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return "wf";if(h[1]=="d")return "d";if(h[1]=="g")return "g";
+ if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const P=podcastHit(h[2]);if(P)return P.sec;const K=talkHit(h[2]);if(K)return K.sec;const Q=scaryHit(h[2]);return Q?Q.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
 function tsecKeys(sec){return sec=="dictation"||sec=="chunks"?["dictation","chunks"]:[sec]}
 function tsecT(sec,day){const ks=tsecKeys(sec);if(day){const D=TSEC[day]||{};return ks.reduce((n,k)=>n+(+D[k]||0),0)}let s=0;for(const d in TSEC)for(const k of ks)s+=+(TSEC[d][k]||0);return s}
 const secHTML=sec=>`今天 ${fmtT(tsecT(sec,dKey()))} · 累计 ${fmtT(tsecT(sec))}`;

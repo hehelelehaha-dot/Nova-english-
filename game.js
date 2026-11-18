@@ -15,10 +15,6 @@ async function loadUnits(){if(UNITS)return UNITS;const map=new Map();
   const prev=map.get(key);
   if(!prev)map.set(key,{id:it.id,title:it.title.replace(/\s*·\s*(英英解释|单词卡|30词英英解释|30词简洁版|40词英英解释)$/,""),words:ws,order:map.size});
   else ws.forEach((x,i)=>{const p=prev.words.find(y=>normA(ansOf(y.w))==normA(ansOf(x.w)));if(p){for(const k of["clip","seg","src","ex","pos"])if(!p[k]&&x[k])p[k]=x[k];if(!p.exs.length&&x.exs.length)p.exs=x.exs}})}
- try{const up=await loadUp();for(const day of (up&&up.days)||[]){let data;try{data=await getJSON(day.data)}catch(e){continue}const cards=data.flash&&data.flash.cards||[];if(cards.length<2)continue;
-  map.set("up|"+day.id,{id:day.id,title:day.title,words:cards.map(x=>({w:x.w,pos:x.pos,zh:x.zh,ex:x.ex,exs:x.exs||[]})),order:map.size})}}catch(e){}
- try{const luca=await loadLuca();for(const day of (luca&&luca.reading)||[]){if(!day.vocab)continue;let data;try{data=await getJSON(day.data)}catch(e){continue}const cards=data.flash&&data.flash.cards||[];const sents=data.sents||[];if(cards.length<2)continue;
-  map.set("luca|"+day.id,{id:day.id,title:day.title,words:cards.map(x=>{const s=Number.isInteger(x.si)?sents[x.si]:null;return {w:x.w,pos:x.pos,zh:x.zh,ex:x.ex,exs:x.exs||[],src:lucaGameSrc(s,x.w)}}),order:map.size})}}catch(e){}
  UNITS=[...map.values()].filter(u=>u.words.some(w=>normA(ansOf(w.w)).length>1));return UNITS}
 async function playWord(w,rate=1){stopAll();if(w.clip)return playP(w.clip,rate,ansOf(w.w));
  if(w.seg){const url=await audioURL(w.seg.a);const me=RUN;return new Promise(r=>{const end=()=>{A.removeEventListener("timeupdate",tu);r()};const tu=()=>{if(A.currentTime>=w.seg.e||me!=RUN){A.pause();end()}};
@@ -41,9 +37,7 @@ function formRe(ans){const parts=ans.split(" ").filter(p=>p&&!/^(sth|sb|someone|
  return new RegExp("\\b"+parts.map(p=>{const l=p.toLowerCase();let alt=reEsc(l)+"(?:s|es|ed|d|ing|'s)?";
   if(/e$/.test(l))alt+="|"+reEsc(l.slice(0,-1))+"(?:ing|ed)";if(/y$/.test(l))alt+="|"+reEsc(l.slice(0,-1))+"(?:ies|ied)";
   if(/[bdgmnpt]$/.test(l))alt+="|"+reEsc(l)+l.slice(-1)+"(?:ed|ing)";return "(?:"+alt+")"}).join("[\\s-]+(?:\\w+\\s+)?")+"\\b","i")}
-function lucaGameSrc(s,w){if(!s||!s.t)return null;const t=String(s.t).replace(/[’]/g,"'");const m=formRe(ansOf(w)).exec(t);if(!m)return null;const oa=s.oa||s.a||"";
- return {t,ft:t,hl:[m.index,m.index+m[0].length],fhl:[m.index,m.index+m[0].length],sp:"Luca",oa:oa||undefined,oas:oa?[oa]:[]}}
-function unitFold(id){const s=String(id||"");return s.startsWith("luca_")?"luca":s.startsWith("up_")?"up":""}
+function unitFold(id){return ""}
 function clozeOf(w){if(w.src&&w.src.hl){const f=w.src.ft&&w.src.fhl;return {t:f?w.src.ft:w.src.t,s:f?w.src.fhl[0]:w.src.hl[0],e:f?w.src.fhl[1]:w.src.hl[1],label:"原文",src:w.src}}
  const re=formRe(ansOf(w.w));for(const x of w.exs||[]){const m=re.exec(x.replace(/[’]/g,"'"));if(m)return {t:x,s:m.index,e:m.index+m[0].length,label:"例句"}}return null}
 // ---------- results (local + sync fields g:<unit>:<mode>) ----------
@@ -53,13 +47,13 @@ function saveResult(uid,mode,score,total,correct){const old=gResult(uid,mode)||{
  const r={best:Math.max(old.best||0,score),last:score,total,correct,plays:(old.plays||0)+1,at:Date.now()};
  const g=gRes();g[uid+":"+mode]=r;localStorage.setItem(GK,JSON.stringify(g));stamp("g:"+uid+":"+mode,r);localStorage.setItem(FK,JSON.stringify(FIELDS));return r}
 // ---------- UI ----------
-async function showGames(only){const fold=only==="luca"?"luca":only==="up"?"up":"";setHeader(secT(fold==="luca"?"luca_game":fold==="up"?"up_game":"game","🎮 小游戏"),true,watchUrlFor(fold==="luca"?"luca_game":fold==="up"?"up_game":"game"));V.innerHTML=`<div class="done">加载中…</div>`;const us=(await loadUnits()).filter(u=>unitFold(u.id)===fold);
- V.innerHTML=topicGroupsHTML(fold==="luca"?"luca_game":fold==="up"?"up_game":"game",us.map(u=>{const s=gResult(u.id,"spell"),p=gResult(u.id,"puzzle"),z=gResult(u.id,"cloze");
+async function showGames(only){const fold="";setHeader(secT("game","🎮 小游戏"),true,watchUrlFor("game"));V.innerHTML=`<div class="done">加载中…</div>`;const us=(await loadUnits()).filter(u=>unitFold(u.id)===fold);
+ V.innerHTML=topicGroupsHTML("game",us.map(u=>{const s=gResult(u.id,"spell"),p=gResult(u.id,"puzzle"),z=gResult(u.id,"cloze");
   return {n:topicNo(u),html:`<div class="gu"><div class="gt"><b>${esc(u.title)}</b><span class="sb">${u.words.length} 个词${s||p||z?` · 最高分 拼写 ${s?s.best:"-"} / 拼图 ${p?p.best:"-"} / 填词 ${z?z.best:"-"}`:""}${u.words.some(w=>w.src)?" · 📖 有原文":""}</span></div>
   <div class="gb"><button class="wide flip" onclick="location.hash='#/g/${u.id}/spell'">✍️ 拼写</button><button class="wide gblue" onclick="location.hash='#/g/${u.id}/puzzle'">🧩 拼图</button><button class="wide gcl" onclick="location.hash='#/g/${u.id}/cloze'">📝 填词</button></div></div>`}}))}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>x.id==uid);const fold=unitFold(uid);if(!u)return fold?showGames(fold):showGames();
- const MN={spell:"✍️ 拼写",puzzle:"🧩 拼图",cloze:"📝 填词"};setHeader(secT(fold==="luca"?"luca_game":fold==="up"?"up_game":"game",MN[mode]+" · "+u.title),true,watchUrlFor(uid));
+ const MN={spell:"✍️ 拼写",puzzle:"🧩 拼图",cloze:"📝 填词"};setHeader(secT("game",MN[mode]+" · "+u.title),true,watchUrlFor(uid));
  const pool=u.words.map((w,i)=>i).filter(i=>mode!="cloze"||clozeOf(u.words[i]));
  const G={q:shuffle(pool),pos:0,score:0,correct:0,miss:[],round:1,total:pool.length};
  const hdr=()=>`<div class="gs"><span>${G.round>1?"🔁 错题回顾 · ":""}第 ${Math.min(G.pos+1,G.q.length)} / ${G.q.length} 题</span><span>⭐ ${G.score}</span></div><div class="gp"><i style="width:${100*G.pos/G.q.length}%"></i></div>`;
@@ -70,7 +64,7 @@ async function showGame(uid,mode){const us=await loadUnits();const u=us.find(x=>
  function finish(){stopAll();const r=saveResult(uid,mode,G.score,G.total,G.correct);
   V.innerHTML=`<div class="card gend"><img src="icons/icon-192.png" alt=""><div class="conf">🌻 🎉 🌻</div><h2>完成啦，Nova！</h2><div class="big2">⭐ ${G.score}</div>
    <div>一次答对 ${G.correct} / ${G.total} 个词${r.best==G.score&&r.plays>1?" · 🏆 新纪录！":""}</div><div class="sb">最高分 ${r.best} · 第 ${r.plays} 次</div>
-   <button class="wide flip" id="again">再玩一次</button>${["spell","puzzle","cloze"].filter(m=>m!=mode).map(m=>`<button class="wide gblue" onclick="navSib('#/g/${uid}/${m}')">换${MN[m]}</button>`).join("")}<button class="wide gray" onclick="location.hash='${fold==="luca"?"#/g/luca":fold==="up"?"#/g/up":"#/g"}'">返回单元列表</button></div>`;
+   <button class="wide flip" id="again">再玩一次</button>${["spell","puzzle","cloze"].filter(m=>m!=mode).map(m=>`<button class="wide gblue" onclick="navSib('#/g/${uid}/${m}')">换${MN[m]}</button>`).join("")}<button class="wide gray" onclick="location.hash='#/g'">返回单元列表</button></div>`;
   document.getElementById("again").onclick=()=>showGame(uid,mode)}
  function render(){const w=u.words[G.q[G.pos]];const ans=ansOf(w.w);const first=G.round==1;let tries=0,hints=0,done=false;
   const hintEx=w.ex?w.ex.split(/(?<=[.?!])\s/)[0].replace(new RegExp(ans.split(" ").filter(x=>x.length>2).map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")||"$^","gi"),"____"):"";

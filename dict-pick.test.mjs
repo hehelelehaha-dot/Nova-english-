@@ -11,7 +11,7 @@ const logic = app.slice(app.indexOf("// DQ_LOGIC_START"), app.indexOf("// DQ_LOG
 const pageFns = app.slice(app.indexOf("function dqFind"), app.indexOf("async function showDQ"));
 const showAt = app.indexOf("async function showDQ");
 const showDQ = app.slice(showAt, app.indexOf('document.addEventListener("click"', showAt));
-const showLuca = app.slice(app.indexOf("function showLuca"), app.indexOf("async function showCat"));
+const showTalk = app.slice(app.indexOf("function showTalk"), app.indexOf("// Scary Comp."));
 const showCat = app.slice(app.indexOf("async function showCat"), app.indexOf("const ZOOMS"));
 const viewDt = app.slice(app.indexOf("function viewDictation"), app.indexOf("// ---------- daily"));
 
@@ -45,27 +45,27 @@ assert.equal(showCat.includes("开始今天的听写"), false);
 assert.equal(showCat.includes("nova_dt_go"), false);
 assert.equal(showCat.includes("dqGoSelected"), false);
 
-assert.match(showLuca, /s\.like=="dictation"\?dqHTML\(\):""/);
-assert.match(showLuca, /s\.like=="dictation"\)dqGoalMount\(\)/);
-assert.match(showLuca, /querySelectorAll\("\[data-k\]"\)/);
-assert.equal(showLuca.includes("dqGuideHTML"), false);
-assert.equal(showLuca.includes("dictPickShell"), false);
-assert.equal(showLuca.includes("dqMountList"), false);
-assert.equal(showLuca.includes("dqstart"), false);
-assert.equal(showLuca.includes("daygrid"), false);
-assert.equal(showLuca.includes("data-dqk"), false);
-assert.equal(showLuca.includes("开始今天的听写"), false);
-assert.equal(showLuca.includes("nova_dt_go"), false);
-assert.equal(showLuca.includes("dqp"), false);
+assert.match(showTalk, /s\.like=="dictation"\?dqHTML\(\):""/);
+assert.match(showTalk, /s\.like=="dictation"\)dqGoalMount\(\)/);
+assert.match(showTalk, /querySelectorAll\("\[data-k\]"\)/);
+assert.equal(showTalk.includes("dqGuideHTML"), false);
+assert.equal(showTalk.includes("dictPickShell"), false);
+assert.equal(showTalk.includes("dqMountList"), false);
+assert.equal(showTalk.includes("dqstart"), false);
+assert.equal(showTalk.includes("daygrid"), false);
+assert.equal(showTalk.includes("data-dqk"), false);
+assert.equal(showTalk.includes("开始今天的听写"), false);
+assert.equal(showTalk.includes("nova_dt_go"), false);
+assert.equal(showTalk.includes("dqp"), false);
 
 assert.match(viewDt, /sessionStorage\.getItem\("nova_dt_go"\)/);
 assert.match(viewDt, /sents\.findIndex\(x=>x\.i===\+jump\)/);
 assert.match(viewDt, /else showPick\(\)/);
 
 const navalBind = showCat.match(/V\.querySelectorAll\("\[data-k\]"\)\.forEach\(b=>\{const x=xs\[\+b\.dataset\.k\];b\.onclick=\(\)=>\{if\(tapOK\(\)\)location\.hash=\(x\.kind=="m"\?"#\/m\/":"#\/i\/"\)\+x\.id\}\}\)/);
-const lucaBind = showLuca.match(/V\.querySelectorAll\("\[data-k\]"\)\.forEach\(b=>\{const x=xs\[\+b\.dataset\.k\];b\.onclick=\(\)=>\{if\(tapOK\(\)\)location\.hash="#\/i\/"\+x\.id\}\}\)/);
+const talkBind = showTalk.match(/V\.querySelectorAll\("\[data-k\]"\)\.forEach\(b=>\{const x=xs\[\+b\.dataset\.k\];b\.onclick=\(\)=>\{if\(tapOK\(\)\)location\.hash="#\/i\/"\+x\.id\}\}\)/);
 assert.ok(navalBind, "topic rows still open the item");
-assert.ok(lucaBind, "夏日 rows still open the item");
+assert.ok(talkBind, "播客对话 rows still open the item");
 
 function esc(s){return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 
@@ -182,7 +182,7 @@ function click(el){ if (el && typeof el.onclick === "function") el.onclick({prev
 
 const topics = [
   {fold: "Naval", id: "dt_a", title: "Topic A", base: "a", sent: [0, 1, 2, 3]},
-  {fold: "夏日友晴天", id: "dt_b", title: "Day B", base: "b", sent: [0, 5]}
+  {fold: "播客对话", id: "dt_b", title: "Day B", base: "b", sent: [0, 5]}
 ];
 
 function boot(){
@@ -344,8 +344,8 @@ this.dqPick=dqPick;
   location.hash = "#/c/dictation";
   click(lis[1]);
   assert.equal(location.hash, "#/m/mine1");
-  location.hash = "#/c/luca_dictation";
-  runInContext(lucaBind[0], createContext(nav));
+  location.hash = "#/c/talk_dictation";
+  runInContext(talkBind[0], createContext(nav));
   click(lis[0]);
   assert.equal(location.hash, "#/i/dt_a");
   assert.equal(mem.nova_dt_go, undefined);

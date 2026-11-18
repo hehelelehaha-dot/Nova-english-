@@ -394,23 +394,9 @@ html[data-theme^=t] .foldsub,html[data-theme^=t] .foldar::before{color:var(--ct)
 html[data-theme=t2] .fold{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 html[data-theme=t3] .foldnm{color:#1d2b38}
 html[data-theme=t6] .foldnm{font-family:"Kaiti SC","STKaiti","KaiTi","Xingkai SC","Noto Serif CJK SC",serif;color:#f6edd8}
-/* 大冰 only. Naval paper is --sf, a soft navy glass. 夏日 is one step deeper; 飞屋 is one step deeper still. */
-html[data-theme=t6] .fold[data-fold=luca],
-html[data-theme=t6] .fold[data-fold=luca] :is(.tile,.li,.card,.gu){background:#2c4474}
-html[data-theme=t6] .fold[data-fold=up],
-html[data-theme=t6] .fold[data-fold=up] :is(.tile,.li,.card,.gu){background:#1e325c}
-html[data-theme=t6][data-paper=luca] :is(.tile,.li,.card,.wc,.ent,.s,.player,.gu,.tlisten):not(.zh):not(.cur){background:#2c4474}
-html[data-theme=t6][data-paper=up] :is(.tile,.li,.card,.wc,.ent,.s,.player,.gu,.tlisten):not(.zh):not(.cur){background:#1e325c}
-html[data-theme=t6][data-paper=luca] :is(.rost .li.zh,#ss .s.zh){background:#31487a}
-html[data-theme=t6][data-paper=up] .rost .li.zh{background:#263862}
-html[data-theme=t6][data-paper=luca] :is(.s.cur,.wc.cur){background:#345084}
-html[data-theme=t6][data-paper=up] :is(.s.cur,.wc.cur){background:#2a406c}
+/* 大冰 only. Naval paper is --sf, a soft navy glass. */
 /* Playing row used to stay navy glass. Template C paints every #ss board charcoal; see the block at the end of this file. */
 html[data-theme=t6] #ss .s.cur{background:#1a1614!important;color:#f6efe4}
-html[data-theme=t6][data-paper=luca] #ss .s.cur{background:#1a1614!important}
-html[data-theme=t6][data-paper=luca] #ss .s.cur.zh{background:#1a1614!important}
-html[data-theme=t6][data-paper=up] #ss .s.cur{background:#1a1614!important}
-html[data-theme=t6][data-paper=up] #ss .s.cur.zh{background:#1a1614!important}
 html[data-theme^=t] .s{border-left-width:4px}
 html[data-theme=t2] :is(.tile,.li,.card,.wc,.ent,.s,.player,.hero,.gu,.sh){-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 html[data-theme^=t] .tile{border-top:var(--sfbd)}
@@ -431,8 +417,6 @@ html[data-theme^=t] .wd.on,html[data-theme^=t] .dseg.dplay{background:var(--hl2)
    #ss phrase ink is set with the charcoal boards — white on #1a1614, not this navy chip. */
 html[data-theme=t6] :is(.tlcap .ph.play,.dseg.dplay){background:#5168a4;color:#fff;-webkit-text-fill-color:#fff;box-shadow:0 0 0 2px rgba(232,196,120,.72)}
 html[data-theme=t6] #ss .ph.play{border-bottom-color:#e8c56a}
-html[data-theme=t6][data-paper=luca] .dseg.dplay{background:#456090;color:#fff;-webkit-text-fill-color:#fff}
-html[data-theme=t6][data-paper=up] .dseg.dplay{background:#3a527f;color:#fff;-webkit-text-fill-color:#fff}
 html[data-theme=t6] #ss.hide .zhe .ph.play{border-bottom-color:#e8c56a}
 html[data-theme^=t] :is(.s.cur,.wc.cur){outline:3px solid var(--cur)}
 html[data-theme^=t] .ent.cur{outline:3px solid var(--cur)}
@@ -933,19 +917,11 @@ html[data-theme=t6] #ss .s.zh:not(.cur),
 html[data-theme=t6] #ss .s.zh:not(.cur) :is(.zhe,.zhb,.zht,.gl,.glg,.gli,.gsr,.who){color:#f6efe4!important}
 html[data-theme=t6] #ss .s.zh:not(.cur) :is(.gli b,.gsr b){color:#fff8ee!important}
 html[data-theme=t6] #ss .s.zh:not(.cur) :is(.gli i,.glh){color:#e8c56a!important}
-html[data-theme=t6][data-paper=luca] #ss .s.zh,
-html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.zhe,.zhb,.zht,.gl,.glg,.gsr){color:#ead9b4!important}
-html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.gli b,.gsr b){color:#f7f3ea!important}
-html[data-theme=t6][data-paper=luca] #ss .s.zh :is(.gli i,.glh,.who){color:#ffd27a!important}
 html[data-theme=t6] #ss :is(.gls,.gsb){color:#1a2330!important}
 html[data-theme=t6] #ss.hide .s.cur .zhe,
-html[data-theme=t6] #ss.hide .s.cur .zhe .ph:not(.play),
-html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe,
-html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe .ph:not(.play){color:#f4ead8!important;-webkit-text-fill-color:#f4ead8!important}
+html[data-theme=t6] #ss.hide .s.cur .zhe .ph:not(.play){color:#f4ead8!important;-webkit-text-fill-color:#f4ead8!important}
 html[data-theme=t6] #ss.hide .zhe .ph.play,
-html[data-theme=t6] #ss.hide .s.cur .zhe .ph.play,
-html[data-theme=t6][data-paper=luca] #ss.hide .s.zh .zhe .ph.play,
-html[data-theme=t6][data-paper=up] #ss.hide .s.zh .zhe .ph.play{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html[data-theme=t6] #ss.hide .s.cur .zhe .ph.play{color:#fff!important;-webkit-text-fill-color:#fff!important}
 
 /* 大冰 reading transport: translucent navy glass pills; active 点读 is warm gold glass. */
 html[data-theme=t6] .bar.rdbar>button,
@@ -995,14 +971,8 @@ html[data-theme=t6][data-paper] .dtcard.sunon{box-shadow:inset 3px 0 0 #ffb000,0
 html[data-theme=t6] #ss .s,
 html[data-theme=t6][data-paper] #ss .s,
 html[data-theme=t6] #ss .s.cur,
-html[data-theme=t6][data-paper=luca] #ss .s.cur,
-html[data-theme=t6][data-paper=up] #ss .s.cur,
 html[data-theme=t6] #ss .s.zh,
-html[data-theme=t6][data-paper=luca] #ss .s.zh,
-html[data-theme=t6][data-paper=up] #ss .s.zh,
-html[data-theme=t6] #ss .s.cur.zh,
-html[data-theme=t6][data-paper=luca] #ss .s.cur.zh,
-html[data-theme=t6][data-paper=up] #ss .s.cur.zh{
+html[data-theme=t6] #ss .s.cur.zh{
  background:#1a1614!important;
  color:#f6efe4;
  border:1px solid rgba(255,236,214,.18)!important;
