@@ -1,4 +1,4 @@
-// Luca reading-card 单句循环: off → forever → ×5 → ×10 → off.
+// Reading-card 单句循环 (播客 / Scary): off → forever → ×5 → ×10 → off.
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {createContext, runInContext} from "node:vm";
@@ -40,7 +40,7 @@ assert.equal(walk(10, 0, 8, 100).length, 80);
 assert.deepEqual([...new Set(walk(5, 0, 8, 100))], [0,1,2,3,4,5,6,7]);
 
 const rd = app.slice(app.indexOf("function viewReading"), app.indexOf("// 原文 in word cards"));
-assert.match(rd, /lucaRd=\/\^\(luca_\|elio_\|turning_\)\/\.test\(rid\)/);
+assert.match(rd, /lucaRd=\/\^\(podcast_\|scary_\)\/\.test\(rid\)/);
 assert.match(rd, /rdLoopCycle\(rep\)/);
 assert.match(rd, /rdLoopLabel\(rep\)/);
 assert.match(rd, /rdLoopNext\(rep,played,pos,rows\.length\)/);

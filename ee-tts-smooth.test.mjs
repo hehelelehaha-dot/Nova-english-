@@ -1,4 +1,4 @@
-// 英英解释 (TTS boards, e.g. 飞屋 Day 1) 全部连播 / 从这里听: the engine is fed one line ahead (never the whole day at once),
+// 英英解释 (TTS boards) 全部连播 / 从这里听: the engine is fed one line ahead (never the whole day at once),
 // every line is spoken exactly once and in order, empty lines are left out, a silent stall restarts the current line,
 // and stopAll (■ 停止) stops the chain.
 import assert from "node:assert/strict";
@@ -7,7 +7,10 @@ import {createContext, runInContext} from "node:vm";
 
 const app = fs.readFileSync(new URL("./app.js", import.meta.url), "utf8");
 const src = app.slice(app.indexOf("let eeRate=1;"), app.indexOf("function viewEE(d,id)"));
-const up = JSON.parse(fs.readFileSync(new URL("content/up_d01.json", import.meta.url), "utf8"));
+const items = Array.from({length: 69}, (_, i) => ({
+  n: i + 1, w: "word" + i, pos: "n.", zh: "词",
+  ex: "Example " + i + ".", exs: ["Sent " + i + "."], exzh: ["句子 " + i + "。"]
+}));
 
 function env({dropEndAt = -1} = {}) {
   const spoken = [], log = [];
@@ -31,7 +34,6 @@ function env({dropEndAt = -1} = {}) {
   return {g, S, spoken, log, get maxQ() { return maxQ; }};
 }
 const wait = ms => new Promise(r => setTimeout(r, ms));
-const items = up.ee.items;
 const listOf = from => { const l = []; for (let k = from; k < items.length; k++) l.push(...envParts(k)); return l; };
 let envParts;
 const until = async (f, ms = 15000) => { const t = Date.now(); while (!f()) { if (Date.now() - t > ms) return false; await wait(5); } return true; };

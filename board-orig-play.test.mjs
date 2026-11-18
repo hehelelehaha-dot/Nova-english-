@@ -45,9 +45,6 @@ const naval = {id: "naval_t03", sents: [
   {sp: "Naval", t: "Then wealth.", oa: "audio/t03/s04.mp3", d: 2}]};
 const cases = [
   ["naval_t03", naval, "Naval topic"],
-  ["luca_d01", J("luca_d01.json"), "Luca day (keep list)"],
-  ["luca_d05", J("luca_d05.json"), "Luca day"],
-  ["elio_monologue", J("elio_monologue.json"), "Elio"],
   ["podcast_gg", J("podcast_gg.json"), "播客"],
   ["talk_ep1_oa", J("talk_ep1_oa.json"), "播客对话 原声"]];
 for (const [rid, d, name] of cases) {
@@ -74,8 +71,6 @@ assert.deepEqual(none.played, []); assert.equal(none.status.at(-1), "这一段�
 // "Is success worth it then?"). Boards whose s.a is the 原声 clip keep s.d.
 const nv = {id: "naval_t01", sents: [{t: "Happiness is being satisfied with what you have. Success comes from dissatisfaction. Is success worth it then?", a: "audio/t01/s01.mp3", d: 6.22, oa: "audio/t01o/s01.mp3", oe: 7.9}]};
 assert.deepEqual((await board("naval_t01", nv)).durs, [0], "Naval original clip plays to its end");
-const lu = J("luca_d05.json"), lw = g.rdRows(lu).filter(x => x.s.oa).map(x => +x.s.d || 0);
-assert.deepEqual((await board("luca_d05", lu)).durs, lw, "Luca clip length unchanged");
 for (const [, d, name] of cases) for (const x of g.rdRows(d)) if (x.s.oa && x.s.a && x.s.a !== x.s.oa) assert.equal(g.oaDur(x.s), 0, name);
 const fl = app.slice(app.indexOf("async function playFoldListen"), app.indexOf("async function playFoldListen") + 3000);
 assert.match(fl, /listenClip\(url,me,oaDur\(c\.s\)\)/, "section 连听 uses the same clip length rule");

@@ -16,7 +16,7 @@ assert.doesNotMatch(def, /dictation|flash|ee|original|quiz/);
 assert.match(app, /loadScary\(\)/);
 assert.match(app, /scaryHit\(/);
 assert.match(app, /const scary=scarySec\(id\);if\(scary\)return showScary\(scary\)/);
-assert.match(app, /\/\^scary_\/\.test\(rid\)/, "scary boards get the Luca-style 单句循环 / 停顿 controls");
+assert.match(app, /lucaRd=\/\^\(podcast_\|scary_\)\/\.test\(rid\)/, "scary boards get the 单句循环 / 停顿 controls");
 
 // Boards: reading only, ids scary_01.., each line with text, Chinese, its own 原声 clip.
 assert.ok(sc.boards.length >= 30);

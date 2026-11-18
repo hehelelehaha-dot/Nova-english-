@@ -32,10 +32,6 @@ assert.equal(flat.includes("tfold"), false);
 assert.equal(flat.includes("<details"), false);
 assert.match(flat, /data-tid="t10"[\s\S]*data-tid="mine"/);
 
-const luca = src.slice(src.indexOf("function showLuca"), src.indexOf("async function showCat"));
-assert.equal(luca.includes("topicGroupsHTML"), false);
-assert.equal(luca.includes("tfold"), false);
-
 const topicNoSrc = src.slice(src.indexOf("const topicNo"), src.indexOf("function topicSort"));
 const ids = {};
 runInContext(topicNoSrc + "\nthis.topicNo=topicNo;", createContext(ids));
