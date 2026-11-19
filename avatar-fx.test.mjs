@@ -15,9 +15,16 @@ assert.ok(app.includes('if(kind==="stars")playStarRain();else playWeatherFx(kind
 assert.ok(app.includes('starAv.onclick=ev=>{ev.preventDefault();playAvatarFx()}'), "avatar tap uses the rotator");
 assert.equal(app.includes('starAv.onclick=ev=>{ev.preventDefault();playStarRain()}'), false, "avatar no longer only plays stars");
 assert.match(app, /id="nova-weather"/);
-assert.match(app, /function wxMaple\(/);
 assert.match(app, /function wxFlake\(/);
-assert.equal(/assets\/[^"'\s]*(snow|maple|leaf)/i.test(app), false, "snow and maple are drawn, not image assets");
+assert.match(app, /function preloadMaple\(/);
+assert.match(app, /const MAPLE_SRC=/);
+assert.match(app, /assets\/maple\/leaf/);
+assert.match(app, /ctx\.drawImage\(im/);
+assert.equal(app.includes("function wxMaple("), false, "maple uses leaf sprites, not a vector path");
+assert.match(app, /y:spread\?rnd\(-H\*\.2,H\):rnd\(-70,-10\)/);
+assert.match(app, /vy:rnd\(36,88\)/);
+assert.match(app, /amp:rnd\(16,52\)/);
+assert.match(app, /1\.6\*0\.78/);
 assert.match(app, /reduce\?700:10000/);
 assert.match(app, /setTimeout\(stopWeatherFx,400\)/);
 assert.match(app, /starT=setTimeout\(\(\)=>\{img\.classList\.add\("out"\);starF=setTimeout\(\(\)=>\{const u=img\._u;img\._u="";img\.remove\(\);if\(u\)URL\.revokeObjectURL\(u\)\},400\)\},10000\)/);
