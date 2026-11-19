@@ -12,7 +12,7 @@ const check = readFileSync(new URL("./content/check.enc", root));
 assert.equal(meta.enc, true);
 assert.equal(meta.salt, "VDsYu07qwIo/c92BJjS9ew==");
 assert.equal(meta.iter, 250000);
-assert.equal(meta.cv, "ee8d4055");
+assert.equal(meta.cv, "71f52c6f");
 assert.match(meta.v, /^[0-9a-f]{10}$/);
 assert.match(sw, new RegExp('const V="' + meta.v + '"'));
 assert.ok(sw.startsWith("// Nova 英语 service worker. " + meta.v + " "));
