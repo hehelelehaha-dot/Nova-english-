@@ -415,8 +415,10 @@ function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder
  return o.gtile?btn:`<div class="tw">${btn}${o.menu||""}</div>`}
 function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)=="1"}catch(e){return false}}
 function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
-// Home sunflower-duck tap. Star rain is not started until the tap. After home
-// renders we preload the bytes; each tap builds a new image at frame 0 for 10s.
+// Home sunflower-duck tap. Cycles stars → snow → maple, each full-screen for 10s
+// then a 400ms fade, same coverage as star rain. After home renders we preload
+// the star bytes; a stars tap builds a new image at frame 0. Snow and maple are
+// canvas-drawn (no extra assets) and respect prefers-reduced-motion.
 const STAR_GIF="assets/starrain/starrain.gif",STAR_WEBP="assets/starrain/starrain.webp";
 let starBlob=null,starHold=null,starT=0,starF=0,starGot=false;
 function starCanWebp(){try{return document.createElement("canvas").toDataURL("image/webp").startsWith("data:image/webp")}catch(e){return false}}
@@ -425,9 +427,10 @@ function preloadStarRain(){if(starGot)return;starGot=true;
  const load=u=>{starHold=new Image();starHold.decoding="async";starHold.src=u;return fetch(u).then(r=>{if(!r.ok)throw new Error("star");return r.blob()}).then(b=>{starBlob=b})};
  const url=starFile();
  load(url).catch(()=>{if(url===STAR_GIF)return;starBlob=null;return load(STAR_GIF).catch(()=>{})})}
-function playStarRain(){clearTimeout(starT);clearTimeout(starF);
+function stopStarRain(){clearTimeout(starT);clearTimeout(starF);
  const old=document.getElementById("nova-starrain");
- if(old){const u=old._u;old._u="";old.remove();if(u)URL.revokeObjectURL(u)}
+ if(old){const u=old._u;old._u="";old.remove();if(u)URL.revokeObjectURL(u)}}
+function playStarRain(){stopWeatherFx();stopStarRain();
  const img=document.createElement("img");
  img.id="nova-starrain";img.alt="";img.setAttribute("aria-hidden","true");
  img.style.backgroundColor="transparent";img.style.backgroundImage="none";img.style.boxShadow="none";img.style.filter="none";img.style.backdropFilter="none";img.style.webkitBackdropFilter="none";
@@ -437,6 +440,60 @@ function playStarRain(){clearTimeout(starT);clearTimeout(starF);
  img.src=url;
  document.body.appendChild(img);
  starT=setTimeout(()=>{img.classList.add("out");starF=setTimeout(()=>{const u=img._u;img._u="";img.remove();if(u)URL.revokeObjectURL(u)},400)},10000)}
+const FX_KINDS=["stars","snow","maple"];
+let fxKind=0,wxRAF=0,wxT=0,wxF=0,wxOnResize=null;
+function fxReduced(){try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
+function stopWeatherFx(){clearTimeout(wxT);clearTimeout(wxF);if(wxRAF)cancelAnimationFrame(wxRAF);wxRAF=0;
+ if(wxOnResize){removeEventListener("resize",wxOnResize);wxOnResize=null}
+ const c=document.getElementById("nova-weather");if(c)c.remove()}
+function stopAvatarFx(){stopStarRain();stopWeatherFx()}
+function playAvatarFx(){stopAvatarFx();const kind=FX_KINDS[fxKind++%FX_KINDS.length];if(kind==="stars")playStarRain();else playWeatherFx(kind)}
+function wxMaple(ctx){const P=[[0,-1],[.09,-.84],[.16,-.78],[.1,-.7],[.14,-.64],[.08,-.56],[.24,-.66],[.38,-.74],[.5,-.7],[.46,-.58],[.38,-.52],[.44,-.46],[.22,-.4],[.4,-.4],[.58,-.36],[.7,-.26],[.68,-.14],[.54,-.12],[.42,-.16],[.46,-.06],[.26,-.08],[.36,.04],[.42,.16],[.32,.26],[.18,.16],[.1,.06],[.05,.22],[.02,.6],[-.02,.6],[-.05,.22],[-.1,.06],[-.18,.16],[-.32,.26],[-.42,.16],[-.36,.04],[-.26,-.08],[-.46,-.06],[-.42,-.16],[-.54,-.12],[-.68,-.14],[-.7,-.26],[-.58,-.36],[-.4,-.4],[-.22,-.4],[-.44,-.46],[-.38,-.52],[-.46,-.58],[-.5,-.7],[-.38,-.74],[-.24,-.66],[-.08,-.56],[-.14,-.64],[-.1,-.7],[-.16,-.78],[-.09,-.84]];
+ ctx.beginPath();ctx.moveTo(P[0][0],P[0][1]);for(const q of P.slice(1))ctx.lineTo(q[0],q[1]);ctx.closePath()}
+function wxFlake(ctx,r,typ,alpha){if(typ<0.42){const g=ctx.createRadialGradient(0,0,0,0,0,r);
+  g.addColorStop(0,"rgba(255,255,255,"+(0.95*alpha)+")");g.addColorStop(.45,"rgba(232,242,255,"+(0.7*alpha)+")");g.addColorStop(1,"rgba(255,255,255,0)");
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();return}
+ if(typ<0.78){ctx.strokeStyle="rgba(255,255,255,"+(0.92*alpha)+")";ctx.lineWidth=Math.max(.7,r*.13);ctx.lineCap="round";
+  for(let i=0;i<6;i++){ctx.rotate(Math.PI/3);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,-r);ctx.stroke();
+   ctx.beginPath();ctx.moveTo(0,-r*.52);ctx.lineTo(-r*.25,-r*.72);ctx.moveTo(0,-r*.52);ctx.lineTo(r*.25,-r*.72);ctx.stroke()}
+  ctx.fillStyle="rgba(255,255,255,"+(0.85*alpha)+")";ctx.beginPath();ctx.arc(0,0,Math.max(0.8,r*.14),0,Math.PI*2);ctx.fill();return}
+ ctx.fillStyle="rgba(255,255,255,"+(0.9*alpha)+")";ctx.beginPath();
+ for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r);ctx.quadraticCurveTo(0,0,Math.cos(a+Math.PI/2)*r*.18,Math.sin(a+Math.PI/2)*r*.18)}
+ ctx.fill()}
+function playWeatherFx(kind){stopWeatherFx();const reduce=fxReduced();
+ const cv=document.createElement("canvas");cv.id="nova-weather";cv.setAttribute("aria-hidden","true");document.body.appendChild(cv);
+ const ctx=cv.getContext("2d",{alpha:true});
+ const fit=()=>{const d=Math.min(2,window.devicePixelRatio||1);cv.width=Math.max(1,innerWidth*d);cv.height=Math.max(1,innerHeight*d);cv.style.width="100%";cv.style.height="100%"};
+ fit();wxOnResize=fit;addEventListener("resize",wxOnResize,{passive:true});
+ const rnd=(a,b)=>a+Math.random()*(b-a);
+ const w=()=>innerWidth,h=()=>innerHeight;
+ const leafFill=["#c4331a","#d63e1c","#e4451f","#ef6a16","#f08a22","#f0b429","#e8c44a","#f5d15a"];
+ const leafStroke=["#8a2410","#9a2a12","#b33214","#b84e10","#c46a14","#c49218","#c4a430","#d4b038"];
+ const n=kind==="snow"?140:70,parts=new Array(n);
+ const mk=(spread)=>{const W=w(),H=h();
+  if(kind==="snow"){const typ=Math.random(),r=typ<0.42?rnd(2.2,9):typ<0.78?rnd(5,16):rnd(3,8);
+   return {x:rnd(0,W),y:spread?rnd(-H*.15,H):rnd(-40,-8),r,typ,vy:rnd(28,72),amp:rnd(10,36),per:rnd(2.2,5.2),ph:rnd(0,Math.PI*2),rot:rnd(0,Math.PI*2),vr:rnd(-0.6,0.6),sp:rnd(0.6,1.8),spa:Math.random()}}
+  const s=rnd(16,58)*(Math.random()<0.18?1.45:1),ci=Math.floor(Math.random()*leafFill.length);
+  return {x:rnd(0,W),y:spread?rnd(-H*.2,H):rnd(-70,-10),s,vy:rnd(36,88),amp:rnd(16,52),per:rnd(2.4,5.8),ph:rnd(0,Math.PI*2),rot:rnd(0,Math.PI*2),vr:rnd(-2.4,2.4),flip:rnd(0.7,1.8),fi:rnd(0,Math.PI*2),ci}};
+ for(let i=0;i<n;i++)parts[i]=mk(true);
+ const t0=performance.now();let last=t0;
+ const tick=now=>{const W=w(),H=h(),d=Math.min(2,window.devicePixelRatio||1);
+  ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,W,H);
+  const dt=reduce?0:Math.min(0.05,(now-last)/1000);last=now;
+  for(let i=0;i<n;i++){let p=parts[i];
+   if(!reduce){p.y+=p.vy*dt;p.ph+=dt*(Math.PI*2)/p.per;p.rot+=p.vr*dt;if(kind==="maple")p.fi+=p.flip*dt;
+    if(p.y>H+70){const nx=mk(false);nx.y=-60;parts[i]=p=nx}}
+   const x=p.x+Math.sin(p.ph)*p.amp;
+   ctx.save();ctx.translate(x,p.y);
+   if(kind==="snow"){const tw=0.72+0.28*Math.sin(now/1000*p.sp+p.spa*6);ctx.rotate(p.rot);wxFlake(ctx,p.r,p.typ,tw)}
+   else{const sx=Math.cos(p.fi);ctx.rotate(p.rot);ctx.scale(p.s*(0.55+0.45*Math.abs(sx)),p.s);wxMaple(ctx);ctx.fillStyle=leafFill[p.ci];ctx.fill();ctx.strokeStyle=leafStroke[p.ci];ctx.lineWidth=0.05;ctx.stroke();
+    ctx.strokeStyle="rgba(80,25,0,"+(0.28+0.1*Math.abs(sx))+")";ctx.lineWidth=0.045;ctx.beginPath();ctx.moveTo(0,.48);ctx.quadraticCurveTo(.02,-.05,0,-.82);ctx.stroke();
+    ctx.fillStyle="rgba(255,230,160,"+(0.14+0.12*Math.abs(sx))+")";ctx.beginPath();ctx.ellipse(-.1,-.3,.12,.2,-.35,0,Math.PI*2);ctx.fill()}
+   ctx.restore()}
+  if(!reduce)wxRAF=requestAnimationFrame(tick)};
+ if(reduce){tick(t0)}else wxRAF=requestAnimationFrame(tick);
+ const life=reduce?700:10000;
+ wxT=setTimeout(()=>{cv.classList.add("out");wxF=setTimeout(stopWeatherFx,400)},life)}
 async function showHome(){document.documentElement.dataset.home="1";setHeader("Nova 英语",false);gear();refreshFoldNumbers();const cs=allCats();const counts=await Promise.all(cs.map(c=>itemsIn(c.id).then(a=>a.length)));
  const byId=Object.fromEntries(cs.map(c=>[c.id,c]));const countOf=id=>{const i=cs.findIndex(c=>c.id==id);return (i<0?0:counts[i])+" 项"};
  const navalIds=navalSectionIds();
@@ -454,7 +511,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
  V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("podcast","播客",PODCAST_DEF.length,podcast)}${foldHTML("talk","播客对话",TALK_DEF.length,talk)}${foldHTML("scary","Scary Comp. 2021",SCARY_DEF.length,scary)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();if(typeof dqGoalHome=="function")dqGoalHome();
- const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playStarRain()};preloadStarRain();
+ const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playAvatarFx()};preloadStarRain();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));
