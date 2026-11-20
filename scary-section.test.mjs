@@ -37,7 +37,8 @@ sc.boards.forEach((b, i) => {
     assert.match(s.oa, /^audio\/scary\/s\d\d_\d\d\.mp3$/);
     const f = new URL("content/" + s.oa, root);
     assert.ok(existsSync(f) && statSync(f).size > 1000, s.oa);
-    if (s.seg) {
+    assert.ok(s.seg && s.seg.length, "点读 seg: " + s.t);
+    {
       const n = s.t.split(/\s+/).length;
       let last = -1;
       for (const [x, y, a, z] of s.seg) {
