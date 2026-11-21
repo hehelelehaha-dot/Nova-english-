@@ -79,6 +79,36 @@ main {
   padding: 12px 14px 8px;
   -webkit-overflow-scrolling: touch;
 }
+main.arrange { display: flex; flex-direction: column; }
+.meaning {
+  margin-top: auto;
+  padding: 20px 12px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.meaning-btn {
+  min-height: 42px;
+  min-width: 112px;
+  padding: 8px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(233, 196, 106, .8);
+  background: #1d3352;
+  color: #f3d27a;
+  font-size: 17px;
+  font-weight: 800;
+  touch-action: manipulation;
+}
+.meaning-btn[aria-expanded="true"] { background: #e9c46a; color: #1a1400; border-color: #e9c46a; }
+.meaning-zh {
+  margin: 10px 0 0;
+  max-width: 300px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #fbf7ee;
+}
+.btn .z { display: block; font-size: 11px; font-weight: 650; line-height: 1.2; margin-top: 1px; }
 #dock { flex: none; padding: 8px 14px 0; }
 .badge-gutter { flex: none; height: var(--gutter); }
 

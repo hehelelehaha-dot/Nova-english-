@@ -579,7 +579,7 @@ function beginAt(queue, index) {
     theme: ui.theme, level: ui.level, board: ui.board,
     queue: queue, index: index, sentence: sentence,
     placed: [], bank: dealTiles(sentence), locked: 0,
-    phase: "play", hints: 0, scored: false, misses: 0, heard: ""
+    phase: "play", hints: 0, scored: false, misses: 0, heard: "", showZh: false
   };
   ui.screen = "play";
   saveSession();
@@ -904,7 +904,7 @@ function playMain() {
   }
   let msg = "";
   if (round.phase === "wrong") {
-    msg = '<div class="msg bad">Some tiles are in the wrong place.<span class="zh">有的词卡位置不对。再试一次，或用提示锁定下一个正确的词。</span></div>';
+    msg = '<div class="msg bad">Some tiles are in the wrong place.<span class="zh">有的词卡位置不对。再试一次，或点「提示下一个词」锁定下一个正确的词。</span></div>';
   }
   const placed = round.placed.map((index, pos) => {
     const locked = pos < round.locked;
@@ -918,11 +918,17 @@ function playMain() {
   const bank = round.bank.map((index) => (
     '<button type="button" class="tile" data-act="place" data-i="' + index + '">' + esc(s.tiles[index]) + "</button>"
   )).join("");
-  const gold = round.locked ? '<p class="muted">Gold tile is locked by the hint. <span class="zh">金色词卡已锁定（提示）。</span></p>' : "";
+  const gold = round.locked ? '<p class="muted">Gold tile is locked. <span class="zh">金色词卡已锁定（提示下一个词）。</span></p>' : "";
+  const zhOpen = !!round.showZh;
+  const zhText = s.chinese || s.zh || "";
+  const meaning = '<div class="meaning"><button type="button" class="meaning-btn" data-act="zh" aria-expanded="' +
+    (zhOpen ? "true" : "false") + '">提示</button>' +
+    (zhOpen ? '<p class="meaning-zh" id="meaning-zh">' + esc(zhText || "No Chinese for this sentence. 这句没有中文。") + "</p>" : "") +
+    "</div>";
   return prog +
     '<div class="prompt"><b>Put the tiles in order</b><div class="zh">Tap a tile to place it. Tap a placed tile to take it out. 点选排序，再点可撤回。</div></div>' +
     msg + '<div class="board-play"><div class="slots">' + placed + slots + "</div></div>" +
-    '<div class="bank">' + bank + "</div>" + gold;
+    '<div class="bank">' + bank + "</div>" + gold + meaning;
 }
 function doneMain() {
   return '<div class="hero"><b>Set complete</b><span class="zh">这组练完了</span></div>' +
@@ -963,10 +969,9 @@ function dockHTML() {
     const primary = round.phase === "wrong"
       ? '<button class="btn primary" type="button" data-act="retry">Retry · 再试一次</button>'
       : '<button class="btn primary" type="button" data-act="check">Check · 检查</button>';
-    const hintLabel = round.phase === "wrong" ? "Hint · 再提示" : "Hint · 提示";
     const off = round.locked >= round.sentence.tiles.length ? " disabled" : "";
     return '<div class="actions">' + primary +
-      '<button class="btn ghost" type="button" data-act="hint"' + off + ">" + hintLabel + "</button></div>";
+      '<button class="btn ghost" type="button" data-act="hint"' + off + '>Next word<span class="z">提示下一个词</span></button></div>';
   }
   const list = selection();
   const off = (!loadError && ui.theme === "Naval" && KEY && navalStatus === "loading") ? " disabled" : "";
@@ -999,6 +1004,7 @@ function render() {
   else if (ui.screen === "done") body = doneMain();
   else { ui.screen = "home"; body = homeMain(); }
   main.innerHTML = body;
+  main.classList.toggle("arrange", ui.screen === "play" && round && round.sentence && round.phase !== "correct" && round.phase !== "done");
   $("dock").innerHTML = dockHTML();
   $("app").dataset.screen = ui.screen;
   main.scrollTop = y;
@@ -1077,6 +1083,12 @@ function bind() {
     else if (act === "back") onBack();
     else if (act === "check") onCheck();
     else if (act === "hint") onHint();
+    else if (act === "zh") {
+      if (round && round.sentence && round.phase !== "correct" && round.phase !== "done") {
+        round.showZh = !round.showZh;
+        render();
+      }
+    }
     else if (act === "retry") onRetry();
     else if (act === "next") onNext();
     else if (act === "place") onPlace(b.dataset.i);
