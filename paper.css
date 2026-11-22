@@ -218,3 +218,7 @@ html.pp[data-theme] main#view#view .ent ol :is(.exz,.lz){color:var(--pp-ink2)!im
 html.pp[data-theme] main#view#view .ent div:not([class]){color:var(--pp-ink2)!important}
 html.pp[data-theme] main#view#view .lab{background:var(--pp-card2)!important;color:var(--pp-ink2)!important;border:0!important}
 html.pp[data-theme] main#view#view .ent span:not([class]){color:var(--pp-ink2)!important}
+/* sticky toolbars: paper ground behind them so scrolled cards don't show through */
+html.pp[data-theme] .bar{background:var(--pp-bg)!important;box-shadow:0 10px 12px -12px rgba(40,30,20,.18)}
+html.pp.ppd[data-theme] .bar{box-shadow:0 10px 12px -12px rgba(0,0,0,.6)}
+html.pp[data-theme] .dhd{background:var(--pp-bg)!important}
