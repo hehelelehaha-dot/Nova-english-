@@ -258,9 +258,11 @@ function applyDictation(cat){if(!cat||!cat.categories||cat._dt)return;const ch=c
 try{history.scrollRestoration="manual"}catch(e){}
 const SCR={};let NAVSTK=[],LASTH=null,SCRSEQ=0,NAVREPL=false;
 function navSib(h){NAVREPL=true;location.replace(h)}
+let RESUMED=0;
 async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=window.scrollY;
  let back=false;if(NAVREPL){NAVREPL=false;if(NAVSTK.length)NAVSTK[NAVSTK.length-1]=h;else NAVSTK.push(h)}else if(NAVSTK.length>=2&&NAVSTK[NAVSTK.length-2]==h){NAVSTK.pop();back=true}else if(NAVSTK[NAVSTK.length-1]!=h)NAVSTK.push(h);else back=true;LASTH=h;
  const seq=++SCRSEQ;await route0();if(seq!=SCRSEQ)return;
+ if(!RESUMED){RESUMED=1;if(sessionStorage.getItem("nova_resume")){resumeView();return}}
  const y=back?SCR[h]||0:0;if(!y)return;const t0=Date.now();
  const tryR=()=>{if(seq!=SCRSEQ)return;const maxY=document.documentElement.scrollHeight-innerHeight;if(maxY>=y-2){window.scrollTo(0,y);if(Math.abs(window.scrollY-y)<3)return}if(Date.now()-t0<2500)setTimeout(tryR,60);else window.scrollTo(0,Math.min(y,maxY))};tryR()}
 async function route0(){syncPaper();delete document.documentElement.dataset.home;ROST++;stopAll();followStop();window._rdRid="";document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
@@ -294,12 +296,12 @@ const NOW=()=>Date.now();
 function stamp(k,v){const cur=FIELDS[k];if(cur&&cur[0]===v)return;if(!cur&&v==null)return;FIELDS[k]=[v,Math.max(NOW(),cur?cur[1]+1:0)]}
 function saveOrg(){const f=flat(ORG);for(const k in FIELDS)if(k[1]==":"&&"hrmc".includes(k[0])&&!(k in f))stamp(k,null);for(const k in f)stamp(k,f[k]);
  localStorage.setItem(FK,JSON.stringify(FIELDS));localStorage.setItem(ORGK,JSON.stringify(ORG))}
-function saveDisplay(){stamp("d:zoom",curZoom());stamp("d:bold",document.documentElement.classList.contains("bold")?1:0);localStorage.setItem(FK,JSON.stringify(FIELDS))}
+function saveDisplay(){stamp("d:zoom",curZoom());stamp("d:bold",document.documentElement.classList.contains("bold")?1:0);stamp("d:paper",curPaper());stamp("d:hx",hxOn()?1:0);localStorage.setItem(FK,JSON.stringify(FIELDS))}
 // LWW merge; returns summary of what changed locally
 function mergeFields(R){const sum={h:0,r:0,m:0,c:0,d:0,g:0};if(R["t:log"]){sum.t=tMerge(R["t:log"][0]);R=Object.assign({},R);delete R["t:log"]}if(R["u:sun"]){sum.u=sunMerge(R["u:sun"][0]);R=Object.assign({},R);delete R["u:sun"]}for(const k in R){const r=R[k];if(!Array.isArray(r)||typeof r[1]!="number")continue;const l=FIELDS[k];
   if(!l||r[1]>l[1]){if(!l||JSON.stringify(l[0])!==JSON.stringify(r[0]))sum[k[0]]=(sum[k[0]]||0)+1;FIELDS[k]=[r[0],r[1]]}}
  localStorage.setItem(FK,JSON.stringify(FIELDS));ORG=orgFrom(FIELDS);localStorage.setItem(ORGK,JSON.stringify(ORG));
- if(sum.d){const z=FIELDS["d:zoom"],b=FIELDS["d:bold"];if(z&&z[0])setZoom(z[0],true);if(b){document.documentElement.classList.toggle("bold",!!b[0]);localStorage.setItem("nova_bold",b[0]?"1":"0")}}
+ if(sum.d){const z=FIELDS["d:zoom"],b=FIELDS["d:bold"];if(z&&z[0])setZoom(z[0],true);if(b){document.documentElement.classList.toggle("bold",!!b[0]);localStorage.setItem("nova_bold",b[0]?"1":"0")}const pp=FIELDS["d:paper"],hx=FIELDS["d:hx"];if(pp)setPaper(pp[0],true);if(hx)setHx(!!hx[0],true)}
  return sum}
 // ---------- sync code (compressed, url-safe) ----------
 const b64u=u=>btoa(String.fromCharCode(...u)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
@@ -387,8 +389,18 @@ const ICON={reading:svgI('<path d="M3 5.5C5.5 4 8.5 4 12 6c3.5-2 6.5-2 9-.5v13c-
 const THEMES=[["t1","暖白金","#faf6ee","#b08a2e"],["t2","磨砂玻璃","#b8c8ff","#4f8dfd"],["t3","海军蓝金","#0e1a2b","#e9c46a"],["t4","马卡龙","#ffe9f0","#8a6ad8"],["t5","杂志","#f6f3ec","#c8102e"],["t6","大冰鞭策","#1f3b63","#e8a33d"],["t7","纳瓦尔","#fbfaf7","#1a7f6e"],["classic","经典","#bfe0f7","#f5c518"]];
 const THEMEC={t6:"#1f3b63",t7:"#fbfaf7",t1:"#faf6ee",t2:"#a8c8ff",t3:"#0b1524",t4:"#ffffff",t5:"#f6f3ec",classic:"#6fb3e6"};
 const curTheme=()=>{const t=localStorage.getItem("nova_theme");return THEMES.some(x=>x[0]==t)?t:"t1"};
-function setTheme(t){localStorage.setItem("nova_theme",t);document.documentElement.dataset.theme=t;const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=THEMEC[t]||"#6fb3e6";HQI=-1;if(document.getElementById("hq"))hqStart()}
+function setTheme(t){localStorage.setItem("nova_theme",t);document.documentElement.dataset.theme=t;const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=THEMEC[t]||"#6fb3e6";paperMeta();HQI=-1;if(document.getElementById("hq"))hqStart()}
 setTheme(curTheme());
+// ---------- 质感 (Nova 2026-11-22): "" = 大冰原样 · l = 纸·浅色 · d = 纸·深色 (paper.css on top of the colour theme). localStorage nova_paper ----------
+const PAPERS=[["","大冰原样"],["l","纸·浅色"],["d","纸·深色"]];
+function curPaper(){const p=localStorage.getItem("nova_paper");return p=="l"||p=="d"?p:""}
+function setPaper(p,noStamp){p=p=="l"||p=="d"?p:"";localStorage.setItem("nova_paper",p);const r=document.documentElement;r.classList.toggle("pp",!!p);r.classList.toggle("ppd",p=="d");paperMeta();if(!noStamp)saveDisplay()}
+function paperMeta(){const p=curPaper(),m=document.querySelector('meta[name="theme-color"]');if(m)m.content=p=="l"?"#F8F6F2":p=="d"?"#0C0E17":(THEMEC[curTheme()]||"#6fb3e6")}
+setPaper(curPaper(),true);
+// 点击震动: default on. haptics.js reads the same key.
+function hxOn(){return localStorage.getItem("nova_haptics")!=="0"}
+function setHx(on,noStamp){localStorage.setItem("nova_haptics",on?"1":"0");if(window.NovaHaptics){if(on)NovaHaptics.init();else NovaHaptics.stop()}if(!noStamp)saveDisplay()}
+try{if(window.NovaHaptics&&hxOn())NovaHaptics.init()}catch(e){}
 // ---------- theme lines on the home card (t6 大冰鞭策: REAL lines quoted from write-ups of 大冰's livestreams, verbatim, sources in content/dabing_quotes.md; t7 纳瓦尔: VERBATIM Naval lines from her topics + Chinese) ----------
 const NAVQ=[["And the journey is not only the reward, the journey is the only thing there is.", "而且过程不只是回报本身，过程就是唯一存在的东西。", 6], ["But essentially, look, all learning is error correction.", "但本质上，你看，所有的学习都是纠错。", 10], ["Every knowledge creation system works through making guesses and correcting errors.", "每一个创造知识的系统，都是靠猜测和纠正错误来运作的。", 10], ["We’re always changing, always learning, always growing, and hopefully we’re correcting errors.", "我们一直在变、一直在学、一直在成长，希望也一直在纠正错误。", 10], ["What this world really lacks right now is authenticity, because everybody wants something.", "现在这个世界真正缺少的是真诚，因为每个人都想要点什么。", 10], ["Most of us are wrong most of the time, especially in any new endeavor.", "我们大多数人大部分时候都是错的，尤其是在做任何新尝试的时候。", 10], ["You only want the respect of the very, very few people that you respect.", "你只需要得到极少数你尊重的人的尊重。", 10], ["Trying to demand respect from the masses is a fool’s errand.", "想强求所有普通大众都尊重你，根本是一件注定徒劳的事。", 10], ["You could focus, you could decide that I don’t want most things.", "你可以专注，你可以决定：大多数东西我都不想要。", 7], ["You can’t be great at everything. You’re just going to waste your energy and waste your time.", "你不可能样样都做得很好。那样你只会浪费精力，浪费时间。", 7], ["so you play the games, you win the games, and then hopefully, you get bored of the games.", "所以你去玩游戏、赢游戏，然后但愿你会玩腻。", 3], ["There’s never been an easier time to make money.", "赚钱从来没有像现在这么容易过。", 11], ["Another way to raise your self-esteem might be to do things for others.", "提升自尊的另一个方法，可能是为别人做事。", 12], ["That was actually the entertaining part and I should have enjoyed it more.", "那其实才是最好玩的部分，我当时应该更享受它。", 4], ["I still want to do things, I just want to do bigger things.", "我还是想做事，只是想做更大的事。", 2], ["and that’s a form of freedom, so not wanting something is as good as having it.", "那就是一种自由，所以不想要一样东西，和拥有它一样好。", 1]];
 const DBQ=["你并不弱小，你已经做得很好了……", "从今天晚上开始，你命运的齿轮就开始转动了！", "谁笑话你啊？", "连上了就好。", "说话不要太快", "……去学东西。……你需要投资自己，不是投资别人。", "你不是在比较，你是在发现自己。", "我们很多的人费了很大的努力去成长，最后的目的其实是为了正常。", "……拿出一年到两年的时间，耐住寂寞……", "从今天起，别想太多，先行动。", "……因为你配。", "……等到你36、46的时候是要为今天的自己买单的！"];  // verbatim, sources: content/dabing_quotes.md
@@ -667,15 +679,18 @@ function showSettings(){setHeader("设置",true);const hid=builtinItems().filter
  <h3 class="sec">🔁 同步（在 iPad 和手机之间）</h3><div class="yn" style="margin-top:0"><button class="wide flip" style="margin-top:0" onclick="location.hash='#/exp'">📤 导出整理</button><button class="wide gray" style="margin-top:0" onclick="location.hash='#/imp'">📥 导入</button></div>
  <h3 class="sec">☁ 学习时长和今天听写</h3><div class="li cloudbox" data-cloud style="display:block"></div>
  <h3 class="sec">🧠 今日复习</h3><div class="li" style="display:block"><div style="margin-bottom:8px">每天最多学几个新词</div><div class="zs">${[5,10,15,20,30].map(n=>`<button class="btn${n==srsNewCap()?" on":""}" data-nc="${n}">${n}</button>`).join("")}</div></div>
- <h3 class="sec">🎨 主题</h3><div class="li" style="display:block"><div class="thp">${THEMES.map(([id,n,bg,ac])=>`<button class="thb${id==curTheme()?" on":""}" data-th="${id}" aria-pressed="${id==curTheme()}"><span class="sw" style="background:${bg}"><i style="background:${ac}"></i><i style="background:${ac};opacity:.45"></i></span><span class="thn">${n}</span></button>`).join("")}</div></div>
+ <h3 class="sec">🎨 主题</h3><div class="li" style="display:block"><div style="margin-bottom:8px">质感</div><div class="zs ppk">${PAPERS.map(([id,n])=>`<button class="btn${id==curPaper()?" on":""}" data-pp="${id}" aria-pressed="${id==curPaper()}">${n}</button>`).join("")}</div><div style="margin:14px 0 8px">配色和激励语</div><div class="thp">${THEMES.map(([id,n,bg,ac])=>`<button class="thb${id==curTheme()?" on":""}" data-th="${id}" aria-pressed="${id==curTheme()}"><span class="sw" style="background:${bg}"><i style="background:${ac}"></i><i style="background:${ac};opacity:.45"></i></span><span class="thn">${n}</span></button>`).join("")}</div></div>
  <h3 class="sec">🔠 显示</h3><div class="li" style="display:block">
   <div style="margin-bottom:8px">字体大小</div><div class="zs">${ZOOMS.map(([n,z])=>`<button class="btn${Math.abs(z-curZoom())<.01?" on":""}" data-z="${z}">${n}</button>`).join("")}</div>
   <label class="tg"><input type="checkbox" id="bold" ${document.documentElement.classList.contains("bold")?"checked":""}> 字体加深加粗</label>
+  <label class="tg"><input type="checkbox" id="hx" ${hxOn()?"checked":""}> 点击震动</label><p class="tip hxtip">iPhone：要打开 设置 → 声音与触感 → 系统触感反馈。</p>
   <div class="pv"><b class="en">conventional wisdom</b> <span class="z">普遍看法</span><p class="en" style="margin:6px 0 0">Conventional wisdom is what most people believe is true.</p></div></div>
  <h3 class="sec">🔄 更新</h3><div class="li" style="display:block;line-height:1.7">App 版本：<b>${esc(META.v||"?")}</b>　(${esc(META.built||"")})<br>内容目录版本：<b>${esc(META.cv||"?")}</b><br>后台程序版本：<b id="swv">${esc(SWV||"…")}</b><br>离线音频已下载：<b id="fillst">${esc(ft.line)}</b><div class="gp" id="fillbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${ft.pct}" aria-label="离线内容下载进度"><i id="fillbi" style="width:${ft.pct}%"></i></div><p class="tip" id="fillmsg"${ft.msg?"":" hidden"}>${esc(ft.msg)}</p></div>
  <button class="wide flip" id="cachebtn" type="button" aria-busy="${ft.busy?"true":"false"}">${esc(ft.btn)}</button><button class="wide flip" id="chk">检查更新</button><button class="wide no" id="force">强制更新（清除缓存并重新加载）</button>`;
  V.querySelectorAll("[data-nc]").forEach(b=>b.onclick=()=>{stamp("o:srsnew",+b.dataset.nc);srsSave();V.querySelectorAll("[data-nc]").forEach(x=>x.classList.toggle("on",x==b))});
  V.querySelectorAll("[data-th]").forEach(b=>b.onclick=()=>{setTheme(b.dataset.th);V.querySelectorAll("[data-th]").forEach(x=>{x.classList.toggle("on",x==b);x.setAttribute("aria-pressed",x==b)})});
+ V.querySelectorAll("[data-pp]").forEach(b=>b.onclick=()=>{setPaper(b.dataset.pp);V.querySelectorAll("[data-pp]").forEach(x=>{x.classList.toggle("on",x==b);x.setAttribute("aria-pressed",x==b)})});
+ document.getElementById("hx").onchange=e=>setHx(e.target.checked);
  V.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{setZoom(+b.dataset.z);V.querySelectorAll("[data-z]").forEach(x=>x.classList.toggle("on",x==b))});
  document.getElementById("bold").onchange=e=>{document.documentElement.classList.toggle("bold",e.target.checked);localStorage.setItem("nova_bold",e.target.checked?"1":"0");saveDisplay()};
  document.getElementById("cachebtn").onclick=()=>onCacheTap();document.getElementById("chk").onclick=()=>checkUpdate(true);document.getElementById("force").onclick=async()=>{if(await sure("强制更新？\n会清除离线缓存后重新下载（你的整理和导入的音频不受影响）。","强制更新"))forceUpdate()};
@@ -1233,11 +1248,34 @@ async function onCacheTap(){
  const ok=await postFill(retry);
  if(!ok){fillWant=false;FILL=prev;paintFill();toast("后台还没准备好，请再点一次")}}
 async function checkUpdate(manual){try{const m=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json();
-  if(REG)await REG.update();if(m.v&&META.v&&m.v!=META.v){toast("发现新版本，正在更新…");setTimeout(()=>location.reload(),1500)}else if(manual)toast("已经是最新版本 ✓");return m}catch(e){if(manual)toast("没有网络，稍后再试")}}
+  const nv=!!(m.v&&META.v&&m.v!=META.v);if(REG&&(manual||nv))try{await REG.update()}catch(e){}
+  if(nv){if(!UPD_PEND)toast("发现新版本，正在更新…");setTimeout(safeReload,1500)}else if(manual)toast("已经是最新版本 ✓");return m}catch(e){if(manual)toast("没有网络，稍后再试")}}
+// ---------- in-use auto update (Nova 2026-11-22) ----------
+// Every 90 s while visible: one tiny no-store meta.json fetch. A new v reloads only when she is not mid-way:
+// no audio / speech playing, no text box focused, no half-typed guess, no card flip or dialog, and no tap in the
+// last 60 s on a game / dictation / review screen. Otherwise retry every 3 s. Route + scroll + open folds survive the reload.
+let UPD_PEND=0,UPD_ACT=0;
+["pointerdown","keydown"].forEach(t=>document.addEventListener(t,()=>{UPD_ACT=Date.now()},{passive:true,capture:true}));
+function updBusy(){
+ try{if(typeof A!="undefined"&&A&&A.src&&!A.paused&&!A.ended)return true}catch(e){}
+ if([...document.querySelectorAll("audio,video")].some(a=>!a.paused&&!a.ended))return true;
+ try{if(window.speechSynthesis&&speechSynthesis.speaking)return true}catch(e){}
+ const ae=document.activeElement;if(ae&&ae.matches&&ae.matches('input:not([type=checkbox]):not([type=range]):not([type=file]):not([type=button]),textarea,select,[contenteditable]:not([contenteditable=false])'))return true;
+ if(document.querySelector(".flipping,.unflip,.ov"))return true;
+ if([...document.querySelectorAll("input.guess,input.shi,textarea")].some(i=>i.value&&i.value.trim()))return true;
+ if(Date.now()-UPD_ACT<60000&&(/^#\/(g\/[^/]+|wf\/[^/]+|srs|dq|d\/)/.test(location.hash||"")||document.querySelector("#view .dtwrap,#view .dtcard,#view [data-dict]")))return true;
+ return false}
+function saveResume(){try{sessionStorage.setItem("nova_resume",JSON.stringify({h:location.hash||"#/",y:Math.round(window.scrollY),f:[...document.querySelectorAll("details[open][data-fold]")].map(x=>x.dataset.fold),t:Date.now()}))}catch(e){}}
+function safeReload(){if(UPD_PEND)return;UPD_PEND=1;const go=()=>{if(updBusy()){setTimeout(go,3000);return}saveResume();location.reload()};go()}
+function resumeView(){let r=null;try{r=JSON.parse(sessionStorage.getItem("nova_resume")||"null");sessionStorage.removeItem("nova_resume")}catch(e){}
+ if(!r||Date.now()-r.t>120000||(r.h||"#/")!=(location.hash||"#/"))return;
+ (r.f||[]).forEach(id=>{const d=document.querySelector('details[data-fold="'+id+'"]');if(d)d.open=true});
+ const y=r.y||0;if(!y)return;const t0=Date.now();const tryR=()=>{const maxY=document.documentElement.scrollHeight-innerHeight;if(maxY>=y-2){window.scrollTo(0,y);return}if(Date.now()-t0<2500)setTimeout(tryR,60);else window.scrollTo(0,Math.min(y,maxY))};tryR()}
+setInterval(()=>{if(document.visibilityState=="visible"&&!UPD_PEND)checkUpdate(false)},90000);
 async function forceUpdate(){toast("正在强制更新…");try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister()}catch(e){}
   try{for(const k of await caches.keys())await caches.delete(k)}catch(e){}sessionStorage.setItem("nova_updated","1");location.replace(location.pathname+"?u="+Date.now())}
 if("serviceWorker" in navigator){const sw=navigator.serviceWorker;const had=!!sw.controller;let rl=0;
-  sw.addEventListener("controllerchange",()=>{if(had&&!rl){rl=1;sessionStorage.setItem("nova_updated","1");location.reload()}});
+  sw.addEventListener("controllerchange",()=>{if(had&&!rl){rl=1;sessionStorage.setItem("nova_updated","1");safeReload()}});
   sw.addEventListener("message",e=>{const d=e.data||{};if(d.t=="ver"){SWV=d.v;const el=document.getElementById("swv");if(el&&SWV)el.textContent=SWV}if(d.t=="fill")noteFill(d)});
   const resumeFill=()=>{if(fillWant&&(!FILL||FILL.state==="run")){fillPosted=false;postFill(false)}};
   document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="visible"){checkUpdate(false);resumeFill()}});

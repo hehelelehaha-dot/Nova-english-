@@ -1,0 +1,220 @@
+/* ===== Nova 纸感 (matte paper) theme layer — PREVIEW ONLY =====
+   Sits on top of style.css + data-theme=t6. html.pp = light paper, html.pp.ppd = dark paper.
+   Keeps Nova's art (sunflower play, acrylic Day1–7, goal sheets, 冲鸭, sky hero, duck) untouched. */
+@font-face{font-family:"Newsreader";src:url(fonts/newsreader.woff2) format("woff2");font-weight:400 600;font-style:normal;font-display:swap}
+@font-face{font-family:"Newsreader";src:url(fonts/newsreader-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+
+html.pp{
+ --pp-bg:#F8F6F2; --pp-card:#FFFFFF; --pp-card2:#EFEDE9; --pp-card3:#F3EFE8;
+ --pp-ink:#1A1A1A; --pp-ink2:#5F5A53; --pp-ink3:#9A948B;
+ --pp-acc:#B14127; --pp-on-acc:#FFF8F1; --pp-acc-wash:#F6E7DF;
+ --pp-chip-on:#1C1F2A; --pp-on-chip:#F8F6F2;
+ --pp-plate:#1B2236; /* night plate behind the 流麻 acrylic + goal art */
+ --pp-sh:0 1px 2px rgba(70,50,30,.04),0 6px 18px rgba(70,50,30,.06);
+ --pp-r:20px; --pp-r-lg:24px;
+ --pp-serif:"Newsreader","Source Serif 4","Georgia",serif;
+ --pp-sans:-apple-system,"PingFang SC","Noto Sans CJK SC","Noto Sans SC","Helvetica Neue",sans-serif;
+ --pp-grain:.09; --pp-grain-blend:multiply;
+}
+html.pp.ppd{
+ --pp-bg:#0C0E17; --pp-card:#1C1F29; --pp-card2:#262935; --pp-card3:#20232E;
+ --pp-ink:#F2EEE6; --pp-ink2:#ABA69C; --pp-ink3:#77736C;
+ --pp-acc:#F1E8DA; --pp-on-acc:#14161F; --pp-acc-wash:#2A2D3A;
+ --pp-chip-on:#F1E8DA; --pp-on-chip:#14161F;
+ --pp-plate:#151A2B;
+ --pp-sh:0 1px 0 rgba(255,255,255,.025) inset,0 8px 20px rgba(0,0,0,.28);
+ --pp-grain:.07; --pp-grain-blend:screen;
+}
+
+/* page + grain */
+html.pp,html.pp body,html.pp[data-home] body{background:var(--pp-bg)!important;background-image:none!important;color:var(--pp-ink)!important;font-family:var(--pp-sans)}
+html.pp body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:var(--pp-grain);mix-blend-mode:var(--pp-grain-blend);
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .4  0 0 0 1.1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");background-size:220px}
+html.pp.ppd body::after{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .97  0 0 0 0 .92  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* header: flat paper, no blur, no rule */
+html.pp header,html.pp[data-home] header{background:var(--pp-bg)!important;background-image:none!important;border-bottom:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}
+html.pp header h1{color:var(--pp-ink)!important;font-family:var(--pp-serif)!important;font-weight:500;letter-spacing:-.01em}
+html.pp header h1::after{filter:grayscale(.2)}
+html.pp :is(#back,#hdr-r button,#hdr-r .hb,#watch-src){background:var(--pp-card2)!important;color:var(--pp-ink)!important;border:0!important;border-radius:999px!important;box-shadow:none!important;text-shadow:none!important}
+
+/* serif English, sans Chinese */
+html.pp :is(.t,.rw,.en,.word,.w,.ent .w,.wc .w,.zhe,.hqe,.gli b,.gst,.hgreet b){font-family:var(--pp-serif)!important}
+html.pp :is(.tile .nm,.hq,.hqd,.zht,.sb,.ds),html.pp h3.sec{font-family:var(--pp-sans)!important}
+html.pp .foldnm{font-family:"Newsreader",var(--pp-sans)!important}
+
+/* ---------- home ---------- */
+html.pp .hero,html.pp[data-home] .hero{background:#16305f url("assets/hero/top-sky.png") 54% 30%/cover no-repeat!important;border:0!important;box-shadow:var(--pp-sh)!important;border-radius:var(--pp-r-lg)!important;overflow:hidden!important;margin:2px 0 14px!important;padding:16px 16px 14px!important}
+html.pp .hero .hgreet b{font-weight:500!important;font-size:26px!important;color:#FBF4E6!important;letter-spacing:-.01em;text-shadow:0 1px 8px rgba(10,20,50,.35)}
+html.pp .hero .hdate .hday{color:#F3E7CC!important;font-weight:500}
+html.pp .hero .stt{background:rgba(12,16,30,.38)!important;border:0!important;border-radius:16px!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}
+html.pp .hero .stt :is(.sl,.sl b,.yleft,.hwk,.hwd){color:#F6EEDD!important}
+html.pp .csync{color:#F3E7CC!important;background:rgba(12,16,30,.3)!important;border:0!important;border-radius:999px!important}
+
+/* 流麻 card: matte night plate in both themes (her acrylic + goal art are drawn for a dark ground) */
+html.pp .daybar.fp-home{background:var(--pp-plate)!important;background-image:none!important;border:0!important;border-radius:var(--pp-r-lg)!important;box-shadow:var(--pp-sh)!important}
+html.pp .fp-home :is(.fp-dayn){color:#E9DFC9!important;font-family:var(--pp-serif)!important}
+html.pp .fp-home .fp-ot{background:#F1E8DA!important;color:#1B2236!important;box-shadow:none!important;border:0!important}
+html.pp .fp-home .hq :is(.hqd,.hqe){color:#F1E8DA!important;font-family:var(--pp-sans)!important;font-weight:400}
+html.pp .fp-home .hq .hqs{color:#A9A394!important}
+
+/* folds = section rows; tiles = paper cards */
+html.pp .folds>.fold{background:transparent!important;border:0!important;box-shadow:none!important}
+html.pp .folds>.fold>.foldh{border:0!important;border-image:none!important;background:var(--pp-card)!important;border-radius:var(--pp-r)!important;box-shadow:var(--pp-sh)!important;padding:18px 18px!important;margin:0 0 12px!important;transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
+html.pp .foldnm{color:var(--pp-ink)!important;font-size:24px!important;font-weight:500!important;letter-spacing:-.01em}
+html.pp .foldsub{color:var(--pp-ink3)!important;font-weight:500!important;font-size:13px!important}
+html.pp .foldar::before,html.pp .foldar{color:var(--pp-acc)!important;border-color:var(--pp-acc)!important}
+html.pp .folds>.fold .tile:not(.add),html.pp[data-paper] .tile:not(.add){border:0!important;border-image:none!important;background:var(--pp-card)!important;border-radius:var(--pp-r)!important;box-shadow:var(--pp-sh)!important;min-height:0!important;padding:14px!important}
+html.pp .tile .nm{color:var(--pp-ink)!important}
+html.pp .tile .nm .no{background:var(--pp-card2)!important;color:var(--pp-ink2)!important}
+html.pp .tile :is(.ds,.tsec){color:var(--pp-ink2)!important}
+html.pp .tile .ct{color:var(--pp-acc)!important}
+html.pp.ppd .tile .ct{color:#E7D7B8!important}
+
+/* ---------- lists / cards ---------- */
+html.pp :is(.li,.card,.wc,.ent,.gu,.tlisten,.tfold>.tfh),html.pp[data-paper] :is(.li,.card,.wc,.ent,.gu,.tlisten,.tfold>.tfh){
+ border:0!important;border-image:none!important;background:var(--pp-card)!important;border-radius:var(--pp-r)!important;box-shadow:var(--pp-sh)!important;color:var(--pp-ink)!important}
+html.pp[data-paper] :is(.li,.wc,.ent){padding:16px 18px!important;margin-bottom:12px!important}
+html.pp .tip{color:var(--pp-ink3)!important;font-family:var(--pp-sans)!important}
+html.pp .rost .rn{color:var(--pp-ink3)!important;opacity:1!important;font-family:var(--pp-serif)!important;font-weight:400!important;font-size:15px}
+html.pp .rost .rw{color:var(--pp-ink)!important;font-weight:500!important;font-size:24px!important;letter-spacing:-.01em;line-height:1.15}
+html.pp .rost .sb{color:var(--pp-ink2)!important;font-size:14px}
+html.pp .rost .li.zh{background:var(--pp-card)!important}
+html.pp .rost .li.zh .rh .rw{font-size:34px!important}
+html.pp .rost .lab{background:var(--pp-card2)!important;color:var(--pp-ink2)!important;border:0!important;border-radius:999px!important;padding:1px 9px!important;font-size:12px!important}
+html.pp .rost .lab.lg{background:var(--pp-acc-wash)!important;color:var(--pp-acc)!important}
+html.pp.ppd .rost .lab.lg{color:#E9DCC4!important}
+html.pp .rost :is(.ipa,.rln,.rln .en){color:var(--pp-ink2)!important}
+html.pp .rost .rln .en{font-size:16px;line-height:1.5}
+html.pp .rost .rpron{background:var(--pp-card2)!important;border-radius:999px!important}
+
+/* ---------- reading toolbar: matte pills ---------- */
+html.pp .bar button,html.pp[data-theme] .bar.rdbar>button:is(#_,*),html.pp .btn{background:var(--pp-card2)!important;background-image:none!important;color:var(--pp-ink)!important;border:0!important;border-radius:999px!important;box-shadow:none!important;text-shadow:none!important;font-weight:600!important;font-family:var(--pp-sans)!important}
+html.pp .bar button.on,html.pp[data-theme] .bar.rdbar>button.on:is(#_,*),html.pp .btn.on{background:var(--pp-acc)!important;color:var(--pp-on-acc)!important;border:0!important;box-shadow:none!important}
+
+/* ---------- 点读 sentence cards ---------- */
+html.pp #ss .s,html.pp[data-paper] #ss .s{background:var(--pp-card)!important;background-image:none!important;border:0!important;border-image:none!important;outline:0!important;border-radius:var(--pp-r)!important;box-shadow:var(--pp-sh)!important;color:var(--pp-ink)!important;margin-bottom:12px!important}
+html.pp #ss .s :is(.t,.zhe){color:var(--pp-ink)!important;font-size:21px!important;line-height:1.42!important;font-weight:400!important}
+html.pp #ss .s :is(.zhb,.zht){color:var(--pp-ink2)!important}
+html.pp #ss .s .who,html.pp .naval .who{color:var(--pp-ink3)!important;font-family:var(--pp-sans)!important;letter-spacing:.06em;font-size:12px!important}
+html.pp #ss .sno{background:var(--pp-card2)!important;color:var(--pp-ink2)!important;border:0!important}
+html.pp #ss :is(.osb,.fhere){background:var(--pp-card2)!important;color:var(--pp-ink2)!important;border:0!important;border-radius:999px!important;box-shadow:none!important}
+/* playing line */
+html.pp #ss .s.cur,html.pp[data-paper] #ss .s.cur{background:var(--pp-acc-wash)!important;outline:0!important;box-shadow:inset 4px 0 0 var(--pp-acc),var(--pp-sh)!important}
+html.pp #ss .s.cur .t{color:var(--pp-ink)!important}
+html.pp #ss .s.cur .who{color:var(--pp-acc)!important}
+html.pp.ppd #ss .s.cur .who{color:#E9DCC4!important}
+html.pp #ss .s.cur .t .now{color:var(--pp-acc)!important;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+html.pp.ppd #ss .s.cur .t .now{color:#FFFFFF!important;text-decoration-color:#E9DCC4}
+
+/* ---------- press state: quick spring scale ---------- */
+html.pp :is(button,.tile,.li,.foldh,#ss .s,[role=button]){transition:transform .22s cubic-bezier(.34,1.56,.64,1),background-color .15s;-webkit-tap-highlight-color:transparent}
+html.pp :is(button,.tile,.foldh,[role=button]):active,html.pp .is-pressed{transform:scale(.96)!important;filter:brightness(.93);transition-duration:.08s}
+html.pp.ppd :is(button,.tile,.foldh,[role=button]):active,html.pp.ppd .is-pressed{filter:brightness(1.18)}
+html.pp :is(.li,#ss .s):active{transform:scale(.985)!important}
+html.pp[data-theme] #view .rost :is(.sb,.sb *){color:var(--pp-ink2)!important;font-weight:400!important}
+html.pp[data-theme] #view .rost :is(.rsec,.rln,.rln .en){font-weight:400!important}
+html.pp[data-theme] #view .rost .rln .lge+*{font-weight:400!important}
+html.pp[data-theme] #view .tile :is(.ds,.tsec){color:var(--pp-ink2)!important}
+html.pp[data-theme] #view .tile .tsec{color:var(--pp-ink3)!important}
+html.pp[data-theme] #view .tile .ic{--ic:var(--pp-acc);background:var(--pp-acc-wash)!important;border:0!important;border-radius:16px!important;color:var(--pp-acc)!important}
+html.pp.ppd[data-theme] #view .tile .ic{color:#E9DCC4!important}
+html.pp:not(.ppd) .is-pressed{filter:brightness(.97)!important}
+
+/* ===== settings + every other screen ===== */
+html.pp[data-theme] :is(h3.sec,.sec,.rbh,.rbc,.tfh,.tfnm,.tlh,.pcat,h2,.done,.sht){color:var(--pp-ink)!important;text-shadow:none!important}
+html.pp[data-theme] :is(h3.sec,.sec,.rbh,.pcat){font-family:var(--pp-sans)!important;font-weight:600!important}
+html.pp[data-theme] :is(.thn,.tfsub,.tlsub,.tip,.mine,.ghint,.wpl,.skbar,.status,.ps,.pos,.n,.chs,.ywsp,.thn,.li .ar,.rngto,.tlcap .tlzh,.exz,.glg,.gsr,.gl,.zht,.sb,.ds,.ct,.dtmeta,.dqfnm,.daycnt,.daytn,.dayfold){color:var(--pp-ink2)!important}
+html.pp[data-theme] :is(.li,.t,.who,.word,.w,.tile .nm,.tlcap .tlen,.rngrow label,.tg,.ent .w,.wc .w,.ent p,.ent .z,.wc .z,#ss .zhe,.gli b,.gsr b,.tx,.row .tx,.exw,.gt,.gs,.dtin,.yrow){color:var(--pp-ink)}
+html.pp[data-theme] #ss :is(.gli i,.glh){color:var(--pp-acc)!important}
+html.pp.ppd[data-theme] #ss :is(.gli i,.glh){color:#E9DCC4!important}
+html.pp[data-theme] #ss :is(.gls,.gsb){background:var(--pp-card2)!important;color:var(--pp-ink)!important;border:0!important;box-shadow:none!important}
+html.pp[data-theme] #ss .s.zh{background:var(--pp-card)!important}
+html.pp[data-theme] #ss .s.zh :is(.zhe,.zhb,.gl,.gli,.who){color:var(--pp-ink)!important}
+html.pp[data-theme] #ss .s.zh :is(.zht,.glg,.gsr){color:var(--pp-ink2)!important}
+html.pp[data-theme] #ss .s.zh .who{color:var(--pp-ink3)!important}
+html.pp[data-theme] #ss .s .ph.play{color:var(--pp-acc)!important;-webkit-text-fill-color:var(--pp-acc)!important;background:none!important;box-shadow:none!important;border-bottom:2px solid var(--pp-acc)!important}
+html.pp.ppd[data-theme] #ss .s .ph.play{color:#fff!important;-webkit-text-fill-color:#fff!important;border-bottom-color:#E9DCC4!important}
+html.pp[data-theme] :is(.tlcap .ph.play,.dseg.dplay){background:var(--pp-acc-wash)!important;color:var(--pp-acc)!important;-webkit-text-fill-color:var(--pp-acc)!important;box-shadow:none!important}
+html.pp.ppd[data-theme] :is(.tlcap .ph.play,.dseg.dplay){color:#fff!important;-webkit-text-fill-color:#fff!important}
+/* big buttons */
+html.pp[data-theme] button.wide,html.pp[data-theme] #view .btn:not(.on),html.pp[data-theme] .rs{background:var(--pp-card2)!important;background-image:none!important;color:var(--pp-ink)!important;border:0!important;border-image:none!important;border-radius:999px!important;box-shadow:none!important;text-shadow:none!important;font-weight:600!important}
+html.pp[data-theme] button.wide:is(.flip,.gblue,.gcl,.yes,.go),html.pp[data-theme] #view .btn.on,html.pp[data-theme] .lock #go{background:var(--pp-acc)!important;color:var(--pp-on-acc)!important}
+html.pp[data-theme] button.wide.no{background:var(--pp-card2)!important;color:#B3261E!important}
+html.pp.ppd[data-theme] button.wide.no{color:#FF9B8F!important}
+html.pp[data-theme] button.wide:disabled{opacity:.5}
+/* small round helpers */
+html.pp[data-theme] :is(.osb,.fhere,.qm,.flipb,.ssw){box-shadow:none!important}
+/* inputs */
+html.pp[data-theme] :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),textarea,select,.guess,.gin,.shi){background:var(--pp-card2)!important;color:var(--pp-ink)!important;border:0!important;border-radius:14px!important;box-shadow:none!important;outline:0}
+html.pp[data-theme] :is(input,textarea,select):focus-visible{box-shadow:0 0 0 2px var(--pp-acc)!important}
+html.pp[data-theme] main .card.dtcard .dtin{background:var(--pp-card2)!important;color:var(--pp-ink)!important;border:0!important;border-radius:14px!important}
+html.pp[data-theme] main .card.dtcard .dtin.good{background:#E4F1E4!important;color:#1E4D2B!important}
+html.pp[data-theme] main .card.dtcard .dtin.near{background:#FBF0DA!important;color:#5C4200!important}
+html.pp.ppd[data-theme] main .card.dtcard .dtin.good{background:#1F3A2A!important;color:#CDEBD5!important}
+html.pp.ppd[data-theme] main .card.dtcard .dtin.near{background:#3A3020!important;color:#F3DFB4!important}
+html.pp[data-theme] :is(input[type=checkbox],input[type=radio],input[type=range]){accent-color:var(--pp-acc)}
+html.pp[data-theme] ::placeholder{color:var(--pp-ink3)!important}
+/* cards that had their own paint (game units, sage paper, previews, tables, panels) */
+html.pp[data-theme] :is(.gu,.gcard,.dtcard,.gend,#fc .card,.lock,.cloudbox,.player,.dots,.sh,.srsst>span,.fold,.tlisten,.xpan,.pv,.tlog .shb,.suf){background:var(--pp-card)!important;background-image:none!important;border:0!important;border-image:none!important;border-radius:var(--pp-r)!important;box-shadow:var(--pp-sh)!important;color:var(--pp-ink)!important}
+html.pp[data-theme] :is(.pv,.xpan,.suf){background:var(--pp-card3)!important;box-shadow:none!important}
+html.pp[data-theme] :is(.pv,.xpan,.suf) :is(b,.en,p,.z,.xh,.xt,.xe,.xz,.ipa,th,td){color:var(--pp-ink)!important}
+html.pp[data-theme] .suf :is(th,td){background:transparent!important;border-color:var(--pp-card2)!important}
+html.pp[data-theme] .suf tr.core td{background:var(--pp-acc-wash)!important}
+html.pp[data-theme] .tfold,html.pp[data-theme][data-paper] .tfold{background:transparent!important;box-shadow:none!important;border:0!important}
+html.pp[data-theme] .gp{background:var(--pp-card2)!important;border:0!important}
+html.pp[data-theme] .gp i{background:var(--pp-acc)!important}
+html.pp[data-theme] .tlog .tb{background:var(--pp-card2)!important;box-shadow:none!important}
+html.pp[data-theme] .tlog .tb i{background:var(--pp-acc)!important}
+html.pp[data-theme] .tlog :is(.tdw,.tv,.ttot b,.tleft,.td .tdw){color:var(--pp-ink)!important}
+html.pp[data-theme] .tlog .ttot span{color:var(--pp-ink2)!important}
+/* theme swatches */
+html.pp[data-theme] .thb{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:16px!important}
+html.pp[data-theme] .thb.on{background:var(--pp-card2)!important;outline:2px solid var(--pp-acc)!important;outline-offset:0}
+html.pp[data-theme] .thb .sw{box-shadow:0 1px 3px rgba(0,0,0,.12)!important;border:0!important}
+html.pp[data-theme] .ppk .btn{font-size:14px!important;padding:0 14px!important}
+html.pp[data-theme] .hxtip{margin:4px 0 10px!important}
+/* 今天的目标 page + day bars reuse the night plate so her art sits right */
+html.pp[data-theme] .daybar:not(.fp-home){background:var(--pp-plate)!important;background-image:none!important;border:0!important;border-radius:var(--pp-r-lg)!important;box-shadow:var(--pp-sh)!important}
+/* lock screen */
+html.pp[data-theme] .lock h2{color:var(--pp-ink)!important;font-family:var(--pp-sans)!important}
+html.pp[data-theme] .lock .err{color:#B3261E!important}
+html.pp.ppd[data-theme] .lock .err{color:#FF9B8F!important}
+html.pp[data-theme] main#view :is(.sb,.srsdk,.pos,.gpos,.mine,.ghint,.ywsp,.tfsub,.tlsub){color:var(--pp-ink2)!important}
+html.pp[data-theme] main#view :is(.tfsub,.tile .ct){color:var(--pp-acc)!important}
+html.pp.ppd[data-theme] main#view :is(.tfsub,.tile .ct){color:#E7D7B8!important}
+html.pp[data-theme] main#view :is(.word,.zh,.czs,.fcsz,.wc .w,.wc .z,.ent .w,.ent .z,.ent p,#fc .word,#fc .cez){color:var(--pp-ink)!important}
+html.pp[data-theme] .dqfold{background:var(--pp-card)!important;border:0!important;border-radius:var(--pp-r)!important;box-shadow:var(--pp-sh)!important}
+html.pp[data-theme] .dqfold :is(.dqfnm,.dqfh,.dqfar,.dqfh *){color:var(--pp-ink)!important}
+html.pp[data-theme] :is(.dayb,.nw,#view .osb){background:var(--pp-card2)!important;color:var(--pp-ink)!important;border:0!important;box-shadow:none!important}
+html.pp[data-theme] .dayb.on,html.pp[data-theme] .dayb[aria-pressed=true]{background:var(--pp-acc)!important;color:var(--pp-on-acc)!important}
+html.pp[data-theme] :is(.ywb,.lab.yw){background:var(--pp-acc-wash)!important;color:var(--pp-acc)!important;border:0!important}
+html.pp.ppd[data-theme] :is(.ywb,.lab.yw){color:#F6EBDD!important}
+html.pp[data-theme] main#view#view :is(.sb,.pos,.ghint,.ywsp,.gpos,.mine,.tip,.ps,.n,.exz,.status,.skbar,.big2,.dtmeta,.dtplab,.dtlab,.dtwho,.dtleg,.daybar-s){color:var(--pp-ink2)!important}
+/* 听写 (dictation) controls */
+html.pp[data-theme] :is(.dtseg,.dtnav button,.dtresume,.dtluck,.dtn,.dmore a,.dpl),html.pp[data-theme] :is(.dsn,.dq,.dcard) button{background:var(--pp-card2)!important;color:var(--pp-ink)!important;border:0!important;box-shadow:none!important;border-radius:14px!important}
+html.pp[data-theme] :is(.dtseg,.dmore a){border-radius:999px!important}
+html.pp[data-theme] .dayx{color:var(--pp-ink2)!important;border-left-color:var(--pp-card2)!important}
+html.pp[data-theme] .dtdiff .dm{background:var(--pp-acc-wash)!important;color:var(--pp-acc)!important;border-bottom-color:var(--pp-acc)!important}
+html.pp.ppd[data-theme] .dtdiff .dm{color:#F6EBDD!important}
+html.pp[data-theme] .dtn .dtsun{-webkit-text-stroke-color:var(--pp-ink2)!important}
+html.pp[data-theme] :is(.dsn,.dq,.dcard){background:var(--pp-card)!important;border:0!important;box-shadow:var(--pp-sh)!important;border-radius:var(--pp-r)!important;color:var(--pp-ink)!important}
+html.pp[data-theme] :is(.daychip,.dthz,.exb2){background:var(--pp-card2)!important;color:var(--pp-ink)!important;border:0!important;box-shadow:none!important}
+html.pp[data-theme] main#view#view :is(.li,.card,.wc,.ent,.gu,.gcard,.dtcard,.tlisten,.player,.gend){background:var(--pp-card)!important;background-image:none!important;border:0!important;border-image:none!important;border-radius:var(--pp-r)!important;box-shadow:var(--pp-sh)!important}
+html.pp[data-theme] main#view#view :is(.ent,.wc,.li,.card) :is(.w,.z,.wd,.tx,.n,span){color:inherit}
+html.pp[data-theme] main#view#view :is(.ent,.wc,.li,.card){color:var(--pp-ink)!important}
+html.pp[data-theme] main#view#view :is(.ent .n,.exz,.ywsp,.ent .pos){color:var(--pp-ink2)!important}
+html.pp[data-theme] main#view#view .ent.cur{background:var(--pp-acc-wash)!important;box-shadow:inset 4px 0 0 var(--pp-acc),var(--pp-sh)!important;outline:0!important}
+html.pp[data-theme] :is(.skb,button.skb,.wpx,.wfx){background:var(--pp-card2)!important;color:var(--pp-ink)!important;border:0!important;box-shadow:none!important}
+html.pp[data-theme] :is(.p.sm,.p.xs,.jump,.ent .jump){background-color:var(--pp-acc)!important;color:var(--pp-on-acc)!important;border:0!important;box-shadow:none!important}
+html.pp[data-theme] button.tile2{background:var(--pp-card)!important;background-image:none!important;color:var(--pp-ink)!important;border:0!important;box-shadow:var(--pp-sh)!important;border-radius:14px!important}
+html.pp[data-theme] button.tile2.on,html.pp[data-theme] button.tile2:disabled{background:var(--pp-card2)!important;color:var(--pp-ink3)!important}
+html.pp[data-theme] main#view#view :is(.wfb,.dtpickh){color:var(--pp-ink)!important}
+html.pp[data-theme] main#view#view .wfb{color:var(--pp-ink2)!important}
+html.pp[data-theme] main#view#view button.tile2{background:var(--pp-card)!important;background-image:none!important;color:var(--pp-ink)!important;border:0!important;box-shadow:var(--pp-sh)!important;border-radius:14px!important;text-shadow:none!important}
+html.pp.ppd[data-theme] main#view#view button.tile2{background:var(--pp-card2)!important}
+html.pp[data-theme] main#view#view :is(.ent ol,.ent ol li,.ent ol .wd,.ent ol span){color:var(--pp-ink)!important}
+html.pp[data-theme] main#view#view .ent ol :is(.exz,.lz){color:var(--pp-ink2)!important}
+html.pp[data-theme] main#view#view .ent div:not([class]){color:var(--pp-ink2)!important}
+html.pp[data-theme] main#view#view .lab{background:var(--pp-card2)!important;color:var(--pp-ink2)!important;border:0!important}
+html.pp[data-theme] main#view#view .ent span:not([class]){color:var(--pp-ink2)!important}
