@@ -29,7 +29,7 @@ assert.ok(mkLine && !mkLine.trimStart().startsWith("//"), "mk must be code, not 
 assert.match(meta.v, /^[0-9a-f]{10}$/);
 assert.match(meta.cv, /^[0-9a-f]{8}$/);
 assert.match(meta.built, /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/);
-assert.match(meta.salt, /VDsYu07qwIo/);
+assert.match(meta.salt, /Eqp\+vvr0lp7yZo/);
 assert.equal(/localStorage|sessionStorage|indexedDB|nova_time|nova_key|caches\.delete/.test(protocol), false);
 assert.ok(sw.includes('"app.js"'));
 assert.ok(sw.includes("assets/liuma/day1.png"));

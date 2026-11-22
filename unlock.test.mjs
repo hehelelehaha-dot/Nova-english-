@@ -10,7 +10,7 @@ const meta = JSON.parse(readFileSync(new URL("./meta.json", root), "utf8"));
 const check = readFileSync(new URL("./content/check.enc", root));
 
 assert.equal(meta.enc, true);
-assert.equal(meta.salt, "VDsYu07qwIo/c92BJjS9ew==");
+assert.equal(meta.salt, "Eqp+vvr0lp7yZo/xfttnJA==");
 assert.equal(meta.iter, 250000);
 assert.equal(meta.cv, "71f52c6f");
 assert.match(meta.v, /^[0-9a-f]{10}$/);
