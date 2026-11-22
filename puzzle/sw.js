@@ -2,7 +2,7 @@
 // Cache names start with "puzzle-" so they never collide with the main app's nova-* caches.
 // This worker does not delete nova-* caches and does not intercept the parent app or .enc files.
 // Version must match puzzle/meta.json "v".
-const VERSION = "1";
+const VERSION = "2";
 const CACHE = "puzzle-shell-v" + VERSION;
 const SHELL = [
   "./",
@@ -12,6 +12,7 @@ const SHELL = [
   "./manifest.json",
   "./meta.json",
   "./sentences.json",
+  "./naval.json",
   "./icons/favicon-32.png",
   "./icons/icon-180.png",
   "./icons/icon-192.png",
@@ -35,6 +36,7 @@ async function audioUrls() {
   for (const s of data.sentences || []) {
     const raw = typeof s.audio === "string" ? s.audio : (s.audio && (s.audio.url || s.audio.src));
     if (!raw || /^(https?:|blob:|data:)/i.test(raw) || raw.endsWith(".enc")) continue;
+    if (raw.indexOf("audio/naval/") === 0) continue;
     out.push(new URL(raw, self.registration.scope).href);
   }
   return out;

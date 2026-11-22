@@ -1,9 +1,9 @@
 "use strict";
 // Sentence Puzzle. Version fallback must match puzzle/meta.json and sw.js.
-// Naval plaintext stays in memory only. It is never written to localStorage,
-// the Cache API, or this repository. Audio order: sentence.audio, then oa, then a, then speech.
+// Playback: sentence.audio (Fish voice-over), then oa (original), then a (Kokoro), then Web Speech.
+// Naval sentences come from naval.json. Their mp3s live under audio/naval/ and are not decrypted.
 
-const VERSION_FALLBACK = "1";
+const VERSION_FALLBACK = "2";
 const STATS_KEY = "puzzle_stats";
 const MASTERY_KEY = "puzzle_mastery";
 const SESSION_KEY = "puzzle_session";
@@ -28,27 +28,23 @@ const LEVELS = [
 ];
 const THEME_ZH = { Lash: "美睫", Dealer: "发牌", Daily: "日常", Scary: "惊悚", Naval: "Naval", All: "全部" };
 
-let versionMeta = { v: VERSION_FALLBACK, built: "2026-11-21" };
-let rootMeta = null;
-let KEY = null;
+let versionMeta = { v: VERSION_FALLBACK, built: "2026-11-22" };
 let reg = null;
 let BANK = [];
 let NAVAL = [];
 let byId = new Map();
 let navalLoaded = false;
-let navalStatus = "idle";
 let storageOk = true;
 let stats = { score: 0, streak: 0, bestStreak: 0, solved: 0 };
 let mastery = {};
 let round = null;
 let loadError = false;
 let badgeDay = "";
-const ui = { screen: "home", theme: "All", level: 1, board: "all", lockError: "", historyOpen: false };
+const ui = { screen: "home", theme: "All", level: 1, board: "all", historyOpen: false };
 
 const player = new Audio();
 player.preload = "auto";
 let playToken = 0;
-const blobCache = Object.create(null);
 
 const $ = (id) => document.getElementById(id);
 function esc(s) {
@@ -66,80 +62,6 @@ function writeJSON(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); }
   catch (e) { storageOk = false; }
 }
-function netErr() { const e = new Error("net"); e.kind = "net"; return e; }
-function pwErr() { const e = new Error("pw"); e.kind = "pw"; return e; }
-function b64(buf) {
-  const u = new Uint8Array(buf);
-  let s = "";
-  for (let i = 0; i < u.length; i++) s += String.fromCharCode(u[i]);
-  return btoa(s);
-}
-function ub64(s) { return Uint8Array.from(atob(s), (c) => c.charCodeAt(0)); }
-function looksLikeHtml(buf) {
-  const n = Math.min(buf.byteLength, 32);
-  const s = new TextDecoder().decode(buf.slice(0, n)).trim().toLowerCase();
-  return s.startsWith("<!doctype") || s.startsWith("<html");
-}
-function rootUrl(rel) { return new URL("../" + rel.replace(/^\//, ""), document.baseURI).href; }
-
-async function freshRootMeta() {
-  let r;
-  try { r = await fetch(rootUrl("meta.json") + "?t=" + Date.now(), { cache: "no-store" }); }
-  catch (e) { throw netErr(); }
-  if (!r.ok) throw netErr();
-  let m;
-  try { m = await r.json(); } catch (e) { throw netErr(); }
-  if (!m || typeof m.salt !== "string" || typeof m.iter !== "number") throw netErr();
-  return m;
-}
-async function loadCheck() {
-  let r;
-  try { r = await fetch(rootUrl("content/check.enc") + "?t=" + Date.now(), { cache: "no-store" }); }
-  catch (e) { throw netErr(); }
-  if (!r.ok) throw netErr();
-  const ct = (r.headers.get("content-type") || "").toLowerCase();
-  if (ct.includes("text/html")) throw netErr();
-  const buf = await r.arrayBuffer();
-  if (!buf || buf.byteLength < 28 || looksLikeHtml(buf)) throw netErr();
-  return buf;
-}
-async function deriveKey(pw) {
-  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
-  return crypto.subtle.deriveKey(
-    { name: "PBKDF2", salt: ub64(rootMeta.salt), iterations: rootMeta.iter, hash: "SHA-256" },
-    base, { name: "AES-GCM", length: 256 }, true, ["decrypt"]
-  );
-}
-async function dec(buf) {
-  const u = new Uint8Array(buf);
-  return crypto.subtle.decrypt({ name: "AES-GCM", iv: u.slice(0, 12) }, KEY, u.slice(12));
-}
-async function openCheck(buf) {
-  try { await dec(buf); }
-  catch (e) {
-    if (e && e.name === "OperationError") throw pwErr();
-    throw netErr();
-  }
-}
-async function trySavedKey() {
-  let saved = null;
-  try { saved = localStorage.getItem("nova_key"); } catch (e) {}
-  if (!saved) return false;
-  try {
-    rootMeta = await freshRootMeta();
-    if (!rootMeta.enc) return false;
-    KEY = await crypto.subtle.importKey("raw", ub64(saved), "AES-GCM", false, ["decrypt"]);
-    await openCheck(await loadCheck());
-    return true;
-  } catch (e) {
-    KEY = null;
-    if (e && e.kind === "pw") {
-      try { localStorage.removeItem("nova_key"); } catch (err) {}
-    }
-    return false;
-  }
-}
-
 function nyToday(date) {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit"
@@ -227,6 +149,7 @@ function normalize(s) {
     d: s.d != null ? +s.d : null,
     start: s.start != null ? +s.start : null,
     end: s.end != null ? +s.end : null,
+    voice: s.voice || "",
     oa: oa,
     a: s.a || "",
     sourceFile: s.sourceFile || "",
@@ -342,39 +265,26 @@ function resolveAudioURL(url) {
   if (url.indexOf("content/") === 0) return new URL("../" + url, document.baseURI).href;
   return new URL(url, document.baseURI).href;
 }
-function contentHref(rel) {
-  let path = String(rel || "").replace(/^\.\//, "");
-  if (path.indexOf("content/") === 0) path = path.slice("content/".length);
-  const base = new URL("../content/", document.baseURI);
-  return { path: path, href: new URL(path, base).href };
-}
-async function mediaURL(rel) {
-  const ref = contentHref(rel);
-  if (!ref.path) return null;
-  if (blobCache[ref.path]) return blobCache[ref.path];
-  if (rootMeta && rootMeta.enc && KEY) {
-    try {
-      const r = await fetch(ref.href + ".enc");
-      if (r.ok) {
-        const buf = await r.arrayBuffer();
-        if (buf && buf.byteLength >= 28 && !looksLikeHtml(buf)) {
-          const data = await dec(buf);
-          const url = URL.createObjectURL(new Blob([data], { type: "audio/mpeg" }));
-          blobCache[ref.path] = url;
-          return url;
-        }
-      }
-    } catch (e) {}
+function clipUrl(rel) {
+  if (!rel) return "";
+  const url = String(rel);
+  if (/^(https?:|blob:|data:)/i.test(url)) return url;
+  if (url.charAt(0) === "/") return new URL(url, location.origin).href;
+  if (url.indexOf("audio/naval/") === 0 || url.indexOf("audio/lash/") === 0 || url.indexOf("audio/dealer/") === 0 || url.indexOf("audio/daily/") === 0) {
+    return new URL(url, document.baseURI).href;
   }
-  return ref.href;
+  if (url.indexOf("content/") === 0) return new URL("../" + url, document.baseURI).href;
+  if (url.indexOf("audio/") === 0) return new URL("../content/" + url, document.baseURI).href;
+  return new URL(url, document.baseURI).href;
 }
 function voicePlan(s) {
-  if (audioField(s)) return { kind: "audio", en: "Voice-over", zh: "配音" };
+  if (audioField(s)) return { kind: "audio", en: s.voice ? "Voice-over · " + s.voice : "Voice-over", zh: "配音" };
   if (s && s.oa) return { kind: "original", en: "Original", zh: "原声" };
   if (s && s.a) return { kind: "voice", en: "Voice", zh: "朗读" };
   return { kind: "speech", en: "Read aloud", zh: "朗读" };
 }
-function heardLabel(kind) {
+function heardLabel(kind, voice) {
+  if (kind === "audio" && voice) return "Voice-over · " + voice;
   const map = {
     audio: "Voice-over · 配音",
     original: "Original · 原声",
@@ -452,88 +362,20 @@ async function playSentence(sentence) {
     if (ok) return "audio";
   }
   if (sentence.oa) {
-    try {
-      const url = await mediaURL(sentence.oa);
-      if (token !== playToken) return "";
-      if (url) {
-        const ok = await playUrl(url, sentence.start, sentence.end, token);
-        if (token !== playToken) return "";
-        if (ok) return "original";
-      }
-    } catch (e) {}
+    const ok = await playUrl(clipUrl(sentence.oa), sentence.start, sentence.end, token);
+    if (token !== playToken) return "";
+    if (ok) return "original";
   }
   if (token !== playToken) return "";
   if (sentence.a && sentence.a !== sentence.oa) {
-    try {
-      const url = await mediaURL(sentence.a);
-      if (token !== playToken) return "";
-      if (url) {
-        const ok = await playUrl(url, null, null, token);
-        if (token !== playToken) return "";
-        if (ok) return "voice";
-      }
-    } catch (e) {}
+    const ok = await playUrl(clipUrl(sentence.a), null, null, token);
+    if (token !== playToken) return "";
+    if (ok) return "voice";
   }
   if (token !== playToken) return "";
   const spoke = await speak(sentence.english);
   if (token !== playToken) return "";
   return spoke ? "speech" : "";
-}
-
-function navalNumbers() {
-  const xs = [];
-  for (let n = 1; n <= 18; n++) xs.push(n);
-  for (let n = 21; n <= 30; n++) xs.push(n);
-  return xs;
-}
-async function loadNaval() {
-  if (!KEY) throw pwErr();
-  if (!rootMeta) rootMeta = await freshRootMeta();
-  const sentences = [];
-  for (const n of navalNumbers()) {
-    const id = String(n).padStart(2, "0");
-    try {
-      const r = await fetch(rootUrl("content/naval_t" + id + ".json.enc"));
-      if (!r.ok) continue;
-      const buf = await r.arrayBuffer();
-      if (!buf || buf.byteLength < 28 || looksLikeHtml(buf)) continue;
-      const doc = JSON.parse(new TextDecoder().decode(await dec(buf)));
-      const sents = Array.isArray(doc) ? doc : ((doc && (doc.sents || doc.sentences)) || []);
-      const title = (doc && doc.title) ? String(doc.title) : ("T" + id);
-      const board = "naval_t" + id;
-      sents.forEach((s, i) => {
-        if (!s) return;
-        const english = String(s.t || s.english || "").trim();
-        const tiles = english.split(/\s+/).filter(Boolean);
-        if (tiles.length < 3) return;
-        sentences.push({
-          id: "naval-t" + id + "-" + String(i + 1).padStart(2, "0"),
-          theme: "Naval",
-          level: 0,
-          english: english,
-          chinese: String(s.zh || s.chinese || ""),
-          tiles: tiles,
-          accepted: [],
-          playable: true,
-          audio: s.audio || null,
-          d: s.d != null ? +s.d : null,
-          start: s.start != null ? +s.start : null,
-          end: s.end != null ? +s.end : null,
-          oa: s.oa || "",
-          a: s.a || "",
-          sourceFile: "",
-          sourceTitle: title,
-          board: board,
-          boardTitle: title
-        });
-      });
-    } catch (e) {}
-  }
-  NAVAL = sentences;
-  navalLoaded = true;
-  navalStatus = "ready";
-  reindex();
-  return sentences.length;
 }
 
 function dealTiles(sentence) {
@@ -589,18 +431,6 @@ function filterMatchesRound() {
   return !!(round && round.theme === ui.theme && round.level === ui.level && round.board === ui.board);
 }
 async function onStart() {
-  if (ui.theme === "Naval" && !KEY) {
-    ui.screen = "lock";
-    ui.lockError = "";
-    render();
-    return;
-  }
-  if (ui.theme === "Naval" && !navalLoaded) {
-    navalStatus = "loading";
-    render();
-    try { await loadNaval(); }
-    catch (e) { navalStatus = "error"; toast("Couldn't read Naval. 读不到 Naval。"); render(); return; }
-  }
   if (round && round.phase !== "done" && filterMatchesRound() && round.sentence) {
     ui.screen = "play";
     saveSession();
@@ -692,7 +522,7 @@ function onCorrect() {
     if (!round || round.sentence !== s) return;
     round.heard = kind || "";
     const el = $("heard");
-    if (el && kind) el.textContent = heardLabel(kind);
+    if (el && kind) el.textContent = heardLabel(kind, s.voice);
   });
 }
 function onRetry() {
@@ -709,65 +539,14 @@ function onNext() {
 function onBack() {
   stopPlayback();
   ui.screen = "home";
-  ui.lockError = "";
   saveSession();
   render();
 }
-async function onTheme(id) {
+function onTheme(id) {
   ui.theme = id;
   ui.board = "all";
-  if (id === "Naval") {
-    if (!KEY) {
-      ui.screen = "lock";
-      ui.lockError = "";
-      render();
-      return;
-    }
-    if (!navalLoaded) {
-      navalStatus = "loading";
-      ui.screen = "home";
-      render();
-      try { await loadNaval(); }
-      catch (e) { navalStatus = "error"; }
-      if (ui.theme === "Naval" && ui.screen === "home") render();
-      return;
-    }
-  }
   ui.screen = "home";
   render();
-}
-async function onUnlock() {
-  const input = $("pw");
-  const pw = input ? String(input.value || "").trim() : "";
-  if (!pw) { ui.lockError = "empty"; render(); return; }
-  ui.lockError = "busy";
-  render();
-  await new Promise((r) => setTimeout(r, 40));
-  try {
-    rootMeta = await freshRootMeta();
-    if (!rootMeta.enc) throw netErr();
-    const buf = await loadCheck();
-    KEY = await deriveKey(pw);
-    await openCheck(buf);
-    localStorage.setItem("nova_key", b64(await crypto.subtle.exportKey("raw", KEY)));
-    ui.lockError = "";
-    ui.theme = "Naval";
-    ui.board = "all";
-    ui.screen = "home";
-    navalStatus = "loading";
-    render();
-    await loadNaval();
-    if (ui.theme === "Naval") render();
-  } catch (e) {
-    KEY = null;
-    const kind = e && e.kind === "pw" ? "pw" : "net";
-    if (kind === "pw") {
-      try { localStorage.removeItem("nova_key"); } catch (err) {}
-    }
-    ui.lockError = kind;
-    ui.screen = "lock";
-    render();
-  }
 }
 async function checkUpdate(manual) {
   try {
@@ -793,9 +572,8 @@ function toast(msg) {
 
 function headerHTML() {
   const ver = esc(versionMeta.v || VERSION_FALLBACK);
-  if (ui.screen === "home" || ui.screen === "lock") {
-    const back = ui.screen === "lock" ? '<button class="back" type="button" data-act="back">‹ Back</button>' : "";
-    return back + '<h1>Sentence Puzzle<span class="sub">语序拼图</span></h1><span class="ver">v' + ver + "</span>";
+  if (ui.screen === "home") {
+    return '<h1>Sentence Puzzle<span class="sub">语序拼图</span></h1><span class="ver">v' + ver + "</span>";
   }
   const theme = round ? round.theme : ui.theme;
   const zh = THEME_ZH[theme] || "";
@@ -816,10 +594,7 @@ function headerHTML() {
 function themeChips() {
   return THEMES.map((t) => {
     const n = countTheme(t.id);
-    let sub = t.zh;
-    if (t.id === "Naval" && !KEY) sub = "Password · 密码";
-    else if (t.id === "Naval" && !navalLoaded) sub = "Load · 加载";
-    else sub = t.zh + " · " + (n == null ? "…" : n);
+    const sub = t.zh + " · " + (n == null ? "…" : n);
     return '<button type="button" class="chip' + (ui.theme === t.id ? " on" : "") + '" data-act="theme" data-id="' + t.id + '"><b>' +
       esc(t.en) + "</b><i>" + esc(sub) + "</i></button>";
   }).join("");
@@ -854,10 +629,8 @@ function homeMain() {
     picker = '<div class="sec">Story<small>Grouped by story. 按故事分组，不按难度。</small></div>' +
       boardList(boards, "All stories", "全部故事", total);
   } else if (ui.theme === "Naval") {
-    if (!KEY) {
-      picker = '<p class="loading">Naval needs the Nova password. Naval 需要 Nova 的密码。</p>';
-    } else if (navalStatus === "loading" || !navalLoaded) {
-      picker = '<p class="loading">Loading topics… 正在读取话题…</p>';
+    if (!navalLoaded) {
+      picker = '<p class="loading">Couldn\'t load Naval. 读不到 Naval。</p>';
     } else if (!NAVAL.length) {
       picker = '<p class="loading">No Naval sentences yet. 还没有 Naval 句子。</p>';
     } else {
@@ -891,7 +664,7 @@ function playMain() {
   const prog = '<div class="prog"><span>' + num + " / " + total + '</span><div class="bar"><i style="width:' + pct + '%"></i></div></div>';
   if (round.phase === "correct") {
     const plan = voicePlan(s);
-    const heard = round.heard ? heardLabel(round.heard) : (plan.en + " · " + plan.zh);
+    const heard = round.heard ? heardLabel(round.heard, s.voice) : (plan.en + " · " + plan.zh);
     return prog +
       '<div class="msg good">That\'s right.<span class="zh">正确。</span></div>' +
       '<div class="result"><div class="oktag">CORRECT</div><p class="sent">' + esc(s.english) + "</p>" +
@@ -936,26 +709,7 @@ function doneMain() {
     "<div><b>" + stats.streak + '</b><span>Streak 连对</span></div>' +
     "<div><b>" + (stats.bestStreak || 0) + "</b><span>Best 最高</span></div></div>";
 }
-function lockMain() {
-  let err = "";
-  if (ui.lockError === "pw") err = "Wrong password. 密码不对，请再试一次。";
-  else if (ui.lockError === "net") err = "Network problem. Check for an update and try again. 网络或缓存问题，请检查更新后重试。";
-  else if (ui.lockError === "empty") err = "Enter the password. 请输入密码。";
-  else if (ui.lockError === "busy") err = "Checking… 正在验证…";
-  const update = ui.lockError === "net"
-    ? '<button class="wide ghost" type="button" data-act="update">Check for update · 检查更新</button>'
-    : "";
-  return '<form class="lock" id="lock-form" autocomplete="off">' +
-    "<h2>Unlock Naval</h2>" +
-    '<p class="zh">解锁 Naval</p>' +
-    "<p>Enter the Nova password. It is the same one as the main app.</p>" +
-    '<p class="zh">请输入密码，和主应用相同。</p>' +
-    '<input id="pw" type="password" name="nova-unlock" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" data-1p-ignore="true" data-lpignore="true" data-form-type="other">' +
-    '<button class="wide primary" type="submit">Unlock · 解锁</button>' +
-    '<div class="err" id="er">' + esc(err) + "</div>" + update + "</form>";
-}
 function dockHTML() {
-  if (ui.screen === "lock") return "";
   if (ui.screen === "done") {
     return '<div class="actions"><button class="btn primary" type="button" data-act="again">Practice again · 再来一组</button></div>' +
       '<button class="wide ghost" type="button" data-act="back">Home · 回首页</button>';
@@ -973,12 +727,8 @@ function dockHTML() {
     return '<div class="actions">' + primary +
       '<button class="btn ghost" type="button" data-act="hint"' + off + '>Next word<span class="z">提示下一个词</span></button></div>';
   }
-  const list = selection();
-  const off = (!loadError && ui.theme === "Naval" && KEY && navalStatus === "loading") ? " disabled" : "";
-  const start = ui.theme === "Naval" && !KEY ? "Unlock · 解锁" : "Start · 开始练习";
-  return '<button class="go" type="button" data-act="start"' + off + ">" + start + "</button>" +
-    '<button class="wide ghost" type="button" data-act="update">Check for update · 检查更新</button>' +
-    (list.length ? "" : "");
+  return '<button class="go" type="button" data-act="start">Start · 开始练习</button>' +
+    '<button class="wide ghost" type="button" data-act="update">Check for update · 检查更新</button>';
 }
 function renderBadge() {
   const host = $("today");
@@ -999,8 +749,7 @@ function render() {
   const y = main ? main.scrollTop : 0;
   $("hdr").innerHTML = headerHTML();
   let body = "";
-  if (ui.screen === "lock") body = lockMain();
-  else if (ui.screen === "play" && round && round.sentence) body = playMain();
+  if (ui.screen === "play" && round && round.sentence) body = playMain();
   else if (ui.screen === "done") body = doneMain();
   else { ui.screen = "home"; body = homeMain(); }
   main.innerHTML = body;
@@ -1009,10 +758,6 @@ function render() {
   $("app").dataset.screen = ui.screen;
   main.scrollTop = y;
   renderBadge();
-  if (ui.screen === "lock") {
-    const pw = $("pw");
-    if (pw && ui.lockError !== "busy") pw.focus();
-  }
 }
 
 function restore(data) {
@@ -1095,18 +840,13 @@ function bind() {
     else if (act === "unplace") onUnplace(b.dataset.i);
     else if (act === "replay") {
       if (round && round.sentence) {
-        playSentence(round.sentence).then((kind) => {
+        const s = round.sentence;
+        playSentence(s).then((kind) => {
           const el = $("heard");
-          if (el && kind) el.textContent = heardLabel(kind);
+          if (el && kind) el.textContent = heardLabel(kind, s.voice);
         });
       }
     } else if (act === "update") checkUpdate(true);
-  });
-  document.body.addEventListener("submit", (e) => {
-    if (e.target && e.target.id === "lock-form") {
-      e.preventDefault();
-      onUnlock();
-    }
   });
 }
 function registerSW() {
@@ -1139,17 +879,17 @@ async function boot() {
   try {
     const data = await (await fetch("sentences.json")).json();
     BANK = (data.sentences || []).map(normalize);
-    reindex();
   } catch (e) { loadError = true; }
+  try {
+    const naval = await (await fetch("naval.json")).json();
+    NAVAL = (naval.sentences || []).map(normalize).filter(isPlayable);
+    navalLoaded = true;
+  } catch (e) { navalLoaded = false; }
+  reindex();
   const savedStats = readJSON(STATS_KEY);
   if (savedStats) stats = Object.assign(stats, savedStats);
   mastery = readJSON(MASTERY_KEY) || {};
-  try { await trySavedKey(); } catch (e) { KEY = null; }
   const saved = readJSON(SESSION_KEY);
-  if (saved && saved.round && (saved.round.queue || []).some((id) => String(id).indexOf("naval-") === 0) && KEY) {
-    navalStatus = "loading";
-    try { await loadNaval(); } catch (e) { navalStatus = "error"; }
-  }
   if (saved) restore(saved);
   render();
   try {
