@@ -568,9 +568,10 @@ function listenClip(url,me,dur){return new Promise(res=>{let done=false,origin=n
   if(A.ended&&played>0.12)return once(true);if(wall>Math.max(30000,((isFinite(A.duration)?A.duration:0)/(A.playbackRate||1))*1000+5000))return once(false);requestAnimationFrame(tick)};
  requestAnimationFrame(tick)})}
 // Reading-card keep list. Values are the original 1-based line numbers (sents index + 1).
+// A board may also carry its own list in data (d.keep), e.g. to hide filler lines like "Yeah."
 // Shown cards are numbered 1..n (field n). sents is not reindexed: 单词卡 si, 句子听写, and ☀ nova_sun stay on i.
 const RD_KEEP={};
-function rdRows(d){const sents=(d&&d.sents)||[],keep=RD_KEEP[(d&&d.id)||""];
+function rdRows(d){const sents=(d&&d.sents)||[],keep=RD_KEEP[(d&&d.id)||""]||(d&&d.keep);
  const all=sents.map((s,i)=>({s,i})),set=keep?new Set(keep):null;
  return (set?all.filter(x=>set.has(x.i+1)):all).map((x,n)=>({s:x.s,i:x.i,n}))}
 function dtRows(d){return rdRows(d).filter(x=>x.s&&x.s.oa)}
