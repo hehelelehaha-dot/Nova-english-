@@ -814,6 +814,8 @@ button.daybar.fp .fp-ot{font-size:21px;padding:6px 13px 6px}
 .dqfh::-webkit-details-marker{display:none}
 .dqfar::before{content:"▸";color:#8a6200;font-size:18px;width:1em;display:inline-block}
 .dqfold[open]>.dqfh .dqfar::before{content:"▾"}
+.dqgrp{overflow-anchor:none}.dqgh{list-style:none;display:flex;align-items:center;gap:8px;min-height:48px;padding:4px 2px;cursor:pointer}.dqgh::-webkit-details-marker{display:none}.dqgh .dayfold{margin:0;font-size:15px}
+.dqgrp[open]>.dqgh .dqfar::before{content:"▾"}.dqgbody{display:flex;flex-direction:column;gap:10px;padding-bottom:6px}
 .dqfnm{font-size:16px;min-width:0}.dqfsub{margin-left:auto;font-size:15px;font-weight:800;color:#8a6200}
 .daygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;padding:0 10px 12px;overflow-anchor:none}
 .daypick,#daynow,#daybody{overflow-anchor:none}
