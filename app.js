@@ -6,8 +6,18 @@ const b64=u=>btoa(String.fromCharCode(...new Uint8Array(u)));const ub64=s=>Uint8
 async function deriveKey(pw){const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
  return crypto.subtle.deriveKey({name:"PBKDF2",salt:ub64(META.salt),iterations:META.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},true,["decrypt"])}
 async function dec(buf){const u=new Uint8Array(buf);return crypto.subtle.decrypt({name:"AES-GCM",iv:u.slice(0,12)},KEY,u.slice(12))}
+// Positive Psychology media (content/pp/…) lives in the separate nova-ppsy-media Pages repo (main site is near 1 GB).
+// URL = base + rel + ".enc?h=<sha8>" from content/ppsy.json, so a changed file is a new URL; the copy kept in the
+// "ppsy-media" cache (not "nova-*", so the service worker never wipes it) also lets it play offline once opened.
+const PPBASE0="https://hehelelehaha-dot.github.io/nova-ppsy-media/";
+async function ppBuf(rel){const H=(PPSY&&PPSY.hm)||{},url=((PPSY&&PPSY.base)||PPBASE0)+rel+".enc?h="+(H[rel]||"0");
+ let c=null;try{c=await caches.open("ppsy-media");const hit=await c.match(url);if(hit)return dec(await hit.arrayBuffer())}catch(e){c=null}
+ const r=await fetch(url);if(!r.ok)throw new Error("加载失败 "+rel);const b=await r.arrayBuffer();
+ if(c){try{await c.put(url,new Response(b.slice(0)))}catch(e){}}return dec(b)}
+async function ppPrune(){try{if(!PPSY||!PPSY.hm||ppPrune.done)return;ppPrune.done=1;const base=PPSY.base||PPBASE0,keep=new Set(Object.keys(PPSY.hm).map(k=>base+k+".enc?h="+PPSY.hm[k]));
+ const c=await caches.open("ppsy-media");for(const r of await c.keys())if(!keep.has(r.url))await c.delete(r)}catch(e){}}
 // Encrypted files win. A missing .enc loads the plaintext sibling.
-async function getBuf(p){if(!META.enc){const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
+async function getBuf(p){if(/^content\/pp\//.test(p))return ppBuf(p.slice(11));if(!META.enc){const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
  let enc=null;try{const r=await fetch(p+".enc");if(r.ok)enc=await r.arrayBuffer()}catch(e){}
  if(enc)return dec(enc);const r=await fetch(p);if(!r.ok)throw new Error("加载失败 "+p);return r.arrayBuffer()}
 // Topic 6, the sentence that ends "…as I said, it solves your money problems."
@@ -178,7 +188,8 @@ function refreshFoldNumbers(){FOLDN={};navalSectionIds().forEach((id,i)=>{FOLDN[
  if(FOLDN.dictation)FOLDN.chunks=FOLDN.dictation;if(FOLDN.game)FOLDN.g=FOLDN.game;
  PODCAST_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
  TALK_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
- SCARY_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
+ SCARY_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1});
+ PPSY_DEF.forEach((s,i)=>{FOLDN[s.id]=i+1})}
 const secT=(id,t)=>{const n=FOLDN[id];return n?CIRC[n]+" "+t:t};
 // 播客 (internal id podcast): a standalone home fold after Naval. content/podcast.json lists the boards
 // (整句 = reading card with category headings h, 生词 bkw + Michael word mp3 bkwa; 句子听写 = dictation).
@@ -232,6 +243,7 @@ const WATCH_NAVAL="https://youtu.be/KyfUysrNaco";
 const WATCH_PODCAST="https://www.bilibili.com/video/BV1Exu1zvEbX/?p=11";
 const WATCH_SCARY="https://youtu.be/Qh_VvZCFOcg";
 function watchUrlFor(id){id=String(id||"");
+ if(PPMODE||/(^|_)ps_t\d/.test(id)||/^pp_/.test(id))return ppWatch(id);
  const talkIt=((TALK&&TALK.boards)||[]).find(x=>x.id===id);if(talkIt&&talkIt.watch)return talkIt.watch;
  if(/^talk_ep1/.test(id))return WATCH_NAVAL;
  if(/^talk_/.test(id))return "";
@@ -244,13 +256,32 @@ function watchUrlFor(id){id=String(id||"");
 function setWatchSrc(url){const a=document.getElementById("watch-src");if(!a)return;url=String(url||"");if(url){a.href=url;a.classList.remove("hidden")}else{a.removeAttribute("href");a.classList.add("hidden")}}
 function setHeader(t,back,watch){document.getElementById("title").textContent=t;document.getElementById("back").classList.toggle("hidden",!back);setWatchSrc(watch||"")}
 let CAT=null;
+// Positive Psychology (internal id ppsy): Tal Ben-Shahar, Harvard PSY 1504. Built like Naval (① 阅读卡 ② 单词卡
+// ③ 英英解释音频 ④ 句子听写) from its own catalog in content/ppsy.json. Inside the fold the app swaps CAT to that
+// catalog (PPMODE), so every Naval view/feature works unchanged; home and every other route use Naval's CAT.
+const PPSY_DEF=[{id:"pp_reading",cat:"reading"},{id:"pp_flash",cat:"flash"},{id:"pp_longaudio",cat:"longaudio"},{id:"pp_dictation",cat:"dictation"}];
+let PPSY=null,PPCAT=null,NAVCAT=null,PPMODE=false;
+async function loadPpsy(){if(PPSY)return PPSY;try{PPSY=await getJSON("ppsy.json")}catch(e){PPSY=null;return null}
+ PPCAT=PPSY.catalog||{categories:[]};for(const c of PPCAT.categories)c.items=topicSort(c.items||[]);applyDictation(PPCAT);setTimeout(ppPrune,4000);return PPSY}
+function ppLec(n){return ((PPSY&&PPSY.lectures)||[]).find(L=>n>=L.a&&n<=L.b)||null}
+function ppWatch(id){const n=topicNo({id});const L=n!=null?ppLec(n):null;
+ if(L){const st=(PPSY.tstart||{})[n];return L.url+(st!=null?(L.url.indexOf("?")<0?"?":"&")+"t="+Math.floor(st):"")}
+ const L1=((PPSY&&PPSY.lectures)||[])[0];return (PPSY&&PPSY.watch)||(L1&&L1.url)||""}
+function ppWant(h){let f=false;try{f=sessionStorage.getItem("nova_mode")=="pp"}catch(e){}
+ if(!PPCAT)return false;
+ if(h[1]=="i")return /(^|_)ps_t\d/.test(h[2]||"");
+ if(h[1]=="c")return f&&PPCAT.categories.some(c=>c.id==h[2]);
+ if(h[1]=="srs")return f;
+ if(!h[1]){try{sessionStorage.removeItem("nova_mode")}catch(e){}}
+ return false}
+function ppSet(on){on=!!(on&&PPCAT);if(on==PPMODE)return;PPMODE=on;CAT=on?PPCAT:NAVCAT;OAIXP=null;OAIX=null;try{SRSDECKS=null}catch(e){}}
 // Naval topics: newest (highest topic number) first; other items keep their slots. Topic number from id like naval_t06 / t05v_flash / ch_t04 / wf_t03v
-const topicNo=x=>{const m=/(?:^|_)t(\d\d)(?:v|_|$)/.exec(x.id||"");return m?+m[1]:null};
+const topicNo=x=>{const m=/(?:^|_)t(\d\d\d?)(?:v|_|$)/.exec(x.id||"");return m?+m[1]:null};
 function topicSort(a){const idx=[],its=[];a.forEach((x,i)=>{if(topicNo(x)!=null){idx.push(i);its.push(x)}});its.sort((p,q)=>topicNo(q)-topicNo(p));const r=a.slice();idx.forEach((k,j)=>r[k]=its[j]);return r}
 // ④ used to be the Chunks category. Same home slot, now a Topic list of sentence dictation over reading cards that have interview audio.
 function applyDictation(cat){if(!cat||!cat.categories||cat._dt)return;const ch=cat.categories.find(c=>c.id=="chunks"||c.id=="dictation");if(!ch){cat._dt=1;return}
  const rd=cat.categories.find(c=>c.id=="reading");
- const src=((rd&&rd.items)||[]).filter(it=>/naval_t\d+/.test(it.id)||/naval_t\d+/.test(it.data||""));
+ const src=((rd&&rd.items)||[]).filter(it=>/(naval|ps)_t\d+/.test(it.id)||/(naval|ps)_t\d+/.test(it.data||""));
  ch.id="dictation";ch.name="句子听写";ch.desc="";ch.icon="✍️";
  ch.items=topicSort(src.map(it=>({id:"dt_"+it.id,base:it.id,title:it.title,sub:it.sub||"",data:it.data,dictation:1})));
  cat._dt=1}
@@ -268,9 +299,11 @@ async function route(){const h=location.hash||"#/";if(LASTH!=null)SCR[LASTH]=win
 async function route0(){syncPaper();delete document.documentElement.dataset.home;ROST++;stopAll();followStop();window._rdRid="";document.querySelectorAll(".ov").forEach(o=>o.remove());document.getElementById("hdr-r").innerHTML="";window.scrollTo(0,0);
  // Boot leaves enc:false when meta.json fails, which used to skip the lock and open as plaintext.
  if(!KEY){if(!(await unlock()))return lockScreen()}
- if(!CAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly)}
- try{await loadPodcast()}catch(e){PODCAST={boards:[]}}try{await loadTalk()}catch(e){TALK={boards:[]}}try{await loadScary()}catch(e){SCARY={boards:[]}}applyDictation(CAT);refreshFoldNumbers();
+ if(!NAVCAT){CAT=await getJSON("catalog.json");for(const c of CAT.categories)c.items=topicSort(c.items);if(CAT.gameOnly)CAT.gameOnly=topicSort(CAT.gameOnly);NAVCAT=CAT}
+ try{await loadPodcast()}catch(e){PODCAST={boards:[]}}try{await loadTalk()}catch(e){TALK={boards:[]}}try{await loadScary()}catch(e){SCARY={boards:[]}}try{await loadPpsy()}catch(e){}applyDictation(NAVCAT);
  const h=location.hash.slice(1).split("/");
+ if(h[1]=="pp"){try{sessionStorage.setItem("nova_mode","pp")}catch(e){}location.replace("#/"+h.slice(2).join("/"));return}
+ ppSet(ppWant(h));refreshFoldNumbers();
  if((h[1]=="c"&&h[2]=="chunks")||(h[1]=="i"&&/^ch_t\d+$/.test(h[2]||""))){location.replace("#/c/dictation");return}
  // #/dq is the read-only 今天的目标. Picking sentences is only on the 句子听写 topic lists.
  try{if(h[1]=="dq")return showDQ();if(h[1]=="c")return showCat(h[2]);if(h[1]=="i")return showItem(h[2]);if(h[1]=="m")return showMine(h[2]);if(h[1]=="g")return h[2]?showGame(h[2],h[3]||"spell"):showGames();if(h[1]=="wf")return h[2]?showWF(h[2]):showWFs();if(h[1]=="s")return showSettings();if(h[1]=="d")return showDay(h[2]);if(h[1]=="srs")return showSRS();if(h[1]=="exp")return showExport();if(h[1]=="imp")return h[2]?showImportLink(h.slice(2).join("/")):showImport();showHome()}catch(e){V.innerHTML=`<div class="done">出错了：${esc(e.message)}</div>`;console.error(e)}}
@@ -348,7 +381,7 @@ const catOf=it=>{for(const c of CAT.categories)if(c.items.includes(it))return c.
 const builtinItems=()=>CAT.categories.flatMap(c=>c.items.map(it=>({it,home:c.id})));
 const effCat=x=>{const m=ORG.move[x.it.id];return m&&allCats().some(c=>c.id==m)?m:x.home};
 const ttl=it=>ORG.rename[it.id]||(it.base&&ORG.rename[it.base])||it.title;
-async function itemsIn(cid){const mine=(await idbAll().catch(()=>[]));
+async function itemsIn(cid){const mine=PPMODE?[]:(await idbAll().catch(()=>[]));
  return builtinItems().filter(x=>!ORG.hidden[x.it.id]&&effCat(x)==cid).map(x=>({kind:"b",id:x.it.id,title:ttl(x.it),sub:x.it.sub||"",it:x.it}))
   .concat(mine.filter(f=>{const c=allCats().some(c=>c.id==f.cat)?f.cat:"reading";MCAT[f.id]=c;return c==cid}).map(f=>({kind:"m",id:f.id,title:f.name,sub:"我导入的音频",f})))}
 // ---------- sheet / dialogs (touch friendly) ----------
@@ -523,9 +556,12 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const talkIcon={episode:"🎧",dictation:"✍️",reading:"🎤"};
  const talk=TALK_DEF.map(s=>{const xs=talkItemsFor(s),n=xs.length;return studyTile({id:s.id,name:s.name,icon:talkIcon[s.like]||"📁",desc:s.desc||"",count:n+" 项",hash:n==1?"#/i/"+xs[0].id:"#/c/"+s.id,iconKey:s.like=="episode"?"longaudio":s.like})}).join("");
  const scary=SCARY_DEF.map(s=>{const n=scaryBoards().length;return studyTile({id:s.id,name:s.name,icon:"👻",desc:s.desc||"",count:n+" 项",hash:"#/c/"+s.id,iconKey:"reading"})}).join("");
+ const ppc=id=>((PPCAT&&PPCAT.categories||[]).find(c=>c.id==id)||null);
+ const ppsy=PPCAT?PPSY_DEF.map(s=>{const c=ppc(s.cat);if(!c)return "";const n=(c.items||[]).filter(it=>!ORG.hidden[it.id]).length;
+  return studyTile({id:s.id,name:c.name,icon:c.icon,desc:c.desc||"",count:n+" 项",hash:"#/pp/c/"+s.cat,iconKey:s.cat})}).join(""):"";
  const mine=cs.filter(c=>!c.builtin);
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
- V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("podcast","播客",PODCAST_DEF.length,podcast)}${foldHTML("talk","播客对话",TALK_DEF.length,talk)}${foldHTML("scary","Scary Comp. 2021",SCARY_DEF.length,scary)}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
+ V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("podcast","播客",PODCAST_DEF.length,podcast)}${foldHTML("talk","播客对话",TALK_DEF.length,talk)}${foldHTML("scary","Scary Comp. 2021",SCARY_DEF.length,scary)}${ppsy?foldHTML("ppsy",(PPSY&&PPSY.name)||"Positive Psychology",PPSY_DEF.length,ppsy):""}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();if(typeof dqGoalHome=="function")dqGoalHome();
  const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playAvatarFx()};preloadStarRain();preloadMaple();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
@@ -538,7 +574,7 @@ function foldReadingTopics(fold){
  const row=(it,n)=>n==null||ORG.hidden[it.id]?null:{id:it.id,n,data:it.data,title:ttl(it)};
  if(fold=="podcast")return podcastBoards().filter(it=>it&&it.kind=="reading").map((it,i)=>row(it,i+1)).filter(Boolean);
  const rd=CAT&&CAT.categories&&CAT.categories.find(c=>c.id=="reading");
- return ((rd&&rd.items)||[]).filter(it=>/naval_t\d+/.test(it.id)).map(it=>row(it,topicNo(it))).filter(Boolean).sort((a,b)=>a.n-b.n)}
+ return ((rd&&rd.items)||[]).filter(it=>/(naval|ps)_t\d+/.test(it.id)).map(it=>row(it,topicNo(it))).filter(Boolean).sort((a,b)=>a.n-b.n)}
 function dropOldCardRanges(){const wipe=(store)=>{try{const drop=[];for(let i=0;i<store.length;i++){const k=store.key(i);if(k&&k.indexOf("nova_rd_rng_")==0)drop.push(k)}drop.forEach(k=>store.removeItem(k))}catch(e){}};wipe(localStorage);wipe(sessionStorage)}
 function topicListenHTML(fold){const topics=foldReadingTopics(fold);if(!topics.length)return "";
  const word="Topic",tag="T",key="nova_tl_"+fold;
@@ -646,6 +682,7 @@ function navalGroups(secId){if(!secId||FOLDN[secId]===1)return false;return nava
 function tfOpen(id,def){try{const s=localStorage.getItem("nova_tf_"+id);if(s==null)return def;return s==="1"}catch(e){return def}}
 // Naval sections after 板块一: Topics 1–10, 11–20, … Newest range starts open. 板块一 stays a flat list.
 function topicGroupsHTML(secId, rows, fold){
+ if(typeof PPMODE!="undefined"&&PPMODE&&PPSY&&PPSY.lectures)return ppGroupsHTML(secId,rows);
  const use=fold==null?navalGroups(secId):!!fold;
  const flat=`<div class="list">${rows.map(r=>r.html).join("")}</div>`;
  if(!use)return flat;
@@ -656,17 +693,23 @@ function topicGroupsHTML(secId, rows, fold){
  const folds=keys.map(b=>{const a=b*10+1,id=secId+":"+a,items=groups.get(b).slice().sort((p,q)=>p.n-q.n),open=tfOpen(id,b===hi);
   return `<details class="tfold" data-tf="${esc(id)}"${open?" open":""}><summary class="tfh"><span class="tfar" aria-hidden="true"></span><span class="tfnm">Topic ${a}–${a+9}</span><span class="tfsub">${items.length}</span></summary><div class="list">${items.map(r=>r.html).join("")}</div></details>`}).join("");
  return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
+function ppGroupsHTML(secId,rows){const Ls=PPSY.lectures,rest=[];const by=new Map();
+ for(const r of rows){const L=ppLec(+r.n);if(!L){rest.push(r.html);continue}if(!by.has(L.n))by.set(L.n,[]);by.get(L.n).push(r)}
+ const hi=Math.max(0,...by.keys());
+ const folds=Ls.filter(L=>by.has(L.n)).map(L=>{const id=secId+":pp"+L.n,items=by.get(L.n).slice().sort((p,q)=>p.n-q.n),open=tfOpen(id,L.n===hi);
+  return `<details class="tfold" data-tf="${esc(id)}"${open?" open":""}><summary class="tfh"><span class="tfar" aria-hidden="true"></span><span class="tfnm">${esc(L.title)}</span><span class="tfsub">${items.length}</span></summary><div class="list"><div class="lw"><a class="li ppsrc" href="${esc(L.url)}" target="_blank" rel="noopener"><span class="tt">▶ 原视频 · YouTube<span class="sb">${esc(L.sub||"")}</span></span></a></div>${items.map(r=>r.html).join("")}</div></details>`}).join("");
+ return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
 async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const talk=talkSec(id);if(talk)return showTalk(talk);const scary=scarySec(id);if(scary)return showScary(scary);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true,watchUrlFor(c.id));
  const xs=await itemsIn(id);
- const listen=id=="reading"?topicListenHTML("naval"):"";
- V.innerHTML=`${listen}${id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
- <div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`;
- if(listen)wireTopicListen("naval");if(id=="dictation")dqGoalMount();
+ const listen=id=="reading"?topicListenHTML(PPMODE?"ppsy":"naval"):"";
+ V.innerHTML=`${listen}${PPMODE?"":id=="dictation"?dqHTML():""}${id=="flash"?'<div id="srsent" class="srsent"></div>':""}${xs.length?topicGroupsHTML(id,xs.map((x,k)=>({n:topicNo(x),html:catItemRow(x,k)}))):`<div class="done">这个分类还是空的</div>`}
+ ${PPMODE?"":`<div class="import"><label class="btn" style="display:flex;align-items:center;justify-content:center">＋ 导入我的 MP3 到「${esc(c.name)}」<input type="file" accept="audio/*" style="display:none" id="imp"></label></div>`}`;
+ if(listen)wireTopicListen(PPMODE?"ppsy":"naval");if(!PPMODE){if(id=="dictation")dqGoalMount()};
  V.querySelectorAll("[data-k]").forEach(b=>{const x=xs[+b.dataset.k];b.onclick=()=>{if(tapOK())location.hash=(x.kind=="m"?"#/m/":"#/i/")+x.id}});
  if(id=="flash")srsEntry(document.getElementById("srsent"));
- document.getElementById("imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;await idbPut({id:"m"+Date.now(),cat:id,name:f.name.replace(/\.[^.]+$/,""),blob:f});showCat(id)}}
+ if(document.getElementById("imp"))document.getElementById("imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;await idbPut({id:"m"+Date.now(),cat:id,name:f.name.replace(/\.[^.]+$/,""),blob:f});showCat(id)}}
 const ZOOMS=[["小",.9],["标准",1.1],["大",1.25],["特大",1.4],["超大",1.6]];
 const curZoom=()=>parseFloat(localStorage.getItem("nova_zoom"))||1.1;
 function setZoom(z,noStamp){localStorage.setItem("nova_zoom",z);document.documentElement.style.setProperty("--z",z);if(!noStamp)saveDisplay()}
@@ -741,7 +784,7 @@ async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dicta
 function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if(!e.classList.contains("zh"))b.style.minHeight=b.offsetHeight+"px";e.classList.add("flipping");
  setTimeout(()=>{e.classList.toggle("zh");if(e.classList.contains("zh")){const h0=parseFloat(b.style.minHeight);b.style.minHeight="0";const h1=b.scrollHeight;b.style.minHeight=h0+"px";requestAnimationFrame(()=>{b.style.transition="min-height .25s ease";b.style.minHeight=Math.max(h0,h1)+"px";setTimeout(()=>b.style.transition="",300)})}e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function stTop(){const ss=document.getElementById("ss");let b=0;for(const e of document.querySelectorAll("body *")){if(ss&&ss.contains(e))continue;const p=getComputedStyle(e).position;if(p!="sticky"&&p!="fixed")continue;const r=e.getBoundingClientRect();for(const x of [e,...e.querySelectorAll("*")]){const r=x.getBoundingClientRect();if(r.height>0&&r.top<innerHeight*.4&&r.bottom<innerHeight*.6)b=Math.max(b,r.bottom)}}return b}
-function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":(sp||"")}
+function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":sp=="Tal"?"TAL BEN-SHAHAR":sp=="Shawn"?"SHAWN ACHOR":sp=="Seinfeld"?"JERRY SEINFELD":sp=="Student"?"STUDENT":(sp||"")}
 // RD_LOOP_START
 // Luca 阅读卡 单句循环: off → forever → ×5 → ×10 → off.
 // played is how many times this visible sentence has finished. next is the next visible row, or -1 to stop.
@@ -957,7 +1000,7 @@ function fcLinkOrig(d){const C=(d&&d.flash&&d.flash.cards)||[],S=(d&&d.sents)||[
   if(s&&s.oa)c.oa=s.oa}}
 document.addEventListener("click",e=>{const b=e.target.closest(".fcorig");if(!b)return;e.stopPropagation();e.preventDefault();stopAll();LASTBTN=b;playSrc({oa:b.dataset.oa,oab:[0,null]},1,b)},true);
 function lgHTML(c){return c&&c.lg&&c.lg[1]?`<div class="row lgrow"><div class="tx"><span class="lab lg">底层逻辑</span>${c.lg[0]?`<span class="lge">${esc(c.lg[0])}</span> `:""}${esc(c.lg[1])}</div></div>`:""}
-function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t;const hl=full&&src.ft&&src.fhl?src.fhl:(src.hl||[-1,-1]);const[a,b]=hl;const who=src.sp=="Naval"?"Naval":src.sp=="Luca"?"Luca":"Chris";
+function ywHTML(src,full){if(!src)return "";const t=full&&src.ft?src.ft:src.t;const hl=full&&src.ft&&src.fhl?src.fhl:(src.hl||[-1,-1]);const[a,b]=hl;const who=src.sp=="Naval"?"Naval":src.sp=="Luca"?"Luca":(PPMODE&&src.sp)?src.sp:"Chris";
  return `<span class="lab yw">原文</span>${dsegHTML(t,[a,b],t==(src.ft||src.t)?src.sg:null)} <span class="ywsp">— ${who}</span>`}
 // 点读 for every 原文/原句 render (②③④⑤⑥🧠): sg=[[charStart,charEnd,clip,t0,t1|null],…] over the displayed text (build/src_orig.py).
 // Each segment is a .dseg span; tap = play just that stretch of the original audio (highlighted while playing). hl=[a,b] stays bold.
@@ -1057,7 +1100,7 @@ function viewFlash(d,id,opt){const token=++ROST;const C=d.cards,DIR=FCDIR(),CE=D
    if(CE&&!back){const sp=S.sp[i];
     $("fc").innerHTML=`<div class="card ce"><div class="cez">${esc(c.zh)}</div><div class="pos en">${esc(c.pos)}</div>${lgHTML(c)}${noteHTML(c)}
      <div class="fchrow"><button class="fchint" id="hint" onclick="_fc.hint(${i})" aria-label="再显示一个字母">${fcMask(c.w,S.rv[i]||1)}</button><button class="btn fcsay" id="fcsay" onclick="_fc.say(${i},this)" aria-label="听单词发音">🔊</button></div><div class="tip" style="text-align:center">共 ${fcLetters(c.w)} 个字母</div>
-     ${c.src&&c.src.zh?`<div class="row czr"><div class="tx"><span class="lab yw">原句</span>${fcZh(c.src)}${c.src.sp?` <span class="ywsp">— ${c.src.sp=="Naval"?"Naval":"Chris"}</span>`:""}</div></div>`:""}
+     ${c.src&&c.src.zh?`<div class="row czr"><div class="tx"><span class="lab yw">原句</span>${fcZh(c.src)}${c.src.sp?` <span class="ywsp">— ${c.src.sp=="Naval"?"Naval":PPMODE?c.src.sp:"Chris"}</span>`:""}</div></div>`:""}
      ${c.src&&c.src.oas&&c.src.oas.length?`<div style="text-align:center"><button class="osent" id="osent" onclick="_fc.osent(${i},this)" aria-label="播放原句原声">▶ 原句</button></div>`:""}
      <div class="fcsp"><input id="sp" class="guess" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="✍️ 拼一拼" value="${esc(S.typed[i]||"")}"><button class="btn" id="spk" onclick="_fc.spell(${i})">✓ 检查</button></div>
      <div id="spr">${sp=="ok"?`<div class="gok">✅ 拼对了</div>`:sp=="bad"?`<div class="gno">❌ 拼写有误（这张记为想不起）</div><div class="fcdiff en">${fcDiff(S.typed[i],c.w)}</div>`:""}</div>
@@ -1785,7 +1828,8 @@ function tActive(now){return !document.hidden&&(now-tAct<T_IDLE||tPlaying())}
 // (Naval 1–7, kept home sections, and custom categories; home / 设置 / 🧠 今日复习 count only in the global total). localStorage nova_tsec {YYYY-MM-DD:{sec:seconds}}; starts at 0 (no back-fill).
 const TSK="nova_tsec";let TSEC={};try{TSEC=JSON.parse(localStorage.getItem(TSK)||"{}")||{}}catch(e){TSEC={}}
 const MCAT={};  // imported-audio id → category (filled by itemsIn)
-function secOf(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
+function secOf(h){const s=secOf0(h);return PPMODE&&s&&PPSY_DEF.some(x=>x.cat==s)?"pp_"+s:s}
+function secOf0(h){h=(h||location.hash||"#/").slice(1).split("/");if(!CAT)return null;
  if(h[1]=="c")return h[2]||null;if(h[1]=="wf")return "wf";if(h[1]=="d")return "d";if(h[1]=="g")return "g";
  if(h[1]=="i"){const x=builtinItems().find(x=>x.it.id==h[2]);if(x)return effCat(x);const P=podcastHit(h[2]);if(P)return P.sec;const K=talkHit(h[2]);if(K)return K.sec;const Q=scaryHit(h[2]);return Q?Q.sec:null}if(h[1]=="m")return MCAT[h[2]]||null;return null}
 function tsecKeys(sec){return sec=="dictation"||sec=="chunks"?["dictation","chunks"]:[sec]}
