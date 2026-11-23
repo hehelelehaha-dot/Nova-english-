@@ -715,7 +715,7 @@ function ppGroupsHTML(secId,rows){const Ls=PPSY.lectures,rest=[];const by=new Ma
   return `<details class="tfold" data-tf="${esc(id)}"${open?" open":""}><summary class="tfh"><span class="tfar" aria-hidden="true"></span><span class="tfnm">${esc(L.title)}</span><span class="tfsub">${items.length}</span></summary><div class="list"><div class="lw"><a class="li ppsrc" href="${esc(L.url)}" target="_blank" rel="noopener"><span class="tt">▶ 原视频 · YouTube<span class="sb">${esc(L.sub||"")}</span></span></a></div>${items.map(r=>r.html).join("")}</div></details>`}).join("");
  return `<div class="tfolds">${folds}</div>`+(rest.length?`<div class="list">${rest.join("")}</div>`:"")}
 document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("tfold"))return;try{localStorage.setItem("nova_tf_"+x.dataset.tf,x.open?"1":"0")}catch(e){}},true);
-document.addEventListener("toggle",ev=>{const x=ev.target;if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
+document.addEventListener("toggle",ev=>{const x=ev.target;if(x instanceof HTMLDetailsElement&&x.classList.contains("dqgrp")){try{localStorage.setItem("nova_dqg_"+x.dataset.dqg,x.open?"1":"0")}catch(e){}return}if(!(x instanceof HTMLDetailsElement)||!x.classList.contains("dqfold"))return;try{localStorage.setItem("nova_dqf_"+x.dataset.dqf,x.open?"1":"0")}catch(e){}},true);
 async function showCat(id){if(id=="chunks"){location.replace("#/c/dictation");return}const podcast=podcastSec(id);if(podcast){const it=podcastItem(podcast.item||"");if(it){location.replace("#/i/"+it.id);return}return showHome()}const talk=talkSec(id);if(talk)return showTalk(talk);const scary=scarySec(id);if(scary)return showScary(scary);const dealer=dealerSec(id);if(dealer)return showDealer(dealer);const c=allCats().find(x=>x.id==id);if(!c)return showHome();setHeader(secT(c.id,c.name),true,watchUrlFor(c.id));
  const xs=await itemsIn(id);
  const listen=id=="reading"?topicListenHTML(PPMODE?"ppsy":"naval"):"";
@@ -786,7 +786,7 @@ async function viewEpisode(d){const url=await audioURL(d.audio);const sents=d.se
 
 async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dictation");return}
  let it,cat;for(const c of CAT.categories){const x=c.items.find(i=>i.id==id);if(x){it=x;cat=c}}
- if(!it){const P=podcastHit(id);if(P){it=P.it;cat={id:P.sec}}}if(!it){const K=talkHit(id);if(K){it=K.it;cat={id:K.sec}}}if(!it){const Q=scaryHit(id);if(Q){it=Q.it;cat={id:Q.sec}}}if(!it){const D=dealerHit(id);if(D){it=D.it;cat={id:D.sec}}}
+ if(!it){const P=podcastHit(id);if(P){it=P.it;cat={id:P.sec}}}if(!it){const K=talkHit(id);if(K){it=K.it;cat={id:K.sec}}}if(!it){const Q=scaryHit(id);if(Q){it=Q.it;cat={id:Q.sec}}}if(!it){const D=dealerHit(id);if(D){it=D.it;cat={id:D.sec}}}if(!it){const T=dqDtHit(id);if(T){it=T.it;cat={id:T.sec}}}
  if(!it)return showHome();
  setHeader(secT(cat&&cat.id,ttl(it)),true,it.watch||watchUrlFor(it.id||id));V.innerHTML=`<div class="done">加载中…</div>`;const d=await getJSON(it.data);
  if(it.dictation||(cat&&cat.id=="dictation"))return viewDictation(d,it);
@@ -1776,10 +1776,22 @@ function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
 let DQDAY="",DQSTICK="";
 function dqDayWatch(){const day=typeof dqDay=="function"?dqDay():dKey(),sd=dqStickerDay();if(DQDAY===day&&DQSTICK===sd)return;const prev=DQDAY;DQDAY=day;DQSTICK=sd;if(!prev)return;dqPaint();if((location.hash||"")==="#/dq")showDQ()}
 let DQSEQ=0,DQTOPICS=null;
-function dqItemList(){const out=[];
- if(CAT){const naval=(CAT.categories||[]).find(c=>c.id=="dictation");
-  for(const it of (naval&&naval.items)||[]){if(ORG.hidden[it.id]||(it.base&&ORG.hidden[it.base]))continue;out.push({fold:"Naval",it})}}
+// Every section's dictation-ready boards, grouped by section (Naval, 播客, 播客对话, Scary, Positive Psychology, 荷官面试).
+// Reading-only boards (Scary, 荷官面试) get a virtual dictation id dt_<board id>; showItem resolves it via dqDtHit.
+// Encrypted sections (Positive Psychology, 荷官面试) are only there once unlocked and loaded.
+function dqItemList(){const out=[],hid=it=>ORG.hidden[it.id]||(it.base&&ORG.hidden[it.base]);
+ const navc=NAVCAT||(!PPMODE&&CAT);
+ if(navc){const naval=(navc.categories||[]).find(c=>c.id=="dictation");
+  for(const it of (naval&&naval.items)||[]){if(hid(it))continue;out.push({fold:"Naval",it})}}
+ for(const it of podcastBoards())if(it&&it.kind=="dictation"&&!hid(it))out.push({fold:"播客",it});
+ for(const it of talkBoards())if(it&&it.kind=="dictation"&&!hid(it))out.push({fold:"播客对话",it});
+ for(const b of scaryBoards())if(b&&!hid(b))out.push({fold:"Scary Comp. 2021",it:{id:"dt_"+b.id,base:b.id,title:b.title,data:b.data,dictation:1}});
+ if(PPCAT){const pd=(PPCAT.categories||[]).find(c=>c.id=="dictation");
+  for(const it of (pd&&pd.items)||[]){if(hid(it))continue;out.push({fold:(PPSY&&PPSY.name)||"Positive Psychology",it})}}
+ for(const b of dealerBoards())if(b&&!hid(b))out.push({fold:"荷官面试 · Dealer Interview",it:{id:"dt_"+b.id,base:b.id,title:b.title,data:b.data,dictation:1}});
  return out}
+function dqDtHit(id){const m=/^dt_((scary|dealer)_\d+)$/.exec(id||"");if(!m)return null;const b=(m[2]=="scary"?scaryItem:dealerItem)(m[1]);
+ return b?{it:{id,base:b.id,title:b.title,data:b.data,dictation:1,watch:b.watch},sec:m[2]+"_reading"}:null}
 function dqTopics(){if(!DQTOPICS)DQTOPICS=(async()=>{const items=dqItemList(),got=new Array(items.length);
  await Promise.all(items.map(async(row,n)=>{try{const d=await getJSON(row.it.data);const sent=[];
   dtRows(d).forEach(({s,i})=>{if(s&&s.oa)sent.push(i)});if(sent.length)got[n]={fold:row.fold,id:row.it.id,title:ttl(row.it),base:row.it.base||row.it.id,sent}}catch(e){}}));
@@ -1808,10 +1820,13 @@ function dqFoldSeen(){try{for(let i=0;i<localStorage.length;i++){if(String(local
 function dqCellHTML(t){return (t.sent||[]).map((i,n)=>{const k=t.id+":"+i,lit=typeof sunHas=="function"&&sunHas(t.base,i),lab="第 "+(n+1)+" 句"+(lit?"，已标重点":"");
  return `<button type="button" class="dayb" data-k="${esc(k)}" data-lab="${esc(lab)}" aria-pressed="false" aria-label="${esc(lab)}">${n+1}${lit?`<span class="daysun" aria-hidden="true">☀</span>`:""}</button>`}).join("")}
 function dqPageShell(){return `<div class="card daypick"><div id="daynow"></div><p class="tip" id="dqneed"></p><button type="button" class="wide flip" id="dqstart">开始今天的听写</button><div id="daybody"><div class="done">正在读取句子…</div></div></div>`}
-function dqBodyHTML(topics){let html="",fold="",seen=dqFoldSeen(),first=!seen;
- for(const t of topics||[]){if(t.fold!==fold){fold=t.fold;html+=`<h3 class="dayfold">${esc(fold)}</h3>`}
+function dqGrpOn(name){try{return localStorage.getItem("nova_dqg_"+name)==="1"}catch(e){return false}}
+function dqBodyHTML(topics){let html="",fold=null,seen=dqFoldSeen(),first=!seen;const cnt={};(topics||[]).forEach(t=>{cnt[t.fold]=(cnt[t.fold]||0)+1});
+ for(const t of topics||[]){if(t.fold!==fold){if(fold!==null)html+=`</div></details>`;fold=t.fold;
+   html+=`<details class="dqgrp" data-dqg="${esc(fold)}"${dqGrpOn(fold)?" open":""}><summary class="dqgh"><span class="dqfar" aria-hidden="true"></span><span class="dayfold">${esc(fold)}</span><span class="dqfsub">${cnt[fold]} 个</span></summary><div class="dqgbody">`}
   const open=dqFoldOn(t.id)||(first&&!seen);if(first&&!seen)first=false;
   html+=`<details class="dqfold" data-dqf="${esc(t.id)}"${open?" open":""}><summary class="dqfh"><span class="dqfar" aria-hidden="true"></span><span class="dqfnm">${esc(t.title)}</span><span class="dqfsub">${(t.sent||[]).length}</span></summary><div class="daygrid" role="group" aria-label="${esc((t.fold||"")+" "+(t.title||""))}">${dqCellHTML(t)}</div></details>`}
+ if(fold!==null)html+=`</div></details>`;
  return html}
 function dqWirePage(topics){const paint=()=>{dqPaintNow(topics);const tip=document.getElementById("dqneed");if(tip)tip.textContent=dqNeedText((dqLoad().sel||[]).length)};
  document.querySelectorAll("button.dayb").forEach(b=>{b.onclick=ev=>{if(ev&&ev.preventDefault)ev.preventDefault();if(ev&&ev.stopPropagation)ev.stopPropagation();
