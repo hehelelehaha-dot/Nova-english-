@@ -475,39 +475,62 @@ function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder
 function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)=="1"}catch(e){return false}}
 function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
 // Home sunflower-duck tap. Cycles stars → snow → maple → rain → canvas stars, each full-screen for 10s
-// then a 400ms fade, same coverage as star rain. After home renders we preload
-// the star bytes; a stars tap builds a new image at frame 0. The original GIF/WebP star rain
-// (STAR_GIF/STAR_WEBP, #nova-starrain, playStarRain) is unchanged. Canvas star rain is a
-// separate fifth effect (stars2 / playStarRain2 / #nova-starrain2): glossy puffy stars in the
-// original palette, drawn at the screen's pixel ratio and the display's frame rate. Snow is
-// canvas-drawn; maple uses vivid leaf sprites with the same pre-seeded fall. All respect prefers-reduced-motion.
-const STAR_GIF="assets/starrain/starrain.gif",STAR_WEBP="assets/starrain/starrain.webp";
-let starBlob=null,starHold=null,starT=0,starF=0,starGot=false;
-function starCanWebp(){try{return document.createElement("canvas").toDataURL("image/webp").startsWith("data:image/webp")}catch(e){return false}}
-function starFile(){return starCanWebp()?STAR_WEBP:STAR_GIF}
-function preloadStarRain(){if(starGot)return;starGot=true;
- const load=u=>{starHold=new Image();starHold.decoding="async";starHold.src=u;return fetch(u).then(r=>{if(!r.ok)throw new Error("star");return r.blob()}).then(b=>{starBlob=b})};
- const url=starFile();
- load(url).catch(()=>{if(url===STAR_GIF)return;starBlob=null;return load(STAR_GIF).catch(()=>{})})}
+// then a 400ms fade. "stars" (playStarRain, #nova-starrain) is the template star fall: the three
+// glossy template stars (holographic pink, opal champagne, gold; assets/starfall/*.png, 192px)
+// fall on a canvas at the screen's pixel ratio and frame rate. It replaced the stretched 20fps
+// starrain GIF/WebP. Canvas star rain is a separate fifth effect (stars2 / playStarRain2 /
+// #nova-starrain2): puffy stars painted in code. Snow is canvas-drawn; maple uses leaf sprites
+// with the same pre-seeded fall. All respect prefers-reduced-motion.
+const STARFALL_SRC=["pink","champagne","gold"].map(n=>"assets/starfall/star-"+n+".png");
+let starImgs=[],starReady=null,starRAF=0,starOnResize=null,starT=0,starF=0,starGen=0;
+function preloadStarRain(){if(starReady)return starReady;
+ starReady=Promise.all(STARFALL_SRC.map(u=>new Promise(res=>{const im=new Image();im.decoding="async";im.onload=()=>res(im);im.onerror=()=>res(null);im.src=u}))).then(a=>{starImgs=a.filter(Boolean);if(!starImgs.length)starReady=null;return starImgs});
+ return starReady}
 const MAPLE_SRC=[1,2,3,4,5,6,7,8,9].map(n=>"assets/maple/leaf"+n+".webp");
 let mapleImgs=[],mapleReady=null;
 function preloadMaple(){if(mapleReady)return mapleReady;
  mapleReady=Promise.all(MAPLE_SRC.map(u=>new Promise(res=>{const im=new Image();im.decoding="async";im.onload=()=>res(im);im.onerror=()=>res(null);im.src=u}))).then(a=>{mapleImgs=a.filter(Boolean);return mapleImgs});
  return mapleReady}
-function stopStarRain(){clearTimeout(starT);clearTimeout(starF);
- const old=document.getElementById("nova-starrain");
- if(old){const u=old._u;old._u="";old.remove();if(u)URL.revokeObjectURL(u)}}
-function playStarRain(){stopWeatherFx();stopStarRain();
- const img=document.createElement("img");
- img.id="nova-starrain";img.alt="";img.setAttribute("aria-hidden","true");
- img.style.backgroundColor="transparent";img.style.backgroundImage="none";img.style.boxShadow="none";img.style.filter="none";img.style.backdropFilter="none";img.style.webkitBackdropFilter="none";
- let url=starFile();
- if(starBlob){img._u=URL.createObjectURL(starBlob);url=img._u}
- img.onerror=()=>{if(img.dataset.fb||!img.getAttribute("src")||img.src.indexOf("starrain.gif")>=0)return;img.dataset.fb="1";const u=img._u;img._u="";img.src=STAR_GIF;if(u)URL.revokeObjectURL(u)};
- img.src=url;
- document.body.appendChild(img);
- starT=setTimeout(()=>{img.classList.add("out");starF=setTimeout(()=>{const u=img._u;img._u="";img.remove();if(u)URL.revokeObjectURL(u)},400)},10000)}
-// Canvas star rain (stars2): added alongside the original GIF/WebP rain; does not replace it.
+function stopStarRain(){starGen++;clearTimeout(starT);clearTimeout(starF);if(starRAF)cancelAnimationFrame(starRAF);starRAF=0;
+ if(starOnResize){removeEventListener("resize",starOnResize);starOnResize=null}
+ const old=document.getElementById("nova-starrain");if(old)old.remove()}
+function playStarRain(){stopWeatherFx();stopStarRain();const g=starGen;
+ if(starImgs.length){playStarFall();return}
+ preloadStarRain().then(()=>{if(g==starGen&&starImgs.length)playStarFall()})}
+// Template stars: depth sets size, speed and order (near stars draw on top). Each star
+// sways, turns slowly and tumbles a little (horizontal squash) so the gloss catches the
+// light; bigger stars now and then flash a soft 4-point sparkle on their face.
+function playStarFall(){const reduce=fxReduced(),IM=starImgs;
+ const cv=document.createElement("canvas");cv.id="nova-starrain";cv.setAttribute("aria-hidden","true");document.body.appendChild(cv);
+ const ctx=cv.getContext("2d",{alpha:true});
+ const fit=()=>{const d=Math.min(3,window.devicePixelRatio||1);cv.width=Math.max(1,Math.round(innerWidth*d));cv.height=Math.max(1,Math.round(innerHeight*d));cv.style.width="100%";cv.style.height="100%"};
+ fit();starOnResize=fit;addEventListener("resize",starOnResize,{passive:true});
+ const rnd=(a,b)=>a+Math.random()*(b-a),w=()=>innerWidth,h=()=>innerHeight;
+ const n=Math.round(Math.min(80,Math.max(50,innerWidth*innerHeight/5500)));
+ const size=z=>7+z*19,speed=z=>46+z*104;
+ const mk=(spread,z)=>{if(z==null)z=Math.pow(Math.random(),1.7);const W=w(),H=h(),sz=size(z);
+  return {z,sz,x:rnd(-sz,W+sz),y:spread?rnd(-H*.12,H):rnd(-sz*4,-sz*1.5),vy:speed(z)*rnd(.9,1.1),amp:rnd(6,18)*(.4+z),per:rnd(2.8,5.6),ph:rnd(0,Math.PI*2),
+   rot:rnd(-.5,.5),vr:rnd(-.7,.7),tb:rnd(0,Math.PI*2),vt:rnd(.5,1.3),ci:Math.floor(Math.random()*IM.length),a:.82+.18*z,gl:0,gx:0,gy:0}};
+ const parts=[];for(let i=0;i<n;i++)parts.push(mk(true));parts.sort((p,q)=>p.z-q.z);
+ const glint=(x,y,r,a)=>{ctx.save();ctx.translate(x,y);ctx.globalAlpha=a;ctx.fillStyle="#fffdf2";ctx.beginPath();
+  for(let i=0;i<4;i++){const t=i*Math.PI/2;ctx.moveTo(Math.cos(t)*r,Math.sin(t)*r);ctx.quadraticCurveTo(0,0,Math.cos(t+Math.PI/2)*r,Math.sin(t+Math.PI/2)*r)}ctx.fill();
+  const g=ctx.createRadialGradient(0,0,0,0,0,r*.7);g.addColorStop(0,"rgba(255,255,255,.9)");g.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,r*.7,0,Math.PI*2);ctx.fill();ctx.restore()};
+ const t0=performance.now();let last=t0;
+ const tick=now=>{const W=w(),H=h(),d=cv.width/Math.max(1,W);
+  ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,W,H);
+  const dt=reduce?0:Math.min(.05,(now-last)/1000);last=now;
+  for(let i=0;i<parts.length;i++){let p=parts[i];
+   if(!reduce){p.y+=p.vy*dt;p.ph+=dt*Math.PI*2/p.per;p.rot+=p.vr*dt;p.tb+=p.vt*dt;
+    if(p.y>H+p.sz*2.5)p=parts[i]=mk(false,p.z);
+    if(p.gl>0)p.gl-=dt;else if(p.sz>15&&Math.random()<dt*.16){p.gl=.75;p.gx=rnd(-.35,.35);p.gy=rnd(-.4,0)}}
+   const im=IM[p.ci],x=p.x+Math.sin(p.ph)*p.amp,s=p.sz;
+   ctx.save();ctx.translate(x,p.y);ctx.rotate(p.rot+Math.sin(p.ph)*.18);ctx.scale(.86+.14*Math.cos(p.tb),1);
+   ctx.globalAlpha=p.a;ctx.drawImage(im,-s,-s,s*2,s*2);ctx.restore();
+   if(p.gl>0){const k=1-p.gl/.75,ga=Math.sin(k*Math.PI);glint(x+p.gx*s,p.y+p.gy*s,s*(.35+.3*ga),.95*ga)}}
+  if(!reduce)starRAF=requestAnimationFrame(tick)};
+ if(reduce)tick(t0);else starRAF=requestAnimationFrame(tick);
+ starT=setTimeout(()=>{cv.classList.add("out");starF=setTimeout(stopStarRain,400)},reduce?700:10000)}
+// Canvas star rain (stars2): a separate effect alongside the template star fall.
 // Glossy puffy stars in the original palette (gold, champagne, pink, lavender), drawn once
 // per colour into crisp sprites at the screen's pixel ratio, then animated on a canvas at
 // the display's frame rate. Depth sets size, speed and brightness; stars sway, turn and
