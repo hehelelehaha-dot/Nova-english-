@@ -1078,3 +1078,18 @@ html #nova-starrain.out,html #nova-weather.out{opacity:0}
 /* 播客对话 整集: small 从这里开始听 link under each transcript line */
 #ss .fhere{display:inline-block;margin-top:6px;padding:3px 10px;min-height:0;font-size:12px;font-family:inherit;line-height:1.5;border:1px solid #c9dcec;border-radius:999px;background:transparent;color:#2f5a8a;cursor:pointer}
 #ss .fhere:active{background:#e4eef8}
+
+/* ===== Touch feel for every theme, modelled on Word Atlas =====
+   The 纸感 paper theme (paper.css, html.pp) already springs on press; this gives
+   t1–t7 and classic the same feel. Visual only: no content, colors or tap logic change.
+   Elements that animate or position with transform (flipping roster cards, toast,
+   goal pop, inline transforms) are left alone. */
+html:not(.pp){--spring:cubic-bezier(.34,1.56,.64,1)}
+html:not(.pp) :is(button,.tile,.li,.foldh,summary,[role=button]):not(.flipping):not(.unflip):not([style*=transform]){transition:transform .22s var(--spring),background-color .15s,box-shadow .2s,opacity .15s}
+html:not(.pp) :is(button,.tile,.foldh,summary,[role=button]):not(:disabled):not(.flipping):not(.unflip):not([style*=transform]):active{transform:scale(.96);transition-duration:.08s}
+html:not(.pp) :is(.li,#ss .s):not(.flipping):not(.unflip):not([style*=transform]):active{transform:scale(.985);transition-duration:.08s}
+html:not(.pp) :is(.wide,.big,.p):not(:disabled):active{filter:brightness(.95)}
+button,summary,[role=button]{-webkit-user-select:none;user-select:none}
+button:focus:not(:focus-visible){outline:none}
+button:focus-visible,summary:focus-visible,[role=button]:focus-visible,.li:focus-visible,.tile:focus-visible{outline:2px solid var(--ac,#2a6f97);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){html:not(.pp) :is(button,.tile,.li,.foldh,summary,[role=button]){transition:none!important}html:not(.pp) :is(button,.tile,.li,.foldh,summary,[role=button]):active{transform:none!important}}
