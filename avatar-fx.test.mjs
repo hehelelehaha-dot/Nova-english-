@@ -4,7 +4,7 @@ const read = f => fs.readFileSync(new URL(f, import.meta.url), "utf8");
 const app = read("app.js");
 const css = read("style.css");
 
-assert.match(app, /const FX_KINDS=\["stars","snow","maple"\]/);
+assert.match(app, /const FX_KINDS=\["stars","snow","maple","rain"\]/);
 assert.match(app, /function playAvatarFx\(/);
 assert.match(app, /function playWeatherFx\(/);
 assert.match(app, /function playStarRain\(/);
@@ -34,4 +34,6 @@ assert.match(css, /#nova-weather\{[^}]*inset:0/);
 assert.match(css, /#nova-weather\{[^}]*z-index:80/);
 assert.match(css, /#nova-weather\{[^}]*pointer-events:none/);
 assert.match(css, /html #nova-starrain\.out,html #nova-weather\.out\{opacity:0\}/);
+assert.match(app, /function playRainGo\(/);
+assert.ok(app.includes('if(kind==="rain"){playRainGo();return}'), "rain has its own canvas painter");
 console.log("avatar-fx ok");
