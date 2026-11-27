@@ -767,8 +767,8 @@ button.fp-goal{border:0;background:transparent;width:100%;padding:0;cursor:point
    The lit sheet is opacity 1 instantly — no fade, scale, or src swap.
    A goal pop fades the next sheet in from script, then removes its overlay. */
 .fp-goals{position:relative;display:block;width:100%;line-height:0}
-.fp-goals .fp-goalart{opacity:0;transition:none;animation:none}
-.fp-goals .fp-goalart:not([data-g="0"]){position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+.fp-goals .fp-goalart{opacity:1;transition:none;animation:none}
+.fp-goals .fp-goalart+.fp-goalart{position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
 .fp-goals .fp-goalart.on{opacity:1;z-index:1}
 .fp-goalpop{position:absolute;z-index:3;height:auto;aspect-ratio:118/128;pointer-events:none;transform:translate(-50%,-50%);transform-origin:center center}
 .fp-qslot{margin-top:auto;min-width:0}
@@ -1100,3 +1100,9 @@ button:focus-visible,summary:focus-visible,[role=button]:focus-visible,.li:focus
 .fp-sheen{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(112deg,transparent 38%,rgba(255,255,255,.0) 42%,rgba(255,255,255,.42) 50%,rgba(255,255,255,0) 58%,transparent 62%) no-repeat;background-size:260% 100%;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;mix-blend-mode:screen}
 .fp-fall img{will-change:transform,opacity;filter:drop-shadow(0 2px 2px rgba(10,8,30,.3))}
 .daybar.fp-home .fp-board{cursor:pointer;-webkit-tap-highlight-color:transparent}
+
+/* 今天的目标: one lit star jumps out of the sheet (dqGoalPopOne). */
+.fp-starlit{position:absolute;z-index:3;pointer-events:none;display:block}
+.fp-starlit-face{position:absolute;inset:0;background-repeat:no-repeat;will-change:transform,opacity,filter;-webkit-mask-image:radial-gradient(closest-side,#000 70%,transparent 96%);mask-image:radial-gradient(closest-side,#000 70%,transparent 96%)}
+.fp-starlit-ring{position:absolute;left:12%;top:10%;width:76%;height:80%;border-radius:50%;border:2px solid rgba(255,221,120,.95);box-shadow:0 0 10px rgba(255,205,80,.8),inset 0 0 8px rgba(255,235,170,.7)}
+.fp-starlit-spark{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;background:#fff3c4;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);filter:drop-shadow(0 0 3px rgba(255,214,102,.95))}
