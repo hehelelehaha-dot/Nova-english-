@@ -1467,7 +1467,7 @@ function startSW(){if(!("serviceWorker" in navigator))return Promise.resolve(nul
   if(!regP)regP=navigator.serviceWorker.register("sw.js?v="+(META.v||"0"),{updateViaCache:"none"}).then(r=>{REG=r;r.update().catch(()=>{});return r}).catch(e=>{regP=null;console.warn("SW",e);return null});
   return regP}
 async function bootSW(){const reg=await startSW();if(!reg)return;postSW({t:"ver"});setTimeout(()=>{if(fillWant||!meterOK())return;fillWant=true;postFill(false)},4000)}
-(async()=>{try{if(typeof dqGoalPreload=="function")dqGoalPreload()}catch(e){}try{if(typeof dqLiumaPreload=="function")dqLiumaPreload()}catch(e){}try{META=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json()}catch(e){}
+(async()=>{try{if(typeof dqGoalWarmStart=="function")dqGoalWarmStart()}catch(e){}try{if(typeof dqLiumaPreload=="function")dqLiumaPreload()}catch(e){}try{META=await (await fetch("meta.json?t="+Date.now(),{cache:"no-store"})).json()}catch(e){}
   const last=localStorage.getItem("nova_v");if(sessionStorage.getItem("nova_updated")||(last&&META.v&&last!=META.v)){sessionStorage.removeItem("nova_updated");setTimeout(()=>toast("已更新 ✓ 版本 "+(META.v||"")),600)}
   if(META.v)localStorage.setItem("nova_v",META.v);route();bootSW()})();
 
@@ -1806,16 +1806,25 @@ function dqStickSwap(img,src,fromNone){if(!img||!src)return;
    {opacity:1,transform:"scale(.97) rotate(.5deg)",filter:"drop-shadow(0 1px 1px rgba(20,16,40,.34))",offset:.62},
    {transform:"scale(1.008)",offset:.82},
    {opacity:1,transform:"none",filter:"drop-shadow(0 2px 2px rgba(20,16,40,.28))"}],{duration:560,easing:"cubic-bezier(.3,.7,.4,1)"})})}
-function dqGoalPreload(){if(typeof Image!="function")return;for(let i=0;i<=5;i++){const im=new Image();im.decoding="async";im.src="assets/goal/goal-"+i+".png";if(im.decode)im.decode().catch(()=>{})}const sp=new Image();sp.decoding="async";sp.src="assets/goal/star-pop.webp";if(sp.decode)sp.decode().catch(()=>{})}
+// 今天的目标 is one sheet image. A lit star switches that one image's src; the old
+// six stacked 1774×887 sheets kept ~37 MB of bitmaps decoded for a strip of stars.
 function dqGoalShow(box,got){if(!box)return;const n=Math.max(0,Math.min(5,got|0));
- box.querySelectorAll(".fp-goalart").forEach(im=>{const on=+im.getAttribute("data-g")===n;im.classList.toggle("on",on);if(on)im.removeAttribute("aria-hidden");else im.setAttribute("aria-hidden","true")})}
+ const arts=[...box.querySelectorAll(".fp-goalart")],cur=arts[arts.length-1];if(!cur)return;
+ arts.slice(0,-1).forEach(a=>{if(a.remove)a.remove()});
+ if(+cur.getAttribute("data-g")!==n){cur.setAttribute("data-g",String(n));cur.setAttribute("src","assets/goal/goal-"+n+".png")}
+ cur.classList.toggle("on",true)}
+const DQ_GOAL_WARM={};
+function dqGoalWarm(n){n=Math.max(0,Math.min(5,n|0));if(DQ_GOAL_WARM[n]||typeof Image!="function")return DQ_GOAL_WARM[n]||Promise.resolve();
+ const im=new Image();im.decoding="async";im.src="assets/goal/goal-"+n+".png";DQ_GOAL_WARM[n]=(im.decode?im.decode():Promise.resolve()).catch(()=>{});return DQ_GOAL_WARM[n]}
+// At launch warm only the sheet on screen and the next one, once the page is idle.
+function dqGoalWarmStart(){const go=()=>{const n=dqGoalNow();dqGoalWarm(n);if(n<5)dqGoalWarm(n+1)};
+ if(typeof requestIdleCallback=="function")requestIdleCallback(go,{timeout:1500});else setTimeout(go,300)}
 // Newly lit star on the 1774×887 sheet, goal-n vs goal-(n-1). x,y is that star's
 // opaque-body bbox center; w is the overlay width so star-pop's glyph (93px of
 // the 118×128 canvas) covers the body. 1: 206,578–458,825  2: 489,577–743,824
 // 3: 768,578–1020,824  4: 1045,576–1299,823  5: 1324,577–1579,824
 const DQ_GOAL_AT=[[.1871,.7909,.1918],[.3472,.7897,.1934],[.5039,.7903,.1918],[.6607,.7886,.1934],[.8182,.7897,.1941]];
-const DQ_GOAL_POP="assets/goal/star-pop.webp";
-let DQGPOP=0,DQGVIS=null,DQ_POP_BYTES=null;
+let DQGPOP=0,DQGVIS=null;
 function dqGoalNow(){try{return Math.max(0,Math.min(5,(typeof dqBits=="function"?dqBits().got:0)|0))}catch(e){return 0}}
 function dqGoalDay(){try{return typeof dqDay=="function"?dqDay():(typeof dKey=="function"?dKey():"")}catch(e){return ""}}
 function dqGoalShown(){try{const v=localStorage.getItem("nova_goalshown_"+dqGoalDay());if(v==null||v==="")return 0;const n=+v;return Number.isFinite(n)?Math.max(0,Math.min(5,n|0)):0}catch(e){return 0}}
@@ -1823,23 +1832,37 @@ function dqGoalShownSet(n){try{localStorage.setItem("nova_goalshown_"+dqGoalDay(
 function dqGoalPopDebug(){try{const q=location.search||"",h=location.hash||"";return /(?:\?|&|^)goalpop=1(?:&|$)/.test(q)||/goalpop=1/.test(h)}catch(e){return false}}
 function dqGoalReduced(){try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
 function dqGoalSleep(ms){return new Promise(r=>setTimeout(r,ms))}
-function dqGoalPopWarm(){if(DQ_POP_BYTES||typeof fetch!="function")return;fetch(DQ_GOAL_POP).then(r=>r.ok?r.arrayBuffer():null).then(b=>{if(b)DQ_POP_BYTES=b}).catch(()=>{})}
-function dqGoalCross(box,n,ms){const next=box&&box.querySelector('.fp-goalart[data-g="'+n+'"]');
- if(!next){if(box)dqGoalShow(box,n);return Promise.resolve()}
- const prev=box.querySelector(".fp-goalart.on");
- if(!prev||prev===next||!next.animate||!(ms>0)){dqGoalShow(box,n);return Promise.resolve()}
- next.style.zIndex="2";
- const anim=next.animate([{opacity:0},{opacity:1}],{duration:ms,easing:"linear",fill:"forwards"});
- return Promise.resolve(anim.finished).catch(()=>{}).then(()=>{dqGoalShow(box,n);try{next.getAnimations().forEach(a=>a.cancel())}catch(e){}next.style.zIndex=""})}
-function dqGoalPopOne(box,n){const at=DQ_GOAL_AT[n-1];
- if(!box||!at){if(box)dqGoalShow(box,n);return Promise.resolve()}
- const img=document.createElement("img");img.className="fp-goalpop";img.alt="";img.setAttribute("aria-hidden","true");img.decoding="sync";
- const w=at[2],nudge=w/59;
- img.style.left=((at[0]+nudge)*100)+"%";img.style.top=((at[1]-nudge)*100)+"%";img.style.width=(w*100)+"%";
- let url=DQ_GOAL_POP;if(DQ_POP_BYTES){url=URL.createObjectURL(new Blob([DQ_POP_BYTES],{type:"image/webp"}));img._u=url}
- img.src=url;box.appendChild(img);
- const fade=220,total=900;
- return dqGoalSleep(total-fade).then(()=>{if(box.isConnected)return dqGoalCross(box,n,fade)}).finally(()=>{const u=img._u;img._u="";if(img.parentNode)img.remove();if(u)URL.revokeObjectURL(u)})}
+// Opaque-body boxes of the five stars on the 1774×887 sheet (see DQ_GOAL_AT above).
+const DQ_GOAL_BOX=[[206,578,458,825],[489,577,743,824],[768,578,1020,824],[1045,576,1299,823],[1324,577,1579,824]];
+// Light star n: that star alone, cut from goal-n, jumps out of the sheet (wind-up, overshoot,
+// settle) with a glow, a ring and a few 4-point sparkles. At the peak, while it covers its
+// slot, the sheet underneath switches to goal-n; then the cut-out is removed.
+function dqGoalPopOne(box,n){const bb=DQ_GOAL_BOX[n-1];
+ if(!box||!bb){if(box)dqGoalShow(box,n);return Promise.resolve()}
+ const el=document.createElement("span");el.className="fp-starlit";if(el.setAttribute)el.setAttribute("aria-hidden","true");
+ if(!el.animate||!el.appendChild||dqGoalReduced()){return dqGoalSleep(260).then(()=>{if(box.isConnected)dqGoalShow(box,n)})}
+ const W=1774,H=887,pad=.2,bw=bb[2]-bb[0],bh=bb[3]-bb[1],x0=bb[0]-bw*pad,y0=bb[1]-bh*pad,cw=bw*(1+2*pad),ch=bh*(1+2*pad),src="assets/goal/goal-"+n+".png";
+ Object.assign(el.style,{left:(x0/W*100)+"%",top:(y0/H*100)+"%",width:(cw/W*100)+"%",height:(ch/H*100)+"%"});
+ const face=document.createElement("span");face.className="fp-starlit-face";
+ Object.assign(face.style,{backgroundImage:"url(\""+src+"\")",backgroundSize:(W/cw*100)+"% "+(H/ch*100)+"%",backgroundPosition:(x0/(W-cw)*100)+"% "+(y0/(H-ch)*100)+"%"});
+ const ring=document.createElement("span");ring.className="fp-starlit-ring";
+ el.appendChild(ring);el.appendChild(face);
+ const sparks=[];for(let i=0;i<7;i++){const sp=document.createElement("span");sp.className="fp-starlit-spark";el.appendChild(sp);sparks.push(sp)}
+ return dqGoalWarm(n).then(()=>{if(!box.isConnected)return;box.appendChild(el);
+  const PEAK=300,DUR=640;
+  face.animate([{transform:"scale(.55) rotate(-18deg)",opacity:0,filter:"brightness(1.8) drop-shadow(0 0 0 rgba(255,210,90,0))"},
+   {transform:"scale(1.34) rotate(7deg)",opacity:1,filter:"brightness(1.45) drop-shadow(0 0 10px rgba(255,214,102,.95))",offset:.45},
+   {transform:"scale(.9) rotate(-2deg)",filter:"brightness(1.1) drop-shadow(0 0 6px rgba(255,214,102,.7))",offset:.66},
+   {transform:"scale(1.05) rotate(0deg)",offset:.82},
+   {transform:"scale(1)",opacity:1,filter:"brightness(1) drop-shadow(0 0 0 rgba(255,214,102,0))"}],{duration:DUR,easing:"cubic-bezier(.3,.6,.35,1)",fill:"forwards"});
+  ring.animate([{transform:"scale(.35)",opacity:0},{transform:"scale(.6)",opacity:.95,offset:.2},{transform:"scale(1.55)",opacity:0}],{duration:560,delay:PEAK*.55,easing:"cubic-bezier(.2,.7,.3,1)",fill:"both"});
+  sparks.forEach((sp,i)=>{const a=-Math.PI/2+i*(Math.PI*2/sparks.length)+(i%2?.25:-.15),r=190+(i*37)%80,dx=Math.cos(a)*r,dy=Math.sin(a)*r,sc=.7+(i%3)*.25;
+   sp.animate([{transform:"translate(-50%,-50%) translate(0,0) scale(0) rotate(0deg)",opacity:0},
+    {transform:"translate(-50%,-50%) translate("+dx*.55+"%,"+dy*.55+"%) scale("+sc+") rotate(45deg)",opacity:1,offset:.35},
+    {transform:"translate(-50%,-50%) translate("+dx+"%,"+dy+"%) scale(0) rotate(90deg)",opacity:0}],{duration:620,delay:PEAK*.6+i*18,easing:"cubic-bezier(.15,.7,.3,1)",fill:"both"})});
+  return dqGoalSleep(PEAK).then(()=>{if(box.isConnected)dqGoalShow(box,n);if(n<5)dqGoalWarm(n+1);return dqGoalSleep(DUR-PEAK+40)})
+   .then(()=>{const f=el.animate([{opacity:1},{opacity:0}],{duration:160,fill:"forwards"});return Promise.resolve(f.finished).catch(()=>{})})})
+  .finally(()=>{if(el.parentNode)el.remove()})}
 async function dqGoalRun(box,from,to){const token=++DQGPOP;box.dataset.popping="1";let i=from|0;
  try{while(i<to&&i<5){if(token!==DQGPOP||!box.isConnected)return;await dqGoalPopOne(box,i+1);if(token!==DQGPOP||!box.isConnected)return;i++;dqGoalShownSet(i);const cur=dqGoalNow();if(cur>to)to=cur}}
  catch(e){}
@@ -1856,7 +1879,7 @@ async function dqGoalDemo(box){const token=++DQGPOP;box.dataset.popdemo="1";
   await dqGoalSleep(360)}}
  finally{if(box.isConnected&&token===DQGPOP)delete box.dataset.popdemo}}
 function dqGoalMount(){if(typeof document=="undefined"||!document.querySelectorAll)return;document.querySelectorAll(".daybar .fp-goals").forEach(b=>dqGoalHome(b))}
-function dqGoalHome(box){box=box||document.querySelector(".daybar .fp-goals");if(!box||!box.isConnected)return;dqGoalPopWarm();
+function dqGoalHome(box){box=box||document.querySelector(".daybar .fp-goals");if(!box||!box.isConnected)return;
  if(dqGoalPopDebug()){if(box.dataset.popdemo==="1")return;dqGoalShow(box,0);if(document.hidden){dqGoalWhenVisible(box);return}dqGoalDemo(box);return}
  if(box.dataset.popping==="1")return;
  const cur=dqGoalNow(),shown=dqGoalShown();
@@ -1867,10 +1890,9 @@ function dqGoalHome(box){box=box||document.querySelector(".daybar .fp-goals");if
  dqGoalRun(box,shown,cur)}
 function dqFootInner(f,home){const got=Math.min(f.got,DQ_FLOOR);
  const lab="今天的目标，"+got+" / "+DQ_FLOOR+"，+"+f.ot;
- // Same six goal sheets as the home card. A new star only flips which layer is .on.
+ // Same goal sheet as the home card. A new star switches the one sheet (see dqGoalPopOne).
  // Cream-gold +N stays under the sheets, including +0. The pill is not the tap target.
- let layers="";for(let i=0;i<=5;i++){const on=i===got;const src=on?`assets/goal/goal-${got}.png`:`assets/goal/goal-${i}.png`;
-  layers+=`<img class="fp-goalart${on?" on":""}" data-g="${i}" alt="" decoding="async" src="${src}"${on?"":" aria-hidden=\"true\""}>`}
+ const layers=`<img class="fp-goalart on" data-g="${got}" alt="" decoding="async" src="assets/goal/goal-${got}.png">`;
  const goal=`<span class="fp-goals">${layers}</span>`,pill=`<span class="fp-pill"><span class="fp-ot">+${f.ot}</span></span>`;
  if(home){const score=`<span class="fp-score"><button type="button" class="fp-goal" data-day-go aria-label="${esc(lab)}">${goal}</button>${pill}</span>`;
   return {lab,html:`${dqBoardHTML(dqLoad())}<div class="fp-side">${score}<div class="fp-qslot"></div></div>`}}
