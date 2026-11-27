@@ -474,7 +474,7 @@ function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder
  return o.gtile?btn:`<div class="tw">${btn}${o.menu||""}</div>`}
 function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)=="1"}catch(e){return false}}
 function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
-// Home sunflower-duck tap. Cycles stars → snow → maple, each full-screen for 10s
+// Home sunflower-duck tap. Cycles stars → snow → maple → rain, each full-screen for 10s
 // then a 400ms fade, same coverage as star rain. After home renders we preload
 // the star bytes; a stars tap builds a new image at frame 0. Snow is canvas-drawn;
 // maple uses vivid leaf sprites with the same pre-seeded fall. Both respect prefers-reduced-motion.
@@ -504,7 +504,7 @@ function playStarRain(){stopWeatherFx();stopStarRain();
  img.src=url;
  document.body.appendChild(img);
  starT=setTimeout(()=>{img.classList.add("out");starF=setTimeout(()=>{const u=img._u;img._u="";img.remove();if(u)URL.revokeObjectURL(u)},400)},10000)}
-const FX_KINDS=["stars","snow","maple"];
+const FX_KINDS=["stars","snow","maple","rain"];
 let fxKind=0,wxRAF=0,wxT=0,wxF=0,wxOnResize=null;
 function fxReduced(){try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
 function stopWeatherFx(){clearTimeout(wxT);clearTimeout(wxF);if(wxRAF)cancelAnimationFrame(wxRAF);wxRAF=0;
@@ -525,6 +525,7 @@ function wxFlake(ctx,r,typ,alpha){if(typ<0.42){const g=ctx.createRadialGradient(
 let wxGen=0;
 function playWeatherFx(kind){const g=++wxGen;stopWeatherFx();
  if(kind==="maple"){preloadMaple().then(()=>{if(g==wxGen)playWeatherFxGo(kind)});return}
+ if(kind==="rain"){playRainGo();return}
  playWeatherFxGo(kind)}
 function playWeatherFxGo(kind){const reduce=fxReduced();
  const cv=document.createElement("canvas");cv.id="nova-weather";cv.setAttribute("aria-hidden","true");document.body.appendChild(cv);
@@ -553,6 +554,53 @@ function playWeatherFxGo(kind){const reduce=fxReduced();
    else{const im=nLeaf?mapleImgs[p.ci%nLeaf]:null;if(im){const sx=Math.cos(p.fi),sc=(p.s*1.6*0.78)/Math.max(im.width,im.height);
     ctx.rotate(p.rot);ctx.scale(0.55+0.45*Math.abs(sx),1);ctx.drawImage(im,-im.width*sc/2,-im.height*sc/2,im.width*sc,im.height*sc)}}
    ctx.restore()}
+  if(!reduce)wxRAF=requestAnimationFrame(tick)};
+ if(reduce){tick(t0)}else wxRAF=requestAnimationFrame(tick);
+ const life=reduce?700:10000;
+ wxT=setTimeout(()=>{cv.classList.add("out");wxF=setTimeout(stopWeatherFx,400)},life)}
+// Rain: canvas-drawn, same 10s + 400ms fade and the same #nova-weather canvas as snow/maple.
+// Three depths of slanted streaks (far = thin/faint/slow, near = long/bright/fast) in a
+// blue-grey that reads on light and dark themes, splash ripples with tiny bounce droplets
+// where drops land, a few beads sliding down the "glass", and a soft cool wash at the top.
+function playRainGo(){const reduce=fxReduced();
+ const cv=document.createElement("canvas");cv.id="nova-weather";cv.setAttribute("aria-hidden","true");document.body.appendChild(cv);
+ const ctx=cv.getContext("2d",{alpha:true});
+ const fit=()=>{const d=Math.min(2,window.devicePixelRatio||1);cv.width=Math.max(1,innerWidth*d);cv.height=Math.max(1,innerHeight*d);cv.style.width="100%";cv.style.height="100%"};
+ fit();wxOnResize=fit;addEventListener("resize",wxOnResize,{passive:true});
+ const rnd=(a,b)=>a+Math.random()*(b-a),w=()=>innerWidth,h=()=>innerHeight;
+ const LAYERS=[{n:70,len:[10,18],wd:.8,a:.22,vy:[520,640]},{n:55,len:[18,30],wd:1.2,a:.36,vy:[700,860]},{n:28,len:[30,46],wd:1.7,a:.5,vy:[900,1080]}];
+ const SLANT=0.16;
+ const drops=[],splashes=[],beads=[];
+ const mkDrop=(L,spread)=>{const W=w(),H=h();return {L,x:rnd(-H*SLANT,W),y:spread?rnd(-H,H):rnd(-120,-20),len:rnd(L.len[0],L.len[1]),vy:rnd(L.vy[0],L.vy[1]),land:L===LAYERS[2]?rnd(H*.72,H):L===LAYERS[1]?rnd(H*.55,H*.98):H+60}};
+ LAYERS.forEach(L=>{for(let i=0;i<L.n;i++)drops.push(mkDrop(L,true))});
+ const mkBead=(spread)=>{const W=w(),H=h();return {x:rnd(12,W-12),y:spread?rnd(0,H*.8):rnd(-20,0),r:rnd(2.5,6),vy:0,wait:rnd(.3,2.4),wob:rnd(0,6)}};
+ for(let i=0;i<9;i++)beads.push(mkBead(true));
+ const splash=(x,y,L)=>{const big=L===LAYERS[2];splashes.push({x,y,t:0,life:big?.5:.38,rx:big?rnd(9,15):rnd(5,9)});
+  if(big&&Math.random()<.7)for(let k=0;k<2+Math.floor(Math.random()*2);k++)splashes.push({x,y,t:0,life:.42,dot:1,vx:rnd(-70,70),vy:rnd(-170,-90)})};
+ const t0=performance.now();let last=t0;
+ const tick=now=>{const W=w(),H=h(),d=Math.min(2,window.devicePixelRatio||1);
+  ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,W,H);
+  const dt=reduce?0:Math.min(0.05,(now-last)/1000);last=now;
+  const wash=ctx.createLinearGradient(0,0,0,H*.45);wash.addColorStop(0,"rgba(96,122,156,.13)");wash.addColorStop(1,"rgba(96,122,156,0)");
+  ctx.fillStyle=wash;ctx.fillRect(0,0,W,H*.45);
+  ctx.lineCap="round";
+  for(let i=0;i<drops.length;i++){let p=drops[i];
+   if(!reduce){p.y+=p.vy*dt;p.x+=p.vy*SLANT*dt;
+    if(p.y>=p.land){if(p.land<H)splash(p.x,p.land,p.L);drops[i]=p=mkDrop(p.L,false)}}
+   const dx=p.len*SLANT,x0=p.x-dx,y0=p.y-p.len;
+   const g=ctx.createLinearGradient(x0,y0,p.x,p.y);
+   g.addColorStop(0,"rgba(120,150,186,0)");g.addColorStop(1,"rgba(120,150,186,"+p.L.a+")");
+   ctx.strokeStyle=g;ctx.lineWidth=p.L.wd;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(p.x,p.y);ctx.stroke()}
+  for(let i=splashes.length-1;i>=0;i--){const s=splashes[i];s.t+=dt;const k=s.t/s.life;
+   if(k>=1){splashes.splice(i,1);continue}
+   if(s.dot){s.vy+=520*dt;s.x+=s.vx*dt;s.y+=s.vy*dt;ctx.fillStyle="rgba(126,156,190,"+(.55*(1-k))+")";ctx.beginPath();ctx.arc(s.x,s.y,1.3,0,Math.PI*2);ctx.fill();continue}
+   ctx.strokeStyle="rgba(120,150,186,"+(.5*(1-k))+")";ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(s.x,s.y,s.rx*(.3+.7*k),s.rx*(.3+.7*k)*.32,0,0,Math.PI*2);ctx.stroke()}
+  for(let i=0;i<beads.length;i++){let b=beads[i];
+   if(!reduce){if(b.wait>0)b.wait-=dt;else{b.vy=Math.min(b.vy+60*dt,140);b.y+=b.vy*dt;b.wob+=dt*3}
+    if(b.y>H+20){beads[i]=b=mkBead(false)}}
+   const bx=b.x+Math.sin(b.wob)*1.2,g=ctx.createRadialGradient(bx-b.r*.3,b.y-b.r*.35,b.r*.1,bx,b.y,b.r);
+   g.addColorStop(0,"rgba(255,255,255,.75)");g.addColorStop(.35,"rgba(170,196,222,.35)");g.addColorStop(1,"rgba(96,126,162,.45)");
+   ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(bx,b.y,b.r*.9,b.r,0,0,Math.PI*2);ctx.fill()}
   if(!reduce)wxRAF=requestAnimationFrame(tick)};
  if(reduce){tick(t0)}else wxRAF=requestAnimationFrame(tick);
  const life=reduce?700:10000;
