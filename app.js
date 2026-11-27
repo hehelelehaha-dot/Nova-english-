@@ -474,10 +474,13 @@ function studyTile(o){const n=FOLDN[o.id],ics=ICON[o.iconKey||o.id]||ICON.folder
  return o.gtile?btn:`<div class="tw">${btn}${o.menu||""}</div>`}
 function foldOpen(id){try{return localStorage.getItem("nova_fold_"+id)=="1"}catch(e){return false}}
 function foldHTML(id,name,n,inner){return `<details class="fold" data-fold="${esc(id)}"${foldOpen(id)?" open":""}><summary class="foldh"><span class="foldar" aria-hidden="true"></span><span class="foldnm">${esc(name)}</span><span class="foldsub">${n} 个板块</span></summary><div class="tiles">${inner}</div></details>`}
-// Home sunflower-duck tap. Cycles stars → snow → maple → rain, each full-screen for 10s
+// Home sunflower-duck tap. Cycles stars → snow → maple → rain → canvas stars, each full-screen for 10s
 // then a 400ms fade, same coverage as star rain. After home renders we preload
-// the star bytes; a stars tap builds a new image at frame 0. Snow is canvas-drawn;
-// maple uses vivid leaf sprites with the same pre-seeded fall. Both respect prefers-reduced-motion.
+// the star bytes; a stars tap builds a new image at frame 0. The original GIF/WebP star rain
+// (STAR_GIF/STAR_WEBP, #nova-starrain, playStarRain) is unchanged. Canvas star rain is a
+// separate fifth effect (stars2 / playStarRain2 / #nova-starrain2): glossy puffy stars in the
+// original palette, drawn at the screen's pixel ratio and the display's frame rate. Snow is
+// canvas-drawn; maple uses vivid leaf sprites with the same pre-seeded fall. All respect prefers-reduced-motion.
 const STAR_GIF="assets/starrain/starrain.gif",STAR_WEBP="assets/starrain/starrain.webp";
 let starBlob=null,starHold=null,starT=0,starF=0,starGot=false;
 function starCanWebp(){try{return document.createElement("canvas").toDataURL("image/webp").startsWith("data:image/webp")}catch(e){return false}}
@@ -504,14 +507,64 @@ function playStarRain(){stopWeatherFx();stopStarRain();
  img.src=url;
  document.body.appendChild(img);
  starT=setTimeout(()=>{img.classList.add("out");starF=setTimeout(()=>{const u=img._u;img._u="";img.remove();if(u)URL.revokeObjectURL(u)},400)},10000)}
-const FX_KINDS=["stars","snow","maple","rain"];
+// Canvas star rain (stars2): added alongside the original GIF/WebP rain; does not replace it.
+// Glossy puffy stars in the original palette (gold, champagne, pink, lavender), drawn once
+// per colour into crisp sprites at the screen's pixel ratio, then animated on a canvas at
+// the display's frame rate. Depth sets size, speed and brightness; stars sway, turn and
+// tumble a little, twinkle, and big ones throw a brief 4-point glint.
+const STAR_PAL2=[["#fff6c4","#ffcd45","#e7960f"],["#fff9f0","#f5dccb","#c99f88"],["#fff1f5","#f7c3d2","#d8879f"],["#f3eeff","#bcaaf2","#806bcb"],["#fff6c4","#ffcd45","#e7960f"]];
+let starSprites2=null,starSpriteD2=0,starRAF2=0,starOnResize2=null,starT2=0,starF2=0;
+function starPath2(ctx,R){const r=R*.5;ctx.beginPath();
+ for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,q=i%2?r:R;i?ctx.lineTo(Math.cos(a)*q,Math.sin(a)*q):ctx.moveTo(Math.cos(a)*q,Math.sin(a)*q)}ctx.closePath()}
+function starSprite2(pal,S){const c=document.createElement("canvas");c.width=c.height=S;const x=c.getContext("2d"),R=S*.34;
+ x.translate(S/2,S/2);x.lineJoin="round";
+ x.save();x.shadowColor=pal[1];x.shadowBlur=S*.07;starPath2(x,R);x.fillStyle=pal[1];x.fill();x.lineWidth=R*.3;x.strokeStyle=pal[1];x.stroke();x.restore();
+ const g=x.createRadialGradient(-R*.28,-R*.36,R*.05,0,0,R*1.25);g.addColorStop(0,pal[0]);g.addColorStop(.5,pal[1]);g.addColorStop(1,pal[2]);
+ starPath2(x,R);x.fillStyle=g;x.fill();x.lineWidth=R*.3;x.strokeStyle=g;x.stroke();
+ x.save();starPath2(x,R);x.clip();const h=x.createRadialGradient(-R*.3,-R*.42,0,-R*.3,-R*.42,R*.62);h.addColorStop(0,"rgba(255,255,255,.9)");h.addColorStop(1,"rgba(255,255,255,0)");
+ x.fillStyle=h;x.beginPath();x.ellipse(-R*.2,-R*.34,R*.3,R*.17,-.5,0,Math.PI*2);x.fill();x.restore();
+ return c}
+function preloadStarRain2(){const d=Math.min(3,window.devicePixelRatio||1);if(starSprites2&&starSpriteD2===d)return;
+ starSpriteD2=d;const S=Math.round(64*d);starSprites2=STAR_PAL2.map(p=>starSprite2(p,S))}
+function stopStarRain2(){clearTimeout(starT2);clearTimeout(starF2);if(starRAF2)cancelAnimationFrame(starRAF2);starRAF2=0;
+ if(starOnResize2){removeEventListener("resize",starOnResize2);starOnResize2=null}
+ const old=document.getElementById("nova-starrain2");if(old)old.remove()}
+function playStarRain2(){stopWeatherFx();stopStarRain();stopStarRain2();preloadStarRain2();const reduce=fxReduced();
+ const cv=document.createElement("canvas");cv.id="nova-starrain2";cv.setAttribute("aria-hidden","true");document.body.appendChild(cv);
+ const ctx=cv.getContext("2d",{alpha:true});
+ const fit=()=>{const d=Math.min(3,window.devicePixelRatio||1);cv.width=Math.max(1,Math.round(innerWidth*d));cv.height=Math.max(1,Math.round(innerHeight*d));cv.style.width="100%";cv.style.height="100%"};
+ fit();starOnResize2=fit;addEventListener("resize",starOnResize2,{passive:true});
+ const rnd=(a,b)=>a+Math.random()*(b-a),w=()=>innerWidth,h=()=>innerHeight,SP=starSprites2;
+ const n=Math.round(Math.min(170,Math.max(110,innerWidth*innerHeight/2600)));
+ const mk=spread=>{const z=Math.pow(Math.random(),2.2),W=w(),H=h(),sz=2.6+z*12;
+  return {z,sz,x:rnd(-10,W+10),y:spread?rnd(-H*.1,H):rnd(-60,-sz),vy:30+z*90,amp:rnd(3,10)*(.5+z),per:rnd(2.6,5.4),ph:rnd(0,Math.PI*2),
+   rot:rnd(0,Math.PI*2),vr:rnd(-.9,.9),tb:rnd(0,Math.PI*2),vt:rnd(.6,1.6),tw:rnd(1.2,3),twp:rnd(0,Math.PI*2),ci:Math.floor(Math.random()*SP.length),a:.72+.28*z,gl:0,gx:0}};
+ let parts=[];for(let i=0;i<n;i++)parts.push(mk(true));parts.sort((p,q)=>p.z-q.z);
+ const glint=(x,y,r,a)=>{ctx.save();ctx.translate(x,y);ctx.globalAlpha=a;ctx.fillStyle="#fffbe8";ctx.beginPath();
+  for(let i=0;i<4;i++){const t=i*Math.PI/2;ctx.moveTo(Math.cos(t)*r,Math.sin(t)*r);ctx.quadraticCurveTo(0,0,Math.cos(t+Math.PI/2)*r,Math.sin(t+Math.PI/2)*r)}ctx.fill();ctx.restore()};
+ const t0=performance.now();let last=t0;
+ const tick=now=>{const W=w(),H=h(),d=cv.width/Math.max(1,W);
+  ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,W,H);
+  const dt=reduce?0:Math.min(.05,(now-last)/1000),t=(now-t0)/1000;last=now;
+  for(let i=0;i<parts.length;i++){let p=parts[i];
+   if(!reduce){p.y+=p.vy*dt;p.ph+=dt*Math.PI*2/p.per;p.rot+=p.vr*dt;p.tb+=p.vt*dt;
+    if(p.y>H+p.sz*2){const z=p.z;p=parts[i]=mk(false);p.z=z;p.sz=2.6+z*12;p.vy=30+z*90;p.a=.72+.28*z}
+    if(p.gl>0)p.gl-=dt;else if(p.sz>9&&Math.random()<dt*.22){p.gl=.7;p.gx=rnd(-.4,.4)}}
+   const x=p.x+Math.sin(p.ph)*p.amp,sp=SP[p.ci],s=p.sz*1.47;
+   ctx.save();ctx.translate(x,p.y);ctx.rotate(p.rot+Math.sin(p.ph)*.25);ctx.scale(.82+.18*Math.cos(p.tb),1);
+   ctx.globalAlpha=p.a*(.85+.15*Math.sin(t*p.tw+p.twp));ctx.drawImage(sp,-s,-s,s*2,s*2);ctx.restore();
+   if(p.gl>0){const k=1-p.gl/.7,ga=Math.sin(k*Math.PI);glint(x+p.gx*p.sz,p.y-p.sz*.35,p.sz*(.5+.4*ga),.9*ga)}}
+  if(!reduce)starRAF2=requestAnimationFrame(tick)};
+ if(reduce)tick(t0);else starRAF2=requestAnimationFrame(tick);
+ starT2=setTimeout(()=>{cv.classList.add("out");starF2=setTimeout(stopStarRain2,400)},reduce?700:10000)}
+const FX_KINDS=["stars","snow","maple","rain","stars2"];
 let fxKind=0,wxRAF=0,wxT=0,wxF=0,wxOnResize=null;
 function fxReduced(){try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}}
 function stopWeatherFx(){clearTimeout(wxT);clearTimeout(wxF);if(wxRAF)cancelAnimationFrame(wxRAF);wxRAF=0;
  if(wxOnResize){removeEventListener("resize",wxOnResize);wxOnResize=null}
- const c=document.getElementById("nova-weather");if(c)c.remove()}
-function stopAvatarFx(){stopStarRain();stopWeatherFx()}
-function playAvatarFx(){stopAvatarFx();const kind=FX_KINDS[fxKind++%FX_KINDS.length];if(kind==="stars")playStarRain();else playWeatherFx(kind)}
+ const c=document.getElementById("nova-weather");if(c)c.remove();stopStarRain2()}
+function stopAvatarFx(){stopStarRain();stopStarRain2();stopWeatherFx()}
+function playAvatarFx(){stopAvatarFx();const kind=FX_KINDS[fxKind++%FX_KINDS.length];if(kind==="stars")playStarRain();else if(kind==="stars2")playStarRain2();else playWeatherFx(kind)}
 function wxFlake(ctx,r,typ,alpha){if(typ<0.42){const g=ctx.createRadialGradient(0,0,0,0,0,r);
   g.addColorStop(0,"rgba(255,255,255,"+(0.95*alpha)+")");g.addColorStop(.45,"rgba(232,242,255,"+(0.7*alpha)+")");g.addColorStop(1,"rgba(255,255,255,0)");
   ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();return}
@@ -626,7 +679,7 @@ async function showHome(){document.documentElement.dataset.home="1";setHeader("N
  const mineHTML=mine.map(c=>studyTile({id:c.id,name:c.name,icon:c.icon||"📁",desc:c.desc||"我的分类",count:countOf(c.id),hash:"#/c/"+c.id,menu:`<button class="dots" data-m="${c.id}" aria-label="更多">⋯</button>`})).join("");
  V.innerHTML=`<div class="hero"><img src="assets/hero/avatar-sunflower-duck.png" alt=""><div class="hgreet"><b>Hi, Nova! 🌻</b></div><div class="sttwrap"><button id="stt" class="stt">${sttHTML()}</button><button type="button" id="csync" class="csync" aria-label="学习时长和今天听写云同步">☁ 登录</button></div><div class="hdate" id="yec">${yecHTML()}</div></div>${dqHTML({home:true})}<div class="folds">${foldHTML("naval","Naval",navalIds.length,naval)}${foldHTML("podcast","播客",PODCAST_DEF.length,podcast)}${foldHTML("talk","播客对话",TALK_DEF.length,talk)}${foldHTML("scary","Scary Comp. 2021",SCARY_DEF.length,scary)}${dealer?foldHTML("dealer","荷官面试 · Dealer Interview",DEALER_DEF.length,dealer):""}${ppsy?foldHTML("ppsy",(PPSY&&PPSY.name)||"Positive Psychology",PPSY_DEF.length,ppsy):""}</div>${mine.length?`<div class="tiles mine">${mineHTML}</div>`:""}`;
  const qslot=V.querySelector(".fp-qslot");if(qslot)qslot.innerHTML=dqQuoteShell();if(typeof dqStarfallHome=="function")dqStarfallHome();if(typeof dqGoalHome=="function")dqGoalHome();
- const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playAvatarFx()};preloadStarRain();preloadMaple();
+ const starAv=V.querySelector(".hero>img");if(starAv)starAv.onclick=ev=>{ev.preventDefault();playAvatarFx()};preloadStarRain();preloadStarRain2();preloadMaple();
  document.getElementById("stt").onclick=showTimeLog;if(window.novaCloudPaint)novaCloudPaint();hqStart();
  V.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(tapOK())location.hash=b.dataset.go});
  V.querySelectorAll("details.fold").forEach(d=>d.addEventListener("toggle",()=>{try{localStorage.setItem("nova_fold_"+d.dataset.fold,d.open?"1":"0")}catch(e){}}));

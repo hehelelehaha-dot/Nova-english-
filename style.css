@@ -1068,8 +1068,8 @@ html[data-theme=t6][data-paper] main .player.player .skb input[type=range]::-web
 html[data-theme=t6][data-paper] main :is(.card.dtcard,.card.gcard:not(:has(.wfx)):not(:has(.wpl)):not(:has(.wfb)):not(:has(.wfo)),.card.gend:has([onclick*="#/g/"]),#fc .card) .gno{color:#9a3030}
 html[data-theme=t6][data-paper] main .card.gend:has([onclick*="#/g/"]) .big2{color:#6b4e12}
 /* Home avatar star rain. Only the GIF/WebP alpha is painted: no backdrop, tint, blur, or matte. */
-html #nova-starrain,html #nova-weather{position:fixed;inset:0;width:100%;height:100%;z-index:80;pointer-events:none;object-fit:cover;object-position:center top;background-color:transparent;background-image:none;background-repeat:repeat-y;background-position:center top;background-size:cover;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;filter:none;opacity:1;transition:opacity .4s linear}
-html #nova-starrain.out,html #nova-weather.out{opacity:0}
+html #nova-starrain,html #nova-starrain2,html #nova-weather{position:fixed;inset:0;width:100%;height:100%;z-index:80;pointer-events:none;object-fit:cover;object-position:center top;background-color:transparent;background-image:none;background-repeat:repeat-y;background-position:center top;background-size:cover;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;filter:none;opacity:1;transition:opacity .4s linear}
+html #nova-starrain.out,html #nova-starrain2.out,html #nova-weather.out{opacity:0}
 .fcorig{display:inline-block;margin:6px 0 0 6px;border:0;border-radius:10px;background:#2c4474;color:#fff;font:inherit;font-size:.9em;padding:4px 10px}
 /* 播客 整句: category headings + marked-word highlight */
 #ss>h3.pcat{margin:18px 4px 8px;font-size:15px;font-weight:700;color:var(--pgtx,#6b4f2e);letter-spacing:.02em}#ss>h3.pcat:first-child{margin-top:4px}
