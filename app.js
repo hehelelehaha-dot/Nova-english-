@@ -1751,12 +1751,61 @@ function dqBoardHTML(st,now){const live=dqOtN(st),n=dqStickSync(st,now),show=liv
  const count=dqBoardCount(typeof dqLog=="function"?dqLog():{},now),level=dqBoardLevel(count);
  const src=show>=11?"assets/chongya/reward-11-xuanfan.png":show>0?"assets/chongya/overtime-"+show+".png":"";
  const stick=src?`<img class="fp-stk" alt="" src="${src}">`:"";
- let faces="";for(let i=1;i<=7;i++){const on=i===level;const faceSrc=on?dqBoardSrc(level):"assets/liuma/day"+i+".png";
-  faces+=`<img class="fp-face${on?" on":""}" data-d="${i}" alt="" decoding="async" src="${faceSrc}"${on?"":" aria-hidden=\"true\""}>`}
+ // One face image. Seven full-size PNGs stacked at opacity 0 kept ~44 MB of decoded
+ // bitmaps alive on the phone; dqFaceShow swaps or crossfades a single layer instead.
+ const faces=`<img class="fp-face" data-d="${level}" alt="" decoding="async" src="${dqBoardSrc(level)}">`;
  return `<div class="fp-boardcol"><div class="fp-board" data-board-n="${count}" data-board-day="${level}"><span class="fp-faces">${faces}</span><span class="fp-layer fp-stick">${stick}</span></div><span class="fp-dayn">${level}/7</span></div>`}
-function dqLiumaPreload(){if(typeof Image!="function")return;for(let i=1;i<=7;i++){const im=new Image();im.decoding="async";im.src="assets/liuma/day"+i+".png";if(im.decode)im.decode().catch(()=>{})}}
-function dqFaceShow(box,level){if(!box)return;const n=Math.max(1,Math.min(7,level|0));
- box.querySelectorAll(".fp-face").forEach(im=>{const on=+im.getAttribute("data-d")===n;im.classList.toggle("on",on);if(on)im.removeAttribute("aria-hidden");else im.setAttribute("aria-hidden","true")})}
+// Warm only this week's face and the next one, after the page settles. Decoding all
+// seven 961×1637 faces at launch competed with the first paint and scrolling.
+const DQ_FACE_WARM={};
+function dqLiumaWarm(n){n=Math.max(1,Math.min(7,n|0));if(DQ_FACE_WARM[n]||typeof Image!="function")return DQ_FACE_WARM[n]||Promise.resolve();
+ const im=new Image();im.decoding="async";im.src=dqBoardSrc(n);DQ_FACE_WARM[n]=(im.decode?im.decode():Promise.resolve()).catch(()=>{}).then(()=>im);return DQ_FACE_WARM[n]}
+function dqLiumaPreload(){let lv=1;try{lv=dqBoardLevel(dqBoardCount(typeof dqLog=="function"?dqLog():{}))}catch(e){}
+ const go=()=>{dqLiumaWarm(lv);if(lv<7)dqLiumaWarm(lv+1)};
+ if(typeof requestIdleCallback=="function")requestIdleCallback(go,{timeout:1500});else setTimeout(go,300)}
+function dqFaceCur(box){const im=box&&box.querySelector(".fp-face:last-of-type");return im?+im.getAttribute("data-d")||0:0}
+// ms 0: switch the one face in place, synchronously (first paint, reduced motion).
+// ms > 0: decode the next face off-screen, lay it over the current one, fade it in, then
+// drop the old layer, so the switch never shows a half-decoded or blank frame.
+function dqFaceShow(box,level,ms){if(!box)return Promise.resolve();const n=Math.max(1,Math.min(7,level|0)),tok=box._fx=(box._fx||0)+1;
+ const faces=[...box.querySelectorAll(".fp-face")],cur=faces[faces.length-1];
+ if(cur&&+cur.getAttribute("data-d")===n&&faces.length===1)return Promise.resolve();
+ if(!cur||!(ms>0)||dqStarfallReduced()){faces.slice(0,-1).forEach(o=>o.remove());
+  if(cur){cur.getAnimations&&cur.getAnimations().forEach(a=>a.cancel());cur.style.opacity="";cur.setAttribute("data-d",String(n));cur.setAttribute("src",dqBoardSrc(n))}
+  return Promise.resolve()}
+ return dqLiumaWarm(n).then(()=>{if(tok!==box._fx||!box.isConnected)return;
+  const im=document.createElement("img");im.className="fp-face";im.alt="";im.decoding="sync";im.setAttribute("data-d",String(n));im.src=dqBoardSrc(n);box.appendChild(im);
+  const olds=[...box.querySelectorAll(".fp-face")].filter(x=>x!==im);
+  const a=im.animate?im.animate([{opacity:0},{opacity:1}],{duration:ms,easing:"cubic-bezier(.4,0,.2,1)"}):null;
+  return Promise.resolve(a&&a.finished).catch(()=>{}).then(()=>{if(tok===box._fx)olds.forEach(o=>o.remove());if(n<7)dqLiumaWarm(n+1)})})}
+// A light band that sweeps across the acrylic only (masked by the face's own alpha).
+function dqSheen(board,delay){if(!board||!board.animate||dqStarfallReduced())return;const face=board.querySelector(".fp-face:last-of-type");if(!face)return;
+ const sh=document.createElement("span");sh.className="fp-sheen";sh.setAttribute("aria-hidden","true");
+ const m="url(\""+face.getAttribute("src")+"\")";sh.style.webkitMaskImage=m;sh.style.maskImage=m;board.appendChild(sh);
+ const a=sh.animate([{backgroundPosition:"130% 0",opacity:0},{opacity:1,offset:.2},{opacity:1,offset:.75},{backgroundPosition:"-30% 0",opacity:0}],{duration:900,delay:delay||0,easing:"cubic-bezier(.45,0,.25,1)",fill:"both"});
+ Promise.resolve(a.finished).catch(()=>{}).then(()=>sh.remove())}
+// Tap the board: it jiggles like a quicksand toy. The sticker layer lags a beat and
+// swings a little wider, so the stickers read as sitting on top of the acrylic.
+function dqBoardJiggle(board){if(!board||!board.animate||dqStarfallReduced()||board.dataset.falling==="1"||board._jig)return;board._jig=1;
+ const faces=board.querySelector(".fp-faces"),stk=board.querySelector(".fp-stick");
+ const k=a=>[{transform:"none"},{transform:"rotate("+(-1.4*a)+"deg) translateY("+(-1.5*a)+"px)",offset:.18},{transform:"rotate("+(1.1*a)+"deg)",offset:.42},{transform:"rotate("+(-.5*a)+"deg)",offset:.66},{transform:"rotate("+(.2*a)+"deg)",offset:.84},{transform:"none"}];
+ const o={duration:620,easing:"ease-out"};
+ const anims=[faces&&faces.animate(k(1),o),stk&&stk.animate(k(1.7),Object.assign({},o,{delay:50}))].filter(Boolean);
+ dqSheen(board,60);
+ Promise.all(anims.map(a=>Promise.resolve(a.finished).catch(()=>{}))).then(()=>{board._jig=0})}
+// Sticker sheet change: the new sheet is pressed on (big → slight undershoot → rest, with
+// its shadow tightening) while a ghost of the old sheet fades out underneath.
+function dqStickSwap(img,src,fromNone){if(!img||!src)return;
+ if(!img.animate||dqStarfallReduced()){img.setAttribute("src",src);return}
+ const old=fromNone?"":img.getAttribute("src")||"",pre=new Image();pre.decoding="async";pre.src=src;
+ (pre.decode?pre.decode():Promise.resolve()).catch(()=>{}).then(()=>{if(!img.isConnected)return;
+  let ghost=null;if(old&&old!==src&&img.parentNode){ghost=img.cloneNode(false);ghost.classList.add("fp-stk-ghost");img.parentNode.insertBefore(ghost,img);
+   const g=ghost.animate([{opacity:1},{opacity:0}],{duration:280,easing:"ease-out",fill:"forwards"});Promise.resolve(g.finished).catch(()=>{}).then(()=>ghost.remove())}
+  img.setAttribute("src",src);
+  img.animate([{opacity:0,transform:"scale(1.16) rotate(-2.5deg)",filter:"drop-shadow(0 14px 10px rgba(20,16,40,.22))"},
+   {opacity:1,transform:"scale(.97) rotate(.5deg)",filter:"drop-shadow(0 1px 1px rgba(20,16,40,.34))",offset:.62},
+   {transform:"scale(1.008)",offset:.82},
+   {opacity:1,transform:"none",filter:"drop-shadow(0 2px 2px rgba(20,16,40,.28))"}],{duration:560,easing:"cubic-bezier(.3,.7,.4,1)"})})}
 function dqGoalPreload(){if(typeof Image!="function")return;for(let i=0;i<=5;i++){const im=new Image();im.decoding="async";im.src="assets/goal/goal-"+i+".png";if(im.decode)im.decode().catch(()=>{})}const sp=new Image();sp.decoding="async";sp.src="assets/goal/star-pop.webp";if(sp.decode)sp.decode().catch(()=>{})}
 function dqGoalShow(box,got){if(!box)return;const n=Math.max(0,Math.min(5,got|0));
  box.querySelectorAll(".fp-goalart").forEach(im=>{const on=+im.getAttribute("data-g")===n;im.classList.toggle("on",on);if(on)im.removeAttribute("aria-hidden");else im.setAttribute("aria-hidden","true")})}
@@ -1849,25 +1898,33 @@ function dqStarfallReduced(){try{return matchMedia("(prefers-reduced-motion: red
 function dqStarfallKey(level){let day="";try{day=typeof dKey=="function"?dKey():""}catch(e){}return "nova_sf_"+day+"_"+level}
 function dqStarfallSeen(level){try{return localStorage.getItem(dqStarfallKey(level))==="1"}catch(e){return false}}
 function dqStarfallMark(level){try{localStorage.setItem(dqStarfallKey(level),"1")}catch(e){}}
+// Stars drop in from above with a little sway, land with a squash, the acrylic gives a
+// tiny bump as the first ones land, and once the last one settles the next face fades in
+// under them while they fade out, so they melt into the baked stars. Then a sheen sweeps.
 function dqStarfallPlay(board, level, onLand){const spots=DQ_FALL[level];if(!board||!spots||!spots.length){if(onLand)onLand();return}
+ dqLiumaWarm(level);
  const layer=document.createElement("div");layer.className="fp-fall";board.appendChild(layer);board.dataset.falling="1";
- const H=board.getBoundingClientRect().height||1;
- const done=()=>{if(onLand)onLand()};let landed=false;
- const finish=()=>{if(board.dataset.falling==="1")delete board.dataset.falling;if(layer.parentNode)layer.remove()};
- spots.forEach((sp,i)=>{const el=document.createElement("img");el.alt="";el.src=DQ_STAR[sp[2]]||DQ_STAR[0];el.style.width=(sp[3]*100)+"%";el.style.left=(sp[0]*100)+"%";el.style.top=(sp[1]*100)+"%";layer.appendChild(el);
-  const delay=60+i*90, rot=(i%2?-1:1)*(16+(i*7)%18);
-  const frames=[{transform:"translate(-50%,-50%) translateY("+(-H*1.12)+"px) rotate("+rot+"deg)",opacity:0},
-   {transform:"translate(-50%,-50%) translateY("+(-H*0.42)+"px) rotate("+(rot*.65)+"deg)",opacity:1,offset:.16},
-   {transform:"translate(-50%,-50%) translateY(0px) rotate("+(rot*.12)+"deg)",opacity:1,offset:.74},
-   {transform:"translate(-50%,-50%) translateY("+(-H*.04)+"px) rotate(0deg)",opacity:1,offset:.86},
-   {transform:"translate(-50%,-50%) translateY(0px) rotate(0deg)",opacity:1,offset:.93},
-   {transform:"translate(-50%,-50%) translateY(0px) rotate(0deg)",opacity:0,offset:1}];
-  const opt={duration:980,delay:delay,fill:"forwards",easing:"cubic-bezier(.45,.05,.85,.45)"};
-  if(el.animate){const anim=el.animate(frames,opt);if(i===Math.min(3,spots.length-1))anim.onfinish=()=>{if(!landed){landed=true;done()}}}
-  else if(i===0)done()});
- const end=60+(spots.length-1)*90+1040;
- setTimeout(()=>{if(!landed){landed=true;done()}},60+Math.min(3,spots.length-1)*90+980*.74);
- setTimeout(finish,end)}
+ const H=board.getBoundingClientRect().height||1,FALL=820,GAP=110,MERGE=460;
+ let landed=false;const finish=()=>{if(board.dataset.falling==="1")delete board.dataset.falling;if(layer.parentNode)layer.remove()};
+ const land=()=>{if(landed)return;landed=true;
+  const fadeStars=layer.animate?layer.animate([{opacity:1},{opacity:0}],{duration:MERGE,easing:"ease-in",fill:"forwards"}):null;
+  if(onLand)onLand();
+  Promise.resolve(fadeStars&&fadeStars.finished).catch(()=>{}).then(()=>{finish();dqSheen(board,0)})};
+ const faces=board.querySelector(".fp-faces");
+ spots.forEach((sp,i)=>{const el=document.createElement("img");el.alt="";el.decoding="async";el.src=DQ_STAR[sp[2]]||DQ_STAR[0];el.style.width=(sp[3]*100)+"%";el.style.left=(sp[0]*100)+"%";el.style.top=(sp[1]*100)+"%";layer.appendChild(el);
+  const delay=40+i*GAP,rot=(i%2?-1:1)*(18+(i*7)%16),sway=(i%2?1:-1)*(6+(i*5)%8);
+  const T=(y,x,r,sx,sy)=>"translate(-50%,-50%) translate("+x+"px,"+y+"px) rotate("+r+"deg) scale("+sx+","+sy+")";
+  const frames=[{transform:T(-H*1.1,sway,rot,1,1),opacity:0,easing:"cubic-bezier(.5,0,.9,.6)"},
+   {transform:T(-H*.6,-sway*.4,rot*.6,1,1),opacity:1,offset:.18,easing:"cubic-bezier(.4,.1,.95,.55)"},
+   {transform:T(0,0,rot*.08,1.12,.84),opacity:1,offset:.72,easing:"cubic-bezier(.2,.8,.3,1)"},
+   {transform:T(-H*.025,0,0,.96,1.05),opacity:1,offset:.84,easing:"cubic-bezier(.5,0,.6,1)"},
+   {transform:T(0,0,0,1,1),opacity:1}];
+  if(el.animate){el.style.opacity="0";const a=el.animate(frames,{duration:FALL,delay,fill:"forwards"});
+   if(i===0&&faces&&faces.animate)setTimeout(()=>{if(board.isConnected)faces.animate([{transform:"none"},{transform:"translateY(1.5px) scale(1.004)",offset:.35},{transform:"none"}],{duration:260,easing:"ease-out"})},delay+FALL*.72);
+   if(i===spots.length-1)Promise.resolve(a.finished).catch(()=>{}).then(()=>setTimeout(land,80))}
+  else if(i===spots.length-1)land()});
+ setTimeout(land,40+(spots.length-1)*GAP+FALL+400);
+ setTimeout(finish,40+(spots.length-1)*GAP+FALL+400+MERGE+200)}
 function dqStarfallSync(board, prevLevel, allowDebug){if(!board)return;const level=+(board.getAttribute("data-board-day")||1),faces=board.querySelector(".fp-faces");
  if(board.dataset.falling==="1")return;
  if(dqStarfallReduced()){if(faces)dqFaceShow(faces,level);try{localStorage.setItem("nova_sf_board",String(level))}catch(e){}if(prevLevel>=1&&level>prevLevel)dqStarfallMark(level);return}
@@ -1875,14 +1932,17 @@ function dqStarfallSync(board, prevLevel, allowDebug){if(!board)return;const lev
  let stored=0;try{stored=+localStorage.getItem("nova_sf_board")||0}catch(e){}
  const from=prevLevel>=1&&prevLevel<level?prevLevel:stored;
  try{localStorage.setItem("nova_sf_board",String(level))}catch(e){}
- if(from>=1&&level>from&&!dqStarfallSeen(level)){dqStarfallMark(level);if(faces)dqFaceShow(faces,from);dqStarfallPlay(board,level,()=>{const f=board.querySelector(".fp-faces");if(f)dqFaceShow(f,level)});return}
+ if(from>=1&&level>from&&!dqStarfallSeen(level)){dqStarfallMark(level);if(faces)dqFaceShow(faces,from);dqStarfallPlay(board,level,()=>{const f=board.querySelector(".fp-faces");if(f)dqFaceShow(f,level,460)});return}
  if(faces)dqFaceShow(faces,level)}
-function dqStarfallHome(){const board=document.querySelector(".daybar.fp-home .fp-board");if(!board)return;const on=board.querySelector(".fp-face.on");dqStarfallSync(board,on?+on.getAttribute("data-d"):0,true)}
+function dqStarfallHome(){const board=document.querySelector(".daybar.fp-home .fp-board");if(!board)return;dqBoardTapBind();dqStarfallSync(board,dqFaceCur(board.querySelector(".fp-faces")),true)}
+let DQ_TAP=false;
+function dqBoardTapBind(){if(DQ_TAP||typeof document=="undefined")return;DQ_TAP=true;
+ document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest(".daybar.fp-home .fp-board");if(b)dqBoardJiggle(b)})}
 function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
  document.querySelectorAll(".daybar").forEach(el=>{const home=el.classList.contains("fp-home"),was=el.classList.contains("is-full"),inn=dqFootInner(f,home);
   el.classList.toggle("is-full",f.won);el.classList.toggle("has-ot",!!f.ot);el.setAttribute("aria-label",inn.lab);
   if(home){const goals=el.querySelector(".fp-goals"),faces=el.querySelector(".fp-faces"),stick=el.querySelector(".fp-stk"),fall=el.querySelector(".fp-fall"),keep=el.querySelector("#qb");
-   const prevOn=faces&&faces.querySelector(".fp-face.on"),prevLevel=prevOn?+prevOn.getAttribute("data-d"):0;
+   const prevLevel=dqFaceCur(faces);
    const wasFalling=!!(el.querySelector(".fp-board")&&el.querySelector(".fp-board").dataset.falling==="1");
    if(keep)keep.remove();if(goals)goals.remove();if(faces)faces.remove();if(stick)stick.remove();if(fall)fall.remove();
    el.innerHTML=inn.html;const slot=el.querySelector(".fp-qslot");
@@ -1892,7 +1952,8 @@ function dqPaint(){const st=dqLoad();dqStickSync(st);const f=dqFoot(st);
    const day=el.querySelector(".fp-board");
    if(faces){const freshF=el.querySelector(".fp-faces");if(freshF)freshF.replaceWith(faces)}
    const freshStk=el.querySelector(".fp-stk");
-   if(stick&&freshStk){const next=freshStk.getAttribute("src")||"",prev=stick.getAttribute("src")||"";if(prev!==next)stick.setAttribute("src",next);freshStk.replaceWith(stick)}
+   if(stick&&freshStk){const next=freshStk.getAttribute("src")||"",prev=stick.getAttribute("src")||"";freshStk.replaceWith(stick);if(prev!==next)dqStickSwap(stick,next,false)}
+   else if(!stick&&freshStk){const next=freshStk.getAttribute("src")||"";freshStk.removeAttribute("src");dqStickSwap(freshStk,next,true)}
    if(wasFalling&&fall&&day){day.dataset.falling="1";day.appendChild(fall)}
    else if(day)dqStarfallSync(day,prevLevel,false)}
   else{el.innerHTML=inn.html;const g=el.querySelector(".fp-goals");if(g)dqGoalHome(g)}
