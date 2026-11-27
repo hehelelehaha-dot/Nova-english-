@@ -1106,3 +1106,11 @@ button:focus-visible,summary:focus-visible,[role=button]:focus-visible,.li:focus
 .fp-starlit-face{position:absolute;inset:0;background-repeat:no-repeat;will-change:transform,opacity,filter;-webkit-mask-image:radial-gradient(closest-side,#000 70%,transparent 96%);mask-image:radial-gradient(closest-side,#000 70%,transparent 96%)}
 .fp-starlit-ring{position:absolute;left:12%;top:10%;width:76%;height:80%;border-radius:50%;border:2px solid rgba(255,221,120,.95);box-shadow:0 0 10px rgba(255,205,80,.8),inset 0 0 8px rgba(255,235,170,.7)}
 .fp-starlit-spark{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;background:#fff3c4;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);filter:drop-shadow(0 0 3px rgba(255,214,102,.95))}
+/* Card flip (reading cards #ss .s, roster rows .rost .li): perspective scales with the
+   card (--flipv, set by flipPersp) so a wide iPad card turns in place instead of
+   sweeping over the page, and the flip always uses its own calm curve, never the
+   paper theme's springy press transition or press scale. */
+html :is(#ss .s,.rost .li).flipping.flipping.flipping{transition:transform .22s cubic-bezier(.55,0,.75,.45)!important;transform:perspective(var(--flipv,2400px)) rotateY(90deg)!important;filter:none!important}
+html :is(#ss .s,.rost .li).unflip.unflip.unflip{transition:none!important;transform:none;animation:unfl2 .24s cubic-bezier(.25,.6,.35,1)!important;filter:none!important}
+@keyframes unfl2{from{transform:perspective(var(--flipv,2400px)) rotateY(-90deg)}to{transform:perspective(var(--flipv,2400px)) rotateY(0)}}
+@media (prefers-reduced-motion:reduce){html :is(#ss .s,.rost .li).flipping.flipping.flipping,html :is(#ss .s,.rost .li).unflip.unflip.unflip{transition:none!important;animation:none!important;transform:none!important}}

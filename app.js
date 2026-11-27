@@ -933,7 +933,10 @@ async function showItem(id){if(/^ch_t\d+$/.test(id)){location.replace("#/c/dicta
  if(view)view(d,id);else V.innerHTML=`<div class="done">这个内容打不开</div>`}
 // ---------- reading card ----------
 // 3D flip a reading card to its Chinese translation (size kept via min-height of the front)
-function flipCard(e){if(e._fl)return;e._fl=1;const b=e.querySelector(".body");if(!e.classList.contains("zh"))b.style.minHeight=b.offsetHeight+"px";e.classList.add("flipping");
+// The flip perspective follows the card width (flipPersp): a fixed 900px made a
+// full-width iPad card swing far out of its row and over the toolbar and other rows.
+function flipPersp(e){try{e.style.setProperty("--flipv",Math.max(900,Math.round(e.getBoundingClientRect().width*4))+"px")}catch(err){}}
+function flipCard(e){if(e._fl)return;e._fl=1;flipPersp(e);const b=e.querySelector(".body");if(!e.classList.contains("zh"))b.style.minHeight=b.offsetHeight+"px";e.classList.add("flipping");
  setTimeout(()=>{e.classList.toggle("zh");if(e.classList.contains("zh")){const h0=parseFloat(b.style.minHeight);b.style.minHeight="0";const h1=b.scrollHeight;b.style.minHeight=h0+"px";requestAnimationFrame(()=>{b.style.transition="min-height .25s ease";b.style.minHeight=Math.max(h0,h1)+"px";setTimeout(()=>b.style.transition="",300)})}e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0;if(!e.classList.contains("zh"))b.style.minHeight=""},230)},230)}
 function stTop(){const ss=document.getElementById("ss");let b=0;for(const e of document.querySelectorAll("body *")){if(ss&&ss.contains(e))continue;const p=getComputedStyle(e).position;if(p!="sticky"&&p!="fixed")continue;const r=e.getBoundingClientRect();for(const x of [e,...e.querySelectorAll("*")]){const r=x.getBoundingClientRect();if(r.height>0&&r.top<innerHeight*.4&&r.bottom<innerHeight*.6)b=Math.max(b,r.bottom)}}return b}
 function rdWho(sp){return sp=="Naval"?"NAVAL RAVIKANT":sp=="Chris"?"CHRIS WILLIAMSON":sp=="Tal"?"TAL BEN-SHAHAR":sp=="Shawn"?"SHAWN ACHOR":sp=="Seinfeld"?"JERRY SEINFELD":sp=="Student"?"STUDENT":(sp||"")}
@@ -1126,7 +1129,7 @@ function flipRoster(e){
  holdScroll(reduce?80:560);
  const swap=()=>{if(!document.body.contains(e))return;const on=!e.classList.contains("zh");e.classList.toggle("zh",on);e.setAttribute("aria-pressed",on?"true":"false")};
  if(reduce){swap();e._fl=0;return}
- e.classList.add("flipping");
+ flipPersp(e);e.classList.add("flipping");
  setTimeout(()=>{swap();e.classList.remove("flipping");e.classList.add("unflip");setTimeout(()=>{e.classList.remove("unflip");e._fl=0},240)},230)}
 function wireRoster(){
  V.querySelectorAll(".rost .li").forEach(e=>{
