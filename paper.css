@@ -222,3 +222,13 @@ html.pp[data-theme] main#view#view .ent span:not([class]){color:var(--pp-ink2)!i
 html.pp[data-theme] .bar{background:var(--pp-bg)!important;box-shadow:0 10px 12px -12px rgba(40,30,20,.18)}
 html.pp.ppd[data-theme] .bar{box-shadow:0 10px 12px -12px rgba(0,0,0,.6)}
 html.pp[data-theme] .dhd{background:var(--pp-bg)!important}
+/* 听写 check result (你写的 / 正确句子) and the flashcard spelling diff on dark paper:
+   their text, right (dk) and extra (dx) words kept light-theme dark ink and vanished
+   into the dark card. Use the paper ink, a light green and a light red. */
+html.pp.ppd[data-theme] main#view#view :is(.dtdiff,.dtans,.fcdiff){color:var(--pp-ink)!important}
+html.pp.ppd[data-theme] main#view#view :is(.dtdiff,.dtleg,.fcdiff) .dk{color:#A8DDB0!important}
+html.pp.ppd[data-theme] main#view#view :is(.dtdiff,.dtleg,.fcdiff) .dx{color:#F4A79C!important;text-decoration-color:#F4A79C!important}
+html.pp.ppd[data-theme] main#view#view .dtleg .dm{color:#F1E8DA!important;border-bottom-color:#E0A000!important}
+html.pp.ppd[data-theme] main#view#view .fcdiff .dm{color:#F6EBDD!important;background:var(--pp-acc-wash)!important}
+html.pp.ppd[data-theme] main#view#view .gno{color:#F4A79C!important}
+html.pp.ppd[data-theme] main#view#view .gok{color:#A8DDB0!important}
